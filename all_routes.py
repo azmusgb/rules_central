@@ -10,7 +10,6 @@ from flask import (
     Blueprint, request, render_template, jsonify, send_from_directory,
     abort, current_app, url_for, send_file, flash
 )
-from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functions import (
     generate_files,
@@ -20,6 +19,9 @@ from functions import (
     log_activity,
     diagram_type_from_filename,
     get_snippet,
+    get_current_user,
+    initialize_directories,
+    get_help_topics,
 )
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -31,39 +33,8 @@ from config import Config
 routes_bp = Blueprint('routes', __name__)
 
 # ------------------------------------------------------------------
-# Authentication helper
-# ------------------------------------------------------------------
-def get_current_user():
-    """
-    Return the username of the currently authenticated user.
-    Falls back to 'anonymous' if authentication is not configured.
-    """
-    try:
-        return current_user.username if current_user.is_authenticated else 'anonymous'
-    except Exception:
-        return 'anonymous'
-
-# ======================
-# INITIALIZATION & UTILS
-# ======================
-def initialize_directories(app):
-    """Ensure required directories exist using explicit app context"""
-    required_dirs = {
-        'uploads': app.config.get('UPLOAD_FOLDER', './uploads'),
-        'diagrams': app.config.get('DIAGRAMS_FOLDER', './diagrams'),
-        'help': os.path.join(app.static_folder, 'help')
-    }
-    for name, path in required_dirs.items():
-        try:
-            os.makedirs(path, exist_ok=True)
-            app.logger.info(f"Directory verified: {path}")
-        except OSError as e:
-            app.logger.error(f"Failed to create directory {path}: {str(e)}")
-            raise
-
-# ==============
 # API ENDPOINTS
-# ==============
+# ------------------------------------------------------------------
 
 @routes_bp.route('/api/diagram_catalogs', methods=['GET'])
 def get_diagram_catalogs():
@@ -448,14 +419,6 @@ def get_help_content(page):
     except Exception as e:
         current_app.logger.error(f"Help error: {str(e)}")
         return jsonify({'error': str(e)}), 500
-
-
-def get_help_topics():
-    """Scan and return available help topics"""
-    help_dir = os.path.join(current_app.root_path, 'static', 'help')
-    if not os.path.exists(help_dir):
-        return []
-    return sorted(f.replace('.md', '') for f in os.listdir(help_dir) if f.endswith('.md'))
 
 
 @routes_bp.route('/view_diagram')
