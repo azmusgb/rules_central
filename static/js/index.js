@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error loading more content:', error);
-                showToast('Failed to load more content', 'error');
+                window.app.showToast('Failed to load more content', 'error');
             })
             .finally(() => {
                 loadMoreBtn.disabled = false;
@@ -164,49 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function showToast(message, type = 'info') {
-        const existingToasts = document.querySelectorAll('.toast');
-        if (existingToasts.length > 3) {
-            existingToasts[0].remove();
-        }
-
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'polite');
-        toast.innerHTML = `
-      <i class="fas ${
-        type === 'error' ? 'fa-exclamation-circle' :
-        type === 'success' ? 'fa-check-circle' : 'fa-info-circle'
-      }"></i>
-      <span>${message}</span>
-      <button class="toast-close" aria-label="Close notification">
-        <i class="fas fa-times"></i>
-      </button>
-    `;
-
-        document.body.appendChild(toast);
-        toast.offsetHeight; // Force reflow
-        toast.classList.add('show');
-
-        const removeToast = () => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        };
-
-        const timer = setTimeout(removeToast, 5000);
-        toast.querySelector('.toast-close').addEventListener('click', () => {
-            clearTimeout(timer);
-            removeToast();
-        });
-    }
 
     // ======================
     // 4. GLOBAL EXPORTS
     // ======================
 
     window.app = {
-        showToast,
         initAnimations,
         setupBackToTop,
         setupSearchInputs

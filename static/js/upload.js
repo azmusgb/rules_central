@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressStatus = document.getElementById("progressStatus");
     const progressPercent = document.getElementById("progressPercent");
     const submitBtn = document.getElementById("submitBtn");
-    const toast = document.getElementById("toast");
-    const toastMessage = document.getElementById("toastMessage");
 
     // Trigger file input when clicking the drop zone or button
     dropZone.addEventListener("click", (e) => {
@@ -45,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (files.length !== e.dataTransfer.files.length) {
-            showToast('Only JSON files are accepted', 'red');
+            window.app.showToast('Only JSON files are accepted', 'red');
         }
 
         if (files.length > 0) {
@@ -63,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (files.length !== input.files.length) {
-            showToast('Only JSON files are accepted', 'red');
+            window.app.showToast('Only JSON files are accepted', 'red');
             const dataTransfer = new DataTransfer();
             files.forEach(file => dataTransfer.items.add(file));
             input.files = dataTransfer.files;
@@ -146,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         if (input.files.length === 0) {
-            showToast('Please select at least one JSON file', 'red');
+            window.app.showToast('Please select at least one JSON file', 'red');
             return;
         }
 
@@ -180,32 +178,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     response = JSON.parse(xhr.responseText);
                 } catch (err) {
-                    showToast('Invalid server response', 'red');
+                    window.app.showToast('Invalid server response', 'red');
                     progressContainer.classList.add('hidden');
                     submitBtn.disabled = false;
                     return;
                 }
                 if (response.success) {
-                    showToast('JSON files uploaded successfully!', 'green');
+                    window.app.showToast('JSON files uploaded successfully!', 'green');
                     setTimeout(() => {
                         const redirectUrl = response.redirect_url ||
                             `/view_diagram?root_name=${input.files[0].name.replace(/\.[^/.]+$/, "")}&diagramName=${input.files[0].name.replace(/\.[^/.]+$/, "")}.mmd`;
                         window.location.href = redirectUrl;
                     }, 1500);
                 } else {
-                    showToast(response.message || 'Upload failed', 'red');
+                    window.app.showToast(response.message || 'Upload failed', 'red');
                     progressContainer.classList.add('hidden');
                     submitBtn.disabled = false;
                 }
             } else {
-                showToast('Unexpected server response', 'red');
+                window.app.showToast('Unexpected server response', 'red');
                 progressContainer.classList.add('hidden');
                 submitBtn.disabled = false;
             }
         });
 
         xhr.addEventListener('error', () => {
-            showToast('Network error occurred', 'red');
+            window.app.showToast('Network error occurred', 'red');
             progressContainer.classList.add('hidden');
             submitBtn.disabled = false;
         });
@@ -225,14 +223,4 @@ document.addEventListener("DOMContentLoaded", () => {
         progressStatus.textContent = 'Preparing upload...';
     });
 
-    // Show toast notification
-    function showToast(message, color = 'green') {
-        toastMessage.textContent = message;
-        toast.className = `fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg flex items-center toast z-50 show`;
-        toast.style.backgroundColor = color === 'green' ? '#059669' : '#dc2626';
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
-    }
 });

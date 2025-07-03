@@ -4,23 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const executionMessage = document.getElementById('execution-message');
   const outputMessage = document.getElementById('output-message');
   const spinner = document.getElementById('spinner');
-  const toast = document.getElementById('toast');
 
-  // Function to show toast notifications
-  const showToast = (msg, colorClass = 'bg-green-600') => {
-    // Update message text
-    const toastMessage = document.getElementById('toast-message');
-    toastMessage.textContent = msg;
-    // Update background color
-    toast.classList.remove('bg-green-600', 'bg-red-600', 'bg-dark-800');
-    toast.classList.add(colorClass);
-    // Show toast
-    toast.classList.remove('hidden');
-    // Hide after delay
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 3000);
-  };
 
   // Event listener for the execute button
   executeButton.addEventListener('click', async () => {
@@ -48,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
       executionMessage.textContent = 'Execution Success';
       outputMessage.textContent = JSON.stringify(data, null, 2); // Format JSON for display
       outputMessage.classList.remove('hidden'); // Show output message
-      showToast('Rules extracted successfully!'); // Show success toast
+      window.app.showToast('Rules extracted successfully!'); // Show success toast
     } catch (error) {
       executionMessage.textContent = 'Execution Failed';
       outputMessage.textContent = ''; // Clear output on error
-      showToast('Error extracting rules. Please try again.', 'bg-red-600'); // Show error toast
+      window.app.showToast('Error extracting rules. Please try again.', 'bg-red-600'); // Show error toast
       console.error('Error during execution:', error); // Log error for debugging
     } finally {
       executeButton.disabled = false; // Re-enable button

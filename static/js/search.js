@@ -120,17 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showToast(message, type = 'success') {
-        if (elements.toast) {
-            elements.toast.textContent = message;
-            elements.toast.className = `toast ${type}`;
-            elements.toast.style.display = 'block';
-            setTimeout(() => {
-                elements.toast.style.display = 'none';
-            }, 3000);
-            console.debug('Toast shown:', message, type);
-        }
-    }
 
     function createRuleDetails(item, query) {
         const ruleData = item.rule_data || {};
@@ -240,11 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePagination(data.total, data.page, data.per_page);
 
             if (data.results && data.results.length > 0) {
-                showToast(`Found ${data.total} results`, 'success');
+                window.app.showToast(`Found ${data.total} results`, 'success');
             }
         } catch (error) {
             console.error('Search error:', error);
-            showToast(error.message || 'Search failed', 'error');
+            window.app.showToast(error.message || 'Search failed', 'error');
             resetResults();
         } finally {
             showSpinner(false);
@@ -454,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Catalogs loaded:', data);
         } catch (error) {
             console.error('Catalog load error:', error);
-            showToast('Failed to load catalogs', 'error');
+            window.app.showToast('Failed to load catalogs', 'error');
             if (elements.catalogFilter) {
                 elements.catalogFilter.innerHTML = '<option value="">All Catalogs</option>';
             }

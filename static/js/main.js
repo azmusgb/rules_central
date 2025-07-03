@@ -36,27 +36,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Toast notification system
-function showToast(message, type = 'success') {
+function showToast(message, type = 'info') {
+  const icons = {
+    error: 'fa-exclamation-circle',
+    success: 'fa-check-circle',
+    info: 'fa-info-circle'
+  };
+
+  const existing = document.querySelectorAll('.toast');
+  if (existing.length >= 3) existing[0].remove();
+
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'polite');
   toast.innerHTML = `
-    <i class="fas ${type === 'error' ? 'fa-exclamation-circle' :
-                  type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+    <i class="fas ${icons[type] || icons.info}"></i>
     <span>${message}</span>
-    <button class="toast-close"><i class="fas fa-times"></i></button>
+    <button class="toast-close" aria-label="Close notification"><i class="fas fa-times"></i></button>
   `;
 
   document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 10);
+  toast.offsetHeight;
+  toast.classList.add('show');
 
-  setTimeout(() => {
+  const remove = () => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 300);
-  }, 5000);
+  };
 
+  const timer = setTimeout(remove, 4000);
   toast.querySelector('.toast-close').addEventListener('click', () => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
+    clearTimeout(timer);
+    remove();
   });
 }
 
