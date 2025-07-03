@@ -406,6 +406,12 @@ def full_help():
     return render_template('full_help.html', version=current_app.config.get('VERSION', '1.0'), help_topics=get_help_topics())
 
 
+@routes_bp.route('/faq')
+def faq_page():
+    """Frequently asked questions page."""
+    return render_template('faq.html', version=current_app.config.get('VERSION', '1.0'))
+
+
 @routes_bp.route('/api/help/<page>')
 def get_help_content(page):
     """API endpoint for help content"""

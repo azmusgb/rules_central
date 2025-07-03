@@ -280,6 +280,21 @@ window.helpContent = {
       </div>
     `
   },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "content": `
+      <div class="space-y-4">
+        <p class="text-sm text-slate-300">
+          Find quick answers to common questions about Rules Central.
+        </p>
+        <ul class="list-disc pl-5 text-sm text-slate-300 space-y-1">
+          <li><strong>What is Rules Central?</strong> A web platform for managing and visualizing business rules.</li>
+          <li><strong>How do I upload diagrams?</strong> Use the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page to add JSON files.</li>
+          <li><strong>Need more help?</strong> Visit the <a href="/full-help" class="text-primary-400 hover:underline">documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.</li>
+        </ul>
+      </div>
+    `
+  },
   "default": {
     "title": "Help Center",
     "content": `
