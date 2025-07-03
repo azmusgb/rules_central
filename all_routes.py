@@ -14,7 +14,8 @@ from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functions import (
     generate_files, allowed_file,
-    ensure_directory_exists, load_and_sanitize_json
+    ensure_directory_exists, load_and_sanitize_json,
+    log_activity,
 )
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -661,42 +662,6 @@ def get_activity_stats():
     except Exception as e:
         current_app.logger.error(f"Stats generation failed: {e}")
         return jsonify({"error": str(e)}), 500
-def log_activity(action, rule_id=None, user=None, details=None):
-    """Log an activity to the activity log"""
-    try:
-        Config.ensure_data_dir()
-
-        # Load existing data or initialize
-        try:
-            with open(Config.ACTIVITY_LOG, 'r') as f:
-                data = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            data = {"rules": {}, "activity_log": []}
-
-        # Create new entry
-        entry = {
-            "timestamp": datetime.utcnow().isoformat(),
-            "action": action,
-            "user": user or "anonymous",
-            "rule_id": rule_id,
-            "details": details or f"{action} operation"
-        }
-        data["activity_log"].append(entry)
-
-        # Update rule info if applicable
-        if rule_id:
-            data["rules"][rule_id] = {
-                "status": "active",
-                "last_modified": entry["timestamp"],
-                "modified_by": user or "system"
-            }
-
-        # Save back to file
-        with open(Config.ACTIVITY_LOG, 'w') as f:
-            json.dump(data, f, indent=2)
-
-    except Exception as e:
-        current_app.logger.error(f"Failed to log activity: {str(e)}")
 
 @routes_bp.route('/api/rules/<rule_id>', methods=['PUT'])
 def update_rule(rule_id):
