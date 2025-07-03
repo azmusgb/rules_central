@@ -1,3 +1,4 @@
+'use strict';
 document.addEventListener('DOMContentLoaded', () => {
   const executeButton = document.getElementById('executeButton');
   const executionMessage = document.getElementById('execution-message');
