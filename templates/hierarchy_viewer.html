@@ -2,6 +2,8 @@
 
 {% block title %}{{ diagram_name.replace('.json', '') }} - Hierarchy Viewer | Rules Central{% endblock %}
 
+{% block body_attrs %}data-root-name="{{ root_name }}" data-diagram-name="{{ diagram_name }}"{% endblock %}
+
 {% block head %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/themes/dark.css">
 {% endblock %}
@@ -9,17 +11,12 @@
 {% block hero %}{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 sm:px-6 py-6 flex-grow"
-     data-root-name="{{ root_name }}" data-diagram-name="{{ diagram_name }}">
+<div class="container mx-auto px-4 sm:px-6 py-6 flex-grow">
   {% include 'partials/hierarchy_viewer_body.html' %}
 </div>
 {% endblock %}
 
 {% block scripts %}
-  <script>
-    document.body.dataset.rootName = "{{ root_name }}";
-    document.body.dataset.diagramName = "{{ diagram_name }}";
-  </script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/shoelace.js"></script>
   <script type="module" src="{{ url_for('static', filename='js/hierarchy_viewer.js') }}"></script>
