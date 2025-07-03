@@ -19,8 +19,12 @@ logging.basicConfig(
 # --- File and Directory Utilities ---
 
 def allowed_file(filename):
-    """Check if the uploaded file has a valid extension."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'json'
+    """Return ``True`` if ``filename`` has an approved extension."""
+    allowed_exts = {"json", "mmd"}
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in allowed_exts
+    )
 
 def ensure_directory_exists(directory):
     """Ensure the directory exists, create it if necessary."""
@@ -533,3 +537,27 @@ def build_edge_map(edges):
                 right = right.split("|")[-1].strip()
             edge_map.setdefault(left, []).append(right)
     return edge_map
+
+
+def diagram_type_from_filename(filename: str) -> str | None:
+    """Return the diagram type inferred from its filename."""
+    fname = filename.lower()
+    if "flowchart" in fname:
+        return "flowchart"
+    if "sequence" in fname:
+        return "sequence"
+    if "class" in fname:
+        return "class"
+    if "state" in fname:
+        return "state"
+    return None
+
+
+def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
+    """Extract a short snippet of ``content`` around ``query``."""
+    index = content.find(query)
+    if index == -1:
+        return ""
+    start = max(0, index - snippet_length // 2)
+    end = min(len(content), index + len(query) + snippet_length // 2)
+    return content[start:end]
