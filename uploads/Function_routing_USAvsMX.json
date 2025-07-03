@@ -1,0 +1,2939 @@
+[
+  {
+    "Container": "routing_USAvsMX",
+    "RuleGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+    "RuleName": "Is MemberFoundFlag = Yes or Maybe?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - Members identified",
+        "ChildRules": [
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+            "RuleName": "Is the USAGroupIDFlag already = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No - Check this member",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "a9ae9a0d-aca7-4bb1-9a74-4ac0e00b65a3",
+                    "RuleName": "Clear Temps",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5,8}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "a3effb7f-3b9a-4525-8d3e-6409b46fedc5",
+                    "RuleName": "Can this BU be considered for MX?",
+                    "RuleID": "",
+                    "FunctionName": "routing_CheckBusinessUnit",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "22c026c6-3e55-4033-8091-b60222898c59",
+                            "RuleName": "Group ID Processing",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "a3effb7f-3b9a-4525-8d3e-6409b46fedc5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "---",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "7f1d5231-9ded-492d-bd42-fd49639066a3",
+                                    "RuleName": "Fetch all rows from CTS table for member",
+                                    "RuleID": "",
+                                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                                    "ParentGUID": "22c026c6-3e55-4033-8091-b60222898c59",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "131076",
+                                      "_ParamList1": "{}",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "MaxMatchCount": "9999",
+                                      "MaxIndexCount": "0",
+                                      "EmptyKeyFails": "1",
+                                      "AnyEmptyKeysFails": "0",
+                                      "Table": "\"odbc_MemCovInfo\"",
+                                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                                      "NextInstance": "0",
+                                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                                      "_ParamListOMRIndex1": "{}",
+                                      "SelectionListColumns": "{\"SubMTVPID\",\"MemCovGrp\"}",
+                                      "DataColumns": "{\"MEM_MTV_PID\",\"MEM_COV_GRP\"}",
+                                      "EscapeFields": "{\"0\",\"0\"}",
+                                      "PlugFields": "{\"0\",\"0\"}",
+                                      "DataTableDataField": "{-1,-1}",
+                                      "DataTableEmptyField": "{-1,-1}",
+                                      "EmptyTableDataField": "{-1,-1}",
+                                      "CatchResourceUnavailable": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "b31adfb7-08e9-48ca-9040-3fcdbbbc5fd1",
+                                    "RuleName": "Show CTS SL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "22c026c6-3e55-4033-8091-b60222898c59",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "1f4770da-1af0-4075-bed3-fdeb875f8c30",
+                                    "RuleName": "Any rows found?",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "22c026c6-3e55-4033-8091-b60222898c59",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "3d99de6f-1210-4fc3-a43f-9a9a574353d9",
+                                            "RuleName": "Try to set USAGroupIDFlag and/or VIP Flag",
+                                            "RuleID": "",
+                                            "FunctionName": "_IIterateDynamicTableUDF",
+                                            "ParentGUID": "1f4770da-1af0-4075-bed3-fdeb875f8c30",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{4}",
+                                              "_FunctionVersion": "0",
+                                              "_ParamList1": "{1}",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "Table": "\"selectionlist_RoutingCTSInfo\"",
+                                              "_ParamListOMRIndex1": "{-1}",
+                                              "UDFName": "\"routing_SetUSAGroupIDFlag_CTS\"",
+                                              "Columns": "{\"SubMTVPID\",\"MemCovGrp\",\"\",\"\"}",
+                                              "_ParamList2": "{0}",
+                                              "_ParamListOMRIndex2": "{-1}",
+                                              "_ParamList3": "{7}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "b3512690-86ed-4628-a66c-126d95912fb9",
+                                            "RuleName": "Set USAGroupIDFlag = 1",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "1f4770da-1af0-4075-bed3-fdeb875f8c30",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "100",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "OutputFormat": "\"1\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{}",
+                                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                                      "PlugIfSinglePluggableMatch": "0",
+                                      "MaxSize": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "3",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "5927c5fd-444f-4527-9078-43de0880f0f6",
+                            "RuleName": "Eligibility State Processing - Is this a PreD?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "a3effb7f-3b9a-4525-8d3e-6409b46fedc5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "2cc6b72c-b42e-4196-b8b4-f796f02db8d4",
+                                    "RuleName": "Is the USAGroupID flag already a 1?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "5927c5fd-444f-4527-9078-43de0880f0f6",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "901a11d6-4b56-492f-901b-4c50353c0e74",
+                                            "RuleName": "Is the RoutingQueueFlag = V?",
+                                            "RuleID": "",
+                                            "FunctionName": "HasRegExpr",
+                                            "ParentGUID": "2cc6b72c-b42e-4196-b8b4-f796f02db8d4",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "routing_USAvsMX",
+                                                    "RuleGUID": "60c289a0-b80d-433b-a9d2-19f6cacd3987",
+                                                    "RuleName": "Fetch all rows from Elig table for member",
+                                                    "RuleID": "",
+                                                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                                                    "ParentGUID": "901a11d6-4b56-492f-901b-4c50353c0e74",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{4}",
+                                                      "_FunctionVersion": "131076",
+                                                      "_ParamList1": "{}",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "MaxMatchCount": "9999",
+                                                      "MaxIndexCount": "0",
+                                                      "EmptyKeyFails": "1",
+                                                      "AnyEmptyKeysFails": "0",
+                                                      "Table": "\"odbc_MemElig\"",
+                                                      "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                                      "NextInstance": "0",
+                                                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                                                      "_ParamListOMRIndex1": "{}",
+                                                      "SelectionListColumns": "{\"MTVPID\",\"MemEligBL4\",\"MemEligBL5\",\"MemEligBL6\"}",
+                                                      "DataColumns": "{\"MEM_MTV_PID\",\"MEM_ELIG_BL_4\",\"MEM_ELIG_BL_5\",\"MEM_ELIG_BL_6\"}",
+                                                      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\"}",
+                                                      "PlugFields": "{\"0\",\"0\",\"0\",\"0\"}",
+                                                      "DataTableDataField": "{-1,-1,-1,-1}",
+                                                      "DataTableEmptyField": "{-1,-1,-1,-1}",
+                                                      "EmptyTableDataField": "{-1,-1,-1,-1}",
+                                                      "CatchResourceUnavailable": "0"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "routing_USAvsMX",
+                                                    "RuleGUID": "0d440176-33a3-42d4-811c-3ec356c57cdd",
+                                                    "RuleName": "Show Elig SL",
+                                                    "RuleID": "",
+                                                    "FunctionName": "LogSL",
+                                                    "ParentGUID": "901a11d6-4b56-492f-901b-4c50353c0e74",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                                      "LogLevel": "12"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "routing_USAvsMX",
+                                                    "RuleGUID": "8fbfe3e4-aaf6-45e0-a1ff-3ef9be66ce4c",
+                                                    "RuleName": "Any rows found?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "CheckSLState4",
+                                                    "ParentGUID": "901a11d6-4b56-492f-901b-4c50353c0e74",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "routing_USAvsMX",
+                                                            "RuleGUID": "7e5d4fb8-5e53-4525-bad3-58c87352df8b",
+                                                            "RuleName": "Try to set USAGroupIDFlag and/or VIP Flag",
+                                                            "RuleID": "",
+                                                            "FunctionName": "_IIterateDynamicTableUDF",
+                                                            "ParentGUID": "8fbfe3e4-aaf6-45e0-a1ff-3ef9be66ce4c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{4}",
+                                                              "_FunctionVersion": "0",
+                                                              "_ParamList1": "{1}",
+                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                              "_ParamListOMRIndex0": "{-1}",
+                                                              "Table": "\"selectionlist_RoutingEligInfo\"",
+                                                              "_ParamListOMRIndex1": "{-1}",
+                                                              "UDFName": "\"routing_SetUSAGroupIDFlag_Elig\"",
+                                                              "Columns": "{\"MTVPID\",\"MemEligBL6\",\"\"}",
+                                                              "_ParamList2": "{7}",
+                                                              "_ParamListOMRIndex2": "{-1}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "No",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "routing_USAvsMX",
+                                                            "RuleGUID": "4c2163aa-f1a8-4f36-86ac-07a22bc25619",
+                                                            "RuleName": "Set USAGroupIDFlag = 1",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Formatf",
+                                                            "ParentGUID": "8fbfe3e4-aaf6-45e0-a1ff-3ef9be66ce4c",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                                                              "_ParamList0": "{0}",
+                                                              "_FunctionVersion": "100",
+                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                              "_ParamListOMRIndex0": "{-1}",
+                                                              "OutputFormat": "\"1\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{}",
+                                                      "_FunctionVersion": "1",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamListOMRIndex0": "{}",
+                                                      "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                                      "PlugIfSinglePluggableMatch": "0",
+                                                      "MaxSize": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "CaseSensitive": "1",
+                                              "_ParamList0": "{7}",
+                                              "RegularExpression": "\"V\"",
+                                              "_FunctionVersion": "65539",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "OutputFELines": "1",
+                                              "FELinesAttribute": "\"OCRepFELines\"",
+                                              "MaxWidthRatio": "4",
+                                              "MaxLineMSE": "2",
+                                              "MaxRecomputeMSE": "10",
+                                              "MinRecomputeLength": "4",
+                                              "RecomputeCandidates": "1",
+                                              "MaxSlantSlope": "0.35",
+                                              "MaxExtraChars": "9",
+                                              "MinCharConfidence": "10",
+                                              "MinAverageSpacing": "0",
+                                              "MaxZeroSpacings": "2",
+                                              "MaxWidthMSE": "2.5",
+                                              "DetectDotMatrix": "1",
+                                              "UseCaseLogic": "1",
+                                              "AcceptUUL": "1",
+                                              "IgnoreLineAttribute": "\"cgk_ContainsHandPrint\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{0}",
+                                      "RegularExpression": "\"1\"",
+                                      "_FunctionVersion": "65539"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{11}",
+                              "RegularExpression": "\"M\\134|E\"",
+                              "_FunctionVersion": "65539"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "296b0009-4566-4ad7-b0c5-25f13d90a8bf",
+                            "RuleName": "Set USAGroupIDFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "a3effb7f-3b9a-4525-8d3e-6409b46fedc5",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFormat": "\"1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Unrestricted",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "0fdcc5c9-f32e-48bd-84b0-f839fde53cca",
+                            "RuleName": "Eligibility State Processing - Is this a PreD?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "a3effb7f-3b9a-4525-8d3e-6409b46fedc5",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "29392861-bb4e-40e6-b49a-acc4d1dd2d99",
+                                    "RuleName": "Is the RoutingQueueFlag = V?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "0fdcc5c9-f32e-48bd-84b0-f839fde53cca",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "a81c2283-2428-4385-9079-3aea88d2f28a",
+                                            "RuleName": "Fetch all rows from Elig table for member",
+                                            "RuleID": "",
+                                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                                            "ParentGUID": "29392861-bb4e-40e6-b49a-acc4d1dd2d99",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{4}",
+                                              "_FunctionVersion": "131076",
+                                              "_ParamList1": "{}",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "MaxMatchCount": "9999",
+                                              "MaxIndexCount": "0",
+                                              "EmptyKeyFails": "1",
+                                              "AnyEmptyKeysFails": "0",
+                                              "Table": "\"odbc_MemElig\"",
+                                              "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                              "NextInstance": "0",
+                                              "ExactColumns": "{\"MEM_MTV_PID\"}",
+                                              "_ParamListOMRIndex1": "{}",
+                                              "SelectionListColumns": "{\"MTVPID\",\"MemEligBL4\",\"MemEligBL5\",\"MemEligBL6\"}",
+                                              "DataColumns": "{\"MEM_MTV_PID\",\"MEM_ELIG_BL_4\",\"MEM_ELIG_BL_5\",\"MEM_ELIG_BL_6\"}",
+                                              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\"}",
+                                              "PlugFields": "{\"0\",\"0\",\"0\",\"0\"}",
+                                              "DataTableDataField": "{-1,-1,-1,-1}",
+                                              "DataTableEmptyField": "{-1,-1,-1,-1}",
+                                              "EmptyTableDataField": "{-1,-1,-1,-1}",
+                                              "CatchResourceUnavailable": "0"
+                                            }
+                                          },
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "145012a1-08db-4a67-8f68-e77b17a32dd6",
+                                            "RuleName": "Show Elig SL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "29392861-bb4e-40e6-b49a-acc4d1dd2d99",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                              "LogLevel": "12"
+                                            }
+                                          },
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "01d67f7c-4c0a-4d7a-9103-b97d0dde9ef4",
+                                            "RuleName": "Any rows found?",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "29392861-bb4e-40e6-b49a-acc4d1dd2d99",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "routing_USAvsMX",
+                                                    "RuleGUID": "de67c3e8-783d-4038-a532-cc49aa43abe9",
+                                                    "RuleName": "Try to set VIP Flag by eligibility",
+                                                    "RuleID": "",
+                                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                                    "ParentGUID": "01d67f7c-4c0a-4d7a-9103-b97d0dde9ef4",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{4}",
+                                                      "_FunctionVersion": "0",
+                                                      "_ParamList1": "{1}",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "Table": "\"selectionlist_RoutingEligInfo\"",
+                                                      "_ParamListOMRIndex1": "{-1}",
+                                                      "UDFName": "\"routing_SetUSAGroupIDFlag_Elig\"",
+                                                      "Columns": "{\"MTVPID\",\"MemEligBL6\",\"\"}",
+                                                      "_ParamList2": "{7}",
+                                                      "_ParamListOMRIndex2": "{-1}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{}",
+                                              "_FunctionVersion": "1",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{}",
+                                              "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+                                              "PlugIfSinglePluggableMatch": "0",
+                                              "MaxSize": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{7}",
+                                      "RegularExpression": "\"V\"",
+                                      "_FunctionVersion": "65539",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFELines": "1",
+                                      "FELinesAttribute": "\"OCRepFELines\"",
+                                      "MaxWidthRatio": "4",
+                                      "MaxLineMSE": "2",
+                                      "MaxRecomputeMSE": "10",
+                                      "MinRecomputeLength": "4",
+                                      "RecomputeCandidates": "1",
+                                      "MaxSlantSlope": "0.35",
+                                      "MaxExtraChars": "9",
+                                      "MinCharConfidence": "10",
+                                      "MinAverageSpacing": "0",
+                                      "MaxZeroSpacings": "2",
+                                      "MaxWidthMSE": "2.5",
+                                      "DetectDotMatrix": "1",
+                                      "UseCaseLogic": "1",
+                                      "AcceptUUL": "1",
+                                      "IgnoreLineAttribute": "\"cgk_ContainsHandPrint\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{11}",
+                              "RegularExpression": "\"M\\134|E\"",
+                              "_FunctionVersion": "65539"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{8}"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "9eac8391-61bd-4cc5-b70b-1b48d75e21e2",
+                    "RuleName": "Is USAGroupIDFlag = 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                            "RuleName": "Set temp1 per BusinessUnit",
+                            "RuleID": "",
+                            "FunctionName": "helper_CheckBusinessUnit",
+                            "ParentGUID": "9eac8391-61bd-4cc5-b70b-1b48d75e21e2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "USA",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "f8a68a55-5b5c-4a07-a742-77b599c3b282",
+                                    "RuleName": "Set temp1 = USA",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"USA\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "DDIC - GA",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "fe939e62-1bb1-4ab0-884b-39fbc5028242",
+                                    "RuleName": "Set temp1 = GA",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"GA\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "DDPR",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "bd553b2f-6815-4700-bc56-0c7909dbbf6e",
+                                    "RuleName": "Set temp1 = PR",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                                    "ParentActionIndex": 2,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"PR\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "DENTEGRA",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "3368183f-a60a-46b8-9d2c-c9aafc04c676",
+                                    "RuleName": "Set temp1 = DT",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                                    "ParentActionIndex": 3,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"DT\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "DELTACARE",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "e65f23b5-7cce-48d5-83dc-0284be741f6d",
+                                    "RuleName": "Set temp1 = DC",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "8039bd52-b6be-4262-89c4-c740138ead0a",
+                                    "ParentActionIndex": 4,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"DC\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "772",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "1028",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Description": "\"If a doc is staying in the USA it may need to go to specialized queues (DeltaCare, PR, DT).  This can be figured out by BU.\"",
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "8a11a8ef-2c16-4b9e-9790-140b4f20dc49",
+                            "RuleName": "Set SmartSourceInd to temp1",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttr",
+                            "ParentGUID": "9eac8391-61bd-4cc5-b70b-1b48d75e21e2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "AttrName": "\"SmartSourceInd\"",
+                              "Value": "\"USA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "a5156c77-70f6-461b-9e67-5d2054cd76f1",
+                            "RuleName": "Is the RoutingQueueFlag = V?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "9eac8391-61bd-4cc5-b70b-1b48d75e21e2",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "47482f20-8696-4285-bf3b-42e3f0693e11",
+                                    "RuleName": "Set temp1 to VIP",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "a5156c77-70f6-461b-9e67-5d2054cd76f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFormat": "\"VIP\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "0f39e691-a755-4e33-a7d5-177a51d90208",
+                                    "RuleName": "Set temp1 per BusinessUnit",
+                                    "RuleID": "",
+                                    "FunctionName": "helper_CheckBusinessUnit",
+                                    "ParentGUID": "a5156c77-70f6-461b-9e67-5d2054cd76f1",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "DELTACARE",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "d5ae7bd4-8b50-4094-811c-8335270925ff",
+                                            "RuleName": "Set temp1 to DCMX",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "0f39e691-a755-4e33-a7d5-177a51d90208",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{5}",
+                                              "_FunctionVersion": "100",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "OutputFormat": "\"DCMX\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "DDC and CPP",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "7e5d832e-f494-4dba-9f27-c52de0db91b6",
+                                            "RuleName": "Set temp1 to CAMX",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "0f39e691-a755-4e33-a7d5-177a51d90208",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{5}",
+                                              "_FunctionVersion": "100",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "OutputFormat": "\"CAMX\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "Others",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "routing_USAvsMX",
+                                            "RuleGUID": "692dfc3d-ad46-4bba-ac4b-1566c9dda6c5",
+                                            "RuleName": "Set temp1 to MEXICO",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "0f39e691-a755-4e33-a7d5-177a51d90208",
+                                            "ParentActionIndex": 2,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{5}",
+                                              "_FunctionVersion": "100",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "OutputFormat": "\"MEXICO\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"If a doc is going to Mexicp it may need to go to specialized queues (DeltaCare, PR, DT).  This can be figured out by BU.\"",
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{7}",
+                              "RegularExpression": "\"V\"",
+                              "_FunctionVersion": "65539",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFELines": "1",
+                              "FELinesAttribute": "\"OCRepFELines\"",
+                              "MaxWidthRatio": "4",
+                              "MaxLineMSE": "2",
+                              "MaxRecomputeMSE": "10",
+                              "MinRecomputeLength": "4",
+                              "RecomputeCandidates": "1",
+                              "MaxSlantSlope": "0.35",
+                              "MaxExtraChars": "9",
+                              "MinCharConfidence": "10",
+                              "MinAverageSpacing": "0",
+                              "MaxZeroSpacings": "2",
+                              "MaxWidthMSE": "2.5",
+                              "DetectDotMatrix": "1",
+                              "UseCaseLogic": "1",
+                              "AcceptUUL": "1",
+                              "IgnoreLineAttribute": "\"cgk_ContainsHandPrint\""
+                            }
+                          },
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "c7b5e253-4d52-4f64-81a9-3899b52e39df",
+                            "RuleName": "Set SmartSourceInd to temp1",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttr",
+                            "ParentGUID": "9eac8391-61bd-4cc5-b70b-1b48d75e21e2",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "AttrName": "\"SmartSourceInd\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{0}",
+                      "RegularExpression": "\"1\"",
+                      "_FunctionVersion": "65539",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "17c177de-9dea-48db-b690-7166e5b5819a",
+                    "RuleName": "Show flags",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0,3,4,8,7,5}",
+                      "_FunctionVersion": "3"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "9e8680ed-f0f7-40d5-97f1-993f49d195ce",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\""
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "80630f1d-01a7-4dd1-ab45-f33a7de5fe43",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "2e748794-b437-49e7-a99e-89f43fb9de47",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingEligInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"If so it means we called this UDF for potential members and there is no use checking others.  If one potential member needs to be keyed in the USA then we play it safe and keep the doc in the USA.\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"1\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No - No members identified",
+        "ChildRules": [
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "7e6a2f06-8881-42fa-8cc8-cc4408f92260",
+            "RuleName": "Clear Temps",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5,8}",
+              "_FunctionVersion": "1",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0"
+            }
+          },
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "19c82a7b-7b89-4e7f-8b9d-33f942782f8a",
+            "RuleName": "Can this BU be considered for MX?",
+            "RuleID": "",
+            "FunctionName": "routing_CheckBusinessUnit",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "483926b3-6a27-47ed-bbef-ddd49c6e589c",
+                    "RuleName": "Try to set USAGroupIDFlag by SubGroup",
+                    "RuleID": "",
+                    "FunctionName": "routing_SetUSAGroupIDFlag_CTS",
+                    "ParentGUID": "19c82a7b-7b89-4e7f-8b9d-33f942782f8a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{10}",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "Table": "\"selectionlist_RoutingCTSInfo\"",
+                      "_ParamListOMRIndex1": "{-1}",
+                      "UDFName": "\"routing_SetUSAGroupIDFlag\"",
+                      "Columns": "{\"SubMTVPID\",\"MemCovGrp\",\"\",\"\"}",
+                      "_ParamList2": "{0}",
+                      "_ParamList3": "{7}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "516",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "0d470dbe-bb19-4d68-ae36-d2d0724d4ad4",
+                    "RuleName": "Set USAGroupIDFlag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "19c82a7b-7b89-4e7f-8b9d-33f942782f8a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Unrestricted",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "82b3e7cc-f771-438c-af7c-5ef345a519ce",
+                    "RuleName": "Set temp1 per BusinessUnit",
+                    "RuleID": "",
+                    "FunctionName": "helper_CheckBusinessUnit",
+                    "ParentGUID": "19c82a7b-7b89-4e7f-8b9d-33f942782f8a",
+                    "ParentActionIndex": 2,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "DELTACARE",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "79ce1d95-74f6-4614-97d0-fbbfb93ea2a5",
+                            "RuleName": "Set temp1 to DCMX",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "82b3e7cc-f771-438c-af7c-5ef345a519ce",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"DCMX\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "DDC and CPP",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "ed4d9643-1cd2-4c0b-a5c4-b3acf6e6690c",
+                            "RuleName": "Set temp1 to CAMX",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "82b3e7cc-f771-438c-af7c-5ef345a519ce",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFormat": "\"CAMX\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Others",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "ebb2513c-c6ec-468d-8b95-c1785dc480d3",
+                            "RuleName": "Set temp1 to MEXICO",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "82b3e7cc-f771-438c-af7c-5ef345a519ce",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFormat": "\"MEXICO\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"If a doc is going to Mexicp it may need to go to specialized queues (DeltaCare, PR, DT).  This can be figured out by BU.\"",
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "f2ff1762-c9c1-48c9-9fc7-2c6b9e604bbe",
+                    "RuleName": "Set SmartSourceInd to temp1",
+                    "RuleID": "",
+                    "FunctionName": "_ISetDocAttr",
+                    "ParentGUID": "19c82a7b-7b89-4e7f-8b9d-33f942782f8a",
+                    "ParentActionIndex": 2,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "AttrName": "\"SmartSourceInd\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "0",
+              "_ParamList1": "{8}"
+            }
+          },
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "9610b2a2-368b-42d4-ab8f-7a4f9a6997be",
+            "RuleName": "Is USAGroupIDFlag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                    "RuleName": "Set temp1 per BusinessUnit",
+                    "RuleID": "",
+                    "FunctionName": "helper_CheckBusinessUnit",
+                    "ParentGUID": "9610b2a2-368b-42d4-ab8f-7a4f9a6997be",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "USA",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "e056350f-9497-449b-99a4-2c75e7513fff",
+                            "RuleName": "Set temp1 = USA",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"USA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "DDIC - GA",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "4d8872d9-37d8-412b-b5ef-71c7cee6f9ed",
+                            "RuleName": "Set temp1 = GA",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"GA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "DDPR",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "2cc1a73b-5bc2-48ea-a816-0db7c11d6135",
+                            "RuleName": "Set temp1 = PR",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"PR\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "DENTEGRA",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "af7ae5bb-14c6-4124-a017-784bb5356acb",
+                            "RuleName": "Set temp1 = DT",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 3,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"DT\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "DELTACARE",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "0e869377-7dbb-4b90-b418-1e2143c7b586",
+                            "RuleName": "Set temp1 = DC",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 4,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"DC\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "DDAZ",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "0c483ea7-a177-4694-8613-8ab9b7a3c71b",
+                            "RuleName": "Set temp1 = AZ",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "67c8550d-a862-4f5b-a55f-8471a0c3b99a",
+                            "ParentActionIndex": 5,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "OutputFormat": "\"AZ\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "772",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "1028",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"If a doc is staying in the USA it may need to go to specialized queues (DeltaCare, PR, DT).  This can be figured out by BU.\"",
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_ErrorCode": "2"
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "43597f54-658b-4807-8f00-d7c967920316",
+                    "RuleName": "Set SmartSourceInd to temp1",
+                    "RuleID": "",
+                    "FunctionName": "_ISetDocAttr",
+                    "ParentGUID": "9610b2a2-368b-42d4-ab8f-7a4f9a6997be",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "AttrName": "\"SmartSourceInd\"",
+                      "Value": "\"USA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "3f795308-07db-4886-a72b-456b7a349b16",
+                    "RuleName": "Is the RoutingQueueFlag = V?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "9610b2a2-368b-42d4-ab8f-7a4f9a6997be",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "30073253-178d-4bad-a5b2-e1fbbd73d94f",
+                            "RuleName": "Set temp1 to VIP",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "3f795308-07db-4886-a72b-456b7a349b16",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFormat": "\"VIP\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_USAvsMX",
+                            "RuleGUID": "29fe7cac-55c9-417d-987d-c10c7bf6b03a",
+                            "RuleName": "Set temp1 per BusinessUnit",
+                            "RuleID": "",
+                            "FunctionName": "helper_CheckBusinessUnit",
+                            "ParentGUID": "3f795308-07db-4886-a72b-456b7a349b16",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "DELTACARE",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "95a125e8-12ba-4703-8b48-fab9177e303e",
+                                    "RuleName": "Set temp1 to DCMX",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "29fe7cac-55c9-417d-987d-c10c7bf6b03a",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "OutputFormat": "\"DCMX\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "DDC and CPP",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "ff3b68dc-3222-4dc2-9e2d-b9520610fc75",
+                                    "RuleName": "Set temp1 to CAMX",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "29fe7cac-55c9-417d-987d-c10c7bf6b03a",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFormat": "\"CAMX\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Others",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_USAvsMX",
+                                    "RuleGUID": "a916c53d-5422-4c69-924f-52b3fab2b3e6",
+                                    "RuleName": "Set temp1 to MEXICO",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "29fe7cac-55c9-417d-987d-c10c7bf6b03a",
+                                    "ParentActionIndex": 2,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFormat": "\"MEXICO\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "516",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Description": "\"If a doc is going to Mexicp it may need to go to specialized queues (DeltaCare, PR, DT).  This can be figured out by BU.\"",
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{7}",
+                      "RegularExpression": "\"V\"",
+                      "_FunctionVersion": "65539",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "OutputFELines": "1",
+                      "FELinesAttribute": "\"OCRepFELines\"",
+                      "MaxWidthRatio": "4",
+                      "MaxLineMSE": "2",
+                      "MaxRecomputeMSE": "10",
+                      "MinRecomputeLength": "4",
+                      "RecomputeCandidates": "1",
+                      "MaxSlantSlope": "0.35",
+                      "MaxExtraChars": "9",
+                      "MinCharConfidence": "10",
+                      "MinAverageSpacing": "0",
+                      "MaxZeroSpacings": "2",
+                      "MaxWidthMSE": "2.5",
+                      "DetectDotMatrix": "1",
+                      "UseCaseLogic": "1",
+                      "AcceptUUL": "1",
+                      "IgnoreLineAttribute": "\"cgk_ContainsHandPrint\""
+                    }
+                  },
+                  {
+                    "Container": "routing_USAvsMX",
+                    "RuleGUID": "c5a466c5-107c-4eca-80a9-117de1c0280b",
+                    "RuleName": "Set SmartSourceInd to temp1",
+                    "RuleID": "",
+                    "FunctionName": "_ISetDocAttr",
+                    "ParentGUID": "9610b2a2-368b-42d4-ab8f-7a4f9a6997be",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "AttrName": "\"SmartSourceInd\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"1\"",
+              "_FunctionVersion": "65539",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          },
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "5d97f955-8482-4dfe-9749-37f04317e36a",
+            "RuleName": "Show flags",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,3,4,8,7,5}",
+              "_FunctionVersion": "3"
+            }
+          },
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "e6821918-04aa-42fc-a44c-7f4ece7a53df",
+            "RuleName": "Clear SL",
+            "RuleID": "",
+            "FunctionName": "ClearSL",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_RoutingCTSInfo\""
+            }
+          },
+          {
+            "Container": "routing_USAvsMX",
+            "RuleGUID": "a6f0dbdf-bbe9-401b-bc3d-a7e83c62952d",
+            "RuleName": "Clear SL",
+            "RuleID": "",
+            "FunctionName": "ClearSL",
+            "ParentGUID": "931368b8-a615-4e15-9207-76d660fbd537",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_RoutingEligInfo\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"Per WRP-191 we are using the OCRed SubGroup to attempt routing when no member is found.  This flag will indicate which logic to run.  To revert to changes prior to Q1 2018 pull the \\042Is the USAGroupIDFlag alread = 1?\\042 out of the Yes condition and disable this rule.  - jdm 01/2018\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{9}",
+      "RegularExpression": "\"Yes\\134|Maybe\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

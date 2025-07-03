@@ -1,0 +1,1489 @@
+[
+  {
+    "Container": "lookup_BillingProvider_Trimming",
+    "RuleGUID": "7a6d357d-95fd-403a-903d-2a3e658a1fa4",
+    "RuleName": "Copy zip to tempZip",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{3}",
+      "_ParamList1": "{4}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_BillingProvider_Trimming",
+    "RuleGUID": "4a5a7bc6-0e30-4e65-9ff0-bad0b278ffde",
+    "RuleName": "Build regular exp for zip",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"\\134(^.....\\134)\"",
+      "OutputFormat": "\"^\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"12345\",\"123456789\",\"123\",\"12345-6789\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProvider_Trimming",
+    "RuleGUID": "fb87d2bb-4b2d-445c-add2-2841daf3d11a",
+    "RuleName": "Trim based on Name",
+    "RuleID": "",
+    "FunctionName": "TrimSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProvider_Trimming",
+            "RuleGUID": "32f174d7-25b0-42ac-92ee-a1a2b9df39ee",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "fb87d2bb-4b2d-445c-add2-2841daf3d11a",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_BillingProv\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Trimming",
+            "RuleGUID": "5a81443c-0f63-4b22-9982-46acaa45bc68",
+            "RuleName": "Plug if single entry",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "fb87d2bb-4b2d-445c-add2-2841daf3d11a",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Not plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "c721872f-8d60-461a-8ac0-58f64857bbcc",
+                    "RuleName": "Trim based on NameStr",
+                    "RuleID": "",
+                    "FunctionName": "TrimSL",
+                    "ParentGUID": "5a81443c-0f63-4b22-9982-46acaa45bc68",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "da422efe-5948-40ce-acfb-4cf3063bac04",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c721872f-8d60-461a-8ac0-58f64857bbcc",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "f7519f50-037a-4ebd-9340-d2aaf5482cb8",
+                            "RuleName": "Plug if single entry",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "c721872f-8d60-461a-8ac0-58f64857bbcc",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Not plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "107866f3-6971-41ff-9127-dcf26b60f0af",
+                                    "RuleName": "Trim based on AddrNum and Zip",
+                                    "RuleID": "",
+                                    "FunctionName": "TrimSL",
+                                    "ParentGUID": "f7519f50-037a-4ebd-9340-d2aaf5482cb8",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "All Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_BillingProvider_Trimming",
+                                            "RuleGUID": "b6c6698f-f3aa-4068-9211-15371002adf3",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "107866f3-6971-41ff-9127-dcf26b60f0af",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_BillingProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_BillingProvider_Trimming",
+                                            "RuleGUID": "fd86fcda-8ed3-4248-bd32-efac3966f8a1",
+                                            "RuleName": "Plug if single entry",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "107866f3-6971-41ff-9127-dcf26b60f0af",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Plugged",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_BillingProvider_Trimming",
+                                                    "RuleGUID": "3bce77c1-417e-4f6a-a8a5-018b18e9d882",
+                                                    "RuleName": "Set BP Flag to TNSAZ-1",
+                                                    "RuleID": "",
+                                                    "FunctionName": "_ISetDocAttrConst",
+                                                    "ParentGUID": "fd86fcda-8ed3-4248-bd32-efac3966f8a1",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "0",
+                                                      "AttrName": "\"BP_Flag\"",
+                                                      "Value": "\"TNSAZ-1\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{}",
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_BillingProv\"",
+                                              "PlugIfSinglePluggableMatch": "1",
+                                              "MaxSize": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "None Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_BillingProvider_Trimming",
+                                            "RuleGUID": "e49d9e64-ff96-4345-a6d1-3e8a213bd0f9",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "107866f3-6971-41ff-9127-dcf26b60f0af",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_BillingProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4,2}",
+                                      "_FunctionVersion": "65537",
+                                      "GroupCount": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "GroupNames": "{\"Crit 2\"}",
+                                      "MatchType": "{0}",
+                                      "SwapFields": "{0}",
+                                      "TableIgnoreCharSets": "{\"\"}",
+                                      "NoneMatch": "{2}",
+                                      "Combine": "{0}",
+                                      "UseSubstrings": "{0}",
+                                      "EditDistance": "{0,0}",
+                                      "Percentage": "{0,0}",
+                                      "Required": "{0,0}",
+                                      "FieldGroup": "{0,0}",
+                                      "MatchColumns": "{\"ZIP\",\"Addr1\"}",
+                                      "ColumnGroup": "{0,0}",
+                                      "Depends": "{}",
+                                      "DependsType": "{}",
+                                      "DependsGroup": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "fb102ded-2f46-46e7-a959-3d76002dd048",
+                                    "RuleName": "Set BP Flag to TNS-1",
+                                    "RuleID": "",
+                                    "FunctionName": "_ISetDocAttrConst",
+                                    "ParentGUID": "f7519f50-037a-4ebd-9340-d2aaf5482cb8",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "0",
+                                      "AttrName": "\"BP_Flag\"",
+                                      "Value": "\"TNS-1\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "None Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "da114a12-ed93-4c93-aa6d-27377f70a752",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c721872f-8d60-461a-8ac0-58f64857bbcc",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "01f27418-f3b2-4788-9f8e-103ca259dd5b",
+                            "RuleName": "Trim based on AddrNum and Zip",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "c721872f-8d60-461a-8ac0-58f64857bbcc",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "All Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "dd598a2f-71a7-4af4-9a30-969f315c721c",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "01f27418-f3b2-4788-9f8e-103ca259dd5b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "79e9a6c4-6fe3-4063-98b1-b896f7d01dd8",
+                                    "RuleName": "Plug if single entry",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "01f27418-f3b2-4788-9f8e-103ca259dd5b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Plugged",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_BillingProvider_Trimming",
+                                            "RuleGUID": "06d0f02e-97fd-4aaa-a6a5-0f1b20142972",
+                                            "RuleName": "Set BP Flag to TNAZ-1",
+                                            "RuleID": "",
+                                            "FunctionName": "_ISetDocAttrConst",
+                                            "ParentGUID": "79e9a6c4-6fe3-4063-98b1-b896f7d01dd8",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "0",
+                                              "AttrName": "\"BP_Flag\"",
+                                              "Value": "\"TNAZ-1\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "PlugIfSinglePluggableMatch": "1",
+                                      "MaxSize": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "None Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "9dba007e-8e61-454e-96fc-d0e0225c1ff5",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "01f27418-f3b2-4788-9f8e-103ca259dd5b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4,2}",
+                              "_FunctionVersion": "65537",
+                              "GroupCount": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "GroupNames": "{\"Crit 2\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{2}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0,0}",
+                              "Percentage": "{0,0}",
+                              "Required": "{0,0}",
+                              "FieldGroup": "{0,0}",
+                              "MatchColumns": "{\"ZIP\",\"Addr1\"}",
+                              "ColumnGroup": "{0,0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "65537",
+                      "GroupCount": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\"",
+                      "GroupNames": "{\"Name String\"}",
+                      "MatchType": "{0}",
+                      "SwapFields": "{0}",
+                      "TableIgnoreCharSets": "{\"\"}",
+                      "NoneMatch": "{2}",
+                      "Combine": "{0}",
+                      "UseSubstrings": "{0}",
+                      "EditDistance": "{0}",
+                      "Percentage": "{0}",
+                      "Required": "{0}",
+                      "FieldGroup": "{0}",
+                      "MatchColumns": "{\"Name\"}",
+                      "ColumnGroup": "{0}",
+                      "Depends": "{}",
+                      "DependsType": "{}",
+                      "DependsGroup": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "d5807918-19ca-497b-ada8-4e6696606dfa",
+                    "RuleName": "Set BP Flag to TN-1",
+                    "RuleID": "",
+                    "FunctionName": "_ISetDocAttrConst",
+                    "ParentGUID": "5a81443c-0f63-4b22-9982-46acaa45bc68",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "AttrName": "\"BP_Flag\"",
+                      "Value": "\"TN-1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{}",
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_BillingProv\"",
+              "PlugIfSinglePluggableMatch": "1",
+              "MaxSize": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "None Match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProvider_Trimming",
+            "RuleGUID": "a8776caf-e6ff-4b32-8ee6-3a32e652f17d",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "fb87d2bb-4b2d-445c-add2-2841daf3d11a",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_BillingProv\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Trimming",
+            "RuleGUID": "e0c4ba43-e465-4bca-9503-296688cff648",
+            "RuleName": "Trim based on NameStr",
+            "RuleID": "",
+            "FunctionName": "TrimSL",
+            "ParentGUID": "fb87d2bb-4b2d-445c-add2-2841daf3d11a",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "d14d9fb2-1bf4-4dc5-bf13-e5ed8897aa5a",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "e0c4ba43-e465-4bca-9503-296688cff648",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "c85a3a23-99c0-4970-a380-ec3c8400d463",
+                    "RuleName": "Plug if single entry",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "e0c4ba43-e465-4bca-9503-296688cff648",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Not plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "ad97d737-fea6-4b26-932f-12fc190b7c5b",
+                            "RuleName": "Trim based on AddrNum and Zip",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "c85a3a23-99c0-4970-a380-ec3c8400d463",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "All Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "b18bd3d0-2bf7-4478-8a4d-2e447b30c182",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "ad97d737-fea6-4b26-932f-12fc190b7c5b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "d6fe2249-1af3-4b4b-a9c2-0466ce1f3d32",
+                                    "RuleName": "Plug if single entry",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "ad97d737-fea6-4b26-932f-12fc190b7c5b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Plugged",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_BillingProvider_Trimming",
+                                            "RuleGUID": "03a0a7eb-3ea7-46a2-9009-6689e4996a93",
+                                            "RuleName": "Set BP Flag to TNSAZ-2",
+                                            "RuleID": "",
+                                            "FunctionName": "_ISetDocAttrConst",
+                                            "ParentGUID": "d6fe2249-1af3-4b4b-a9c2-0466ce1f3d32",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "0",
+                                              "AttrName": "\"BP_Flag\"",
+                                              "Value": "\"TNSAZ-2\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "PlugIfSinglePluggableMatch": "1",
+                                      "MaxSize": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "None Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "94e9832b-bf64-4df6-9f8e-d7a13af11dc2",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "ad97d737-fea6-4b26-932f-12fc190b7c5b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_BillingProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4,2}",
+                              "_FunctionVersion": "65537",
+                              "GroupCount": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "GroupNames": "{\"Crit 2\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{2}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0,0}",
+                              "Percentage": "{0,0}",
+                              "Required": "{0,0}",
+                              "FieldGroup": "{0,0}",
+                              "MatchColumns": "{\"ZIP\",\"Addr1\"}",
+                              "ColumnGroup": "{0,0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "1d9a7ac7-5533-49aa-87e0-dfe4ae417dd6",
+                            "RuleName": "Set BP Flag to TNS-2",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttrConst",
+                            "ParentGUID": "c85a3a23-99c0-4970-a380-ec3c8400d463",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "AttrName": "\"BP_Flag\"",
+                              "Value": "\"TNS-2\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "None Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "330abfc8-1997-48da-959d-6e2e4c8b6c8c",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "e0c4ba43-e465-4bca-9503-296688cff648",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_BillingProvider_Trimming",
+                    "RuleGUID": "c8f36d99-8294-4fe3-ba5e-7a033baf1faf",
+                    "RuleName": "Trim based on AddrNum and Zip",
+                    "RuleID": "",
+                    "FunctionName": "TrimSL",
+                    "ParentGUID": "e0c4ba43-e465-4bca-9503-296688cff648",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "a6df2fe6-84f3-4d30-ba90-2524f22276b4",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c8f36d99-8294-4fe3-ba5e-7a033baf1faf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "70337f47-3c12-4664-b866-c17e45a499b2",
+                            "RuleName": "Plug if single entry",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "c8f36d99-8294-4fe3-ba5e-7a033baf1faf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProvider_Trimming",
+                                    "RuleGUID": "aead6524-5e62-4337-815e-d54b4efef378",
+                                    "RuleName": "Set BP Flag to TAZ-2",
+                                    "RuleID": "",
+                                    "FunctionName": "_ISetDocAttrConst",
+                                    "ParentGUID": "70337f47-3c12-4664-b866-c17e45a499b2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "0",
+                                      "AttrName": "\"BP_Flag\"",
+                                      "Value": "\"TAZ-2\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "None Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Trimming",
+                            "RuleGUID": "35ca4d74-9eab-43b3-94c9-81860b15dac9",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c8f36d99-8294-4fe3-ba5e-7a033baf1faf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_BillingProv\"",
+                              "LogLevel": "12"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4,2}",
+                      "_FunctionVersion": "65537",
+                      "GroupCount": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\"",
+                      "GroupNames": "{\"Crit 2\"}",
+                      "MatchType": "{0}",
+                      "SwapFields": "{0}",
+                      "TableIgnoreCharSets": "{\"\"}",
+                      "NoneMatch": "{2}",
+                      "Combine": "{0}",
+                      "UseSubstrings": "{0}",
+                      "EditDistance": "{0,0}",
+                      "Percentage": "{0,0}",
+                      "Required": "{0,0}",
+                      "FieldGroup": "{0,0}",
+                      "MatchColumns": "{\"ZIP\",\"Addr1\"}",
+                      "ColumnGroup": "{0,0}",
+                      "Depends": "{}",
+                      "DependsType": "{}",
+                      "DependsGroup": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65537",
+              "GroupCount": "1",
+              "SelectionList": "\"selectionlist_BillingProv\"",
+              "GroupNames": "{\"Name String\"}",
+              "MatchType": "{0}",
+              "SwapFields": "{0}",
+              "TableIgnoreCharSets": "{\"\"}",
+              "NoneMatch": "{2}",
+              "Combine": "{0}",
+              "UseSubstrings": "{0}",
+              "EditDistance": "{0}",
+              "Percentage": "{0}",
+              "Required": "{0}",
+              "FieldGroup": "{0}",
+              "MatchColumns": "{\"Name\"}",
+              "ColumnGroup": "{0}",
+              "Depends": "{}",
+              "DependsType": "{}",
+              "DependsGroup": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65537",
+      "GroupCount": "1",
+      "SelectionList": "\"selectionlist_BillingProv\"",
+      "GroupNames": "{\"Crit 1\"}",
+      "MatchType": "{1}",
+      "SwapFields": "{0}",
+      "TableIgnoreCharSets": "{\"\"}",
+      "NoneMatch": "{2}",
+      "Combine": "{0}",
+      "UseSubstrings": "{0}",
+      "EditDistance": "{0}",
+      "Percentage": "{0}",
+      "Required": "{1}",
+      "FieldGroup": "{0}",
+      "MatchColumns": "{\"Name\"}",
+      "ColumnGroup": "{0}",
+      "Depends": "{}",
+      "DependsType": "{}",
+      "DependsGroup": "{}"
+    }
+  }
+]

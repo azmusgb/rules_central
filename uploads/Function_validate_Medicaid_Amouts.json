@@ -1,0 +1,453 @@
+[
+  {
+    "Container": "validate_Medicaid_Amouts",
+    "RuleGUID": "a9eea99c-5518-4877-a1e1-da4a53c10fe7",
+    "RuleName": "Filter Control Chars",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "UDFName": "\"format_FilterControlChars\"",
+      "ForEach": "{1}",
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "validate_Medicaid_Amouts",
+    "RuleGUID": "6e89db1c-5575-48be-b90f-2e6593e1fa62",
+    "RuleName": "Filter P&S Leave Dash",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "2",
+      "InvertCharSet": "0",
+      "FilterSet": "\"charset_PandSNodash\""
+    }
+  },
+  {
+    "Container": "validate_Medicaid_Amouts",
+    "RuleGUID": "b7dd61f9-599c-47ed-934d-58d0fc8ff146",
+    "RuleName": "Paid - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "validate_Medicaid_Amouts",
+            "RuleGUID": "fa30b9ba-6aee-43a3-bd30-ffbc3c6c8571",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "b7dd61f9-599c-47ed-934d-58d0fc8ff146",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_SkipID": "7844",
+              "_BackupSkipID": "7844",
+              "RejectString": "\"Please enter Total Medicaid Amount\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "SelectionListAutoPop": "0",
+              "Languages": "\"Default\"",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "validate_Medicaid_Amouts",
+            "RuleGUID": "d0901762-9e0b-4b97-bcdc-402fbc90505f",
+            "RuleName": "Check if valid amount",
+            "RuleID": "",
+            "FunctionName": "CheckAmount",
+            "ParentGUID": "b7dd61f9-599c-47ed-934d-58d0fc8ff146",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "516",
+                "ActionName": "Reject: Bad Amount",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Medicaid_Amouts",
+                    "RuleGUID": "22496482-170f-4d90-9d54-228b9ce5c827",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "d0901762-9e0b-4b97-bcdc-402fbc90505f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_SkipID": "7845",
+                      "_BackupSkipID": "7845",
+                      "RejectString": "\"Must be greater or equal to 0 and less than or equal to 9,999.99\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Reject: Not an amount",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Medicaid_Amouts",
+                    "RuleGUID": "e95224d5-d5a2-462f-952d-604760243825",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "d0901762-9e0b-4b97-bcdc-402fbc90505f",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_SkipID": "7846",
+                      "_BackupSkipID": "7846",
+                      "RejectString": "\"Invalid amount\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Valid amount",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Medicaid_Amouts",
+                    "RuleGUID": "0910fa33-9c97-412b-84a3-d124fe832248",
+                    "RuleName": "Validate against detail lines",
+                    "RuleID": "",
+                    "FunctionName": "CheckColumnSum",
+                    "ParentGUID": "d0901762-9e0b-4b97-bcdc-402fbc90505f",
+                    "ParentActionIndex": 2,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Reject: Not Equal",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Medicaid_Amouts",
+                            "RuleGUID": "61f43cc7-fdfa-4f9d-a221-2a4f214327eb",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "0910fa33-9c97-412b-84a3-d124fe832248",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0,1}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1}",
+                              "_SkipID": "7847",
+                              "_BackupSkipID": "7847",
+                              "RejectString": "\"Total Medicaid Amount does not equal line level Medicaid Amount\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "SelectionListAutoPop": "0",
+                              "Languages": "\"Default\"",
+                              "DelayEval": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_Disabled": "1",
+                      "_ParamList1": "{0}",
+                      "_ParamListOMRIndex1": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "Deviation": "0",
+              "BracketedField": "0",
+              "MaximumValue": "999999",
+              "MinimumValue": "0",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "validate_Medicaid_Amouts",
+            "RuleGUID": "4480511a-58f5-4f50-a998-41b9de24b274",
+            "RuleName": "Compare to Fee",
+            "RuleID": "",
+            "FunctionName": "CompareAmountFields",
+            "ParentGUID": "b7dd61f9-599c-47ed-934d-58d0fc8ff146",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: Greater than",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Medicaid_Amouts",
+                    "RuleGUID": "c0129704-c966-4f6b-9b85-ef7d71fa0545",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "4480511a-58f5-4f50-a998-41b9de24b274",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1,3}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "7863",
+                      "_BackupSkipID": "7863",
+                      "RejectString": "\"Medicaid Amount should not be greater than Fee\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "BracketedField": "0",
+              "_ParamList1": "{3}",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3",
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamListOMRIndex0": "{-1}"
+    }
+  }
+]

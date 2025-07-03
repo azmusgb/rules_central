@@ -1,0 +1,428 @@
+[
+  {
+    "Container": "format_ProcCodePadding",
+    "RuleGUID": "146175cb-c4c6-4036-8da5-ac81b6b44033",
+    "RuleName": "Is the ProcCode at least 4 chars?",
+    "RuleID": "",
+    "FunctionName": "CheckLineLength",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "format_ProcCodePadding",
+            "RuleGUID": "707ebfaa-f030-4725-9a41-8f2d2088bee1",
+            "RuleName": "Is the ProcCode 5 characters?",
+            "RuleID": "",
+            "FunctionName": "CheckLineLength",
+            "ParentGUID": "146175cb-c4c6-4036-8da5-ac81b6b44033",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProcCodePadding",
+                    "RuleGUID": "5c98d54d-f683-44ef-ae80-fd2931f9370f",
+                    "RuleName": "Convert leading 0 to D",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "707ebfaa-f030-4725-9a41-8f2d2088bee1",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^0\\134(.*\\134)$\"",
+                      "OutputFormat": "\"D\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"1234\",\"D234\",\"0123\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProcCodePadding",
+                    "RuleGUID": "f18988f8-010a-4649-bb32-3c87a7d1f955",
+                    "RuleName": "Prepend a D if there is none",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "707ebfaa-f030-4725-9a41-8f2d2088bee1",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^\\134([^D]\\134)\\134(.*\\134)$\"",
+                      "OutputFormat": "\"D\\1341\\1342\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"D1234\",\"1234\",\"0123\",\"1\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "MaxLengthLimit": "5",
+              "MinLengthLimit": "5"
+            }
+          },
+          {
+            "Container": "format_ProcCodePadding",
+            "RuleGUID": "46b90608-3d00-4a2f-a2d2-20ee4b981c8a",
+            "RuleName": "Is D followed by 3 chars?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "146175cb-c4c6-4036-8da5-ac81b6b44033",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProcCodePadding",
+                    "RuleGUID": "18db4be9-73d6-4f1e-9646-9994c8e9fe1a",
+                    "RuleName": "Pad zero after the D",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "46b90608-3d00-4a2f-a2d2-20ee4b981c8a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^D\\134(...\\134)$\"",
+                      "OutputFormat": "\"D0\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"D123\",\"D12\",\"D1\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"D123\",\"D12\",\"D1\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^D...$\"",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "format_ProcCodePadding",
+            "RuleGUID": "2ed23f1b-330e-4c95-b424-bff58086a83d",
+            "RuleName": "Is D followed by 2 chars?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "146175cb-c4c6-4036-8da5-ac81b6b44033",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProcCodePadding",
+                    "RuleGUID": "c2d783c8-7155-4185-9306-17e72b24710f",
+                    "RuleName": "Pad 2 zeros after the D",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "2ed23f1b-330e-4c95-b424-bff58086a83d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^D\\134(..\\134)$\"",
+                      "OutputFormat": "\"D00\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"D12\",\"D1\",\"D123\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"D12\",\"D1\",\"D123\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^D..$\"",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "format_ProcCodePadding",
+            "RuleGUID": "1d04ca8a-cd38-46a8-a2a2-ef1634ef2ebd",
+            "RuleName": "Is D followed by 1 char?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "146175cb-c4c6-4036-8da5-ac81b6b44033",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProcCodePadding",
+                    "RuleGUID": "f26082fc-014c-4aa9-8240-94b96004ec93",
+                    "RuleName": "Pad 3 zeros after the D",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "1d04ca8a-cd38-46a8-a2a2-ef1634ef2ebd",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^D\\134(.\\134)$\"",
+                      "OutputFormat": "\"D000\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"D1\",\"D11\",\"D\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"D1\",\"D11\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^D.$\"",
+              "_Disabled": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "Deviation": "0",
+      "BracketedField": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "1",
+      "MinChars": "0",
+      "CandidateSet": "\"charset_1234\"",
+      "LegalSet": "\"charset_1234\"",
+      "Compare": "1",
+      "UndefinedIterpretedAs": "0",
+      "DateFormat": "\"dfr_JDAY_TO_MDY\"",
+      "Function": "0",
+      "ModValue": "9",
+      "Remainder": "0",
+      "MinNum": "0",
+      "GroupFields": "0",
+      "GroupInstances": "0",
+      "MaxLengthLimit": "3"
+    }
+  }
+]

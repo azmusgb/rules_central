@@ -1,0 +1,89 @@
+[
+  {
+    "Container": "lookup_Pat_DeleteNonFirstRow",
+    "RuleGUID": "df194d91-1e21-451f-a8b1-5c64575ac09b",
+    "RuleName": "Is FirstRowFlag empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - this is the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_Pat_DeleteNonFirstRow",
+            "RuleGUID": "e1fe6365-8267-4fbf-9d02-184f5f04134d",
+            "RuleName": "Set flag = 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "df194d91-1e21-451f-a8b1-5c64575ac09b",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No - this is not the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_Pat_DeleteNonFirstRow",
+            "RuleGUID": "89e696b3-2de7-4424-b763-9137bcc42264",
+            "RuleName": "Delete current row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "df194d91-1e21-451f-a8b1-5c64575ac09b",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_Patient\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

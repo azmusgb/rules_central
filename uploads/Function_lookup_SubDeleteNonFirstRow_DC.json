@@ -1,0 +1,89 @@
+[
+  {
+    "Container": "lookup_SubDeleteNonFirstRow_DC",
+    "RuleGUID": "426454ae-9baa-46dd-a563-9bb54ca7582e",
+    "RuleName": "Is FirstRowFlag empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - this is the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_SubDeleteNonFirstRow_DC",
+            "RuleGUID": "f702ba55-e216-4421-a6d1-48760ec38e75",
+            "RuleName": "Set flag = 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "426454ae-9baa-46dd-a563-9bb54ca7582e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No - this is not the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_SubDeleteNonFirstRow_DC",
+            "RuleGUID": "4d38b5a9-5362-4a11-8d10-2ceb0cadbd12",
+            "RuleName": "Delete current row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "426454ae-9baa-46dd-a563-9bb54ca7582e",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_MemberDC\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

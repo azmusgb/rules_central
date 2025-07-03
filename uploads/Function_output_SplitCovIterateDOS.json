@@ -1,0 +1,480 @@
+[
+  {
+    "Container": "output_SplitCovIterateDOS",
+    "RuleGUID": "d07b8866-ef93-4f16-981b-fa02ab95b0d9",
+    "RuleName": "Is DOS Populated?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitCovIterateDOS",
+            "RuleGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+            "RuleName": "Compare DOS to Eff Dates",
+            "RuleID": "",
+            "FunctionName": "helper_CompareDateToRange",
+            "ParentGUID": "d07b8866-ef93-4f16-981b-fa02ab95b0d9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Within",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "60ca4aa6-facb-42af-8ce8-fffbe0126cd6",
+                    "RuleName": "Set PreviousWithinFlag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{24}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  },
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "ae8a317f-46f0-4405-aae6-fd073f73d76e",
+                    "RuleName": "Copy SL fields to detail fields",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{20,21,22,19,27,8}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"We want the Contract ID, Group, Division and Financial Market values for each detail line available.\"",
+                      "_ParamList1": "{15,16,17,14,26,28}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "1d3a1bdb-12ba-469d-98c7-853caed890c4",
+                    "RuleName": "Copy SOR to Detail SOR",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{23}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"For the Coverage lookup we are copying the SOR from the coverage table to the detail line level.  This is different than the logic in the eligibility lookup.  The rule to do that has more complex logic.  See eligibility splitting to see how it's dealt with differently.\"",
+                      "_ParamList1": "{18}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                    "RuleName": "Is SplitFlag = 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "23681f6d-5d38-42bd-9224-5929847dc66e",
+                            "RuleName": "Copy CurrentSplitNum to OutputFileFlag",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{12}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{7}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "cfffc68f-f9ee-4f05-8346-28bb9a77469b",
+                            "RuleName": "Set SplitFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{13}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          },
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "435ec38f-2b6b-404f-b63a-b46a5d4b3a7d",
+                            "RuleName": "Add 1 to CurrentSplitNum",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{12}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{12}",
+                              "OutputFormat": "\"%.0f\"",
+                              "Deviation": "0",
+                              "Remainder": "0",
+                              "MathExpression": "\"F0 + 1\""
+                            }
+                          },
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "8d8e9c18-dae7-4745-a203-b40285988921",
+                            "RuleName": "Set  last line of SplitTrack to CurrentSplitNum",
+                            "RuleID": "",
+                            "FunctionName": "CopyLines",
+                            "ParentGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{12}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{11}",
+                              "OverwriteInsertAppend": "2",
+                              "Begin": "{0}",
+                              "End": "{0}",
+                              "LineNumber": "{-1}",
+                              "ClearToFields": "{0}"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "a332af36-d2d5-49f8-9c9c-8aa411b2367a",
+                            "RuleName": "Copy CurrentSplitNum to OutputFileFlag",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "fc692422-73cc-44f7-aff1-f99b7917a6c1",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{12}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{7}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{13}",
+                      "_FunctionVersion": "65539",
+                      "_Description": "\"If so this group of DOS has already been seen and we don't want to bump the CurrentSplitNum nor change the SplitTrack\"",
+                      "RegularExpression": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "GreaterThan",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "77a53c97-2bce-4b67-84b4-369fbc779163",
+                    "RuleName": "Is the PreviousWithinFlag = 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitCovIterateDOS",
+                            "RuleGUID": "9c78d80c-24ca-402b-b03c-797cfdde9c35",
+                            "RuleName": "Copy PreviousOFF -> Current OFF",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "77a53c97-2bce-4b67-84b4-369fbc779163",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{25}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{7}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{24}",
+                      "_FunctionVersion": "65539",
+                      "_Description": "\"If so we're going to set the current OutputFileFlag equal to the previous one.  The idea is that if the line we're on is not in coverage, but the previous one was then we can set it to the previous one's info.  Then when we go to the next set of coverage dates this one may still get split off.\\015\\012\\015\\012Since we're not resetting the PreviousWithinFlag for each line once a line is flagged as within all subsequent lines will either get the OFF of the previous (not within) or will get a new OFF (within).\\015\\012\\015\\012We're not resetting this so that all subsequent DOS lines get this OutputFileFlag.\"",
+                      "RegularExpression": "\"1\""
+                    }
+                  },
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "45df319a-4b6a-4299-88d1-f414f4309b34",
+                    "RuleName": "Copy SOR to Detail SOR",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{23}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"For the Coverage lookup we are copying the SOR from the coverage table to the detail line level.  This is different than the logic in the eligibility lookup.  The rule to do that has more complex logic.  See eligibility splitting to see how it's dealt with differently.\"",
+                      "_ParamList1": "{18}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitCovIterateDOS",
+                    "RuleGUID": "7bdba486-ecb9-4619-bbda-4f94fb837f6d",
+                    "RuleName": "Copy ContractID to Detail ContractID",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "ab547054-fe0c-4e71-ac77-8675d90dc37c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{19}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{14}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_Description": "\"Technically we should never get a \\042less than\\042 condition because we are seeding the earliest effective date with 01011950.  We choose that date arbitrarily, but we figure there are no coverages before 1950.  Heck, probably not before 1990.\"",
+              "_ParamList1": "{9}",
+              "_ParamList2": "{10}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "Compare": "1",
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3",
+      "_Description": "\"No coverage/elig splitting on PD lines.  Only do logic if DOS is populated.\""
+    }
+  },
+  {
+    "Container": "output_SplitCovIterateDOS",
+    "RuleGUID": "48ca05f1-2c03-4036-a6cd-01a0758d75dd",
+    "RuleName": "Copy Current OFF -> PreviousOFF",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{25}"
+    }
+  }
+]

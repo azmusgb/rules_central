@@ -1,0 +1,332 @@
+[
+  {
+    "Container": "helper_DelProcRollupByDOS",
+    "RuleGUID": "e561a2f6-a5e8-49c4-8f32-2d65e1d259d6",
+    "RuleName": "Is EffDate = 19500101?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - Don't worry about it",
+        "ChildRules": [
+          {
+            "Container": "helper_DelProcRollupByDOS",
+            "RuleGUID": "74a010d9-13e1-44fd-b791-a136071b4b5b",
+            "RuleName": "Is EndDate = 99991231?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "e561a2f6-a5e8-49c4-8f32-2d65e1d259d6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - Don't worry about it",
+                "ChildRules": [
+                  {
+                    "Container": "helper_DelProcRollupByDOS",
+                    "RuleGUID": "0f4f4d07-ac40-42a7-99da-ca9d66a3f79c",
+                    "RuleName": "Fake rule for readability - Proc code is valid for all dates",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "74a010d9-13e1-44fd-b791-a136071b4b5b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "3",
+                      "TemplateSet": "\"FlatFile\"",
+                      "Template": "\"Detail\"",
+                      "Slot": "\"Record Type\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_DelProcRollupByDOS",
+                    "RuleGUID": "4e2e3bda-96eb-45f3-938e-d1cf977ca2ab",
+                    "RuleName": "Is DOS > EndDate?",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "74a010d9-13e1-44fd-b791-a136071b4b5b",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_DelProcRollupByDOS",
+                            "RuleGUID": "3a82cb7a-12f7-4994-88d5-723bf906f6ef",
+                            "RuleName": "Delete current row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "4e2e3bda-96eb-45f3-938e-d1cf977ca2ab",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_ProcRollUp\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "_ParamList1": "{2}",
+                      "DateFormat": "\"YMD_for_DOS\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"99991231\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None",
+        "ChildRules": [
+          {
+            "Container": "helper_DelProcRollupByDOS",
+            "RuleGUID": "70f7f8fe-c96f-4092-b901-30f6e10cc365",
+            "RuleName": "Is DOS < EffDate?",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "e561a2f6-a5e8-49c4-8f32-2d65e1d259d6",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_DelProcRollupByDOS",
+                    "RuleGUID": "d4562f80-a10a-4e74-881b-a3ce62cf25e7",
+                    "RuleName": "Delete current row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "70f7f8fe-c96f-4092-b901-30f6e10cc365",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_ProcRollUp\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_DelProcRollupByDOS",
+                    "RuleGUID": "5a6a1a77-be28-4865-bde4-1f21265c5861",
+                    "RuleName": "Is DOS > EndDate?",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "70f7f8fe-c96f-4092-b901-30f6e10cc365",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_DelProcRollupByDOS",
+                            "RuleGUID": "92937116-aebd-4229-8024-3ff71226f66d",
+                            "RuleName": "Delete current row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "5a6a1a77-be28-4865-bde4-1f21265c5861",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_ProcRollUp\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "_ParamList1": "{2}",
+                      "DateFormat": "\"YMD_for_DOS\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "_ParamList1": "{1}",
+              "DateFormat": "\"YMD_for_DOS\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "FirstInstEmptyOK": "0",
+      "AdditionalEmptyOK": "1",
+      "CaseSensitive": "0",
+      "IgnoreEndWhiteSpace": "1",
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "65539",
+      "RegularExpression": "\"19500101\""
+    }
+  }
+]

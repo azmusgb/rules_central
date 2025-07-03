@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}API Test Utility – Rules Central{% endblock %}
+
+{% block hero %}
+<section class="hero-section relative overflow-hidden bg-gradient-to-br from-dark-900 to-dark-800 py-24">
+    <div class="particles absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tighter gradient-text bg-gradient-to-r from-primary-400 via-accent-purple to-primary-500">
+            API Test Utility
+        </h1>
+        <div class="max-w-3xl mx-auto">
+            <p class="text-xl md:text-2xl text-slate-300 leading-relaxed">
+                <span class="typing-effect">Interactively test and debug your API endpoints</span>
+            </p>
+        </div>
+        <div class="mt-12 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl text-white opacity-70"></i>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen bg-gradient-to-br from-dark-950 to-dark-900 text-white overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-accent-purple rounded-full filter blur-3xl opacity-10 animate-float"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary-500 rounded-full filter blur-3xl opacity-10 animate-float animation-delay-2000"></div>
+    </div>
+    <div class="container mx-auto px-4 py-16 relative z-10">
+        <div class="glass-effect rounded-2xl shadow-2xl p-10 max-w-3xl mx-auto animate-fade-in">
+            <form id="apiTestForm" class="space-y-8" method="POST" autocomplete="off">
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <div class="w-full md:w-1/3">
+                        <label for="method" class="block text-sm font-medium text-slate-400 mb-2">HTTP Method</label>
+                        <select id="method" name="method" class="w-full px-4 py-3 rounded-xl bg-dark-800/60 border-2 border-slate-700/50 text-white focus:ring-accent-purple/30 focus:border-accent-purple/50 transition-all">
+                            <option>GET</option>
+                            <option>POST</option>
+                            <option>PUT</option>
+                            <option>PATCH</option>
+                            <option>DELETE</option>
+                        </select>
+                    </div>
+                    <div class="w-full flex-1">
+                        <label for="endpoint" class="block text-sm font-medium text-slate-400 mb-2">Endpoint URL</label>
+                        <input id="endpoint" name="endpoint" type="text" placeholder="/api/..."
+                               class="w-full px-4 py-3 rounded-xl bg-dark-800/60 border-2 border-slate-700/50 text-white placeholder-slate-400 focus:ring-accent-purple/30 focus:border-accent-purple/50 transition-all" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="headers" class="block text-sm font-medium text-slate-400 mb-2">Headers (JSON)</label>
+                    <textarea id="headers" name="headers" rows="2" placeholder='{"Authorization": "Bearer ..."}'
+                              class="w-full px-4 py-3 rounded-xl bg-dark-800/60 border-2 border-slate-700/50 text-white placeholder-slate-400 focus:ring-accent-purple/30 focus:border-accent-purple/50 transition-all"></textarea>
+                </div>
+                <div>
+                    <label for="body" class="block text-sm font-medium text-slate-400 mb-2">Request Body (JSON)</label>
+                    <textarea id="body" name="body" rows="4" placeholder='{"key": "value"}'
+                              class="w-full px-4 py-3 rounded-xl bg-dark-800/60 border-2 border-slate-700/50 text-white placeholder-slate-400 focus:ring-accent-purple/30 focus:border-accent-purple/50 transition-all"></textarea>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="reset" class="px-6 py-3 rounded-lg font-medium bg-dark-700 text-gray-300 hover:bg-dark-600 transition-all flex items-center">
+                        <i class="fas fa-redo mr-2"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="px-6 py-3 rounded-lg font-medium text-white bg-primary-500/20 border border-primary-500/30 hover:bg-primary-500/30 transition-all flex items-center">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Send Request
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-effect rounded-2xl mt-10 max-w-3xl mx-auto shadow-xl hidden animate-fade-in" id="apiResponsePanel">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-white flex items-center">
+                        <i class="fas fa-reply text-accent-purple mr-3"></i>
+                        API Response
+                    </h3>
+                    <button class="text-slate-400 hover:text-primary-400 transition-colors" id="closeResponsePanel" type="button">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Status</label>
+                        <div id="responseStatus" class="text-base font-semibold text-emerald-400">200 OK</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Headers</label>
+                        <pre id="responseHeaders" class="bg-dark-800/60 rounded-xl p-4 text-xs text-slate-300 overflow-x-auto"></pre>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Body</label>
+                        <pre id="responseBody" class="bg-dark-800/60 rounded-xl p-4 text-xs text-slate-300 overflow-x-auto"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-xl shadow-lg hidden z-50 flex items-center glass-effect"
+             id="toast">
+            <i class="fas fa-check-circle text-emerald-400 mr-3" id="toastIcon"></i>
+            <div>
+                <p class="font-medium text-white" id="toastTitle">Success</p>
+                <p class="text-sm text-slate-400" id="toastMessage">Request sent successfully!</p>
+            </div>
+        </div>
+
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-50"
+             id="loadingOverlay">
+            <div class="flex flex-col items-center bg-dark-800 p-8 rounded-xl border border-slate-700/50 glass-effect">
+                <div class="loading-spinner rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent animate-spin"></div>
+                <p class="mt-4 text-white font-medium" id="loadingText">Sending request...</p>
+                <p class="text-sm text-slate-400 mt-1">Please wait for the API response</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fixed right-6 bottom-6 space-y-3 z-40">
+        <button aria-label="Back to top"
+                class="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-accent-purple to-primary-500 text-white shadow-lg transition-all duration-300 opacity-0 invisible hover:from-accent-purple/80 hover:to-primary-500/80 hover:shadow-glow focus:outline-none group"
+                id="backToTop">
+            <i class="fas fa-arrow-up group-hover:animate-bounce"></i>
+        </button>
+        <button aria-label="Help"
+                class="w-12 h-12 bg-dark-800/60 text-slate-300 rounded-full shadow-lg hover:bg-dark-700/60 transition-colors flex items-center justify-center group"
+                id="helpButton">
+            <i class="fas fa-question-circle group-hover:text-accent-purple"></i>
+        </button>
+    </div>
+
+    <!-- Quick Help Modal -->
+    <div id="quickHelpModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+         role="dialog" aria-modal="true" aria-labelledby="quickHelpTitle">
+        <div class="bg-dark-800/95 border-2 border-slate-700/50 rounded-xl shadow-2xl backdrop-blur-lg max-w-md w-full p-6 animate-modalIn">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="quickHelpTitle" class="text-lg font-bold text-white">API Test Utility Help</h3>
+                <button aria-label="Close help modal" class="text-slate-400 hover:text-white transition-colors"
+                        id="closeHelpModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-sm text-slate-300">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1 mr-3 text-accent-purple">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-white">How to Use</h4>
+                        <p>Enter the HTTP method, endpoint, headers, and body. Click "Send Request" to test your API. The response will be shown below.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1 mr-3 text-accent-purple">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-white">Tips</h4>
+                        <ul class="list-disc ml-5">
+                            <li>Headers and body must be valid JSON.</li>
+                            <li>Use relative endpoints for local APIs.</li>
+                            <li>Check CORS settings if requests fail.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/api_test_utility.js') }}" type="module"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        if (backToTop) {
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.remove('opacity-0', 'invisible');
+                } else {
+                    backToTop.classList.add('opacity-0', 'invisible');
+                }
+            });
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        // Help modal toggle
+        const helpButton = document.getElementById('helpButton');
+        const helpModal = document.getElementById('quickHelpModal');
+        const closeHelpModal = document.getElementById('closeHelpModal');
+        if (helpButton && helpModal && closeHelpModal) {
+            helpButton.addEventListener('click', () => {
+                helpModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+            closeHelpModal.addEventListener('click', () => {
+                helpModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+            helpModal.addEventListener('click', (e) => {
+                if (e.target === helpModal) {
+                    helpModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                const endpointInput = document.getElementById('endpoint');
+                if (endpointInput) endpointInput.focus();
+            }
+            if (e.key === 'Escape') {
+                const openModals = document.querySelectorAll('[id$="Modal"]:not(.hidden)');
+                openModals.forEach(modal => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

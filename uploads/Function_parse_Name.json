@@ -1,0 +1,510 @@
+[
+  {
+    "Container": "parse_Name",
+    "RuleGUID": "8f76df28-8bb6-4140-8acb-df3ba9595c6b",
+    "RuleName": "If WholeName has data, parse it",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "parse_Name",
+            "RuleGUID": "da55331d-c57e-4ee7-8b74-5943bcd41b0e",
+            "RuleName": "Parse",
+            "RuleID": "",
+            "FunctionName": "ParseName",
+            "ParentGUID": "8f76df28-8bb6-4140-8acb-df3ba9595c6b",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Okay",
+                "ChildRules": [
+                  {
+                    "Container": "parse_Name",
+                    "RuleGUID": "1bd238a2-d86a-4d0f-895c-fafdbeaa80dd",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "da55331d-c57e-4ee7-8b74-5943bcd41b0e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Worker is of specified type",
+                        "ChildRules": [
+                          {
+                            "Container": "parse_Name",
+                            "RuleGUID": "aa237694-1103-4a3c-91a1-702be2f4014d",
+                            "RuleName": "Is only one name populated?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "1bd238a2-d86a-4d0f-895c-fafdbeaa80dd",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "parse_Name",
+                                    "RuleGUID": "b360bec1-1774-47d8-b9d6-5712c656ae1f",
+                                    "RuleName": "Is there a comma in this name?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "aa237694-1103-4a3c-91a1-702be2f4014d",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "parse_Name",
+                                            "RuleGUID": "b7d0aa39-decc-4f2c-af42-d6deb2d8ed73",
+                                            "RuleName": "Force a parse",
+                                            "RuleID": "",
+                                            "FunctionName": "GetToken",
+                                            "ParentGUID": "b360bec1-1774-47d8-b9d6-5712c656ae1f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{2,1}",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "Mode": "0",
+                                              "StartFromSide": "0",
+                                              "_ParamListOMRIndex1": "{-1,-1}",
+                                              "CharSet": "\"charset_Comma\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "parse_Name",
+                                            "RuleGUID": "35e8d2ed-9a6e-450d-abb7-7f9bd01f7632",
+                                            "RuleName": "Remove comma-space",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "b360bec1-1774-47d8-b9d6-5712c656ae1f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{1}",
+                                              "_FunctionVersion": "2",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "_RegExTestValues": "{\", MIKE\",\",  MIKE\",\",MIKE\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}",
+                                              "_Description": "\"Get token returns the token in the first name for some reason.  This removes it.\"",
+                                              "InputFormat": "\"^,[ ]*\\134(.*\\134)\"",
+                                              "CaseSensitive2": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "65539",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\".,.\"",
+                                      "OutputFormat": "\"\"",
+                                      "_RegExTestValues": "{\"SMITH, JOHN\",\"SMITH,JOHN\",\",JOHN\",\"SMITH,\",\"VAN D.O., MIKE\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1,2}",
+                              "_FunctionVersion": "3",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1}",
+                              "StripSpaces": "0",
+                              "Table": "\"odbc_BillingProv\"",
+                              "Compare": "1",
+                              "CaseSensitive": "1",
+                              "CountMethod": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                    }
+                  },
+                  {
+                    "Container": "parse_Name",
+                    "RuleGUID": "e7c378e3-32aa-4a7d-8d28-8a424a40fe05",
+                    "RuleName": "Clear Whole Field",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "da55331d-c57e-4ee7-8b74-5943bcd41b0e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "Unable to parse name",
+                "ChildRules": [
+                  {
+                    "Container": "parse_Name",
+                    "RuleGUID": "3c343d69-5cde-489e-bd1a-5a57ff0be847",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "da55331d-c57e-4ee7-8b74-5943bcd41b0e",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Worker is of specified type",
+                        "ChildRules": [
+                          {
+                            "Container": "parse_Name",
+                            "RuleGUID": "62403da6-a2b9-442b-8241-78026694f958",
+                            "RuleName": "Is there a comma in this name?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "3c343d69-5cde-489e-bd1a-5a57ff0be847",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "parse_Name",
+                                    "RuleGUID": "a05501ff-7946-430c-ba00-50dde72dfba6",
+                                    "RuleName": "Force a parse",
+                                    "RuleID": "",
+                                    "FunctionName": "GetToken",
+                                    "ParentGUID": "62403da6-a2b9-442b-8241-78026694f958",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{2,1}",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "Mode": "0",
+                                      "StartFromSide": "0",
+                                      "_ParamListOMRIndex1": "{-1,-1}",
+                                      "CharSet": "\"charset_Comma\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "parse_Name",
+                                    "RuleGUID": "58f3cce7-1cc2-4665-aefb-9d1da9ba9ee7",
+                                    "RuleName": "Remove comma-space",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "62403da6-a2b9-442b-8241-78026694f958",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{1}",
+                                      "_FunctionVersion": "2",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFormat": "\"\\1341\"",
+                                      "_RegExTestValues": "{\", MIKE\",\",  MIKE\",\",MIKE\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}",
+                                      "_Description": "\"Get token returns the token in the first name for some reason.  This removes it.\"",
+                                      "InputFormat": "\"^,[ ]*\\134(.*\\134)\"",
+                                      "CaseSensitive2": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "65539",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\".,.\"",
+                              "OutputFormat": "\"\"",
+                              "_RegExTestValues": "{\"SMITH, JOHN\",\"SMITH,JOHN\",\",JOHN\",\"SMITH,\",\"VAN D.O., MIKE\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          },
+                          {
+                            "Container": "parse_Name",
+                            "RuleGUID": "21e33c2a-ca04-492e-a77a-69d499049648",
+                            "RuleName": "Clear Whole Field",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "3c343d69-5cde-489e-bd1a-5a57ff0be847",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Prefixes": "{\"MR\",\"MS\",\"MRS\",\"MISS\",\"DR\"}",
+              "Suffixes": "{\"I\",\"II\",\"III\",\"IV\",\"V\",\"1ST\",\"2ND\",\"3RD\",\"4TH\",\"SR\",\"JR\"}",
+              "Degrees": "{\"PHD\",\"MD\",\"DDS\",\"DO\"}",
+              "LastNamePrefixes": "{\"MC\",\"VON\",\"VAN\"}",
+              "LastNameFirst": "0",
+              "UseSuffixToFindLN": "0",
+              "_ParamList0": "{0}",
+              "OutputNameComponents": "{1,2,4}",
+              "NameType": "1",
+              "_FunctionVersion": "65538",
+              "_ParamList1": "{1,2,3}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "Prefixes": "{\"MR\",\"MS\",\"MRS\",\"MISS\",\"DR\"}",
+      "Suffixes": "{\"I\",\"II\",\"III\",\"IV\",\"1ST\",\"2ND\",\"3RD\",\"4TH\",\"SR\",\"JR\"}",
+      "Degrees": "{\"PHD\",\"MD\",\"DDS\"}",
+      "LastNamePrefixes": "{\"MC\",\"VAN\",\"VON\"}",
+      "LastNameFirst": "1",
+      "UseSuffixToFindLN": "0",
+      "_ParamList0": "{0}",
+      "OutputNameComponents": "{1,2,4}",
+      "NameType": "1",
+      "_FunctionVersion": "3"
+    }
+  }
+]

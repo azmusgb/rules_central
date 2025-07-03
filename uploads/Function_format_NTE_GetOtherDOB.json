@@ -1,0 +1,140 @@
+[
+  {
+    "Container": "format_NTE_GetOtherDOB",
+    "RuleGUID": "01331181-137f-4fcd-a76d-a1b5b3234719",
+    "RuleName": "Does NTE_Segment start with DOB?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "format_NTE_GetOtherDOB",
+            "RuleGUID": "2d628311-0a23-4da1-88f7-69a06e6156cf",
+            "RuleName": "Copy to OtherDOB",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "01331181-137f-4fcd-a76d-a1b5b3234719",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{1}"
+            }
+          },
+          {
+            "Container": "format_NTE_GetOtherDOB",
+            "RuleGUID": "0fcecea8-d8f2-46f8-8138-d08f2306834c",
+            "RuleName": "Extract OtherDOB",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "01331181-137f-4fcd-a76d-a1b5b3234719",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "None matched",
+                "ChildRules": [
+                  {
+                    "Container": "format_NTE_GetOtherDOB",
+                    "RuleGUID": "c327ffac-a1d1-457d-9a85-e045ef493f69",
+                    "RuleName": "Delete OtherDOB",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "0fcecea8-d8f2-46f8-8138-d08f2306834c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^DOB \\134(........\\134)$\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"NTE*ADD*DOB 11291999\",\"DOB 11291999\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"^DOB\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

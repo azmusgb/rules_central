@@ -1,0 +1,2165 @@
+[
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+    "RuleName": "Set up partial names",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "---",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "a050eb10-229c-4bfa-928e-61bc5b621cfc",
+            "RuleName": "Clear partial names",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{8,9,10,11}",
+              "_FunctionVersion": "1",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "1275c6a4-c475-4064-8cff-9ffc9ffb6776",
+            "RuleName": "Copy fields",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,0,0,0}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{8,9,10,11}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "86015d1f-c35d-4092-89da-865e17a089d3",
+            "RuleName": "Trim JR and SR",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,8,10,11}",
+              "_FunctionVersion": "2",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "Expr": "\"\\134(.*\\134) [JS]R[.]\\134?\"",
+              "OutputFormat": "\"\\1341\"",
+              "_RegExTestValues": "{\"SMITH JR\",\"SMITH JR.\",\"SMITH SR\",\"SMITH SR.\",\"SMITH\",\"SMITHJR\",\"SMITH.JR.\",\"SMITH J.R.\",\"SMITHSR\",\"SMITH.SR.\",\"SMITH S.R.\",\"SMITH-SR.\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "InputFormat": "\"^\\134(.*\\134) [JS]R[.]\\134?\"",
+              "CaseSensitive2": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "eb52d837-1fb8-44ac-a5bc-10b02873eafb",
+            "RuleName": "Trim MD",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,8,10,11}",
+              "_FunctionVersion": "2",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "Expr": "\"\\134(.*\\134) M[\\134.]\\134?D[\\134.]\\134?\"",
+              "OutputFormat": "\"\\1341\"",
+              "_RegExTestValues": "{\"SMITH MD\",\"SMITH MD.\",\"SMITH M.D.\",\"SMITH \",\"SMITH\",\"SMITHMD\",\"SMITH.MD.\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "InputFormat": "\"\\134(.*\\134) M[\\134.]\\134?D[\\134.]\\134?\"",
+              "CaseSensitive2": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "bc79137f-68bd-4296-92dc-b7730a048068",
+            "RuleName": "Trim I, II, etc",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,8,10,11}",
+              "_FunctionVersion": "2",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "Expr": "\"\\134(.*\\134) [I]\\134+[V]\\134?$\\134|\\134(.*\\134) V[I]\\134?$\"",
+              "OutputFormat": "\"\\1341\"",
+              "_RegExTestValues": "{\"SMITH I\",\"SMITH II\",\"SMITH III\",\"SMITH IIII\",\"SMITH IV\",\"SMITH V\",\"SMITH VI\",\"SMITH VIIII\",\"SMITH X\",\"SMITHI\",\"SMITH, I\",\"SMITH, IV\",\"SMITH, VI\",\"SMITH, V\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "InputFormat": "\"\\134(.*[,]\\134?\\134) [I]\\134+\"",
+              "CaseSensitive2": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "e074d175-8a38-4753-abd5-f536a4961160",
+            "RuleName": "Trim V",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,8,10,11}",
+              "_FunctionVersion": "2",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "Expr": "\"\\134(.*\\134) [I]\\134+[V]\\134?$\\134|\\134(.*\\134) V[I]\\134?$\"",
+              "OutputFormat": "\"\\1341\"",
+              "_RegExTestValues": "{\"SMITH, V\",\"SMITH V\",\"SMITH I\",\"SMITH II\",\"SMITH III\",\"SMITH IIII\",\"SMITH IV\",\"SMITH VI\",\"SMITH VIIII\",\"SMITH X\",\"SMITHI\",\"SMITH, I\",\"SMITH, IV\",\"SMITH, VI\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "InputFormat": "\"\\134(.*[,]\\134?\\134) V$\"",
+              "CaseSensitive2": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "669392db-d93b-4b18-9358-1b062286a239",
+            "RuleName": "Check for 3 words",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Has 3 words",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_NmStrNoTrim",
+                    "RuleGUID": "352c84f8-4eb1-4e28-bca2-a6fb32a589a8",
+                    "RuleName": "Get Word 1",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "669392db-d93b-4b18-9358-1b062286a239",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{10}",
+                      "_FunctionVersion": "2",
+                      "OutputFormat": "\"\\1341\"",
+                      "_RegExTestValues": "{\"SMITH KLINE\",\"SMITH KLINE GLAXO\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "InputFormat": "\"\\134(.*\\134) .* .*\"",
+                      "CaseSensitive2": "0"
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_NmStrNoTrim",
+                    "RuleGUID": "ba59c6d9-2bec-40a1-9230-58c13cfb011f",
+                    "RuleName": "Get Word 2",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "669392db-d93b-4b18-9358-1b062286a239",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{11}",
+                      "_FunctionVersion": "2",
+                      "OutputFormat": "\"\\1341\"",
+                      "_RegExTestValues": "{\"SMITH KLINE\",\"SMITH KLINE GLAXO\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "InputFormat": "\".* \\134(.*[ ].*\\134)\"",
+                      "CaseSensitive2": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "Does not have 3 words",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_NmStrNoTrim",
+                    "RuleGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                    "RuleName": "Has 2 words?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "669392db-d93b-4b18-9358-1b062286a239",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_NmStrNoTrim",
+                            "RuleGUID": "922db263-e2dd-482f-abd8-233d37aef2cb",
+                            "RuleName": "Get Word 1 with dash",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{10}",
+                              "_FunctionVersion": "2",
+                              "OutputFormat": "\"\\1341\"",
+                              "_RegExTestValues": "{\"SMITH-KLINE\",\"SMITH - KLINE\",\"SMITH- KLINE\",\"SMITH KLINE\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "InputFormat": "\"^\\134(.*\\134)[ ]*-[ ]*\\134(.*\\134)$\"",
+                              "CaseSensitive2": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_NmStrNoTrim",
+                            "RuleGUID": "c8139294-232e-478b-84c6-8ab7221602c1",
+                            "RuleName": "Get Word 1 with no dash",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{10}",
+                              "_FunctionVersion": "2",
+                              "OutputFormat": "\"\\1341\"",
+                              "_RegExTestValues": "{\"SMITH-KLINE\",\"SMITH - KLINE\",\"SMITH- KLINE\",\"SMITH KLINE\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "InputFormat": "\"^\\134(.*\\134)[ ]\\134(.*\\134)$\"",
+                              "CaseSensitive2": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_NmStrNoTrim",
+                            "RuleGUID": "73229a2f-1983-4dec-85f7-7ce62567acb5",
+                            "RuleName": "Get Word 2 with dash",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{11}",
+                              "_FunctionVersion": "2",
+                              "OutputFormat": "\"\\1342\"",
+                              "_RegExTestValues": "{\"SMITH-KLINE\",\"SMITH - KLINE\",\"SMITH- KLINE\",\"SMITH KLINE\",\"ACOSTA - LOPEZ\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "InputFormat": "\"^\\134(.*\\134)[ ]*-[ ]*\\134(.*\\134)$\"",
+                              "CaseSensitive2": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_NmStrNoTrim",
+                            "RuleGUID": "f355ba60-d95e-4c82-a505-c55357fcf9a6",
+                            "RuleName": "Get Word 2 with no dash",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{11}",
+                              "_FunctionVersion": "2",
+                              "OutputFormat": "\"\\1342\"",
+                              "_RegExTestValues": "{\"SMITH-KLINE\",\"SMITH - KLINE\",\"SMITH- KLINE\",\"SMITH KLINE\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "InputFormat": "\"^\\134(.*\\134)[ ]\\134(.*\\134)$\"",
+                              "CaseSensitive2": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_NmStrNoTrim",
+                            "RuleGUID": "9d38ec83-6e7e-4c76-90d6-bcdb5984155b",
+                            "RuleName": "Delete Word1 and Word2",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "f112df10-6f8c-4b6d-963e-2e88d7972325",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{10,11}",
+                              "_FunctionVersion": "1",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"SMITH-KLINE\",\"SMITH KLINE\",\"S-MITH KLINE\",\"O'DAY - KLINE\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\".*[ -].*\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,8}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"SMITH KLINE\",\"SMITH KLINE GLAXO\",\"SMITH - KLINE\",\"SMITH-KLINE\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\".* [^-].* .*\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "e072000d-88d0-46fe-8731-2e6af7040359",
+            "RuleName": "Filter punct",
+            "RuleID": "",
+            "FunctionName": "FilterChars",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,10,11}",
+              "_FunctionVersion": "2",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "InvertCharSet": "0",
+              "FilterSet": "\"charset_PunctCntl\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "45c1e01e-3285-4d0c-8078-48bc3347fbf4",
+            "RuleName": "Filter spaces from LNamePartial",
+            "RuleID": "",
+            "FunctionName": "FilterChars",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9}",
+              "_FunctionVersion": "2",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "InvertCharSet": "0",
+              "FilterSet": "\"charset_Whitespace\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "1993403d-045b-493a-8b9e-96d9d4c02dc0",
+            "RuleName": "Truncate LNamePartial to 5",
+            "RuleID": "",
+            "FunctionName": "LimitLineLength",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9}",
+              "_FunctionVersion": "1",
+              "TruncateLeft": "0",
+              "MaxLength": "5"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "525468e9-ba21-4810-a6a6-b66692af9ee5",
+            "RuleName": "Trim leading and trailing spaces",
+            "RuleID": "",
+            "FunctionName": "DeleteSpaces",
+            "ParentGUID": "8a673c2e-c6a2-4d97-80b2-8fed12ae8755",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{8,9,10,11}",
+              "_FunctionVersion": "1",
+              "DeleteLeft": "1",
+              "DeleteRight": "1",
+              "DeleteInterior": "0",
+              "Compress": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "f0b3657e-acf4-47f9-ad41-541e48bde3e0",
+    "RuleName": "Last Name - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "552ed766-603b-43a8-84f7-2d202fa17c95",
+            "RuleName": "Get all Members with DOB and Full LastName",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f0b3657e-acf4-47f9-ad41-541e48bde3e0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "f5c1e79e-d198-413d-849b-a52c304d4c72",
+            "RuleName": "Get all Members with DOB and Full LastName against Word1",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f0b3657e-acf4-47f9-ad41-541e48bde3e0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_1\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "44b6a297-2287-4c0f-a19b-c19257a0c111",
+            "RuleName": "Get all Members with DOB and Full LastName against Word2",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f0b3657e-acf4-47f9-ad41-541e48bde3e0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_2\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "370d6033-23ab-42c2-9265-67b0bd64cd24",
+    "RuleName": "Last Name No Suffix - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "9f765156-a67a-482f-a7d8-a8b1a1996e37",
+            "RuleName": "Get all Members with DOB and Last Name No Suffix",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "370d6033-23ab-42c2-9265-67b0bd64cd24",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{8,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_NO_SUFFIX\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{8}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "23f413e2-946b-46ff-8c84-a9f2d0ed58bb",
+    "RuleName": "Last Name Partial - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "9d0d4d41-81eb-447e-90e1-372de3d4aef1",
+            "RuleName": "Get all Members with DOB and Last Name Partial",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "23f413e2-946b-46ff-8c84-a9f2d0ed58bb",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{9}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "f3ba77c7-dd02-4f45-bf0a-0493d0a3e2f0",
+    "RuleName": "Word1 - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "c58f4214-fbc1-464e-9478-244310827761",
+            "RuleName": "Get all Members with DOB and LName Word1 against Last Name",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f3ba77c7-dd02-4f45-bf0a-0493d0a3e2f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "4ae18019-5980-449b-b417-caaff9033691",
+            "RuleName": "Get all Members with DOB and LName Word1",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f3ba77c7-dd02-4f45-bf0a-0493d0a3e2f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_1\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "d63733d8-053e-401a-9417-d80ab7a1cf99",
+            "RuleName": "Get all Members with DOB and LName Word1 against Word2",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f3ba77c7-dd02-4f45-bf0a-0493d0a3e2f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_2\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{10}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "0abfd3ac-a0c2-467c-bd00-9a94ae509bf4",
+    "RuleName": "Word2 - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "89b26dd4-9575-435c-82b4-89fa4f7e8ca4",
+            "RuleName": "Get all Members with DOB and LName Word2",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "0abfd3ac-a0c2-467c-bd00-9a94ae509bf4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{11,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_2\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "8a2888e4-b2bd-46d1-992c-afbdcc87abae",
+            "RuleName": "Get all Members with DOB and LName Word1 against Last Name",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "0abfd3ac-a0c2-467c-bd00-9a94ae509bf4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{11,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "7a39fe90-d7a9-424e-8ac8-1c9460ae2a3f",
+            "RuleName": "Get all Members with DOB and LName Word1 against Word1",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "0abfd3ac-a0c2-467c-bd00-9a94ae509bf4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{11,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM_WORD_1\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{11}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "239d85bd-5def-4b6c-b3c3-ed39c2387245",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "b3b54fe8-7f66-441c-a4dc-2e5448be00cd",
+    "RuleName": "Set temp1 to MCID",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"MCID\"",
+      "_Description": "\"This will be used to filter the SL by the MCID id type.  This should eliminate false \\042multiple member\\042 conditions.\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "dd9ee94f-d0ea-47a2-a95e-05a11c49176f",
+    "RuleName": "Trim based on ID Type",
+    "RuleID": "",
+    "FunctionName": "TrimSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "65537",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "_Description": "\"This should trim out ID Types = MCID and E.  The way Delta's tables are structured, you will never get a single match.  This is due to the fact that every member is listed with multiple IDs.  This step is used to isolate the one row with MCID.\"",
+      "GroupCount": "1",
+      "GroupNames": "{\"MCID Type\"}",
+      "MatchType": "{1}",
+      "SwapFields": "{0}",
+      "TableIgnoreCharSets": "{\"\"}",
+      "NoneMatch": "{2}",
+      "Combine": "{1}",
+      "UseSubstrings": "{0}",
+      "EditDistance": "{0}",
+      "Percentage": "{0}",
+      "Required": "{1}",
+      "FieldGroup": "{0}",
+      "MatchColumns": "{\"MemberIDType\"}",
+      "ColumnGroup": "{0}",
+      "Depends": "{}",
+      "DependsType": "{}",
+      "DependsGroup": "{}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "27723280-6932-4905-b137-76c80a9a4b49",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "55653ff3-3d0b-4df0-8cac-115602d49556",
+    "RuleName": "Delete temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{12,13,14,15}",
+      "_FunctionVersion": "1",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0",
+      "_Description": "\"These fields are used for iterating over the SL.  \""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "170ff734-2d51-4f36-8e61-3ec572cdaa3e",
+    "RuleName": "Iterate over rows to flag if PersonID is not the same",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{13}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{14}",
+      "Table": "\"selectionlist_PatientCentric\"",
+      "_Description": "\"If the PersonID is the same on all rows the PersonIDFlag (temp10) will come back set to 1.\"",
+      "UDFName": "\"lookup_FindPersonIDDifferences\"",
+      "Columns": "{\"MemberMTVPID\",\"\",\"\"}",
+      "_ParamList2": "{12}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "e5186528-d5b6-4549-a140-bcbe9f0e908d",
+    "RuleName": "Is PersonIDFlag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - PersonID is the same on all rows",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_NmStrNoTrim",
+            "RuleGUID": "09385613-873b-480c-9a03-d1c466670abf",
+            "RuleName": "Delete all but first row from SL",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "e5186528-d5b6-4549-a140-bcbe9f0e908d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{15}",
+              "_FunctionVersion": "0",
+              "Table": "\"selectionlist_PatientCentric\"",
+              "UDFName": "\"lookup_PatCentric_DelNon1stRows\"",
+              "Columns": "{\"\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{12}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\"",
+      "_Description": "\"If so the PersonID was not the same over the SL so we do not want to do anything.\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_NmStrNoTrim",
+    "RuleGUID": "7913e7b3-ff81-4866-ba26-386ea57ef831",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  }
+]

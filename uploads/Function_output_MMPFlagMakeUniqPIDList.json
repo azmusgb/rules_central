@@ -1,0 +1,167 @@
+[
+  {
+    "Container": "output_MMPFlagMakeUniqPIDList",
+    "RuleGUID": "d94a766a-aaf6-4a19-8c4e-4d0820417b34",
+    "RuleName": "Is MTV PID list empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_MMPFlagMakeUniqPIDList",
+            "RuleGUID": "9e4ba473-5792-44e5-ac7b-040ffa49a1c9",
+            "RuleName": "Copy MTV to list",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "d94a766a-aaf6-4a19-8c4e-4d0820417b34",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{0}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_MMPFlagMakeUniqPIDList",
+            "RuleGUID": "82676608-0fed-4631-aa7c-07a22d6b0766",
+            "RuleName": "Is MTV PID already in the list?",
+            "RuleID": "",
+            "FunctionName": "HasRegExprFromField",
+            "ParentGUID": "d94a766a-aaf6-4a19-8c4e-4d0820417b34",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_MMPFlagMakeUniqPIDList",
+                    "RuleGUID": "ce3b131a-4339-467e-bb7e-01a69dacb2d7",
+                    "RuleName": "Delete the row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "82676608-0fed-4631-aa7c-07a22d6b0766",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MMPFlagMemInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_MMPFlagMakeUniqPIDList",
+                    "RuleGUID": "07b90456-416d-4849-9608-d84fa6e1bf3e",
+                    "RuleName": "Add it to the end",
+                    "RuleID": "",
+                    "FunctionName": "CopyLines",
+                    "ParentGUID": "82676608-0fed-4631-aa7c-07a22d6b0766",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0}",
+                      "OverwriteInsertAppend": "2",
+                      "Begin": "{0}",
+                      "End": "{0}",
+                      "LineNumber": "{-1}",
+                      "ClearToFields": "{0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "_ParamList1": "{1}",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,163 @@
+[
+  {
+    "Container": "lookup_guess_PROC",
+    "RuleGUID": "0ec77632-8975-47b8-95e2-0519104b3b48",
+    "RuleName": "Filter P&S",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "FilterSet": "\"charset_PandSNoQuestion\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "lookup_guess_PROC",
+    "RuleGUID": "8c59dbe5-a909-4893-9172-bbfced7f40d2",
+    "RuleName": "Compare fields",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Less than",
+        "ChildRules": [
+          {
+            "Container": "lookup_guess_PROC",
+            "RuleGUID": "b81a60d3-3630-4529-9f49-5c9a1c364774",
+            "RuleName": "Lookup Proc",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "8c59dbe5-a909-4893-9172-bbfced7f40d2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Entry found",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_guess_PROC",
+                    "RuleGUID": "73666125-2ece-4c79-a5df-8cc8b9e3e58e",
+                    "RuleName": "Copy",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "b81a60d3-3630-4529-9f49-5c9a1c364774",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{2}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_guess_PROC",
+                    "RuleGUID": "36e5cb82-a7b7-4b6e-a40a-13bea4191e74",
+                    "RuleName": "Add 1 to counter",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "b81a60d3-3630-4529-9f49-5c9a1c364774",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{3}",
+                      "Deviation": "0",
+                      "OutputFormat": "\"%.0f\"",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + 1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"odbc_DentalProcedure\"",
+              "Columns": "{\"proc_code_lu\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "1",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList1": "{2}"
+    }
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "Container": "helper_SetPCORemarkorNot",
+    "RuleGUID": "7e3fdeab-e01e-4e70-b049-f292f550574c",
+    "RuleName": "Is this EDI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "8",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_SetPCORemarkorNot",
+            "RuleGUID": "c6e63990-aac5-4c1e-9111-b73f614234eb",
+            "RuleName": "Is this a batch w/ attachments?",
+            "RuleID": "",
+            "FunctionName": "_IBatchType",
+            "ParentGUID": "7e3fdeab-e01e-4e70-b049-f292f550574c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "8",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_SetPCORemarkorNot",
+                    "RuleGUID": "f3959e94-414d-407a-a757-42ba05a1e867",
+                    "RuleName": "Is COB = Yes?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "c6e63990-aac5-4c1e-9111-b73f614234eb",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "8",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{0}",
+                      "RegularExpression": "\"X \"",
+                      "_FunctionVersion": "65539"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "BatchType": "{\"DY\",\"DMY\",\"DCEMY\",\"DCEY\",\"DCPDY\",\"DCPDMY\",\"MEDPDMY\",\"MEDPDY\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

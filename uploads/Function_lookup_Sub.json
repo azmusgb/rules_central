@@ -1,0 +1,1018 @@
+[
+  {
+    "Container": "lookup_Sub",
+    "RuleGUID": "bd049664-853a-4b13-bd4b-4cf9dbe18406",
+    "RuleName": "Filter SSN",
+    "RuleID": "",
+    "FunctionName": "format_FilterPSC",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "lookup_Sub",
+    "RuleGUID": "6afed162-f5ba-4ae5-acfa-ce1840a22c24",
+    "RuleName": "Only do lookup if fields not rejected or plugged",
+    "RuleID": "",
+    "FunctionName": "CheckSLState4",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Do Lookup",
+        "ChildRules": [
+          {
+            "Container": "lookup_Sub",
+            "RuleGUID": "3521d531-1d32-438e-824a-40164c441793",
+            "RuleName": "Clear temp1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "6afed162-f5ba-4ae5-acfa-ce1840a22c24",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\"",
+              "_Description": "\"This is used to determine if the lookup should run\""
+            }
+          },
+          {
+            "Container": "lookup_Sub",
+            "RuleGUID": "6e7a8773-76b7-4283-91f3-f1bfd86c08f5",
+            "RuleName": "Is SubSSN in the table?",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "6afed162-f5ba-4ae5-acfa-ce1840a22c24",
+            "ParentActionIndex": 0,
+            "Children": [
+              {
+                "Container": "lookup_Sub",
+                "RuleGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                "RuleName": "Is ID 10 digits?",
+                "RuleID": "",
+                "FunctionName": "HasRegExpr",
+                "ParentGUID": "6e7a8773-76b7-4283-91f3-f1bfd86c08f5",
+                "ParentActionIndex": 1,
+                "Children": [],
+                "Actions": [
+                  {
+                    "ActionValue": "4",
+                    "ActionName": "Yes",
+                    "ChildRules": [
+                      {
+                        "Container": "lookup_Sub",
+                        "RuleGUID": "2ae36cd6-069f-4792-a371-0bfa95c716a1",
+                        "RuleName": "Copy SubSSN to SubIDForMCIDLookup",
+                        "RuleID": "",
+                        "FunctionName": "Copy",
+                        "ParentGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                        "ParentActionIndex": 0,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_ParamList0": "{5}",
+                          "_FunctionVersion": "1",
+                          "_ParamList1": "{30}"
+                        }
+                      },
+                      {
+                        "Container": "lookup_Sub",
+                        "RuleGUID": "d7d0df61-72af-4abb-bc5b-3b3aad379374",
+                        "RuleName": "Append 01 to ID",
+                        "RuleID": "",
+                        "FunctionName": "Formatf",
+                        "ParentGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                        "ParentActionIndex": 0,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_ParamList0": "{30}",
+                          "_FunctionVersion": "100",
+                          "OutputFormat": "\"%s01\"",
+                          "InputFormat": "\"%s\""
+                        }
+                      },
+                      {
+                        "Container": "lookup_Sub",
+                        "RuleGUID": "6b66dd46-dbb3-4bec-af0c-181252d51cf2",
+                        "RuleName": "Set SubIDType to MCID",
+                        "RuleID": "",
+                        "FunctionName": "Formatf",
+                        "ParentGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                        "ParentActionIndex": 0,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_ParamList0": "{29}",
+                          "_FunctionVersion": "100",
+                          "OutputFormat": "\"MCID\"",
+                          "CaseSensitive2": "0"
+                        }
+                      },
+                      {
+                        "Container": "lookup_Sub",
+                        "RuleGUID": "a9bfd4a6-dfc1-4835-961e-d1844014b80f",
+                        "RuleName": "Is MCID + 01 In table?",
+                        "RuleID": "",
+                        "FunctionName": "IsInTable",
+                        "ParentGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                        "ParentActionIndex": 0,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "260",
+                            "ActionName": "Yes",
+                            "ChildRules": [
+                              {
+                                "Container": "lookup_Sub",
+                                "RuleGUID": "565e8162-c7db-47fc-ae2e-80a2e14c2dda",
+                                "RuleName": "Set temp1 to 1",
+                                "RuleID": "",
+                                "FunctionName": "Formatf",
+                                "ParentGUID": "a9bfd4a6-dfc1-4835-961e-d1844014b80f",
+                                "ParentActionIndex": 0,
+                                "Children": [],
+                                "Actions": [
+                                  {
+                                    "ActionValue": "0",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "0",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  }
+                                ],
+                                "Attributes": {
+                                  "_ParamList0": "{7}",
+                                  "_FunctionVersion": "100",
+                                  "OutputFormat": "\"1\"",
+                                  "_Description": "\"This is used to determine if the lookup should run\""
+                                }
+                              },
+                              {
+                                "Container": "lookup_Sub",
+                                "RuleGUID": "40eb2136-08cb-418e-aec5-597c859366ed",
+                                "RuleName": "Map dB Code to relation OMR",
+                                "RuleID": "",
+                                "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                "ParentGUID": "a9bfd4a6-dfc1-4835-961e-d1844014b80f",
+                                "ParentActionIndex": 0,
+                                "Children": [],
+                                "Actions": [
+                                  {
+                                    "ActionValue": "0",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  }
+                                ],
+                                "Attributes": {
+                                  "_ParamList0": "{2}",
+                                  "_FunctionVersion": "0",
+                                  "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                  "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                  "UncheckedStrings": "{\" \",\"0\"}",
+                                  "_Sources": "{\"OCR_AEG\"}",
+                                  "_ParamListOMRIndex0": "{-1}",
+                                  "_ParamList1": "{3}",
+                                  "_ParamListOMRIndex1": "{-1}"
+                                }
+                              }
+                            ],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "4",
+                            "ActionName": "No",
+                            "ChildRules": [
+                              {
+                                "Container": "lookup_Sub",
+                                "RuleGUID": "33077352-1df7-4260-b508-d3fddf8c7422",
+                                "RuleName": "Is KFI?",
+                                "RuleID": "",
+                                "FunctionName": "_IWorkerType",
+                                "ParentGUID": "a9bfd4a6-dfc1-4835-961e-d1844014b80f",
+                                "ParentActionIndex": 1,
+                                "Children": [],
+                                "Actions": [
+                                  {
+                                    "ActionValue": "0",
+                                    "ActionName": "No",
+                                    "ChildRules": [
+                                      {
+                                        "Container": "lookup_Sub",
+                                        "RuleGUID": "9b159bb1-2aa5-48ee-a8a1-98265d369135",
+                                        "RuleName": "Are 2 of 3 present?",
+                                        "RuleID": "",
+                                        "FunctionName": "HowManyAreEmpty",
+                                        "ParentGUID": "33077352-1df7-4260-b508-d3fddf8c7422",
+                                        "ParentActionIndex": 0,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "4",
+                                            "ActionName": "Yes - 2 or more are",
+                                            "ChildRules": [
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "a437adb6-5d1e-4831-91cf-0bba76335e71",
+                                                "RuleName": "Set temp1 to 1",
+                                                "RuleID": "",
+                                                "FunctionName": "Formatf",
+                                                "ParentGUID": "9b159bb1-2aa5-48ee-a8a1-98265d369135",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{7}",
+                                                  "_FunctionVersion": "100",
+                                                  "OutputFormat": "\"1\"",
+                                                  "_Description": "\"This is used to determine if the lookup should run\""
+                                                }
+                                              },
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "d500a39d-e36a-4c3e-b752-630125a308e2",
+                                                "RuleName": "Map dB Code to relation OMR",
+                                                "RuleID": "",
+                                                "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                                "ParentGUID": "9b159bb1-2aa5-48ee-a8a1-98265d369135",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{2}",
+                                                  "_FunctionVersion": "0",
+                                                  "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                                  "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                                  "UncheckedStrings": "{\" \",\"0\"}",
+                                                  "_Sources": "{\"OCR_AEG\"}",
+                                                  "_ParamListOMRIndex0": "{-1}",
+                                                  "_ParamList1": "{3}",
+                                                  "_ParamListOMRIndex1": "{-1}"
+                                                }
+                                              }
+                                            ],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "4",
+                                            "ActionName": "Reject: No",
+                                            "ChildRules": [
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "07adf5ee-1404-4e14-b495-d38c7e4dca54",
+                                                "RuleName": "Already rejected?",
+                                                "RuleID": "",
+                                                "FunctionName": "helper_CheckLetterAttrs",
+                                                "ParentGUID": "9b159bb1-2aa5-48ee-a8a1-98265d369135",
+                                                "ParentActionIndex": 1,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "4",
+                                                    "ActionName": "No",
+                                                    "ChildRules": [
+                                                      {
+                                                        "Container": "lookup_Sub",
+                                                        "RuleGUID": "afc7e47b-6c25-4af2-a1b6-264eb69b88ba",
+                                                        "RuleName": "Set RejectFieldNames",
+                                                        "RuleID": "",
+                                                        "FunctionName": "Formatf",
+                                                        "ParentGUID": "07adf5ee-1404-4e14-b495-d38c7e4dca54",
+                                                        "ParentActionIndex": 0,
+                                                        "Children": [],
+                                                        "Actions": [
+                                                          {
+                                                            "ActionValue": "0",
+                                                            "ActionName": "",
+                                                            "ChildRules": [],
+                                                            "Attributes": {}
+                                                          },
+                                                          {
+                                                            "ActionValue": "0",
+                                                            "ActionName": "",
+                                                            "ChildRules": [],
+                                                            "Attributes": {}
+                                                          }
+                                                        ],
+                                                        "Attributes": {
+                                                          "_ParamList0": "{12}",
+                                                          "_FunctionVersion": "100",
+                                                          "OutputFormat": "\"Subscriber Last Name, Subscriber First Name, Subscriber Date of Birth\""
+                                                        }
+                                                      },
+                                                      {
+                                                        "Container": "lookup_Sub",
+                                                        "RuleGUID": "f7de00d3-a343-457d-a6ed-dfc306699738",
+                                                        "RuleName": "Set FieldsRejected attr",
+                                                        "RuleID": "",
+                                                        "FunctionName": "_ISetDocAttr",
+                                                        "ParentGUID": "07adf5ee-1404-4e14-b495-d38c7e4dca54",
+                                                        "ParentActionIndex": 0,
+                                                        "Children": [],
+                                                        "Actions": [
+                                                          {
+                                                            "ActionValue": "0",
+                                                            "ActionName": "",
+                                                            "ChildRules": [],
+                                                            "Attributes": {}
+                                                          }
+                                                        ],
+                                                        "Attributes": {
+                                                          "_ParamList0": "{12}",
+                                                          "_FunctionVersion": "0",
+                                                          "_Description": "\"This will be the trigger for generating the letter\"",
+                                                          "AttrName": "\"FieldsRejected\""
+                                                        }
+                                                      }
+                                                    ],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{7}",
+                                                  "_FunctionVersion": "0"
+                                                }
+                                              },
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "4faca9c3-1fad-42fc-8004-1befd76bd8b8",
+                                                "RuleName": "Reject Fields",
+                                                "RuleID": "",
+                                                "FunctionName": "_IRejectFields",
+                                                "ParentGUID": "9b159bb1-2aa5-48ee-a8a1-98265d369135",
+                                                "ParentActionIndex": 1,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{5,0,1,4,6}",
+                                                  "_FunctionVersion": "0",
+                                                  "_SkipID": "0",
+                                                  "_BackupSkipID": "6850",
+                                                  "RejectString": "\"Subscriber cannot be identified with information provided, reject document for Invalid Member.\"",
+                                                  "RejectCode": "2",
+                                                  "RunOnce": "0",
+                                                  "SelectionListAutoPop": "0",
+                                                  "Languages_Fields": "\"Default\"",
+                                                  "DelayEval": "0"
+                                                }
+                                              }
+                                            ],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "260",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{0,1,4}",
+                                          "_FunctionVersion": "1",
+                                          "Compare": "1",
+                                          "CountMethod": "0"
+                                        }
+                                      }
+                                    ],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "4",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  }
+                                ],
+                                "Attributes": {
+                                  "_FunctionVersion": "0",
+                                  "WorkerType": "{\"KFI\",\"KFI_SmartSource\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}"
+                                }
+                              }
+                            ],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_ParamList0": "{30,29}",
+                          "_FunctionVersion": "65537",
+                          "StripSpaces": "0",
+                          "Table": "\"odbc_MemInfo\"",
+                          "Columns": "{\"MEM_ID\",\"MEM_ID_TYP\"}",
+                          "CatchResourceUnavailable": "0",
+                          "MaxMatchCount": "9",
+                          "MaxIndexCount": "0",
+                          "EmptyKeyFails": "1",
+                          "AnyEmptyKeysFails": "0",
+                          "NextInstance": "0",
+                          "ExactColumns": "{\"MEM_ID\",\"MEM_ID_TYP\"}",
+                          "SelectionListColumns": "{\"MemberID\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+                          "DataColumns": "{\"MEM_ID\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+                          "EscapeFields": "{\"SubIDForMCIDLookup\",\"SubIDType\",\"0\"}",
+                          "PlugFields": "{\"SubIDForMCIDLookup\",\"SubIDType\",\"0\"}",
+                          "DataTableDataField": "{-1,-1,-1}",
+                          "DataTableEmptyField": "{-1,-1,-1}",
+                          "EmptyTableDataField": "{-1,-1,-1}"
+                        }
+                      }
+                    ],
+                    "Attributes": {}
+                  },
+                  {
+                    "ActionValue": "0",
+                    "ActionName": "No",
+                    "ChildRules": [
+                      {
+                        "Container": "lookup_Sub",
+                        "RuleGUID": "3300d9f0-c473-4ec0-a66c-903cbdc0abd7",
+                        "RuleName": "Is KFI?",
+                        "RuleID": "",
+                        "FunctionName": "_IWorkerType",
+                        "ParentGUID": "e0751ed8-c193-4cf8-ac57-aeaa800c1839",
+                        "ParentActionIndex": 1,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "No",
+                            "ChildRules": [
+                              {
+                                "Container": "lookup_Sub",
+                                "RuleGUID": "df036636-339c-4e90-bfb0-07a6c258c6bd",
+                                "RuleName": "Are 2 of 3 present?",
+                                "RuleID": "",
+                                "FunctionName": "HowManyAreEmpty",
+                                "ParentGUID": "3300d9f0-c473-4ec0-a66c-903cbdc0abd7",
+                                "ParentActionIndex": 0,
+                                "Children": [],
+                                "Actions": [
+                                  {
+                                    "ActionValue": "4",
+                                    "ActionName": "Yes - 2 or more are",
+                                    "ChildRules": [
+                                      {
+                                        "Container": "lookup_Sub",
+                                        "RuleGUID": "005c0f91-e995-4286-bef1-96ce4c76a08c",
+                                        "RuleName": "Set temp1 to 1",
+                                        "RuleID": "",
+                                        "FunctionName": "Formatf",
+                                        "ParentGUID": "df036636-339c-4e90-bfb0-07a6c258c6bd",
+                                        "ParentActionIndex": 0,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{7}",
+                                          "_FunctionVersion": "100",
+                                          "OutputFormat": "\"1\"",
+                                          "_Description": "\"This is used to determine if the lookup should run\""
+                                        }
+                                      },
+                                      {
+                                        "Container": "lookup_Sub",
+                                        "RuleGUID": "f10dfa82-ca94-4971-af22-3985ddaedb06",
+                                        "RuleName": "Map dB Code to relation OMR",
+                                        "RuleID": "",
+                                        "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                        "ParentGUID": "df036636-339c-4e90-bfb0-07a6c258c6bd",
+                                        "ParentActionIndex": 0,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{2}",
+                                          "_FunctionVersion": "0",
+                                          "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                          "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                          "UncheckedStrings": "{\" \",\"0\"}",
+                                          "_Sources": "{\"OCR_AEG\"}",
+                                          "_ParamListOMRIndex0": "{-1}",
+                                          "_ParamList1": "{3}",
+                                          "_ParamListOMRIndex1": "{-1}"
+                                        }
+                                      }
+                                    ],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "4",
+                                    "ActionName": "Reject: No",
+                                    "ChildRules": [
+                                      {
+                                        "Container": "lookup_Sub",
+                                        "RuleGUID": "15058db6-db19-43fd-bb18-842b351c610a",
+                                        "RuleName": "Already rejected?",
+                                        "RuleID": "",
+                                        "FunctionName": "helper_CheckLetterAttrs",
+                                        "ParentGUID": "df036636-339c-4e90-bfb0-07a6c258c6bd",
+                                        "ParentActionIndex": 1,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "4",
+                                            "ActionName": "No",
+                                            "ChildRules": [
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "e1c8c80a-3004-43b6-bcb8-f5ed46850d08",
+                                                "RuleName": "Set RejectFieldNames",
+                                                "RuleID": "",
+                                                "FunctionName": "Formatf",
+                                                "ParentGUID": "15058db6-db19-43fd-bb18-842b351c610a",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{12}",
+                                                  "_FunctionVersion": "100",
+                                                  "OutputFormat": "\"Subscriber Last Name, Subscriber First Name, Subscriber Date of Birth\""
+                                                }
+                                              },
+                                              {
+                                                "Container": "lookup_Sub",
+                                                "RuleGUID": "54e27675-5e6a-4233-9677-6b47d6a6bba7",
+                                                "RuleName": "Set FieldsRejected attr",
+                                                "RuleID": "",
+                                                "FunctionName": "_ISetDocAttr",
+                                                "ParentGUID": "15058db6-db19-43fd-bb18-842b351c610a",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{12}",
+                                                  "_FunctionVersion": "0",
+                                                  "_Description": "\"This will be the trigger for generating the letter\"",
+                                                  "AttrName": "\"FieldsRejected\""
+                                                }
+                                              }
+                                            ],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{7}",
+                                          "_FunctionVersion": "0"
+                                        }
+                                      },
+                                      {
+                                        "Container": "lookup_Sub",
+                                        "RuleGUID": "44e7142d-fba7-47b3-8c0c-4292d1a1424d",
+                                        "RuleName": "Reject Fields",
+                                        "RuleID": "",
+                                        "FunctionName": "_IRejectFields",
+                                        "ParentGUID": "df036636-339c-4e90-bfb0-07a6c258c6bd",
+                                        "ParentActionIndex": 1,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{5,0,1,4,6}",
+                                          "_FunctionVersion": "0",
+                                          "_SkipID": "0",
+                                          "_BackupSkipID": "6851",
+                                          "RejectString": "\"Subscriber cannot be identified with information provided, reject document for Invalid Member.\"",
+                                          "RejectCode": "2",
+                                          "RunOnce": "0"
+                                        }
+                                      }
+                                    ],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "260",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  }
+                                ],
+                                "Attributes": {
+                                  "_ParamList0": "{0,1,4}",
+                                  "_FunctionVersion": "1",
+                                  "Compare": "1",
+                                  "CountMethod": "0"
+                                }
+                              }
+                            ],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "4",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_FunctionVersion": "0",
+                          "WorkerType": "{\"KFI\",\"KFI_SmartSource\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}"
+                        }
+                      }
+                    ],
+                    "Attributes": {}
+                  },
+                  {
+                    "ActionValue": "260",
+                    "ActionName": "",
+                    "ChildRules": [],
+                    "Attributes": {}
+                  }
+                ],
+                "Attributes": {
+                  "_ParamList0": "{5}",
+                  "_FunctionVersion": "65539",
+                  "CaseSensitive": "1",
+                  "RegularExpression": "\"^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$\""
+                }
+              }
+            ],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Entry found",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Sub",
+                    "RuleGUID": "ab0a11ce-91b0-4a55-8801-6d856f6076cd",
+                    "RuleName": "Set temp1 to 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "6e7a8773-76b7-4283-91f3-f1bfd86c08f5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\"",
+                      "_Description": "\"This is used to determine if the lookup should run\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_Sub",
+                    "RuleGUID": "799b13d4-587c-4518-bba2-cc9452fccc69",
+                    "RuleName": "Map dB Code to relation OMR",
+                    "RuleID": "",
+                    "FunctionName": "helper_MapStrToChckbox_RelCode",
+                    "ParentGUID": "6e7a8773-76b7-4283-91f3-f1bfd86c08f5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "0",
+                      "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                      "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                      "UncheckedStrings": "{\" \",\"0\"}",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_ParamList1": "{3}",
+                      "_ParamListOMRIndex1": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_ArchiveMember\"",
+              "_Description": "\"If not, don't go on\\015\\012\\015\\012Was a call to IsInTable\"",
+              "StripSpaces": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "Columns": "{\"MEM_ID\"}",
+              "CatchResourceUnavailable": "0",
+              "_ErrorCode": "2"
+            }
+          },
+          {
+            "Container": "lookup_Sub",
+            "RuleGUID": "dd319660-7f4a-44e8-a3f1-ce5eacb75a45",
+            "RuleName": "Is temp1 = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "6afed162-f5ba-4ae5-acfa-ce1840a22c24",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Sub",
+                    "RuleGUID": "d1fcdbb4-2614-479e-8643-7602d08f636a",
+                    "RuleName": "lookup_subscriber_main",
+                    "RuleID": "",
+                    "FunctionName": "lookup_Sub_Main",
+                    "ParentGUID": "dd319660-7f4a-44e8-a3f1-ce5eacb75a45",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{0}",
+                      "_ParamList2": "{1}",
+                      "_ParamList3": "{4}",
+                      "_ParamList4": "{3}",
+                      "_ParamList5": "{2}",
+                      "_ParamList6": "{6}",
+                      "_ParamList7": "{7}",
+                      "_ParamList8": "{8}",
+                      "_ParamList9": "{9}",
+                      "_ParamList10": "{10}",
+                      "_ParamList11": "{11}",
+                      "_ParamList12": "{13}",
+                      "_ParamList13": "{14}",
+                      "_ParamList14": "{15}",
+                      "_ParamList15": "{16}",
+                      "_ParamList16": "{17}",
+                      "_ParamList17": "{18}",
+                      "_ParamList18": "{19}",
+                      "_ParamList19": "{20}",
+                      "_ParamList20": "{21}",
+                      "_ParamList21": "{22}",
+                      "_ParamList22": "{23}",
+                      "_ParamList23": "{24}",
+                      "_ParamList24": "{25}",
+                      "_ParamList25": "{26}",
+                      "_ParamList26": "{27}",
+                      "_ParamList27": "{28}",
+                      "_ParamList28": "{29}",
+                      "_ParamList29": "{30}",
+                      "_ParamList30": "{31}",
+                      "_ParamList31": "{32}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3,4,5,6}",
+      "_FunctionVersion": "1",
+      "PlugIfSinglePluggableMatch": "0",
+      "MaxSize": "0",
+      "SelectionList": "\"selectionlist_Member\""
+    }
+  }
+]

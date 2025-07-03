@@ -1,0 +1,670 @@
+[
+  {
+    "Container": "format_NTE_ParseRenderingAddr",
+    "RuleGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+    "RuleName": "Does NTE contain ENL?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "9d3c1f96-57d4-439b-b13c-a2b20a194147",
+            "RuleName": "Does NTE end in a slash?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "format_NTE_ParseRenderingAddr",
+                    "RuleGUID": "8987c690-c5ff-4b18-a918-db950489ee31",
+                    "RuleName": "Strip it",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "9d3c1f96-57d4-439b-b13c-a2b20a194147",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^\\134(.*\\134)/$\"",
+                      "OutputFormat": "\"\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"ENL 285 ELM STREET STE 200/CUMMING/GA/300408233/USA/\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{5}",
+              "RegularExpression": "\"/$\"",
+              "_FunctionVersion": "65539"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "0f298872-6c26-42d4-831d-64db9141636d",
+            "RuleName": "Does NTE end in digits?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "format_NTE_ParseRenderingAddr",
+                    "RuleGUID": "928ce866-544a-499e-b8f9-ef410a07a469",
+                    "RuleName": "Add a slash",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "0f298872-6c26-42d4-831d-64db9141636d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "100",
+                      "InputFormat": "\"%s\"",
+                      "OutputFormat": "\"%s/\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{5}",
+              "RegularExpression": "\"[0-9]$\"",
+              "_FunctionVersion": "65539"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "88d06cf0-31b6-45bb-bc6f-bc5ea5a97640",
+            "RuleName": "Trim address to first part",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^\\134(ENL .*/.*/.*/[0-9]\\134+\\134)\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ENL 285 ELM STREET STE 200/CUMMING/GA/300408233\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/300408233/USA\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "0b351527-3e95-4b7f-9dcf-1faea97ecae7",
+            "RuleName": "Copy NTE to address fields",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5,5,5,5}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{0,2,3,4}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "81693ee4-bc56-4935-929b-e89fd8318eae",
+            "RuleName": "Get Addr",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Field changed",
+                "ChildRules": [
+                  {
+                    "Container": "format_NTE_ParseRenderingAddr",
+                    "RuleGUID": "96dc7ce8-b4e4-4dfe-aa05-c425040cd3e5",
+                    "RuleName": "Does Addr contain a comma<space>?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "81693ee4-bc56-4935-929b-e89fd8318eae",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "format_NTE_ParseRenderingAddr",
+                            "RuleGUID": "2a365d62-097d-4b0b-86b4-7f058068ca39",
+                            "RuleName": "Copy Addr to Addr2",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "96dc7ce8-b4e4-4dfe-aa05-c425040cd3e5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{1}"
+                            }
+                          },
+                          {
+                            "Container": "format_NTE_ParseRenderingAddr",
+                            "RuleGUID": "359f2179-4be7-4510-8b4d-c919d785989a",
+                            "RuleName": "Get Addr",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "96dc7ce8-b4e4-4dfe-aa05-c425040cd3e5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_FunctionVersion": "2",
+                              "InputFormat": "\".*, \\134(.*\\134)\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"Address line 1, Address line 2\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          },
+                          {
+                            "Container": "format_NTE_ParseRenderingAddr",
+                            "RuleGUID": "3c346022-6c3b-4f41-a48d-29917678c75c",
+                            "RuleName": "Get Addr2",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "96dc7ce8-b4e4-4dfe-aa05-c425040cd3e5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "2",
+                              "InputFormat": "\"\\134(.*\\134), .*\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"Address line 1, Address line 2\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{0}",
+                      "RegularExpression": "\".*, .*\"",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"Address line 1, Address line 2\",\"Address line 1,Address line 2\",\"Address line 1\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"ENL \\134(.*\\134)/.*/.*/.*\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ENL Address line 1, Address line 2/City/State/Zip\",\"ENL Address line 1/City/State/Zip\",\"ENL 123 BATHROOM RD/SAN DIEGO/CA/92106; OTHER NOTE\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/300408233\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "3eae487b-c2ff-489d-bb04-8f09b5f6d5a1",
+            "RuleName": "Get City",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"ENL .*/\\134(.*\\134)/.*/.*\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ENL Address line 1, Address line 2/City/State/Zip\",\"ENL Address line 1/City/State/Zip\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "1e5a9575-94f1-4780-9d80-3f03ef9bcdae",
+            "RuleName": "Get State",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"ENL .*/.*/\\134(.*\\134)/.*\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ENL Address line 1, Address line 2/City/State/Zip\",\"ENL Address line 1/City/State/Zip\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "16ee644d-eb62-4782-a851-09aae0458017",
+            "RuleName": "Get Zip",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"ENL .*/.*/.*/\\134(.*\\134)\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ENL Address line 1, Address line 2/City/State/Zip\",\"ENL Address line 1/City/State/Zip\",\"ENL 123 BATHROOM RD/SAN DIEGO/CA/92106; OTHER NOTE\",\"ENL 285 ELM STREET STE 200/CUMMING/GA/\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_NTE_ParseRenderingAddr",
+            "RuleGUID": "b3c992dd-d2e7-4c85-9ddb-85d5e09f11a9",
+            "RuleName": "Any ;?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a6b51ae4-ee5c-431d-a64e-c32b641bb502",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "format_NTE_ParseRenderingAddr",
+                    "RuleGUID": "9087e705-8ec9-46be-b8f3-607863d72e1b",
+                    "RuleName": "Get first 5 numbers",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "b3c992dd-d2e7-4c85-9ddb-85d5e09f11a9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"\\134(^[0-9][0-9][0-9][0-9][0-9]\\134);\"",
+                      "OutputFormat": "\"\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"12345; OTHER NOTE1\",\"123456789; OTHER NOTE 2; OTHER NOTE 4\",\"123-123; OTHER NOTE 3\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  },
+                  {
+                    "Container": "format_NTE_ParseRenderingAddr",
+                    "RuleGUID": "26f863d5-1515-4991-bbd5-81e6a25d56dc",
+                    "RuleName": "Get first 9 numbers",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "b3c992dd-d2e7-4c85-9ddb-85d5e09f11a9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^\\134([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\\134)\\134;\"",
+                      "OutputFormat": "\"\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"12345; OTHER NOTE1\",\"123456789; OTHER NOTE 2; OTHER NOTE 4\",\"123-123; OTHER NOTE 3\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"If so we got more than one NTE on this line and need to drop those other notes from the Zip\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{4}",
+              "RegularExpression": "\";\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so, this is the code from Delta that indicates an address\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{5}",
+      "RegularExpression": "\"ENL\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

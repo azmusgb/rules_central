@@ -1,0 +1,228 @@
+[
+  {
+    "Container": "lookup_DCFacility_Enc_Prac_Trim",
+    "RuleGUID": "57295894-dfb2-4666-b34a-7d5994852be7",
+    "RuleName": "Clear all temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,1,2}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_Prac_Trim",
+    "RuleGUID": "c669faf9-53ae-4eef-979d-d4986a98b184",
+    "RuleName": "Check to see if all lines have the same Practice Location",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"lookup_DCFacility_Enc_Prac_Chk\"",
+      "Table": "\"selectionlist_Enc_PracticeLoc\"",
+      "Columns": "{\"PracticeLocationID\",\"\",\"\"}",
+      "_ParamList1": "{1}",
+      "_ParamList2": "{2}",
+      "_Description": "\"Flag return:\\015\\012blank - all GRPs the same\\015\\0121 - different GRPs\""
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_Prac_Trim",
+    "RuleGUID": "e7cc5c0a-cabc-4ce0-8946-2967d92b7e82",
+    "RuleName": "See if same Practice Location",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Same ",
+        "ChildRules": [
+          {
+            "Container": "lookup_DCFacility_Enc_Prac_Trim",
+            "RuleGUID": "69affe8f-8b3f-4eb3-86d8-bd27fa2b27f0",
+            "RuleName": "Clear all temps",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "e7cc5c0a-cabc-4ce0-8946-2967d92b7e82",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "_ParamList0": "{0,1,2}",
+              "LinesFrom": "0",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "lookup_DCFacility_Enc_Prac_Trim",
+            "RuleGUID": "69b76fc9-aa7a-46b6-bbd2-cf40b6c90a33",
+            "RuleName": "Clear all but first row",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "e7cc5c0a-cabc-4ce0-8946-2967d92b7e82",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"lookup_DCFacility_Enc_Prac_Del\"",
+              "Table": "\"selectionlist_Enc_PracticeLoc\"",
+              "Columns": "{\"\",\"PracticeLocationID\"}",
+              "_ParamList1": "{0}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_Prac_Trim",
+    "RuleGUID": "10e0281d-dc6a-4967-a2cb-6b64b2e17906",
+    "RuleName": "Clear all temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,1,2}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  }
+]

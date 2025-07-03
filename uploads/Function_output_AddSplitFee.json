@@ -1,0 +1,178 @@
+[
+  {
+    "Container": "output_AddSplitFee",
+    "RuleGUID": "1a4cb78f-21c9-4059-b5ce-38e606815152",
+    "RuleName": "Does ProcCode have WasEmpty attr?",
+    "RuleID": "",
+    "FunctionName": "GetFieldAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_AddSplitFee",
+            "RuleGUID": "5120759b-6546-44e5-9734-8d7f5bc7ea49",
+            "RuleName": "Is OutputFileFlag = SplitTrack?",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "1a4cb78f-21c9-4059-b5ce-38e606815152",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Equal",
+                "ChildRules": [
+                  {
+                    "Container": "output_AddSplitFee",
+                    "RuleGUID": "1c1b5827-4327-4433-becf-25fdbe33d64d",
+                    "RuleName": "Add Fee to TotalFee",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "5120759b-6546-44e5-9734-8d7f5bc7ea49",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2,3}",
+                      "_ParamList1": "{3}",
+                      "_FunctionVersion": "1",
+                      "Deviation": "0",
+                      "OutputFormat": "\"%.0f\"",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + F1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Not Equal",
+                "ChildRules": [
+                  {
+                    "Container": "output_AddSplitFee",
+                    "RuleGUID": "64bde5d6-5b5f-486d-9a2e-ce836cceb0b4",
+                    "RuleName": "See if Split track = EDI",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "5120759b-6546-44e5-9734-8d7f5bc7ea49",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Equal",
+                        "ChildRules": [
+                          {
+                            "Container": "output_AddSplitFee",
+                            "RuleGUID": "d944dd3e-04e1-4099-a1c6-061a6fc3087a",
+                            "RuleName": "Add Fee to TotalFee",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "64bde5d6-5b5f-486d-9a2e-ce836cceb0b4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "1",
+                              "Deviation": "0",
+                              "OutputFormat": "\"%.0f\"",
+                              "Remainder": "0",
+                              "MathExpression": "\"F0 + F1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"This indicates that this is an EDI claim that is being processed for EDI.  This is done prior to rollups, splitting, etc.\\015\\012\\015\\012This UDF is called from the  837 output UDF, but also from the EDoc output, thus the special branch.  The RuleID for the EDoc call is:\\015\\012\\015\\01234e94aee-157d-4abf-b491-8f90573d73b4\"",
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"EDI\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"If so the detail line we're on is associated with the split we are currently outputting\"",
+              "_ParamList0": "{0}",
+              "_ParamList1": "{1}",
+              "_FunctionVersion": "1",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so we defaulted it to D0001 or D0000 based on RCM 114.  In this case we do not want the Fee associated with this detail line to be added to the total.\"",
+      "_ParamList0": "{5}",
+      "_ParamList1": "{4}",
+      "AttributeName": "\"WasEmpty\"",
+      "_FunctionVersion": "1"
+    }
+  }
+]

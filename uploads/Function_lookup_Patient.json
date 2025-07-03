@@ -1,0 +1,721 @@
+[
+  {
+    "Container": "lookup_Patient",
+    "RuleGUID": "e76c066e-de23-4595-a177-d75e382ac5f0",
+    "RuleName": "Only do lookup if fields not rejected or plugged",
+    "RuleID": "",
+    "FunctionName": "CheckSLState4",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Do Lookup",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient",
+            "RuleGUID": "66e60bd3-d85e-445b-9098-d4a1a3e0bf7a",
+            "RuleName": "Clear temp1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "e76c066e-de23-4595-a177-d75e382ac5f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\"",
+              "_Description": "\"Used to determine if lookup should run\""
+            }
+          },
+          {
+            "Container": "lookup_Patient",
+            "RuleGUID": "b7f82167-e02a-4c1f-82a3-b834a9d0fd69",
+            "RuleName": "Was MCID found?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "e76c066e-de23-4595-a177-d75e382ac5f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient",
+                    "RuleGUID": "13f44427-4796-4395-a89e-596f908d18f7",
+                    "RuleName": "Set temp1 = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "b7f82167-e02a-4c1f-82a3-b834a9d0fd69",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient",
+                    "RuleGUID": "d953a2b4-1068-4f3a-9d0f-ee14b402ba98",
+                    "RuleName": "Is PatRelation = ‘----‘?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "b7f82167-e02a-4c1f-82a3-b834a9d0fd69",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "None",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient",
+                            "RuleGUID": "d7ae34d6-5b7d-4fc2-a06a-8083e0e931ef",
+                            "RuleName": "Map relation to letter",
+                            "RuleID": "",
+                            "FunctionName": "MapCheckboxToString",
+                            "ParentGUID": "d953a2b4-1068-4f3a-9d0f-ee14b402ba98",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "1",
+                              "ResultIfMultipleChecked": "2",
+                              "OMRSubfieldName": "{\"Self\",\"Spouse\",\"Child\",\"Other\"}",
+                              "ToStrings": "{\"10\",\"20\",\"30\",\"40\"}",
+                              "_ParamList1": "{3}",
+                              "UncheckedString": "\" \"",
+                              "MultipleString": "\" \""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^----$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient",
+                    "RuleGUID": "3efe5ab5-2adf-42e6-ac6a-30352f784f16",
+                    "RuleName": "Is SubSSN in the table?",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "b7f82167-e02a-4c1f-82a3-b834a9d0fd69",
+                    "ParentActionIndex": 1,
+                    "Children": [
+                      {
+                        "Container": "lookup_Patient",
+                        "RuleGUID": "661d5f81-1696-4f02-8e81-5ef5f8a8ad82",
+                        "RuleName": "Is KFI?",
+                        "RuleID": "",
+                        "FunctionName": "_IWorkerType",
+                        "ParentGUID": "3efe5ab5-2adf-42e6-ac6a-30352f784f16",
+                        "ParentActionIndex": 1,
+                        "Children": [],
+                        "Actions": [
+                          {
+                            "ActionValue": "0",
+                            "ActionName": "No",
+                            "ChildRules": [
+                              {
+                                "Container": "lookup_Patient",
+                                "RuleGUID": "b41527ec-1428-4e69-b76a-d65f95ef6a48",
+                                "RuleName": "Are 2 of 3 present?",
+                                "RuleID": "",
+                                "FunctionName": "HowManyAreEmpty",
+                                "ParentGUID": "661d5f81-1696-4f02-8e81-5ef5f8a8ad82",
+                                "ParentActionIndex": 0,
+                                "Children": [],
+                                "Actions": [
+                                  {
+                                    "ActionValue": "4",
+                                    "ActionName": "Yes - 2 or more are",
+                                    "ChildRules": [
+                                      {
+                                        "Container": "lookup_Patient",
+                                        "RuleGUID": "5214894a-116b-4102-bec3-6d6adefca635",
+                                        "RuleName": "Set temp1 = 1",
+                                        "RuleID": "",
+                                        "FunctionName": "Formatf",
+                                        "ParentGUID": "b41527ec-1428-4e69-b76a-d65f95ef6a48",
+                                        "ParentActionIndex": 0,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{7}",
+                                          "_FunctionVersion": "100",
+                                          "OutputFormat": "\"1\""
+                                        }
+                                      },
+                                      {
+                                        "Container": "lookup_Patient",
+                                        "RuleGUID": "f335b6fe-bac4-44bf-b820-15f8456ae015",
+                                        "RuleName": "Is PatRelation = ‘----‘?",
+                                        "RuleID": "",
+                                        "FunctionName": "HasRegExpr",
+                                        "ParentGUID": "b41527ec-1428-4e69-b76a-d65f95ef6a48",
+                                        "ParentActionIndex": 0,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "None",
+                                            "ChildRules": [
+                                              {
+                                                "Container": "lookup_Patient",
+                                                "RuleGUID": "646606ab-5236-4d94-b4b3-bbf544da19d1",
+                                                "RuleName": "Map relation to letter",
+                                                "RuleID": "",
+                                                "FunctionName": "MapCheckboxToString",
+                                                "ParentGUID": "f335b6fe-bac4-44bf-b820-15f8456ae015",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{2}",
+                                                  "_FunctionVersion": "1",
+                                                  "ResultIfMultipleChecked": "2",
+                                                  "OMRSubfieldName": "{\"Self\",\"Spouse\",\"Child\",\"Other\"}",
+                                                  "ToStrings": "{\"10\",\"20\",\"30\",\"40\"}",
+                                                  "_ParamList1": "{3}",
+                                                  "UncheckedString": "\" \"",
+                                                  "MultipleString": "\" \""
+                                                }
+                                              }
+                                            ],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "4",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{2}",
+                                          "_FunctionVersion": "65539",
+                                          "CaseSensitive": "1",
+                                          "RegularExpression": "\"^----$\""
+                                        }
+                                      }
+                                    ],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "4",
+                                    "ActionName": "Reject: No",
+                                    "ChildRules": [
+                                      {
+                                        "Container": "lookup_Patient",
+                                        "RuleGUID": "ebd6a43c-da20-43f7-a7c4-e8a1221de11a",
+                                        "RuleName": "Already rejected?",
+                                        "RuleID": "",
+                                        "FunctionName": "helper_CheckLetterAttrs",
+                                        "ParentGUID": "b41527ec-1428-4e69-b76a-d65f95ef6a48",
+                                        "ParentActionIndex": 1,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "4",
+                                            "ActionName": "No",
+                                            "ChildRules": [
+                                              {
+                                                "Container": "lookup_Patient",
+                                                "RuleGUID": "7809fe05-396a-4d92-8ee8-6b5a9f6f43dc",
+                                                "RuleName": "Set RejectFieldNames",
+                                                "RuleID": "",
+                                                "FunctionName": "Formatf",
+                                                "ParentGUID": "ebd6a43c-da20-43f7-a7c4-e8a1221de11a",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  },
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{12}",
+                                                  "_FunctionVersion": "100",
+                                                  "OutputFormat": "\"Patient Last Name, Patient First Name, Patient Date of Birth\""
+                                                }
+                                              },
+                                              {
+                                                "Container": "lookup_Patient",
+                                                "RuleGUID": "070f677b-9c0a-4399-9787-b69b66da46a2",
+                                                "RuleName": "Set FieldsRejected attr",
+                                                "RuleID": "",
+                                                "FunctionName": "_ISetDocAttr",
+                                                "ParentGUID": "ebd6a43c-da20-43f7-a7c4-e8a1221de11a",
+                                                "ParentActionIndex": 0,
+                                                "Children": [],
+                                                "Actions": [
+                                                  {
+                                                    "ActionValue": "0",
+                                                    "ActionName": "",
+                                                    "ChildRules": [],
+                                                    "Attributes": {}
+                                                  }
+                                                ],
+                                                "Attributes": {
+                                                  "_ParamList0": "{12}",
+                                                  "_FunctionVersion": "0",
+                                                  "_Description": "\"This will be the trigger for generating the letter\"",
+                                                  "AttrName": "\"FieldsRejected\""
+                                                }
+                                              }
+                                            ],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{7}",
+                                          "_FunctionVersion": "0"
+                                        }
+                                      },
+                                      {
+                                        "Container": "lookup_Patient",
+                                        "RuleGUID": "8bc77596-f7dc-4fc8-a49f-08a2cd2562f2",
+                                        "RuleName": "Reject Fields",
+                                        "RuleID": "",
+                                        "FunctionName": "_IRejectFields",
+                                        "ParentGUID": "b41527ec-1428-4e69-b76a-d65f95ef6a48",
+                                        "ParentActionIndex": 1,
+                                        "Children": [],
+                                        "Actions": [
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          },
+                                          {
+                                            "ActionValue": "0",
+                                            "ActionName": "",
+                                            "ChildRules": [],
+                                            "Attributes": {}
+                                          }
+                                        ],
+                                        "Attributes": {
+                                          "_ParamList0": "{5,0,1,4,6}",
+                                          "_FunctionVersion": "0",
+                                          "_SkipID": "0",
+                                          "_BackupSkipID": "6363",
+                                          "RejectString": "\"Patient cannot be identified with data provided, reject document.\"",
+                                          "RejectCode": "2",
+                                          "RunOnce": "0",
+                                          "Languages_Fields": "\"Default\"",
+                                          "SelectionListAutoPop": "0",
+                                          "DelayEval": "0"
+                                        }
+                                      }
+                                    ],
+                                    "Attributes": {}
+                                  },
+                                  {
+                                    "ActionValue": "260",
+                                    "ActionName": "",
+                                    "ChildRules": [],
+                                    "Attributes": {}
+                                  }
+                                ],
+                                "Attributes": {
+                                  "_ParamList0": "{0,1,4}",
+                                  "_FunctionVersion": "1",
+                                  "Compare": "1",
+                                  "CountMethod": "0"
+                                }
+                              }
+                            ],
+                            "Attributes": {}
+                          },
+                          {
+                            "ActionValue": "4",
+                            "ActionName": "",
+                            "ChildRules": [],
+                            "Attributes": {}
+                          }
+                        ],
+                        "Attributes": {
+                          "_FunctionVersion": "0",
+                          "WorkerType": "{\"KFI\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}"
+                        }
+                      }
+                    ],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Entry found",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient",
+                            "RuleGUID": "7f98180b-5190-420a-a50d-7b4e05ce376c",
+                            "RuleName": "Set temp1 = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "3efe5ab5-2adf-42e6-ac6a-30352f784f16",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient",
+                            "RuleGUID": "15a607aa-9c57-4a6f-9bcf-66fdffc3816f",
+                            "RuleName": "Is PatRelation = ‘----‘?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "3efe5ab5-2adf-42e6-ac6a-30352f784f16",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "None",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Patient",
+                                    "RuleGUID": "ba95efa3-29ad-4837-9677-5adf162daa96",
+                                    "RuleName": "Map relation to letter",
+                                    "RuleID": "",
+                                    "FunctionName": "MapCheckboxToString",
+                                    "ParentGUID": "15a607aa-9c57-4a6f-9bcf-66fdffc3816f",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "1",
+                                      "ResultIfMultipleChecked": "2",
+                                      "OMRSubfieldName": "{\"Self\",\"Spouse\",\"Child\",\"Other\"}",
+                                      "ToStrings": "{\"10\",\"20\",\"30\",\"40\"}",
+                                      "_ParamList1": "{3}",
+                                      "UncheckedString": "\" \"",
+                                      "MultipleString": "\" \""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"^----$\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "_Description": "\"CRM 51943.\\015\\012\\015\\012If not, don't go on.\\015\\012\\015\\012Used to be IsIntable to odbc_MemInfo\"",
+                      "StripSpaces": "0",
+                      "Table": "\"odbc_MemInfo\"",
+                      "Columns": "{\"MEM_ID\"}",
+                      "CatchResourceUnavailable": "0",
+                      "_ErrorCode": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{22}",
+              "_FunctionVersion": "65539",
+              "_Description": "\"This would be if there is no SSN, S or ASN ID TYP for theplugged sub.  If we found a MCID, however, we know the \\042SSN\\042 is in the table so there is no use looking.\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\\134|2\""
+            }
+          },
+          {
+            "Container": "lookup_Patient",
+            "RuleGUID": "5d00b712-df67-4788-8b85-ab0a14833fb9",
+            "RuleName": "Is temp1 = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "e76c066e-de23-4595-a177-d75e382ac5f0",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient",
+                    "RuleGUID": "40d3bbdf-880b-4dac-8828-7783c992efbd",
+                    "RuleName": "lookup_patient_main",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "5d00b712-df67-4788-8b85-ab0a14833fb9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "_Description": "\"Used to call lookup_Patient_Main\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so the lookup should run.\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "PlugIfSinglePluggableMatch": "0",
+      "MaxSize": "0",
+      "_ParamList0": "{0,1,2,4,5,6}",
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_Patient\""
+    }
+  }
+]

@@ -1,0 +1,1058 @@
+[
+  {
+    "Container": "lookup_Pat_DC",
+    "RuleGUID": "e65f0a7d-2550-4e08-8cdf-3cdb39ef0be5",
+    "RuleName": "Filter SSN",
+    "RuleID": "",
+    "FunctionName": "format_FilterPSC",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "lookup_Pat_DC",
+    "RuleGUID": "407b0060-e9b6-4144-8052-b7000c4c744d",
+    "RuleName": "Only do lookup if fields not rejected or plugged",
+    "RuleID": "",
+    "FunctionName": "CheckSLState4",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Do Lookup",
+        "ChildRules": [
+          {
+            "Container": "lookup_Pat_DC",
+            "RuleGUID": "70291a39-855f-42d6-8d62-71828daed8e7",
+            "RuleName": "Clear temp1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "407b0060-e9b6-4144-8052-b7000c4c744d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\"",
+              "_Description": "\"This is used to determine if the lookup should run\""
+            }
+          },
+          {
+            "Container": "lookup_Pat_DC",
+            "RuleGUID": "9d3137df-eee5-4bf2-9381-9b441f28f1eb",
+            "RuleName": "Is SubSSN in the table?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "407b0060-e9b6-4144-8052-b7000c4c744d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Entry found",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Pat_DC",
+                    "RuleGUID": "16787f0b-dc6d-4e5e-acd0-ac9ec5899734",
+                    "RuleName": "Set temp1 to 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9d3137df-eee5-4bf2-9381-9b441f28f1eb",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\"",
+                      "_Description": "\"This is used to determine if the lookup should run\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Entry not found",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Pat_DC",
+                    "RuleGUID": "5ef2c1c2-c1a8-4570-85f4-03fd2f45e515",
+                    "RuleName": "Is ID 10 digits?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "9d3137df-eee5-4bf2-9381-9b441f28f1eb",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Pat_DC",
+                            "RuleGUID": "10cafb60-6474-44b8-9315-7ec81423681c",
+                            "RuleName": "Check to see MCID in the table?",
+                            "RuleID": "",
+                            "FunctionName": "lookup_Pat_FetchWithMCID_DC",
+                            "ParentGUID": "5ef2c1c2-c1a8-4570-85f4-03fd2f45e515",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_FunctionVersion": "0",
+                              "_ParamList1": "{5}",
+                              "UDFName": "\"lookup_Patient_FetchWithMCID\"",
+                              "ForEach": "{0,0,1}",
+                              "DelBlanksBefore": "0",
+                              "DelBlanksAfter": "0",
+                              "MakeColEqual": "0",
+                              "_ParamList2": "{15}",
+                              "_ParamList3": "{30}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Pat_DC",
+                            "RuleGUID": "aad86d31-4963-49eb-9bb4-0c3abc93ae08",
+                            "RuleName": "Is MCID In table?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "5ef2c1c2-c1a8-4570-85f4-03fd2f45e515",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Pat_DC",
+                                    "RuleGUID": "166f9e41-b396-465f-8761-b62fd2800183",
+                                    "RuleName": "Set temp1 to 1",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "aad86d31-4963-49eb-9bb4-0c3abc93ae08",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{7}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"1\"",
+                                      "_Description": "\"This is used to determine if the lookup should run\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Pat_DC",
+                                    "RuleGUID": "ab8ef98f-8405-45fe-a231-67f14c6af28c",
+                                    "RuleName": "Is PatRelation = ‘----‘?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "aad86d31-4963-49eb-9bb4-0c3abc93ae08",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "None",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "0878e328-c6b9-4020-b7e3-4a49cafd8dbf",
+                                            "RuleName": "Map dB Code to relation OMR",
+                                            "RuleID": "",
+                                            "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                            "ParentGUID": "ab8ef98f-8405-45fe-a231-67f14c6af28c",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{2}",
+                                              "_FunctionVersion": "0",
+                                              "_ParamList1": "{3}",
+                                              "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                              "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                              "UncheckedStrings": "{\" \",\"0\"}",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_ParamListOMRIndex1": "{-1}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"^----$\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Pat_DC",
+                                    "RuleGUID": "2dfeedd3-08e7-48d9-82e5-da026236ab17",
+                                    "RuleName": "Is KFI?",
+                                    "RuleID": "",
+                                    "FunctionName": "_IWorkerType",
+                                    "ParentGUID": "aad86d31-4963-49eb-9bb4-0c3abc93ae08",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "1e4e03f9-862f-4cdc-ad8b-275004427f9b",
+                                            "RuleName": "Are 2 of 3 present?",
+                                            "RuleID": "",
+                                            "FunctionName": "HowManyAreEmpty",
+                                            "ParentGUID": "2dfeedd3-08e7-48d9-82e5-da026236ab17",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes - 2 or more are",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "9ad4217c-12cb-4750-b418-0add35b95c54",
+                                                    "RuleName": "Set temp1 to 1",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "1e4e03f9-862f-4cdc-ad8b-275004427f9b",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{7}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"1\"",
+                                                      "_Description": "\"This is used to determine if the lookup should run\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "554b086b-259c-46f9-a67b-cbcc127d6d15",
+                                                    "RuleName": "Is PatRelation = ‘----‘?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "HasRegExpr",
+                                                    "ParentGUID": "1e4e03f9-862f-4cdc-ad8b-275004427f9b",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "None",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_Pat_DC",
+                                                            "RuleGUID": "cc94bbce-36bb-467b-b1be-1990a2476c0d",
+                                                            "RuleName": "Map dB Code to relation OMR",
+                                                            "RuleID": "",
+                                                            "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                                            "ParentGUID": "554b086b-259c-46f9-a67b-cbcc127d6d15",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{2}",
+                                                              "_FunctionVersion": "0",
+                                                              "_ParamList1": "{3}",
+                                                              "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                                              "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                                              "UncheckedStrings": "{\" \",\"0\"}",
+                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                              "_ParamListOMRIndex0": "{-1}",
+                                                              "_ParamListOMRIndex1": "{-1}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{2}",
+                                                      "_FunctionVersion": "65539",
+                                                      "CaseSensitive": "1",
+                                                      "RegularExpression": "\"^----$\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Reject: No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "7cd01158-cd00-4a42-815d-2a1715f158d1",
+                                                    "RuleName": "Already rejected?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "helper_CheckLetterAttrs",
+                                                    "ParentGUID": "1e4e03f9-862f-4cdc-ad8b-275004427f9b",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "No",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_Pat_DC",
+                                                            "RuleGUID": "1e6fe1fe-0d5c-406f-b70f-79ac0e2aa4d2",
+                                                            "RuleName": "Set RejectFieldNames",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Formatf",
+                                                            "ParentGUID": "7cd01158-cd00-4a42-815d-2a1715f158d1",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{12}",
+                                                              "_FunctionVersion": "100",
+                                                              "OutputFormat": "\"Patient Last Name, Patient First Name, Patient Date of Birth\""
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_Pat_DC",
+                                                            "RuleGUID": "6141d20d-1bd1-4330-958d-09e3d883e685",
+                                                            "RuleName": "Set FieldsRejected attr",
+                                                            "RuleID": "",
+                                                            "FunctionName": "_ISetDocAttr",
+                                                            "ParentGUID": "7cd01158-cd00-4a42-815d-2a1715f158d1",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{12}",
+                                                              "_FunctionVersion": "0",
+                                                              "_Description": "\"This will be the trigger for generating the letter\"",
+                                                              "AttrName": "\"FieldsRejected\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{7}",
+                                                      "_FunctionVersion": "0"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "d5b85375-03d6-41e1-b3fc-3cc8bdecfd56",
+                                                    "RuleName": "Reject Fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "_IRejectFields",
+                                                    "ParentGUID": "1e4e03f9-862f-4cdc-ad8b-275004427f9b",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{5,0,1,4,6}",
+                                                      "_FunctionVersion": "0",
+                                                      "_SkipID": "0",
+                                                      "_BackupSkipID": "6762",
+                                                      "RejectString": "\"Patient cannot be identified with data provided, reject document.\"",
+                                                      "RejectCode": "2",
+                                                      "RunOnce": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0,1,4}",
+                                              "_FunctionVersion": "1",
+                                              "Compare": "1",
+                                              "CountMethod": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "0",
+                                      "WorkerType": "{\"KFI\",\"KFI_SmartSource\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{15}",
+                              "_FunctionVersion": "65539",
+                              "_Description": "\"If temp10 = 1 means that MCID is in the table\"",
+                              "StripSpaces": "0",
+                              "Table": "\"odbc_MemInfo\"",
+                              "Columns": "{\"MEM_ID\",\"MEM_ID_TYP\"}",
+                              "CatchResourceUnavailable": "0",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"1\"",
+                              "MaxMatchCount": "9",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_ID\",\"MEM_ID_TYP\"}",
+                              "SelectionListColumns": "{\"MemberID\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+                              "DataColumns": "{\"MEM_ID\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+                              "EscapeFields": "{\"SubIDForMCIDLookup\",\"SubIDType\",\"0\"}",
+                              "PlugFields": "{\"SubIDForMCIDLookup\",\"SubIDType\",\"0\"}",
+                              "DataTableDataField": "{-1,-1,-1}",
+                              "DataTableEmptyField": "{-1,-1,-1}",
+                              "EmptyTableDataField": "{-1,-1,-1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Pat_DC",
+                            "RuleGUID": "d9745581-99e8-45ff-84fb-14d57b2903fa",
+                            "RuleName": "Is KFI?",
+                            "RuleID": "",
+                            "FunctionName": "_IWorkerType",
+                            "ParentGUID": "5ef2c1c2-c1a8-4570-85f4-03fd2f45e515",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Pat_DC",
+                                    "RuleGUID": "739ae515-37a3-487f-8569-e1cdd7dae607",
+                                    "RuleName": "Are 2 of 3 present?",
+                                    "RuleID": "",
+                                    "FunctionName": "HowManyAreEmpty",
+                                    "ParentGUID": "d9745581-99e8-45ff-84fb-14d57b2903fa",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes - 2 or more are",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "2ce21a6a-cf3d-42d5-b67e-ecb97dd01bc6",
+                                            "RuleName": "Set temp1 to 1",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "739ae515-37a3-487f-8569-e1cdd7dae607",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{7}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"1\"",
+                                              "_Description": "\"This is used to determine if the lookup should run\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "1152752f-970c-45f7-b375-e033cb63d424",
+                                            "RuleName": "Is PatRelation = ‘----‘?",
+                                            "RuleID": "",
+                                            "FunctionName": "HasRegExpr",
+                                            "ParentGUID": "739ae515-37a3-487f-8569-e1cdd7dae607",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "None",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "2ea68f24-37f0-43be-ba54-be53c97b34b1",
+                                                    "RuleName": "Map dB Code to relation OMR",
+                                                    "RuleID": "",
+                                                    "FunctionName": "helper_MapStrToChckbox_RelCode",
+                                                    "ParentGUID": "1152752f-970c-45f7-b375-e033cb63d424",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{2}",
+                                                      "_FunctionVersion": "0",
+                                                      "_ParamList1": "{3}",
+                                                      "OMRSubfieldName": "{\"Self\",\"Self\",\"Self\",\"Self\",\"Spouse\",\"Spouse\",\"Spouse\",\"Child\",\"Child\",\"Child\",\"Child\",\"Child\",\"Other\",\"Other\",\"Other\",\"Other\"}",
+                                                      "ToStrings": "{\"01\",\"10\",\"11\",\"12\",\"02\",\"20\",\"21\",\"03\",\"30\",\"32\",\"31\",\"33\",\"04\",\"40\",\"##DP\",\"##SS\"}",
+                                                      "UncheckedStrings": "{\" \",\"0\"}",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_ParamListOMRIndex1": "{-1}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{2}",
+                                              "_FunctionVersion": "65539",
+                                              "CaseSensitive": "1",
+                                              "RegularExpression": "\"^----$\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Reject: No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "6ac7c556-8089-4c5e-8502-53e28d7e64ba",
+                                            "RuleName": "Already rejected?",
+                                            "RuleID": "",
+                                            "FunctionName": "helper_CheckLetterAttrs",
+                                            "ParentGUID": "739ae515-37a3-487f-8569-e1cdd7dae607",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "c3d2a70a-91fb-4672-a64d-9bcf8030e840",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "6ac7c556-8089-4c5e-8502-53e28d7e64ba",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{12}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Patient Last Name, Patient First Name, Patient Date of Birth\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Pat_DC",
+                                                    "RuleGUID": "043ae136-ea83-44db-92a5-f44493a11689",
+                                                    "RuleName": "Set FieldsRejected attr",
+                                                    "RuleID": "",
+                                                    "FunctionName": "_ISetDocAttr",
+                                                    "ParentGUID": "6ac7c556-8089-4c5e-8502-53e28d7e64ba",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{12}",
+                                                      "_FunctionVersion": "0",
+                                                      "_Description": "\"This will be the trigger for generating the letter\"",
+                                                      "AttrName": "\"FieldsRejected\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{7}",
+                                              "_FunctionVersion": "0"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Pat_DC",
+                                            "RuleGUID": "1478cc30-c1a1-414d-b48f-c6adaad468e0",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": "",
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "739ae515-37a3-487f-8569-e1cdd7dae607",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{5,0,1,4,6}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "0",
+                                              "_BackupSkipID": "6764",
+                                              "RejectString": "\"Three of four fields must be present. If empty reject with reason Insufficient Patient Data\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0,1,4}",
+                                      "_FunctionVersion": "1",
+                                      "Compare": "1",
+                                      "CountMethod": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "WorkerType": "{\"KFI\",\"KFI_SmartSource\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "65537",
+              "_Description": "\"If not, don't go on\"",
+              "StripSpaces": "0",
+              "Table": "\"odbc_MemInfo\"",
+              "Columns": "{\"MEM_ID\"}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_Pat_DC",
+            "RuleGUID": "71467ac3-ccd3-4d46-8c26-469164f2fd96",
+            "RuleName": "Is temp1 = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "407b0060-e9b6-4144-8052-b7000c4c744d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Pat_DC",
+                    "RuleGUID": "e572b07b-2bf7-4ac4-97f7-d6b63bbea23f",
+                    "RuleName": "lookup_Pat_main_DC",
+                    "RuleID": "",
+                    "FunctionName": "lookup_Pat_Main_DC",
+                    "ParentGUID": "71467ac3-ccd3-4d46-8c26-469164f2fd96",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{0}",
+                      "_ParamList2": "{1}",
+                      "_ParamList3": "{4}",
+                      "_ParamList4": "{3}",
+                      "_ParamList5": "{2}",
+                      "_ParamList6": "{6}",
+                      "_ParamList7": "{7}",
+                      "_ParamList8": "{8}",
+                      "_ParamList9": "{9}",
+                      "_ParamList10": "{10}",
+                      "_ParamList11": "{11}",
+                      "_ParamList12": "{13}",
+                      "_ParamList13": "{14}",
+                      "_ParamList14": "{15}",
+                      "_ParamList15": "{16}",
+                      "_ParamList16": "{17}",
+                      "_ParamList17": "{18}",
+                      "_ParamList18": "{19}",
+                      "_ParamList19": "{20}",
+                      "_ParamList20": "{21}",
+                      "_ParamList21": "{22}",
+                      "_ParamList22": "{23}",
+                      "_ParamList23": "{24}",
+                      "_ParamList24": "{25}",
+                      "_ParamList25": "{26}",
+                      "_ParamList26": "{27}",
+                      "_ParamList27": "{28}",
+                      "_ParamList28": "{29}",
+                      "_ParamList29": "{30}",
+                      "_ParamList30": "{31}",
+                      "_ParamList31": "{32}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3,4,5,6}",
+      "_FunctionVersion": "1",
+      "PlugIfSinglePluggableMatch": "0",
+      "MaxSize": "0",
+      "SelectionList": "\"selectionlist_MemberDC\""
+    }
+  }
+]

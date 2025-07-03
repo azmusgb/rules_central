@@ -1,0 +1,2601 @@
+[
+  {
+    "Container": "output_SplitSOREligRollup",
+    "RuleGUID": "9227a844-b34e-447f-bc17-624909985d47",
+    "RuleName": "Clear temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{39,41}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_SplitSOREligRollup",
+    "RuleGUID": "afe6f52d-2678-4a25-b636-7c75bc39b827",
+    "RuleName": "See if tmp2 and Main are empty",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "First time through",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSOREligRollup",
+            "RuleGUID": "600987f7-597d-4ccf-9444-23c63ba22575",
+            "RuleName": "Copy tmp1 to Main",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "afe6f52d-2678-4a25-b636-7c75bc39b827",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "All other times",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSOREligRollup",
+            "RuleGUID": "52429f04-7cc9-4583-a63a-c96d1150afa0",
+            "RuleName": "See if prev row (tmp2) values are same as curr row (tmp1)",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "afe6f52d-2678-4a25-b636-7c75bc39b827",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Same Eligibilty",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSOREligRollup",
+                    "RuleGUID": "0551ddba-b626-4959-a00c-839cbd11b258",
+                    "RuleName": "Is current row (tmp1) end date > previous row (tmp2) end date?",
+                    "RuleID": "",
+                    "FunctionName": "CompareAmountFields",
+                    "ParentGUID": "52429f04-7cc9-4583-a63a-c96d1150afa0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Greater than or equal to",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "976b110a-f0b1-4b2b-9843-d83c53afc0f5",
+                            "RuleName": "Copy tmp1 End Date to last line of Main",
+                            "RuleID": "",
+                            "FunctionName": "CopyLines",
+                            "ParentGUID": "0551ddba-b626-4959-a00c-839cbd11b258",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{4}",
+                              "_Description": "\"This just extends the coverage end date.  We do not care if coverage was continuous because we would assume no gap in splitting anyway.\"",
+                              "OverwriteInsertAppend": "0",
+                              "Begin": "{0}",
+                              "End": "{0}",
+                              "LineNumber": "{-1}",
+                              "ClearToFields": "{0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Less than",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "ccfb8270-e8eb-4877-8fda-14fa68ef16d2",
+                            "RuleName": "Copy previous row (tmp2) end date to current row (tmp1) end date",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "0551ddba-b626-4959-a00c-839cbd11b258",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{30}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{17}",
+                              "_Description": "\"We do this so that when the current row becomes the previous row it contains the greatest end date.\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{17}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{30}",
+                      "BracketedField": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "New Eligibilty",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSOREligRollup",
+                    "RuleGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                    "RuleName": "Is the SOR on this row equal to the previous row?",
+                    "RuleID": "",
+                    "FunctionName": "CompareFields",
+                    "ParentGUID": "52429f04-7cc9-4583-a63a-c96d1150afa0",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Not equal",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "5de15bcf-2e5f-4b2f-8d41-1a9b33505d43",
+                            "RuleName": "Is SOR on this row = M?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "44da7fae-2920-4375-a805-0efea92d3463",
+                                    "RuleName": "Is the previous end date = 99991231?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "5de15bcf-2e5f-4b2f-8d41-1a9b33505d43",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "72561df1-a541-4f9c-8467-d05a9e7672da",
+                                            "RuleName": "Copy current row Eff date to temp",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "44da7fae-2920-4375-a805-0efea92d3463",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{16}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{39}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "cefeb8f6-8ab8-434d-a218-1cd9c74627f9",
+                                            "RuleName": "Subtract 1 day from temp",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatDate",
+                                            "ParentGUID": "44da7fae-2920-4375-a805-0efea92d3463",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{39}",
+                                              "_FunctionVersion": "6",
+                                              "DateFormat": "\"Y4MD_output\"",
+                                              "Offset": "\"-00010000\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "d826c8a7-d4c7-4782-b799-d7ca7a9c0b15",
+                                            "RuleName": "Copy current row Eff date (-1) to previous row End date",
+                                            "RuleID": "",
+                                            "FunctionName": "CopyLines",
+                                            "ParentGUID": "44da7fae-2920-4375-a805-0efea92d3463",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{39}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{4}",
+                                              "OverwriteInsertAppend": "0",
+                                              "Begin": "{0}",
+                                              "End": "{0}",
+                                              "LineNumber": "{-1}",
+                                              "ClearToFields": "{0}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "0cdfdb44-5e63-4234-b974-dd9777f2dd0a",
+                                            "RuleName": "Previous end date > current start date?",
+                                            "RuleID": "",
+                                            "FunctionName": "CompareDateFields",
+                                            "ParentGUID": "44da7fae-2920-4375-a805-0efea92d3463",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                    "RuleName": "Was the previous row a New row?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "HasRegExpr",
+                                                    "ParentGUID": "0cdfdb44-5e63-4234-b974-dd9777f2dd0a",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "c2ed11c7-33b9-4b06-ab84-129772d7b11d",
+                                                            "RuleName": "Clear Flag",
+                                                            "RuleID": "",
+                                                            "FunctionName": "DeleteLines",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "DeleteBlanks": "0",
+                                                              "MinLinesBeforeDelete": "0",
+                                                              "_ParamList0": "{42}",
+                                                              "LinesFrom": "0",
+                                                              "_FunctionVersion": "1"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "29e13ae5-5b69-4f73-bedd-373905d070cf",
+                                                            "RuleName": "Copy previous row end date to temp",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{30}",
+                                                              "_FunctionVersion": "1",
+                                                              "_ParamList1": "{39}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "3099be80-57e2-42ab-860e-29cbbfbcaafa",
+                                                            "RuleName": "Add 1 day to temp",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatDate",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{39}",
+                                                              "_FunctionVersion": "6",
+                                                              "DateFormat": "\"Y4MD_output\"",
+                                                              "Offset": "\"+00010000\""
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "05263595-4942-4a5c-b5b3-2d96cb798931",
+                                                            "RuleName": "Copy previous row End date (+1) to current row Eff date",
+                                                            "RuleID": "",
+                                                            "FunctionName": "CopyLines",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{39}",
+                                                              "_FunctionVersion": "1",
+                                                              "_ParamList1": "{16}",
+                                                              "OverwriteInsertAppend": "0",
+                                                              "Begin": "{0}",
+                                                              "End": "{0}",
+                                                              "LineNumber": "{-1}",
+                                                              "ClearToFields": "{0}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "No",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "ab344c29-63b9-4102-bec6-f8813120e76b",
+                                                            "RuleName": "Copy current row Eff date to temp",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{16}",
+                                                              "_FunctionVersion": "1",
+                                                              "_ParamList1": "{39}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "69ccd669-efa4-4cb2-986c-29ac9fb93c19",
+                                                            "RuleName": "Subtract 1 day from temp",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatDate",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{39}",
+                                                              "_FunctionVersion": "6",
+                                                              "DateFormat": "\"Y4MD_output\"",
+                                                              "Offset": "\"-00010000\""
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "dc4abaa4-ddd6-4493-bf02-a0177f5fe8bb",
+                                                            "RuleName": "Copy current row Eff date (-1) to previous row End date",
+                                                            "RuleID": "",
+                                                            "FunctionName": "CopyLines",
+                                                            "ParentGUID": "b2bf3bbc-0750-47aa-a0fa-5d0ad3c7442f",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{39}",
+                                                              "_FunctionVersion": "1",
+                                                              "_ParamList1": "{4}",
+                                                              "OverwriteInsertAppend": "0",
+                                                              "Begin": "{0}",
+                                                              "End": "{0}",
+                                                              "LineNumber": "{-1}",
+                                                              "ClearToFields": "{0}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{42}",
+                                                      "_FunctionVersion": "65539",
+                                                      "CaseSensitive": "1",
+                                                      "_Description": "\"If so we don't want to affect the previous row, we want to change the current row.\"",
+                                                      "RegularExpression": "\"N\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "7653c855-2489-4b3a-b83b-032421d972ad",
+                                                    "RuleName": "Copy previous row end date to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "0cdfdb44-5e63-4234-b974-dd9777f2dd0a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{30}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{39}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "2b6f58f8-b60d-41b7-bfa1-8355f9fe1f3d",
+                                                    "RuleName": "Add 1 day to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatDate",
+                                                    "ParentGUID": "0cdfdb44-5e63-4234-b974-dd9777f2dd0a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "6",
+                                                      "DateFormat": "\"Y4MD_output\"",
+                                                      "Offset": "\"+00010000\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "ec6f5874-5e22-4ea3-b882-db6640ab9f87",
+                                                    "RuleName": "Copy previous row end date (+1) to current row Eff date",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "0cdfdb44-5e63-4234-b974-dd9777f2dd0a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{16}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{30}",
+                                              "_FunctionVersion": "2",
+                                              "_ParamList1": "{16}",
+                                              "DateFormat": "\"Y4MD_Compare\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{30}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"99991231\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "a1259b94-64ff-4fc4-8b1a-baf4342dabef",
+                                    "RuleName": "Is previous row end date > current row end date?",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareAmountFields",
+                                    "ParentGUID": "5de15bcf-2e5f-4b2f-8d41-1a9b33505d43",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "c28db6f6-8b2a-4c37-b614-9d636defc90f",
+                                            "RuleName": "Set flag for new row",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "a1259b94-64ff-4fc4-8b1a-baf4342dabef",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{41}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"N\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "4def224a-ef80-498f-99ff-20148b785288",
+                                            "RuleName": "Clear flag",
+                                            "RuleID": "",
+                                            "FunctionName": "DeleteLines",
+                                            "ParentGUID": "a1259b94-64ff-4fc4-8b1a-baf4342dabef",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "_ParamList0": "{41}",
+                                              "LinesFrom": "0",
+                                              "_FunctionVersion": "1"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{30}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{17}",
+                                      "_Description": "\"If so we have a need to create a new row that has a start date > than the current row end date and an end date equal to the previous row end date.  We'll do that later, after we append the current row to the final set of coverage rows.\"",
+                                      "BracketedField": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "d7f53fb5-926f-4700-8d98-8a4d3875c563",
+                                    "RuleName": "Is the previous end date = 99991231?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "5de15bcf-2e5f-4b2f-8d41-1a9b33505d43",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "dbf1f4b3-689b-4231-a96e-37a0b6c98f9a",
+                                            "RuleName": "Clear current row",
+                                            "RuleID": "",
+                                            "FunctionName": "DeleteLines",
+                                            "ParentGUID": "d7f53fb5-926f-4700-8d98-8a4d3875c563",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                              "LinesFrom": "0",
+                                              "_FunctionVersion": "1"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "169a9df0-2ffc-4619-b167-91b3d53eed9a",
+                                            "RuleName": "Previous end date > current start date?",
+                                            "RuleID": "",
+                                            "FunctionName": "CompareDateFields",
+                                            "ParentGUID": "d7f53fb5-926f-4700-8d98-8a4d3875c563",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "1d03cdec-d0f5-4789-9c0e-6dc12ae38033",
+                                                    "RuleName": "Is the current end date = 99991231?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "HasRegExpr",
+                                                    "ParentGUID": "169a9df0-2ffc-4619-b167-91b3d53eed9a",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "8163ad42-c439-440c-a49d-cb7e496924bc",
+                                                            "RuleName": "Previous end date >= current end date (from dB)?",
+                                                            "RuleID": "",
+                                                            "FunctionName": "CompareDateFields",
+                                                            "ParentGUID": "1d03cdec-d0f5-4789-9c0e-6dc12ae38033",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "Yes",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "126aae46-2e66-46a4-8373-93fd9de7c950",
+                                                                    "RuleName": "Clear current row",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "DeleteLines",
+                                                                    "ParentGUID": "8163ad42-c439-440c-a49d-cb7e496924bc",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "DeleteBlanks": "0",
+                                                                      "MinLinesBeforeDelete": "0",
+                                                                      "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                                                      "LinesFrom": "0",
+                                                                      "_FunctionVersion": "1"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "260",
+                                                                "ActionName": "No",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "d3511435-46eb-42c0-84cc-e664d5b5af11",
+                                                                    "RuleName": "Copy previous row end date to temp",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "8163ad42-c439-440c-a49d-cb7e496924bc",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{30}",
+                                                                      "_FunctionVersion": "1",
+                                                                      "_ParamList1": "{39}"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "96416b06-4110-4934-b041-bcfed54299b9",
+                                                                    "RuleName": "Add 1 day to temp",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "FormatDate",
+                                                                    "ParentGUID": "8163ad42-c439-440c-a49d-cb7e496924bc",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{39}",
+                                                                      "_FunctionVersion": "6",
+                                                                      "DateFormat": "\"Y4MD_output\"",
+                                                                      "Offset": "\"+00010000\""
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "106b3ac2-d008-447d-b324-507a28716f3b",
+                                                                    "RuleName": "Copy previous row end date (+1) to current row Eff date",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "8163ad42-c439-440c-a49d-cb7e496924bc",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{39}",
+                                                                      "_FunctionVersion": "1",
+                                                                      "_ParamList1": "{16}"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{30}",
+                                                              "_FunctionVersion": "2",
+                                                              "_ParamList1": "{40}",
+                                                              "_Description": "\"If so this row falls entirely within the previous coverage period.  We don't need it.\"",
+                                                              "DateFormat": "\"Y4MD_Compare\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "No",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitSOREligRollup",
+                                                            "RuleGUID": "a3780999-7294-4849-8d2d-cf05d2e4c793",
+                                                            "RuleName": "Previous end date >= current end date?",
+                                                            "RuleID": "",
+                                                            "FunctionName": "CompareDateFields",
+                                                            "ParentGUID": "1d03cdec-d0f5-4789-9c0e-6dc12ae38033",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "Yes",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "36a64bed-ce5f-4284-853f-ed5a1b67bd73",
+                                                                    "RuleName": "Clear current row",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "DeleteLines",
+                                                                    "ParentGUID": "a3780999-7294-4849-8d2d-cf05d2e4c793",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "DeleteBlanks": "0",
+                                                                      "MinLinesBeforeDelete": "0",
+                                                                      "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                                                      "LinesFrom": "0",
+                                                                      "_FunctionVersion": "1"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "260",
+                                                                "ActionName": "No",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "38be31ca-c2c9-4f2f-8ea1-f700788d40dc",
+                                                                    "RuleName": "Copy previous row end date to temp",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "a3780999-7294-4849-8d2d-cf05d2e4c793",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{30}",
+                                                                      "_FunctionVersion": "1",
+                                                                      "_ParamList1": "{39}"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "72a64bb1-f1b6-45ce-8175-715737f9a85f",
+                                                                    "RuleName": "Add 1 day to temp",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "FormatDate",
+                                                                    "ParentGUID": "a3780999-7294-4849-8d2d-cf05d2e4c793",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{39}",
+                                                                      "_FunctionVersion": "6",
+                                                                      "DateFormat": "\"Y4MD_output\"",
+                                                                      "Offset": "\"+00010000\""
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "output_SplitSOREligRollup",
+                                                                    "RuleGUID": "a3e375c1-8c8a-4933-8fc8-245053d22977",
+                                                                    "RuleName": "Copy previous row end date (+1) to current row Eff date",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "a3780999-7294-4849-8d2d-cf05d2e4c793",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{39}",
+                                                                      "_FunctionVersion": "1",
+                                                                      "_ParamList1": "{16}"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{30}",
+                                                              "_FunctionVersion": "2",
+                                                              "_ParamList1": "{17}",
+                                                              "_Description": "\"If so this row falls entirely within the previous coverage period.  We don't need it because MTV coverage trumps Legacy coverage.\"",
+                                                              "DateFormat": "\"Y4MD_Compare\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{17}",
+                                                      "_FunctionVersion": "65539",
+                                                      "CaseSensitive": "1",
+                                                      "RegularExpression": "\"99991231\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "58b57ce6-8579-46c8-b2ab-5be804bd1017",
+                                                    "RuleName": "Copy current row Eff date to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "169a9df0-2ffc-4619-b167-91b3d53eed9a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{16}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{39}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "02349003-71d3-4495-af1c-69e7ae107830",
+                                                    "RuleName": "Subtract 1 day from temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatDate",
+                                                    "ParentGUID": "169a9df0-2ffc-4619-b167-91b3d53eed9a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "6",
+                                                      "DateFormat": "\"Y4MD_output\"",
+                                                      "Offset": "\"-00010000\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "45a5c732-6a3a-4cbc-a787-ae2e8a505aee",
+                                                    "RuleName": "Copy current row Eff date (-1) to previous row End date",
+                                                    "RuleID": "",
+                                                    "FunctionName": "CopyLines",
+                                                    "ParentGUID": "169a9df0-2ffc-4619-b167-91b3d53eed9a",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{4}",
+                                                      "OverwriteInsertAppend": "0",
+                                                      "Begin": "{0}",
+                                                      "End": "{0}",
+                                                      "LineNumber": "{-1}",
+                                                      "ClearToFields": "{0}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{30}",
+                                              "_FunctionVersion": "2",
+                                              "_ParamList1": "{16}",
+                                              "DateFormat": "\"Y4MD_Compare\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{30}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"99991231\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{25}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"M\""
+                            }
+                          },
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "08cd1523-bd9e-456c-b63c-683f90d9f633",
+                            "RuleName": "Is the current row empty?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "28375ee1-5103-4492-8dcb-02f3da12e48a",
+                                    "RuleName": "Append tmp1 to Main",
+                                    "RuleID": "",
+                                    "FunctionName": "CopyLines",
+                                    "ParentGUID": "08cd1523-bd9e-456c-b63c-683f90d9f633",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                      "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                      "OverwriteInsertAppend": "2",
+                                      "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                    "RuleName": "Is the AppendFlag = N?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "08cd1523-bd9e-456c-b63c-683f90d9f633",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "3823d20e-3696-422f-9571-e92195be44b0",
+                                            "RuleName": "Copy current row End date to temp",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{39}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "1ab11710-573e-469d-b9cb-a5b1528ade45",
+                                            "RuleName": "Add 1 day to temp",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatDate",
+                                            "ParentGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{39}",
+                                              "_FunctionVersion": "6",
+                                              "DateFormat": "\"Y4MD_output\"",
+                                              "Offset": "\"+00010000\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "6739576e-2060-49bc-9d78-1604dd43c490",
+                                            "RuleName": "Copy current row end date (+1) to previous row (temp version) Eff date",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{39}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{29}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "a7b1b5e0-0422-47d6-a86f-c7f33a9ede14",
+                                            "RuleName": "Append tmp2 to Main",
+                                            "RuleID": "",
+                                            "FunctionName": "CopyLines",
+                                            "ParentGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{26,27,28,29,30,31,32,33,34,35,36,37,38}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                              "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                              "OverwriteInsertAppend": "2",
+                                              "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                              "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                              "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                              "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "841af903-a09f-4ca2-998b-acde3036d600",
+                                            "RuleName": "Clear current row",
+                                            "RuleID": "",
+                                            "FunctionName": "DeleteLines",
+                                            "ParentGUID": "7158ac38-70cd-4916-bdc3-bd1286279d11",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                              "LinesFrom": "0",
+                                              "_FunctionVersion": "1"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{41}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "_Description": "\"This indicates a 'N'ew row was added.\"",
+                                      "RegularExpression": "\"N\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                              "_FunctionVersion": "3",
+                              "_Description": "\"It might be if the above logic tree made the row irrelevant\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Equal",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "452cbc84-c528-4616-9595-0ec13363d8ce",
+                            "RuleName": "Append tmp1 to Main",
+                            "RuleID": "",
+                            "FunctionName": "CopyLines",
+                            "ParentGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                              "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                              "OverwriteInsertAppend": "2",
+                              "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                              "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                              "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                              "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                              "_Disabled": "1"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "fd8f51f1-987f-42d8-8793-b89519d2336a",
+                            "RuleName": "Previous end date > current start date?",
+                            "RuleID": "",
+                            "FunctionName": "CompareDateFields",
+                            "ParentGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "bfb43ac7-3b94-42c8-bf80-96048a5c2526",
+                                    "RuleName": "Is the current end date = 99991231?",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "fd8f51f1-987f-42d8-8793-b89519d2336a",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "c151a9c5-fadc-4892-8c49-f663061cdafc",
+                                            "RuleName": "Previous end date >= current end date (from dB)?",
+                                            "RuleID": "",
+                                            "FunctionName": "CompareDateFields",
+                                            "ParentGUID": "bfb43ac7-3b94-42c8-bf80-96048a5c2526",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "175d2351-77f5-4866-885a-e9ea44a0ba6d",
+                                                    "RuleName": "Clear current row",
+                                                    "RuleID": "",
+                                                    "FunctionName": "DeleteLines",
+                                                    "ParentGUID": "c151a9c5-fadc-4892-8c49-f663061cdafc",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "DeleteBlanks": "0",
+                                                      "MinLinesBeforeDelete": "0",
+                                                      "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                                      "LinesFrom": "0",
+                                                      "_FunctionVersion": "1"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "937511f1-ab24-41ee-b738-d679e4e6fe99",
+                                                    "RuleName": "Copy previous row end date to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "c151a9c5-fadc-4892-8c49-f663061cdafc",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{30}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{39}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "62164d58-e1c2-4078-bb86-c7892e0d5cb6",
+                                                    "RuleName": "Add 1 day to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatDate",
+                                                    "ParentGUID": "c151a9c5-fadc-4892-8c49-f663061cdafc",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "6",
+                                                      "DateFormat": "\"Y4MD_output\"",
+                                                      "Offset": "\"+00010000\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "956c879a-55e0-4609-b9ce-59fed3eb4355",
+                                                    "RuleName": "Copy previous row end date (+1) to current row Eff date",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "c151a9c5-fadc-4892-8c49-f663061cdafc",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{16}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{30}",
+                                              "_FunctionVersion": "2",
+                                              "_ParamList1": "{40}",
+                                              "_Description": "\"If so this row falls entirely within the previous coverage period.  We don't need it.\"",
+                                              "DateFormat": "\"Y4MD_Compare\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitSOREligRollup",
+                                            "RuleGUID": "17bbe7fa-ff31-4334-95cc-92d875d27c58",
+                                            "RuleName": "Previous end date >= current end date?",
+                                            "RuleID": "",
+                                            "FunctionName": "CompareDateFields",
+                                            "ParentGUID": "bfb43ac7-3b94-42c8-bf80-96048a5c2526",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "f3b430a0-8442-4c7c-b8ac-58232446f6ff",
+                                                    "RuleName": "Clear current row",
+                                                    "RuleID": "",
+                                                    "FunctionName": "DeleteLines",
+                                                    "ParentGUID": "17bbe7fa-ff31-4334-95cc-92d875d27c58",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "DeleteBlanks": "0",
+                                                      "MinLinesBeforeDelete": "0",
+                                                      "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                                                      "LinesFrom": "0",
+                                                      "_FunctionVersion": "1"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "64b6ab05-c108-473f-a43d-79a2938e9af3",
+                                                    "RuleName": "Copy previous row end date to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "17bbe7fa-ff31-4334-95cc-92d875d27c58",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{30}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{39}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "22af6023-9517-45da-b049-4d65c4aa2e37",
+                                                    "RuleName": "Add 1 day to temp",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatDate",
+                                                    "ParentGUID": "17bbe7fa-ff31-4334-95cc-92d875d27c58",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "6",
+                                                      "DateFormat": "\"Y4MD_output\"",
+                                                      "Offset": "\"+00010000\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitSOREligRollup",
+                                                    "RuleGUID": "b47f5dc2-93c5-41f8-98a1-12453c12b434",
+                                                    "RuleName": "Copy previous row end date (+1) to current row Eff date",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "17bbe7fa-ff31-4334-95cc-92d875d27c58",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{39}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{16}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{30}",
+                                              "_FunctionVersion": "2",
+                                              "_ParamList1": "{17}",
+                                              "_Description": "\"If so this row falls entirely within the previous coverage period.  We don't need it because MTV coverage trumps Legacy coverage.\"",
+                                              "DateFormat": "\"Y4MD_Compare\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{17}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"99991231\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "a0e1e3d8-755d-4864-aded-44cb3eeff0d6",
+                                    "RuleName": "Copy current row Eff date to temp",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "fd8f51f1-987f-42d8-8793-b89519d2336a",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{16}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{39}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "b9c0ea10-8975-4676-ac8d-275af1bdc39d",
+                                    "RuleName": "Subtract 1 day from temp",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatDate",
+                                    "ParentGUID": "fd8f51f1-987f-42d8-8793-b89519d2336a",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{39}",
+                                      "_FunctionVersion": "6",
+                                      "DateFormat": "\"Y4MD_output\"",
+                                      "Offset": "\"-00010000\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "9acdfd64-1949-4d10-9d94-63be76dcb45e",
+                                    "RuleName": "Copy current row Eff date (-1) to previous row End date",
+                                    "RuleID": "",
+                                    "FunctionName": "CopyLines",
+                                    "ParentGUID": "fd8f51f1-987f-42d8-8793-b89519d2336a",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{39}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{4}",
+                                      "OverwriteInsertAppend": "0",
+                                      "Begin": "{0}",
+                                      "End": "{0}",
+                                      "LineNumber": "{-1}",
+                                      "ClearToFields": "{0}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{30}",
+                              "_FunctionVersion": "2",
+                              "_ParamList1": "{16}",
+                              "DateFormat": "\"Y4MD_Compare\""
+                            }
+                          },
+                          {
+                            "Container": "output_SplitSOREligRollup",
+                            "RuleGUID": "77c18221-acee-4a35-ba48-ae9f32e6f8bd",
+                            "RuleName": "Is the current row empty?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "f18098a1-0a0f-4e46-a469-6201318bbd8c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitSOREligRollup",
+                                    "RuleGUID": "7f891c98-7e8e-4860-8a0a-6b6cc2fab2f2",
+                                    "RuleName": "Append tmp1 to Main",
+                                    "RuleID": "",
+                                    "FunctionName": "CopyLines",
+                                    "ParentGUID": "77c18221-acee-4a35-ba48-ae9f32e6f8bd",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                      "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                      "OverwriteInsertAppend": "2",
+                                      "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+                              "_FunctionVersion": "3",
+                              "_Description": "\"It might be if the above logic tree made the row irrelevant\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{25}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{38}",
+                      "EndWhiteSpaceSensitive": "1",
+                      "CaseSensitive": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{15,18,19,20,21,22,23,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{28,31,32,33,34,35,36,38}",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1",
+              "_Description": "\"By looking at the list of fields that are being compared you can say \\042We are splitting by...\\042 and then name a field.  For instance, Delta wants to split by SystemOfRecord (SOR).  By comparing them we can roll the lines up in to one when they are the same, but preserve the separate rows when they are different.  If they are different we'll have two lines with two date ranges when we go to compare the dates to the detail lines on the claim later on.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,26}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "output_SplitSOREligRollup",
+    "RuleGUID": "7dcffdd6-16f1-4764-9b99-31a0fe7b7679",
+    "RuleName": "Is the current row empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSOREligRollup",
+            "RuleGUID": "3d93e946-9b51-4be5-9e0a-3f20407c10c3",
+            "RuleName": "Copy Main to tmp2 to retain a copy of the prev row",
+            "RuleID": "",
+            "FunctionName": "CopyLines",
+            "ParentGUID": "7dcffdd6-16f1-4764-9b99-31a0fe7b7679",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7,8,9,10,11,2,3,4,12,1,6,0,5}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{33,34,35,36,37,28,29,30,38,27,32,26,31}",
+              "OverwriteInsertAppend": "0",
+              "Begin": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "End": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "LineNumber": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+              "ClearToFields": "{1,1,1,1,1,1,1,1,1,1,1,1,1}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSOREligRollup",
+            "RuleGUID": "7810c690-6a70-47eb-a0bb-ba759b619771",
+            "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "7dcffdd6-16f1-4764-9b99-31a0fe7b7679",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{15,16,20,21,22,23,24,25,14,17,19,13,18}",
+      "_FunctionVersion": "3",
+      "_Description": "\"If not copy it to the previous row fields.  If so copy the Main fields to the previous row fields.\""
+    }
+  }
+]

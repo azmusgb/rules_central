@@ -1,0 +1,2361 @@
+[
+  {
+    "Container": "lookup_PatCentric_SubLUForRoute",
+    "RuleGUID": "1958c394-e9b1-4c7a-afa5-67abd69444ce",
+    "RuleName": "Copy SubSSN to SubIDForLookup",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"SubSSN may change after a Subscriber plug.  When this happens the lookup runs again.  We'd like to avoid this.\"",
+      "_ParamList0": "{0}",
+      "_ParamList1": "{30}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_SubLUForRoute",
+    "RuleGUID": "e0a83be3-a40d-4df2-9034-e9d98c5c2fbc",
+    "RuleName": "Set SubRelCode01 = 01",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{15}",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"01\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_SubLUForRoute",
+    "RuleGUID": "2e94d0bf-4bb7-49fb-8f07-d82f204f3a39",
+    "RuleName": "ClearSL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_Member\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_SubLUForRoute",
+    "RuleGUID": "1df9f38a-36a9-4ebc-a2a0-3da286086c90",
+    "RuleName": "SubSSN - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_SubLUForRoute",
+            "RuleGUID": "52a4ae7d-4687-48f3-902d-f0105acf58c3",
+            "RuleName": "Are 2 of 3 present?",
+            "RuleID": "",
+            "FunctionName": "HowManyAreEmpty",
+            "ParentGUID": "1df9f38a-36a9-4ebc-a2a0-3da286086c90",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - 2 or more are",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "7b5fd71f-3e28-4f57-93fe-0ce5cbd61835",
+                    "RuleName": "ClearSL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "52a4ae7d-4687-48f3-902d-f0105acf58c3",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Member\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "e6fb24db-961c-4bfb-92aa-52815d563bee",
+                    "RuleName": "Call Subscriber Name-based lookup",
+                    "RuleID": "",
+                    "FunctionName": "lookup_Sub_Name",
+                    "ParentGUID": "52a4ae7d-4687-48f3-902d-f0105acf58c3",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{2}",
+                      "_FunctionVersion": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList2": "{3}",
+                      "_ParamList3": "{15}",
+                      "_ParamList4": "{12}",
+                      "_ParamList5": "{13}",
+                      "_ParamList6": "{6}",
+                      "_ParamList7": "{7}",
+                      "_ParamList8": "{14}",
+                      "_ParamList9": "{25}",
+                      "_ParamList10": "{26}",
+                      "_ParamList11": "{24}",
+                      "_ParamList12": "{27}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "ab1dc23d-eaf8-449b-8710-eb44c87a5ef6",
+                    "RuleName": "See if Sub found",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "52a4ae7d-4687-48f3-902d-f0105acf58c3",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No matches",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "fd11cbab-db8e-4371-8505-fc3933cc0935",
+                            "RuleName": "ClearSL",
+                            "RuleID": "",
+                            "FunctionName": "ClearSL",
+                            "ParentGUID": "ab1dc23d-eaf8-449b-8710-eb44c87a5ef6",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Member\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "3057513e-e9cd-4305-8aa5-e3baadee2dba",
+                            "RuleName": "Call Subscriber Name Strings-based lookup",
+                            "RuleID": "",
+                            "FunctionName": "lookup_Sub_Name_Strings",
+                            "ParentGUID": "ab1dc23d-eaf8-449b-8710-eb44c87a5ef6",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_ParamList1": "{2}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList2": "{3}",
+                              "_ParamList3": "{15}",
+                              "_ParamList4": "{12}",
+                              "_ParamList5": "{13}",
+                              "_ParamList6": "{6}",
+                              "_ParamList7": "{7}",
+                              "_ParamList8": "{14}",
+                              "_ParamList9": "{16}",
+                              "_ParamList10": "{17}",
+                              "_ParamList11": "{18}",
+                              "_ParamList12": "{19}",
+                              "_ParamList13": "{8}",
+                              "_ParamList14": "{9}",
+                              "_ParamList15": "{10}",
+                              "_ParamList16": "{11}",
+                              "_ParamList17": "{25}",
+                              "_ParamList18": "{24}",
+                              "_ParamList19": "{26}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "7eb608c7-96d8-439d-86f7-c7681dd9f35b",
+                            "RuleName": "See if Sub found",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "ab1dc23d-eaf8-449b-8710-eb44c87a5ef6",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Empty",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "773e8a96-4cf1-4c3b-ba43-e4c595cb0f44",
+                                    "RuleName": "ClearSL",
+                                    "RuleID": "",
+                                    "FunctionName": "ClearSL",
+                                    "ParentGUID": "7eb608c7-96d8-439d-86f7-c7681dd9f35b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Member\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "2c8fa0bc-4072-4477-b63d-e9079384a944",
+                                    "RuleName": "SubFName - Is Empty?",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "7eb608c7-96d8-439d-86f7-c7681dd9f35b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "a1c0d61f-39b3-4d34-bb7e-8acdc9803025",
+                                            "RuleName": "Call Subscriber Name Strings-based lookup (Names flipped)",
+                                            "RuleID": "",
+                                            "FunctionName": "lookup_Sub_Name_Strings",
+                                            "ParentGUID": "2c8fa0bc-4072-4477-b63d-e9079384a944",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [],
+                                            "Attributes": {
+                                              "_ParamList0": "{2}",
+                                              "_ParamList1": "{1}",
+                                              "_FunctionVersion": "0",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList2": "{3}",
+                                              "_ParamList3": "{15}",
+                                              "_ParamList4": "{12}",
+                                              "_ParamList5": "{13}",
+                                              "_ParamList6": "{6}",
+                                              "_ParamList7": "{7}",
+                                              "_ParamList8": "{14}",
+                                              "_ParamList9": "{16}",
+                                              "_ParamList10": "{17}",
+                                              "_ParamList11": "{18}",
+                                              "_ParamList12": "{19}",
+                                              "_ParamList13": "{8}",
+                                              "_ParamList14": "{9}",
+                                              "_ParamList15": "{10}",
+                                              "_ParamList16": "{11}",
+                                              "_ParamList17": "{25}",
+                                              "_ParamList18": "{24}",
+                                              "_ParamList19": "{26}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"Per RCM 019 (5010 stepdown) - we can get empty First Names.  If the First Name is empty and we swap First/Last we may get undesirable lookup results.  This RCM suggests skipping the name flip enitrely.\"",
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "3",
+                                      "_Sources": "{\"OCR_AEG\"}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "84f6aba1-2366-425c-957e-b2f3eadf2d7b",
+                                    "RuleName": "See if Sub found - Names flipped",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "7eb608c7-96d8-439d-86f7-c7681dd9f35b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Empty",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "b334e8f6-cbe4-4324-91ce-d8cca41395e1",
+                                            "RuleName": "ClearSL",
+                                            "RuleID": "",
+                                            "FunctionName": "ClearSL",
+                                            "ParentGUID": "84f6aba1-2366-425c-957e-b2f3eadf2d7b",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_Member\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "f154064f-d1aa-4494-9279-ce71c5cdcf4b",
+                                            "RuleName": "Set NameLookupFlag to 1",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "84f6aba1-2366-425c-957e-b2f3eadf2d7b",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{31}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"1\"",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{-1}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "a3cf5b33-090f-42bb-84eb-9491ba9099f8",
+                                            "RuleName": "Build list to display",
+                                            "RuleID": "",
+                                            "FunctionName": "lookup_Sub_NameStringToDisplay",
+                                            "ParentGUID": "84f6aba1-2366-425c-957e-b2f3eadf2d7b",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [],
+                                            "Attributes": {
+                                              "_ParamList0": "{1}",
+                                              "_ParamList1": "{2}",
+                                              "_FunctionVersion": "0",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList2": "{3}",
+                                              "_ParamList3": "{15}",
+                                              "_ParamList4": "{12}",
+                                              "_ParamList5": "{13}",
+                                              "_ParamList6": "{6}",
+                                              "_ParamList7": "{7}",
+                                              "_ParamList8": "{14}",
+                                              "_ParamList9": "{16}",
+                                              "_ParamList10": "{17}",
+                                              "_ParamList11": "{18}",
+                                              "_ParamList12": "{19}",
+                                              "_ParamList13": "{8}",
+                                              "_ParamList14": "{9}",
+                                              "_ParamList15": "{10}",
+                                              "_ParamList16": "{11}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"If no matches are made the keyer is presented with a message.  \"",
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Member\"",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "PlugIfSinglePluggableMatch": "0",
+                                      "MaxSize": "0",
+                                      "_ParamListOMRIndex0": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Member\"",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "PlugIfSinglePluggableMatch": "0",
+                              "MaxSize": "0",
+                              "_ParamListOMRIndex0": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"If no matches are made the keyer is presented with a message.  \"",
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Member\"",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "PlugIfSinglePluggableMatch": "0",
+                      "MaxSize": "0",
+                      "_ParamListOMRIndex0": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1,2,3}",
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "Compare": "1",
+              "CountMethod": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_SubLUForRoute",
+            "RuleGUID": "76aa9a88-2f19-4250-ad7f-f912c9f91ada",
+            "RuleName": "Is SubSSN nine 0s?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "1df9f38a-36a9-4ebc-a2a0-3da286086c90",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "03a55e3d-b3fc-4a7c-b5fd-d45f50b2cf8b",
+                    "RuleName": "Get all subscribers with SSN, Name, DOB",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "76aa9a88-2f19-4250-ad7f-f912c9f91ada",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{30,1,2,3,15}",
+                      "_ParamList1": "{}",
+                      "_FunctionVersion": "131076",
+                      "SelectionList": "\"selectionlist_Member\"",
+                      "MaxMatchCount": "300",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemInfo\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_ID\",\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_LEG_REL_CD\"}",
+                      "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+                      "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+                      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "Percentage": "{0}",
+                      "CompareWidths": "{5}",
+                      "CatchResourceUnavailable": "0"
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "57edc94c-d479-4d5d-afee-97fae0b19c4f",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "76aa9a88-2f19-4250-ad7f-f912c9f91ada",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Member\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_SubLUForRoute",
+                    "RuleGUID": "6eede15b-e94f-4bdb-b36a-f550b83fbea2",
+                    "RuleName": "CheckSLState4",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "76aa9a88-2f19-4250-ad7f-f912c9f91ada",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No matches",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "5b276fd2-17ff-4c38-baed-989f521a648e",
+                            "RuleName": "ClearSL",
+                            "RuleID": "",
+                            "FunctionName": "ClearSL",
+                            "ParentGUID": "6eede15b-e94f-4bdb-b36a-f550b83fbea2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Member\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "9ddf2388-0ff5-4731-8038-176813a29615",
+                            "RuleName": "SubFName - Is Empty?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "6eede15b-e94f-4bdb-b36a-f550b83fbea2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "487291d0-8c38-4cb2-a271-77b69ee7bb90",
+                                    "RuleName": "Get all subscribers with SSN, Name, DOB (Fname/Lname flipped)",
+                                    "RuleID": "",
+                                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                                    "ParentGUID": "9ddf2388-0ff5-4731-8038-176813a29615",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"Per defect 104157: Remove Zip Code from perfect match.\"",
+                                      "_ParamList0": "{30,2,1,3,15}",
+                                      "_ParamList1": "{}",
+                                      "_FunctionVersion": "131076",
+                                      "SelectionList": "\"selectionlist_Member\"",
+                                      "MaxMatchCount": "300",
+                                      "MaxIndexCount": "0",
+                                      "EmptyKeyFails": "1",
+                                      "AnyEmptyKeysFails": "0",
+                                      "Table": "\"odbc_MemInfo\"",
+                                      "NextInstance": "0",
+                                      "ExactColumns": "{\"MEM_ID\",\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_LEG_REL_CD\"}",
+                                      "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+                                      "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+                                      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                                      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                                      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "Percentage": "{0}",
+                                      "CompareWidths": "{5}",
+                                      "CatchResourceUnavailable": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Description": "\"Per RCM 019 (5010 stepdown) - we can get empty First Names.  If the First Name is empty and we swap First/Last we may get undesirable lookup results.  This RCM suggests skipping the name flip enitrely.\"",
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "3",
+                              "Compare": "1",
+                              "CaseSensitive": "1"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "5a3f15da-663f-4646-b333-292ae3dc4576",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "6eede15b-e94f-4bdb-b36a-f550b83fbea2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Member\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PatCentric_SubLUForRoute",
+                            "RuleGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                            "RuleName": "CheckSLState4",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "6eede15b-e94f-4bdb-b36a-f550b83fbea2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "65544",
+                                "ActionName": "Not plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "0410f724-f2ab-493b-9b2c-2bc9efbcfbbc",
+                                    "RuleName": "ClearSL",
+                                    "RuleID": "",
+                                    "FunctionName": "ClearSL",
+                                    "ParentGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Member\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "ba825ad7-251a-4e20-a5e1-2617ef377f6d",
+                                    "RuleName": "Prep temp name fields",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "ba5895f6-0ef3-46c9-8c9a-16df65dd46bc",
+                                            "RuleName": "Copy Name fields",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "ba825ad7-251a-4e20-a5e1-2617ef377f6d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{1,2}",
+                                              "_ParamList1": "{12,13}",
+                                              "_FunctionVersion": "1"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "3802da7d-60bb-491d-9d97-bb92c0708fec",
+                                            "RuleName": "Trim LName to 16",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "ba825ad7-251a-4e20-a5e1-2617ef377f6d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{12}",
+                                              "_FunctionVersion": "2",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "InputFormat": "\"\\134(^................\\134)\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "b56bb6be-6c91-4d09-82a6-df90a39a738a",
+                                            "RuleName": "Trim FName to 8",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "ba825ad7-251a-4e20-a5e1-2617ef377f6d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{13}",
+                                              "_FunctionVersion": "2",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "InputFormat": "\"\\134(^........\\134)\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "3",
+                                      "Table": "\"odbc_BillingProv\"",
+                                      "StripSpaces": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "92913272-c1c9-4882-9bf5-e8322191ef43",
+                                    "RuleName": "Call Subscriber ID-based lookup",
+                                    "RuleID": "",
+                                    "FunctionName": "lookup_PatCentric_Sub_ID",
+                                    "ParentGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [],
+                                    "Attributes": {
+                                      "_ParamList0": "{7}",
+                                      "_ParamList1": "{2}",
+                                      "_FunctionVersion": "0",
+                                      "_ParamList2": "{13}",
+                                      "_ParamList3": "{1}",
+                                      "_ParamList4": "{12}",
+                                      "_ParamList5": "{30}",
+                                      "_ParamList6": "{3}",
+                                      "_ParamList7": "{6}",
+                                      "_ParamList8": "{8}",
+                                      "_ParamList9": "{9}",
+                                      "_ParamList10": "{10}",
+                                      "_ParamList11": "{11}",
+                                      "_ParamList12": "{15}",
+                                      "_ParamList13": "{14}",
+                                      "_ParamList14": "{21}",
+                                      "_ParamList15": "{22}",
+                                      "_ParamList16": "{23}",
+                                      "_ParamList17": "{24}",
+                                      "_ParamList18": "{25}",
+                                      "_ParamList19": "{26}",
+                                      "_ParamList20": "{27}",
+                                      "_ParamList21": "{28}",
+                                      "_ParamList22": "{29}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "6ff54353-ba4a-40c3-9ff9-6c671402376e",
+                                    "RuleName": "Set temp10 = 0",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{14}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"0\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                    "RuleGUID": "2c0d7d7b-771f-4f96-b6dd-8f5e14e3c046",
+                                    "RuleName": "See if Sub found",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "f9630ac8-74fd-4655-ad7b-46bfa3aff4f1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Not plugged",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "2c868f8d-113d-4b71-b6d8-272b37525eb4",
+                                            "RuleName": "ClearSL",
+                                            "RuleID": "",
+                                            "FunctionName": "ClearSL",
+                                            "ParentGUID": "2c0d7d7b-771f-4f96-b6dd-8f5e14e3c046",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_Member\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "e0fa20c0-1b21-4804-bbd7-254d9370882c",
+                                            "RuleName": "SubFName - Is Empty?",
+                                            "RuleID": "",
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "2c0d7d7b-771f-4f96-b6dd-8f5e14e3c046",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                    "RuleGUID": "0dada05f-c499-4fb3-8d9d-35198ae377de",
+                                                    "RuleName": "Prep and flip  temp name fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "IsEmpty",
+                                                    "ParentGUID": "e0fa20c0-1b21-4804-bbd7-254d9370882c",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "---",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "131192bf-d4e2-4efb-9403-7789e5d7b028",
+                                                            "RuleName": "Copy Name fields to short fields",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "0dada05f-c499-4fb3-8d9d-35198ae377de",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{2,1}",
+                                                              "_ParamList1": "{12,13}",
+                                                              "_FunctionVersion": "1"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "425e4b98-e59e-49b2-b0b2-a06ea386f4a0",
+                                                            "RuleName": "Copy short fields to Name fields",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "0dada05f-c499-4fb3-8d9d-35198ae377de",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_Description": "\"This will flip the first and last names so that when we call the UDF First = Last and Last = First\"",
+                                                              "_ParamList0": "{12,13}",
+                                                              "_ParamList1": "{1,2}",
+                                                              "_FunctionVersion": "1"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "dcf46fc0-7e91-40dc-8c11-14b3fd890c44",
+                                                            "RuleName": "Trim LName to 16",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatRegExpr",
+                                                            "ParentGUID": "0dada05f-c499-4fb3-8d9d-35198ae377de",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{12}",
+                                                              "_FunctionVersion": "2",
+                                                              "OutputFormat": "\"\\1341\"",
+                                                              "InputFormat": "\"\\134(^................\\134)\"",
+                                                              "CaseSensitive2": "0",
+                                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                                              "_RegExMatchBaseline": "{}",
+                                                              "_RegExOutputBaseline": "{}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "f23b697e-91a6-4156-a633-c0ed91ef7160",
+                                                            "RuleName": "Trim FName to 8",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatRegExpr",
+                                                            "ParentGUID": "0dada05f-c499-4fb3-8d9d-35198ae377de",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{13}",
+                                                              "_FunctionVersion": "2",
+                                                              "OutputFormat": "\"\\1341\"",
+                                                              "InputFormat": "\"\\134(^........\\134)\"",
+                                                              "CaseSensitive2": "0",
+                                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                                              "_RegExMatchBaseline": "{}",
+                                                              "_RegExOutputBaseline": "{}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{0}",
+                                                      "_FunctionVersion": "3",
+                                                      "Table": "\"odbc_BillingProv\"",
+                                                      "StripSpaces": "0"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                    "RuleGUID": "805802ae-b699-4bbb-836a-5ba88879bbb2",
+                                                    "RuleName": "Call Subscriber ID-based lookup with names reversed",
+                                                    "RuleID": "",
+                                                    "FunctionName": "lookup_PatCentric_Sub_ID",
+                                                    "ParentGUID": "e0fa20c0-1b21-4804-bbd7-254d9370882c",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [],
+                                                    "Attributes": {
+                                                      "_Description": "\"At this point the first and last names have been flipped.  This will help when parsing gets them backwards (or the provider submits them backwards).\"",
+                                                      "_ParamList0": "{7}",
+                                                      "_ParamList1": "{2}",
+                                                      "_FunctionVersion": "0",
+                                                      "_ParamList2": "{13}",
+                                                      "_ParamList3": "{1}",
+                                                      "_ParamList4": "{12}",
+                                                      "_ParamList5": "{30}",
+                                                      "_ParamList6": "{3}",
+                                                      "_ParamList7": "{6}",
+                                                      "_ParamList8": "{8}",
+                                                      "_ParamList9": "{9}",
+                                                      "_ParamList10": "{10}",
+                                                      "_ParamList11": "{11}",
+                                                      "_ParamList12": "{15}",
+                                                      "_ParamList13": "{14}",
+                                                      "_ParamList14": "{21}",
+                                                      "_ParamList15": "{22}",
+                                                      "_ParamList16": "{23}",
+                                                      "_ParamList17": "{24}",
+                                                      "_ParamList18": "{25}",
+                                                      "_ParamList19": "{26}",
+                                                      "_ParamList20": "{27}",
+                                                      "_ParamList21": "{28}",
+                                                      "_ParamList22": "{29}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Description": "\"Per RCM 019 (5010 stepdown) - we can get empty First Names.  If the First Name is empty and we swap First/Last we may get undesirable lookup results.  This RCM suggests skipping the name flip enitrely.\"",
+                                              "_ParamList0": "{2}",
+                                              "_FunctionVersion": "3",
+                                              "_Sources": "{\"OCR_AEG\"}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                            "RuleGUID": "32c40498-f7d4-4ac1-ab3a-b627f2b8a1cb",
+                                            "RuleName": "See if Sub found",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "2c0d7d7b-771f-4f96-b6dd-8f5e14e3c046",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "Not plugged",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                    "RuleGUID": "7f838e75-ed6d-4021-a51a-59b0479bd074",
+                                                    "RuleName": "ClearSL",
+                                                    "RuleID": "",
+                                                    "FunctionName": "ClearSL",
+                                                    "ParentGUID": "32c40498-f7d4-4ac1-ab3a-b627f2b8a1cb",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_Member\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                    "RuleGUID": "1fc9d3a5-02c9-4fe2-b337-7b3c8e6ead7a",
+                                                    "RuleName": "SubFName - Is Empty?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "IsEmpty",
+                                                    "ParentGUID": "32c40498-f7d4-4ac1-ab3a-b627f2b8a1cb",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "No",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "fe25b1ae-c9d2-4f6b-8a26-b3136bd26f44",
+                                                            "RuleName": "Prep temp name fields",
+                                                            "RuleID": "",
+                                                            "FunctionName": "IsEmpty",
+                                                            "ParentGUID": "1fc9d3a5-02c9-4fe2-b337-7b3c8e6ead7a",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "---",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "d3bea267-9920-4040-8944-94f96580ab38",
+                                                                    "RuleName": "Copy Name fields to short fields",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "fe25b1ae-c9d2-4f6b-8a26-b3136bd26f44",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{2,1}",
+                                                                      "_ParamList1": "{12,13}",
+                                                                      "_FunctionVersion": "1"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "ee8086a2-77ee-4796-937d-48aff9fdcea1",
+                                                                    "RuleName": "Copy short fields to Name fields",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Copy",
+                                                                    "ParentGUID": "fe25b1ae-c9d2-4f6b-8a26-b3136bd26f44",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_Description": "\"This will flip the first and last names back around (unflip).\"",
+                                                                      "_ParamList0": "{12,13}",
+                                                                      "_ParamList1": "{1,2}",
+                                                                      "_FunctionVersion": "1"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "36a02d0d-4688-4cac-a3d1-6dd2794e1795",
+                                                                    "RuleName": "Trim LName to 16",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "FormatRegExpr",
+                                                                    "ParentGUID": "fe25b1ae-c9d2-4f6b-8a26-b3136bd26f44",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{12}",
+                                                                      "_FunctionVersion": "2",
+                                                                      "OutputFormat": "\"\\1341\"",
+                                                                      "InputFormat": "\"\\134(^................\\134)\"",
+                                                                      "CaseSensitive2": "0",
+                                                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                                                      "_RegExMatchBaseline": "{}",
+                                                                      "_RegExOutputBaseline": "{}"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "6cf54490-a9b9-4a58-9eae-bb206fc375b2",
+                                                                    "RuleName": "Trim FName to 8",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "FormatRegExpr",
+                                                                    "ParentGUID": "fe25b1ae-c9d2-4f6b-8a26-b3136bd26f44",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{13}",
+                                                                      "_FunctionVersion": "2",
+                                                                      "OutputFormat": "\"\\1341\"",
+                                                                      "InputFormat": "\"\\134(^........\\134)\"",
+                                                                      "CaseSensitive2": "0",
+                                                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                                                      "_RegExMatchBaseline": "{}",
+                                                                      "_RegExOutputBaseline": "{}"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{0}",
+                                                              "_FunctionVersion": "3",
+                                                              "Table": "\"odbc_BillingProv\"",
+                                                              "StripSpaces": "0"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "ecec8793-0537-4169-a6bf-fedbe25cd3ec",
+                                                            "RuleName": "Call Subscriber ID-based lookup",
+                                                            "RuleID": "",
+                                                            "FunctionName": "lookup_PatCentric_Sub_ID",
+                                                            "ParentGUID": "1fc9d3a5-02c9-4fe2-b337-7b3c8e6ead7a",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{7}",
+                                                              "_ParamList1": "{2}",
+                                                              "_FunctionVersion": "0",
+                                                              "_ParamList2": "{13}",
+                                                              "_ParamList3": "{1}",
+                                                              "_ParamList4": "{12}",
+                                                              "_ParamList5": "{30}",
+                                                              "_ParamList6": "{3}",
+                                                              "_ParamList7": "{6}",
+                                                              "_ParamList8": "{8}",
+                                                              "_ParamList9": "{9}",
+                                                              "_ParamList10": "{10}",
+                                                              "_ParamList11": "{11}",
+                                                              "_ParamList12": "{15}",
+                                                              "_ParamList13": "{14}",
+                                                              "_ParamList14": "{21}",
+                                                              "_ParamList15": "{22}",
+                                                              "_ParamList16": "{23}",
+                                                              "_ParamList17": "{24}",
+                                                              "_ParamList18": "{25}",
+                                                              "_ParamList19": "{26}",
+                                                              "_ParamList20": "{27}",
+                                                              "_ParamList21": "{28}",
+                                                              "_ParamList22": "{29}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Description": "\"Per RCM 019 (5010 stepdown) - we can get empty First Names.  If the First Name is empty and we swap First/Last we may get undesirable lookup results.  This RCM suggests skipping the name flip enitrely.\"",
+                                                      "_ParamList0": "{2}",
+                                                      "_FunctionVersion": "3",
+                                                      "_Sources": "{\"OCR_AEG\"}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                    "RuleGUID": "f5e65a64-56f2-4698-b3ce-9a1c849f2d4c",
+                                                    "RuleName": "See if Sub found",
+                                                    "RuleID": "",
+                                                    "FunctionName": "CheckSLState4",
+                                                    "ParentGUID": "32c40498-f7d4-4ac1-ab3a-b627f2b8a1cb",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "Not plugged",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                            "RuleGUID": "f6287d5c-f5d6-4092-b2ab-8adb11006479",
+                                                            "RuleName": "Are 2 of 3 present?",
+                                                            "RuleID": "",
+                                                            "FunctionName": "HowManyAreEmpty",
+                                                            "ParentGUID": "f5e65a64-56f2-4698-b3ce-9a1c849f2d4c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "Yes - 2 or more are",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "58da713b-1951-403d-8106-e703b1a7baf4",
+                                                                    "RuleName": "ClearSL",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "ClearSL",
+                                                                    "ParentGUID": "f6287d5c-f5d6-4092-b2ab-8adb11006479",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_FunctionVersion": "1",
+                                                                      "SelectionList": "\"selectionlist_Member\""
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "be60d93d-9173-4aeb-b1cd-00952692f2ef",
+                                                                    "RuleName": "Call Subscriber Name-based lookup",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "lookup_Sub_Name",
+                                                                    "ParentGUID": "f6287d5c-f5d6-4092-b2ab-8adb11006479",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{1}",
+                                                                      "_ParamList1": "{2}",
+                                                                      "_FunctionVersion": "0",
+                                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                                      "_ParamList2": "{3}",
+                                                                      "_ParamList3": "{15}",
+                                                                      "_ParamList4": "{12}",
+                                                                      "_ParamList5": "{13}",
+                                                                      "_ParamList6": "{6}",
+                                                                      "_ParamList7": "{7}",
+                                                                      "_ParamList8": "{14}",
+                                                                      "_ParamList9": "{25}",
+                                                                      "_ParamList10": "{26}",
+                                                                      "_ParamList11": "{24}",
+                                                                      "_ParamList12": "{27}"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                    "RuleGUID": "3165251d-d1e0-4698-83b4-f163853c02a9",
+                                                                    "RuleName": "See if Sub found",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "CheckSLState4",
+                                                                    "ParentGUID": "f6287d5c-f5d6-4092-b2ab-8adb11006479",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "Empty",
+                                                                        "ChildRules": [
+                                                                          {
+                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                            "RuleGUID": "9fe9ac9e-b893-45cf-b153-c58513eaf153",
+                                                                            "RuleName": "ClearSL",
+                                                                            "RuleID": "",
+                                                                            "FunctionName": "ClearSL",
+                                                                            "ParentGUID": "3165251d-d1e0-4698-83b4-f163853c02a9",
+                                                                            "ParentActionIndex": 0,
+                                                                            "Children": [],
+                                                                            "Actions": [
+                                                                              {
+                                                                                "ActionValue": "0",
+                                                                                "ActionName": "",
+                                                                                "ChildRules": [],
+                                                                                "Attributes": {}
+                                                                              }
+                                                                            ],
+                                                                            "Attributes": {
+                                                                              "_FunctionVersion": "1",
+                                                                              "SelectionList": "\"selectionlist_Member\""
+                                                                            }
+                                                                          },
+                                                                          {
+                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                            "RuleGUID": "beac90d3-a9df-47f5-b2ae-b23580acf8f8",
+                                                                            "RuleName": "Call Subscriber Name Strings-based lookup",
+                                                                            "RuleID": "",
+                                                                            "FunctionName": "lookup_Sub_Name_Strings",
+                                                                            "ParentGUID": "3165251d-d1e0-4698-83b4-f163853c02a9",
+                                                                            "ParentActionIndex": 0,
+                                                                            "Children": [],
+                                                                            "Actions": [],
+                                                                            "Attributes": {
+                                                                              "_ParamList0": "{1}",
+                                                                              "_ParamList1": "{2}",
+                                                                              "_FunctionVersion": "0",
+                                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                                              "_ParamList2": "{3}",
+                                                                              "_ParamList3": "{15}",
+                                                                              "_ParamList4": "{12}",
+                                                                              "_ParamList5": "{13}",
+                                                                              "_ParamList6": "{6}",
+                                                                              "_ParamList7": "{7}",
+                                                                              "_ParamList8": "{14}",
+                                                                              "_ParamList9": "{16}",
+                                                                              "_ParamList10": "{17}",
+                                                                              "_ParamList11": "{18}",
+                                                                              "_ParamList12": "{19}",
+                                                                              "_ParamList13": "{8}",
+                                                                              "_ParamList14": "{9}",
+                                                                              "_ParamList15": "{10}",
+                                                                              "_ParamList16": "{11}",
+                                                                              "_ParamList17": "{25}",
+                                                                              "_ParamList18": "{24}",
+                                                                              "_ParamList19": "{26}"
+                                                                            }
+                                                                          },
+                                                                          {
+                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                            "RuleGUID": "1a5891e0-879e-4de9-ac80-73075e3f2818",
+                                                                            "RuleName": "See if Sub found",
+                                                                            "RuleID": "",
+                                                                            "FunctionName": "CheckSLState4",
+                                                                            "ParentGUID": "3165251d-d1e0-4698-83b4-f163853c02a9",
+                                                                            "ParentActionIndex": 0,
+                                                                            "Children": [],
+                                                                            "Actions": [
+                                                                              {
+                                                                                "ActionValue": "0",
+                                                                                "ActionName": "Not plugged",
+                                                                                "ChildRules": [
+                                                                                  {
+                                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                    "RuleGUID": "ec301c25-eeed-4acd-bd87-c4a23db6bb9e",
+                                                                                    "RuleName": "ClearSL",
+                                                                                    "RuleID": "",
+                                                                                    "FunctionName": "ClearSL",
+                                                                                    "ParentGUID": "1a5891e0-879e-4de9-ac80-73075e3f2818",
+                                                                                    "ParentActionIndex": 0,
+                                                                                    "Children": [],
+                                                                                    "Actions": [
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      }
+                                                                                    ],
+                                                                                    "Attributes": {
+                                                                                      "_FunctionVersion": "1",
+                                                                                      "SelectionList": "\"selectionlist_Member\""
+                                                                                    }
+                                                                                  },
+                                                                                  {
+                                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                    "RuleGUID": "03c49b5a-4624-4e39-9926-50606dc8e4a1",
+                                                                                    "RuleName": "SubFName - Is Empty?",
+                                                                                    "RuleID": "",
+                                                                                    "FunctionName": "IsEmpty",
+                                                                                    "ParentGUID": "1a5891e0-879e-4de9-ac80-73075e3f2818",
+                                                                                    "ParentActionIndex": 0,
+                                                                                    "Children": [],
+                                                                                    "Actions": [
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "No",
+                                                                                        "ChildRules": [
+                                                                                          {
+                                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                            "RuleGUID": "17090735-602c-42e8-a904-df4c155bde4a",
+                                                                                            "RuleName": "Call Subscriber Name Strings-based lookup (Names flipped)",
+                                                                                            "RuleID": "",
+                                                                                            "FunctionName": "lookup_Sub_Name_Strings",
+                                                                                            "ParentGUID": "03c49b5a-4624-4e39-9926-50606dc8e4a1",
+                                                                                            "ParentActionIndex": 0,
+                                                                                            "Children": [],
+                                                                                            "Actions": [],
+                                                                                            "Attributes": {
+                                                                                              "_ParamList0": "{2}",
+                                                                                              "_ParamList1": "{1}",
+                                                                                              "_FunctionVersion": "0",
+                                                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                                                              "_ParamList2": "{3}",
+                                                                                              "_ParamList3": "{15}",
+                                                                                              "_ParamList4": "{12}",
+                                                                                              "_ParamList5": "{13}",
+                                                                                              "_ParamList6": "{6}",
+                                                                                              "_ParamList7": "{7}",
+                                                                                              "_ParamList8": "{14}",
+                                                                                              "_ParamList9": "{16}",
+                                                                                              "_ParamList10": "{17}",
+                                                                                              "_ParamList11": "{18}",
+                                                                                              "_ParamList12": "{19}",
+                                                                                              "_ParamList13": "{8}",
+                                                                                              "_ParamList14": "{9}",
+                                                                                              "_ParamList15": "{10}",
+                                                                                              "_ParamList16": "{11}",
+                                                                                              "_ParamList17": "{25}",
+                                                                                              "_ParamList18": "{24}",
+                                                                                              "_ParamList19": "{26}"
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "4",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      }
+                                                                                    ],
+                                                                                    "Attributes": {
+                                                                                      "_Description": "\"Per RCM 019 (5010 stepdown) - we can get empty First Names.  If the First Name is empty and we swap First/Last we may get undesirable lookup results.  This RCM suggests skipping the name flip enitrely.\"",
+                                                                                      "_ParamList0": "{2}",
+                                                                                      "_FunctionVersion": "3",
+                                                                                      "_Sources": "{\"OCR_AEG\"}"
+                                                                                    }
+                                                                                  },
+                                                                                  {
+                                                                                    "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                    "RuleGUID": "8a54695e-312c-46ec-a91a-8467ebeaec5b",
+                                                                                    "RuleName": "See if Sub found - Names flipped",
+                                                                                    "RuleID": "",
+                                                                                    "FunctionName": "CheckSLState4",
+                                                                                    "ParentGUID": "1a5891e0-879e-4de9-ac80-73075e3f2818",
+                                                                                    "ParentActionIndex": 0,
+                                                                                    "Children": [],
+                                                                                    "Actions": [
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "Not plugged - Try to get anything to display",
+                                                                                        "ChildRules": [
+                                                                                          {
+                                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                            "RuleGUID": "5ca49b9a-e138-49b1-a2ae-5010d77f5c19",
+                                                                                            "RuleName": "ClearSL",
+                                                                                            "RuleID": "",
+                                                                                            "FunctionName": "ClearSL",
+                                                                                            "ParentGUID": "8a54695e-312c-46ec-a91a-8467ebeaec5b",
+                                                                                            "ParentActionIndex": 0,
+                                                                                            "Children": [],
+                                                                                            "Actions": [
+                                                                                              {
+                                                                                                "ActionValue": "0",
+                                                                                                "ActionName": "",
+                                                                                                "ChildRules": [],
+                                                                                                "Attributes": {}
+                                                                                              }
+                                                                                            ],
+                                                                                            "Attributes": {
+                                                                                              "_FunctionVersion": "1",
+                                                                                              "SelectionList": "\"selectionlist_Member\""
+                                                                                            }
+                                                                                          },
+                                                                                          {
+                                                                                            "Container": "lookup_PatCentric_SubLUForRoute",
+                                                                                            "RuleGUID": "bb709440-094a-40d2-9232-4c1e7ec89758",
+                                                                                            "RuleName": "Build list to display",
+                                                                                            "RuleID": "",
+                                                                                            "FunctionName": "lookup_Sub_NameStringToDisplay",
+                                                                                            "ParentGUID": "8a54695e-312c-46ec-a91a-8467ebeaec5b",
+                                                                                            "ParentActionIndex": 0,
+                                                                                            "Children": [],
+                                                                                            "Actions": [],
+                                                                                            "Attributes": {
+                                                                                              "_ParamList0": "{1}",
+                                                                                              "_ParamList1": "{2}",
+                                                                                              "_FunctionVersion": "0",
+                                                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                                                              "_ParamList2": "{3}",
+                                                                                              "_ParamList3": "{15}",
+                                                                                              "_ParamList4": "{12}",
+                                                                                              "_ParamList5": "{13}",
+                                                                                              "_ParamList6": "{6}",
+                                                                                              "_ParamList7": "{7}",
+                                                                                              "_ParamList8": "{14}",
+                                                                                              "_ParamList9": "{16}",
+                                                                                              "_ParamList10": "{17}",
+                                                                                              "_ParamList11": "{18}",
+                                                                                              "_ParamList12": "{19}",
+                                                                                              "_ParamList13": "{8}",
+                                                                                              "_ParamList14": "{9}",
+                                                                                              "_ParamList15": "{10}",
+                                                                                              "_ParamList16": "{11}"
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "4",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      },
+                                                                                      {
+                                                                                        "ActionValue": "0",
+                                                                                        "ActionName": "",
+                                                                                        "ChildRules": [],
+                                                                                        "Attributes": {}
+                                                                                      }
+                                                                                    ],
+                                                                                    "Attributes": {
+                                                                                      "_Description": "\"If no matches are made the keyer is presented with a message.  \"",
+                                                                                      "_ParamList0": "{}",
+                                                                                      "_FunctionVersion": "1",
+                                                                                      "SelectionList": "\"selectionlist_Member\"",
+                                                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                                                      "PlugIfSinglePluggableMatch": "0",
+                                                                                      "MaxSize": "0",
+                                                                                      "_ParamListOMRIndex0": "{}"
+                                                                                    }
+                                                                                  }
+                                                                                ],
+                                                                                "Attributes": {}
+                                                                              },
+                                                                              {
+                                                                                "ActionValue": "0",
+                                                                                "ActionName": "",
+                                                                                "ChildRules": [],
+                                                                                "Attributes": {}
+                                                                              },
+                                                                              {
+                                                                                "ActionValue": "0",
+                                                                                "ActionName": "",
+                                                                                "ChildRules": [],
+                                                                                "Attributes": {}
+                                                                              },
+                                                                              {
+                                                                                "ActionValue": "4",
+                                                                                "ActionName": "",
+                                                                                "ChildRules": [],
+                                                                                "Attributes": {}
+                                                                              },
+                                                                              {
+                                                                                "ActionValue": "0",
+                                                                                "ActionName": "",
+                                                                                "ChildRules": [],
+                                                                                "Attributes": {}
+                                                                              }
+                                                                            ],
+                                                                            "Attributes": {
+                                                                              "_ParamList0": "{}",
+                                                                              "_FunctionVersion": "1",
+                                                                              "SelectionList": "\"selectionlist_Member\"",
+                                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                                              "PlugIfSinglePluggableMatch": "0",
+                                                                              "MaxSize": "0",
+                                                                              "_ParamListOMRIndex0": "{}"
+                                                                            }
+                                                                          }
+                                                                        ],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "4",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{}",
+                                                                      "_FunctionVersion": "1",
+                                                                      "SelectionList": "\"selectionlist_Member\"",
+                                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                                      "PlugIfSinglePluggableMatch": "0",
+                                                                      "MaxSize": "0",
+                                                                      "_ParamListOMRIndex0": "{}"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{1,2,3}",
+                                                              "_FunctionVersion": "1",
+                                                              "_Sources": "{\"OCR_AEG\"}",
+                                                              "Compare": "1",
+                                                              "CountMethod": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{}",
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_Member\"",
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "PlugIfSinglePluggableMatch": "0",
+                                                      "MaxSize": "0",
+                                                      "_ParamListOMRIndex0": "{}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{}",
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_Member\"",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "PlugIfSinglePluggableMatch": "0",
+                                              "MaxSize": "0",
+                                              "_ParamListOMRIndex0": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Member\"",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "PlugIfSinglePluggableMatch": "0",
+                                      "MaxSize": "0",
+                                      "_ParamListOMRIndex0": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Member\"",
+                              "PlugIfSinglePluggableMatch": "0",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Member\"",
+                      "PlugIfSinglePluggableMatch": "0",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"Due to an issue with there suddenly being 200k+ rows in the dB with all zeros for an ID we are now skipping lookups on that ID - jdm 06/2015\"",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^000000000$\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

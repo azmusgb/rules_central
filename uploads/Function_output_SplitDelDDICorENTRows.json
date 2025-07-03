@@ -1,0 +1,158 @@
+[
+  {
+    "Container": "output_SplitDelDDICorENTRows",
+    "RuleGUID": "1f9918a1-ca01-4b29-b33c-d52d4bcde528",
+    "RuleName": "Is BU_Flag = D?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - Delete ENT rows",
+        "ChildRules": [
+          {
+            "Container": "output_SplitDelDDICorENTRows",
+            "RuleGUID": "c8e7acfe-db5d-419c-beed-dc7dfec4a541",
+            "RuleName": "Is BL5 != 'DDIC DHMO'?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "1f9918a1-ca01-4b29-b33c-d52d4bcde528",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitDelDDICorENTRows",
+                    "RuleGUID": "cc2011f6-5fa8-4b82-93ae-8f0abd3d0702",
+                    "RuleName": "Delete current row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "c8e7acfe-db5d-419c-beed-dc7dfec4a541",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MemEligInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^DDIC DHMO$\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No - Delete DDIC rows",
+        "ChildRules": [
+          {
+            "Container": "output_SplitDelDDICorENTRows",
+            "RuleGUID": "464e8f12-5915-45f1-80c8-ad50dcfce6f9",
+            "RuleName": "Is BL5 = 'DDIC DHMO'?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "1f9918a1-ca01-4b29-b33c-d52d4bcde528",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitDelDDICorENTRows",
+                    "RuleGUID": "41ddb05a-c733-4246-8194-07e7560f111a",
+                    "RuleName": "Delete current row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "464e8f12-5915-45f1-80c8-ad50dcfce6f9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MemEligInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^DDIC DHMO$\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "RegularExpression": "\"D\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

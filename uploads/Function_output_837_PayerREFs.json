@@ -1,0 +1,158 @@
+[
+  {
+    "Container": "output_837_PayerREFs",
+    "RuleGUID": "6df8a1f9-2a26-496a-9443-b9dc297dea5d",
+    "RuleName": "Is ID Code Qual a Payer secondary ID?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_837_PayerREFs",
+            "RuleGUID": "3c999f6b-c9ba-4789-b50e-65d9b5a121b8",
+            "RuleName": "Is Count < 3?",
+            "RuleID": "",
+            "FunctionName": "CheckAmount",
+            "ParentGUID": "6df8a1f9-2a26-496a-9443-b9dc297dea5d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_PayerREFs",
+                    "RuleGUID": "5ecb2053-77a6-4dc2-970e-a0e6ca4a030b",
+                    "RuleName": "Output REF",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlots",
+                    "ParentGUID": "3c999f6b-c9ba-4789-b50e-65d9b5a121b8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0,1}",
+                      "_FunctionVersion": "6",
+                      "SlotType": "2",
+                      "LineDelimiter": "\"\"",
+                      "AppendLines": "1",
+                      "AppendFields": "1",
+                      "AppendToExistingSlotValues": "0",
+                      "QueueTemplate": "1",
+                      "ClearTemplate": "1",
+                      "TemplateSet": "\"templateset_837_output\"",
+                      "Template": "\"2010BB_035_REF_Payer_Sec_ID\"",
+                      "ConfigSet": "\"outdriver_837\"",
+                      "Slots": "{\"REF01_Ref_ID_Qual\",\"REF02_Ref_ID\"}",
+                      "LineNumber": "{-1,-1}",
+                      "IgnoreEmptyStrings": "{0,0}"
+                    }
+                  },
+                  {
+                    "Container": "output_837_PayerREFs",
+                    "RuleGUID": "41f4a96f-dad7-4214-9855-fc677946434e",
+                    "RuleName": "Add 1 to Count",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "3c999f6b-c9ba-4789-b50e-65d9b5a121b8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "Deviation": "0",
+                      "OutputFormat": "\"%.0f\"",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + 1\"",
+                      "_ParamList1": "{2}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "1",
+              "Deviation": "0",
+              "BracketedField": "0",
+              "MinimumValue": "3",
+              "MaximumValue": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"2U\\134|EI\\134|FY\\134|NF\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

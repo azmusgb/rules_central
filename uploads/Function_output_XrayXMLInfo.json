@@ -1,0 +1,1184 @@
+[
+  {
+    "Container": "output_XrayXMLInfo",
+    "RuleGUID": "ca9f4021-ec08-405f-9608-10b8c9d7ffa3",
+    "RuleName": "Get XraysAttached",
+    "RuleID": "",
+    "FunctionName": "_IGetDocAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "AttrName": "\"XraysAttached\"",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "output_XrayXMLInfo",
+    "RuleGUID": "37d85d5d-cce1-44d1-8c9e-7c2ead0b468e",
+    "RuleName": "Add 1 to temp2",
+    "RuleID": "",
+    "FunctionName": "DoMathAndFormat",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "1",
+      "RepeatInLine": "0",
+      "RepeatInAllLines": "0",
+      "CaseSensitive": "1",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "DeleteLeft": "1",
+      "DeleteRight": "1",
+      "DeleteInterior": "0",
+      "Compress": "1",
+      "DeleteDuplicateRows": "0",
+      "Table": "\"odbc_BillingProv\"",
+      "Column": "\"MTV_BP_ID\"",
+      "Format": "\"%.0f\"",
+      "Deviation": "0",
+      "OutputFormat": "\"%.0f\"",
+      "Remainder": "0",
+      "MathExpression": "\"F0 + 1\"",
+      "_ParamList1": "{2}"
+    }
+  },
+  {
+    "Container": "output_XrayXMLInfo",
+    "RuleGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+    "RuleName": "Is temp2 > temp1?",
+    "RuleID": "",
+    "FunctionName": "CompareAmountFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_XrayXMLInfo",
+            "RuleGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+            "RuleName": "FolderID - See if Reject Letter",
+            "RuleID": "",
+            "FunctionName": "output_XML_checkRejLettertype",
+            "ParentGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Reject Letter",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "8e76d694-ac7e-46a1-8157-3001dd1316a6",
+                    "RuleName": "Set Folder ID to \\042RejectedClaimLetter\\042",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlotConst",
+                    "ParentGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataHeader\"",
+                      "Slot": "\"_folder\"",
+                      "Value": "\"RejectedClaimLetter\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "e9acad71-1436-4be3-932e-489773b23d23",
+                    "RuleName": "Set Folder ID Type to 28",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlotConst",
+                    "ParentGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataHeader\"",
+                      "Slot": "\"_folder_type_id\"",
+                      "Value": "\"28\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "b89b78b8-2274-4b09-a986-fa31870290f0",
+                    "RuleName": "Doc Header - CORROPEGA Attr present?",
+                    "RuleID": "",
+                    "FunctionName": "_ITestDocAttr",
+                    "ParentGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Attribute is not present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "74e48bbd-722e-49bd-9794-2629ba6260de",
+                            "RuleName": "Queue Doc Header Template",
+                            "RuleID": "",
+                            "FunctionName": "QueueTemplate",
+                            "ParentGUID": "b89b78b8-2274-4b09-a986-fa31870290f0",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_DocDataHeader\"",
+                              "ClearTemplate": "1",
+                              "IncrementCounts": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Attribute is present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "94b7c500-c945-4fad-8064-30263917a024",
+                            "RuleName": "Queue Doc Header Template",
+                            "RuleID": "",
+                            "FunctionName": "QueueTemplate",
+                            "ParentGUID": "b89b78b8-2274-4b09-a986-fa31870290f0",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_DocDataHeader\"",
+                              "ClearTemplate": "1",
+                              "IncrementCounts": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "AttrName": "\"CORROPEGA\"",
+                      "_FunctionVersion": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Not Reject Letter",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "6c9adfb5-3785-4b7d-9c86-cc21dd338e09",
+                    "RuleName": "FolderTypeID - Populated?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "9311268b-e9cf-42f9-9ecc-990fbc309edc",
+                            "RuleName": "Copy 26 to FolderIDType",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "6c9adfb5-3785-4b7d-9c86-cc21dd338e09",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"26\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "3",
+                      "_Description": "\"If not, this is a claims batch (not AO or Corro)\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "74c21acd-02ea-4048-b0b8-0f823cc59ea3",
+                    "RuleName": "Doc Header - CORROPEGA Attr present?",
+                    "RuleID": "",
+                    "FunctionName": "_ITestDocAttr",
+                    "ParentGUID": "5f7f5009-3645-4e84-b4b7-e8b10738ec11",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Attribute is not present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "81cd40d3-dab7-4030-8146-927c89e2c493",
+                            "RuleName": "Set and Queue Doc Header",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlots",
+                            "ParentGUID": "74c21acd-02ea-4048-b0b8-0f823cc59ea3",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3,5}",
+                              "_FunctionVersion": "6",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_DocDataHeader\"",
+                              "ClearTemplate": "1",
+                              "IncrementCounts": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\"",
+                              "LineDelimiter": "\"\"",
+                              "AppendLines": "1",
+                              "AppendFields": "1",
+                              "AppendToExistingSlotValues": "0",
+                              "QueueTemplate": "1",
+                              "Slots": "{\"_folder\",\"_folder_type_id\"}",
+                              "LineNumber": "{-1,-1}",
+                              "IgnoreEmptyStrings": "{0,0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Attribute is present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "dab3fa91-c85a-47d5-bcaf-44fae62826c1",
+                            "RuleName": "Set and Queue Doc Header",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlots",
+                            "ParentGUID": "74c21acd-02ea-4048-b0b8-0f823cc59ea3",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3,5}",
+                              "_FunctionVersion": "6",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_DocDataHeader\"",
+                              "ClearTemplate": "1",
+                              "IncrementCounts": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\"",
+                              "LineDelimiter": "\"\"",
+                              "AppendLines": "1",
+                              "AppendFields": "1",
+                              "AppendToExistingSlotValues": "0",
+                              "QueueTemplate": "1",
+                              "Slots": "{\"_folder\",\"_folder_type_id\"}",
+                              "LineNumber": "{-1,-1}",
+                              "IgnoreEmptyStrings": "{0,0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "AttrName": "\"CORROPEGA\"",
+                      "_FunctionVersion": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_FunctionVersion": "0"
+            }
+          },
+          {
+            "Container": "output_XrayXMLInfo",
+            "RuleGUID": "92259bef-9bc4-4a8a-8cdf-5287e7ca1353",
+            "RuleName": "Set DocType to 295",
+            "RuleID": "",
+            "FunctionName": "SetTemplateSlotConst",
+            "ParentGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SlotType": "2",
+              "TemplateSet": "\"xml_doc_template\"",
+              "Template": "\"xml_DocDataHeader2\"",
+              "Slot": "\"_document_type\"",
+              "Value": "\"295\""
+            }
+          },
+          {
+            "Container": "output_XrayXMLInfo",
+            "RuleGUID": "372b45ba-939e-4966-a80e-f6ba98b7939f",
+            "RuleName": "General_ParentDocType - Is Empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "18fdf08a-5734-408b-bd00-f1954b8f51ae",
+                    "RuleName": "Dentegra Claim?",
+                    "RuleID": "",
+                    "FunctionName": "_ITestDocAttr",
+                    "ParentGUID": "372b45ba-939e-4966-a80e-f6ba98b7939f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "425a5696-f581-45c8-9308-f9f098e6a1e3",
+                            "RuleName": "Set Parent DocTypeID to 238",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlotConst",
+                            "ParentGUID": "18fdf08a-5734-408b-bd00-f1954b8f51ae",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_Parent_IDs\"",
+                              "Slot": "\"_parent_doc_type_id\"",
+                              "Value": "\"238\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "9b90f39d-4c71-4a76-a6c3-c78bafbda7d2",
+                            "RuleName": "Set Parent DocTypeID to 5",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlotConst",
+                            "ParentGUID": "18fdf08a-5734-408b-bd00-f1954b8f51ae",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_Parent_IDs\"",
+                              "Slot": "\"_parent_doc_type_id\"",
+                              "Value": "\"5\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "AttrName": "\"DentegraClaim\"",
+                      "_FunctionVersion": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "f279db27-11b7-4d1e-ae65-7d5b96c3db06",
+                    "RuleName": "CORROPEGA Attr present?",
+                    "RuleID": "",
+                    "FunctionName": "_ITestDocAttr",
+                    "ParentGUID": "372b45ba-939e-4966-a80e-f6ba98b7939f",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Attribute is not present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "17184e20-8e6a-4202-b5f6-eb4b285a70ec",
+                            "RuleName": "Set ParentDocType",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlots",
+                            "ParentGUID": "f279db27-11b7-4d1e-ae65-7d5b96c3db06",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_FunctionVersion": "6",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_Parent_IDs\"",
+                              "ClearTemplate": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\"",
+                              "LineDelimiter": "\"\"",
+                              "AppendLines": "1",
+                              "AppendFields": "1",
+                              "AppendToExistingSlotValues": "0",
+                              "QueueTemplate": "0",
+                              "Slots": "{\"_parent_doc_type_id\"}",
+                              "LineNumber": "{-1}",
+                              "IgnoreEmptyStrings": "{0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Attribute is present",
+                        "ChildRules": [
+                          {
+                            "Container": "output_XrayXMLInfo",
+                            "RuleGUID": "4caa7041-d099-4d2e-89d7-9fd013b09b13",
+                            "RuleName": "Set ParentDocType",
+                            "RuleID": "",
+                            "FunctionName": "SetTemplateSlots",
+                            "ParentGUID": "f279db27-11b7-4d1e-ae65-7d5b96c3db06",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_FunctionVersion": "6",
+                              "SlotType": "2",
+                              "TemplateSet": "\"xml_doc_template\"",
+                              "Template": "\"xml_Parent_IDs\"",
+                              "ClearTemplate": "1",
+                              "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\"",
+                              "LineDelimiter": "\"\"",
+                              "AppendLines": "1",
+                              "AppendFields": "1",
+                              "AppendToExistingSlotValues": "0",
+                              "QueueTemplate": "0",
+                              "Slots": "{\"_parent_doc_type_id\"}",
+                              "LineNumber": "{-1}",
+                              "IgnoreEmptyStrings": "{0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "AttrName": "\"CORROPEGA\"",
+                      "_FunctionVersion": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "3"
+            }
+          },
+          {
+            "Container": "output_XrayXMLInfo",
+            "RuleGUID": "4368f190-b2ae-49a7-b6ff-96ee07fa4e96",
+            "RuleName": "ParentID - CORROPEGA Attr present?",
+            "RuleID": "",
+            "FunctionName": "_ITestDocAttr",
+            "ParentGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Attribute is not present",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "a83855a2-c6ae-4114-a389-6d1843fe7f93",
+                    "RuleName": "Queue ParentID",
+                    "RuleID": "",
+                    "FunctionName": "QueueTemplate",
+                    "ParentGUID": "4368f190-b2ae-49a7-b6ff-96ee07fa4e96",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_Parent_IDs\"",
+                      "ClearTemplate": "1",
+                      "IncrementCounts": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Attribute is present",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "44439178-f134-45e6-a6d9-6e791d7b8c8e",
+                    "RuleName": "Queue ParentID",
+                    "RuleID": "",
+                    "FunctionName": "QueueTemplate",
+                    "ParentGUID": "4368f190-b2ae-49a7-b6ff-96ee07fa4e96",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_Parent_IDs\"",
+                      "ClearTemplate": "1",
+                      "IncrementCounts": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "AttrName": "\"CORROPEGA\"",
+              "_FunctionVersion": "0"
+            }
+          },
+          {
+            "Container": "output_XrayXMLInfo",
+            "RuleGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+            "RuleName": "XRAY Ext And Queue - CORROPEGA Attr present?",
+            "RuleID": "",
+            "FunctionName": "_ITestDocAttr",
+            "ParentGUID": "84368a22-2aa6-4843-a19d-b1a1f4d84618",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Attribute is not present",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "c3206a4e-b6c8-42a3-9a99-e577b56192f2",
+                    "RuleName": "Copy DCN to temp1",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1}"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "099228a0-93e7-4b2a-af4e-55afebf64ca6",
+                    "RuleName": "Add _ to temp1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"%s_\"",
+                      "InputFormat": "\"%s\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "006eddc6-e3a4-4c2e-8051-0370127ab704",
+                    "RuleName": "Add count to temp1",
+                    "RuleID": "",
+                    "FunctionName": "MergeFields",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1,2}",
+                      "_FunctionVersion": "65537",
+                      "OutputFormat": "\"%s_\"",
+                      "_ParamList1": "{1}",
+                      "InputFormat": "\"%s\"",
+                      "SkipAppendOnBlankField": "0",
+                      "SkipAppendOnBlankLine": "0",
+                      "TreatMultiLineAllBlankAsBlank": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "96161789-fdf0-4e9c-aaa2-9d0d95d9f1d9",
+                    "RuleName": "Set and Q Doc Header2",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlots",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4,1}",
+                      "_FunctionVersion": "6",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataHeader2\"",
+                      "ClearTemplate": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\"",
+                      "LineDelimiter": "\"\"",
+                      "AppendLines": "1",
+                      "AppendFields": "1",
+                      "AppendToExistingSlotValues": "0",
+                      "QueueTemplate": "1",
+                      "Slots": "{\"_document_date\",\"_document_id\"}",
+                      "LineNumber": "{-1,-1}",
+                      "IgnoreEmptyStrings": "{0,0}"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "05c3e941-13fe-48b4-b662-f8b5c88f1751",
+                    "RuleName": "Set extension for Xray",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlotConst",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "OutputFormat": "\".jpg\"",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataTrailer\"",
+                      "Slot": "\"_document_file_path_ext\"",
+                      "Value": "\".tif\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "912a917c-bd31-470c-acc2-3c5bc8f5c711",
+                    "RuleName": "Set and Queue DocDataTrailer",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlots",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "6",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataTrailer\"",
+                      "ClearTemplate": "1",
+                      "IncrementCounts": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_Idx\"",
+                      "LineDelimiter": "\"\"",
+                      "AppendLines": "1",
+                      "AppendFields": "1",
+                      "AppendToExistingSlotValues": "1",
+                      "QueueTemplate": "1",
+                      "Slots": "{\"_document_file_path_name\"}",
+                      "LineNumber": "{-1}",
+                      "IgnoreEmptyStrings": "{0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Attribute is present",
+                "ChildRules": [
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "52500226-598a-4dd7-888a-b60960d7f06f",
+                    "RuleName": "Copy DCN to temp1",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1}"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "ac9f0f4e-410a-4b23-9798-e5745950d9a1",
+                    "RuleName": "Add _ to temp1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"%s_\"",
+                      "InputFormat": "\"%s\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "b37d82d5-07dd-4bcf-8dff-b0b0251a1509",
+                    "RuleName": "Add count to temp1",
+                    "RuleID": "",
+                    "FunctionName": "MergeFields",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1,2}",
+                      "_FunctionVersion": "65537",
+                      "OutputFormat": "\"%s_\"",
+                      "_ParamList1": "{1}",
+                      "InputFormat": "\"%s\"",
+                      "SkipAppendOnBlankField": "0",
+                      "SkipAppendOnBlankLine": "0",
+                      "TreatMultiLineAllBlankAsBlank": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "35b03b15-c089-41bf-b3da-32c29398a886",
+                    "RuleName": "Set and Q Doc Header2",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlots",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4,1}",
+                      "_FunctionVersion": "6",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataHeader2\"",
+                      "ClearTemplate": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\"",
+                      "LineDelimiter": "\"\"",
+                      "AppendLines": "1",
+                      "AppendFields": "1",
+                      "AppendToExistingSlotValues": "0",
+                      "QueueTemplate": "1",
+                      "Slots": "{\"_document_date\",\"_document_id\"}",
+                      "LineNumber": "{-1,-1}",
+                      "IgnoreEmptyStrings": "{0,0}"
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "2ae92b3a-102a-4419-a887-70e34e1f0615",
+                    "RuleName": "Set extension for Xray",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlotConst",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "OutputFormat": "\".jpg\"",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataTrailer\"",
+                      "Slot": "\"_document_file_path_ext\"",
+                      "Value": "\".tif\""
+                    }
+                  },
+                  {
+                    "Container": "output_XrayXMLInfo",
+                    "RuleGUID": "9e0c88a8-b99f-4f5f-ad4c-a869dceb99eb",
+                    "RuleName": "Set and Queue DocDataTrailer",
+                    "RuleID": "",
+                    "FunctionName": "SetTemplateSlots",
+                    "ParentGUID": "d0e4e017-cac6-4897-9d91-73a87e4f61b2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "6",
+                      "SlotType": "2",
+                      "TemplateSet": "\"xml_doc_template\"",
+                      "Template": "\"xml_DocDataTrailer\"",
+                      "ClearTemplate": "1",
+                      "IncrementCounts": "1",
+                      "ConfigSet": "\"outdriver_XML_Doc_Img_PEGA\"",
+                      "LineDelimiter": "\"\"",
+                      "AppendLines": "1",
+                      "AppendFields": "1",
+                      "AppendToExistingSlotValues": "1",
+                      "QueueTemplate": "1",
+                      "Slots": "{\"_document_file_path_name\"}",
+                      "LineNumber": "{-1}",
+                      "IgnoreEmptyStrings": "{0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "AttrName": "\"CORROPEGA\"",
+              "_FunctionVersion": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "8",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{1}",
+      "_Description": "\"If so we have output all of the Xray doc IDs\"",
+      "BracketedField": "0"
+    }
+  }
+]

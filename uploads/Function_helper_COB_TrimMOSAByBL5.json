@@ -1,0 +1,235 @@
+[
+  {
+    "Container": "helper_COB_TrimMOSAByBL5",
+    "RuleGUID": "a5b5e2ff-3f03-4a65-8063-1529b4ccf16c",
+    "RuleName": "Get BL5BusinessUnit attr",
+    "RuleID": "",
+    "FunctionName": "_IGetDocAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Okay",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_TrimMOSAByBL5",
+            "RuleGUID": "b4a4b3ef-3507-4e4a-ae03-4e14a7c76b35",
+            "RuleName": "Is this a COMM record?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a5b5e2ff-3f03-4a65-8063-1529b4ccf16c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_TrimMOSAByBL5",
+                    "RuleGUID": "b541e575-8b5b-463f-9ccc-8d118194d44d",
+                    "RuleName": "Is this DeltaCare?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "b4a4b3ef-3507-4e4a-ae03-4e14a7c76b35",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "DeltaCare",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_TrimMOSAByBL5",
+                            "RuleGUID": "cf5a0d63-8f51-4f8d-96a8-958cf84fa87f",
+                            "RuleName": "Is this a DHMO MOSA record?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "b541e575-8b5b-463f-9ccc-8d118194d44d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No - Remove row",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_TrimMOSAByBL5",
+                                    "RuleGUID": "078f873e-0850-4668-8817-334fa10d4508",
+                                    "RuleName": "Trim row",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteCurrentRow",
+                                    "ParentGUID": "cf5a0d63-8f51-4f8d-96a8-958cf84fa87f",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_MOSA\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "65539",
+                              "_ParamList0": "{0}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"DHMO\"",
+                              "UDFName": "\"output_837_HDV_Driver\"",
+                              "ForEach": "{1,1,1,0,0,1,0,0,0,0,0,0,1}",
+                              "DelBlanksBefore": "0",
+                              "DelBlanksAfter": "0",
+                              "MakeColEqual": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "FFS",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_TrimMOSAByBL5",
+                            "RuleGUID": "fb2f4b80-fa9a-4a91-91b4-479d6f225541",
+                            "RuleName": "Is this a DHMO MOSA record?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "b541e575-8b5b-463f-9ccc-8d118194d44d",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes - Remove row",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_TrimMOSAByBL5",
+                                    "RuleGUID": "2b6ff08f-f1b1-4b3b-afd9-862fca857674",
+                                    "RuleName": "Trim row",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteCurrentRow",
+                                    "ParentGUID": "fb2f4b80-fa9a-4a91-91b4-479d6f225541",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_MOSA\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "65539",
+                              "_ParamList0": "{0}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"DHMO\"",
+                              "UDFName": "\"output_837_HDV_Driver\"",
+                              "ForEach": "{1,1,1,0,0,1,0,0,0,0,0,0,1}",
+                              "DelBlanksBefore": "0",
+                              "DelBlanksAfter": "0",
+                              "MakeColEqual": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65539",
+                      "_ParamList0": "{1}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"DELTACARE\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65539",
+              "_ParamList0": "{0}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"COMM\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "AttrName": "\"BL5BusinessUnit\"",
+      "_FunctionVersion": "0",
+      "_ParamList0": "{1}"
+    }
+  }
+]

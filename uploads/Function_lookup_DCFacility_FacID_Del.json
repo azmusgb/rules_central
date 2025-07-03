@@ -1,0 +1,92 @@
+[
+  {
+    "Container": "lookup_DCFacility_FacID_Del",
+    "RuleGUID": "c51484e0-b186-4b96-a023-a0d64b72935c",
+    "RuleName": "See if Flag is set",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All",
+        "ChildRules": [
+          {
+            "Container": "lookup_DCFacility_FacID_Del",
+            "RuleGUID": "6c344b08-d9aa-444e-991d-d9681a0d1f8a",
+            "RuleName": "Delete Current Row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "c51484e0-b186-4b96-a023-a0d64b72935c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_RendFacility\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None",
+        "ChildRules": [
+          {
+            "Container": "lookup_DCFacility_FacID_Del",
+            "RuleGUID": "122fd832-4cf3-45f3-8007-8b9c5c2c8099",
+            "RuleName": "Set Flag to 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "c51484e0-b186-4b96-a023-a0d64b72935c",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539",
+      "_Description": "\"We set the flag on the first time through the UDF.  If the flag has been set, we delete all other rows.\""
+    }
+  }
+]

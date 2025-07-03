@@ -1,0 +1,202 @@
+[
+  {
+    "Container": "lookup_SkyGenGroup_BL7_Flag",
+    "RuleGUID": "9b9dfe33-8f33-4d86-8248-cca4971133e6",
+    "RuleName": "Check if temp_DOS is within CTS period",
+    "RuleID": "",
+    "FunctionName": "_IIterateAllUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "---",
+        "ChildRules": [
+          {
+            "Container": "lookup_SkyGenGroup_BL7_Flag",
+            "RuleGUID": "edb800f5-b3c5-4840-8d62-71c8fdc524f0",
+            "RuleName": "Is the BL7 in the SkyGenGroups table?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "9b9dfe33-8f33-4d86-8248-cca4971133e6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_SkyGenGroup_BL7_Flag",
+                    "RuleGUID": "8a486709-a505-4ac6-9429-c0fd814ed432",
+                    "RuleName": "Set SkyGenRowFound to Y",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "edb800f5-b3c5-4840-8d62-71c8fdc524f0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"Y\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_SkyGenGroup_BL7_Flag",
+                    "RuleGUID": "e681390e-2ef4-4ef3-98e6-fb332a005b9b",
+                    "RuleName": "Set MTVRowFound to Y",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "edb800f5-b3c5-4840-8d62-71c8fdc524f0",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"Y\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"odbc_SkyGenGroups\"",
+              "Columns": "{\"BL7\"}"
+            }
+          },
+          {
+            "Container": "lookup_SkyGenGroup_BL7_Flag",
+            "RuleGUID": "0427f90c-8545-4a5f-bd01-46efbf2d5270",
+            "RuleName": "In CTS Period?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "9b9dfe33-8f33-4d86-8248-cca4971133e6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_SkyGenGroup_BL7_Flag",
+                    "RuleGUID": "3c2c8cd2-ac5a-44a8-9569-25c5f46662d5",
+                    "RuleName": "Delete SL Row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "0427f90c-8545-4a5f-bd01-46efbf2d5270",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "OutputFormat": "\"1\"",
+                      "SelectionList": "\"selectionlist_MemElig_Sec_BL7\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"Y\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList0": "{3}",
+      "_ParamList1": "{1}",
+      "_FunctionVersion": "0",
+      "DateFormat": "\"dfr_JDAY_TO_MDY\"",
+      "_ParamList2": "{2}",
+      "UDFName": "\"helper_CompareDOStoCTS\"",
+      "ForEachF": "{0,0,0,0}",
+      "ForEachL": "{1,0,0,0}",
+      "ForEachI": "{0,0,0,0}",
+      "DelBlanksBefore": "0",
+      "DelBlanksAfter": "0",
+      "MakeColEqual": "0",
+      "_ParamList3": "{4}"
+    }
+  }
+]

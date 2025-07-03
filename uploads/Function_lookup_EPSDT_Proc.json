@@ -1,0 +1,184 @@
+[
+  {
+    "Container": "lookup_EPSDT_Proc",
+    "RuleGUID": "0c4c0cea-04be-4664-a771-343c4d3d4a97",
+    "RuleName": "Is EPSDT Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "lookup_EPSDT_Proc",
+            "RuleGUID": "0cc22ab6-2f4e-44ca-95f7-4e762302ee2b",
+            "RuleName": "IsInTable",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "0c4c0cea-04be-4664-a771-343c4d3d4a97",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Entry found",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_EPSDT_Proc",
+                    "RuleGUID": "a8e9e812-a7ad-47a9-9cf5-c7ea8dbf5736",
+                    "RuleName": "EDI Claim?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "0cc22ab6-2f4e-44ca-95f7-4e762302ee2b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_EPSDT_Proc",
+                            "RuleGUID": "f571b65b-1bd7-43f8-9bd7-2b85b85c7fb0",
+                            "RuleName": "Set EPSDT to Yes",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "a8e9e812-a7ad-47a9-9cf5-c7ea8dbf5736",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\" X\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_EPSDT_Proc",
+                            "RuleGUID": "e53e2edc-e818-4010-9ab5-fe7175995834",
+                            "RuleName": "Display Reject to Keyer",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "a8e9e812-a7ad-47a9-9cf5-c7ea8dbf5736",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1,4}",
+                              "_FunctionVersion": "0",
+                              "Languages_Fields": "\"Default\"",
+                              "RejectString": "\"Medicaid claim, is EPSDT box checked?\"",
+                              "_SkipID": "0",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2,0}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"table_EPSDT_PROCDCODE\"",
+              "Columns": "{\"MTV_Group\",\"ProcCode\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

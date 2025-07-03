@@ -1,0 +1,237 @@
+[
+  {
+    "Container": "output_AddSplitFeeMIS",
+    "RuleGUID": "5eea2b9e-06cd-4964-aad1-2d50e291613e",
+    "RuleName": "Does ProcCode have WasEmpty attr?",
+    "RuleID": "",
+    "FunctionName": "GetFieldAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_AddSplitFeeMIS",
+            "RuleGUID": "fae9a242-295e-45fc-bc6d-f80e54a3718c",
+            "RuleName": "Is OutputFileFlag = SplitTrack?",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "5eea2b9e-06cd-4964-aad1-2d50e291613e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Equal",
+                "ChildRules": [
+                  {
+                    "Container": "output_AddSplitFeeMIS",
+                    "RuleGUID": "18966bdf-27a0-4fd9-a3cc-11aa99d43ee3",
+                    "RuleName": "Filter non-numerics from fee",
+                    "RuleID": "",
+                    "FunctionName": "FilterChars",
+                    "ParentGUID": "fae9a242-295e-45fc-bc6d-f80e54a3718c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "2",
+                      "InvertCharSet": "1",
+                      "FilterSet": "\"charset_Numeric\""
+                    }
+                  },
+                  {
+                    "Container": "output_AddSplitFeeMIS",
+                    "RuleGUID": "92cad6e2-3e41-4810-baa9-f5f6c68662a4",
+                    "RuleName": "Add Fee to TotalFee",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "fae9a242-295e-45fc-bc6d-f80e54a3718c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2,3}",
+                      "_ParamList1": "{3}",
+                      "_FunctionVersion": "1",
+                      "Deviation": "0",
+                      "OutputFormat": "\"%.0f\"",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + F1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Not Equal",
+                "ChildRules": [
+                  {
+                    "Container": "output_AddSplitFeeMIS",
+                    "RuleGUID": "30fd1393-e66d-402a-be2b-bc209d1dde1d",
+                    "RuleName": "See if Split track = EDI",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "fae9a242-295e-45fc-bc6d-f80e54a3718c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Equal",
+                        "ChildRules": [
+                          {
+                            "Container": "output_AddSplitFeeMIS",
+                            "RuleGUID": "25d373a4-b85d-4e08-a975-57b7bcfc9b47",
+                            "RuleName": "Filter non-numerics from fee",
+                            "RuleID": "",
+                            "FunctionName": "FilterChars",
+                            "ParentGUID": "30fd1393-e66d-402a-be2b-bc209d1dde1d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "2",
+                              "InvertCharSet": "1",
+                              "FilterSet": "\"charset_Numeric\""
+                            }
+                          },
+                          {
+                            "Container": "output_AddSplitFeeMIS",
+                            "RuleGUID": "f3e836ca-78d4-49db-bb1a-e4bf62073d56",
+                            "RuleName": "Add Fee to TotalFee",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "30fd1393-e66d-402a-be2b-bc209d1dde1d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "1",
+                              "Deviation": "0",
+                              "OutputFormat": "\"%.0f\"",
+                              "Remainder": "0",
+                              "MathExpression": "\"F0 + F1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"EDI\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"If so the detail line we're on is associated with the split we are currently outputting\"",
+              "_ParamList0": "{0}",
+              "_ParamList1": "{1}",
+              "_FunctionVersion": "1",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so we defaulted it to D0001 or D0000 based on RCM 114.  In this case we do not want the Fee associated with this detail line to be added to the total.\"",
+      "_ParamList0": "{5}",
+      "_ParamList1": "{4}",
+      "AttributeName": "\"WasEmpty\"",
+      "_FunctionVersion": "1"
+    }
+  }
+]

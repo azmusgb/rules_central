@@ -1,0 +1,99 @@
+[
+  {
+    "Container": "output_MIS_LegacyElig",
+    "RuleGUID": "ee3ba45c-09ff-48e9-9067-c54e3d124186",
+    "RuleName": "Copy BL6 to temp fields",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"Once we complete the iteration these will be copied back to the master fields.  We always copy here so that if no DOS is within a elig period we still plug at least one BL6.  Once we find a match we set the flag to stop looking.\"",
+      "_ParamList0": "{4}",
+      "_ParamList1": "{3}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_MIS_LegacyElig",
+    "RuleGUID": "d14fc0d1-3dfb-4b99-84f9-481a3e4f3e5e",
+    "RuleName": "See if DOS is within Elig range",
+    "RuleID": "",
+    "FunctionName": "helper_CompareDateToRange",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Within",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_LegacyElig",
+            "RuleGUID": "4dbc9966-684a-4e84-9f9d-ed5cd778fc1e",
+            "RuleName": "Set flag to 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "d14fc0d1-3dfb-4b99-84f9-481a3e4f3e5e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"This marks that we have found coverage so that we do not continue looking for coverage.\"",
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_ParamList1": "{0}",
+      "_FunctionVersion": "0",
+      "_ParamList2": "{1}"
+    }
+  }
+]

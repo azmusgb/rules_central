@@ -1,0 +1,412 @@
+[
+  {
+    "Container": "output_837_formatCharge",
+    "RuleGUID": "252d91fb-fd48-45ed-b311-9ba51907deae",
+    "RuleName": "See if blank",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "output_837_formatCharge",
+            "RuleGUID": "1536b9e7-7888-4740-9424-1231a5caf20c",
+            "RuleName": "See if equal to zero",
+            "RuleID": "",
+            "FunctionName": "CheckAmount",
+            "ParentGUID": "252d91fb-fd48-45ed-b311-9ba51907deae",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Zero amount",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_formatCharge",
+                    "RuleGUID": "1b739603-47dc-4469-b9bb-80747ddac9a5",
+                    "RuleName": "Set to 0",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "1536b9e7-7888-4740-9424-1231a5caf20c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"0\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "Non-zero value",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_formatCharge",
+                    "RuleGUID": "c575ca01-767e-4434-87a0-53d7418c4d7c",
+                    "RuleName": "Filter leading zeros on the inbound",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "1536b9e7-7888-4740-9424-1231a5caf20c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "OutputFormat": "\"\\1341\\1342\"",
+                      "InputFormat": "\"^\\134([-]\\134?\\134)[0]\\134+\\134(.*\\134)$\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"1234\",\"12.34\",\"12\",\".34\",\"-1234\",\"-12.34\",\"-12\",\"-.34\",\"01234\",\"012.34\",\"-01234\",\"-012.34\",\"00001234\",\"-00001234\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  },
+                  {
+                    "Container": "output_837_formatCharge",
+                    "RuleGUID": "beb3e9b1-2e27-45de-9d4f-57c0be535deb",
+                    "RuleName": "Format Charge XXYZ -> XX.YZ",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "1536b9e7-7888-4740-9424-1231a5caf20c",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "None matched",
+                        "ChildRules": [
+                          {
+                            "Container": "output_837_formatCharge",
+                            "RuleGUID": "0aca059c-7e29-48c8-82b9-dfe4a4c32254",
+                            "RuleName": "Format Charge XXY0->XX.Y",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "beb3e9b1-2e27-45de-9d4f-57c0be535deb",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "None matched",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_837_formatCharge",
+                                    "RuleGUID": "4148c5cb-b325-4b35-9f17-d6d0d7ed2082",
+                                    "RuleName": "Format Charge XX00 -> XX",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "0aca059c-7e29-48c8-82b9-dfe4a4c32254",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "None matched",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_837_formatCharge",
+                                            "RuleGUID": "59ad40c1-055f-4af0-b565-b11d28c4488e",
+                                            "RuleName": "Format Charge X0 -> .X",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "4148c5cb-b325-4b35-9f17-d6d0d7ed2082",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "None matched",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_837_formatCharge",
+                                                    "RuleGUID": "bc41be80-0f8e-4bd0-be2a-ae997dcdd076",
+                                                    "RuleName": "Format Charge XX -> .XX",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatRegExpr",
+                                                    "ParentGUID": "59ad40c1-055f-4af0-b565-b11d28c4488e",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "None matched",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_837_formatCharge",
+                                                            "RuleGUID": "75f50c99-1c11-45ee-ac3d-f6c5ead79c34",
+                                                            "RuleName": "Format Charge X -> .0X",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatRegExpr",
+                                                            "ParentGUID": "bc41be80-0f8e-4bd0-be2a-ae997dcdd076",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{0}",
+                                                              "_FunctionVersion": "2",
+                                                              "OutputFormat": "\"\\1341.0\\1342\"",
+                                                              "InputFormat": "\"^\\134([-]\\134?\\134)\\134([1-9]\\134)$\"",
+                                                              "CaseSensitive2": "0",
+                                                              "_RegExTestValues": "{\"1\",\"12\",\"123\",\"-1\",\"-12\",\"-123\",\"-01\",\"01\"}",
+                                                              "_RegExMatchBaseline": "{}",
+                                                              "_RegExOutputBaseline": "{}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{0}",
+                                                      "_FunctionVersion": "2",
+                                                      "OutputFormat": "\"\\1341.\\1342\"",
+                                                      "InputFormat": "\"^\\134([-]\\134?\\134)\\134([1-9][0-9]\\134)$\"",
+                                                      "CaseSensitive2": "0",
+                                                      "_RegExTestValues": "{\"1\",\"12\",\"123\",\"-1\",\"-12\",\"-123\",\"01\",\"-01\"}",
+                                                      "_RegExMatchBaseline": "{}",
+                                                      "_RegExOutputBaseline": "{}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "2",
+                                              "OutputFormat": "\"\\1341.\\1342\"",
+                                              "InputFormat": "\"^\\134([-]\\134?\\134)\\134([1-9]\\134)0$\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"1\",\"10\",\"120\",\"1230\",\"-1\",\"-10\",\"-120\",\"-1230\",\".25\",\"10.25\",\"10\",\"-10\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "2",
+                                      "OutputFormat": "\"\\1341\"",
+                                      "InputFormat": "\"^\\134([-]\\134?.*\\134)00$\"",
+                                      "CaseSensitive2": "0",
+                                      "_RegExTestValues": "{\"4300\",\"4320\",\"4301\",\"4321\",\"-4300\",\"-4320\",\"-4301\",\"-4321\",\"04321\",\"-04321\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "2",
+                              "OutputFormat": "\"\\1341.\\1342\"",
+                              "InputFormat": "\"^\\134([-]\\134?.*\\134)\\134([1-9]\\134)0$\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"4300\",\"4320\",\"4301\",\"4321\",\"-4300\",\"-4320\",\"-4301\",\"-4321\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "OutputFormat": "\"\\1341.\\1342\"",
+                      "InputFormat": "\"^\\134([-]\\134?[1-9].*\\134)\\134([0-9][1-9]\\134)$\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"4300\",\"4320\",\"4301\",\"4321\",\"4\",\"432\",\"-4300\",\"-4301\",\"-4321\",\".25\"}",
+                      "_RegExMatchBaseline": "{0,0,1,1,0,1,0,1,1,1}",
+                      "_RegExOutputBaseline": "{\"4300\",\"4320\",\"43.01\",\"43.21\",\"4\",\"4.32\",\"-4300\",\"-43.01\",\"-43.21\",\"..25\"}",
+                      "_RegExSubStringBaseline0": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline1": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline2": "{\"4301\",\"43\",\"01\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline3": "{\"4321\",\"43\",\"21\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline4": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline5": "{\"432\",\"4\",\"32\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline6": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline7": "{\"-4301\",\"-43\",\"01\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline8": "{\"-4321\",\"-43\",\"21\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+                      "_RegExSubStringBaseline9": "{\".25\",\".\",\"25\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "Deviation": "0",
+              "BracketedField": "0",
+              "InclusionValues": "{0}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "Container": "format_SetLineRendIDorNPI",
+    "RuleGUID": "a848d86c-d5d2-4dc0-8877-f18e5d7a20fd",
+    "RuleName": "Copy LineRenderingID to LineRenderingID_EDIRcvd",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"This way we can save the value received in the NM109 segment.\"",
+      "_ParamList0": "{1}",
+      "_ParamList1": "{3}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "format_SetLineRendIDorNPI",
+    "RuleGUID": "a6f73ac1-bff6-4e8a-8694-3d8c18864cff",
+    "RuleName": "Is IDQual populated?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "format_SetLineRendIDorNPI",
+            "RuleGUID": "95f190d2-d0cf-48ac-bb41-64e668d0e36b",
+            "RuleName": "Is XX?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a6f73ac1-bff6-4e8a-8694-3d8c18864cff",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "format_SetLineRendIDorNPI",
+                    "RuleGUID": "4af0bfe1-b494-47ef-88b8-87d87b40cfbc",
+                    "RuleName": "Copy IDFrom to NPI",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "95f190d2-d0cf-48ac-bb41-64e668d0e36b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{2}",
+                      "_FunctionVersion": "1"
+                    }
+                  },
+                  {
+                    "Container": "format_SetLineRendIDorNPI",
+                    "RuleGUID": "5b56620d-b71c-48ff-8f2f-e9253dc1090f",
+                    "RuleName": "Delete IDFrom",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "95f190d2-d0cf-48ac-bb41-64e668d0e36b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"XX\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

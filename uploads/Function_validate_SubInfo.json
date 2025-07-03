@@ -1,0 +1,1483 @@
+[
+  {
+    "Container": "validate_SubInfo",
+    "RuleGUID": "25fa9c2d-aa6a-40cc-8892-7eecff6ff4a7",
+    "RuleName": "Filter P&S",
+    "RuleID": "97",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "UDFName": "\"format_FilterPSC\"",
+      "_Sources": "{\"OCR_AEG\"}",
+      "ForEach": "{1}",
+      "_ParamList0": "{2,5,6}",
+      "_ParamListOMRIndex0": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "_FunctionVersion": "0",
+      "_Description": "\"Non-detail line fields\""
+    }
+  },
+  {
+    "Container": "validate_SubInfo",
+    "RuleGUID": "c3bc59a9-9400-4a91-ad90-79edfb239072",
+    "RuleName": "Are 2 of 4 present?",
+    "RuleID": null,
+    "FunctionName": "HowManyAreEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Reject: NotPresent",
+        "ChildRules": [
+          {
+            "Container": "validate_SubInfo",
+            "RuleGUID": "be79ddc6-6034-4b31-9dcb-c7d8d6d6f67f",
+            "RuleName": "Already rejected?",
+            "RuleID": null,
+            "FunctionName": "helper_CheckLetterAttrs",
+            "ParentGUID": "c3bc59a9-9400-4a91-ad90-79edfb239072",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubInfo",
+                    "RuleGUID": "7b5c0111-0fcd-405b-8a87-cf5971e17ca4",
+                    "RuleName": "Subscriber Last Name - Is Empty?",
+                    "RuleID": null,
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "be79ddc6-6034-4b31-9dcb-c7d8d6d6f67f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubInfo",
+                            "RuleGUID": "37b111af-b18a-4163-b061-d5be1eaa7590",
+                            "RuleName": "Subscriber First Name - Is Empty?",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "7b5c0111-0fcd-405b-8a87-cf5971e17ca4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_SubInfo",
+                                    "RuleGUID": "0d0133a9-a111-4e70-aa06-abf570816e47",
+                                    "RuleName": "Subscriber DOB - Is Empty?",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "37b111af-b18a-4163-b061-d5be1eaa7590",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "27799ef2-77ec-4622-bcc5-06bf2a4be644",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "0d0133a9-a111-4e70-aa06-abf570816e47",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "71027ff8-b328-4fb4-94c9-9964125f793a",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "27799ef2-77ec-4622-bcc5-06bf2a4be644",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber First Name, Subscriber Date of Birth, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "c34f2ab1-ebb0-4a19-9ce5-5cf5b62df5fa",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "27799ef2-77ec-4622-bcc5-06bf2a4be644",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber First Name, Subscriber Date of Birth\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "9eb67dd5-c99c-467f-876f-3eae4d4ad78c",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "0d0133a9-a111-4e70-aa06-abf570816e47",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "db20fcfb-5007-4ef6-a5df-33fc38aa0ea5",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "9eb67dd5-c99c-467f-876f-3eae4d4ad78c",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber First Name, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "8b1fea10-45e5-4ebf-a44c-75cf27f43ca6",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "9eb67dd5-c99c-467f-876f-3eae4d4ad78c",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber First Name\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamList0": "{2}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_SubInfo",
+                                    "RuleGUID": "d09132a1-99b8-4be8-85b5-f652b0993108",
+                                    "RuleName": "Subscriber DOB - Is Empty?",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "37b111af-b18a-4163-b061-d5be1eaa7590",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "af657297-c3ae-4091-a4f2-ac07a369a6c5",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "d09132a1-99b8-4be8-85b5-f652b0993108",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "b8a73e28-4db5-4357-9f48-7fa237b61f9c",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "af657297-c3ae-4091-a4f2-ac07a369a6c5",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber Date of Birth, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "None Empty",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "7090ecc9-ba9d-45c0-a7cb-21b52272f910",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "af657297-c3ae-4091-a4f2-ac07a369a6c5",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name,  Subscriber Date of Birth\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "ba6baec1-46be-4f76-8660-e17d03342a38",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "d09132a1-99b8-4be8-85b5-f652b0993108",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "b1863701-0048-4b0c-932a-7ae75ed8a561",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "ba6baec1-46be-4f76-8660-e17d03342a38",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Last Name, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "7da6f067-0a87-42a2-a2ab-8d42522882c2",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "ba6baec1-46be-4f76-8660-e17d03342a38",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "_Description": "\"Not possible, but leaving here just in case.\"",
+                                                      "OutputFormat": "\"Subscriber Last Name\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamList0": "{2}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{1}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubInfo",
+                            "RuleGUID": "59aa2832-95ff-4a47-8935-92b7c9768ab1",
+                            "RuleName": "Subscriber First Name - Is Empty?",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "7b5c0111-0fcd-405b-8a87-cf5971e17ca4",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_SubInfo",
+                                    "RuleGUID": "e58f3db8-4be0-4d37-aa1b-580506ffabfa",
+                                    "RuleName": "Subscriber DOB - Is Empty?",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "59aa2832-95ff-4a47-8935-92b7c9768ab1",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "82cbe3e8-1b45-4706-be34-543826a5bb36",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "e58f3db8-4be0-4d37-aa1b-580506ffabfa",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "4f332bef-0548-4b15-b3ad-99af121c04f5",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "82cbe3e8-1b45-4706-be34-543826a5bb36",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber First Name, Subscriber Date of Birth, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "00129d43-19ed-4d9d-ae0e-17dc116ea798",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "82cbe3e8-1b45-4706-be34-543826a5bb36",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber First Name, Subscriber Date of Birth\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "3722abf2-e9a9-486c-a7f5-da2f576a0838",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "e58f3db8-4be0-4d37-aa1b-580506ffabfa",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "51f98ca1-c903-4a1e-a77f-20a8c6c5bd4a",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "3722abf2-e9a9-486c-a7f5-da2f576a0838",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber First Name, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "81bd2d30-4c6d-421a-be13-38c1dfe7349e",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "3722abf2-e9a9-486c-a7f5-da2f576a0838",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "_Description": "\"Not possible, but leaving here just in case.\"",
+                                                      "OutputFormat": "\"Subscriber First Name\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamList0": "{2}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_SubInfo",
+                                    "RuleGUID": "172f3b5c-30a2-4a89-839d-86ff475f3874",
+                                    "RuleName": "Subscriber DOB - Is Empty?",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "59aa2832-95ff-4a47-8935-92b7c9768ab1",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_SubInfo",
+                                            "RuleGUID": "5b248373-f943-47fb-aab7-65dfd92409e9",
+                                            "RuleName": "Subscriber SSN - Is Empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "172f3b5c-30a2-4a89-839d-86ff475f3874",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "52a47009-689e-4fb8-be59-f4e3673dd122",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "5b248373-f943-47fb-aab7-65dfd92409e9",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"Subscriber Date of Birth, Subscriber SSN/ID\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "validate_SubInfo",
+                                                    "RuleGUID": "ce13ac12-e894-4db4-857a-2058c4753dbf",
+                                                    "RuleName": "Set RejectFieldNames",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "5b248373-f943-47fb-aab7-65dfd92409e9",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_Sources": "{\"OCR_AEG\"}",
+                                                      "_ParamList0": "{10}",
+                                                      "_ParamListOMRIndex0": "{-1}",
+                                                      "_FunctionVersion": "100",
+                                                      "_Description": "\"Not possible, but leaving here just in case.\"",
+                                                      "OutputFormat": "\"Subscriber Date of Birth\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamList0": "{11}",
+                                              "_ParamListOMRIndex0": "{-1}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No - Not possible.  3 are populated",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamList0": "{2}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{1}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{0}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "3"
+                    }
+                  },
+                  {
+                    "Container": "validate_SubInfo",
+                    "RuleGUID": "ebbbc7ab-b078-462e-8954-2b67cc4d1c30",
+                    "RuleName": "Set FieldsRejected attr",
+                    "RuleID": null,
+                    "FunctionName": "_ISetDocAttr",
+                    "ParentGUID": "be79ddc6-6034-4b31-9dcb-c7d8d6d6f67f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{10}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "0",
+                      "_Description": "\"This will be the trigger for generating the letter\"",
+                      "AttrName": "\"FieldsRejected\""
+                    }
+                  },
+                  {
+                    "Container": "validate_SubInfo",
+                    "RuleGUID": "ce2825ce-057d-47fb-a3d9-da98875486d3",
+                    "RuleName": "Set InsufficientType attr",
+                    "RuleID": null,
+                    "FunctionName": "_ISetDocAttrConst",
+                    "ParentGUID": "be79ddc6-6034-4b31-9dcb-c7d8d6d6f67f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_FunctionVersion": "0",
+                      "AttrName": "\"InsufficientType\"",
+                      "Value": "\"Member\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{9}",
+              "_FunctionVersion": "0",
+              "AttrName": "\"InsufficientLetter\""
+            }
+          },
+          {
+            "Container": "validate_SubInfo",
+            "RuleGUID": "36b53aed-8105-4c61-a516-d3f15d39878a",
+            "RuleName": "Reject Fields",
+            "RuleID": null,
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "c3bc59a9-9400-4a91-ad90-79edfb239072",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{11,0,1,2}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "0",
+              "_SkipID": "0",
+              "_BackupSkipID": "6280",
+              "RejectString": "\"Three of four fields must be present. If empty reject with reason Insufficient Patient Data\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "Languages": "\"Default\"",
+              "SelectionListAutoPop": "0",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2,1,0,11}",
+      "_FunctionVersion": "1",
+      "CaseSensitive": "1",
+      "IgnorePlugChanges": "1",
+      "Compare": "2",
+      "CountMethod": "0"
+    }
+  },
+  {
+    "Container": "validate_SubInfo",
+    "RuleGUID": "4cef294f-863a-488c-be05-d9cdd5e21916",
+    "RuleName": "Subscriber DOB - Validate",
+    "RuleID": null,
+    "FunctionName": "validate_ADA_Corro_DOB",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{2}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{8}",
+      "_ParamListOMRIndex1": "{-1}"
+    }
+  },
+  {
+    "Container": "validate_SubInfo",
+    "RuleGUID": "af727e28-343f-4b46-a7b2-c5b241f25ede",
+    "RuleName": "Subscriber Address/CSZ Processing",
+    "RuleID": null,
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "---",
+        "ChildRules": [
+          {
+            "Container": "validate_SubInfo",
+            "RuleGUID": "9ac87328-96c9-40aa-bf2d-ff8f7c90f31f",
+            "RuleName": "Remove leading and trailing blanks",
+            "RuleID": null,
+            "FunctionName": "format_DeleteSpaces",
+            "ParentGUID": "af727e28-343f-4b46-a7b2-c5b241f25ede",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{3}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "0"
+            }
+          },
+          {
+            "Container": "validate_SubInfo",
+            "RuleGUID": "0e10b4e6-7d84-4d9d-a72d-ec59eccd5ddc",
+            "RuleName": "Fully Implented Site?",
+            "RuleID": null,
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "af727e28-343f-4b46-a7b2-c5b241f25ede",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubInfo",
+                    "RuleGUID": "053edb1a-afae-46b8-ba78-460307946cda",
+                    "RuleName": "Subscriber Street Address - Is Empty?",
+                    "RuleID": null,
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "0e10b4e6-7d84-4d9d-a72d-ec59eccd5ddc",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Reject: All Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubInfo",
+                            "RuleGUID": "b442a3e1-8ac9-41d2-b231-22e149025b8a",
+                            "RuleName": "Reject Fields",
+                            "RuleID": null,
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "053edb1a-afae-46b8-ba78-460307946cda",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{3}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "5538",
+                              "_BackupSkipID": "5538",
+                              "RejectString": "\"Address is required\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubInfo",
+                            "RuleGUID": "1f3ab234-79a4-41b9-b127-006e4645bc1a",
+                            "RuleName": "Validate Address Characters",
+                            "RuleID": null,
+                            "FunctionName": "CheckCharSet",
+                            "ParentGUID": "053edb1a-afae-46b8-ba78-460307946cda",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Reject: Some characters not in set",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_SubInfo",
+                                    "RuleGUID": "dcf1a35c-3adb-4071-aeed-d54ffabc1e54",
+                                    "RuleName": "Reject Fields",
+                                    "RuleID": null,
+                                    "FunctionName": "_IRejectFields",
+                                    "ParentGUID": "1f3ab234-79a4-41b9-b127-006e4645bc1a",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "0",
+                                      "_SkipID": "5539",
+                                      "_BackupSkipID": "5539",
+                                      "RejectString": "\"Invalid address characters\"",
+                                      "RejectCode": "2",
+                                      "RunOnce": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "1",
+                              "LegalSet": "\"charset_AddressInfo\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{3}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "3"
+                    }
+                  },
+                  {
+                    "Container": "validate_SubInfo",
+                    "RuleGUID": "4e2b58c0-1480-4d77-b125-a3bc73948c92",
+                    "RuleName": "Subscriber CSZ - Validate",
+                    "RuleID": null,
+                    "FunctionName": "validate_SubCSZ",
+                    "ParentGUID": "0e10b4e6-7d84-4d9d-a72d-ec59eccd5ddc",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{6}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "0",
+                      "_Description": "\"Validate its presence and length and perform lookup\"",
+                      "_ParamList1": "{7}",
+                      "_ParamListOMRIndex1": "{-1}",
+                      "_ParamList2": "{4}",
+                      "_ParamListOMRIndex2": "{-1}",
+                      "_ParamList3": "{5}",
+                      "_ParamListOMRIndex3": "{-1}",
+                      "_ParamList4": "{9}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{4294967295}",
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so these rules are not necessary\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"Y\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{3}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "3",
+      "_Description": "\"Per the keying enhancements we are no longer doing this.  If the Address or ZIP is bad or missing the lookup can still succeed.  If the lookup fails then the document gets rejected and the Address and ZIP are irrelevant.  6/25/2010\\015\\012\"",
+      "_Disabled": "1"
+    }
+  },
+  {
+    "Container": "validate_SubInfo",
+    "RuleGUID": "8b98ff87-0e8d-4e74-9c2f-9c7c9ac5065b",
+    "RuleName": "Do some PO Box Formatting",
+    "RuleID": null,
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "UDFName": "\"format_FixPOBoxes\"",
+      "_Sources": "{\"OCR_AEG\"}",
+      "ForEach": "{1}",
+      "_ParamList0": "{3,12,13}",
+      "_ParamListOMRIndex0": "{-1,-1,-1}",
+      "_FunctionVersion": "0"
+    }
+  }
+]

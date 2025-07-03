@@ -1,0 +1,814 @@
+[
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "0a3d128e-9409-4928-8068-14b2fde5ef0c",
+    "RuleName": "Clear temps",
+    "RuleID": null,
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,45,46,47}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "cba00699-9a6e-49ba-aa40-7f350d9c00da",
+    "RuleName": "Is Count = 0?",
+    "RuleID": null,
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProvDetail_driver",
+            "RuleGUID": "6201dafd-b5cc-43d2-8415-296b4b73d37c",
+            "RuleName": "Clear \\042save\\042 fields",
+            "RuleID": null,
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "cba00699-9a6e-49ba-aa40-7f350d9c00da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "_ParamList0": "{52,56,57,58,59,60,61,64,62,66,67,65,76,53,54,55,63}",
+              "LinesFrom": "0",
+              "_FunctionVersion": "1",
+              "_Description": "\"These are used to populate the first line's info to the subsequent lines.  Under certain conditions.\"",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{50}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"0\"",
+      "_Description": "\"If so we have not yet seen the first line and we can clear some fields.\""
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "2c482786-f51e-4353-8908-58acf15a636f",
+    "RuleName": "Add 1 to Count",
+    "RuleID": null,
+    "FunctionName": "DoMathAndFormat",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{50}",
+      "_FunctionVersion": "1",
+      "Deviation": "0",
+      "OutputFormat": "\"%.0f\"",
+      "Remainder": "0",
+      "MathExpression": "\"F0 + 1\"",
+      "_ParamList1": "{50}"
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "9ecca1a0-4a0a-4d27-9e1f-1be10eb5ff0f",
+    "RuleName": "Filter Control Chars",
+    "RuleID": null,
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4,5}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"format_FilterControlChars\"",
+      "ForEach": "{1}"
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "c5b1868f-bf81-4902-bc9b-670131df8e9b",
+    "RuleName": "Filter P&S",
+    "RuleID": "3",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "2",
+      "FilterSet": "\"charset_PuctSpace\""
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "7bc0feb2-ef69-4661-bbb7-e419d64dde81",
+    "RuleName": "Filter non-numerics",
+    "RuleID": null,
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "2",
+      "FilterSet": "\"charset_Numeric\"",
+      "InvertCharSet": "1"
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "7e460318-0409-427a-b319-6301b772ee14",
+    "RuleName": "Do lookup",
+    "RuleID": null,
+    "FunctionName": "lookup_RendProvDetail",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{31}",
+      "_FunctionVersion": "0",
+      "_Description": "\"Tricky thing here: if the claim-level lookup fails we don't want to do the line-level lookup, but we want to set the exact same remark codes at the line-level as we did for claim-level.  The problem is we can't just copy the remarks because some could be unrelated to rendering lookup.  So we are running the lookup and then decided whether or not to present bad results to a keyer or to just set remark codes.\\015\\012\\015\\012So....what I'm doing is running the line-level lookup rules and checking at various points to see if the claim-level was successful.  If not I skip presenting to the keyer and I just set the remarks instead.  \"",
+      "_ParamList1": "{39}",
+      "_ParamList2": "{12}",
+      "_ParamList3": "{25}",
+      "_ParamList4": "{40}",
+      "_ParamList5": "{28}",
+      "_ParamList6": "{9}",
+      "_ParamList7": "{30}",
+      "_ParamList8": "{32}",
+      "_ParamList9": "{0}",
+      "_ParamList10": "{5}",
+      "_ParamList11": "{11}",
+      "_ParamList12": "{1}",
+      "_ParamList13": "{41}",
+      "_ParamList14": "{2}",
+      "_ParamList15": "{27}",
+      "_ParamList16": "{26}",
+      "_ParamList17": "{6}",
+      "_ParamList18": "{42}",
+      "_ParamList19": "{43}",
+      "_ParamList20": "{45}",
+      "_ParamList21": "{46}",
+      "_ParamList22": "{47}",
+      "_ParamList23": "{44}",
+      "_ParamList24": "{4}",
+      "_ParamList25": "{48}",
+      "_ParamList26": "{49}",
+      "_ParamList27": "{51}",
+      "_ParamList28": "{50}",
+      "_ParamList29": "{3}"
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "434b8451-9526-4cef-ab91-39d32c5086c4",
+    "RuleName": "Practice Location - Did Billing lookup succeed?",
+    "RuleID": null,
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProvDetail_driver",
+            "RuleGUID": "6c8dac94-6092-4abf-b81e-8a6408fda7d5",
+            "RuleName": "Did line Rendering lookup succeed?",
+            "RuleID": null,
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "434b8451-9526-4cef-ab91-39d32c5086c4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProvDetail_driver",
+                    "RuleGUID": "b2e2fe03-ffeb-4920-b83f-7a94941b15d9",
+                    "RuleName": "Do practice location lookup",
+                    "RuleID": null,
+                    "FunctionName": "lookup_PracticeLocationDetail",
+                    "ParentGUID": "6c8dac94-6092-4abf-b81e-8a6408fda7d5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [],
+                    "Attributes": {
+                      "_ParamList0": "{34}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{43}",
+                      "_ParamList2": "{28}",
+                      "_ParamList3": "{42}",
+                      "_ParamList4": "{32}",
+                      "_ParamList5": "{74}",
+                      "_ParamList6": "{40}",
+                      "_ParamList7": "{68}",
+                      "_ParamList8": "{69}",
+                      "_ParamList9": "{70}",
+                      "_ParamList10": "{71}",
+                      "_ParamList11": "{72}",
+                      "_ParamList12": "{73}",
+                      "_ParamList13": "{75}",
+                      "_ParamList14": "{0}",
+                      "_ParamList15": "{80}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProvDetail_driver",
+                    "RuleGUID": "71280174-bf70-4246-924d-483748b0c679",
+                    "RuleName": "Did the lookup succeed?",
+                    "RuleID": null,
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "6c8dac94-6092-4abf-b81e-8a6408fda7d5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Entries present",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProvDetail_driver",
+                            "RuleGUID": "ed398c5c-97cd-4f64-a107-fcf5888fa4ef",
+                            "RuleName": "Present list",
+                            "RuleID": null,
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "71280174-bf70-4246-924d-483748b0c679",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "None Rejected",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProvDetail_driver",
+                                    "RuleGUID": "37cdbf2f-df06-4815-8469-4b75cd23790f",
+                                    "RuleName": "Set temp1 to P0L,",
+                                    "RuleID": null,
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "ed398c5c-97cd-4f64-a107-fcf5888fa4ef",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "OutputFormat": "\"P0L,\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_RendProvDetail_driver",
+                                    "RuleGUID": "1b3873fe-37f2-4ad2-92a9-ac2d3a143266",
+                                    "RuleName": "Merge with NTE Segment",
+                                    "RuleID": null,
+                                    "FunctionName": "MergeFields",
+                                    "ParentGUID": "ed398c5c-97cd-4f64-a107-fcf5888fa4ef",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2,0}",
+                                      "_FunctionVersion": "65537",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1,-1}",
+                                      "OutputFormat": "\"%sP0L\"",
+                                      "_ParamList1": "{2}",
+                                      "InputFormat": "\"%s\"",
+                                      "SkipAppendOnBlankField": "0",
+                                      "SkipAppendOnBlankLine": "0",
+                                      "TreatMultiLineAllBlankAsBlank": "0",
+                                      "_ParamListOMRIndex1": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1}",
+                              "RejectString": "\"Select the correct Practice Location for the billing and rendering provider.\"",
+                              "_SkipID": "5871",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "_BackupSkipID": "5871",
+                              "SelectionListName": "\"selectionlist_PracLocDetail\"",
+                              "SelectionListAutoPop": "0",
+                              "Languages": "\"Default\"",
+                              "DelayEval": "0",
+                              "Languages_Fields": "\"Default\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProvDetail_driver",
+                            "RuleGUID": "7eb7593b-1348-4896-a1b8-15b0fe9430ad",
+                            "RuleName": "Set sl_PracLocDetail Doc Attribute to Y",
+                            "RuleID": null,
+                            "FunctionName": "_ISetDocAttrConst",
+                            "ParentGUID": "71280174-bf70-4246-924d-483748b0c679",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "AttrName": "\"sl_PracLocDetail\"",
+                              "Value": "\"Y\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProvDetail_driver",
+                            "RuleGUID": "ade22e0f-b38c-4d42-b1f4-dfe47e857341",
+                            "RuleName": "Set temp1 to RNA,",
+                            "RuleID": null,
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "71280174-bf70-4246-924d-483748b0c679",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "OutputFormat": "\"RNA,\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProvDetail_driver",
+                            "RuleGUID": "5f71e98e-e282-4f1c-94c3-780472b7c78a",
+                            "RuleName": "Merge with NTE Segment",
+                            "RuleID": null,
+                            "FunctionName": "MergeFields",
+                            "ParentGUID": "71280174-bf70-4246-924d-483748b0c679",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,0}",
+                              "_FunctionVersion": "65537",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1}",
+                              "OutputFormat": "\"%sP0L\"",
+                              "_ParamList1": "{2}",
+                              "InputFormat": "\"%s\"",
+                              "SkipAppendOnBlankField": "0",
+                              "SkipAppendOnBlankLine": "0",
+                              "TreatMultiLineAllBlankAsBlank": "0",
+                              "_ParamListOMRIndex1": "{-1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{}",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0",
+                      "SelectionList": "\"selectionlist_PracLocDetail\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{}",
+              "_FunctionVersion": "1",
+              "PlugIfSinglePluggableMatch": "0",
+              "MaxSize": "0",
+              "SelectionList": "\"selectionlist_RendProvDetail\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{68}",
+      "_FunctionVersion": "3",
+      "PlugIfSinglePluggableMatch": "0",
+      "MaxSize": "0",
+      "SelectionList": "\"selectionlist_BillingProv\""
+    }
+  },
+  {
+    "Container": "lookup_RendProvDetail_driver",
+    "RuleGUID": "d07850c9-c5e7-49e1-bd97-10d6d0508e34",
+    "RuleName": "Were the rendering fields the same?",
+    "RuleID": null,
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProvDetail_driver",
+            "RuleGUID": "05aea171-be51-4989-b1db-dc5afeadc419",
+            "RuleName": "Is this the first line?",
+            "RuleID": null,
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "d07850c9-c5e7-49e1-bd97-10d6d0508e34",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProvDetail_driver",
+                    "RuleGUID": "787a7a12-e9ba-44e5-86f5-53f608a51fe9",
+                    "RuleName": "Copy to save fields",
+                    "RuleID": null,
+                    "FunctionName": "Copy",
+                    "ParentGUID": "05aea171-be51-4989-b1db-dc5afeadc419",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5,12,27,26,28,30,31,32,29,34,35,33,36,37,6,38,75,2,78}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{52,63,55,53,56,59,60,61,57,64,58,62,65,66,54,67,76,77,79}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProvDetail_driver",
+                    "RuleGUID": "bfbe2298-fb37-44a0-8d8f-b439b2e9c72b",
+                    "RuleName": "Are the save fields empty?",
+                    "RuleID": null,
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "05aea171-be51-4989-b1db-dc5afeadc419",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProvDetail_driver",
+                            "RuleGUID": "9eaea969-f645-4b96-bad7-c8b6acbfcc6b",
+                            "RuleName": "Copy from save fields",
+                            "RuleID": null,
+                            "FunctionName": "Copy",
+                            "ParentGUID": "bfbe2298-fb37-44a0-8d8f-b439b2e9c72b",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{52,63,55,53,56,59,60,61,57,64,58,62,65,66,54,76,77,79}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{5,12,27,26,28,30,31,32,29,34,35,33,36,37,6,75,2,78}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,76,77,79}",
+                      "_FunctionVersion": "3",
+                      "_Description": "\"If so the first line probably has a reject on it, so we don't want to copy quite yet. \""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{50}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^1$\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{51}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  }
+]

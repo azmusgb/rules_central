@@ -1,0 +1,146 @@
+[
+  {
+    "Container": "helper_CheckOrigValue",
+    "RuleGUID": "46e2ec35-13e6-4da0-b882-72c6f0f4c2df",
+    "RuleName": "Clear temp",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{1}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "helper_CheckOrigValue",
+    "RuleGUID": "7c600dc5-6392-414a-85af-e799fc25dda4",
+    "RuleName": "Is this EDI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_CheckOrigValue",
+            "RuleGUID": "fadc54c8-2480-42fc-bb7f-cce4ad1334e5",
+            "RuleName": "Get original value",
+            "RuleID": "",
+            "FunctionName": "GetFieldAttr",
+            "ParentGUID": "7c600dc5-6392-414a-85af-e799fc25dda4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Okay",
+                "ChildRules": [
+                  {
+                    "Container": "helper_CheckOrigValue",
+                    "RuleGUID": "01c42f7c-5041-4d4e-b810-58a2906772ed",
+                    "RuleName": "Compare fields",
+                    "RuleID": "",
+                    "FunctionName": "CompareFields",
+                    "ParentGUID": "fadc54c8-2480-42fc-bb7f-cce4ad1334e5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "8",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "CaseSensitive": "1",
+                      "_ParamList1": "{1}",
+                      "EndWhiteSpaceSensitive": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_Description": "\"If there is no original value then consider them different.\"",
+              "_ParamList1": "{1}",
+              "AttributeName": "\"OriginalValue\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "131080",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "65539",
+      "_Description": "\"This UDF is used for checking original EDI values for certain fields.  This is used for improved EDI throughput: some rules may present that a keyer cannot do anything about.  So if the current value matches the original value there is no use presenting to a keyer.  - jdm 02/2015\"",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  }
+]

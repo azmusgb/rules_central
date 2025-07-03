@@ -1,0 +1,315 @@
+[
+  {
+    "Container": "helper_COB_OtherFieldsPopulated",
+    "RuleGUID": "24533754-c175-4a49-9736-c07b1ecc327e",
+    "RuleName": "Set temp 1 to 0",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "OutputFormat": "\"0\"",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "100"
+    }
+  },
+  {
+    "Container": "helper_COB_OtherFieldsPopulated",
+    "RuleGUID": "3e16a43d-4192-4fdd-ab13-9fc0864b4c35",
+    "RuleName": "Check population of Other Fields",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{3,2,4}",
+      "_ParamListOMRIndex0": "{-1,-1}",
+      "_FunctionVersion": "0",
+      "MinChars": "3",
+      "MaxChars": "3",
+      "CandidateSet": "\"charset_AlphaNum\"",
+      "_Description": "\"If one has at least 3 chars flag COB Ind\"",
+      "UDFName": "\"helper_FieldHas3Chars\"",
+      "ForEach": "{1,0}",
+      "_ParamList1": "{1}",
+      "_ParamListOMRIndex1": "{-1}"
+    }
+  },
+  {
+    "Container": "helper_COB_OtherFieldsPopulated",
+    "RuleGUID": "e56e5ab2-a128-471b-aafe-28a3f402ce63",
+    "RuleName": "Check flag = 1",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_OtherFieldsPopulated",
+            "RuleGUID": "3528db82-c5d3-44b2-8323-1e63414e27f8",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "e56e5ab2-a128-471b-aafe-28a3f402ce63",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "None Rejected",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_OtherFieldsPopulated",
+                    "RuleGUID": "71c13f81-0898-4f22-a1cf-35e8414893a3",
+                    "RuleName": "Delete COB fields on this page",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "3528db82-c5d3-44b2-8323-1e63414e27f8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{5,3,2,4}",
+                      "_FunctionVersion": "1",
+                      "CaseSensitive": "1",
+                      "RepeatInLine": "0",
+                      "RepeatInAllLines": "0",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{0,2,3,4}",
+              "_ParamListOMRIndex0": "{-1,-1,-1}",
+              "_FunctionVersion": "0",
+              "_SkipID": "6195",
+              "_BackupSkipID": "6195",
+              "RejectString": "\"COB is N.  Press F6 to confirm.\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "SelectionListAutoPop": "0",
+              "Languages": "\"Default\"",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "helper_COB_OtherFieldsPopulated",
+    "RuleGUID": "2acfc6b4-3738-40b3-b04b-2370c390677f",
+    "RuleName": "See if there is data in the OtherSSN field",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_OtherFieldsPopulated",
+            "RuleGUID": "c8f74860-cbca-4178-9351-12e69574042d",
+            "RuleName": "See if SSN has at least 4 numbers",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2acfc6b4-3738-40b3-b04b-2370c390677f",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: None",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_OtherFieldsPopulated",
+                    "RuleGUID": "c79a5924-0105-4346-9d5e-87c19f8e2814",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "c8f74860-cbca-4178-9351-12e69574042d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{4}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "6199",
+                      "_BackupSkipID": "6199",
+                      "RejectString": "\"OtherSSN does not appear to be valid.  Press F6 to confirm.\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "OutputFormat": "\"\"",
+              "_ParamList0": "{4}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "65539",
+              "_Description": "\"This rule is here to catch a condition where garbage characters are picked up and causes the COB state to be set to Y for Legacy claims.\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"[0-9][0-9][0-9][0-9]\"",
+              "_RegExTestValues": "{\"1234\",\"123\",\"12345\",\"1343919918\",\"1233A1234123\",\"123456789\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{4}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

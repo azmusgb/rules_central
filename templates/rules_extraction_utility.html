@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Rules Extraction Utility – Rules Central{% endblock %}
+
+{% block hero_tagline %}
+FormWorks Utility
+{% endblock %}
+
+{% block hero_title %}
+<span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-200">Rules</span> Extraction Utility
+{% endblock %}
+
+{% block hero_subtitle %}
+Easily extract rules from FormWorks with this powerful utility tool.
+{% endblock %}
+
+{% block content %}
+<section role="region" aria-label="Rules Extraction Utility" class="container mx-auto px-4 sm:px-6 py-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg transition-all duration-500 ease-out">
+<main class="container mx-auto px-4 sm:px-6 pb-16 flex-grow pt-24 relative z-10">
+    <!-- Action Section -->
+    <section class="mb-10 text-center">
+        <button
+                class="px-8 py-4 text-lg rounded-xl font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white border border-white/5 shadow-lg hover:border-white/10 hover:shadow-2xl transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary-500"
+                id="executeButton"
+        >
+            <i class="fas fa-bolt mr-3 transition-transform duration-300 group-hover:rotate-45"></i>
+            Extract FormWorks Rules
+        </button>
+    </section>
+
+    <!-- Status Section -->
+    <section class="mb-10">
+        <div
+                class="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-out p-6"
+        >
+            <h2
+                    class="text-xl font-semibold mb-4 text-center text-white flex items-center justify-center"
+            >
+                <i class="fas fa-info-circle text-primary-500 mr-2"></i>
+                Execution Status
+            </h2>
+            <p class="text-center text-slate-300 mb-4" id="execution-message">
+                Awaiting execution...
+            </p>
+            <pre
+                    class="hidden mt-4 p-6 bg-dark-800 border border-slate-700 rounded-2xl overflow-auto text-sm font-mono text-slate-200 shadow-inner"
+                    id="output-message"
+            ></pre>
+        </div>
+    </section>
+</main>
+</section>
+
+<!-- Spinner -->
+<div id="spinner"
+     class="fixed inset-0 bg-black/60 backdrop-blur-md hidden flex items-center justify-center z-50 pointer-events-none transition-opacity duration-300"
+     role="alert" aria-label="Loading overlay">
+    <div class="flex flex-col items-center">
+        <div
+                class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary-500"
+        ></div>
+        <p class="mt-4 text-white font-medium">
+            Processing rules extraction...
+        </p>
+    </div>
+</div>
+
+<!-- Toast -->
+<div
+        class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-dark-800 text-white px-6 py-4 rounded-2xl shadow-lg hidden z-50 flex items-center transition-opacity duration-300 ease-out"
+        id="toast"
+>
+    <span class="material-icons mr-2" id="toast-icon">check_circle</span>
+    <span id="toast-message">Operation completed successfully</span>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/rules_extraction_utility.js') }}"></script>
+{% endblock %}

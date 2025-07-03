@@ -1,0 +1,930 @@
+[
+  {
+    "Container": "output_SplitEligIterateDOS",
+    "RuleGUID": "f358f429-c049-400f-a36e-fe0112109f20",
+    "RuleName": "Show fields",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InputFormat": "\"%s\"",
+      "OutputFormat": "\"%s\"",
+      "_ParamList0": "{14,15,16,17,18,31,33,29,19}",
+      "_FunctionVersion": "100"
+    }
+  },
+  {
+    "Container": "output_SplitEligIterateDOS",
+    "RuleGUID": "6f732e98-a655-4cd5-a8ed-f1f3f2263ba8",
+    "RuleName": "Is DOS Populated?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitEligIterateDOS",
+            "RuleGUID": "08f6d5a3-af8a-4fc8-b22c-fdbcb6dc0ba2",
+            "RuleName": "Compare DOS to Eff Dates",
+            "RuleID": "",
+            "FunctionName": "helper_CompareDateToRange",
+            "ParentGUID": "6f732e98-a655-4cd5-a8ed-f1f3f2263ba8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Within",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligIterateDOS",
+                    "RuleGUID": "d642f3b2-deb0-43b0-afee-b627d3567ac7",
+                    "RuleName": "Copy SL fields to detail fields",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "08f6d5a3-af8a-4fc8-b22c-fdbcb6dc0ba2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{21,22,23,24,32,30,8}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"We want the business levels and division, group and financial market info associated with the detail lines.\"",
+                      "_ParamList1": "{15,16,17,18,31,29,33}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitEligIterateDOS",
+                    "RuleGUID": "1e3d023b-2929-42d8-84e3-0a4070597ca4",
+                    "RuleName": "Was the previous DOS within also?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "08f6d5a3-af8a-4fc8-b22c-fdbcb6dc0ba2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "d2b3c890-62cb-4ac6-a2e6-31d3ffe51d5c",
+                            "RuleName": "Set PreviousWithinFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "1e3d023b-2929-42d8-84e3-0a4070597ca4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "OutputFormat": "\"1\"",
+                              "_ParamList0": "{27}",
+                              "_FunctionVersion": "100",
+                              "_Description": "\"Which, at this precise moment, means the \\042CurrentWithinFlag\\042.\""
+                            }
+                          },
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                            "RuleName": "Is OldOFF populated?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "1e3d023b-2929-42d8-84e3-0a4070597ca4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "aa24de65-e8a6-437a-b476-e7f34ebb0aee",
+                                    "RuleName": "Copy OFF to OldOFF",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{7}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{26}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "b997f285-ce7e-46b2-8297-9fd457efa843",
+                                    "RuleName": "Add 1 to CurrentSplitNum",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "OutputFormat": "\"%.0f\"",
+                                      "_ParamList0": "{12}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{12}",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 + 1\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "ed47aecb-34e5-4aa2-8b22-320b26dd2837",
+                                    "RuleName": "Set  last line of SplitTrack to CurrentSplitNum",
+                                    "RuleID": "",
+                                    "FunctionName": "CopyLines",
+                                    "ParentGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{12}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{11}",
+                                      "OverwriteInsertAppend": "2",
+                                      "Begin": "{0}",
+                                      "End": "{0}",
+                                      "LineNumber": "{-1}",
+                                      "ClearToFields": "{0}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "b783f8f4-7d30-4740-9357-82b4c5a9591c",
+                                    "RuleName": "Copy CurrentSplitNum to OutputFileFlag",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{12}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{7}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                    "RuleName": "Is OFF = OldOFF?",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareFields",
+                                    "ParentGUID": "54b8a4bc-ef9e-4862-9f8d-a2795e98231b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "5be5f02b-9ae2-454c-b3e3-39d0aab9fdaa",
+                                            "RuleName": "Copy SL fields to detail fields",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{25,20}",
+                                              "_FunctionVersion": "1",
+                                              "_Description": "\"This only happens if we are not switching OFF or if the detail  is empty\"",
+                                              "_ParamList1": "{19,14}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "83d98943-194f-49ac-8fa7-48ec523023b1",
+                                            "RuleName": "Copy OFF to OldOFF",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{7}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{26}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "7ef59c64-3c85-4a98-8b5a-5c9b356eea13",
+                                            "RuleName": "Add 1 to CurrentSplitNum",
+                                            "RuleID": "",
+                                            "FunctionName": "DoMathAndFormat",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "OutputFormat": "\"%.0f\"",
+                                              "_ParamList0": "{12}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{12}",
+                                              "Deviation": "0",
+                                              "Remainder": "0",
+                                              "MathExpression": "\"F0 + 1\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "75557f7d-0ad1-480b-bcad-ddf42eb8cc31",
+                                            "RuleName": "Set  last line of SplitTrack to CurrentSplitNum",
+                                            "RuleID": "",
+                                            "FunctionName": "CopyLines",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{12}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{11}",
+                                              "OverwriteInsertAppend": "2",
+                                              "Begin": "{0}",
+                                              "End": "{0}",
+                                              "LineNumber": "{-1}",
+                                              "ClearToFields": "{0}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "d9395de8-c1a6-41f7-b414-be3b24bed9ca",
+                                            "RuleName": "Copy CurrentSplitNum to OutputFileFlag",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{12}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{7}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "6de48c56-d130-4231-a1ab-b93c26983c50",
+                                            "RuleName": "Is Detail SOR empty?",
+                                            "RuleID": "",
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitEligIterateDOS",
+                                                    "RuleGUID": "d5fccd7b-3496-4b65-89fe-c155da307963",
+                                                    "RuleName": "Copy SL fields to detail fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "6de48c56-d130-4231-a1ab-b93c26983c50",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{25,20}",
+                                                      "_FunctionVersion": "1",
+                                                      "_Description": "\"This only happens if we are not switching OFF or if the detail  is empty\"",
+                                                      "_ParamList1": "{19,14}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{19}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligIterateDOS",
+                                            "RuleGUID": "36d7c58c-bd6a-47b4-a5ac-4554aef3ac44",
+                                            "RuleName": "Copy OFF to OldOFF",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "fbec22f9-4f93-4d75-a159-05c074bcff1d",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{7}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{26}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{26}",
+                                      "_FunctionVersion": "1",
+                                      "CaseSensitive": "1",
+                                      "_Description": "\"If so we need to create a new split.  If not we're already on a new split for this group and we shouldn't split again.\"",
+                                      "_ParamList1": "{7}",
+                                      "EndWhiteSpaceSensitive": "1"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{26}",
+                              "_FunctionVersion": "3",
+                              "CaseSensitive": "1",
+                              "_Description": "\"If not this is the first line we've seen of this group, so just set it to the current OFF.\"",
+                              "RegularExpression": "\"^0$\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "3f9fb8a7-8929-421f-b523-5a4a9f212cb2",
+                            "RuleName": "Is OFF = OldOFF?",
+                            "RuleID": "",
+                            "FunctionName": "CompareFields",
+                            "ParentGUID": "1e3d023b-2929-42d8-84e3-0a4070597ca4",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "9811b285-645b-470b-912e-4a04f05398c6",
+                                    "RuleName": "Copy PreviousOFF to OFF",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "3f9fb8a7-8929-421f-b523-5a4a9f212cb2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{28}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{7}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{26}",
+                              "_FunctionVersion": "1",
+                              "CaseSensitive": "1",
+                              "_Description": "\"If so the DOS line we are on used to be associated with the previous DOS line.  In that case we want to make sure they stay associated.\"",
+                              "_ParamList1": "{7}",
+                              "EndWhiteSpaceSensitive": "1"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "6ad2cdb0-cc1d-4940-8f64-0b7acf32d03d",
+                            "RuleName": "Set PreviousWithinFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "1e3d023b-2929-42d8-84e3-0a4070597ca4",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "OutputFormat": "\"1\"",
+                              "_ParamList0": "{27}",
+                              "_FunctionVersion": "100",
+                              "_Description": "\"Which, at this precise moment, means the \\042CurrentWithinFlag\\042.\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{27}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "_Description": "\"If so the value of PreviousWithinFlag would be 1.\\015\\012\\015\\012If the line we're on now was grouped with the previous one then we need to split it out.\\015\\012\\015\\012This is only important to the elig splitting because it comes after the coverage splitting.  Because of this ordering we need to know when to split lines that would be grouped by coverage.\"",
+                      "RegularExpression": "\"0\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Not Within",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligIterateDOS",
+                    "RuleGUID": "2efac62f-5e3d-482f-a79d-a42840d36237",
+                    "RuleName": "Was the previous DOS within?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "08f6d5a3-af8a-4fc8-b22c-fdbcb6dc0ba2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "95aad28d-68a4-4456-a605-1b94c5ccd3ae",
+                            "RuleName": "Is OFF = OldOFF?",
+                            "RuleID": "",
+                            "FunctionName": "CompareFields",
+                            "ParentGUID": "2efac62f-5e3d-482f-a79d-a42840d36237",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "6de20de9-7d07-417d-9e06-b95272e410de",
+                                    "RuleName": "Copy PreviousOFF to OFF",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "95aad28d-68a4-4456-a605-1b94c5ccd3ae",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{28}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{7}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitEligIterateDOS",
+                                    "RuleGUID": "b95128e3-3825-4630-b6bc-5c53683bb327",
+                                    "RuleName": "Set PreviousWithinFlag = 1",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "95aad28d-68a4-4456-a605-1b94c5ccd3ae",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "OutputFormat": "\"1\"",
+                                      "_ParamList0": "{27}",
+                                      "_FunctionVersion": "100",
+                                      "_Description": "\"Which, at this precise moment, means the \\042CurrentWithinFlag\\042.   This Formatf is irrelevant since the flag was already a one, but I think this keeps the logic readable.\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{26}",
+                              "_FunctionVersion": "1",
+                              "CaseSensitive": "1",
+                              "_Description": "\"If so the DOS line we are on used to be associated with the previous DOS line. \"",
+                              "_ParamList1": "{7}",
+                              "EndWhiteSpaceSensitive": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "0b17273c-3582-46ac-8bac-29b33c5b20c5",
+                            "RuleName": "Copy OFF to OldOFF",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "2efac62f-5e3d-482f-a79d-a42840d36237",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{26}"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitEligIterateDOS",
+                            "RuleGUID": "7fd5145e-3c39-42a6-8ce1-0caba1221736",
+                            "RuleName": "Set PreviousWithinFlag = 0",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "2efac62f-5e3d-482f-a79d-a42840d36237",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "OutputFormat": "\"0\"",
+                              "_ParamList0": "{27}",
+                              "_FunctionVersion": "100",
+                              "_Description": "\"At the moment this means the \\042current within  flag\\042.  This Formatf is irrelevant since the flag was already a zero, but I think this keeps the logic readable.\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{27}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "_Description": "\"In this case we want to make sure that this line stays associated with the previous line if they were associated previously (see rule under Yes). Future elig lines may split this one out, but for now it needs to stay with the previous.\"",
+                      "RegularExpression": "\"0\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_ParamList1": "{9}",
+              "_ParamList2": "{10}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3",
+      "Compare": "1",
+      "CaseSensitive": "1",
+      "_Description": "\"No coverage/elig splitting on PD lines.  Only do logic if DOS is populated.\""
+    }
+  },
+  {
+    "Container": "output_SplitEligIterateDOS",
+    "RuleGUID": "b84bb557-0d5e-4530-81c7-009994be161e",
+    "RuleName": "Copy OFF to PreviousOFF",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "1",
+      "_Description": "\"We will use the PreviousOFF in circumstances where we do not want to disassociate detail lines that really should be with each other.  This happens when the DOS previous to the one I am on gets a new split number (a new OutputFileFlag), but the current does not because the DOS is greater than the date range we are currently checking.\"",
+      "_ParamList1": "{28}"
+    }
+  }
+]

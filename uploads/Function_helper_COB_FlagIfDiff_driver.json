@@ -1,0 +1,227 @@
+[
+  {
+    "Container": "helper_COB_FlagIfDiff_driver",
+    "RuleGUID": "65fb076c-1c07-4dec-bf8a-8478a2ec62fc",
+    "RuleName": "Clear hold field",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{1}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "helper_COB_FlagIfDiff_driver",
+    "RuleGUID": "6e0c3410-9bd9-4412-8fe1-c9c4ad169920",
+    "RuleName": "Call compare UDF",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyInstancesUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"helper_COB_FlagIfDifferent\"",
+      "ForEach": "{1,2,2}",
+      "_ParamList1": "{1}",
+      "_ParamList2": "{2}"
+    }
+  },
+  {
+    "Container": "helper_COB_FlagIfDiff_driver",
+    "RuleGUID": "62f73d1c-dbe8-4569-bdba-9b0a19cfba20",
+    "RuleName": "Is field empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_FlagIfDiff_driver",
+            "RuleGUID": "3cb091a5-2952-4b92-be27-75bb8a5e9636",
+            "RuleName": "Is the hold field empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "62f73d1c-dbe8-4569-bdba-9b0a19cfba20",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_FlagIfDiff_driver",
+                    "RuleGUID": "7cd13aa0-2afa-4048-a3e9-411d2d57941d",
+                    "RuleName": "Copy field to hold field",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "3cb091a5-2952-4b92-be27-75bb8a5e9636",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_FlagIfDiff_driver",
+                    "RuleGUID": "ddbb4620-952b-4b8f-b866-b7d26aab6adc",
+                    "RuleName": "Compare field to hold field",
+                    "RuleID": "",
+                    "FunctionName": "CompareFields",
+                    "ParentGUID": "3cb091a5-2952-4b92-be27-75bb8a5e9636",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Not the same",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_FlagIfDiff_driver",
+                            "RuleGUID": "308a895c-3869-4ecb-83bb-a096292ae5e1",
+                            "RuleName": "Set flag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "ddbb4620-952b-4b8f-b866-b7d26aab6adc",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1}",
+                      "EndWhiteSpaceSensitive": "1",
+                      "CaseSensitive": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3",
+      "_Disabled": "1"
+    }
+  }
+]

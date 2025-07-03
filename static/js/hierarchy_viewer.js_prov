@@ -1,0 +1,398 @@
+/**
+ * Advanced Hierarchy Viewer – Interactive tree visualization with keyboard navigation, 
+ * search, and details panel
+ * @module hierarchy_viewer
+ * @version 2.0.0
+ * @license MIT
+ */
+
+// Utility functions for DOM manipulation
+const $ = (selector, context = document) => context.querySelector(selector);
+const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+
+/**
+ * @typedef {Object} TreeNode
+ * @property {string} id - Unique identifier for the node
+ * @property {string} name - Display name of the node
+ * @property {number} level - Depth level in the hierarchy
+ * @property {HTMLElement} element - DOM element for the node
+ * @property {any} data - Original data object
+ * @property {string} path - Full path in the hierarchy
+ * @property {string} initials - Initials for avatar display
+ * @property {boolean} hasChildren - Whether the node has children
+ */
+
+class SearchManager {
+  constructor(viewer) {
+    this.viewer = viewer;
+    this.searchInput = document.querySelector('#search-input');
+    this.searchCount = document.querySelector('#search-count');
+    this.searchRun = document.querySelector('#search-run');
+    this.searchClear = document.querySelector('#search-clear');
+    this.matches = [];
+    this.allNodes = [];
+    this.currentIndex = -1;
+    this.lastQuery = '';
+    this.debounceTimer = null;
+    this.debounceDelay = 300;
+    this._initialize();
+  }
+
+  _initialize() {
+    if (!this.searchInput || !this.searchCount) {
+      console.warn('SearchManager: Required elements not found');
+      return;
+    }
+    this._setupEventListeners();
+  }
+
+  _setupEventListeners() {
+    this.searchRun?.addEventListener('click', () => this.executeSearch());
+    this.searchClear?.addEventListener('click', () => this.clearSearch());
+    this.searchInput?.addEventListener('input', () => this._debounceSearch());
+    this.searchInput?.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'Enter': this.executeSearch(); if (this.currentIndex >= 0) this.navigateToMatch(this.currentIndex); break;
+        case 'ArrowDown': event.preventDefault(); this.moveToNextMatch(); break;
+        case 'ArrowUp': event.preventDefault(); this.moveToPreviousMatch(); break;
+        case 'Escape': this.clearSearch(); break;
+      }
+    });
+  }
+
+  _debounceSearch() {
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.executeSearch();
+      if (this.currentIndex >= 0) this.navigateToMatch(this.currentIndex);
+    }, this.debounceDelay);
+  }
+
+  buildIndex(nodes) { this.allNodes = nodes; }
+
+  executeSearch() {
+    const query = (this.searchInput?.value ?? '').trim().toLowerCase();
+    if (!query) return this.clearSearch();
+    this.lastQuery = query;
+    this.matches = this.allNodes.filter(node => {
+      const nameMatch = node.name.toLowerCase().includes(query);
+      const pathMatch = node.path.toLowerCase().includes(query);
+      return nameMatch || pathMatch;
+    });
+    this.currentIndex = this.matches.length > 0 ? 0 : -1;
+    this._updateSearchUI();
+    if (this.currentIndex >= 0) this.navigateToMatch(this.currentIndex);
+  }
+
+  moveToNextMatch() {
+    if (this.matches.length === 0) return;
+    this.currentIndex = (this.currentIndex + 1) % this.matches.length;
+    this._updateSearchUI();
+    this.navigateToMatch(this.currentIndex);
+  }
+
+  moveToPreviousMatch() {
+    if (this.matches.length === 0) return;
+    this.currentIndex = (this.currentIndex - 1 + this.matches.length) % this.matches.length;
+    this._updateSearchUI();
+    this.navigateToMatch(this.currentIndex);
+  }
+
+  navigateToMatch(index) {
+    const node = this.matches[index];
+    if (node?.element) {
+      this.viewer.focusNode(node.element, true);
+      node.element.classList.add('search-hit--active');
+      setTimeout(() => node.element.classList.remove('search-hit--active'), 1000);
+    }
+  }
+
+  clearSearch() {
+    this.matches = [];
+    this.currentIndex = -1;
+    this.lastQuery = '';
+    if (this.searchInput) {
+      this.searchInput.value = '';
+      this.searchInput.focus();
+    }
+    this._updateSearchUI();
+    this._clearHighlights();
+  }
+
+  _updateSearchUI() {
+    if (this.searchCount) {
+      const hasResults = this.matches.length > 0;
+      this.searchCount.textContent = `${this.currentIndex >= 0 ? this.currentIndex + 1 : 0} / ${this.matches.length}`;
+      this.searchCount.classList.toggle('has-results', hasResults);
+    }
+  }
+
+  _clearHighlights() {
+    document.querySelectorAll('.search-hit').forEach(el => {
+      el.classList.remove('search-hit', 'search-hit--active');
+      const label = el.querySelector('.tree__label');
+      if (label && label.dataset.originalText) label.textContent = label.dataset.originalText;
+    });
+  }
+
+  _highlightMatches() {
+    this._clearHighlights();
+    this.matches.forEach(match => {
+      match.element.classList.add('search-hit');
+      const label = match.element.querySelector('.tree__label');
+      if (label) {
+        if (!label.dataset.originalText) label.dataset.originalText = label.textContent;
+        const safeQuery = this.lastQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${safeQuery})`, 'ig');
+        label.innerHTML = label.dataset.originalText.replace(regex, '<mark>$1</mark>');
+      }
+    });
+  }
+}
+
+class DetailsPanel {
+  constructor() {
+    this.panelElement = document.querySelector('#details');
+    if (!this.panelElement) {
+      console.warn('DetailsPanel: Main panel element not found');
+      return;
+    }
+    this.avatarElement = document.querySelector('#node-avatar');
+    this.nameElement = document.querySelector('#node-name');
+    this.typeElement = document.querySelector('#node-type');
+    this.guidElement = document.querySelector('#node-guid');
+    this.depthElement = document.querySelector('#node-depth');
+    this.parentElement = document.querySelector('#node-parent');
+    this.childrenCountElement = document.querySelector('#node-children');
+    this.descendantsCountElement = document.querySelector('#node-descendants');
+    this.attributesTable = document.querySelector('#attr-body');
+    this.relationshipsList = document.querySelector('#rel-list');
+    this.jsonViewer = document.querySelector('#json-block');
+    this.breadcrumbElement = document.querySelector('#breadcrumb');
+    this._initializeTabs();
+    this._setupRelationshipHandlers();
+  }
+
+  _initializeTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    if (tabs.length === 0) return;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => this._activateTab(tab));
+      tab.addEventListener('keydown', event => {
+        if (['Enter', ' '].includes(event.key)) {
+          event.preventDefault();
+          this._activateTab(tab);
+        }
+      });
+    });
+    if (tabs.length > 0) this._activateTab(tabs[0]);
+  }
+
+  _activateTab(tab) {
+    const tabId = tab.dataset.tab;
+    if (!tabId) return;
+    document.querySelectorAll('.tab').forEach(t => {
+      const isActive = t === tab;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive.toString());
+      t.tabIndex = isActive ? 0 : -1;
+    });
+    document.querySelectorAll('.panel').forEach(panel => {
+      const isActive = panel.id === `panel-${tabId}`;
+      panel.hidden = !isActive;
+      panel.classList.toggle('panel--active', isActive);
+    });
+  }
+
+  _setupRelationshipHandlers() {
+    this.relationshipsList?.addEventListener('click', event => {
+      const relationshipLink = event.target.closest('.relation-link');
+      if (relationshipLink) {
+        event.preventDefault();
+        const nodeId = relationshipLink.dataset.id;
+        if (nodeId) this.viewer?.focusNodeById(nodeId, true);
+      }
+    });
+  }
+
+  render(node, parentName = '—') {
+    if (!this.panelElement) return;
+    this._renderBasicInfo(node, parentName);
+    this._renderAttributes(node);
+    this._renderRelationships(node);
+    this._renderJsonData(node);
+    this._renderBreadcrumb(node);
+    this.panelElement.hidden = false;
+  }
+
+  _renderBasicInfo(node, parentName) {
+    if (this.avatarElement) this.avatarElement.textContent = node.initials || '—';
+    if (this.nameElement) this.nameElement.textContent = node.name || '(unnamed)';
+    if (this.typeElement) this.typeElement.textContent = node.data.type || '—';
+    if (this.guidElement) this.guidElement.textContent = node.id;
+    if (this.depthElement) this.depthElement.textContent = node.level;
+    if (this.parentElement) this.parentElement.textContent = parentName;
+    if (this.childrenCountElement) this.childrenCountElement.textContent = node.hasChildren ? (node.data.children?.length || 0) : 0;
+    if (this.descendantsCountElement) {
+      const descendantCount = node.element.querySelectorAll('.tree__item').length - 1;
+      this.descendantsCountElement.textContent = Math.max(0, descendantCount);
+    }
+  }
+
+  _renderAttributes(node) {
+    if (!this.attributesTable) return;
+    const attrs = Object.entries(node.data)
+      .filter(([key]) => !['id', 'name', 'type', 'children'].includes(key))
+      .map(([key, value]) => {
+        let displayValue;
+        if (value === null || value === undefined) displayValue = 'null';
+        else if (typeof value === 'object') displayValue = JSON.stringify(value, null, 2);
+        else displayValue = String(value);
+        return `<tr><td>${key}</td><td><pre>${displayValue}</pre></td></tr>`;
+      }).join('');
+    this.attributesTable.innerHTML = attrs || '<tr><td colspan="2">No attributes</td></tr>';
+  }
+
+  _renderRelationships(node) {
+    if (!this.relationshipsList) return;
+    if (node.data.relationships) {
+      const rels = node.data.relationships.map(rel => {
+        return `<li><a href="#" class="relation-link" data-id="${rel.id}">${rel.name}</a></li>`;
+      }).join('');
+      this.relationshipsList.innerHTML = rels;
+    } else {
+      this.relationshipsList.innerHTML = '<li>No relationships</li>';
+    }
+  }
+
+  _renderJsonData(node) {
+    if (!this.jsonViewer) return;
+    try {
+      const jsonStr = JSON.stringify(node.data, null, 2);
+      this.jsonViewer.textContent = jsonStr;
+    } catch (e) {
+      this.jsonViewer.textContent = 'Error parsing JSON';
+    }
+  }
+
+  _renderBreadcrumb(node) {
+    if (!this.breadcrumbElement) return;
+    if (!node.path) return;
+    const parts = node.path.split('/').filter(p => p);
+    const breadcrumbs = parts.map((part, i) => {
+      const nodeId = this.viewer.nodes.find(n => n.path.includes(part))?.id;
+      return `<a href="#" class="breadcrumb-link" data-id="${nodeId}">${part}</a>`;
+    }).join(' › ');
+    this.breadcrumbElement.innerHTML = breadcrumbs;
+    this.breadcrumbElement.querySelectorAll('.breadcrumb-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nodeId = link.dataset.id;
+        if (nodeId) this.viewer?.focusNodeById(nodeId, true);
+      });
+    });
+  }
+}
+
+class HierarchyViewer {
+  constructor(rootElement, data) {
+    this.root = rootElement;
+    this.data = data;
+    this.nodes = [];
+    this.searchManager = new SearchManager(this);
+    this.detailsPanel = new DetailsPanel();
+    this._init();
+  }
+
+  _init() {
+    if (!this.data) {
+      console.error('No hierarchy data available');
+      this.root.innerHTML = '<p>No hierarchy data available</p>';
+      return;
+    }
+    this._buildTree();
+    this._flattenNodes();
+    this.searchManager.buildIndex(this.nodes);
+    this.detailsPanel.viewer = this;
+  }
+
+  _buildTree() {
+    // Clear previous tree
+    this.root.innerHTML = '<div class="tree"></div>';
+    const treeRoot = this.root.querySelector('.tree');
+    this._renderNode(treeRoot, this.data, 0, '');
+  }
+
+  _renderNode(parent, node, level, path) {
+    const nodeElement = document.createElement('div');
+    nodeElement.className = `tree__item tree__item--level-${level}`;
+    nodeElement.dataset.id = node.id;
+
+    const label = document.createElement('div');
+    label.className = 'tree__label';
+    label.textContent = node.name;
+    nodeElement.appendChild(label);
+
+    parent.appendChild(nodeElement);
+
+    const nodeObj = {
+      id: node.id,
+      name: node.name,
+      level: level,
+      element: nodeElement,
+      data: node,
+      path: path + '/' + node.name,
+      initials: node.name.split(' ').map(n => n[0]).join(''),
+      hasChildren: node.children && node.children.length > 0
+    };
+    this.nodes.push(nodeObj);
+
+    if (node.children) {
+      const childrenContainer = document.createElement('div');
+      childrenContainer.className = 'tree__children';
+      nodeElement.appendChild(childrenContainer);
+      node.children.forEach(child => {
+        this._renderNode(childrenContainer, child, level + 1, nodeObj.path);
+      });
+    }
+
+    // Add click handler for node selection
+    nodeElement.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.focusNode(nodeElement, false);
+    });
+  }
+
+  _flattenNodes() {
+    // Nodes are already flattened in _renderNode
+    // This method is for future use if needed
+  }
+
+  focusNode(nodeElement, highlight = false) {
+    // Remove previous selection
+    this.root.querySelectorAll('.tree__item--selected').forEach(el => {
+      el.classList.remove('tree__item--selected');
+    });
+    nodeElement.classList.add('tree__item--selected');
+    const node = this.nodes.find(n => n.element === nodeElement);
+    if (node) {
+      this.detailsPanel.render(node, this._getParentName(node));
+    }
+    if (highlight) {
+      nodeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  focusNodeById(id, highlight = false) {
+    const node = this.nodes.find(n => n.id === id);
+    if (node) {
+      this.focusNode(node.element, highlight);
+    }
+  }
+
+  _getParentName(node) {
+    if (!node.path) return '—';
+    const parts = node.path.split('/').filter(p => p);
+    return parts.length > 1 ? parts[parts.length - 2] : '—';
+  }
+}

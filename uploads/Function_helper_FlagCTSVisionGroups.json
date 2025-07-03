@@ -1,0 +1,108 @@
+[
+  {
+    "Container": "helper_FlagCTSVisionGroups",
+    "RuleGUID": "5abe7819-8303-49c9-954d-ea528d56f1c7",
+    "RuleName": "Is flag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_FlagCTSVisionGroups",
+            "RuleGUID": "90af6293-61fe-496a-8ce7-6133cd70bc81",
+            "RuleName": "Is group in the Vision table?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "5abe7819-8303-49c9-954d-ea528d56f1c7",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Entry not found",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FlagCTSVisionGroups",
+                    "RuleGUID": "9d85c41b-034b-4ae4-a17f-f24738dbc527",
+                    "RuleName": "Set flag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "90af6293-61fe-496a-8ce7-6133cd70bc81",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"odbc_VisionGroups\"",
+              "Columns": "{\"GroupNumber\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If even one record is non-Vision we're ok to proceed with processing the document. - jdm 09/2018\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

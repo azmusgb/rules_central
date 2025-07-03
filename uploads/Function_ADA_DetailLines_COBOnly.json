@@ -1,0 +1,2414 @@
+[
+  {
+    "Container": "ADA_DetailLines_COBOnly",
+    "RuleGUID": "c52ac0d1-6be8-4a85-a893-5c05cc34d684",
+    "RuleName": "Check if whole line empty",
+    "RuleID": "1",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "ADA_DetailLines_COBOnly",
+            "RuleGUID": "efb6c4ed-b00d-4122-bf33-59e47ebaa437",
+            "RuleName": "DeleteLines",
+            "RuleID": "2",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "c52ac0d1-6be8-4a85-a893-5c05cc34d684",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,3,4,5,1,2,12,14,15}",
+              "_FunctionVersion": "1",
+              "DeleteBlanks": "1",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "Not all empty",
+        "ChildRules": [
+          {
+            "Container": "ADA_DetailLines_COBOnly",
+            "RuleGUID": "f44bf51a-4d57-4576-bdbf-98b7cb184901",
+            "RuleName": "Filter Control Chars",
+            "RuleID": null,
+            "FunctionName": "_IIterateOnlyFieldsUDF",
+            "ParentGUID": "c52ac0d1-6be8-4a85-a893-5c05cc34d684",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{17,18,19}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"format_FilterControlChars\"",
+              "ForEach": "{1}"
+            }
+          },
+          {
+            "Container": "ADA_DetailLines_COBOnly",
+            "RuleGUID": "c41c35ec-fd61-43d6-850d-0e4e1477af8a",
+            "RuleName": "Is COB?",
+            "RuleID": null,
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "c52ac0d1-6be8-4a85-a893-5c05cc34d684",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "ADA_DetailLines_COBOnly",
+                    "RuleGUID": "cdce4fed-44db-4ca7-a5ac-31ebb1b38af8",
+                    "RuleName": "RCM 230 - New Processing - Is EDI?",
+                    "RuleID": null,
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "c41c35ec-fd61-43d6-850d-0e4e1477af8a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "5481e794-52eb-4781-bb81-81f0f0bc13be",
+                            "RuleName": "Filter P&S Leave Dash",
+                            "RuleID": null,
+                            "FunctionName": "FilterChars",
+                            "ParentGUID": "cdce4fed-44db-4ca7-a5ac-31ebb1b38af8",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{18,17,19}",
+                              "_FunctionVersion": "2",
+                              "InvertCharSet": "0",
+                              "FilterSet": "\"charset_PandSNodash\""
+                            }
+                          },
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "6c080b1c-ceec-4bcd-a26e-d5a1d6193810",
+                            "RuleName": "Is the DOS populated?",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "cdce4fed-44db-4ca7-a5ac-31ebb1b38af8",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Yes - Payable line",
+                                "ChildRules": [
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "35802e3b-73d6-472c-b407-5297053a1baa",
+                                    "RuleName": "Paid Rules",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "6c080b1c-ceec-4bcd-a26e-d5a1d6193810",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "cdbabd6b-900b-44ed-9f98-7e9bddaff18d",
+                                            "RuleName": "Is empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "35802e3b-73d6-472c-b407-5297053a1baa",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "b607a066-ccd2-48c9-ab9d-9a296e02cc31",
+                                                    "RuleName": "Attachment batch?",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IBatchType",
+                                                    "ParentGUID": "cdbabd6b-900b-44ed-9f98-7e9bddaff18d",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "4c23dedd-f585-47df-83d5-706b44585588",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "b607a066-ccd2-48c9-ab9d-9a296e02cc31",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{17}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6451",
+                                                              "_BackupSkipID": "6451",
+                                                              "RejectString": "\"Please enter OIC Paid Amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0",
+                                                              "Languages": "\"Default\"",
+                                                              "SelectionListAutoPop": "0",
+                                                              "DelayEval": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "0",
+                                                      "BatchType": "{\"DY\",\"DMY\",\"DCEMY\",\"DCEY\",\"DCPDY\",\"DCPDMY\",\"MEDPDMY\",\"MEDPDY\"}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "b9e39af1-1e66-4f42-87e1-9bc5fd25fa5e",
+                                                    "RuleName": "Check if valid amount",
+                                                    "RuleID": null,
+                                                    "FunctionName": "CheckAmount",
+                                                    "ParentGUID": "cdbabd6b-900b-44ed-9f98-7e9bddaff18d",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "Reject: Bad Amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "372a27ad-9ca7-4c94-9889-95a9b6b2e4f6",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "b9e39af1-1e66-4f42-87e1-9bc5fd25fa5e",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{17}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6452",
+                                                              "_BackupSkipID": "6452",
+                                                              "RejectString": "\"Must be greater or equal to 0 and less than or equal to 9,999.99\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "516",
+                                                        "ActionName": "Reject: Not an amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "e146a19a-bb2e-45f3-aca4-50b0a114a6b8",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "b9e39af1-1e66-4f42-87e1-9bc5fd25fa5e",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{17}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6453",
+                                                              "_BackupSkipID": "6453",
+                                                              "RejectString": "\"Invalid amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Reject: Too small",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "d11df17c-5d2c-45ba-9cc9-5a08b8e918cf",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "b9e39af1-1e66-4f42-87e1-9bc5fd25fa5e",
+                                                            "ParentActionIndex": 2,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{17}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6454",
+                                                              "_BackupSkipID": "6454",
+                                                              "RejectString": "\"Paid Amounts should not be negative\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{17}",
+                                                      "_FunctionVersion": "1",
+                                                      "Deviation": "0",
+                                                      "BracketedField": "0",
+                                                      "MaximumValue": "999999",
+                                                      "MinimumValue": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{17}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  },
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "2dfd6d9d-f5da-40a5-888c-7af0a07183d8",
+                                    "RuleName": "Allowed Rules",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "6c080b1c-ceec-4bcd-a26e-d5a1d6193810",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "efc651b4-e49d-48dc-b5c3-7b201a201da3",
+                                            "RuleName": "Is empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "2dfd6d9d-f5da-40a5-888c-7af0a07183d8",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "c2f5cb72-cdfa-4e6d-af61-f693f742557e",
+                                                    "RuleName": "Attachment batch?",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IBatchType",
+                                                    "ParentGUID": "efc651b4-e49d-48dc-b5c3-7b201a201da3",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "fdfeff55-8781-4f91-b533-2a62df931711",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "c2f5cb72-cdfa-4e6d-af61-f693f742557e",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6455",
+                                                              "_BackupSkipID": "6455",
+                                                              "RejectString": "\"Please enter OIC Allowed Amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0",
+                                                              "SelectionListAutoPop": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "0",
+                                                      "BatchType": "{\"DY\",\"DMY\",\"DCEMY\",\"DCEY\",\"DCPDY\",\"DCPDMY\",\"MEDPDMY\",\"MEDPDY\"}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                    "RuleName": "Check if valid amount",
+                                                    "RuleID": null,
+                                                    "FunctionName": "CheckAmount",
+                                                    "ParentGUID": "efc651b4-e49d-48dc-b5c3-7b201a201da3",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "772",
+                                                        "ActionName": "Reject: Bad Amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "d146b1ee-7e1f-4075-89aa-53032f5448e3",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6456",
+                                                              "_BackupSkipID": "6456",
+                                                              "RejectString": "\"Must be less than or equal to 9,999.99\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "516",
+                                                        "ActionName": "Reject: Not an amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "03611373-98ef-4eb1-a6fe-c7ad1854c5d0",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6457",
+                                                              "_BackupSkipID": "6457",
+                                                              "RejectString": "\"Invalid amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Reject: Too small",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "cff676b3-d063-4bf0-870d-66ea2a10f22f",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                            "ParentActionIndex": 2,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6458",
+                                                              "_BackupSkipID": "6458",
+                                                              "RejectString": "\"Allowed Amounts should not be negative\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "Valid amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "57d40450-9a83-46cc-af4a-d5e189be8327",
+                                                            "RuleName": "Compare Paid to Allowed",
+                                                            "RuleID": null,
+                                                            "FunctionName": "CompareAmountFields",
+                                                            "ParentGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                            "ParentActionIndex": 3,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "Greater than",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                                    "RuleGUID": "25682045-ec58-4e49-ab0e-b48424c4d10b",
+                                                                    "RuleName": "_IRejectFields",
+                                                                    "RuleID": null,
+                                                                    "FunctionName": "_IRejectFields",
+                                                                    "ParentGUID": "57d40450-9a83-46cc-af4a-d5e189be8327",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{17,18}",
+                                                                      "_FunctionVersion": "0",
+                                                                      "_SkipID": "6646",
+                                                                      "_BackupSkipID": "6646",
+                                                                      "RejectString": "\"Paid amount should not be greater than Allowed amount\"",
+                                                                      "RejectCode": "2",
+                                                                      "RunOnce": "0",
+                                                                      "SelectionListAutoPop": "0"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{17}",
+                                                              "_FunctionVersion": "1",
+                                                              "BracketedField": "0",
+                                                              "_ParamList1": "{18}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "f35c9da1-919b-4a50-a543-c395ac90dbed",
+                                                            "RuleName": "Compare Allowed to Fee",
+                                                            "RuleID": null,
+                                                            "FunctionName": "CompareAmountFields",
+                                                            "ParentGUID": "3faa7871-22a3-42db-9d6b-72dc0aa329ac",
+                                                            "ParentActionIndex": 3,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "Greater than",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                                    "RuleGUID": "04ac8ac6-d582-4a76-8479-0ee9c740df78",
+                                                                    "RuleName": "_IRejectFields",
+                                                                    "RuleID": null,
+                                                                    "FunctionName": "_IRejectFields",
+                                                                    "ParentGUID": "f35c9da1-919b-4a50-a543-c395ac90dbed",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{18,5}",
+                                                                      "_FunctionVersion": "0",
+                                                                      "_SkipID": "7182",
+                                                                      "_BackupSkipID": "7182",
+                                                                      "RejectString": "\"Allowed amount should not be greater than Fee\"",
+                                                                      "RejectCode": "2",
+                                                                      "RunOnce": "0",
+                                                                      "SelectionListAutoPop": "0"
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "1",
+                                                              "BracketedField": "0",
+                                                              "_ParamList1": "{5}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{18}",
+                                                      "_FunctionVersion": "1",
+                                                      "Deviation": "0",
+                                                      "BracketedField": "0",
+                                                      "MaximumValue": "999999",
+                                                      "MinimumValue": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{18}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{18}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  },
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "9a29f508-0364-4c23-8d88-52437094ace6",
+                                    "RuleName": "Patient Responsibility Rules",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "6c080b1c-ceec-4bcd-a26e-d5a1d6193810",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "1ff0431d-48fb-4d84-8187-f999c6b7e0a8",
+                                            "RuleName": "Is empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "9a29f508-0364-4c23-8d88-52437094ace6",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "6e350577-bb76-401c-9c2c-5cea5371d9a6",
+                                                    "RuleName": "Attachment batch?",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IBatchType",
+                                                    "ParentGUID": "1ff0431d-48fb-4d84-8187-f999c6b7e0a8",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "a65b864a-86eb-44c1-8839-126d7f2ddebf",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "6e350577-bb76-401c-9c2c-5cea5371d9a6",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{19}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6466",
+                                                              "_BackupSkipID": "6466",
+                                                              "RejectString": "\"Please enter OIC Patient Responsibility Amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "0",
+                                                      "BatchType": "{\"DY\",\"DMY\",\"DCEMY\",\"DCEY\",\"DCPDY\",\"DCPDMY\",\"MEDPDMY\",\"MEDPDY\"}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "76fab214-1758-4af5-bae9-797828dc15e7",
+                                                    "RuleName": "Check if valid amount",
+                                                    "RuleID": null,
+                                                    "FunctionName": "CheckAmount",
+                                                    "ParentGUID": "1ff0431d-48fb-4d84-8187-f999c6b7e0a8",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "Reject: Bad Amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "7b0fdf54-9ed6-4923-90a6-f0edda2d9712",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "76fab214-1758-4af5-bae9-797828dc15e7",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{19}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6467",
+                                                              "_BackupSkipID": "6467",
+                                                              "RejectString": "\"Must be less than or equal to 9,999.99\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "516",
+                                                        "ActionName": "Reject: Not an amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "cf089d7d-db5e-438e-9de6-4ba75f71c077",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "76fab214-1758-4af5-bae9-797828dc15e7",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{19}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6468",
+                                                              "_BackupSkipID": "6468",
+                                                              "RejectString": "\"Invalid amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Reject: Too small",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "de7b0d2c-7607-4fec-b986-0686883ac5f4",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "76fab214-1758-4af5-bae9-797828dc15e7",
+                                                            "ParentActionIndex": 2,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{19}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6469",
+                                                              "_BackupSkipID": "6469",
+                                                              "RejectString": "\"Patient Responsibility Amounts should not be negative\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{19}",
+                                                      "_FunctionVersion": "1",
+                                                      "Deviation": "0",
+                                                      "BracketedField": "0",
+                                                      "MaximumValue": "999999",
+                                                      "MinimumValue": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{19}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{19}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  },
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                    "RuleName": "Paid, PatResp, Allowed - Validate",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "6c080b1c-ceec-4bcd-a26e-d5a1d6193810",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "0b5ee716-aab8-452e-960a-ba6d725bf032",
+                                            "RuleName": "Clear temps",
+                                            "RuleID": null,
+                                            "FunctionName": "DeleteLines",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{58,59,60,61}",
+                                              "_FunctionVersion": "1",
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "LinesFrom": "0",
+                                              "CaseSensitive": "1",
+                                              "RepeatInLine": "0",
+                                              "RepeatInAllLines": "0"
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "93658bf8-5154-48a9-9b4e-a044c30c9c6a",
+                                            "RuleName": "Copy COB fields to temps",
+                                            "RuleID": null,
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17,19,18}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{58,59,60}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "b18e8e42-35db-4c27-8756-071677acf308",
+                                            "RuleName": "Is temp1 (Paid) empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "All Empty",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "87b6a1ff-b9a9-4144-87be-1a743dacf323",
+                                                    "RuleName": "Set  to 0",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "b18e8e42-35db-4c27-8756-071677acf308",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{58}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"0\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{58}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "fdcaaa47-ecc8-4ccc-b857-6467fcd8b74e",
+                                            "RuleName": "Is temp2 (PatResp) empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "All Empty",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "01245948-680d-4259-b713-d63708865b54",
+                                                    "RuleName": "Set  to 0",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "fdcaaa47-ecc8-4ccc-b857-6467fcd8b74e",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{59}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"0\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{59}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "b5c29726-9100-4ffe-87e2-a60b7bf63be0",
+                                            "RuleName": "Is temp3 (Allowed) empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "All Empty",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "ad32f95d-dbd9-407e-8425-498e4f8627b5",
+                                                    "RuleName": "Set  to 0",
+                                                    "RuleID": null,
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "b5c29726-9100-4ffe-87e2-a60b7bf63be0",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{60}",
+                                                      "_FunctionVersion": "100",
+                                                      "OutputFormat": "\"0\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{60}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "09e8beaa-7195-4508-8daa-f18a241836f7",
+                                            "RuleName": "Add temp1 (Paid) to temp2 (PatResp)",
+                                            "RuleID": null,
+                                            "FunctionName": "DoMathAndFormat",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{58,59}",
+                                              "_FunctionVersion": "1",
+                                              "Deviation": "0",
+                                              "_ParamList1": "{61}",
+                                              "OutputFormat": "\"%.0f\"",
+                                              "Remainder": "0",
+                                              "MathExpression": "\"F0 + F1\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "77920463-6fd1-44ad-b642-47393c33fbf9",
+                                            "RuleName": "Compare temp4 (Paid+PatResp) to temp3 (Allowed)",
+                                            "RuleID": null,
+                                            "FunctionName": "CompareAmountFields",
+                                            "ParentGUID": "2f6102f8-1ad9-4ad0-b95d-a0e2026ddcba",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "Reject: Greater than",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "82b4a2e2-1e97-41e0-9060-715de8dd2c5b",
+                                                    "RuleName": "Reject Fields",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IRejectFields",
+                                                    "ParentGUID": "77920463-6fd1-44ad-b642-47393c33fbf9",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{17,18,19}",
+                                                      "_FunctionVersion": "0",
+                                                      "_SkipID": "7183",
+                                                      "_BackupSkipID": "7183",
+                                                      "RejectString": "\"Paid plus Patient Responsibility should not be greater than Allowed\"",
+                                                      "RejectCode": "2",
+                                                      "RunOnce": "0",
+                                                      "Languages": "\"Default\"",
+                                                      "SelectionListAutoPop": "0",
+                                                      "DelayEval": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{61}",
+                                              "_FunctionVersion": "1",
+                                              "BracketedField": "0",
+                                              "_ParamList1": "{60}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{16}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{20}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"1\"",
+                      "_Description": "\"Per RCM 230 we are only doing this validation for paper claims.\""
+                    }
+                  },
+                  {
+                    "Container": "ADA_DetailLines_COBOnly",
+                    "RuleGUID": "96df076f-b254-48f9-93e3-9b39947dc405",
+                    "RuleName": "Pre RCM 230 Processing",
+                    "RuleID": null,
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "c41c35ec-fd61-43d6-850d-0e4e1477af8a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "---",
+                        "ChildRules": [
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "4b911c5c-4ade-422b-a0bf-7784854aeb45",
+                            "RuleName": "Filter P&S",
+                            "RuleID": null,
+                            "FunctionName": "_IIterateOnlyFieldsUDF",
+                            "ParentGUID": "96df076f-b254-48f9-93e3-9b39947dc405",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "0",
+                              "UDFName": "\"format_FilterPSC\"",
+                              "ForEach": "{1}",
+                              "_Disabled": "1"
+                            }
+                          },
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "7b6c91de-f838-4246-a7a3-37b5f3e90962",
+                            "RuleName": "Filter P&S Leave Dash",
+                            "RuleID": null,
+                            "FunctionName": "FilterChars",
+                            "ParentGUID": "96df076f-b254-48f9-93e3-9b39947dc405",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{18}",
+                              "_FunctionVersion": "2",
+                              "InvertCharSet": "0",
+                              "FilterSet": "\"charset_PandSNodash\"",
+                              "_Disabled": "1"
+                            }
+                          },
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "6d22de15-ee91-4125-aab0-efd5a43dc48b",
+                            "RuleName": "Paid Rules",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "96df076f-b254-48f9-93e3-9b39947dc405",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "---",
+                                "ChildRules": [
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "a7b74073-c6cf-4f59-bacd-c31c5a960914",
+                                    "RuleName": "Is empty?",
+                                    "RuleID": null,
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "6d22de15-ee91-4125-aab0-efd5a43dc48b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Reject: Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "50f4bc05-d353-4fd0-87fe-dc01474e1a19",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": null,
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "a7b74073-c6cf-4f59-bacd-c31c5a960914",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "6459",
+                                              "_BackupSkipID": "6459",
+                                              "RejectString": "\"Please enter OIC Paid Amount\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "2fe357e7-b9b3-468d-ae8d-d0271f552c26",
+                                            "RuleName": "Check if valid amount",
+                                            "RuleID": null,
+                                            "FunctionName": "CheckAmount",
+                                            "ParentGUID": "a7b74073-c6cf-4f59-bacd-c31c5a960914",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "Reject: Bad Amount",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "2e37f405-396f-471b-9f75-dc87cd9bdd81",
+                                                    "RuleName": "Reject Fields",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IRejectFields",
+                                                    "ParentGUID": "2fe357e7-b9b3-468d-ae8d-d0271f552c26",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{17}",
+                                                      "_FunctionVersion": "0",
+                                                      "_SkipID": "6460",
+                                                      "_BackupSkipID": "6460",
+                                                      "RejectString": "\"Must be greater or equal to 0 and less than or equal to 9,999.99\"",
+                                                      "RejectCode": "2",
+                                                      "RunOnce": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Reject: Not an amount",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "d51f2229-5c45-4d25-bff4-283cd62c817c",
+                                                    "RuleName": "Reject Fields",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IRejectFields",
+                                                    "ParentGUID": "2fe357e7-b9b3-468d-ae8d-d0271f552c26",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{17}",
+                                                      "_FunctionVersion": "0",
+                                                      "_SkipID": "6461",
+                                                      "_BackupSkipID": "6461",
+                                                      "RejectString": "\"Invalid amount\"",
+                                                      "RejectCode": "2",
+                                                      "RunOnce": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17}",
+                                              "_FunctionVersion": "1",
+                                              "Deviation": "0",
+                                              "BracketedField": "0",
+                                              "MaximumValue": "999999",
+                                              "MinimumValue": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{17}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "3",
+                              "_Disabled": "1"
+                            }
+                          },
+                          {
+                            "Container": "ADA_DetailLines_COBOnly",
+                            "RuleGUID": "fe743f48-0c48-4914-b629-d8a7cc5aca59",
+                            "RuleName": "Allowed Rules",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "96df076f-b254-48f9-93e3-9b39947dc405",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "---",
+                                "ChildRules": [
+                                  {
+                                    "Container": "ADA_DetailLines_COBOnly",
+                                    "RuleGUID": "abeef7e4-4ed7-46dd-a7b3-102439db6578",
+                                    "RuleName": "EDI Claim?",
+                                    "RuleID": null,
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "fe743f48-0c48-4914-b629-d8a7cc5aca59",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_COBOnly",
+                                            "RuleGUID": "8c93eefe-0ba2-4ae7-92c2-8e3c67fc2115",
+                                            "RuleName": "Is empty?",
+                                            "RuleID": null,
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "abeef7e4-4ed7-46dd-a7b3-102439db6578",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "57cb36b7-df61-4d76-b878-ccd778e936b7",
+                                                    "RuleName": "Reject Fields",
+                                                    "RuleID": null,
+                                                    "FunctionName": "_IRejectFields",
+                                                    "ParentGUID": "8c93eefe-0ba2-4ae7-92c2-8e3c67fc2115",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{18}",
+                                                      "_FunctionVersion": "0",
+                                                      "_SkipID": "6462",
+                                                      "_BackupSkipID": "6462",
+                                                      "RejectString": "\"Please enter OIC Allowed Amount\"",
+                                                      "RejectCode": "2",
+                                                      "RunOnce": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "ADA_DetailLines_COBOnly",
+                                                    "RuleGUID": "c7012941-4be5-40b1-9468-bff65d5b8ac5",
+                                                    "RuleName": "Check if valid amount",
+                                                    "RuleID": null,
+                                                    "FunctionName": "CheckAmount",
+                                                    "ParentGUID": "8c93eefe-0ba2-4ae7-92c2-8e3c67fc2115",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "Reject: Bad Amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "ca9a9dda-cf4e-446d-955b-4c39662b3474",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "c7012941-4be5-40b1-9468-bff65d5b8ac5",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6463",
+                                                              "_BackupSkipID": "6463",
+                                                              "RejectString": "\"Must be less than or equal to 9,999.99\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "516",
+                                                        "ActionName": "Reject: Not an amount",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "9f328156-9a7e-4d95-8460-2c482084bda5",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "c7012941-4be5-40b1-9468-bff65d5b8ac5",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6464",
+                                                              "_BackupSkipID": "6464",
+                                                              "RejectString": "\"Invalid amount\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Reject: Too small",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "ADA_DetailLines_COBOnly",
+                                                            "RuleGUID": "c9b83451-9562-443c-aaa9-b27314e73998",
+                                                            "RuleName": "Reject Fields",
+                                                            "RuleID": null,
+                                                            "FunctionName": "_IRejectFields",
+                                                            "ParentGUID": "c7012941-4be5-40b1-9468-bff65d5b8ac5",
+                                                            "ParentActionIndex": 2,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{18}",
+                                                              "_FunctionVersion": "0",
+                                                              "_SkipID": "6465",
+                                                              "_BackupSkipID": "6465",
+                                                              "RejectString": "\"Negative OIC line level allowed amount not allowed\"",
+                                                              "RejectCode": "2",
+                                                              "RunOnce": "0"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{18}",
+                                                      "_FunctionVersion": "1",
+                                                      "Deviation": "0",
+                                                      "BracketedField": "0",
+                                                      "MaximumValue": "999999",
+                                                      "MinimumValue": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{18}",
+                                              "_FunctionVersion": "3"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{20}",
+                                      "_FunctionVersion": "65539",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"1\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{18}",
+                              "_FunctionVersion": "3",
+                              "_Disabled": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "3",
+                      "_Disabled": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{16}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"X \""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,3,4,5,1,2,12,14,15}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

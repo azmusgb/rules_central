@@ -1,0 +1,232 @@
+[
+  {
+    "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+    "RuleGUID": "912822d2-00f5-4d9b-ad43-6c33ffff1522",
+    "RuleName": "Filter spaces + punct from dB names",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{2}",
+      "FilterSet": "\"charset_PuctSpace\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+    "RuleGUID": "46d49457-41b7-48fa-ad7b-3e49b7087c09",
+    "RuleName": "Limit dB Last Name to 4 chars",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"\\134(^..\\134?.\\134?.\\134?\\134)\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0"
+    }
+  },
+  {
+    "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+    "RuleGUID": "4c7597ed-abe7-4c8e-af78-cc331ff1c247",
+    "RuleName": "Does LName match table value?",
+    "RuleID": "",
+    "FunctionName": "HasRegExprFromField",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - 3 of 4",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+            "RuleGUID": "fd5fc5ab-3cd2-4f05-ba8f-345010b7e761",
+            "RuleName": "Does DOB match table value?",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "4c7597ed-abe7-4c8e-af78-cc331ff1c247",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - 4 of 4",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+                    "RuleGUID": "60b16054-cef5-482e-ac1e-cbc8cae2df6f",
+                    "RuleName": "Return",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "fd5fc5ab-3cd2-4f05-ba8f-345010b7e761",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "3",
+                      "SelectionList": "\"selectionlist_PatientCentric\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+                    "RuleGUID": "197edb0d-3d55-48dc-b461-7bd223bc5bef",
+                    "RuleName": "Delete Current Row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "fd5fc5ab-3cd2-4f05-ba8f-345010b7e761",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_PatientCentric\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1",
+              "_ParamList1": "{3}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCen_PS2Trim5SUBdBNick",
+            "RuleGUID": "b3be265d-5733-47f0-9022-9c27208f3118",
+            "RuleName": "Delete Current Row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "4c7597ed-abe7-4c8e-af78-cc331ff1c247",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65537",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList1": "{2}"
+    }
+  }
+]

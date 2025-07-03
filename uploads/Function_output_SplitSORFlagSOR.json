@@ -1,0 +1,512 @@
+[
+  {
+    "Container": "output_SplitSORFlagSOR",
+    "RuleGUID": "aa204974-989b-41a1-963e-6f17beb6d1df",
+    "RuleName": "Is SOR = M?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSORFlagSOR",
+            "RuleGUID": "891de8b2-2b62-4b1d-9ab1-73987eefa596",
+            "RuleName": "Is RemarkFlag empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "aa204974-989b-41a1-963e-6f17beb6d1df",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "f598373b-9a47-4189-a086-b20a72691ad4",
+                    "RuleName": "Is there more than one PID in the list?",
+                    "RuleID": "",
+                    "FunctionName": "CheckLineCount",
+                    "ParentGUID": "891de8b2-2b62-4b1d-9ab1-73987eefa596",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSORFlagSOR",
+                            "RuleGUID": "42f23b81-6f91-484b-8b95-b8f33afd1645",
+                            "RuleName": "Set RemarkFlag = M",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "f598373b-9a47-4189-a086-b20a72691ad4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"M\"",
+                              "_Description": "\"M indicates we seen an MTV record\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "65538",
+                      "MinNum": "2",
+                      "GroupFields": "0",
+                      "GroupInstances": "0",
+                      "MaxNum": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "cc5a6f06-1385-4187-81f0-c73dca7cbb59",
+                    "RuleName": "Set RemarkFlag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "891de8b2-2b62-4b1d-9ab1-73987eefa596",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\"",
+                      "_Description": "\"1 indicates we need to set a Remark because we've seen at least 2 MTV records\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "3"
+            }
+          },
+          {
+            "Container": "output_SplitSORFlagSOR",
+            "RuleGUID": "8fd52b48-30f0-4cd6-ab67-73ac4f50b0a6",
+            "RuleName": "Is SORFlag already = L or B?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "aa204974-989b-41a1-963e-6f17beb6d1df",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "089fd4b6-9510-41c2-adf4-1d622a060b50",
+                    "RuleName": "Set to B",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "8fd52b48-30f0-4cd6-ab67-73ac4f50b0a6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"B\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "bbca8dd7-b1b3-410e-a685-c1ee25b9e807",
+                    "RuleName": "Set to M",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "8fd52b48-30f0-4cd6-ab67-73ac4f50b0a6",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"M\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "0",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"[LB]\"",
+              "_FunctionVersion": "65539",
+              "FirstInstEmptyOK": "0",
+              "AdditionalEmptyOK": "1",
+              "IgnoreEndWhiteSpace": "1"
+            }
+          },
+          {
+            "Container": "output_SplitSORFlagSOR",
+            "RuleGUID": "289b26ec-de04-4089-83f5-c5f6b84e749e",
+            "RuleName": "Is MTVFlag a 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "aa204974-989b-41a1-963e-6f17beb6d1df",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "feacd504-a1cb-441e-bec0-30bb077500db",
+                    "RuleName": "Set MTVFlag = 2",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "289b26ec-de04-4089-83f5-c5f6b84e749e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"2\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "a0424a5e-69d6-4a1e-aa28-898059702f12",
+                    "RuleName": "Is it = 2?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "289b26ec-de04-4089-83f5-c5f6b84e749e",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitSORFlagSOR",
+                            "RuleGUID": "8a310568-eee3-4229-b529-410892c9d235",
+                            "RuleName": "Set MTVFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "a0424a5e-69d6-4a1e-aa28-898059702f12",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{4}",
+                      "RegularExpression": "\"2\"",
+                      "_FunctionVersion": "65539"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{4}",
+              "RegularExpression": "\"1\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSORFlagSOR",
+            "RuleGUID": "aef2120f-72ee-48cd-9cd7-58840617c7a0",
+            "RuleName": "Is SORFlag already = M or B?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "aa204974-989b-41a1-963e-6f17beb6d1df",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "ca2065ac-b03d-421e-abfc-b70986d45707",
+                    "RuleName": "Set to B",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "aef2120f-72ee-48cd-9cd7-58840617c7a0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"B\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitSORFlagSOR",
+                    "RuleGUID": "2baf53b6-febe-4130-b494-118ef2eecb37",
+                    "RuleName": "Set to L",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "aef2120f-72ee-48cd-9cd7-58840617c7a0",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"L\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "0",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"[MB]\"",
+              "_FunctionVersion": "65539",
+              "FirstInstEmptyOK": "0",
+              "AdditionalEmptyOK": "1",
+              "IgnoreEndWhiteSpace": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "RegularExpression": "\"^M$\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

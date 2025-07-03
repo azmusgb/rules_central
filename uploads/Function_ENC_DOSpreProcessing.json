@@ -1,0 +1,186 @@
+[
+  {
+    "Container": "ENC_DOSpreProcessing",
+    "RuleGUID": "4321d0a6-ac20-44a7-aec5-feb5aecd95f2",
+    "RuleName": "Add 1 to count",
+    "RuleID": "",
+    "FunctionName": "DoMathAndFormat",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "Deviation": "0",
+      "OutputFormat": "\"%.0f\"",
+      "Remainder": "0",
+      "MathExpression": "\"F0 + 1\"",
+      "_ParamList0": "{1}",
+      "_ParamList1": "{1}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "ENC_DOSpreProcessing",
+    "RuleGUID": "ff254693-3604-432f-8da9-1da8d91b1adf",
+    "RuleName": "Is this the first line?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "ENC_DOSpreProcessing",
+            "RuleGUID": "c09741bb-a41d-4ffa-94ce-e31249a5c848",
+            "RuleName": "Copy DOS to tempDOS",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "ff254693-3604-432f-8da9-1da8d91b1adf",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "_FunctionVersion": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "ENC_DOSpreProcessing",
+            "RuleGUID": "8e0dca3f-6c68-4457-828e-2faaa34c96e7",
+            "RuleName": "Is this AC-I?",
+            "RuleID": "",
+            "FunctionName": "_IWorkerType",
+            "ParentGUID": "ff254693-3604-432f-8da9-1da8d91b1adf",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "ENC_DOSpreProcessing",
+                    "RuleGUID": "e4755964-f30f-4b02-bc15-5071c39c1da9",
+                    "RuleName": "Raise confidence",
+                    "RuleID": "",
+                    "FunctionName": "RectifyRangeToConstant",
+                    "ParentGUID": "8e0dca3f-6c68-4457-828e-2faaa34c96e7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65537",
+                      "Min": "0",
+                      "Max": "100",
+                      "Constant": "100"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "ENC_DOSpreProcessing",
+                    "RuleGUID": "bf0c1bc9-a898-47f4-8bf1-3ce335a927e4",
+                    "RuleName": "Copy tempDOS to DOS",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "8e0dca3f-6c68-4457-828e-2faaa34c96e7",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_ParamList1": "{0}",
+                      "_FunctionVersion": "1",
+                      "Min": "0",
+                      "Max": "100",
+                      "Constant": "100"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "WorkerType": "{\"AC-I\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "65539",
+      "MinNum": "0",
+      "GroupFields": "0",
+      "GroupInstances": "0",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"^1$\""
+    }
+  }
+]

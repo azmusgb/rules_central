@@ -1,0 +1,633 @@
+[
+  {
+    "Container": "validate_DiagnosisCodes",
+    "RuleGUID": "aa6b3a91-f1d9-4fdc-be2d-9bc311e5b9ee",
+    "RuleName": "Filter P&S",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{2}",
+      "FilterSet": "\"charset_PuctSpaceCtrl\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "validate_DiagnosisCodes",
+    "RuleGUID": "998aa89f-e388-47e1-954b-6cf6a85e331c",
+    "RuleName": "DiagCode - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - Validate",
+        "ChildRules": [
+          {
+            "Container": "validate_DiagnosisCodes",
+            "RuleGUID": "fecf0e6d-6901-45a0-843e-e3501c7eb8b8",
+            "RuleName": "Lookup in table",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "998aa89f-e388-47e1-954b-6cf6a85e331c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Entry not found",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DiagnosisCodes",
+                    "RuleGUID": "e7bf1064-061f-466a-85e5-ac1f015e3b64",
+                    "RuleName": "Is this EDI?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "fecf0e6d-6901-45a0-843e-e3501c7eb8b8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_DiagnosisCodes",
+                            "RuleGUID": "f1494792-27fc-47a8-8cbf-0968c1f216ac",
+                            "RuleName": "Clear Diagnosis Code",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "e7bf1064-061f-466a-85e5-ac1f015e3b64",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "1",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No - Present to keyer",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_DiagnosisCodes",
+                            "RuleGUID": "c1f761a1-75a4-4b8e-9c5c-19c0dd4203ce",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "e7bf1064-061f-466a-85e5-ac1f015e3b64",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "None Rejected",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_DiagnosisCodes",
+                                    "RuleGUID": "2efc54bc-9c8a-46ea-8786-6ddd0901068d",
+                                    "RuleName": "Clear Diagnosis Code",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteLines",
+                                    "ParentGUID": "c1f761a1-75a4-4b8e-9c5c-19c0dd4203ce",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "1",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "LinesFrom": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8382",
+                              "_BackupSkipID": "8382",
+                              "RejectString": "\"Invalid Diagnosis Code\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^1$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"table_DiagCodes\"",
+              "Columns": "{\"DiagCode\"}",
+              "_Description": "\"Per WRP-2859 we are no longer validating the Diag Codes based on date of service.  - jdm 02/2019\""
+            }
+          },
+          {
+            "Container": "validate_DiagnosisCodes",
+            "RuleGUID": "9301e2a4-7ade-4be5-abdf-b723e10086f8",
+            "RuleName": "Is this Testing?",
+            "RuleID": "",
+            "FunctionName": "_ITestRecordAttr",
+            "ParentGUID": "998aa89f-e388-47e1-954b-6cf6a85e331c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DiagnosisCodes",
+                    "RuleGUID": "1173217d-b7c4-4b50-908c-0a349961fe91",
+                    "RuleName": "Set temp2 to 20151001",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9301e2a4-7ade-4be5-abdf-b723e10086f8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"20151001\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DiagnosisCodes",
+                    "RuleGUID": "55f1437a-402d-4e1a-803a-e9f8fbd087e0",
+                    "RuleName": "Set temp2 to 20151001",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9301e2a4-7ade-4be5-abdf-b723e10086f8",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"20151001\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "AttrName": "\"Testing\"",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "validate_DiagnosisCodes",
+            "RuleGUID": "ea3f6cbe-1ec7-4ad6-9ece-625b2f1fac08",
+            "RuleName": "Is HighDOS < The ICD-10 cut-over date?",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "998aa89f-e388-47e1-954b-6cf6a85e331c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Less than",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DiagnosisCodes",
+                    "RuleGUID": "1f5244b9-0062-485e-b766-7021b8278a8e",
+                    "RuleName": "Clear Diagnosis Code",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "ea3f6cbe-1ec7-4ad6-9ece-625b2f1fac08",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Greater or equal to",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DiagnosisCodes",
+                    "RuleGUID": "b112629a-e063-4735-910b-a37c32ee4326",
+                    "RuleName": "Lookup in table",
+                    "RuleID": "",
+                    "FunctionName": "IsInTable",
+                    "ParentGUID": "ea3f6cbe-1ec7-4ad6-9ece-625b2f1fac08",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Entry not found",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_DiagnosisCodes",
+                            "RuleGUID": "43b7ce17-49d3-4ff9-9116-eb6303e3b22e",
+                            "RuleName": "Is this EDI?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "b112629a-e063-4735-910b-a37c32ee4326",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_DiagnosisCodes",
+                                    "RuleGUID": "d4cda867-f208-43ac-ac21-3850e658f0a6",
+                                    "RuleName": "Clear Diagnosis Code",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteLines",
+                                    "ParentGUID": "43b7ce17-49d3-4ff9-9116-eb6303e3b22e",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "1",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "LinesFrom": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No - Present to keyer",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_DiagnosisCodes",
+                                    "RuleGUID": "2231e04a-9133-44b4-bf9d-264dd8daa482",
+                                    "RuleName": "Reject Fields",
+                                    "RuleID": "",
+                                    "FunctionName": "_IRejectFields",
+                                    "ParentGUID": "43b7ce17-49d3-4ff9-9116-eb6303e3b22e",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "None Rejected",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "validate_DiagnosisCodes",
+                                            "RuleGUID": "635e53ec-e581-4c87-8b2d-afb65e4c326c",
+                                            "RuleName": "Clear Diagnosis Code",
+                                            "RuleID": "",
+                                            "FunctionName": "DeleteLines",
+                                            "ParentGUID": "2231e04a-9133-44b4-bf9d-264dd8daa482",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{2}",
+                                              "_FunctionVersion": "1",
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "LinesFrom": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "0",
+                                      "_SkipID": "7461",
+                                      "_BackupSkipID": "7461",
+                                      "RejectString": "\"Invalid Diagnosis Code\"",
+                                      "Languages": "\"Default\"",
+                                      "SelectionListAutoPop": "0",
+                                      "RejectCode": "2",
+                                      "DelayEval": "0",
+                                      "RunOnce": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"^1$\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "65537",
+                      "StripSpaces": "0",
+                      "CatchResourceUnavailable": "0",
+                      "Table": "\"table_DiagCodes\"",
+                      "Columns": "{\"DiagCode\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "_Disabled": "1",
+              "_ParamList1": "{3}",
+              "DateFormat": "\"YMD_for_DOS\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,1388 @@
+[
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "0b09e777-9ff3-4e34-b6fd-b8e8d5ba099e",
+    "RuleName": "ClearSL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_Patient\"",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "55ae23f0-8590-4694-9bc8-ebbf3bd52110",
+    "RuleName": "Did we find an MCID after the Sub plug?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "39c22e94-8941-45cc-b3d7-b56a461f9123",
+            "RuleName": "Is the flag = 2?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "55ae23f0-8590-4694-9bc8-ebbf3bd52110",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "4b3db290-1c0d-483b-892e-c632b49efff2",
+                    "RuleName": "Get all Pats with MCID - IDT",
+                    "RuleID": "",
+                    "FunctionName": "_IIterateDynamicTableUDF",
+                    "ParentGUID": "39c22e94-8941-45cc-b3d7-b56a461f9123",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_ParamList0": "{0}",
+                      "UDFName": "\"lookup_Patient_FetchWithMCID\"",
+                      "Table": "\"selectionlist_SubSSN\"",
+                      "Columns": "{\"\",\"SubSSNPlug\",\"\",\"\"}",
+                      "_ParamList1": "{5}",
+                      "_ParamList2": "{12}",
+                      "_ParamList3": "{17}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "2d739087-7775-46c8-aff9-e04bd3c51c7e",
+                    "RuleName": "Get all Pats with MCID",
+                    "RuleID": "",
+                    "FunctionName": "lookup_Patient_FetchWithMCID",
+                    "ParentGUID": "39c22e94-8941-45cc-b3d7-b56a461f9123",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_ParamList0": "{0}",
+                      "UDFName": "\"lookup_Patient_FetchWithMCID\"",
+                      "_ParamList1": "{5}",
+                      "_ParamList2": "{12}",
+                      "_ParamList3": "{17}",
+                      "ForEach": "{0,0,1}",
+                      "DelBlanksBefore": "0",
+                      "DelBlanksAfter": "0",
+                      "MakeColEqual": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so there are multiple MCIDs to consider and we need to use IDT to go through the list.\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{17}",
+              "RegularExpression": "\"2\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "071247cd-1c81-41fb-a7c2-d6614e99f704",
+            "RuleName": "Get all Pats with SSN",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "55ae23f0-8590-4694-9bc8-ebbf3bd52110",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_Patient\"",
+              "_FunctionVersion": "131076",
+              "_ParamList0": "{5}",
+              "Table": "\"odbc_MemInfo\"",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "300",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_ID\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "65539",
+      "_Description": "\"With defect 98043 we are starting to locate the MCID ID_TYP record after a successful subscriber plug.  If we use that ID we need to append relationship codes.  There is no good way to do this (LIKE-statement anyone??) so the brute-force method is employed.\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{17}",
+      "RegularExpression": "\"1\\134|2\""
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "6c46ba28-157b-4591-b189-65a27966eb6f",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_Patient\"",
+      "_FunctionVersion": "1",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "87429fad-fd97-4937-b57d-0f9aee698343",
+    "RuleName": "Trim Based on Everything",
+    "RuleID": "",
+    "FunctionName": "TrimSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_Patient\"",
+      "_FunctionVersion": "65537",
+      "_Description": "\"Old way.  This was replaced with IDT because we didn't realize the hierarchy of TrimSL allows for more recent good matches to supercede good matches already found.\"",
+      "_ParamList0": "{1,2,6,6,3,4,3,4,3,4,3,4,0}",
+      "GroupCount": "8",
+      "GroupNames": "{\"FirstName\",\"DOB - 1 - fname match\",\"DOB - 2- fname fail\",\"LastName - DOB1 match\",\"LastName - DOB1 fail\",\"LastName - DOB2 match\",\"LastName - DOB2 fail\",\"Zip Code\"}",
+      "MatchType": "{1,1,1,1,1,1,1,0}",
+      "SwapFields": "{0,0,0,0,0,0,0,0}",
+      "TableIgnoreCharSets": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+      "NoneMatch": "{2,2,1,2,1,1,1,2}",
+      "Combine": "{1,0,0,1,1,1,1,0}",
+      "UseSubstrings": "{0,0,0,0,0,0,0,0}",
+      "EditDistance": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+      "Percentage": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+      "Required": "{1,1,1,1,1,1,1,1,1,1,1,1,0}",
+      "FieldGroup": "{0,0,1,2,3,3,4,4,5,5,6,6,7}",
+      "MatchColumns": "{\"MemberFirstName\",\"MemberFirstName\",\"MemberDOB\",\"MemberDOB\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberLastName\",\"MemberZip\"}",
+      "ColumnGroup": "{0,0,1,2,3,3,4,4,5,5,6,6,7}",
+      "Depends": "{0,0,1,1,2,2}",
+      "DependsType": "{1,0,1,0,1,0}",
+      "DependsGroup": "{1,2,3,4,5,6}",
+      "_Disabled": "1"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "66eab18c-c368-4d95-b9bf-633cd4df0566",
+    "RuleName": "Delete temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \"",
+      "_ParamList0": "{13,14,15,16,12}",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "7b10ed4a-cc44-4d09-8538-9657be9d1574",
+    "RuleName": "Set temp10 = 0",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "100",
+      "_Description": "\"This will be used to indicate at least one row is kept from the SL trim.  If it comes back a 1 then we can trim.  If it doesn't then we shouldn't trim because we would remove all rows.\"",
+      "_ParamList0": "{12}",
+      "OutputFormat": "\"0\""
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "c2f1221a-4dd7-426b-b551-994288363b3a",
+    "RuleName": "Run Trim flagging UDF",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "0",
+      "_ParamList0": "{1}",
+      "UDFName": "\"lookup_PatIDTrim3of4Flag\"",
+      "Table": "\"selectionlist_Patient\"",
+      "Columns": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"MemberFirstName\",\"MemberLastName\",\"MemberDOB\",\"MemberZip\"}",
+      "_ParamList1": "{2}",
+      "_ParamList2": "{3}",
+      "_ParamList3": "{4}",
+      "_ParamList4": "{6}",
+      "_ParamList5": "{7}",
+      "_ParamList6": "{12}",
+      "_ParamList7": "{14}",
+      "_ParamList8": "{15}",
+      "_ParamList9": "{13}",
+      "_ParamList10": "{16}"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "77491b7b-d9d6-4bfa-bcc1-2292dc643ac6",
+    "RuleName": "Delete temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \"",
+      "_ParamList0": "{13,14,15,16}",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "c0c0e7a4-c228-4439-b443-60f8524f6bfb",
+    "RuleName": "Is temp10 = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "125913fc-09e6-4aff-bada-7fa76b09dfc8",
+            "RuleName": "Run Trimming UDF",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "c0c0e7a4-c228-4439-b443-60f8524f6bfb",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "_ParamList0": "{1}",
+              "UDFName": "\"lookup_PatIDTrim3of4Trim\"",
+              "Table": "\"selectionlist_Patient\"",
+              "Columns": "{\"\",\"\",\"\",\"\",\"\",\"\",\"MemberFirstName\",\"MemberLastName\",\"MemberDOB\",\"MemberZip\"}",
+              "_ParamList1": "{2}",
+              "_ParamList2": "{3}",
+              "_ParamList3": "{4}",
+              "_ParamList4": "{6}",
+              "_ParamList5": "{7}",
+              "_ParamList6": "{14}",
+              "_ParamList7": "{15}",
+              "_ParamList8": "{13}",
+              "_ParamList9": "{16}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "5909e3f6-3788-4c9a-899d-9ac5fbf6bfed",
+            "RuleName": "Set field to XXX",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "c0c0e7a4-c228-4439-b443-60f8524f6bfb",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "100",
+              "_ParamList0": "{18}",
+              "OutputFormat": "\"XXX\""
+            }
+          },
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "5791618f-d264-4856-993f-8eda6c2232ff",
+            "RuleName": "Flag all rows as not pluggable",
+            "RuleID": "",
+            "FunctionName": "TrimSL",
+            "ParentGUID": "c0c0e7a4-c228-4439-b443-60f8524f6bfb",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_Patient\"",
+              "_FunctionVersion": "65537",
+              "_ParamList0": "{18}",
+              "GroupCount": "1",
+              "GroupNames": "{\"Flag all as bad\"}",
+              "MatchType": "{1}",
+              "SwapFields": "{0}",
+              "TableIgnoreCharSets": "{\"\"}",
+              "NoneMatch": "{1}",
+              "Combine": "{0}",
+              "UseSubstrings": "{0}",
+              "EditDistance": "{0}",
+              "Percentage": "{0}",
+              "Required": "{0}",
+              "FieldGroup": "{0}",
+              "MatchColumns": "{\"MemberID\"}",
+              "ColumnGroup": "{0}",
+              "Depends": "{}",
+              "DependsType": "{}",
+              "DependsGroup": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "65539",
+      "_Description": "\"If so an actual trim will leave at least one row.  We don't want to remove all rows, but the IDT and DeleteCurrentRow logic doesn't have the same ability that TrimSL has to recognize that all rows would be removed.  Since temp10 = 1 we are safe to actually remove rows.\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{12}",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "92320e65-7008-4e14-bf20-29b8b8be56fe",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_Patient\"",
+      "_FunctionVersion": "1",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "70d8ee72-40f2-4abe-9b5f-c8d63c7130bc",
+    "RuleName": "CheckSLState4",
+    "RuleID": "",
+    "FunctionName": "CheckSLState4",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Not Plugged",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+            "RuleName": "Zip Trimming Logic",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "70d8ee72-40f2-4abe-9b5f-c8d63c7130bc",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "---",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "27af6066-f64a-4737-b33c-08259255b0bd",
+                    "RuleName": "Delete PatZipRegEx",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_ParamList0": "{20}",
+                      "DeleteBlanks": "1",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0",
+                      "_Sources": "{\"OCR_AEG\"}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "f2588376-4e24-499d-b893-ecbff6b1a5f2",
+                    "RuleName": "Copy Zip to PatZipRegEx",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_ParamList0": "{7}",
+                      "_ParamList1": "{20}",
+                      "_Sources": "{\"OCR_AEG\"}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "85d273b6-c14d-48f6-8c86-9a1958db1739",
+                    "RuleName": "Set flag = 0",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "100",
+                      "_Description": "\"This will be used to indicate at least one row is kept from the SL trim.  If it comes back a 1 then we can trim.  If it doesn't then we shouldn't trim because we would remove all rows.\"",
+                      "_ParamList0": "{19}",
+                      "OutputFormat": "\"0\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "f2806275-05fe-4b3b-939d-a7f9a94238f8",
+                    "RuleName": "Trim PatZipRegEx to 5 digits",
+                    "RuleID": "",
+                    "FunctionName": "LimitLineLength",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_ParamList0": "{20}",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "MaxNum": "1",
+                      "TruncateLeft": "0",
+                      "MaxLength": "5"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "838389c6-eb12-49f4-8203-53172d176bfc",
+                    "RuleName": "Run Trim flagging UDF",
+                    "RuleID": "",
+                    "FunctionName": "_IIterateDynamicTableUDF",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_ParamList0": "{20}",
+                      "UDFName": "\"lookup_PatTrimZipFlag\"",
+                      "Table": "\"selectionlist_Patient\"",
+                      "Columns": "{\"\",\"\",\"MemberZip\"}",
+                      "_ParamList1": "{19}",
+                      "_ParamList2": "{16}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "12af8c4d-6525-4533-9978-114da2a17f7d",
+                    "RuleName": "Delete temp fields",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \"",
+                      "_ParamList0": "{16}",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "afffee97-bc6b-4391-893e-5449556d1bd9",
+                    "RuleName": "Is flag = 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_ID",
+                            "RuleGUID": "6a29fe1a-8775-46dd-86d0-77f9b02f738b",
+                            "RuleName": "Run Trimming UDF",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "afffee97-bc6b-4391-893e-5449556d1bd9",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_ParamList0": "{20}",
+                              "UDFName": "\"lookup_PatTrimZipTrim\"",
+                              "Table": "\"selectionlist_Patient\"",
+                              "Columns": "{\"\",\"MemberZip\"}",
+                              "_ParamList1": "{16}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_ID",
+                            "RuleGUID": "b7202005-4b6c-4275-b542-4fec5ab530c2",
+                            "RuleName": "Set field to XXX",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "afffee97-bc6b-4391-893e-5449556d1bd9",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "100",
+                              "_ParamList0": "{18}",
+                              "OutputFormat": "\"XXX\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_ID",
+                            "RuleGUID": "d04d8ff5-bc16-4a97-b89e-028b61c752c6",
+                            "RuleName": "Flag all rows as not pluggable",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "afffee97-bc6b-4391-893e-5449556d1bd9",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "SelectionList": "\"selectionlist_Patient\"",
+                              "_FunctionVersion": "65537",
+                              "_ParamList0": "{18}",
+                              "GroupCount": "1",
+                              "GroupNames": "{\"Mark all bad\"}",
+                              "MatchType": "{1}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{1}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0}",
+                              "Percentage": "{0}",
+                              "Required": "{0}",
+                              "FieldGroup": "{0}",
+                              "MatchColumns": "{\"MemberID\"}",
+                              "ColumnGroup": "{0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65539",
+                      "_Description": "\"If so an actual trim will leave at least one row.  We don't want to remove all rows, but the IDT and DeleteCurrentRow logic doesn't have the same ability that TrimSL has to recognize that all rows would be removed.  Since temp10 = 1 we are safe to actually remove rows.\"",
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{19}",
+                      "RegularExpression": "\"1\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_ID",
+                    "RuleGUID": "78d4d7a6-8d19-4cc5-9540-33ea7ee649fa",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "a2be9e7e-2c26-462c-9fbd-e44f2306ffc7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "_FunctionVersion": "1",
+                      "LogLevel": "12"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "3",
+              "_ParamList0": "{7}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_Patient\"",
+      "_FunctionVersion": "1",
+      "_Description": "\"If we already have a single pluggable row let's plug it.  If not we will try to trim out bad rows using the Zip Code.\"",
+      "_ParamList0": "{}",
+      "PlugIfSinglePluggableMatch": "1",
+      "MaxSize": "0"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "81f95c9e-428e-4bf8-9035-075b58d4be6f",
+    "RuleName": "Delete temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \"",
+      "_ParamList0": "{8,9,10,11,0,13,14,15,16}",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "094c8d28-13c0-44d3-ae06-0d55c6b5709a",
+    "RuleName": "Iterate over rows to flag if PersonID is not the same",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "0",
+      "_ParamList0": "{9}",
+      "UDFName": "\"lookup_FindPersonIDDifferences\"",
+      "Table": "\"selectionlist_Patient\"",
+      "Columns": "{\"MemberMTVPID\",\"\",\"\"}",
+      "_ParamList1": "{10}",
+      "_ParamList2": "{8}"
+    }
+  },
+  {
+    "Container": "lookup_Patient_ID",
+    "RuleGUID": "736a4feb-8358-440f-99ac-5b9b9882316f",
+    "RuleName": "Is PersonIDFlag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - PersonID is the same on all rows",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_ID",
+            "RuleGUID": "08723c1f-2e54-4f28-bf5b-5248d3b7d4cb",
+            "RuleName": "Delete all but first row from SL",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "736a4feb-8358-440f-99ac-5b9b9882316f",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "_ParamList0": "{11}",
+              "UDFName": "\"lookup_Pat_DeleteNonFirstRow\"",
+              "Table": "\"selectionlist_Patient\"",
+              "Columns": "{\"\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "65539",
+      "_Description": "\"If so the PersonID was not the same over the SL so we do not want to do anything.\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{8}",
+      "RegularExpression": "\"1\""
+    }
+  }
+]

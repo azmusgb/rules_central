@@ -1,0 +1,93 @@
+module.exports = {
+  darkMode: 'class',
+  content: [
+    "./*.html",
+    "./templates/**/*.html",
+    "./static/**/*.html",
+    "./static/js/**/*.js",
+    "./src/**/*.js",
+  ],
+  safelist: [
+    'hidden-by-filter',
+    'bg-dark-700',
+    'bg-dark-800',
+    'bg-dark-900',
+    'border-slate-700',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+        },
+        accent: {
+          DEFAULT: '#14b8a6',
+          purple: '#a855f7',
+        },
+        dark: {
+          700: '#334155',
+          800: '#1e293b',
+          850: '#162032',
+          900: '#0f172a',
+          950: '#0a1120',
+        },
+        slate: {
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          700: '#334155',
+        },
+      },
+      animation: {
+        typing: 'typing 2s steps(22)',
+        'blink-caret': 'blink 1s step-end infinite',
+        float: 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        typing: {
+          from: { width: '0' },
+          to: { width: '100%' },
+        },
+        blink: {
+          '50%': { 'border-color': 'transparent' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '50%': { transform: 'translateY(-16px) scale(1.04)' },
+        },
+      },
+      backgroundImage: {
+        'hero-pattern': "linear-gradient(120deg, #1e293b 0%, #3b82f6 100%)",
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('daisyui'),
+  ],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          "primary": "#3b82f6",
+          "secondary": "#a855f7",
+          "accent": "#14b8a6",
+          "neutral": "#64748b",
+          "base-100": "#ffffff",
+        },
+        dark: {
+          "primary": "#3b82f6",
+          "secondary": "#a855f7",
+          "accent": "#14b8a6",
+          "neutral": "#64748b",
+          "base-100": "#0f172a",
+        }
+      }
+    ],
+    darkTheme: "dark",
+  },
+};

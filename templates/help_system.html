@@ -1,0 +1,139 @@
+<div class="fixed bottom-6 right-6 z-50" id="help-system">
+    <!-- Help Button -->
+    <button aria-controls="help-panel"
+            aria-expanded="false"
+            aria-label="Open help menu"
+            class="w-14 h-14 bg-gradient-to-br from-primary-500 to-accent-purple text-white rounded-full border border-white/5 shadow-lg hover:border-white/10 hover:shadow-2xl transition-all duration-300 ease-out flex items-center justify-center group relative overflow-hidden"
+            id="help-button">
+        <div class="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+        <i class="fas fa-question text-xl relative z-10 transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+        <!-- Notification badge -->
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden"
+              id="help-notification"></span>
+    </button>
+
+    <!-- Help Panel -->
+    <div aria-labelledby="help-panel-title"
+         aria-modal="true"
+         class="hidden absolute bottom-full right-0 mb-4 w-80 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg transition-all duration-500 ease-out overflow-hidden"
+         id="help-panel"
+         role="dialog">
+        <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-5 py-4 flex items-center justify-between">
+            <h3 class="font-semibold text-sm flex items-center" id="help-panel-title">
+                <i class="fas fa-life-ring mr-2"></i>
+                Help Center
+            </h3>
+            <div class="flex items-center space-x-3">
+                <button aria-label="Refresh help content"
+                        class="text-white/80 hover:text-white transition-colors"
+                        id="refresh-help">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button aria-label="Close help menu"
+                        class="text-white/80 hover:text-white transition-colors"
+                        id="close-help">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="p-5 max-h-[60vh] overflow-y-auto custom-scrollbar" id="help-content">
+            <!-- Fallback content that shows while loading -->
+            <div class="text-center py-8" id="help-loading">
+                <i class="fas fa-circle-notch fa-spin text-gray-400 text-2xl mb-3"></i>
+                <p class="text-gray-400">Loading help content...</p>
+            </div>
+            <!-- Error state -->
+            <div class="hidden text-center py-8" id="help-error">
+                <i class="fas fa-exclamation-triangle text-yellow-400 text-2xl mb-3"></i>
+                <p class="text-gray-300">Couldn't load help content</p>
+                <button class="mt-3 text-primary-400 hover:text-primary-300 text-sm flex items-center mx-auto transition-colors duration-200 group"
+                        id="retry-help">
+                    <i class="fas fa-redo mr-2 text-sm group-hover:rotate-180 transition-transform"></i>
+                    Try Again
+                </button>
+            </div>
+            <!-- Actual content will be inserted here -->
+            <div id="help-content-loaded"></div>
+        </div>
+        <div class="bg-dark-700/50 px-5 py-3 border-t border-dark-600/50 flex justify-between items-center">
+            <a class="text-primary-400 hover:text-primary-300 text-sm flex items-center transition-colors duration-200 group"
+               href="/full-help">
+                <i class="fas fa-book-open mr-2 text-sm group-hover:translate-x-0.5 transition-transform"></i>
+                Full Documentation
+            </a>
+            <span class="text-xs text-gray-500">v{{ config.VERSION }}</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Inline fallback help content if external files fail to load
+    window.helpContent = window.helpContent || {
+        "default": {
+            "title": "Help Center",
+            "content": `
+                <div class="space-y-4">
+                    <div class="p-3 bg-blue-900/20 rounded-lg">
+                        <h4 class="font-medium flex items-center">
+                            <i class="fas fa-info-circle mr-2 text-blue-400"></i>
+                            Need Help?
+                        </h4>
+                        <p class="text-sm mt-2 text-gray-300">
+                            Visit our <a href="/full-help" class="text-primary-400 hover:underline">full documentation</a>
+                            for detailed guides and tutorials.
+                        </p>
+                    </div>
+                    <div class="p-3 bg-purple-900/20 rounded-lg">
+                        <h4 class="font-medium flex items-center">
+                            <i class="fas fa-headset mr-2 text-purple-400"></i>
+                            Contact Support
+                        </h4>
+                        <p class="text-sm mt-2 text-gray-300">
+                            Email us at <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>
+                        </p>
+                    </div>
+                </div>
+            `
+        }
+    };
+</script>
+
+<script>
+    // Enhanced script loading with fallback
+    function loadHelpScripts() {
+        // Try to load help_system.js first
+        const script = document.createElement('script');
+        script.src = "{{ url_for('static', filename='js/help_system.js') }}";
+        script.onerror = function() {
+            console.warn('Failed to load help_system.js, using fallback');
+            initializeFallbackHelpSystem();
+        };
+        document.body.appendChild(script);
+    }
+
+    // Basic functionality if scripts fail to load
+    function initializeFallbackHelpSystem() {
+        const helpButton = document.getElementById('help-button');
+        const helpPanel = document.getElementById('help-panel');
+        const closeHelp = document.getElementById('close-help');
+
+        if (!helpButton || !helpPanel) return;
+
+        helpButton.addEventListener('click', function() {
+            helpPanel.classList.toggle('hidden');
+            helpPanel.classList.toggle('show');
+            document.getElementById('help-content-loaded').innerHTML =
+                window.helpContent.default.content;
+        });
+
+        if (closeHelp) {
+            closeHelp.addEventListener('click', function() {
+                helpPanel.classList.remove('show');
+                helpPanel.classList.add('hidden');
+            });
+        }
+    }
+
+    // Start loading the help system
+    document.addEventListener('DOMContentLoaded', loadHelpScripts);
+</script>

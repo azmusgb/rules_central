@@ -1,0 +1,413 @@
+[
+  {
+    "Container": "helper_GetHighDOS",
+    "RuleGUID": "a6e8a940-e1f0-4705-9d2a-36d8418c6be4",
+    "RuleName": "See if High DOS is blank",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "helper_GetHighDOS",
+            "RuleGUID": "cbfc5ae1-49a0-4fd8-962a-bcb04c42a967",
+            "RuleName": "See if DOS has data",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "a6e8a940-e1f0-4705-9d2a-36d8418c6be4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "None Empty",
+                "ChildRules": [
+                  {
+                    "Container": "helper_GetHighDOS",
+                    "RuleGUID": "6401d6ab-68b8-4337-9631-87ffcb1468ef",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "cbfc5ae1-49a0-4fd8-962a-bcb04c42a967",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_GetHighDOS",
+                            "RuleGUID": "455ac4a7-0c5b-4694-9e9f-f73932a17c7d",
+                            "RuleName": "Check if after received date",
+                            "RuleID": "",
+                            "FunctionName": "CompareDateFields",
+                            "ParentGUID": "6401d6ab-68b8-4337-9631-87ffcb1468ef",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Not",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_GetHighDOS",
+                                    "RuleGUID": "efc2e852-8b9f-4ad4-a8f1-c63e5dd2e518",
+                                    "RuleName": "Copy DOS -> HighDOS",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "455ac4a7-0c5b-4694-9e9f-f73932a17c7d",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "2",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_ParamList1": "{2}",
+                              "_ParamListOMRIndex1": "{-1}",
+                              "DateFormat": "\"YMD_for_DOB\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_GetHighDOS",
+                            "RuleGUID": "c9294965-f517-4183-bf7b-43f45a947373",
+                            "RuleName": "Copy DOS -> HighDOS",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "6401d6ab-68b8-4337-9631-87ffcb1468ef",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "helper_GetHighDOS",
+            "RuleGUID": "0d64d299-d655-463d-8de5-8bc3e2e61188",
+            "RuleName": "See if DOS has data",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "a6e8a940-e1f0-4705-9d2a-36d8418c6be4",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "None Empty",
+                "ChildRules": [
+                  {
+                    "Container": "helper_GetHighDOS",
+                    "RuleGUID": "c93c27d7-9def-4c76-99b7-2f10e3c97506",
+                    "RuleName": "Compare Dates",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "0d64d299-d655-463d-8de5-8bc3e2e61188",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Greater than",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_GetHighDOS",
+                            "RuleGUID": "d6cb3336-452d-4492-aad2-a7b1a6ce22ff",
+                            "RuleName": "Is this DV/KE?",
+                            "RuleID": "",
+                            "FunctionName": "_IWorkerType",
+                            "ParentGUID": "c93c27d7-9def-4c76-99b7-2f10e3c97506",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_GetHighDOS",
+                                    "RuleGUID": "ad0cbb56-3d46-48fa-a5ac-adc0d32eb5eb",
+                                    "RuleName": "Check if after received date",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareDateFields",
+                                    "ParentGUID": "d6cb3336-452d-4492-aad2-a7b1a6ce22ff",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Not",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "helper_GetHighDOS",
+                                            "RuleGUID": "0e8f02eb-61fc-4408-be53-085b7309e334",
+                                            "RuleName": "Copy DOS -> HighDOS",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "ad0cbb56-3d46-48fa-a5ac-adc0d32eb5eb",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{1}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "2",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "_ParamList1": "{2}",
+                                      "_ParamListOMRIndex1": "{-1}",
+                                      "DateFormat": "\"YMD_for_DOB\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_GetHighDOS",
+                                    "RuleGUID": "db8e4d87-97d2-478e-ae02-8486d4bf4e42",
+                                    "RuleName": "Copy DOS -> HighDOS",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "d6cb3336-452d-4492-aad2-a7b1a6ce22ff",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "_ParamList1": "{1}",
+                      "DateFormat": "\"MDY_for_DOS\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

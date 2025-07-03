@@ -1,0 +1,1812 @@
+[
+  {
+    "Container": "lookup_RendProv_TXCHIP_SanCk",
+    "RuleGUID": "c9fcd0ae-6933-4987-a1fb-5efc3100bc8f",
+    "RuleName": "Copy zip to tempZip",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_ParamList1": "{6}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_RendProv_TXCHIP_SanCk",
+    "RuleGUID": "54bf83e2-8d76-4351-b097-d5dcc41e14b8",
+    "RuleName": "Build regular exp for zip",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "None matched",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProv_TXCHIP_SanCk",
+            "RuleGUID": "b7bb6b55-5175-44bb-beb9-0cfd90360cb1",
+            "RuleName": "Set to fake value",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "54bf83e2-8d76-4351-b097-d5dcc41e14b8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"THIS_IS_A_FAKE_ZIP_CODE\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"\\134(^.....\\134)\"",
+      "OutputFormat": "\"^\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"12345\",\"123456789\",\"123\",\"12345-6789\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "lookup_RendProv_TXCHIP_SanCk",
+    "RuleGUID": "f6e356fa-591d-4e61-aa22-f2e32cb0ecae",
+    "RuleName": "See if Name has data",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProv_TXCHIP_SanCk",
+            "RuleGUID": "02ee36ea-462e-4cc8-801c-91da4c27629f",
+            "RuleName": "Trim based on AddrNum and Zip",
+            "RuleID": "",
+            "FunctionName": "TrimSL",
+            "ParentGUID": "f6e356fa-591d-4e61-aa22-f2e32cb0ecae",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "f8bff2ca-9dec-428f-bffa-da711e1d130c",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "02ee36ea-462e-4cc8-801c-91da4c27629f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "64df3368-fded-4e64-ba73-de1a4ffb42a2",
+                    "RuleName": "Plug if single entry",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "02ee36ea-462e-4cc8-801c-91da4c27629f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "None Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "19b7b605-eb23-44af-b933-e415c54d5868",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "02ee36ea-462e-4cc8-801c-91da4c27629f",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "LogLevel": "12"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4,6}",
+              "_FunctionVersion": "65537",
+              "GroupCount": "2",
+              "SelectionList": "\"selectionlist_RendProv\"",
+              "GroupNames": "{\"Crit 1\",\"Crit 2\"}",
+              "MatchType": "{1,0}",
+              "SwapFields": "{0,0}",
+              "TableIgnoreCharSets": "{\"\",\"\"}",
+              "NoneMatch": "{1,1}",
+              "Combine": "{0,0}",
+              "UseSubstrings": "{1,0}",
+              "EditDistance": "{0,0}",
+              "Percentage": "{0,0}",
+              "Required": "{1,0}",
+              "FieldGroup": "{0,1}",
+              "MatchColumns": "{\"Addr1\",\"ZIP\"}",
+              "ColumnGroup": "{0,1}",
+              "Depends": "{0}",
+              "DependsType": "{1}",
+              "DependsGroup": "{1}",
+              "_Description": "\"Enable this and disable or remove the other one if it is decided to use the first 5 chars\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "Has Data",
+        "ChildRules": [
+          {
+            "Container": "lookup_RendProv_TXCHIP_SanCk",
+            "RuleGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+            "RuleName": "Trim based on Name",
+            "RuleID": "",
+            "FunctionName": "TrimSL",
+            "ParentGUID": "f6e356fa-591d-4e61-aa22-f2e32cb0ecae",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "18879bd6-e121-4b25-b0e0-2415592c4af2",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "ecc0d2ba-4d56-4e98-8170-c2755ac0a573",
+                    "RuleName": "Plug if single entry",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Not plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "3d7020b2-1ebe-453a-9437-df37e1a32876",
+                            "RuleName": "Build Regular expressions for Lname",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "ecc0d2ba-4d56-4e98-8170-c2755ac0a573",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Name empty",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "a9bc43f5-70d0-4931-b0e0-d1cda7cae7b3",
+                                    "RuleName": "Set to fake value",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "3d7020b2-1ebe-453a-9437-df37e1a32876",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"THIS_IS_A_FAKE_NAME\"",
+                                      "_Description": "\"To force match failure\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100",
+                              "InputFormat": "\"%s\"",
+                              "OutputFormat": "\"%s\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "b37d0ba8-3daa-4f0b-851a-7a002b03076f",
+                            "RuleName": "Build Regular expressions for Fname",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "ecc0d2ba-4d56-4e98-8170-c2755ac0a573",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Name empty",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "e0f795d5-d9e5-46d7-8468-8fb655d59841",
+                                    "RuleName": "Set to fake value",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "b37d0ba8-3daa-4f0b-851a-7a002b03076f",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"THIS_IS_A_FAKE_NAME\"",
+                                      "_Description": "\"To force match failure\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "100",
+                              "InputFormat": "\"%s\"",
+                              "OutputFormat": "\"%s\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "20f5d2b6-f97c-4f06-85e5-a62ee825401d",
+                            "RuleName": "Trim based on NameStr",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "ecc0d2ba-4d56-4e98-8170-c2755ac0a573",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "All Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "86e5bfb9-8e49-4efd-b7d9-b154895a01b2",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "20f5d2b6-f97c-4f06-85e5-a62ee825401d",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "fc137a5d-9254-4db9-96ba-8085e0f47141",
+                                    "RuleName": "Plug if single entry",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "20f5d2b6-f97c-4f06-85e5-a62ee825401d",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Not plugged",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "64fb2bf1-3135-48dd-8a74-09a48433ba4c",
+                                            "RuleName": "Trim based on AddrNum and Zip",
+                                            "RuleID": "",
+                                            "FunctionName": "TrimSL",
+                                            "ParentGUID": "fc137a5d-9254-4db9-96ba-8085e0f47141",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "All Match",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                                    "RuleGUID": "18a6320b-4039-4a8f-911d-e83466c881e9",
+                                                    "RuleName": "LogSL",
+                                                    "RuleID": "",
+                                                    "FunctionName": "LogSL",
+                                                    "ParentGUID": "64fb2bf1-3135-48dd-8a74-09a48433ba4c",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                                      "LogLevel": "12"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                                    "RuleGUID": "49d897bc-3916-4a98-b66c-9038ae6d2cbb",
+                                                    "RuleName": "Plug if single entry",
+                                                    "RuleID": "",
+                                                    "FunctionName": "CheckSLState4",
+                                                    "ParentGUID": "64fb2bf1-3135-48dd-8a74-09a48433ba4c",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{}",
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                                      "PlugIfSinglePluggableMatch": "1",
+                                                      "MaxSize": "0"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "None Match",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                                    "RuleGUID": "fa3e494e-5ef2-467e-bffa-fb6f82968437",
+                                                    "RuleName": "LogSL",
+                                                    "RuleID": "",
+                                                    "FunctionName": "LogSL",
+                                                    "ParentGUID": "64fb2bf1-3135-48dd-8a74-09a48433ba4c",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                                      "LogLevel": "12"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{4,6}",
+                                              "_FunctionVersion": "65537",
+                                              "GroupCount": "2",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "GroupNames": "{\"Crit 1\",\"Crit 2\"}",
+                                              "MatchType": "{1,0}",
+                                              "SwapFields": "{0,0}",
+                                              "TableIgnoreCharSets": "{\"\",\"\"}",
+                                              "NoneMatch": "{1,2}",
+                                              "Combine": "{0,0}",
+                                              "UseSubstrings": "{1,0}",
+                                              "EditDistance": "{0,0}",
+                                              "Percentage": "{0,0}",
+                                              "Required": "{1,0}",
+                                              "FieldGroup": "{0,1}",
+                                              "MatchColumns": "{\"Addr1\",\"ZIP\"}",
+                                              "ColumnGroup": "{0,1}",
+                                              "Depends": "{0}",
+                                              "DependsType": "{1}",
+                                              "DependsGroup": "{1}",
+                                              "_Description": "\"Enable this and disable or remove the other one if it is decided to use the first 5 chars\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "PlugIfSinglePluggableMatch": "1",
+                                      "MaxSize": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "None Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "18a43337-d338-4d41-a0f3-e7d487f71b93",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "20f5d2b6-f97c-4f06-85e5-a62ee825401d",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "e40da400-ed3f-4d74-ab17-0f6a7451ab8d",
+                                    "RuleName": "Trim based on AddrNum and Zip",
+                                    "RuleID": "",
+                                    "FunctionName": "TrimSL",
+                                    "ParentGUID": "20f5d2b6-f97c-4f06-85e5-a62ee825401d",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "All Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "80b8303e-1ccc-4fe0-af09-be756f000775",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "e40da400-ed3f-4d74-ab17-0f6a7451ab8d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "aaf37cfa-fd2e-4c75-a9ea-0da94c42c019",
+                                            "RuleName": "Plug if single entry",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "e40da400-ed3f-4d74-ab17-0f6a7451ab8d",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{}",
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "PlugIfSinglePluggableMatch": "1",
+                                              "MaxSize": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "None Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "f6b499d3-354a-4506-83a9-8c7a4ad4d8df",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "e40da400-ed3f-4d74-ab17-0f6a7451ab8d",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4,6}",
+                                      "_FunctionVersion": "65537",
+                                      "GroupCount": "2",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "GroupNames": "{\"Crit 1\",\"Crit 2\"}",
+                                      "MatchType": "{1,0}",
+                                      "SwapFields": "{0,0}",
+                                      "TableIgnoreCharSets": "{\"\",\"\"}",
+                                      "NoneMatch": "{1,2}",
+                                      "Combine": "{0,0}",
+                                      "UseSubstrings": "{1,0}",
+                                      "EditDistance": "{0,0}",
+                                      "Percentage": "{0,0}",
+                                      "Required": "{1,0}",
+                                      "FieldGroup": "{0,1}",
+                                      "MatchColumns": "{\"Addr1\",\"ZIP\"}",
+                                      "ColumnGroup": "{0,1}",
+                                      "Depends": "{0}",
+                                      "DependsType": "{1}",
+                                      "DependsGroup": "{1}",
+                                      "_Description": "\"Enable this and disable or remove the other one if it is decided to use the first 5 chars\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3}",
+                              "_FunctionVersion": "65537",
+                              "GroupCount": "1",
+                              "SelectionList": "\"selectionlist_RendProv\"",
+                              "GroupNames": "{\"Crit 1\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{2}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0,0}",
+                              "Percentage": "{0,0}",
+                              "Required": "{0,0}",
+                              "FieldGroup": "{0,0}",
+                              "MatchColumns": "{\"LastName\",\"FirstName\"}",
+                              "ColumnGroup": "{0,0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "None Match",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "d689d91c-adbe-4c82-825f-afc361cafec9",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RendProv\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "1b9226e5-9683-4384-b82c-4d9b061ffe5f",
+                    "RuleName": "Build Regular expressions for Lname",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Name empty",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "0f08440e-4865-4570-8262-fb7bb6d684f7",
+                            "RuleName": "Set to fake value",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "1b9226e5-9683-4384-b82c-4d9b061ffe5f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"THIS_IS_A_FAKE_NAME\"",
+                              "_Description": "\"To force match failure\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "100",
+                      "InputFormat": "\"%s\"",
+                      "OutputFormat": "\"%s\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "7793a31c-9dca-4de7-8a34-e91e3b8f60a1",
+                    "RuleName": "Build Regular expressions for Fname",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Name empty",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "612758f4-6a3b-4377-8ec2-f19bc143af0b",
+                            "RuleName": "Set to fake value",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "7793a31c-9dca-4de7-8a34-e91e3b8f60a1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"THIS_IS_A_FAKE_NAME\"",
+                              "_Description": "\"To force match failure\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "100",
+                      "InputFormat": "\"%s\"",
+                      "OutputFormat": "\"%s\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                    "RuleGUID": "fc27fbac-0779-4b8a-8f91-9e6fe3f7c43d",
+                    "RuleName": "Trim based on NameStr",
+                    "RuleID": "",
+                    "FunctionName": "TrimSL",
+                    "ParentGUID": "9167b27d-8b2b-489d-ab03-ca84bc8aa34a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "1a586788-e1a0-4ce7-a33e-b1d7bf32fc9f",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "fc27fbac-0779-4b8a-8f91-9e6fe3f7c43d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_RendProv\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "7f7dfd28-322b-4852-9217-a5630248ee4c",
+                            "RuleName": "Plug if single entry",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "fc27fbac-0779-4b8a-8f91-9e6fe3f7c43d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Not plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "90ece07a-a331-4c9e-b21f-db473148933f",
+                                    "RuleName": "Trim based on AddrNum and Zip",
+                                    "RuleID": "",
+                                    "FunctionName": "TrimSL",
+                                    "ParentGUID": "7f7dfd28-322b-4852-9217-a5630248ee4c",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "All Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "7e8570e0-cd9c-41c6-89ab-d0080096283c",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "90ece07a-a331-4c9e-b21f-db473148933f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "665913e0-2539-4b41-a67e-2b649b5f9174",
+                                            "RuleName": "Plug if single entry",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "90ece07a-a331-4c9e-b21f-db473148933f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{}",
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "PlugIfSinglePluggableMatch": "1",
+                                              "MaxSize": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "None Match",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                            "RuleGUID": "762b8d46-bad9-4f3b-818a-2c2ff78ea302",
+                                            "RuleName": "LogSL",
+                                            "RuleID": "",
+                                            "FunctionName": "LogSL",
+                                            "ParentGUID": "90ece07a-a331-4c9e-b21f-db473148933f",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_RendProv\"",
+                                              "LogLevel": "12"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4,6}",
+                                      "_FunctionVersion": "65537",
+                                      "GroupCount": "2",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "GroupNames": "{\"Crit 1\",\"Crit 2\"}",
+                                      "MatchType": "{1,0}",
+                                      "SwapFields": "{0,0}",
+                                      "TableIgnoreCharSets": "{\"\",\"\"}",
+                                      "NoneMatch": "{1,2}",
+                                      "Combine": "{0,0}",
+                                      "UseSubstrings": "{1,0}",
+                                      "EditDistance": "{0,0}",
+                                      "Percentage": "{0,0}",
+                                      "Required": "{1,0}",
+                                      "FieldGroup": "{0,1}",
+                                      "MatchColumns": "{\"Addr1\",\"ZIP\"}",
+                                      "ColumnGroup": "{0,1}",
+                                      "Depends": "{0}",
+                                      "DependsType": "{1}",
+                                      "DependsGroup": "{1}",
+                                      "_Description": "\"Enable this and disable or remove the other one if it is decided to use the first 5 chars\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_RendProv\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "None Match",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "672eeeba-2bbe-47d8-bdcc-ae1bd758a6fa",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "fc27fbac-0779-4b8a-8f91-9e6fe3f7c43d",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_RendProv\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_RendProv_TXCHIP_SanCk",
+                            "RuleGUID": "8f7a8b13-8432-4b70-862b-435561919dd3",
+                            "RuleName": "Trim based on AddrNum and Zip",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "fc27fbac-0779-4b8a-8f91-9e6fe3f7c43d",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "All Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "614511e5-305b-4491-a39c-4ee653cae89b",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "8f7a8b13-8432-4b70-862b-435561919dd3",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "b65887f0-5440-426a-8300-ae3556800d77",
+                                    "RuleName": "Plug if single entry",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "8f7a8b13-8432-4b70-862b-435561919dd3",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{}",
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "PlugIfSinglePluggableMatch": "1",
+                                      "MaxSize": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "None Match",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_RendProv_TXCHIP_SanCk",
+                                    "RuleGUID": "734572eb-dcd5-4a51-8592-107e19f43116",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "8f7a8b13-8432-4b70-862b-435561919dd3",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_RendProv\"",
+                                      "LogLevel": "12"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4,6}",
+                              "_FunctionVersion": "65537",
+                              "GroupCount": "2",
+                              "SelectionList": "\"selectionlist_RendProv\"",
+                              "GroupNames": "{\"Crit 1\",\"Crit 2\"}",
+                              "MatchType": "{1,0}",
+                              "SwapFields": "{0,0}",
+                              "TableIgnoreCharSets": "{\"\",\"\"}",
+                              "NoneMatch": "{1,2}",
+                              "Combine": "{0,0}",
+                              "UseSubstrings": "{1,0}",
+                              "EditDistance": "{0,0}",
+                              "Percentage": "{0,0}",
+                              "Required": "{1,0}",
+                              "FieldGroup": "{0,1}",
+                              "MatchColumns": "{\"Addr1\",\"ZIP\"}",
+                              "ColumnGroup": "{0,1}",
+                              "Depends": "{0}",
+                              "DependsType": "{1}",
+                              "DependsGroup": "{1}",
+                              "_Description": "\"Enable this and disable or remove the other one if it is decided to use the first 5 chars\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2,3}",
+                      "_FunctionVersion": "65537",
+                      "GroupCount": "1",
+                      "SelectionList": "\"selectionlist_RendProv\"",
+                      "GroupNames": "{\"Crit 1\"}",
+                      "MatchType": "{0}",
+                      "SwapFields": "{0}",
+                      "TableIgnoreCharSets": "{\"\"}",
+                      "NoneMatch": "{2}",
+                      "Combine": "{0}",
+                      "UseSubstrings": "{0}",
+                      "EditDistance": "{0,0}",
+                      "Percentage": "{0,0}",
+                      "Required": "{0,0}",
+                      "FieldGroup": "{0,0}",
+                      "MatchColumns": "{\"LastName\",\"FirstName\"}",
+                      "ColumnGroup": "{0,0}",
+                      "Depends": "{}",
+                      "DependsType": "{}",
+                      "DependsGroup": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,1}",
+              "_FunctionVersion": "65537",
+              "GroupCount": "1",
+              "SelectionList": "\"selectionlist_RendProv\"",
+              "GroupNames": "{\"Crit 1\"}",
+              "MatchType": "{1}",
+              "SwapFields": "{0}",
+              "TableIgnoreCharSets": "{\"\"}",
+              "NoneMatch": "{2}",
+              "Combine": "{0}",
+              "UseSubstrings": "{0}",
+              "EditDistance": "{0,0}",
+              "Percentage": "{0,0}",
+              "Required": "{1,1}",
+              "FieldGroup": "{0,0}",
+              "MatchColumns": "{\"LastName\",\"FirstName\"}",
+              "ColumnGroup": "{0,0}",
+              "Depends": "{}",
+              "DependsType": "{}",
+              "DependsGroup": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

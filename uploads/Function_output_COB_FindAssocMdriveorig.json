@@ -1,0 +1,304 @@
+[
+  {
+    "Container": "output_COB_FindAssocMdriveorig",
+    "RuleGUID": "62025a06-d010-4754-87bf-a3e5695e2ccd",
+    "RuleName": "Is PolicyCarrier COMM?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_COB_FindAssocMdriveorig",
+            "RuleGUID": "8c1a003d-9d68-4305-a47f-ef6635e32f77",
+            "RuleName": "Is the liability indicator a P?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "62025a06-d010-4754-87bf-a3e5695e2ccd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_COB_FindAssocMdriveorig",
+                    "RuleGUID": "8956c8a5-b546-44fa-a58c-7c333ce9bda0",
+                    "RuleName": "ClearSL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "8c1a003d-9d68-4305-a47f-ef6635e32f77",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MOSA_PolicyID\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "output_COB_FindAssocMdriveorig",
+                    "RuleGUID": "2b452949-a630-4cc8-8313-abfb7909ca4d",
+                    "RuleName": "Get MOSA records using PolicyID",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "8c1a003d-9d68-4305-a47f-ef6635e32f77",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "131076",
+                      "_Description": "\"This step is done because of the way MTV screens are set up.  When a member has a secondary MOSA contract it is referred to from the policyID from the primary MTV screen.  When this data is loaded to MAP it is taken literally from the MTV screens.  So a screen that indicates primary, which translates to a MAP record with a +P, is actually showing secondary information.  To get the primary contractID you need to use the policyID from the secondary contract (on the screen that shows +P).  - jdm \"",
+                      "SelectionList": "\"selectionlist_MOSA_PolicyID\"",
+                      "MaxMatchCount": "9",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemMOSACovInfo\"",
+                      "NextInstance": "0",
+                      "_ParamList1": "{0}",
+                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                      "FuzzyColumns": "{\"MEM_COV_CTRCT_ID\"}",
+                      "MaxAcceptTolerances": "{0}",
+                      "MaxDisplayTolerances": "{0}",
+                      "ToleranceWeights": "{1}",
+                      "Percentage": "{0}",
+                      "CompareWidths": "{10}",
+                      "EmptiesContribute": "{0}",
+                      "EmptiesIgnored": "{0}",
+                      "SelectionListColumns": "{\"MEM_MTV_PID\",\"MEM_MOSA_PLCY_CARR\",\"MEM_MOSA_PLCY_ID\",\"MEM_MOSA_PLCY_LBTY_IND\",\"MEM_CTRCT_MOSA_END_DT\",\"MEM_CTRCT_MOSA_EFF_DT\"}",
+                      "DataColumns": "{\"MEM_MTV_PID\",\"MEM_MOSA_PLCY_CARR\",\"MEM_MOSA_PLCY_ID\",\"MEM_MOSA_PLCY_LBTY_IND\",\"MEM_CTRCT_MOSA_END_DT\",\"MEM_CTRCT_MOSA_EFF_DT\"}",
+                      "EscapeFields": "{\"table_PatMTVPID\",\"table_MOSAPolicyCarrier\",\"table_MOSAPolicyID\",\"table_MOSAPolicyLbtyInd\",\"table_MOSAEndDate\",\"table_MOSAEffDate\"}",
+                      "PlugFields": "{\"table_PatMTVPID\",\"table_MOSAPolicyCarrier\",\"table_MOSAPolicyID\",\"table_MOSAPolicyLbtyInd\",\"table_MOSAEndDate\",\"table_MOSAEffDate\"}",
+                      "DataTableDataField": "{-1,-1,-1,-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1}",
+                      "CatchResourceUnavailable": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_COB_FindAssocMdriveorig",
+                    "RuleGUID": "66e6034e-f2dd-451a-9315-72ac69bd55c5",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "8c1a003d-9d68-4305-a47f-ef6635e32f77",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MOSA_PolicyID\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "output_COB_FindAssocMdriveorig",
+                    "RuleGUID": "d0822242-a9ec-40f6-9e9c-9eea3e1d1b1a",
+                    "RuleName": "Any rows found?",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "8c1a003d-9d68-4305-a47f-ef6635e32f77",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_COB_FindAssocMdriveorig",
+                            "RuleGUID": "50732a4b-5b84-42c3-982b-b4dae333d345",
+                            "RuleName": "Search for +P records",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "d0822242-a9ec-40f6-9e9c-9eea3e1d1b1a",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "0",
+                              "Table": "\"selectionlist_MOSA_PolicyID\"",
+                              "_ParamList1": "{0}",
+                              "UDFName": "\"output_COB_FindAssocMOSA\"",
+                              "Columns": "{\"MEM_MTV_PID\",\"MEM_MOSA_PLCY_ID\",\"MEM_MOSA_PLCY_LBTY_IND\",\"MEM_MOSA_PLCY_CARR\",\"\"}",
+                              "_ParamList2": "{1}",
+                              "_ParamList3": "{2}",
+                              "_ParamList4": "{4}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MOSA_PolicyID\"",
+                      "PlugIfSinglePluggableMatch": "0",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{1}",
+              "RegularExpression": "\"P\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"Meaning coverage is Primary for this record.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "RegularExpression": "\"COMM\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

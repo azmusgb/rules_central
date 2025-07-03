@@ -1,0 +1,553 @@
+[
+  {
+    "Container": "validate_XCN",
+    "RuleGUID": "dabb4bfc-e5d3-4f27-a8e0-cb5a8c120340",
+    "RuleName": "Clear temp1",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "validate_XCN",
+    "RuleGUID": "185d6a00-b900-41bc-b914-0b795d772272",
+    "RuleName": "Get Barcode Nums",
+    "RuleID": "",
+    "FunctionName": "_IGetPageAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "0",
+      "AttrName": "\"Barcode_NumCodes\""
+    }
+  },
+  {
+    "Container": "validate_XCN",
+    "RuleGUID": "c490382d-cdb2-4771-aacf-499be03a669e",
+    "RuleName": "Was there a Barcode sticker?",
+    "RuleID": "",
+    "FunctionName": "CheckAmount",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "validate_XCN",
+            "RuleGUID": "5961c240-4ac0-4f27-a633-c35de99c0bb8",
+            "RuleName": "Clear temp fields",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "c490382d-cdb2-4771-aacf-499be03a669e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "_ParamList0": "{1,2,3,4}",
+              "_ParamListOMRIndex0": "{-1,-1,-1,-1}",
+              "LinesFrom": "0",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "validate_XCN",
+            "RuleGUID": "1ff5da52-64b4-434e-ac2e-d4e7eafcb28e",
+            "RuleName": "Copy XCN/OCN to temp4",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "c490382d-cdb2-4771-aacf-499be03a669e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{0}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{4}",
+              "_ParamListOMRIndex1": "{-1}"
+            }
+          },
+          {
+            "Container": "validate_XCN",
+            "RuleGUID": "2cc69004-64cf-4537-ab92-d39aa130a60d",
+            "RuleName": "Remove leading NEA#",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "c490382d-cdb2-4771-aacf-499be03a669e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{4}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^N[E3]A[ ]*[#?!]*[ ]*\\134(.*\\134)$\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"NEA#1234567890\",\"NEA #1234567890\",\"NEA  #1234567890\",\"NEA# 1234567890\",\"NEA # 1234567890\",\"NEA  # 1234567890\",\"1234567890\",\"#NEA1234567890\",\"NEA1234567890\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_XCN",
+            "RuleGUID": "51651633-ac71-4161-8cd3-6111880cbad8",
+            "RuleName": "Is 10 numbers?",
+            "RuleID": "",
+            "FunctionName": "CheckCharPopulation",
+            "ParentGUID": "c490382d-cdb2-4771-aacf-499be03a669e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_XCN",
+                    "RuleGUID": "1c724eab-5591-4f3c-aa0a-2eb0eb1b0ec5",
+                    "RuleName": "Break up XCN/OCN",
+                    "RuleID": "",
+                    "FunctionName": "CopyLineRanges",
+                    "ParentGUID": "51651633-ac71-4161-8cd3-6111880cbad8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{4}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1,2,3}",
+                      "_ParamListOMRIndex1": "{-1,-1,-1}",
+                      "RangeBegin": "{0,2,5}",
+                      "RangeEnd": "{0,4,-1}"
+                    }
+                  },
+                  {
+                    "Container": "validate_XCN",
+                    "RuleGUID": "c69ca4eb-423d-4dc4-a575-0807f36b4451",
+                    "RuleName": "Digits 2,3 and 4 > 366?",
+                    "RuleID": "",
+                    "FunctionName": "CheckAmount",
+                    "ParentGUID": "51651633-ac71-4161-8cd3-6111880cbad8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Reject: Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_XCN",
+                            "RuleGUID": "7fd05f0e-4f80-46dc-8a6a-c4e9f5a4362a",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "c69ca4eb-423d-4dc4-a575-0807f36b4451",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{0}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "6132",
+                              "_BackupSkipID": "6132",
+                              "RejectString": "\"XCN/OCN format invalid.  Please confirm.\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "SelectionListAutoPop": "0",
+                              "Languages_Fields": "\"Default\"",
+                              "DelayEval": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{2}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "1",
+                      "Deviation": "0",
+                      "BracketedField": "0",
+                      "MinimumValue": "366",
+                      "MaximumValue": "366",
+                      "_Description": "\"Zero-based counting.\""
+                    }
+                  },
+                  {
+                    "Container": "validate_XCN",
+                    "RuleGUID": "2447386d-a0cb-41ed-9ac6-0caf6b407c16",
+                    "RuleName": "Check sequence range",
+                    "RuleID": "",
+                    "FunctionName": "CheckAmount",
+                    "ParentGUID": "51651633-ac71-4161-8cd3-6111880cbad8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Reject: Too big",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_XCN",
+                            "RuleGUID": "35895b3b-a788-47b1-bebe-f5e895afd507",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "2447386d-a0cb-41ed-9ac6-0caf6b407c16",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamList0": "{0}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "6133",
+                              "_BackupSkipID": "6133",
+                              "RejectString": "\"XCN/OCN format invalid.  Please confirm.\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "SelectionListAutoPop": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{3}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "1",
+                      "Deviation": "0",
+                      "BracketedField": "0",
+                      "MinimumValue": "0",
+                      "MaximumValue": "99999"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Reject: No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_XCN",
+                    "RuleGUID": "7a52d9b0-ddee-412a-b0a4-c06473c4e6db",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "51651633-ac71-4161-8cd3-6111880cbad8",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{0}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "6131",
+                      "_BackupSkipID": "6131",
+                      "RejectString": "\"XCN/OCN must be 10 numbers\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages_Fields": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{4}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_FunctionVersion": "1",
+              "MinChars": "10",
+              "MaxChars": "10",
+              "CandidateSet": "\"charset_Numeric\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"[A]\\134+[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "1",
+      "Deviation": "0",
+      "BracketedField": "0",
+      "MinimumValue": "1",
+      "MaximumValue": "1",
+      "_Description": "\"Only validate the XCN if there was a sticker\""
+    }
+  }
+]

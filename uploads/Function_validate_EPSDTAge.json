@@ -1,0 +1,442 @@
+[
+  {
+    "Container": "validate_EPSDTAge",
+    "RuleGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+    "RuleName": "Does EPSDT have data?",
+    "RuleID": "",
+    "FunctionName": "CheckCheckBox",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "e739458c-4bd2-4935-95a8-0c0331f37764",
+            "RuleName": "FilterChars",
+            "RuleID": "",
+            "FunctionName": "FilterChars",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,1}",
+              "_FunctionVersion": "2",
+              "InvertCharSet": "0",
+              "FilterSet": "\"charset_PuctSpace\""
+            }
+          },
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "91cdaa93-73f7-46de-9d23-3aa77152b40c",
+            "RuleName": "FormatDate",
+            "RuleID": "",
+            "FunctionName": "FormatDate",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1,0}",
+              "_FunctionVersion": "6",
+              "DateFormat": "\"Y4MD_output_DOB\""
+            }
+          },
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "c87f4416-0343-47db-b59c-da08ed7b827f",
+            "RuleName": "Split DOB",
+            "RuleID": "",
+            "FunctionName": "CopyLineRanges",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{4,2,3}",
+              "RangeBegin": "{0,4,6}",
+              "RangeEnd": "{3,5,7}"
+            }
+          },
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "ef76b93d-0818-45fb-9adb-04509ce16248",
+            "RuleName": "Split DOS",
+            "RuleID": "",
+            "FunctionName": "CopyLineRanges",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{7,5,6}",
+              "RangeBegin": "{0,4,6}",
+              "RangeEnd": "{3,5,7}"
+            }
+          },
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "af244733-da1f-42f4-b216-d1f81d563f89",
+            "RuleName": "Subtract DOB Year from DOS Year",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7,4}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{9}",
+              "Deviation": "0",
+              "OutputFormat": "\"%.0f\"",
+              "Remainder": "0",
+              "MathExpression": "\"F0 - F1\""
+            }
+          },
+          {
+            "Container": "validate_EPSDTAge",
+            "RuleGUID": "3ee30bda-47b4-4b1d-a799-7a24ac3f70fc",
+            "RuleName": "Is Age less than Age Limit?",
+            "RuleID": "",
+            "FunctionName": "CompareAmountFields",
+            "ParentGUID": "5dfd15c2-7635-42a4-9467-a815bfa567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Equal",
+                "ChildRules": [
+                  {
+                    "Container": "validate_EPSDTAge",
+                    "RuleGUID": "b9d74c36-f5bb-4d4e-9d2b-8e191b129b0b",
+                    "RuleName": "Compare DOB Month to DOS Month",
+                    "RuleID": "",
+                    "FunctionName": "CompareAmountFields",
+                    "ParentGUID": "3ee30bda-47b4-4b1d-a799-7a24ac3f70fc",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Equal",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_EPSDTAge",
+                            "RuleGUID": "caa9c931-9ee9-4e2a-80a3-30d18a0bddf2",
+                            "RuleName": "Compare DOB Day from DOS Day",
+                            "RuleID": "",
+                            "FunctionName": "CompareAmountFields",
+                            "ParentGUID": "b9d74c36-f5bb-4d4e-9d2b-8e191b129b0b",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Equal",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_EPSDTAge",
+                                    "RuleGUID": "b9bf9ee1-4804-4d3c-bc69-325aa5b14fec",
+                                    "RuleName": "Set Flag to Y",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "caa9c931-9ee9-4e2a-80a3-30d18a0bddf2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{12}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"Y\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{6}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{3}",
+                              "BracketedField": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Less than",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_EPSDTAge",
+                            "RuleGUID": "2b68abe6-5a86-4d22-aa94-b914b85343e0",
+                            "RuleName": "Set Flag to Y",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "b9d74c36-f5bb-4d4e-9d2b-8e191b129b0b",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{12}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"Y\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{2}",
+                      "BracketedField": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Less than",
+                "ChildRules": [
+                  {
+                    "Container": "validate_EPSDTAge",
+                    "RuleGUID": "c1c2d058-19a3-450b-abfb-d57bbbe6899e",
+                    "RuleName": "Set Flag to Y",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "3ee30bda-47b4-4b1d-a799-7a24ac3f70fc",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{12}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"Y\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{8}",
+              "Deviation": "0",
+              "BracketedField": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{10,11}",
+      "_FunctionVersion": "8",
+      "Compare": "1",
+      "UndefinedIterpretedAs": "0"
+    }
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "Container": "format_Convert_X12_Charges",
+    "RuleGUID": "6af2fa94-bf5e-4f6f-9bfb-c98ed2b17669",
+    "RuleName": "Monetary Amount - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "format_Convert_X12_Charges",
+            "RuleGUID": "1ad6c490-ac1d-4347-bf10-d92ff51e0828",
+            "RuleName": "Convert *.x to *.x0",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "6af2fa94-bf5e-4f6f-9bfb-c98ed2b17669",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^\\134(.*\\134.[0-9]\\134)$\"",
+              "OutputFormat": "\"\\13410\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"123\",\"1.23\",\"12.3\",\".123\",\".1\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_Convert_X12_Charges",
+            "RuleGUID": "9e079160-4bc8-45c1-b94a-76ae066401aa",
+            "RuleName": "Contains a decimal?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "6af2fa94-bf5e-4f6f-9bfb-c98ed2b17669",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "format_Convert_X12_Charges",
+                    "RuleGUID": "be0379a7-e304-4c6b-8013-bc75e8c90eff",
+                    "RuleName": "Append .00",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9e079160-4bc8-45c1-b94a-76ae066401aa",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "InputFormat": "\"%s\"",
+                      "OutputFormat": "\"%s.00\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"\\134.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

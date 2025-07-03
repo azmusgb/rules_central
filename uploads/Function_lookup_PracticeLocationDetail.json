@@ -1,0 +1,1038 @@
+[
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "3c5b32bb-406f-488d-aa76-2de1ada0de00",
+    "RuleName": "Filter leading and trailing spaces from key fields",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "UDFName": "\"format_DeleteSpaces\"",
+      "ForEach": "{1}",
+      "_ParamList0": "{2,4,3,5}",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "870ae270-929a-4f0f-9bbc-d677f7d56166",
+    "RuleName": "Clear temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6,5,14}",
+      "_FunctionVersion": "1",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "ade1e9da-3b7a-4b69-ac21-b4b49c445de1",
+    "RuleName": "Get numeric portion of the billing addr",
+    "RuleID": "",
+    "FunctionName": "helper_GetFirstFiveNumbers",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{5}"
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "52a28530-6e39-4054-aa0b-8a32b7ddd8a5",
+    "RuleName": "Get numeric portion of the rendering addr",
+    "RuleID": "",
+    "FunctionName": "helper_GetFirstFiveNumbers",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{6}"
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "fb920ed0-37d9-487e-9f33-7d85d1df8818",
+    "RuleName": "Did this document go through KFI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PracticeLocationDetail",
+            "RuleGUID": "c1ba206b-c723-49f8-96cf-15b9a413df57",
+            "RuleName": "Is rendering address num empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "fb920ed0-37d9-487e-9f33-7d85d1df8818",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PracticeLocationDetail",
+                    "RuleGUID": "a5b77d7d-9d1f-4ffa-bfb1-6a3b9c0ad802",
+                    "RuleName": "Is billing address num empty?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "c1ba206b-c723-49f8-96cf-15b9a413df57",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "d8ed63e5-120f-4264-ac82-54495eed1286",
+                            "RuleName": "Copy zip to tempZip",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "a5b77d7d-9d1f-4ffa-bfb1-6a3b9c0ad802",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{14}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PracticeLocationDetail",
+                    "RuleGUID": "786e2393-d499-4290-bb81-f2b6cd7a1ef2",
+                    "RuleName": "Copy zip to tempZip",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "c1ba206b-c723-49f8-96cf-15b9a413df57",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{14}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{15}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"KFI\"",
+      "_Description": "\"Per HEAT 1099670/CQ 106848 and HEAT 1258869/CQ 117641 we are no longer trimming potential matches for documents that went through KFI.  This is because we do not have the \\042original address\\042 for these documents.  - jdm 02/2013\""
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "cd0341f9-bab9-4b88-8267-9fa21cdb27da",
+    "RuleName": "Build regular exp for zip",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "None matched",
+        "ChildRules": [
+          {
+            "Container": "lookup_PracticeLocationDetail",
+            "RuleGUID": "d85dbe7f-769b-4f81-b103-63953144ed3a",
+            "RuleName": "Set to fake value",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "cd0341f9-bab9-4b88-8267-9fa21cdb27da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{14}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"THIS_IS_A_FAKE_ZIP_CODE\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{14}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"\\134(^.....\\134)\"",
+      "OutputFormat": "\"^\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"12345\",\"123456789\",\"123\",\"12345-6789\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "lookup_PracticeLocationDetail",
+    "RuleGUID": "0370b49a-faed-4b57-a6a3-c264f9860dc8",
+    "RuleName": "Check if plugged",
+    "RuleID": "",
+    "FunctionName": "CheckSLState4",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Not plugged",
+        "ChildRules": [
+          {
+            "Container": "lookup_PracticeLocationDetail",
+            "RuleGUID": "9411a3c4-1d39-49f1-8209-a30a416a15b6",
+            "RuleName": "Get all with ProvID and RenderingID",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "0370b49a-faed-4b57-a6a3-c264f9860dc8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7,0}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "SelectionList": "\"selectionlist_PracLocDetail\"",
+              "MaxMatchCount": "999",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_RenderProv\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MTV_BP_ID\",\"MTV_RP_ID\"}",
+              "SelectionListColumns": "{\"BillingMTVID\",\"RenderingMTVID\",\"Address\",\"City\",\"ZipCode\",\"PracticeLocationID\",\"State\",\"OfficeNum\"}",
+              "DataColumns": "{\"MTV_BP_ID\",\"MTV_RP_ID\",\"RP_PL_ADDR_LN_1\",\"RP_PL_CTY\",\"RP_PL_ZIP\",\"MTV_PRAC_LOC_ID\",\"RP_PL_ST\",\"RP_PL_OFFC_NUM\"}",
+              "EscapeFields": "{\"plug_LineProvMTVPID\",\"LineRenderingMTVID\",\"plug_LinePracticeAddress\",\"plug_LinePracticeCity\",\"plug_LinePracticeZip\",\"LinePracticeLocationID\",\"plug_LinePracticeState\",\"plug_LinePracticeOfficeNum\"}",
+              "PlugFields": "{\"plug_LineProvMTVPID\",\"LineRenderingMTVID\",\"plug_LinePracticeAddress\",\"plug_LinePracticeCity\",\"plug_LinePracticeZip\",\"LinePracticeLocationID\",\"plug_LinePracticeState\",\"plug_LinePracticeOfficeNum\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_PracticeLocationDetail",
+            "RuleGUID": "75db7d6a-9b2b-4fd3-ac71-4dff2a658158",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "0370b49a-faed-4b57-a6a3-c264f9860dc8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PracLocDetail\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "lookup_PracticeLocationDetail",
+            "RuleGUID": "17cbb2b1-7648-44fc-8844-34d827560c5b",
+            "RuleName": "Any matches found?",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "0370b49a-faed-4b57-a6a3-c264f9860dc8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PracticeLocationDetail",
+                    "RuleGUID": "d6afe63c-ca01-4664-bd71-158aa2ad9608",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "17cbb2b1-7648-44fc-8844-34d827560c5b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_PracLocDetail\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_PracticeLocationDetail",
+                    "RuleGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                    "RuleName": "Is rendering address num empty?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "17cbb2b1-7648-44fc-8844-34d827560c5b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "6cf28c71-66cf-40ab-ab43-96c804bfc7de",
+                            "RuleName": "Trim based on Zip",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{14}",
+                              "_FunctionVersion": "65537",
+                              "SelectionList": "\"selectionlist_PracLocDetail\"",
+                              "GroupCount": "1",
+                              "GroupNames": "{\"Zip Code\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{1}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0}",
+                              "Percentage": "{0}",
+                              "Required": "{0}",
+                              "FieldGroup": "{0}",
+                              "MatchColumns": "{\"ZipCode\"}",
+                              "ColumnGroup": "{0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "ce6c2bf2-685e-4428-be72-39a0aef14176",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_PracLocDetail\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "aded751c-de2a-4327-a61d-dfe14c1e3d25",
+                            "RuleName": "Trim based on Addr Num",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{6}",
+                              "_FunctionVersion": "65537",
+                              "SelectionList": "\"selectionlist_PracLocDetail\"",
+                              "GroupCount": "1",
+                              "GroupNames": "{\"Crit 1\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{1}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0}",
+                              "Percentage": "{0}",
+                              "Required": "{0}",
+                              "FieldGroup": "{0}",
+                              "MatchColumns": "{\"Address\"}",
+                              "ColumnGroup": "{0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "241a1799-b727-40ca-927e-e9d2e1fa7d28",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_PracLocDetail\"",
+                              "LogLevel": "12"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PracticeLocationDetail",
+                            "RuleGUID": "3c8423c5-9046-4144-a571-2589d9b2df0c",
+                            "RuleName": "Is billing address num empty?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "c175ebd8-ae54-47ca-8bee-d6f78bec1b0e",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PracticeLocationDetail",
+                                    "RuleGUID": "25e52b0c-9251-4154-9dd3-89ac4797ff2e",
+                                    "RuleName": "Trim based on Zip",
+                                    "RuleID": "",
+                                    "FunctionName": "TrimSL",
+                                    "ParentGUID": "3c8423c5-9046-4144-a571-2589d9b2df0c",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{14}",
+                                      "_FunctionVersion": "65537",
+                                      "SelectionList": "\"selectionlist_PracLocDetail\"",
+                                      "GroupCount": "1",
+                                      "GroupNames": "{\"Zip Code\"}",
+                                      "MatchType": "{0}",
+                                      "SwapFields": "{0}",
+                                      "TableIgnoreCharSets": "{\"\"}",
+                                      "NoneMatch": "{1}",
+                                      "Combine": "{0}",
+                                      "UseSubstrings": "{0}",
+                                      "EditDistance": "{0}",
+                                      "Percentage": "{0}",
+                                      "Required": "{0}",
+                                      "FieldGroup": "{0}",
+                                      "MatchColumns": "{\"ZipCode\"}",
+                                      "ColumnGroup": "{0}",
+                                      "Depends": "{}",
+                                      "DependsType": "{}",
+                                      "DependsGroup": "{}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PracticeLocationDetail",
+                                    "RuleGUID": "1655f2e7-412c-43fd-9c01-92bd3833db96",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "3c8423c5-9046-4144-a571-2589d9b2df0c",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_PracLocDetail\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PracticeLocationDetail",
+                                    "RuleGUID": "e33fb401-ec5f-46c8-8fe9-5583a0a4b495",
+                                    "RuleName": "Trim based on Addr Num",
+                                    "RuleID": "",
+                                    "FunctionName": "TrimSL",
+                                    "ParentGUID": "3c8423c5-9046-4144-a571-2589d9b2df0c",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "65537",
+                                      "SelectionList": "\"selectionlist_PracLocDetail\"",
+                                      "GroupCount": "1",
+                                      "GroupNames": "{\"Crit 1\"}",
+                                      "MatchType": "{0}",
+                                      "SwapFields": "{0}",
+                                      "TableIgnoreCharSets": "{\"\"}",
+                                      "NoneMatch": "{1}",
+                                      "Combine": "{0}",
+                                      "UseSubstrings": "{0}",
+                                      "EditDistance": "{0}",
+                                      "Percentage": "{0}",
+                                      "Required": "{0}",
+                                      "FieldGroup": "{0}",
+                                      "MatchColumns": "{\"Address\"}",
+                                      "ColumnGroup": "{0}",
+                                      "Depends": "{}",
+                                      "DependsType": "{}",
+                                      "DependsGroup": "{}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_PracticeLocationDetail",
+                                    "RuleGUID": "08192998-890b-47a3-91c0-da4a381f6a7e",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "3c8423c5-9046-4144-a571-2589d9b2df0c",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_PracLocDetail\"",
+                                      "LogLevel": "12"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{}",
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PracLocDetail\"",
+              "PlugIfSinglePluggableMatch": "0",
+              "MaxSize": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{}",
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PracLocDetail\"",
+      "PlugIfSinglePluggableMatch": "0",
+      "MaxSize": "0"
+    }
+  }
+]

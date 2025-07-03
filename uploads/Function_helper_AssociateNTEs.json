@@ -1,0 +1,339 @@
+[
+  {
+    "Container": "helper_AssociateNTEs",
+    "RuleGUID": "5e9f0012-14f3-4aa7-8f2d-ea8d246f47c8",
+    "RuleName": "Is MasterLineNum = NTE Line Num?",
+    "RuleID": "",
+    "FunctionName": "CompareAmountFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_AssociateNTEs",
+            "RuleGUID": "56800815-ac38-4fd8-b7e8-203c0765eb0f",
+            "RuleName": "Is NTE_Segment_Line populated?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "5e9f0012-14f3-4aa7-8f2d-ea8d246f47c8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_AssociateNTEs",
+                    "RuleGUID": "54b6ebfa-e7d2-40ad-8bfe-4ccf8ab7bd9c",
+                    "RuleName": "Is TempNTE empty?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "56800815-ac38-4fd8-b7e8-203c0765eb0f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_AssociateNTEs",
+                            "RuleGUID": "8d5a9ecf-790c-4383-8408-9abf2885f8a9",
+                            "RuleName": "Copy to TempNTE",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "54b6ebfa-e7d2-40ad-8bfe-4ccf8ab7bd9c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "None Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_AssociateNTEs",
+                            "RuleGUID": "068a64f6-780b-403b-b56a-06878ff67744",
+                            "RuleName": "Merge NTEs",
+                            "RuleID": "",
+                            "FunctionName": "MergeFields",
+                            "ParentGUID": "54b6ebfa-e7d2-40ad-8bfe-4ccf8ab7bd9c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3,0}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "65537",
+                              "SkipAppendOnBlankField": "0",
+                              "SkipAppendOnBlankLine": "0",
+                              "TreatMultiLineAllBlankAsBlank": "0",
+                              "InterFieldFiller": "\"; \""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_AssociateNTEs",
+            "RuleGUID": "cc1c8f30-6ce2-45a9-9bee-c55e23b0ea18",
+            "RuleName": "Is this the first line after?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "5e9f0012-14f3-4aa7-8f2d-ea8d246f47c8",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_AssociateNTEs",
+                    "RuleGUID": "e7fefc91-2b27-4162-bcbf-044d1f56aae6",
+                    "RuleName": "Set flag",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "cc1c8f30-6ce2-45a9-9bee-c55e23b0ea18",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  },
+                  {
+                    "Container": "helper_AssociateNTEs",
+                    "RuleGUID": "df59febd-fc40-43a3-81f8-57f3610491aa",
+                    "RuleName": "Is this line 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "cc1c8f30-6ce2-45a9-9bee-c55e23b0ea18",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_AssociateNTEs",
+                            "RuleGUID": "ae4a7e25-7d0e-4574-adf5-14d36a5d1cb2",
+                            "RuleName": "Copy TempNTE to FinalNTE",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "df59febd-fc40-43a3-81f8-57f3610491aa",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_ParamList1": "{4}",
+                              "_FunctionVersion": "1",
+                              "OverwriteInsertAppend": "2",
+                              "Begin": "{0}",
+                              "End": "{0}",
+                              "LineNumber": "{-1}",
+                              "ClearToFields": "{0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_AssociateNTEs",
+                            "RuleGUID": "550abcc9-6b98-4c5a-8b78-aa7a34db6df5",
+                            "RuleName": "Append TempNTE to FinalNTE",
+                            "RuleID": "",
+                            "FunctionName": "CopyLines",
+                            "ParentGUID": "df59febd-fc40-43a3-81f8-57f3610491aa",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_ParamList1": "{4}",
+                              "_FunctionVersion": "1",
+                              "OverwriteInsertAppend": "2",
+                              "Begin": "{0}",
+                              "End": "{0}",
+                              "LineNumber": "{-1}",
+                              "ClearToFields": "{0}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "BracketedField": "0",
+      "_ParamList0": "{5}",
+      "_ParamList1": "{6}",
+      "_FunctionVersion": "1"
+    }
+  }
+]

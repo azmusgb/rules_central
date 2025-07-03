@@ -1,0 +1,169 @@
+
+// index.js - Optimized Core Initialization
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("Rules Central Dashboard initialized");
+
+  // ======================
+  // 1. CORE FUNCTIONALITY
+  // ======================
+
+  // Initialize UI components
+  initAnimations();
+  setupBackToTop();
+  setupStatsHoverEffects();
+  setupSearchInputs(); // Added for consistency
+
+  // Initialize page-specific components
+  if (document.getElementById('uploadForm')) {
+    initFileUpload();
+  }
+
+  if (document.getElementById('catalogContainer')) {
+    window.catalogViewer = new CatalogViewer();
+  }
+
+  // ======================
+  // 2. UI COMPONENTS
+  // ======================
+
+  function initAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px' // Adds 50px bottom margin for earlier triggering
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      // Add data-delay attribute support
+      const delay = el.dataset.delay || 0;
+      el.style.setProperty('--animation-delay', `${delay}ms`);
+      observer.observe(el);
+    });
+  }
+
+  function setupBackToTop() {
+    const backToTopBtn = document.getElementById('backToTop');
+    if (!backToTopBtn) return;
+
+    // Throttle scroll event for better performance
+    let isScrolling;
+    window.addEventListener('scroll', () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => {
+        backToTopBtn.classList.toggle('show', window.scrollY > 300);
+      }, 50);
+    });
+
+    backToTopBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      backToTopBtn.blur(); // Remove focus after click
+    });
+  }
+
+  function setupStatsHoverEffects() {
+    document.querySelectorAll('.stats-card').forEach(card => {
+      const icon = card.querySelector('.stats-icon');
+      if (!icon) return;
+
+      // Add touch support for mobile
+      card.addEventListener('mouseenter', handleHover);
+      card.addEventListener('touchstart', handleHover, { passive: true });
+
+      card.addEventListener('mouseleave', handleHoverEnd);
+      card.addEventListener('touchend', handleHoverEnd, { passive: true });
+
+      function handleHover() {
+        icon.style.transform = 'rotate(10deg) scale(1.1)';
+      }
+
+      function handleHoverEnd() {
+        icon.style.transform = '';
+      }
+    });
+  }
+
+  function setupSearchInputs() {
+    document.querySelectorAll('.search-container').forEach(container => {
+      const input = container.querySelector('input[type="search"]');
+      const clearBtn = container.querySelector('.clear-search');
+
+      if (input && clearBtn) {
+        // Initialize clear button state
+        clearBtn.classList.toggle('hidden', !input.value);
+
+        input.addEventListener('input', () => {
+          clearBtn.classList.toggle('hidden', !input.value);
+        });
+
+        clearBtn.addEventListener('click', () => {
+          input.value = '';
+          clearBtn.classList.add('hidden');
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.focus();
+        });
+      }
+    });
+  }
+
+  function showToast(message, type = 'info') {
+    const existingToasts = document.querySelectorAll('.toast');
+    if (existingToasts.length > 3) {
+      existingToasts[0].remove(); // Remove oldest toast if too many
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `
+      <i class="fas ${
+        type === 'error' ? 'fa-exclamation-circle' :
+        type === 'success' ? 'fa-check-circle' : 'fa-info-circle'
+      }"></i>
+      <span>${message}</span>
+      <button class="toast-close" aria-label="Close notification">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Force reflow before adding show class
+    toast.offsetHeight;
+    toast.classList.add('show');
+
+    const removeToast = () => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    };
+
+    const timer = setTimeout(removeToast, 5000);
+
+    toast.querySelector('.toast-close').addEventListener('click', () => {
+      clearTimeout(timer);
+      removeToast();
+    });
+  }
+
+  // ======================
+  // 4. GLOBAL EXPORTS
+  // ======================
+
+  window.app = {
+    showToast,
+    initAnimations,
+    setupBackToTop,
+    setupSearchInputs
+  };
+});
+

@@ -1,0 +1,191 @@
+[
+  {
+    "Container": "validate_City",
+    "RuleGUID": "d9df8454-4add-44a7-9f6f-4ce394354185",
+    "RuleName": "Filter Chars",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "1",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "FilterSet": "\"charset_ValidCityChars\""
+    }
+  },
+  {
+    "Container": "validate_City",
+    "RuleGUID": "656c36b3-f41b-4b25-ac6f-330ae5ef1cb9",
+    "RuleName": "Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Reject: All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_City",
+            "RuleGUID": "ece29dcf-9395-43e7-b0a6-aecfb2302a8e",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "656c36b3-f41b-4b25-ac6f-330ae5ef1cb9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_SkipID": "4147",
+              "_BackupSkipID": "4147",
+              "RejectString": "\"City should not be empty\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "Languages_Fields": "\"Default\"",
+              "SelectionListAutoPop": "0",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_City",
+            "RuleGUID": "ba9c4977-97d3-4ef8-a10e-de9812bdf58d",
+            "RuleName": "Must be in CSZ Table",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "656c36b3-f41b-4b25-ac6f-330ae5ef1cb9",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Reject: Entry not found",
+                "ChildRules": [
+                  {
+                    "Container": "validate_City",
+                    "RuleGUID": "d5e2f288-5e92-4037-8c81-608811e739d6",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "ba9c4977-97d3-4ef8-a10e-de9812bdf58d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4562",
+                      "_BackupSkipID": "4562",
+                      "RejectString": "\"Invalid City\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages_Fields": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "Table": "\"table_CSZ\"",
+              "Columns": "{\"city\"}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,177 @@
+[
+  {
+    "Container": "output_SplitGetCurrSORCtrct",
+    "RuleGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+    "RuleName": "Is OutputFileFlag = SplitTrack?",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitGetCurrSORCtrct",
+            "RuleGUID": "94c26a09-a40f-4f72-a151-7593e6009c41",
+            "RuleName": "Copy DetailMemSOR to CurrentSOR",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_ParamList1": "{0}",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "output_SplitGetCurrSORCtrct",
+            "RuleGUID": "23fd4c8b-0532-4832-887d-2568e44c83eb",
+            "RuleName": "Copy DetailCtrctID to PatContractID",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"Per defect 124893 we need to use the \\042sub\\042 contract ID fetched from the Elig table.  It has an unfortunate name because, in fact, it is obtained using the the PatMTVPID.  Using it here now.  -jdm 9/2013\"",
+              "_ParamList0": "{4}",
+              "_ParamList1": "{6}",
+              "_FunctionVersion": "1",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "output_SplitGetCurrSORCtrct",
+            "RuleGUID": "a61965c7-ae75-46a8-94a9-8db633c1b66b",
+            "RuleName": "Copy DetailSubCtrctID to PatContractID",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_ParamList1": "{6}",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "output_SplitGetCurrSORCtrct",
+            "RuleGUID": "72165dd4-d327-4547-8067-e5d148aaf8f2",
+            "RuleName": "Copy DetailSubCtrctID to SubContractID",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_ParamList1": "{5}",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "output_SplitGetCurrSORCtrct",
+            "RuleGUID": "8cc50f0f-8b58-467f-b821-9898c11d5d9b",
+            "RuleName": "Make sure last 2 chars of SubContractID are 01",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "1cfca90e-d41d-49e9-86df-7df548008ce9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"Per defect 124637 (December Release) we are no longer required to force the Subscriber's contract ID to be an \\04201\\042.  - 11/2013\"",
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "2",
+              "_Disabled": "1",
+              "InputFormat": "\"\\134(.*\\134)[0-9][0-9]$\"",
+              "OutputFormat": "\"\\134101\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"12345678902\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so we're on a detail line associated with the current SplitTrack and we need to know the CurrentSOR and ContractID.  This can be set multiple times since it will be the same for detail lines with the same OutputFileFlag.\"",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "_ParamList1": "{3}",
+      "_FunctionVersion": "1"
+    }
+  }
+]

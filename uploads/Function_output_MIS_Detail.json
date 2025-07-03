@@ -1,0 +1,1190 @@
+[
+  {
+    "Container": "output_MIS_Detail",
+    "RuleGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+    "RuleName": "Does OutputFileFlag = SplitTrack?",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Equal",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "6c3ef747-0d34-42dd-bc34-59f882266ae4",
+            "RuleName": "Are the units blank or zero?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "07401678-6f83-48fe-936f-499889d66bce",
+                    "RuleName": "Set to 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "6c3ef747-0d34-42dd-bc34-59f882266ae4",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "100",
+                      "SlotType": "0",
+                      "TemplateSet": "\"templateset_MIS\"",
+                      "Template": "\"Detail\"",
+                      "Slot": "\"Frequency\"",
+                      "Value": "\"1\"",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "SlotType": "0",
+              "TemplateSet": "\"templateset_MIS\"",
+              "Template": "\"Detail\"",
+              "Slot": "\"Frequency\"",
+              "Value": "\"1\"",
+              "RegularExpression": "\"^$\\134|^0$\""
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+            "RuleName": "Tooth Number Processing",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "---",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "5232711e-bc6e-48ff-a8e2-562199be8ead",
+                    "RuleName": "Clear temp fields",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{11,12,13,14}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "0ec1e83c-74d8-460d-81e3-9ea817c83c99",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_ToothQuadArchSurf\""
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "68cb8cb7-a8ae-41a1-9843-fa02d2d1f688",
+                    "RuleName": "Copy of Get w/Tooth, w/Quad and w/Arch for proc code",
+                    "RuleID": "",
+                    "FunctionName": "PlugFuzzyMatch",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "78e5a65e-b970-45b6-8710-fa88e128b278",
+                            "RuleName": "Are Tooth, Quad and Arch = N?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "68cb8cb7-a8ae-41a1-9843-fa02d2d1f688",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_Detail",
+                                    "RuleGUID": "da0af4a7-4de2-4a3f-90c1-a4e42caa8b0e",
+                                    "RuleName": "Clear tooth",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteLines",
+                                    "ParentGUID": "78e5a65e-b970-45b6-8710-fa88e128b278",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3,14}",
+                                      "_FunctionVersion": "1",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "LinesFrom": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_Detail",
+                                    "RuleGUID": "f49e8a2a-3fa3-4eea-babb-35c8b93518f0",
+                                    "RuleName": "Is the ToothNum valid?",
+                                    "RuleID": "",
+                                    "FunctionName": "validate_ToothReturnCode",
+                                    "ParentGUID": "78e5a65e-b970-45b6-8710-fa88e128b278",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Bad",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_MIS_Detail",
+                                            "RuleGUID": "7b222500-fcdd-41fa-a997-307ac37c3692",
+                                            "RuleName": "Filter dashes",
+                                            "RuleID": "",
+                                            "FunctionName": "FilterChars",
+                                            "ParentGUID": "f49e8a2a-3fa3-4eea-babb-35c8b93518f0",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{14}",
+                                              "_FunctionVersion": "2",
+                                              "InvertCharSet": "0",
+                                              "FilterSet": "\"charset_Dash\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_MIS_Detail",
+                                            "RuleGUID": "339ecd52-c208-48c8-842f-08a56c1deda9",
+                                            "RuleName": "Convert single digit to 0X",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "f49e8a2a-3fa3-4eea-babb-35c8b93518f0",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{14}",
+                                              "_FunctionVersion": "2",
+                                              "OutputFormat": "\"0\\1341\"",
+                                              "InputFormat": "\"^\\134([0-9]\\134)$\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"0\",\"A\",\"#\",\"AA\",\"12\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{14}",
+                                      "_FunctionVersion": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{11,12,13}",
+                              "_FunctionVersion": "65539",
+                              "RegularExpression": "\"N\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"This is per RCM 134, we are no longer using the flat file.  Moved this to ODBC.\"",
+                      "_ParamList0": "{1,11,12,13}",
+                      "_FunctionVersion": "3",
+                      "PlugCase": "0",
+                      "EmptyKeyFails": "1",
+                      "Table": "\"table_ProcReq\"",
+                      "IndexColumn": "\"proc_code\"",
+                      "PlugColumns": "{\"quadrant\",\"arch\",\"tooth\"}",
+                      "CatchResourceUnavailable": "0",
+                      "_Disabled": "1"
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "436a1bbd-4a15-43c5-b396-37f597593c26",
+                    "RuleName": "Is DeltaCare document or Not?",
+                    "RuleID": "",
+                    "FunctionName": "helper_CheckBusinessUnit",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"For DeltaCare documents we have special Yes/No settings for Procedure Codes.  The table has columns specific to DeltaCare.\\015\\012\\015\\012Per Defect 131948 - We are now only using the DeltaCare-specific Xray column.\"",
+                      "_ParamList0": "{14}",
+                      "_FunctionVersion": "0",
+                      "_Disabled": "1"
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "ea6bc572-bc96-468f-b1f9-3bd56e232925",
+                    "RuleName": "NO LONGER USED - Get w/Tooth, w/Quad and w/Arch for proc code",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"As of 2016 Q3 we are only using the non-DeltaCare columns\\015\\012\\015\\012Xray:\\015\\012\\015\\012Y - Yes for everyone\\015\\012N - No for everyone\\015\\012P - Yes for Puerto Rico\\015\\012E - Yes for Enterprise, not PuertoRico\\015\\012\\015\\012Quad/Arch:\\015\\012\\015\\012Y or L or U - Yes for everyone (L/U are used to set defaults later)\\015\\012N - No for everyone\"",
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{}",
+                      "_FunctionVersion": "131076",
+                      "SelectionList": "\"selectionlist_ToothQuadArchSurf\"",
+                      "PlugCase": "0",
+                      "EmptyKeyFails": "1",
+                      "Table": "\"odbc_DentalProcedure\"",
+                      "IndexColumn": "\"proc_code\"",
+                      "PlugColumns": "{\"quadrant\",\"arch\",\"tooth\"}",
+                      "CatchResourceUnavailable": "0",
+                      "_Disabled": "1",
+                      "MaxMatchCount": "9",
+                      "MaxIndexCount": "0",
+                      "AnyEmptyKeysFails": "0",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"proc_code\"}",
+                      "SelectionListColumns": "{\"quad\",\"arch\",\"tooth\",\"surf\"}",
+                      "DataColumns": "{\"quadrant\",\"arch\",\"tooth\",\"surf\"}",
+                      "EscapeFields": "{\"temp4\",\"temp5\",\"temp9\",\"temp10\"}",
+                      "PlugFields": "{\"temp4\",\"temp5\",\"temp9\",\"temp10\"}",
+                      "DataTableDataField": "{-1,-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1,-1}"
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "37e834e1-c04f-4d40-99db-62facb8ec09e",
+                    "RuleName": "Check Selection List",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "7b3ae153-51db-4c1c-aed8-d29ad6565d45",
+                            "RuleName": "Are Tooth, Quad and Arch = N?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "37e834e1-c04f-4d40-99db-62facb8ec09e",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_Detail",
+                                    "RuleGUID": "ae71af7e-5563-474a-987d-8201f0f1ad29",
+                                    "RuleName": "Clear tooth",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteLines",
+                                    "ParentGUID": "7b3ae153-51db-4c1c-aed8-d29ad6565d45",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3,14}",
+                                      "_FunctionVersion": "1",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "LinesFrom": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{11,12,13}",
+                              "_FunctionVersion": "65539",
+                              "RegularExpression": "\"N\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_ToothQuadArchSurf\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_MIS_Detail",
+                    "RuleGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                    "RuleName": "Is ToothNum populated?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "fdf56c24-cc08-4bb7-8484-88797778e870",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "4157601a-7df4-4ef9-b3e1-fcd2e64b141b",
+                            "RuleName": "Clear temp10",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{14}",
+                              "_FunctionVersion": "1",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          },
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "cde16417-4049-449b-83dc-214958120b20",
+                            "RuleName": "Copy ToothNum to temp10",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_Description": "\"The output slot length is 2.  Doing any kind of converting or checking of validity on a ToothNum that is longer would be a waste.\"",
+                              "_ParamList0": "{3}",
+                              "_ParamList1": "{14}",
+                              "_FunctionVersion": "1"
+                            }
+                          },
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "d2979fb1-090d-4341-a14e-c3ab0f091ef2",
+                            "RuleName": "Limit TempTooth to 2",
+                            "RuleID": "",
+                            "FunctionName": "LimitLineLength",
+                            "ParentGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{14}",
+                              "_FunctionVersion": "1",
+                              "TruncateLeft": "0",
+                              "MaxLength": "2"
+                            }
+                          },
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "6862d866-a97d-43ab-b6e8-4ba7c1f13a16",
+                            "RuleName": "Convert teeth to legacy format",
+                            "RuleID": "",
+                            "FunctionName": "output_MIS_MapLegacyTeeth",
+                            "ParentGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [],
+                            "Attributes": {
+                              "_ParamList0": "{14}",
+                              "_FunctionVersion": "0"
+                            }
+                          },
+                          {
+                            "Container": "output_MIS_Detail",
+                            "RuleGUID": "7eaafa4b-e019-44cd-8ffc-ca2761bface0",
+                            "RuleName": "Is the ToothNum valid?",
+                            "RuleID": "",
+                            "FunctionName": "validate_ToothReturnCode",
+                            "ParentGUID": "9c0b8d51-e8ab-40ac-884e-faac447a1b34",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Bad",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_Detail",
+                                    "RuleGUID": "2da07d03-992a-43f4-a4c6-a4ff6fe954da",
+                                    "RuleName": "Filter dashes",
+                                    "RuleID": "",
+                                    "FunctionName": "FilterChars",
+                                    "ParentGUID": "7eaafa4b-e019-44cd-8ffc-ca2761bface0",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{14}",
+                                      "_FunctionVersion": "2",
+                                      "InvertCharSet": "0",
+                                      "FilterSet": "\"charset_Dash\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_MIS_Detail",
+                                    "RuleGUID": "463f6d79-aab4-42f1-a6d2-1118e530f53e",
+                                    "RuleName": "Convert single digit to 0X",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "7eaafa4b-e019-44cd-8ffc-ca2761bface0",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{14}",
+                                      "_FunctionVersion": "2",
+                                      "OutputFormat": "\"0\\1341\"",
+                                      "InputFormat": "\"^\\134([0-9]\\134)$\"",
+                                      "CaseSensitive2": "0",
+                                      "_RegExTestValues": "{\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"0\",\"A\",\"#\",\"AA\",\"12\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{14}",
+                              "_FunctionVersion": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10}",
+              "_FunctionVersion": "3"
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "d5ddf020-a12d-4665-8d1a-ce6f91f4f350",
+            "RuleName": "Remove leading D from proc code",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "2",
+              "OutputFormat": "\"\\1341\"",
+              "InputFormat": "\"^D\\134(.*\\134)$\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"D12345\",\"0D001\",\"DDDDD\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "530ff449-438c-4a1a-ba9f-063b9070bc81",
+            "RuleName": "Clear temp4",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{11}",
+              "_FunctionVersion": "1",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0"
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "3906052e-009c-41b7-ae8b-b9d8d9cd8ba0",
+            "RuleName": "Copy DOS to temp",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"We need to preserve the format of the DOS for processing outside of this UDF.  I could have formatted the DOS field itself then un-formatted it.  Or I could use a temp field.  I used the temp field.\"",
+              "_ParamList0": "{0}",
+              "_ParamList1": "{11}",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "0c72b65b-22ae-4d9a-a1fc-268706893095",
+            "RuleName": "Format temp4(DOS)",
+            "RuleID": "",
+            "FunctionName": "FormatDate",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{11}",
+              "_FunctionVersion": "6",
+              "DateFormat": "\"YMD_to_MDY\""
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "9e2106a3-2a3f-4248-b726-316888ff31dc",
+            "RuleName": "SetTemplateSlots",
+            "RuleID": "",
+            "FunctionName": "SetTemplateSlots",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6,14,2,11,1,5,7,10,4}",
+              "_FunctionVersion": "6",
+              "SlotType": "2",
+              "TemplateSet": "\"templateset_MIS\"",
+              "Template": "\"Detail\"",
+              "LineDelimiter": "\"\"",
+              "AppendLines": "1",
+              "AppendFields": "1",
+              "AppendToExistingSlotValues": "0",
+              "QueueTemplate": "1",
+              "ClearTemplate": "1",
+              "ConfigSet": "\"outdriver_MIS\"",
+              "Slots": "{\"RecordSequenceNumber\",\"Tooth Number\",\"Surface\",\"DOS\",\"Procedure Code\",\"Fee\",\"ClaimSequenceNumber\",\"DCN\",\"Frequency\"}",
+              "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "IgnoreEmptyStrings": "{0,0,0,0,0,0,0,0,0}"
+            }
+          },
+          {
+            "Container": "output_MIS_Detail",
+            "RuleGUID": "f7061a29-0540-4b74-acd4-dc1fe1e15fa2",
+            "RuleName": "Increment Line Counter",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "50df7bb0-e82a-41d2-9dd7-2cb5d2eba2e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_ParamList1": "{6}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0+1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so the detail line we're on matches the split number we're currently processing, so this line needs to be output.\"",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList0": "{8}",
+      "_ParamList1": "{9}",
+      "_FunctionVersion": "1"
+    }
+  }
+]

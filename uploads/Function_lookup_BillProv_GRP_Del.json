@@ -1,0 +1,152 @@
+[
+  {
+    "Container": "lookup_BillProv_GRP_Del",
+    "RuleGUID": "a14533f9-8da5-463e-968a-aa7a37589d8c",
+    "RuleName": "See if Flag is set",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillProv_GRP_Del",
+            "RuleGUID": "fc3d3494-38a4-491e-9dae-4c9f693b4b98",
+            "RuleName": "Delete Current Row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "a14533f9-8da5-463e-968a-aa7a37589d8c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_BillingProv\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillProv_GRP_Del",
+            "RuleGUID": "787cda84-fce9-4c1f-b6d4-b8ee0ec82008",
+            "RuleName": "Is GRP in ProvMTVID",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a14533f9-8da5-463e-968a-aa7a37589d8c",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillProv_GRP_Del",
+                    "RuleGUID": "8a0b1278-4a3d-4f14-804d-aa074ab6ed04",
+                    "RuleName": "Set Flag to 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "787cda84-fce9-4c1f-b6d4-b8ee0ec82008",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillProv_GRP_Del",
+                    "RuleGUID": "d1134f8b-4333-43bf-a8cd-ba5ff5a5d97e",
+                    "RuleName": "Delete Current Row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "787cda84-fce9-4c1f-b6d4-b8ee0ec82008",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_BillingProv\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{1}",
+              "RegularExpression": "\"^GRP\"",
+              "_FunctionVersion": "65539"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539",
+      "_Description": "\"We set the flag on the first time through the UDF.  If the flag has been set, we delete all other rows.\""
+    }
+  }
+]

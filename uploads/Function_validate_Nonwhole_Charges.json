@@ -1,0 +1,841 @@
+[
+  {
+    "Container": "validate_Nonwhole_Charges",
+    "RuleGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+    "RuleName": "Is this EDI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "26d854fa-0a86-45df-83f8-ad66287f7b08",
+            "RuleName": "Last digit or second to last digit of charges non-zero?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "53df511f-c3bc-4197-91fc-560e322bc19a",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "26d854fa-0a86-45df-83f8-ad66287f7b08",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "998b8a2c-4171-45f5-ac10-16d87ca6f8ac",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "53df511f-c3bc-4197-91fc-560e322bc19a",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8242",
+                              "_BackupSkipID": "8242",
+                              "RejectString": "\"Please validate Fee\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No - Send to Field Entry",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "7c7d00b7-1dfa-496b-a6f1-f570cd49cf16",
+                            "RuleName": "Send to OCRepNum",
+                            "RuleID": "",
+                            "FunctionName": "_IForceFERepair",
+                            "ParentGUID": "53df511f-c3bc-4197-91fc-560e322bc19a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "ACRepairWholeLines": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_Description": "\"Leaving this out for now.\"",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}",
+                      "_ErrorCode": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"[1-9]$\\134|[1-9][0-9]$\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"Dental claims generally bill in whole dollars, so if non-whole dollars are found it could be an OCR mistake.\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"970\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "63090ab2-92de-4baf-985e-6ad322853f36",
+            "RuleName": "Charge starts with zero?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "a27cecfb-03e9-4e48-a475-077595324a8f",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "63090ab2-92de-4baf-985e-6ad322853f36",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "5e39611c-7984-4ca8-a0c5-16f344641eab",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "a27cecfb-03e9-4e48-a475-077595324a8f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8243",
+                              "_BackupSkipID": "8243",
+                              "RejectString": "\"Charge starts with a zero, please confirm.\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No - Send to Field Entry",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "3ccf7865-9b1c-4695-824b-c432bfc17011",
+                            "RuleName": "Send to OCRepNum",
+                            "RuleID": "",
+                            "FunctionName": "_IForceFERepair",
+                            "ParentGUID": "a27cecfb-03e9-4e48-a475-077595324a8f",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "ACRepairWholeLines": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}",
+                      "_ErrorCode": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^[^0-9]*0[1-9]\\134+\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"This is to catch HEAT 1666063/CQ 148130 - jdm 11/2015\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"12345\",\"012345\",\"1012345\",\"   012345\",\" '; ''; ] [__----012345\",\"][=-+_+}{\\042:\\042   012345\",\"][=-+_+}{\\042:\\042   012'345\",\"}}{}{][+_+_+12345\",\"}{}+_+_\\042:\\042:';'][=-  12345\",\"000\",\"0.00\",\"010\",\"0123.34324\",\"213.213213\",\"50.00\",\"050.00\",\"50 00\",\"050 00\",\"0\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "adf366f9-7a40-49ab-9444-4bb68d17cd18",
+            "RuleName": "Charge starts with dash?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "3f71bf72-0d8f-4b64-b01c-eff79b681ad4",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "adf366f9-7a40-49ab-9444-4bb68d17cd18",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "926636cf-0f33-4f68-aaa5-4ccc82006436",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "3f71bf72-0d8f-4b64-b01c-eff79b681ad4",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8244",
+                              "_BackupSkipID": "8244",
+                              "RejectString": "\"Charge starts with a zero, please confirm.\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No - Send to Field Entry",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "1e951b9b-55dd-4631-8a34-a871e26ec784",
+                            "RuleName": "Send to OCRepNum",
+                            "RuleID": "",
+                            "FunctionName": "_IForceFERepair",
+                            "ParentGUID": "3f71bf72-0d8f-4b64-b01c-eff79b681ad4",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "ACRepairWholeLines": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}",
+                      "_ErrorCode": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^-\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"This is to catch HEAT 1666063/CQ 148130 - jdm 11/2015\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"12345\",\"012345\",\"1012345\",\"   012345\",\" '; ''; ] [__----012345\",\"][=-+_+}{\\042:\\042   012345\",\"][=-+_+}{\\042:\\042   012'345\",\"}}{}{][+_+_+12345\",\"}{}+_+_\\042:\\042:';'][=-  12345\",\"000\",\"0.00\",\"010\",\"0123.34324\",\"213.213213\",\"50.00\",\"050.00\",\"50 00\",\"050 00\",\"0\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "c2bc1430-ed5e-45bd-9694-8fc9cc429ba8",
+            "RuleName": "Charge starts with comma?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "131ee0ae-d263-4b5e-aa6a-97da1a357b4c",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "c2bc1430-ed5e-45bd-9694-8fc9cc429ba8",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "8d1ffda5-9c6d-4ceb-b8aa-d87316c9b293",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "131ee0ae-d263-4b5e-aa6a-97da1a357b4c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8245",
+                              "_BackupSkipID": "8245",
+                              "RejectString": "\"Charge starts with a comma, please confirm.\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^[ ]*,\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"Added with SER 1255 to try to catch Corporate Error 01/29/17 #1 - jdm 04/2017\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"12345\",\"012345\",\"1012345\",\"   012345\",\" '; ''; ] [__----012345\",\"][=-+_+}{\\042:\\042   012345\",\"][=-+_+}{\\042:\\042   012'345\",\"}}{}{][+_+_+12345\",\"}{}+_+_\\042:\\042:';'][=-  12345\",\"000\",\"0.00\",\"010\",\"0123.34324\",\"213.213213\",\"50.00\",\"050.00\",\"50 00\",\"050 00\",\"0\",\",123\",\" ,123\",\"         ,123\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "d104180b-309a-44b2-aee3-2d93326650c6",
+            "RuleName": "Charge has a 1 before cents?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "56774b41-48ea-46b8-afd8-84bcaefaaea3",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "d104180b-309a-44b2-aee3-2d93326650c6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "c6314450-f1ca-4913-805d-96fe2df20522",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "56774b41-48ea-46b8-afd8-84bcaefaaea3",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8246",
+                              "_BackupSkipID": "8246",
+                              "RejectString": "\"Please validate Fee\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No - Send to Field Entry",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "a35e8375-eadb-48f7-a92f-36b080ab7e0a",
+                            "RuleName": "Send to OCRepNum",
+                            "RuleID": "",
+                            "FunctionName": "_IForceFERepair",
+                            "ParentGUID": "56774b41-48ea-46b8-afd8-84bcaefaaea3",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "ACRepairWholeLines": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}",
+                      "_ErrorCode": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"^[0-9]*100$\\134|^[0-9]*010$\"",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"12345\",\"012345\",\"1012345\",\"   012345\",\" '; ''; ] [__----012345\",\"][=-+_+}{\\042:\\042   012345\",\"][=-+_+}{\\042:\\042   012'345\",\"}}{}{][+_+_+12345\",\"}{}+_+_\\042:\\042:';'][=-  12345\",\"000\",\"0.00\",\"010\",\"0123.34324\",\"213.213213\",\"50.00\",\"050.00\",\"50 00\",\"050 00\",\"10010\",\"10100\",\"14100\",\"10000\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "validate_Nonwhole_Charges",
+            "RuleGUID": "aabd6971-be24-402e-ad25-c28d548e2ade",
+            "RuleName": "Charge has only one digit in cents?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a377b2cf-05c2-4b12-bc8d-3657f2fff6da",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Nonwhole_Charges",
+                    "RuleGUID": "e0e8717b-a4cb-4405-945c-dffcc3b0f77c",
+                    "RuleName": "Is this DV/KE?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "aabd6971-be24-402e-ad25-c28d548e2ade",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes - Reject",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "4403f08e-fcfa-44eb-a7f4-4c32da397170",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "e0e8717b-a4cb-4405-945c-dffcc3b0f77c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "8247",
+                              "_BackupSkipID": "8247",
+                              "RejectString": "\"Please validate Fee\"",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "RejectCode": "2",
+                              "DelayEval": "0",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No - Send to Field Entry",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_Nonwhole_Charges",
+                            "RuleGUID": "efd2cee2-6f1a-4c80-b44e-899954bc2483",
+                            "RuleName": "Send to OCRepNum",
+                            "RuleID": "",
+                            "FunctionName": "_IForceFERepair",
+                            "ParentGUID": "e0e8717b-a4cb-4405-945c-dffcc3b0f77c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "ACRepairWholeLines": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\",\"KE\",\"KE_MX\",\"KE_CA\",\"KE_PR\",\"KE_DT\",\"KE_DC\",\"KE_GA\",\"KE_VIP\",\"KE_DC_MX\",\"KE_CA_MX\",\"KE_PRM\",\"KE_AZ\",\"KE_MED\",\"KE_PSM\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "RegularExpression": "\"\\134.[0-9]$\"",
+              "_FunctionVersion": "65539",
+              "_Description": "\"This is to catch HEAT 17858515/CQ152912 - jdm 12/2016\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"97.0\",\"97.00\",\"980\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

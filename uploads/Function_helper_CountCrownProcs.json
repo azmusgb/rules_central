@@ -1,0 +1,357 @@
+[
+  {
+    "Container": "helper_CountCrownProcs",
+    "RuleGUID": "ce019a28-133f-4421-8607-ef17fed6017c",
+    "RuleName": "Is this Store?",
+    "RuleID": "",
+    "FunctionName": "_IWorkerType",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_CountCrownProcs",
+            "RuleGUID": "81f7404a-f26b-4815-b113-663eca5e6b4a",
+            "RuleName": "Is this detail line related to the split?",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "ce019a28-133f-4421-8607-ef17fed6017c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_CountCrownProcs",
+                    "RuleGUID": "22a202bf-ea95-43e1-8925-27b65cb0f348",
+                    "RuleName": "Is the ProcCode for a crown?",
+                    "RuleID": "",
+                    "FunctionName": "IsInTable",
+                    "ParentGUID": "81f7404a-f26b-4815-b113-663eca5e6b4a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_CountCrownProcs",
+                            "RuleGUID": "318069a9-e470-42e6-8934-5913c37b097a",
+                            "RuleName": "Increase CrownCount by 1",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "22a202bf-ea95-43e1-8925-27b65cb0f348",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_ParamList0": "{1}",
+                              "_ParamList1": "{1}",
+                              "Deviation": "0",
+                              "OutputFormat": "\"%.0f\"",
+                              "Remainder": "0",
+                              "MathExpression": "\"F0 + 1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_CountCrownProcs",
+                            "RuleGUID": "bab5501f-414b-4ef3-af52-d1869bc051f5",
+                            "RuleName": "Is the ProcCode for a core buildup?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "22a202bf-ea95-43e1-8925-27b65cb0f348",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_CountCrownProcs",
+                                    "RuleGUID": "0f6f4fe5-98de-4825-9ad2-fbb750643c0b",
+                                    "RuleName": "Increase CoreCount by 1",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "bab5501f-414b-4ef3-af52-d1869bc051f5",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "_ParamList0": "{4}",
+                                      "_ParamList1": "{4}",
+                                      "Deviation": "0",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 + 1\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "65539",
+                              "_ParamList0": "{0}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"D2950\\134|D6973\\134|D2949\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65537",
+                      "_ParamList0": "{0}",
+                      "StripSpaces": "0",
+                      "CatchResourceUnavailable": "0",
+                      "Table": "\"table_CrownProc\"",
+                      "Columns": "{\"ProcCode\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "BracketedField": "0",
+              "_ParamList0": "{3}",
+              "_ParamList1": "{2}",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_CountCrownProcs",
+            "RuleGUID": "0a4dd7cf-c0de-41d3-b2ea-f801f1eca5bf",
+            "RuleName": "Is the ProcCode for a crown?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "ce019a28-133f-4421-8607-ef17fed6017c",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_CountCrownProcs",
+                    "RuleGUID": "a9d5a61f-a9cc-48f9-b7fc-5bc30bf481ac",
+                    "RuleName": "Increase CrownCount by 1",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "0a4dd7cf-c0de-41d3-b2ea-f801f1eca5bf",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{1}",
+                      "Deviation": "0",
+                      "OutputFormat": "\"%.0f\"",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + 1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_CountCrownProcs",
+                    "RuleGUID": "9af85199-c83d-4125-9062-8ad62a976694",
+                    "RuleName": "Is the ProcCode for a core buildup?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "0a4dd7cf-c0de-41d3-b2ea-f801f1eca5bf",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_CountCrownProcs",
+                            "RuleGUID": "e0196259-4f8e-44ad-8753-6327f3883d47",
+                            "RuleName": "Increase CoreCount by 1",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "9af85199-c83d-4125-9062-8ad62a976694",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_ParamList0": "{4}",
+                              "_ParamList1": "{4}",
+                              "Deviation": "0",
+                              "OutputFormat": "\"%.0f\"",
+                              "Remainder": "0",
+                              "MathExpression": "\"F0 + 1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65539",
+                      "_ParamList0": "{0}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"D2950\\134|D6973\\134|D2949\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65537",
+              "_ParamList0": "{0}",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"table_CrownProc\"",
+              "Columns": "{\"ProcCode\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "WorkerType": "{\"Store\"}",
+      "_FunctionVersion": "0"
+    }
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "Container": "validate_DOSvsTooth",
+    "RuleGUID": "174bfe21-3e80-4352-a580-9318f4ea2fcf",
+    "RuleName": "Is the ToothNum A-T and not a Quad?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "validate_DOSvsTooth",
+            "RuleGUID": "51cdbde1-9531-4bb9-9e19-723474cb394c",
+            "RuleName": "Check quad",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "174bfe21-3e80-4352-a580-9318f4ea2fcf",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Not a quad",
+                "ChildRules": [
+                  {
+                    "Container": "validate_DOSvsTooth",
+                    "RuleGUID": "e9136972-6925-4eb8-b895-6856d4715138",
+                    "RuleName": "Compare DOS to DOB (offset 16 years)",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "51cdbde1-9531-4bb9-9e19-723474cb394c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "8",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "8",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "8",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "2",
+                      "_ParamList1": "{0}",
+                      "Offset": "\"-00000016\"",
+                      "DateFormat": "\"YMD_for_DOB\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{2}",
+              "RegularExpression": "\"UL\\134|UR\\134|LL\\134|LR\\134|U\\134|LW\\134|UP\"",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"UL\",\"UR\",\"LL\",\"LR\",\"U\",\"LW\",\"UP\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"A \\042baby\\042 tooth\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "RegularExpression": "\"[A-T]\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

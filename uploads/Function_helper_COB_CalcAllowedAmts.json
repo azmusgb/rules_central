@@ -1,0 +1,1005 @@
+[
+  {
+    "Container": "helper_COB_CalcAllowedAmts",
+    "RuleGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+    "RuleName": "Is OutputFileFlag = SplitTrack?",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Equal",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "881c4c09-621c-4a31-b617-b754d7b7bde4",
+            "RuleName": "Clear temp1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\""
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "cc75c990-9e76-4aa3-86c1-0441c14fbaa0",
+            "RuleName": "Set temp1 = Paid + Resp",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2,1}",
+              "_ParamList1": "{7}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0+F1\""
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "a80e8e9d-1427-4ecb-951d-fe9c4040d4b6",
+            "RuleName": "Is SL AllowedAmount > 0?",
+            "RuleID": "",
+            "FunctionName": "CheckAmount",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_CalcAllowedAmts",
+                    "RuleGUID": "575f534a-8bd6-44b6-9aea-88f844a1ba75",
+                    "RuleName": "Is temp1 (Paid + Resp) > Allowed?",
+                    "RuleID": "",
+                    "FunctionName": "CompareAmountFields",
+                    "ParentGUID": "a80e8e9d-1427-4ecb-951d-fe9c4040d4b6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcAllowedAmts",
+                            "RuleGUID": "89218591-bf45-44b8-98fb-804243b358c3",
+                            "RuleName": "Set ClearCOBFlag (temp2)",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "575f534a-8bd6-44b6-9aea-88f844a1ba75",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{8}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\"",
+                              "InvertCharSet": "0",
+                              "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcAllowedAmts",
+                            "RuleGUID": "35843dc6-cde0-48a1-823b-6a21d8cf279b",
+                            "RuleName": "Is SL Allowed less than Fee?",
+                            "RuleID": "",
+                            "FunctionName": "CompareAmountFields",
+                            "ParentGUID": "575f534a-8bd6-44b6-9aea-88f844a1ba75",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "ceca457b-2c6d-44f2-91a1-65dbcfec2191",
+                                    "RuleName": "Set SL AllowedAmt = 0",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "35843dc6-cde0-48a1-823b-6a21d8cf279b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"0\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "321483da-c3cd-4379-817c-0c7dde6e3fcf",
+                                    "RuleName": "Calculate SL Allowed Amount - 1st",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "35843dc6-cde0-48a1-823b-6a21d8cf279b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{2,1}",
+                                      "_ParamList1": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 + F1\"",
+                                      "RepeatInLine": "0",
+                                      "RepeatInAllLines": "0",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "DeleteLeft": "1",
+                                      "DeleteRight": "1",
+                                      "DeleteInterior": "0",
+                                      "Compress": "1",
+                                      "DeleteDuplicateRows": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "8b64d8fe-666c-48dc-adce-7cabd41bc622",
+                                    "RuleName": "Calculate SL Allowed Amount - 2nd",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "35843dc6-cde0-48a1-823b-6a21d8cf279b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{3,0}",
+                                      "_ParamList1": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 - F1\"",
+                                      "RepeatInLine": "0",
+                                      "RepeatInAllLines": "0",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "DeleteLeft": "1",
+                                      "DeleteRight": "1",
+                                      "DeleteInterior": "0",
+                                      "Compress": "1",
+                                      "DeleteDuplicateRows": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "114a5da6-ba8b-4983-bbf1-49f3d0f5ac6f",
+                                    "RuleName": "Is SL Allowed greater than Fee?",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareAmountFields",
+                                    "ParentGUID": "35843dc6-cde0-48a1-823b-6a21d8cf279b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "helper_COB_CalcAllowedAmts",
+                                            "RuleGUID": "9ebc2fbb-dd01-4c10-b703-1d383335f4e9",
+                                            "RuleName": "Set ClearCOBFlag (temp2)",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "114a5da6-ba8b-4983-bbf1-49f3d0f5ac6f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{8}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"1\"",
+                                              "InvertCharSet": "0",
+                                              "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "No - Equal to Fee",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "helper_COB_CalcAllowedAmts",
+                                            "RuleGUID": "2a4d4b15-b5ea-40e2-923f-c9719587c1fa",
+                                            "RuleName": "Set SL AllowedAmt = 0",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "114a5da6-ba8b-4983-bbf1-49f3d0f5ac6f",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"0\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "helper_COB_CalcAllowedAmts",
+                                            "RuleGUID": "0460d9c1-1ebd-4736-98f9-95b41714f221",
+                                            "RuleName": "Calculate SL Allowed Amount",
+                                            "RuleID": "",
+                                            "FunctionName": "DoMathAndFormat",
+                                            "ParentGUID": "114a5da6-ba8b-4983-bbf1-49f3d0f5ac6f",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "CaseSensitive": "1",
+                                              "_ParamList0": "{2,1}",
+                                              "_ParamList1": "{0}",
+                                              "_FunctionVersion": "1",
+                                              "OutputFormat": "\"%.0f\"",
+                                              "Deviation": "0",
+                                              "Remainder": "0",
+                                              "MathExpression": "\"F0 + F1\"",
+                                              "RepeatInLine": "0",
+                                              "RepeatInAllLines": "0",
+                                              "DeleteBlanks": "0",
+                                              "MinLinesBeforeDelete": "0",
+                                              "DeleteLeft": "1",
+                                              "DeleteRight": "1",
+                                              "DeleteInterior": "0",
+                                              "Compress": "1",
+                                              "DeleteDuplicateRows": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_ParamList1": "{3}",
+                                      "_FunctionVersion": "1",
+                                      "Deviation": "0",
+                                      "BracketedField": "0",
+                                      "MinChars": "0",
+                                      "CandidateSet": "\"charset_1234\"",
+                                      "LegalSet": "\"charset_1234\"",
+                                      "Compare": "1",
+                                      "UndefinedIterpretedAs": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "1",
+                              "Deviation": "0",
+                              "BracketedField": "0",
+                              "MinChars": "0",
+                              "CandidateSet": "\"charset_1234\"",
+                              "LegalSet": "\"charset_1234\"",
+                              "Compare": "1",
+                              "UndefinedIterpretedAs": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_ParamList1": "{0}",
+                      "_FunctionVersion": "1",
+                      "BracketedField": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_CalcAllowedAmts",
+                    "RuleGUID": "3d5aa6e7-3c17-4ed8-9bde-b4ddbe0bdd26",
+                    "RuleName": "Is temp1 (Paid + Resp) > Fee?",
+                    "RuleID": "",
+                    "FunctionName": "CompareAmountFields",
+                    "ParentGUID": "a80e8e9d-1427-4ecb-951d-fe9c4040d4b6",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcAllowedAmts",
+                            "RuleGUID": "121ae118-7e60-428a-ab04-b5685847c81d",
+                            "RuleName": "Set SL Allowed  = Fee",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "3d5aa6e7-3c17-4ed8-9bde-b4ddbe0bdd26",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_ParamList1": "{0}",
+                              "_FunctionVersion": "1",
+                              "OutputFormat": "\"1\"",
+                              "InvertCharSet": "0",
+                              "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcAllowedAmts",
+                            "RuleGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                            "RuleName": "Is temp1 (Paid + Resp) < Fee?",
+                            "RuleID": "",
+                            "FunctionName": "CompareAmountFields",
+                            "ParentGUID": "3d5aa6e7-3c17-4ed8-9bde-b4ddbe0bdd26",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "dbdebc52-0d47-4a45-a4f1-d046cc0aac77",
+                                    "RuleName": "Set SL AllowedAmt = 0",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"0\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "6ce54fcf-f948-4c86-a4c9-b3b666f74be0",
+                                    "RuleName": "Calculate SL Allowed Amount - 1st",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{2,1}",
+                                      "_ParamList1": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 + F1\"",
+                                      "RepeatInLine": "0",
+                                      "RepeatInAllLines": "0",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "DeleteLeft": "1",
+                                      "DeleteRight": "1",
+                                      "DeleteInterior": "0",
+                                      "Compress": "1",
+                                      "DeleteDuplicateRows": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "27c928a1-b2ff-4529-bbf2-d9adf071d596",
+                                    "RuleName": "Calculate SL Allowed Amount - 2nd",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{3,0}",
+                                      "_ParamList1": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 - F1\"",
+                                      "RepeatInLine": "0",
+                                      "RepeatInAllLines": "0",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "DeleteLeft": "1",
+                                      "DeleteRight": "1",
+                                      "DeleteInterior": "0",
+                                      "Compress": "1",
+                                      "DeleteDuplicateRows": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "2761dc57-3db6-45a4-a794-efd5b8bb75c8",
+                                    "RuleName": "Set SL AllowedAmt = 0",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"0\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "helper_COB_CalcAllowedAmts",
+                                    "RuleGUID": "16d0a230-c11c-40a8-9a7f-d6c5719adbd2",
+                                    "RuleName": "Calculate SL Allowed Amount",
+                                    "RuleID": "",
+                                    "FunctionName": "DoMathAndFormat",
+                                    "ParentGUID": "22cd82c0-c4b6-4e45-9634-375e4feba020",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{2,1}",
+                                      "_ParamList1": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "OutputFormat": "\"%.0f\"",
+                                      "Deviation": "0",
+                                      "Remainder": "0",
+                                      "MathExpression": "\"F0 + F1\"",
+                                      "RepeatInLine": "0",
+                                      "RepeatInAllLines": "0",
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "DeleteLeft": "1",
+                                      "DeleteRight": "1",
+                                      "DeleteInterior": "0",
+                                      "Compress": "1",
+                                      "DeleteDuplicateRows": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{7}",
+                              "_ParamList1": "{3}",
+                              "_FunctionVersion": "1",
+                              "BracketedField": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{7}",
+                      "_ParamList1": "{3}",
+                      "_FunctionVersion": "1",
+                      "BracketedField": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "Deviation": "0",
+              "BracketedField": "0",
+              "MaximumValue": "0",
+              "MinimumValue": "0"
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "e7d34ed4-223d-42b5-b6f9-65616427279b",
+            "RuleName": "Set SL AllowedAmt = 0",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\" Disabling while doing CQ 126777 - jdm 12/2013\"",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\"",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "d65cf157-ce42-41c7-bb50-c00e66199bee",
+            "RuleName": "Calculate SL Allowed Amount - 1st",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\" Disabling while doing CQ 126777 - jdm 12/2013\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{2,1}",
+              "_ParamList1": "{0}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0 + F1\"",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "DeleteLeft": "1",
+              "DeleteRight": "1",
+              "DeleteInterior": "0",
+              "Compress": "1",
+              "DeleteDuplicateRows": "0",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "10efd923-4b6c-4768-9361-6ab29c31917c",
+            "RuleName": "Add to Total Amount",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"Not sure why this is still here, since we recalculate outside of this UDF (here 701edb37-19ee-49e2-afb2-ddfe1136b3de).  Disabling while doing CQ 126777 - jdm 12/2013\"",
+              "_ParamList0": "{6,0}",
+              "_ParamList1": "{6}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0 + F1\"",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "helper_COB_CalcAllowedAmts",
+            "RuleGUID": "577950f8-c9c9-4322-aea6-acce94c86a7f",
+            "RuleName": "Calculate SL Allowed Amount - 2nd",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "6aa2abc4-c504-4a49-9162-588aa7e05583",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Description": "\"Per RCM 335/CQ 126409 - We are changing the calculation to no longer subtract the summation of the Paid Amt and Resp Amt from the Fee.  The Allowed Amt is now just the summation of the two values.\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{3,0}",
+              "_ParamList1": "{0}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0 - F1\"",
+              "RepeatInLine": "0",
+              "RepeatInAllLines": "0",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "DeleteLeft": "1",
+              "DeleteRight": "1",
+              "DeleteInterior": "0",
+              "Compress": "1",
+              "DeleteDuplicateRows": "0",
+              "_Disabled": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so the detail line we're on is associated with the split we are currently outputting\"",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList0": "{4}",
+      "_ParamList1": "{5}",
+      "_FunctionVersion": "1"
+    }
+  }
+]

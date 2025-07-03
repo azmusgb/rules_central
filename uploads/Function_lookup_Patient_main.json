@@ -1,0 +1,2111 @@
+[
+  {
+    "Container": "lookup_Patient_main",
+    "RuleGUID": "bfcbb8cd-1d7a-48d7-9dbd-e79b3f1f2975",
+    "RuleName": "Is KFI?",
+    "RuleID": "",
+    "FunctionName": "_IWorkerType",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Worker is of specified type",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_main",
+            "RuleGUID": "96c71f05-b415-4068-8916-b1b6231fe48b",
+            "RuleName": "Was MCID found?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "bfcbb8cd-1d7a-48d7-9dbd-e79b3f1f2975",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "9d6a2b10-2dc4-44ab-93ab-dba8a0f13c9d",
+                    "RuleName": "Is the flag = 2?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "96c71f05-b415-4068-8916-b1b6231fe48b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes - New lookup method",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "78661dbe-2485-4e8b-b91f-6cf29537a01a",
+                            "RuleName": "Get all Pats with MCID - IDT",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "9d6a2b10-2dc4-44ab-93ab-dba8a0f13c9d",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_ParamList0": "{7}",
+                              "_ParamList1": "{0}",
+                              "UDFName": "\"lookup_Patient_FetchWithMCID\"",
+                              "ForEach": "{0,0,1}",
+                              "DelBlanksBefore": "0",
+                              "DelBlanksAfter": "0",
+                              "MakeColEqual": "0",
+                              "_ParamList2": "{14}",
+                              "Table": "\"selectionlist_SubSSN\"",
+                              "Columns": "{\"\",\"SubSSNPlug\",\"\",\"\"}",
+                              "_ParamList3": "{20}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No - Original lookup method",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "b57b50f7-cf33-41ae-acfe-74203ca849e5",
+                            "RuleName": "Get all Pats with MCID",
+                            "RuleID": "",
+                            "FunctionName": "lookup_Patient_FetchWithMCID",
+                            "ParentGUID": "9d6a2b10-2dc4-44ab-93ab-dba8a0f13c9d",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_ParamList0": "{7}",
+                              "_ParamList1": "{0}",
+                              "UDFName": "\"lookup_Patient_FetchWithMCID\"",
+                              "ForEach": "{0,0,1}",
+                              "DelBlanksBefore": "0",
+                              "DelBlanksAfter": "0",
+                              "MakeColEqual": "0",
+                              "_ParamList2": "{14}",
+                              "_ParamList3": "{20}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65539",
+                      "_Description": "\"If so we found 2 or more possible MCIDs to use.  If  not then we have just one.\"",
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{20}",
+                      "RegularExpression": "\"2\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "3d5a7e35-2aba-4979-a2cc-317497f5fcf3",
+                    "RuleName": "Get all patients with SSN",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "96c71f05-b415-4068-8916-b1b6231fe48b",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "131076",
+                      "_ParamList0": "{0}",
+                      "_ParamList1": "{}",
+                      "Table": "\"odbc_MemInfo\"",
+                      "MaxMatchCount": "300",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_ID\"}",
+                      "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+                      "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+                      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "CatchResourceUnavailable": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so we should fetch by MCID\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{20}",
+              "RegularExpression": "\"1\\134|2\""
+            }
+          },
+          {
+            "Container": "lookup_Patient_main",
+            "RuleGUID": "cb60ff42-77f1-4faf-a9cf-1c6189bf0c4a",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "bfcbb8cd-1d7a-48d7-9dbd-e79b3f1f2975",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_Patient\"",
+              "LogLevel": "12"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "Worker is not of specified type",
+        "ChildRules": [
+          {
+            "Container": "lookup_Patient_main",
+            "RuleGUID": "a003e0c0-c5b9-41e2-81c1-2f52b815d212",
+            "RuleName": "Clear SL",
+            "RuleID": "",
+            "FunctionName": "ClearSL",
+            "ParentGUID": "bfcbb8cd-1d7a-48d7-9dbd-e79b3f1f2975",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_Patient\""
+            }
+          },
+          {
+            "Container": "lookup_Patient_main",
+            "RuleGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+            "RuleName": "Was MCID found?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "bfcbb8cd-1d7a-48d7-9dbd-e79b3f1f2975",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "26a502b4-4b92-427b-b0ae-355fdad3a352",
+                    "RuleName": "Prep temp name fields",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "---",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "46268919-6cc2-42e9-af68-41db4bc965be",
+                            "RuleName": "Copy Name fields",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "26a502b4-4b92-427b-b0ae-355fdad3a352",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_ParamList0": "{1,2}",
+                              "_ParamList1": "{12,13}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "72240f98-647a-4450-ad21-0846688f8f92",
+                            "RuleName": "Trim LName to 16",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "26a502b4-4b92-427b-b0ae-355fdad3a352",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "2",
+                              "_ParamList0": "{12}",
+                              "InputFormat": "\"\\134(^................\\134)\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "74ba80bd-c3b0-42db-a5aa-d6ad0cad958b",
+                            "RuleName": "Trim FName to 8",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "26a502b4-4b92-427b-b0ae-355fdad3a352",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "2",
+                              "_ParamList0": "{13}",
+                              "InputFormat": "\"\\134(^........\\134)\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "3",
+                      "_ParamList0": "{7}",
+                      "Table": "\"odbc_BillingProv\"",
+                      "StripSpaces": "0"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "9e8e070a-07f7-4674-9b0a-c5691a28c617",
+                    "RuleName": "Call Patient ID-based lookup",
+                    "RuleID": "",
+                    "FunctionName": "lookup_Patient_ID",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "_ParamList0": "{7}",
+                      "_ParamList1": "{2}",
+                      "_ParamList2": "{13}",
+                      "_ParamList3": "{1}",
+                      "_ParamList4": "{12}",
+                      "_ParamList5": "{0}",
+                      "_ParamList6": "{3}",
+                      "_ParamList7": "{6}",
+                      "_ParamList8": "{8}",
+                      "_ParamList9": "{9}",
+                      "_ParamList10": "{10}",
+                      "_ParamList11": "{11}",
+                      "_ParamList12": "{14}",
+                      "_ParamList13": "{18}",
+                      "_ParamList14": "{16}",
+                      "_ParamList15": "{17}",
+                      "_ParamList16": "{19}",
+                      "_ParamList17": "{20}",
+                      "_ParamList18": "{21}",
+                      "_ParamList19": "{22}",
+                      "_ParamList20": "{23}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "bd8c7b99-b5d8-42ab-ba80-0ee2edbcd514",
+                    "RuleName": "See if Patient found",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Not plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "0bee3fde-a0d8-4af3-b9fe-b4a12da14ae8",
+                            "RuleName": "ClearSL",
+                            "RuleID": "",
+                            "FunctionName": "ClearSL",
+                            "ParentGUID": "bd8c7b99-b5d8-42ab-ba80-0ee2edbcd514",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_Patient\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "73f87c73-86cd-4261-ba0f-85aabd1b4ea7",
+                            "RuleName": "Prep and flip  temp name fields",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "bd8c7b99-b5d8-42ab-ba80-0ee2edbcd514",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "---",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "b2ea583b-56fb-452a-808e-2a50804e06e5",
+                                    "RuleName": "Copy Name fields to short name fields",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "73f87c73-86cd-4261-ba0f-85aabd1b4ea7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "_ParamList0": "{2,1}",
+                                      "_ParamList1": "{12,13}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "160195b0-48f6-43f4-86dd-4bc154c05060",
+                                    "RuleName": "Copy short fields to Name fields",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "73f87c73-86cd-4261-ba0f-85aabd1b4ea7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "_Description": "\"This will flip the first and last names so that when we call the UDF First = Last and Last = First\"",
+                                      "_ParamList0": "{12,13}",
+                                      "_ParamList1": "{1,2}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "6ebbc4d4-3323-49ed-9521-38214b40a472",
+                                    "RuleName": "Trim LName to 16",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "73f87c73-86cd-4261-ba0f-85aabd1b4ea7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "2",
+                                      "_ParamList0": "{12}",
+                                      "InputFormat": "\"\\134(^................\\134)\"",
+                                      "OutputFormat": "\"\\1341\"",
+                                      "CaseSensitive2": "0",
+                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "1b4b1b9d-0ae2-42c0-ba08-37e84e9a0749",
+                                    "RuleName": "Trim FName to 8",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "73f87c73-86cd-4261-ba0f-85aabd1b4ea7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "2",
+                                      "_ParamList0": "{13}",
+                                      "InputFormat": "\"\\134(^........\\134)\"",
+                                      "OutputFormat": "\"\\1341\"",
+                                      "CaseSensitive2": "0",
+                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "3",
+                              "_ParamList0": "{7}",
+                              "Table": "\"odbc_BillingProv\"",
+                              "StripSpaces": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "5cb92b9f-89ae-42dc-a875-8e44e52b49cf",
+                            "RuleName": "Call Patient ID-based lookup",
+                            "RuleID": "",
+                            "FunctionName": "lookup_Patient_ID",
+                            "ParentGUID": "bd8c7b99-b5d8-42ab-ba80-0ee2edbcd514",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_ParamList0": "{7}",
+                              "_ParamList1": "{2}",
+                              "_ParamList2": "{13}",
+                              "_ParamList3": "{1}",
+                              "_ParamList4": "{12}",
+                              "_ParamList5": "{0}",
+                              "_ParamList6": "{3}",
+                              "_ParamList7": "{6}",
+                              "_ParamList8": "{8}",
+                              "_ParamList9": "{9}",
+                              "_ParamList10": "{10}",
+                              "_ParamList11": "{11}",
+                              "_ParamList12": "{14}",
+                              "_ParamList13": "{18}",
+                              "_ParamList14": "{16}",
+                              "_ParamList15": "{17}",
+                              "_ParamList16": "{19}",
+                              "_ParamList17": "{20}",
+                              "_ParamList18": "{21}",
+                              "_ParamList19": "{22}",
+                              "_ParamList20": "{23}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "33a44539-b5a1-47e8-bf52-16b003dc5dce",
+                            "RuleName": "See if Patient found",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "bd8c7b99-b5d8-42ab-ba80-0ee2edbcd514",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Not plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "447b01df-fafb-4546-94b2-f9852a6026ec",
+                                    "RuleName": "ClearSL",
+                                    "RuleID": "",
+                                    "FunctionName": "ClearSL",
+                                    "ParentGUID": "33a44539-b5a1-47e8-bf52-16b003dc5dce",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Patient\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "2ebaf678-c1a3-49cb-bb3f-637c983cbe2f",
+                                    "RuleName": "Prep and un flip  temp name fields",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "33a44539-b5a1-47e8-bf52-16b003dc5dce",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "16c04b40-dcf1-4bcf-b91e-907d8367a04e",
+                                            "RuleName": "Copy Name fields to short name fields",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "2ebaf678-c1a3-49cb-bb3f-637c983cbe2f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "_ParamList0": "{2,1}",
+                                              "_ParamList1": "{12,13}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "79e161e8-1bd0-4ee3-ac22-3d2c4f06c7eb",
+                                            "RuleName": "Copy short fields to Name fields",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "2ebaf678-c1a3-49cb-bb3f-637c983cbe2f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "_Description": "\"This will un flip the first and last names\"",
+                                              "_ParamList0": "{12,13}",
+                                              "_ParamList1": "{1,2}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "afca6408-d543-465c-b743-b8877d366b8d",
+                                            "RuleName": "Trim LName to 16",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "2ebaf678-c1a3-49cb-bb3f-637c983cbe2f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "2",
+                                              "_ParamList0": "{12}",
+                                              "InputFormat": "\"\\134(^................\\134)\"",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "7db009d8-c2c6-4126-9c63-739b346ae2f8",
+                                            "RuleName": "Trim FName to 8",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "2ebaf678-c1a3-49cb-bb3f-637c983cbe2f",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "2",
+                                              "_ParamList0": "{13}",
+                                              "InputFormat": "\"\\134(^........\\134)\"",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "3",
+                                      "_ParamList0": "{7}",
+                                      "Table": "\"odbc_BillingProv\"",
+                                      "StripSpaces": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "7d3e5289-ae8d-49d7-98d3-7acb0193a90d",
+                                    "RuleName": "Call Patient ID-based lookup",
+                                    "RuleID": "",
+                                    "FunctionName": "lookup_Patient_ID",
+                                    "ParentGUID": "33a44539-b5a1-47e8-bf52-16b003dc5dce",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [],
+                                    "Attributes": {
+                                      "_FunctionVersion": "0",
+                                      "_ParamList0": "{7}",
+                                      "_ParamList1": "{2}",
+                                      "_ParamList2": "{13}",
+                                      "_ParamList3": "{1}",
+                                      "_ParamList4": "{12}",
+                                      "_ParamList5": "{0}",
+                                      "_ParamList6": "{3}",
+                                      "_ParamList7": "{6}",
+                                      "_ParamList8": "{8}",
+                                      "_ParamList9": "{9}",
+                                      "_ParamList10": "{10}",
+                                      "_ParamList11": "{11}",
+                                      "_ParamList12": "{14}",
+                                      "_ParamList13": "{18}",
+                                      "_ParamList14": "{16}",
+                                      "_ParamList15": "{17}",
+                                      "_ParamList16": "{19}",
+                                      "_ParamList17": "{20}",
+                                      "_ParamList18": "{21}",
+                                      "_ParamList19": "{22}",
+                                      "_ParamList20": "{23}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_Description": "\"Plugged: 50543\\015\\012Not Plugged: 50544\"",
+                              "_ParamList0": "{}",
+                              "SelectionList": "\"selectionlist_Patient\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_Description": "\"Plugged: 50543\\015\\012Not Plugged: 50544\"",
+                      "_ParamList0": "{}",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "9d92d9f8-d359-4b52-9f66-08013413292a",
+                    "RuleName": "Get all patients with SSN, Name, DOB",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "131076",
+                      "_Description": "\"Per defect 104157: Remove Zip Code from perfect match.\\015\\012\\015\\012CRM 51943\"",
+                      "_ParamList0": "{0,1,2,3}",
+                      "_ParamList1": "{}",
+                      "Table": "\"odbc_MemInfo\"",
+                      "MaxMatchCount": "300",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_ID\",\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\"}",
+                      "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+                      "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+                      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "CatchResourceUnavailable": "0",
+                      "Percentage": "{0}",
+                      "CompareWidths": "{5}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "9bfca923-ef59-4e82-9c51-9c8c18bc2ed8",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_Patient_main",
+                    "RuleGUID": "7d4aa6d7-dadd-4190-a065-105f16d741a9",
+                    "RuleName": "CheckSLState4",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "57fe9a9f-95f9-4d95-9a0a-b82a00dd2efd",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "Not plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "e9d2dc02-63d6-45ea-8ab4-fe88312bff82",
+                            "RuleName": "Get all patients with SSN, Name, DOB (Lname/Fname flipped)",
+                            "RuleID": "",
+                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                            "ParentGUID": "7d4aa6d7-dadd-4190-a065-105f16d741a9",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "131076",
+                              "_Description": "\"Per defect 104157: Remove Zip Code from perfect match.\\015\\012\\015\\012CRM 51943\"",
+                              "_ParamList0": "{0,2,1,3}",
+                              "_ParamList1": "{}",
+                              "Table": "\"odbc_MemInfo\"",
+                              "MaxMatchCount": "300",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "SelectionList": "\"selectionlist_Patient\"",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_ID\",\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\"}",
+                              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemRefFilKeyVal\"}",
+                              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\"}",
+                              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+                              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                              "CatchResourceUnavailable": "0",
+                              "Percentage": "{0}",
+                              "CompareWidths": "{5}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_Patient_main",
+                            "RuleGUID": "d8c45635-2a57-409d-a04b-4f19b0b012c2",
+                            "RuleName": "CheckSLState4",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "7d4aa6d7-dadd-4190-a065-105f16d741a9",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "65544",
+                                "ActionName": "Not plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "6f7f159c-9fc6-4750-8b75-edea0dd285e9",
+                                    "RuleName": "ClearSL",
+                                    "RuleID": "",
+                                    "FunctionName": "ClearSL",
+                                    "ParentGUID": "d8c45635-2a57-409d-a04b-4f19b0b012c2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_Patient\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "a2ce7eec-aec7-40cf-af24-c04c901fda5c",
+                                    "RuleName": "Prep temp name fields",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "d8c45635-2a57-409d-a04b-4f19b0b012c2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "---",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "95067dde-7b72-4da3-a4ef-04456716c2ea",
+                                            "RuleName": "Copy Name fields",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "a2ce7eec-aec7-40cf-af24-c04c901fda5c",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "_ParamList0": "{1,2}",
+                                              "_ParamList1": "{12,13}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "0dfb8812-024b-455a-965d-71cda6e5a55d",
+                                            "RuleName": "Trim LName to 16",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "a2ce7eec-aec7-40cf-af24-c04c901fda5c",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "2",
+                                              "_ParamList0": "{12}",
+                                              "InputFormat": "\"\\134(^................\\134)\"",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "a35c2552-2497-42a1-b13c-294059699de3",
+                                            "RuleName": "Trim FName to 8",
+                                            "RuleID": "",
+                                            "FunctionName": "FormatRegExpr",
+                                            "ParentGUID": "a2ce7eec-aec7-40cf-af24-c04c901fda5c",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "2",
+                                              "_ParamList0": "{13}",
+                                              "InputFormat": "\"\\134(^........\\134)\"",
+                                              "OutputFormat": "\"\\1341\"",
+                                              "CaseSensitive2": "0",
+                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                              "_RegExMatchBaseline": "{}",
+                                              "_RegExOutputBaseline": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "3",
+                                      "_ParamList0": "{7}",
+                                      "Table": "\"odbc_BillingProv\"",
+                                      "StripSpaces": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "0bcc951b-f635-45b6-af35-68290b0a7ad1",
+                                    "RuleName": "Call Patient ID-based lookup",
+                                    "RuleID": "",
+                                    "FunctionName": "lookup_Patient_ID",
+                                    "ParentGUID": "d8c45635-2a57-409d-a04b-4f19b0b012c2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [],
+                                    "Attributes": {
+                                      "_FunctionVersion": "0",
+                                      "_ParamList0": "{7}",
+                                      "_ParamList1": "{2}",
+                                      "_ParamList2": "{13}",
+                                      "_ParamList3": "{1}",
+                                      "_ParamList4": "{12}",
+                                      "_ParamList5": "{0}",
+                                      "_ParamList6": "{3}",
+                                      "_ParamList7": "{6}",
+                                      "_ParamList8": "{8}",
+                                      "_ParamList9": "{9}",
+                                      "_ParamList10": "{10}",
+                                      "_ParamList11": "{11}",
+                                      "_ParamList12": "{14}",
+                                      "_ParamList13": "{18}",
+                                      "_ParamList14": "{16}",
+                                      "_ParamList15": "{17}",
+                                      "_ParamList16": "{19}",
+                                      "_ParamList17": "{20}",
+                                      "_ParamList18": "{21}",
+                                      "_ParamList19": "{22}",
+                                      "_ParamList20": "{23}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_Patient_main",
+                                    "RuleGUID": "416a37eb-5a8a-4307-a7f9-1219bbebfc64",
+                                    "RuleName": "See if Patient found",
+                                    "RuleID": "",
+                                    "FunctionName": "CheckSLState4",
+                                    "ParentGUID": "d8c45635-2a57-409d-a04b-4f19b0b012c2",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Not plugged",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "65c6b8b0-5e2a-46bb-a6d6-a15d7778481a",
+                                            "RuleName": "ClearSL",
+                                            "RuleID": "",
+                                            "FunctionName": "ClearSL",
+                                            "ParentGUID": "416a37eb-5a8a-4307-a7f9-1219bbebfc64",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "SelectionList": "\"selectionlist_Patient\""
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "64a76d64-3ac1-4097-94b0-31ba88545a91",
+                                            "RuleName": "Prep and flip  temp name fields",
+                                            "RuleID": "",
+                                            "FunctionName": "IsEmpty",
+                                            "ParentGUID": "416a37eb-5a8a-4307-a7f9-1219bbebfc64",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "---",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "823ebc4a-9a49-4dd7-8372-dca225673b77",
+                                                    "RuleName": "Copy Name fields to short name fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "64a76d64-3ac1-4097-94b0-31ba88545a91",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList0": "{2,1}",
+                                                      "_ParamList1": "{12,13}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "f54371fb-7311-4bb6-9f1b-42467e8173b1",
+                                                    "RuleName": "Copy short fields to Name fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "64a76d64-3ac1-4097-94b0-31ba88545a91",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "_Description": "\"This will flip the first and last names so that when we call the UDF First = Last and Last = First\"",
+                                                      "_ParamList0": "{12,13}",
+                                                      "_ParamList1": "{1,2}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "25bf5f05-37da-4dce-a92c-9f2093fd9d05",
+                                                    "RuleName": "Trim LName to 16",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatRegExpr",
+                                                    "ParentGUID": "64a76d64-3ac1-4097-94b0-31ba88545a91",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "2",
+                                                      "_ParamList0": "{12}",
+                                                      "InputFormat": "\"\\134(^................\\134)\"",
+                                                      "OutputFormat": "\"\\1341\"",
+                                                      "CaseSensitive2": "0",
+                                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                                      "_RegExMatchBaseline": "{}",
+                                                      "_RegExOutputBaseline": "{}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "bc56faf4-2aed-42a3-a666-745c3d5737ea",
+                                                    "RuleName": "Trim FName to 8",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatRegExpr",
+                                                    "ParentGUID": "64a76d64-3ac1-4097-94b0-31ba88545a91",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "2",
+                                                      "_ParamList0": "{13}",
+                                                      "InputFormat": "\"\\134(^........\\134)\"",
+                                                      "OutputFormat": "\"\\1341\"",
+                                                      "CaseSensitive2": "0",
+                                                      "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                                      "_RegExMatchBaseline": "{}",
+                                                      "_RegExOutputBaseline": "{}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "3",
+                                              "_ParamList0": "{7}",
+                                              "Table": "\"odbc_BillingProv\"",
+                                              "StripSpaces": "0"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "afb9cf16-4b9f-4c2e-bba1-aa8ad6eb8ee4",
+                                            "RuleName": "Call Patient ID-based lookup",
+                                            "RuleID": "",
+                                            "FunctionName": "lookup_Patient_ID",
+                                            "ParentGUID": "416a37eb-5a8a-4307-a7f9-1219bbebfc64",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [],
+                                            "Attributes": {
+                                              "_FunctionVersion": "0",
+                                              "_ParamList0": "{7}",
+                                              "_ParamList1": "{2}",
+                                              "_ParamList2": "{13}",
+                                              "_ParamList3": "{1}",
+                                              "_ParamList4": "{12}",
+                                              "_ParamList5": "{0}",
+                                              "_ParamList6": "{3}",
+                                              "_ParamList7": "{6}",
+                                              "_ParamList8": "{8}",
+                                              "_ParamList9": "{9}",
+                                              "_ParamList10": "{10}",
+                                              "_ParamList11": "{11}",
+                                              "_ParamList12": "{14}",
+                                              "_ParamList13": "{18}",
+                                              "_ParamList14": "{16}",
+                                              "_ParamList15": "{17}",
+                                              "_ParamList16": "{19}",
+                                              "_ParamList17": "{20}",
+                                              "_ParamList18": "{21}",
+                                              "_ParamList19": "{22}",
+                                              "_ParamList20": "{23}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "lookup_Patient_main",
+                                            "RuleGUID": "31ac7116-eb7e-4182-8eea-bb0a0f999819",
+                                            "RuleName": "See if Patient found",
+                                            "RuleID": "",
+                                            "FunctionName": "CheckSLState4",
+                                            "ParentGUID": "416a37eb-5a8a-4307-a7f9-1219bbebfc64",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "Not plugged",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "8f7c1f88-b251-4d3a-a070-5df6f3a0dec7",
+                                                    "RuleName": "ClearSL",
+                                                    "RuleID": "",
+                                                    "FunctionName": "ClearSL",
+                                                    "ParentGUID": "31ac7116-eb7e-4182-8eea-bb0a0f999819",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "1",
+                                                      "SelectionList": "\"selectionlist_Patient\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "33a9611c-f2ea-42a5-9381-4ff9ba6fb11c",
+                                                    "RuleName": "Prep and un flip  temp name fields",
+                                                    "RuleID": "",
+                                                    "FunctionName": "IsEmpty",
+                                                    "ParentGUID": "31ac7116-eb7e-4182-8eea-bb0a0f999819",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "---",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "lookup_Patient_main",
+                                                            "RuleGUID": "57b4099d-3cc3-4d24-b8c7-cac19c474c57",
+                                                            "RuleName": "Copy Name fields to short name fields",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "33a9611c-f2ea-42a5-9381-4ff9ba6fb11c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_FunctionVersion": "1",
+                                                              "_ParamList0": "{2,1}",
+                                                              "_ParamList1": "{12,13}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_Patient_main",
+                                                            "RuleGUID": "6247706c-67f2-4cea-8f21-c3ca92ed834c",
+                                                            "RuleName": "Copy short fields to Name fields",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Copy",
+                                                            "ParentGUID": "33a9611c-f2ea-42a5-9381-4ff9ba6fb11c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_FunctionVersion": "1",
+                                                              "_Description": "\"This will un flip the first and last names\"",
+                                                              "_ParamList0": "{12,13}",
+                                                              "_ParamList1": "{1,2}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_Patient_main",
+                                                            "RuleGUID": "a884f937-d4bc-4d4d-abaf-151e9217c2f2",
+                                                            "RuleName": "Trim LName to 16",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatRegExpr",
+                                                            "ParentGUID": "33a9611c-f2ea-42a5-9381-4ff9ba6fb11c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_FunctionVersion": "2",
+                                                              "_ParamList0": "{12}",
+                                                              "InputFormat": "\"\\134(^................\\134)\"",
+                                                              "OutputFormat": "\"\\1341\"",
+                                                              "CaseSensitive2": "0",
+                                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+                                                              "_RegExMatchBaseline": "{}",
+                                                              "_RegExOutputBaseline": "{}"
+                                                            }
+                                                          },
+                                                          {
+                                                            "Container": "lookup_Patient_main",
+                                                            "RuleGUID": "b4b47eff-52c5-43ae-90e0-9a6981b89826",
+                                                            "RuleName": "Trim FName to 8",
+                                                            "RuleID": "",
+                                                            "FunctionName": "FormatRegExpr",
+                                                            "ParentGUID": "33a9611c-f2ea-42a5-9381-4ff9ba6fb11c",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_FunctionVersion": "2",
+                                                              "_ParamList0": "{13}",
+                                                              "InputFormat": "\"\\134(^........\\134)\"",
+                                                              "OutputFormat": "\"\\1341\"",
+                                                              "CaseSensitive2": "0",
+                                                              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+                                                              "_RegExMatchBaseline": "{}",
+                                                              "_RegExOutputBaseline": "{}"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "3",
+                                                      "_ParamList0": "{7}",
+                                                      "Table": "\"odbc_BillingProv\"",
+                                                      "StripSpaces": "0"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "lookup_Patient_main",
+                                                    "RuleGUID": "9b812caf-c7d3-4e24-af06-caea1b53f48d",
+                                                    "RuleName": "Call Patient ID-based lookup",
+                                                    "RuleID": "",
+                                                    "FunctionName": "lookup_Patient_ID",
+                                                    "ParentGUID": "31ac7116-eb7e-4182-8eea-bb0a0f999819",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [],
+                                                    "Attributes": {
+                                                      "_FunctionVersion": "0",
+                                                      "_ParamList0": "{7}",
+                                                      "_ParamList1": "{2}",
+                                                      "_ParamList2": "{13}",
+                                                      "_ParamList3": "{1}",
+                                                      "_ParamList4": "{12}",
+                                                      "_ParamList5": "{0}",
+                                                      "_ParamList6": "{3}",
+                                                      "_ParamList7": "{6}",
+                                                      "_ParamList8": "{8}",
+                                                      "_ParamList9": "{9}",
+                                                      "_ParamList10": "{10}",
+                                                      "_ParamList11": "{11}",
+                                                      "_ParamList12": "{14}",
+                                                      "_ParamList13": "{18}",
+                                                      "_ParamList14": "{16}",
+                                                      "_ParamList15": "{17}",
+                                                      "_ParamList16": "{19}",
+                                                      "_ParamList17": "{20}",
+                                                      "_ParamList18": "{21}",
+                                                      "_ParamList19": "{22}",
+                                                      "_ParamList20": "{23}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_FunctionVersion": "1",
+                                              "_Description": "\"Plugged: 50543\\015\\012Not Plugged: 50544\"",
+                                              "_ParamList0": "{}",
+                                              "SelectionList": "\"selectionlist_Patient\"",
+                                              "PlugIfSinglePluggableMatch": "1",
+                                              "MaxSize": "0",
+                                              "_Sources": "{\"OCR_AEG\"}",
+                                              "_ParamListOMRIndex0": "{}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "_Description": "\"Plugged: 50543\\015\\012Not Plugged: 50544\"",
+                                      "_ParamList0": "{}",
+                                      "SelectionList": "\"selectionlist_Patient\"",
+                                      "PlugIfSinglePluggableMatch": "1",
+                                      "MaxSize": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_Description": "\"Plugged: CRM50541\\015\\012Not Plugged: CRM50542\"",
+                              "_ParamList0": "{}",
+                              "SelectionList": "\"selectionlist_Patient\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_Description": "\"Plugged: CRM50541\\015\\012Not Plugged: CRM50542\"",
+                      "_ParamList0": "{}",
+                      "SelectionList": "\"selectionlist_Patient\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so there is no use going through the \\042perfect match\\042 lookups.  They won't return any results.\"",
+              "CaseSensitive": "1",
+              "_ParamList0": "{20}",
+              "RegularExpression": "\"1\\134|2\""
+            }
+          }
+        ],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "WorkerType": "{\"KFI\",\"KFI_MX\",\"KFI_CA\",\"KFI_PR\",\"KFI_DT\",\"KFI_DC\",\"KFI_GA\",\"KFI_VIP\",\"KFI_DC_MX\",\"KFI_CA_MX\",\"KFI_PRM\",\"KFI_MED\",\"KFI_PSM\"}",
+      "_FunctionVersion": "0",
+      "_Description": "\"If this is KFI we want to do a very bare-bones \\042just show everybody with the ID\\042 lookup.  If, however, it's not KFI we want to do fuzzy matching, SL trimming, etc.\""
+    }
+  }
+]

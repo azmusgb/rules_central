@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Search – Rules Central{% endblock %}
+
+{% block hero_tagline %}Version 3.0 Released{% endblock %}
+
+{% block hero_title %}
+<span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-200">Search</span>
+{% endblock %}
+
+{% block hero_subtitle %}
+Search and discover diagrams across all catalogs in the Rules Central system
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<main class="container mx-auto px-4 sm:px-6 pb-16 flex-grow mt-6 relative z-10">
+    <!-- Search Card -->
+    <div class="p-6 mb-8 rounded-xl bg-dark-850/80 border border-slate-700/30 shadow transition-all duration-500 hover:shadow-glow-lg">
+        <!-- Search Bar -->
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary-500">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input aria-describedby="search-help" autocomplete="off" class="w-full pl-12 pr-12 py-3 text-base bg-dark-800 border border-slate-700 rounded-xl placeholder-slate-500 focus:placeholder-slate-600 focus:border-primary-500 transition-all duration-200 outline-none shadow-sm"
+                       id="search-input"
+                       placeholder="Search diagrams..." type="text"/>
+                <button aria-label="Clear search" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-primary-500 transition duration-200 hidden"
+                        id="clear-input">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex gap-3">
+                <button class="px-6 py-3 rounded-xl font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md hover:shadow-glow transition-transform duration-300 hover:-translate-y-1"
+                        id="search-button">
+                    <i class="fas fa-search mr-2"></i>
+                    Search
+                </button>
+                <button class="px-6 py-3 rounded-xl font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 shadow-sm transition-transform duration-300 hover:-translate-y-1"
+                        id="clear-button">
+                    <i class="fas fa-broom mr-2"></i>
+                    Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+            <div class="flex-1">
+                <select class="w-full py-3 px-4 bg-dark-800 border border-slate-700 rounded-xl text-slate-300 focus:border-primary-500 transition-all duration-200 outline-none shadow-sm"
+                        id="catalog-filter">
+                    <option value="">All Catalogs</option>
+                    <option disabled value="">Loading catalogs...</option>
+                </select>
+            </div>
+            <button class="px-6 py-3 rounded-xl font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 shadow-sm transition-transform duration-300 hover:-translate-y-1"
+                    id="clear-filters">
+                <i class="fas fa-filter-circle-xmark mr-2"></i>
+                Clear Filters
+            </button>
+        </div>
+
+        <!-- Spinner -->
+        <div class="hidden text-center py-8" id="spinner">
+            <div class="inline-flex flex-col items-center">
+                <div class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-400 text-lg">Searching diagrams...</p>
+            </div>
+        </div>
+
+        <!-- Results Summary -->
+        <div class="hidden mb-6" id="results-summary">
+            <p class="text-slate-300">
+                Found <span class="font-semibold text-primary-400" id="results-count">0</span> results for: <span
+                    class="font-medium text-white" id="query-display"></span>
+            </p>
+        </div>
+
+        <!-- Results Container -->
+        <div class="hidden" id="results-container">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="results">
+                <!-- Results will be inserted here -->
+            </div>
+
+            <!-- Pagination -->
+            <nav class="mt-8 flex justify-center" id="pagination">
+                <!-- Pagination will be inserted here -->
+            </nav>
+        </div>
+
+        <!-- No Results -->
+        <div class="hidden text-center py-12" id="no-results">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-search-minus text-5xl text-slate-500 mb-4"></i>
+                <h2 class="text-xl font-medium text-white mb-2">No results found</h2>
+                <p class="text-slate-400">Try adjusting your search or filters</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Notification -->
+<div class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-xl shadow-lg hidden z-50 flex items-center animate-fade-in"
+     id="toast">
+    <i class="fas fa-check-circle text-emerald-500 mr-3" id="toastIcon"></i>
+    <div>
+        <p class="font-medium text-white" id="toastTitle">Success</p>
+        <p class="text-sm text-slate-400" id="toastMessage">Search completed successfully</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/search.js') }}" type="module"></script>
+{% endblock %}

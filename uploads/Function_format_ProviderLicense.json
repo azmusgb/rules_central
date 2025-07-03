@@ -1,0 +1,1056 @@
+[
+  {
+    "Container": "format_ProviderLicense",
+    "RuleGUID": "95928ef8-5fa9-472b-997c-6f50d61cd2c3",
+    "RuleName": "Clear temp1",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{3}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "format_ProviderLicense",
+    "RuleGUID": "9355580a-c941-4d99-a1fb-f767ccf09b27",
+    "RuleName": "License - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "format_ProviderLicense",
+            "RuleGUID": "3e3918e2-20be-4e3c-846e-516d7ff1e942",
+            "RuleName": "Copy license to temp",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "9355580a-c941-4d99-a1fb-f767ccf09b27",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "ClearData": "1",
+              "_ParamList1": "{3}"
+            }
+          },
+          {
+            "Container": "format_ProviderLicense",
+            "RuleGUID": "6805669e-5dec-4591-bb6c-83e00afc0acd",
+            "RuleName": "Capture leading two letters",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "9355580a-c941-4d99-a1fb-f767ccf09b27",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Captured",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProviderLicense",
+                    "RuleGUID": "63940531-328c-4ff4-a337-a0080663afb1",
+                    "RuleName": "Are they a state code?",
+                    "RuleID": "",
+                    "FunctionName": "IsInTable",
+                    "ParentGUID": "6805669e-5dec-4591-bb6c-83e00afc0acd",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Entry found",
+                        "ChildRules": [
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "9c6cee43-5e7c-46d0-ad2e-8ba9a4c84d2c",
+                            "RuleName": "Move leading two letters to end",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "63940531-328c-4ff4-a337-a0080663afb1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "2",
+                              "InputFormat": "\"^\\134([A-Z][A-Z]\\134)\\134(.*\\134)$\"",
+                              "OutputFormat": "\"\\1342\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"AB123456\",\"ABC123456\",\"AB12\",\"A12\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "65537",
+                      "StripSpaces": "0",
+                      "CatchResourceUnavailable": "0",
+                      "Table": "\"table_CSZ\"",
+                      "Columns": "{\"state\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "2",
+              "InvertCharSet": "0",
+              "DateFormat": "\"dfr_JDAY_TO_MDY\"",
+              "InputFormat": "\"^\\134([A-Z][A-Z]\\134).*\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"AB12345\",\"A12345\",\"ABC12345\",\"12345\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_ProviderLicense",
+            "RuleGUID": "477f9e53-b0e2-4ed4-9ef6-db0e6a9a1c8d",
+            "RuleName": "Delete leading zeros",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "9355580a-c941-4d99-a1fb-f767ccf09b27",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^[0]\\134+\\134(.*\\134)\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"12345\",\"12345CA\",\"0012345\",\"0002345CA\",\"00012345CAD\",\"012301232130000\",\"00123\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "format_ProviderLicense",
+            "RuleGUID": "bc3e99d7-2800-4d55-b8b3-10f3c58ac446",
+            "RuleName": "License - Is it only numbers?",
+            "RuleID": "",
+            "FunctionName": "CheckCharSet",
+            "ParentGUID": "9355580a-c941-4d99-a1fb-f767ccf09b27",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - No state code or D",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProviderLicense",
+                    "RuleGUID": "9ca32628-94bf-4b63-ba9e-c336ea28a735",
+                    "RuleName": "Is RenderingState populated?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "bc3e99d7-2800-4d55-b8b3-10f3c58ac446",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "d7236f34-d6f0-40f0-b369-589f0bf550e9",
+                            "RuleName": "Is it a valid state?",
+                            "RuleID": "",
+                            "FunctionName": "IsInTable",
+                            "ParentGUID": "9ca32628-94bf-4b63-ba9e-c336ea28a735",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Entry found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "86b981b2-4181-4ea7-89b3-581cacfd25f2",
+                                    "RuleName": "Append state to license",
+                                    "RuleID": "",
+                                    "FunctionName": "MergeFields",
+                                    "ParentGUID": "d7236f34-d6f0-40f0-b369-589f0bf550e9",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0,2}",
+                                      "_FunctionVersion": "65537",
+                                      "_ParamList1": "{0}",
+                                      "SkipAppendOnBlankField": "0",
+                                      "SkipAppendOnBlankLine": "0",
+                                      "TreatMultiLineAllBlankAsBlank": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "649e63ad-a470-4b50-9ad5-59447e683c1a",
+                                    "RuleName": "Append D",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "d7236f34-d6f0-40f0-b369-589f0bf550e9",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "InputFormat": "\"%s\"",
+                                      "OutputFormat": "\"%sD\"",
+                                      "SkipAppendOnBlankField": "0",
+                                      "SkipAppendOnBlankLine": "0",
+                                      "TreatMultiLineAllBlankAsBlank": "0",
+                                      "_Disabled": "1"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Entry not found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "9413fc48-b190-455d-8f0d-0b7db1628cdd",
+                                    "RuleName": "Is BillingState populated?",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "d7236f34-d6f0-40f0-b369-589f0bf550e9",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "format_ProviderLicense",
+                                            "RuleGUID": "1c50ee49-cb9a-4eb2-bc73-8bbb1f922ac3",
+                                            "RuleName": "Is it a valid state?",
+                                            "RuleID": "",
+                                            "FunctionName": "IsInTable",
+                                            "ParentGUID": "9413fc48-b190-455d-8f0d-0b7db1628cdd",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "Entry found",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "format_ProviderLicense",
+                                                    "RuleGUID": "e99c9fcc-960c-4227-b98f-471de9b1dc85",
+                                                    "RuleName": "Append state to license",
+                                                    "RuleID": "",
+                                                    "FunctionName": "MergeFields",
+                                                    "ParentGUID": "1c50ee49-cb9a-4eb2-bc73-8bbb1f922ac3",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{0,1}",
+                                                      "_FunctionVersion": "65537",
+                                                      "_ParamList1": "{0}",
+                                                      "SkipAppendOnBlankField": "0",
+                                                      "SkipAppendOnBlankLine": "0",
+                                                      "TreatMultiLineAllBlankAsBlank": "0"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "format_ProviderLicense",
+                                                    "RuleGUID": "7b966867-93a1-4041-a1fa-2cc8c0b249a6",
+                                                    "RuleName": "Append D",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Formatf",
+                                                    "ParentGUID": "1c50ee49-cb9a-4eb2-bc73-8bbb1f922ac3",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{0}",
+                                                      "_FunctionVersion": "100",
+                                                      "InputFormat": "\"%s\"",
+                                                      "OutputFormat": "\"%sD\"",
+                                                      "SkipAppendOnBlankField": "0",
+                                                      "SkipAppendOnBlankLine": "0",
+                                                      "TreatMultiLineAllBlankAsBlank": "0",
+                                                      "_Disabled": "1"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{1}",
+                                              "_FunctionVersion": "65537",
+                                              "StripSpaces": "0",
+                                              "CatchResourceUnavailable": "0",
+                                              "Table": "\"table_CSZ\"",
+                                              "Columns": "{\"state\"}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{1}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "65537",
+                              "StripSpaces": "0",
+                              "CatchResourceUnavailable": "0",
+                              "Table": "\"table_CSZ\"",
+                              "Columns": "{\"state\"}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "ecc8c8c1-c90b-4312-839b-9a2e2700d708",
+                            "RuleName": "Is BillingState populated?",
+                            "RuleID": "",
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "9ca32628-94bf-4b63-ba9e-c336ea28a735",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "6b36f5c5-0c33-4bbe-bca2-18ef467c8446",
+                                    "RuleName": "Is it a valid state?",
+                                    "RuleID": "",
+                                    "FunctionName": "IsInTable",
+                                    "ParentGUID": "ecc8c8c1-c90b-4312-839b-9a2e2700d708",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Entry found",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "format_ProviderLicense",
+                                            "RuleGUID": "8a74b4cb-341e-48e1-931d-c2343012caab",
+                                            "RuleName": "Append state to license",
+                                            "RuleID": "",
+                                            "FunctionName": "MergeFields",
+                                            "ParentGUID": "6b36f5c5-0c33-4bbe-bca2-18ef467c8446",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0,1}",
+                                              "_FunctionVersion": "65537",
+                                              "_ParamList1": "{0}",
+                                              "SkipAppendOnBlankField": "0",
+                                              "SkipAppendOnBlankLine": "0",
+                                              "TreatMultiLineAllBlankAsBlank": "0"
+                                            }
+                                          },
+                                          {
+                                            "Container": "format_ProviderLicense",
+                                            "RuleGUID": "7f9006e0-1e7b-40db-a007-91c507936392",
+                                            "RuleName": "Append D",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "6b36f5c5-0c33-4bbe-bca2-18ef467c8446",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "100",
+                                              "InputFormat": "\"%s\"",
+                                              "OutputFormat": "\"%sD\"",
+                                              "SkipAppendOnBlankField": "0",
+                                              "SkipAppendOnBlankLine": "0",
+                                              "TreatMultiLineAllBlankAsBlank": "0",
+                                              "_Disabled": "1"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{1}",
+                                      "_FunctionVersion": "65537",
+                                      "StripSpaces": "0",
+                                      "CatchResourceUnavailable": "0",
+                                      "Table": "\"table_CSZ\"",
+                                      "Columns": "{\"state\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "3",
+                      "CaseSensitive": "1",
+                      "Compare": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "format_ProviderLicense",
+                    "RuleGUID": "bbe5e8f2-da16-48b6-9c0f-88c807ac0f14",
+                    "RuleName": "Is numbers followed by 2 letters?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "bc3e99d7-2800-4d55-b8b3-10f3c58ac446",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "943243c4-70fa-4e80-86c7-ee93f5258860",
+                            "RuleName": "Copy license to temp",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "bbe5e8f2-da16-48b6-9c0f-88c807ac0f14",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{3}"
+                            }
+                          },
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "dee25f03-4503-40d0-a18e-64c098c3cd90",
+                            "RuleName": "Get the 2 letters",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "bbe5e8f2-da16-48b6-9c0f-88c807ac0f14",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "2",
+                              "InputFormat": "\"^[0-9]\\134+\\134([A-Z][A-Z]\\134)$\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"12345\",\"12345A\",\"12345AC\",\"AC12345\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          },
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "38728666-d30d-4fa4-99df-862f9b396159",
+                            "RuleName": "Is temp a state?",
+                            "RuleID": "",
+                            "FunctionName": "IsInTable",
+                            "ParentGUID": "bbe5e8f2-da16-48b6-9c0f-88c807ac0f14",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Entry found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "4091f045-cb12-4537-95ac-1c58fff54aa1",
+                                    "RuleName": "Put a D on the license",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "38728666-d30d-4fa4-99df-862f9b396159",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "InputFormat": "\"%s\"",
+                                      "OutputFormat": "\"%sD\"",
+                                      "SkipAppendOnBlankField": "0",
+                                      "SkipAppendOnBlankLine": "0",
+                                      "TreatMultiLineAllBlankAsBlank": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "65537",
+                              "StripSpaces": "0",
+                              "CatchResourceUnavailable": "0",
+                              "Table": "\"table_CSZ\"",
+                              "Columns": "{\"state\"}",
+                              "_Disabled": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"1AC\",\"123AC\",\"12345678AC\",\"AC12345\",\"12345A\",\"1A2345C\",\"12345\",\"AC\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "_Disabled": "1",
+                      "RegularExpression": "\"^[0-9]\\134+[A-Z][A-Z]$\"",
+                      "_Description": "\"If not it may already be formatted correctly\\015\\012\\015\\012This is disabled per RCM 307/CQ 140114 - jdm 01/2015\""
+                    }
+                  },
+                  {
+                    "Container": "format_ProviderLicense",
+                    "RuleGUID": "660f7cdd-76ea-4102-9ab1-61e0358ae1ba",
+                    "RuleName": "Does it end in 3 letters?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "bc3e99d7-2800-4d55-b8b3-10f3c58ac446",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "c3a97ee5-918a-4532-95cc-543dbbdc6d33",
+                            "RuleName": "Copy license to temp",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "660f7cdd-76ea-4102-9ab1-61e0358ae1ba",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{3}"
+                            }
+                          },
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "6cba7510-2a39-46a5-a00a-07228d1f1576",
+                            "RuleName": "Get the State letters",
+                            "RuleID": "",
+                            "FunctionName": "FormatRegExpr",
+                            "ParentGUID": "660f7cdd-76ea-4102-9ab1-61e0358ae1ba",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "2",
+                              "InputFormat": "\"^[0-9]\\134+\\134([A-Z][A-Z]\\134)[A-Z]$\"",
+                              "OutputFormat": "\"\\1341\"",
+                              "CaseSensitive2": "0",
+                              "_RegExTestValues": "{\"12345\",\"12345A\",\"12345AC\",\"AC12345\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}"
+                            }
+                          },
+                          {
+                            "Container": "format_ProviderLicense",
+                            "RuleGUID": "bdcbbbc9-9286-4740-88c0-a32281a0a7a5",
+                            "RuleName": "Is temp a state?",
+                            "RuleID": "",
+                            "FunctionName": "IsInTable",
+                            "ParentGUID": "660f7cdd-76ea-4102-9ab1-61e0358ae1ba",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Entry found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_ProviderLicense",
+                                    "RuleGUID": "acc8666e-5c2d-45ce-841c-3aae1ffc8365",
+                                    "RuleName": "Take last letter off of License",
+                                    "RuleID": "",
+                                    "FunctionName": "FormatRegExpr",
+                                    "ParentGUID": "bdcbbbc9-9286-4740-88c0-a32281a0a7a5",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "2",
+                                      "InputFormat": "\"^\\134(.*\\134)[A-Z]$\"",
+                                      "OutputFormat": "\"\\1341\"",
+                                      "CaseSensitive2": "0",
+                                      "_RegExTestValues": "{\"1234567ABC\",\"abcdefCAX\",\"ABC12345WAM\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "65537",
+                              "StripSpaces": "0",
+                              "CatchResourceUnavailable": "0",
+                              "Table": "\"table_CSZ\"",
+                              "Columns": "{\"state\"}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"[A-Z][A-Z][A-Z]$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "CaseSensitive": "1",
+              "LegalSet": "\"charset_Numeric\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

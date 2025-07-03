@@ -1,0 +1,188 @@
+[
+  {
+    "Container": "validate_NPI",
+    "RuleGUID": "2ddbb214-06ba-4dd0-a836-c298afe47960",
+    "RuleName": "Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Reject: All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_NPI",
+            "RuleGUID": "c93bab43-4038-4b1c-9e46-e5977576fa62",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "2ddbb214-06ba-4dd0-a836-c298afe47960",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "65544",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_SkipID": "4964",
+              "_BackupSkipID": "4964",
+              "RejectString": "\"NPI should not be empty\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "Languages_Fields": "\"Default\"",
+              "SelectionListAutoPop": "0",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_NPI",
+            "RuleGUID": "ac0270e5-a8c6-4cd0-9052-a0bc7423fd4e",
+            "RuleName": "Is it one of these?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2ddbb214-06ba-4dd0-a836-c298afe47960",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_NPI",
+                    "RuleGUID": "3766159f-fb06-4db6-80cc-ab8ab13c5352",
+                    "RuleName": "Perform Check Digit routing",
+                    "RuleID": "",
+                    "FunctionName": "NPICheckDigit",
+                    "ParentGUID": "ac0270e5-a8c6-4cd0-9052-a0bc7423fd4e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Reject: Invalid",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_NPI",
+                            "RuleGUID": "457143fe-3f00-47e8-9b28-48fa9465306d",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "3766159f-fb06-4db6-80cc-ab8ab13c5352",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "4965",
+                              "_BackupSkipID": "4965",
+                              "RejectString": "\"NPI does not pass Check Digit routine\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "Languages_Fields": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "DelayEval": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"DEFAULTNPI\\134|9999999999\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

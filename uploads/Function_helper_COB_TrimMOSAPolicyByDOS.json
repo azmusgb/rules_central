@@ -1,0 +1,231 @@
+[
+  {
+    "Container": "helper_COB_TrimMOSAPolicyByDOS",
+    "RuleGUID": "328dc750-5bc7-4bc4-bab0-4a6bab07dcfc",
+    "RuleName": "Is MOSAEffDate less than LowDOS?",
+    "RuleID": "",
+    "FunctionName": "CompareDateFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_TrimMOSAPolicyByDOS",
+            "RuleGUID": "42273f25-17e4-440c-a91f-6d26da9611d6",
+            "RuleName": "Is MOSAEndDate = 99991231?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "328dc750-5bc7-4bc4-bab0-4a6bab07dcfc",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_TrimMOSAPolicyByDOS",
+                    "RuleGUID": "ba1bfc7d-dfbd-42f9-86b0-ac6e1662bcac",
+                    "RuleName": "Is MOSAEndDate less than LowDOS?",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "42273f25-17e4-440c-a91f-6d26da9611d6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_TrimMOSAPolicyByDOS",
+                            "RuleGUID": "c08815d6-7dbc-4bda-97ef-ba73988cbfc6",
+                            "RuleName": "Trim row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "ba1bfc7d-dfbd-42f9-86b0-ac6e1662bcac",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_MOSA_PolicyID\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{3}",
+                      "DateFormat": "\"Y4MD_output\"",
+                      "_FunctionVersion": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"99991231\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "No - Greater than",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_TrimMOSAPolicyByDOS",
+            "RuleGUID": "27ac4b87-2896-49b9-b8fa-f5a978991d3d",
+            "RuleName": "Is EffDOS greater than HighDOS?",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "328dc750-5bc7-4bc4-bab0-4a6bab07dcfc",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_TrimMOSAPolicyByDOS",
+                    "RuleGUID": "f67b3c14-fc74-4390-8ef5-29059eef13d2",
+                    "RuleName": "Trim row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "27ac4b87-2896-49b9-b8fa-f5a978991d3d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MOSA_PolicyID\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "DateFormat": "\"Y4MD_output\"",
+              "_FunctionVersion": "2"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_ParamList1": "{3}",
+      "DateFormat": "\"Y4MD_output\"",
+      "_FunctionVersion": "2"
+    }
+  }
+]

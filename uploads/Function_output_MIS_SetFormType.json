@@ -1,0 +1,943 @@
+[
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "6436cfc2-ddac-41cc-9a89-253c631ae3cb",
+    "RuleName": "Clear temp10",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{5}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "8f1af796-fc7f-4ecd-b3b1-077a34897862",
+    "RuleName": "See if any date is blank",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyLinesUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"output_MIS_BlankDateCheck\"",
+      "ForEach": "{0,1,1,0}",
+      "_ParamList1": "{3}",
+      "_ParamList2": "{6}",
+      "_ParamList3": "{7}",
+      "DelBlanksBefore": "0",
+      "DelBlanksAfter": "0",
+      "MakeColEqual": "0"
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "7e417c07-89e3-4f75-9cae-1d0779e183ed",
+    "RuleName": "PreD Check - Was a DOS blank?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "5dd64bbd-031c-4464-9057-8beb87da7d8f",
+            "RuleName": "Set FormType to 7050",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "7e417c07-89e3-4f75-9cae-1d0779e183ed",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"7050\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "e8de05b7-3a5c-4aa7-ae8e-b7ef7ce1ac26",
+    "RuleName": "Ortho Check - Is FormType set?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Not set",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "94039955-fc73-4200-bd25-f207d4b0f32e",
+            "RuleName": "See if Ortho_indicator checked Yes",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "e8de05b7-3a5c-4aa7-ae8e-b7ef7ce1ac26",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_SetFormType",
+                    "RuleGUID": "77bc18fc-d4f8-468a-8406-497a9f1c4ee0",
+                    "RuleName": "See if proc code is D8xxx or 08xxx",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "94039955-fc73-4200-bd25-f207d4b0f32e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "D8xxx or 08xxx",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "80bb7244-e674-47f0-9acf-1c7743401939",
+                            "RuleName": "Set FormType to 7050",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "77bc18fc-d4f8-468a-8406-497a9f1c4ee0",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7050\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^[D0]8...$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^[ ][Xx]\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "52fabec2-7974-4a0f-ad75-c603debdca17",
+    "RuleName": "COB Check - Is FormType set?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Not set",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "bcf77c95-0f0c-4ad6-96db-079cc71e3127",
+            "RuleName": "See if COB should be indicated",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "52fabec2-7974-4a0f-ad75-c603debdca17",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "It should",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_SetFormType",
+                    "RuleGUID": "d0a64e42-8ba4-4a29-acef-3f0eea60f04c",
+                    "RuleName": "Is BusinessUnit AARP or Not?",
+                    "RuleID": "",
+                    "FunctionName": "helper_CheckBusinessUnit",
+                    "ParentGUID": "bcf77c95-0f0c-4ad6-96db-079cc71e3127",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "9c7fb51f-6824-43e7-8f03-5e9cf8d0a9f6",
+                            "RuleName": "Set Form type to 7010",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "d0a64e42-8ba4-4a29-acef-3f0eea60f04c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7010\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "5d6b1a87-db98-4f5d-b554-ca6b3f6f8cdd",
+                            "RuleName": "Set Form type to 7070",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "d0a64e42-8ba4-4a29-acef-3f0eea60f04c",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7070\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"Y\"",
+              "_Description": "\"Could be because COB = Y or head paid amt has a value\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "135c6999-91ad-4402-ab51-4f00b30c00c9",
+    "RuleName": "Default - Is FormType set?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Not set",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "91f15908-82fb-48de-8f9f-458c2c2b192f",
+            "RuleName": "Set Form type to 7010",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "135c6999-91ad-4402-ab51-4f00b30c00c9",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"7010\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "output_MIS_SetFormType",
+    "RuleGUID": "d0180a01-289a-4758-a98a-a25bb0a873df",
+    "RuleName": "Was a DOS blank?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "ee1b163f-aa22-4d17-8d82-c67ae2fa21fd",
+            "RuleName": "Set FormType to 7050",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "d0180a01-289a-4758-a98a-a25bb0a873df",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"7050\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_MIS_SetFormType",
+            "RuleGUID": "e9587820-9026-456d-bcbb-5a827d000fe4",
+            "RuleName": "See if Ortho_indicator checked Yes",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "d0180a01-289a-4758-a98a-a25bb0a873df",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_SetFormType",
+                    "RuleGUID": "51fa7d69-f53c-491f-b847-e0b89e4d712f",
+                    "RuleName": "See if proc code is D8xxx or 08xxx",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "e9587820-9026-456d-bcbb-5a827d000fe4",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "D8xxx or 08xxx",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "f425a8da-a226-43e4-b4c8-9a9171ee423f",
+                            "RuleName": "Set FormType to 7050",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "51fa7d69-f53c-491f-b847-e0b89e4d712f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7050\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Not D8xxx or 08xxx",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "4294e4cf-8747-4138-8c19-26e89a59fd17",
+                            "RuleName": "See if COB should be indicated",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "51fa7d69-f53c-491f-b847-e0b89e4d712f",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "It should",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_SetFormType",
+                                    "RuleGUID": "712b65a9-2e5b-4403-baf6-6e4f7a06b949",
+                                    "RuleName": "Set Form type to 7070",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "4294e4cf-8747-4138-8c19-26e89a59fd17",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"7070\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "None",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_MIS_SetFormType",
+                                    "RuleGUID": "42c65e7c-f584-4a68-9336-ff360abf7dcf",
+                                    "RuleName": "Set FormType to 7010",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "4294e4cf-8747-4138-8c19-26e89a59fd17",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"7010\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"Y\"",
+                              "_Description": "\"Could be because COB = Y or head paid amt has a value\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^[D0]8...$\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_MIS_SetFormType",
+                    "RuleGUID": "06529636-d5c2-49ac-acae-05bc38cfb588",
+                    "RuleName": "See if COB should be indicated",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "e9587820-9026-456d-bcbb-5a827d000fe4",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "It should",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "e178c840-718e-45b1-a2dd-dd4f04492910",
+                            "RuleName": "Set Form type to 7070",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "06529636-d5c2-49ac-acae-05bc38cfb588",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7070\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "It should not",
+                        "ChildRules": [
+                          {
+                            "Container": "output_MIS_SetFormType",
+                            "RuleGUID": "387021e2-09f7-4f90-ac68-4c931b3e2fbe",
+                            "RuleName": "Set FormType to 7010",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "06529636-d5c2-49ac-acae-05bc38cfb588",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"7010\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"Y\"",
+                      "_Description": "\"Could be because COB = Y or head paid amt has a value\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^[ ][Xx]\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\"",
+      "_Disabled": "1"
+    }
+  }
+]

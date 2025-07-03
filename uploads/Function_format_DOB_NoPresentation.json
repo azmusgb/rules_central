@@ -1,0 +1,276 @@
+[
+  {
+    "Container": "format_DOB_NoPresentation",
+    "RuleGUID": "5ecc49c7-f773-4e54-b0c0-22a33f7408f6",
+    "RuleName": "Is this EDI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "format_DOB_NoPresentation",
+            "RuleGUID": "c552caa7-4c53-4862-bcad-cd9cc2186bee",
+            "RuleName": "Is AC-II?",
+            "RuleID": "",
+            "FunctionName": "_IWorkerType",
+            "ParentGUID": "5ecc49c7-f773-4e54-b0c0-22a33f7408f6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Worker is of specified type",
+                "ChildRules": [
+                  {
+                    "Container": "format_DOB_NoPresentation",
+                    "RuleGUID": "d51c5c87-a75f-47dd-8d07-9bec24b516ad",
+                    "RuleName": "Filter non-numerics",
+                    "RuleID": "",
+                    "FunctionName": "FilterChars",
+                    "ParentGUID": "c552caa7-4c53-4862-bcad-cd9cc2186bee",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InvertCharSet": "1",
+                      "FilterSet": "\"charset_Numeric\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "_Description": "\"We don't want to filter non-numerics prior to OCRepCrit because the Pat and Sub DOB are presented there.\"",
+              "WorkerType": "{\"AC-II\"}"
+            }
+          },
+          {
+            "Container": "format_DOB_NoPresentation",
+            "RuleGUID": "b2c94b9f-3186-4cad-87fb-30743eeef20d",
+            "RuleName": "Is empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "5ecc49c7-f773-4e54-b0c0-22a33f7408f6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "65544",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "format_DOB_NoPresentation",
+                    "RuleGUID": "8d802280-1884-42c0-8f46-dcb4bd4e2c82",
+                    "RuleName": "Format Date (w/ validation)",
+                    "RuleID": "",
+                    "FunctionName": "FormatDate",
+                    "ParentGUID": "b2c94b9f-3186-4cad-87fb-30743eeef20d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Okay",
+                        "ChildRules": [
+                          {
+                            "Container": "format_DOB_NoPresentation",
+                            "RuleGUID": "e634b5da-ad12-4637-af34-7b85ba5998ac",
+                            "RuleName": "Check if much older than received date",
+                            "RuleID": "",
+                            "FunctionName": "CompareDateFields",
+                            "ParentGUID": "8d802280-1884-42c0-8f46-dcb4bd4e2c82",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Okay",
+                                "ChildRules": [
+                                  {
+                                    "Container": "format_DOB_NoPresentation",
+                                    "RuleGUID": "2ef95c5c-0f6e-4d81-b4ca-057f9782cf01",
+                                    "RuleName": "Check if after received date",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareDateFields",
+                                    "ParentGUID": "e634b5da-ad12-4637-af34-7b85ba5998ac",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "8",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "8",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "65544",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "65544",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "65544",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "2",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "DateFormat": "\"YMD_for_DOB\"",
+                                      "_ParamList1": "{1}",
+                                      "_ParamListOMRIndex1": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "65544",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "65544",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "65544",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "2",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "DateFormat": "\"YMD_for_DOB\"",
+                              "_ParamList1": "{1}",
+                              "_ParamListOMRIndex1": "{-1}",
+                              "Offset": "\"-00000100\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "65544",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "6",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "DateFormat": "\"YMD_for_DOB\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

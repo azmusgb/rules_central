@@ -1,0 +1,114 @@
+<footer class="bg-gradient-to-t from-dark-900 to-dark-950/90 border-t border-dark-800/50 py-12 backdrop-blur-sm relative overflow-hidden">
+    <!-- Floating decorative elements -->
+    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary-500/5 rounded-full blur-xl"></div>
+    <div class="absolute -top-10 -right-10 w-40 h-40 bg-accent-purple/5 rounded-full blur-lg"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+            <!-- Brand Column -->
+            <div class="lg:col-span-1">
+                <a class="flex items-center group mb-6" href="#">
+                    <div class="relative">
+                        <div class="absolute -inset-1 bg-primary-500/20 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <i class="fas fa-project-diagram text-primary-500 text-2xl mr-3 relative z-10 transition-transform duration-500 group-hover:rotate-[30deg]"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">Rules<span class="text-primary-400">Central</span></span>
+                </a>
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    Powerful diagramming tools for teams to visualize, collaborate, and share knowledge.
+                </p>
+                <div class="flex space-x-5">
+                    {% for social in social_links %}
+                    <a aria-label="{{ social.name }}"
+                       class="text-gray-400 hover:text-white transition-colors text-lg w-10 h-10 flex items-center justify-center rounded-full hover:bg-dark-700/50 group"
+                       href="{{ social.url }}">
+                        <i class="{{ social.icon }} group-hover:scale-110 transition-transform"></i>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Enhanced Footer Links -->
+            {% for section in footer_sections %}
+            <div>
+                <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-6 relative inline-block">
+                    <span class="relative z-10">{{ section.title }}</span>
+                    <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-purple w-full"></span>
+                </h4>
+                <ul class="space-y-3">
+                    {% for link in section.links %}
+                    <li>
+                        <a class="flex items-center group text-gray-400 hover:text-white transition-colors duration-300"
+                           href="{{ link.url }}">
+                            <span class="w-2 h-2 bg-primary-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                            {{ link.name }}
+                            <i class="fas fa-arrow-up-right-from-square ml-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Enhanced Copyright Section -->
+        <div class="border-t border-dark-700/50 mt-12 pt-8 flex flex-col md:flex-row md:justify-between md:items-center relative">
+            <div class="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+            <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                © <span id="current-year"></span> Rules Central. All rights reserved.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                {% for legal in legal_links %}
+                <a class="text-gray-400 hover:text-primary-400 transition-colors text-sm hover:underline underline-offset-4 decoration-primary-500/50"
+                   href="{{ legal.url }}">
+                    {{ legal.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</footer>
+<!-- Help System Container - Moved outside footer -->
+<div class="fixed bottom-6 right-6 z-[9999]" id="help-system">
+    <button aria-controls="help-panel" class="w-14 h-14 bg-gradient-to-br from-primary-500 to-accent-purple text-white rounded-full shadow-xl hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
+            id="help-button">
+        <div class="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+        <i class="fas fa-question text-xl relative z-10 transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+    </button>
+
+    <div class="hidden absolute bottom-full right-0 mb-4 w-80 bg-dark-800/95 backdrop-blur-lg rounded-xl shadow-2xl overflow-hidden border border-dark-700/50"
+         id="help-panel" style="z-index: 10000;">
+        <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-5 py-4 flex items-center justify-between">
+            <h3 class="font-semibold text-sm flex items-center">
+                <i class="fas fa-life-ring mr-2"></i>
+                Help Center
+            </h3>
+            <button aria-label="Close help menu" class="text-white/80 hover:text-white transition-colors"
+                    id="close-help">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-5 max-h-[60vh] overflow-y-auto custom-scrollbar" id="help-content">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+        <div class="bg-dark-700/50 px-5 py-3 border-t border-dark-600/50">
+            <a class="text-primary-400 hover:text-primary-300 text-sm flex items-center transition-colors duration-200 group"
+               href="/full-help">
+                <i class="fas fa-book-open mr-2 text-sm group-hover:translate-x-0.5 transition-transform"></i>
+                View Full Documentation
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set current year automatically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+<!-- Load help system scripts -->
+
+<script src="{{ url_for('static', filename='js/help_content.js') }}" type="module"></script>
+<script src="{{ url_for('static', filename='js/help_system.js') }}" type="module"></script>

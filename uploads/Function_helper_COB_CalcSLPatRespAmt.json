@@ -1,0 +1,205 @@
+[
+  {
+    "Container": "helper_COB_CalcSLPatRespAmt",
+    "RuleGUID": "aea272aa-a604-4102-8671-c7af6d5ae707",
+    "RuleName": "Is Pat Resp empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_CalcSLPatRespAmt",
+            "RuleGUID": "31a2d2ca-0314-4003-83c4-5170bb7b1b92",
+            "RuleName": "Is Allowed Amt present?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "aea272aa-a604-4102-8671-c7af6d5ae707",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_CalcSLPatRespAmt",
+                    "RuleGUID": "ae187470-8c68-4e21-b732-99f6332fa3b1",
+                    "RuleName": "Is Paid Amt present?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "31a2d2ca-0314-4003-83c4-5170bb7b1b92",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcSLPatRespAmt",
+                            "RuleGUID": "8e8f15c2-0a81-4e5d-b609-96b05ec5f406",
+                            "RuleName": "Calculate Patient Responsibility amount",
+                            "RuleID": "",
+                            "FunctionName": "DoMathAndFormat",
+                            "ParentGUID": "ae187470-8c68-4e21-b732-99f6332fa3b1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,1}",
+                              "_FunctionVersion": "1",
+                              "Deviation": "0",
+                              "OutputFormat": "\"%.0f\"",
+                              "Remainder": "0",
+                              "_ParamList1": "{0}",
+                              "MathExpression": "\"F0 - F1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_CalcSLPatRespAmt",
+                    "RuleGUID": "ab4f0b7c-ad59-415e-bab3-cc6a164ab746",
+                    "RuleName": "Is Paid Amt present?",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "31a2d2ca-0314-4003-83c4-5170bb7b1b92",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_CalcSLPatRespAmt",
+                            "RuleGUID": "6c7a35bb-bab2-4223-992f-1b740d26bbdd",
+                            "RuleName": "Set Pat Resp to 0",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "ab4f0b7c-ad59-415e-bab3-cc6a164ab746",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"0\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Rules Central – a comprehensive rules-management system">
+  <meta name="theme-color" content="#0c1623">
+
+  <title>{% block title %}Rules Central{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style">
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Critical CSS (inlined) -->
+  <style>
+    :root {
+      --color-primary: 59, 130, 246;
+      --color-dark-950: 12, 22, 35;
+      --color-dark-900: 15, 23, 42;
+    }
+    .gradient-text {
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+
+  <!-- Non-critical CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="print" onload="this.media='all'">
+
+  {% block head %}{% endblock %}
+</head>
+
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal">
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-900 focus:ring-primary-500">
+    Skip to content
+  </a>
+
+  <!-- App loading indicator -->
+  <div id="app-loader" class="fixed inset-0 z-[9999] bg-dark-900 flex items-center justify-center transition-opacity duration-300">
+    <div class="animate-pulse flex flex-col items-center">
+      <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl flex items-center justify-center mb-4">
+        <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="text-sm text-slate-400">Loading application...</span>
+    </div>
+  </div>
+
+  {% include 'partials/header.html' %}
+
+  <main id="main-content" class="flex-grow flex flex-col">
+    {% block hero %}
+    <section class="hero-section relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 py-24">
+      <div class="particles absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      </div>
+      <div class="container mx-auto px-4 text-center relative z-10">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tighter">
+          <span class="gradient-text bg-gradient-to-r from-primary-400 via-accent-500 to-primary-400">
+            {% block hero_title %}Welcome{% endblock %}
+          </span>
+        </h1>
+        <p class="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
+          <span class="typing-effect">{% block hero_subtitle %}Manage your rules efficiently{% endblock %}</span>
+        </p>
+        <div class="mt-12 animate-bounce"><i class="fas fa-chevron-down text-2xl text-white opacity-70"></i></div>
+      </div>
+    </section>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  <!-- Global JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <!-- Theme management -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hide loader
+      const loader = document.getElementById('app-loader');
+      if (loader) loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 300);
+
+      // Theme management
+      const html = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const storedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+
+      html.setAttribute('data-theme', storedTheme);
+      if (storedTheme === 'dark') html.classList.add('dark');
+
+      if (btn) {
+        btn.addEventListener('click', () => {
+          const isDark = html.classList.toggle('dark');
+          const theme = isDark ? 'dark' : 'light';
+          html.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+
+          // Dispatch event for other components
+          document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }));
+        });
+      }
+    });
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

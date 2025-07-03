@@ -1,0 +1,159 @@
+[
+  {
+    "Container": "routing_SetDDCFlag",
+    "RuleGUID": "2aa10a03-2c80-478d-99bf-4e90d459c84f",
+    "RuleName": "Is BL5 = 'DDC'?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "routing_SetDDCFlag",
+            "RuleGUID": "7ce9b937-e5d5-41ba-afaa-0b9baa1c5da1",
+            "RuleName": "Delete DDCFlag",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "2aa10a03-2c80-478d-99bf-4e90d459c84f",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"1\"",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0",
+              "_Description": "\"By deleting this flag we are saying this document cannot be keyed in Mexico.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "routing_SetDDCFlag",
+            "RuleGUID": "ffa0f80d-1fb6-46c4-9f99-3173c4903532",
+            "RuleName": "Is BL4 = GROUP or INDIVIDUAL?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2aa10a03-2c80-478d-99bf-4e90d459c84f",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_SetDDCFlag",
+                    "RuleGUID": "359f7cef-7d88-41c2-b53f-c3237775f1aa",
+                    "RuleName": "Delete DDCFlag",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "ffa0f80d-1fb6-46c4-9f99-3173c4903532",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "OutputFormat": "\"1\"",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0",
+                      "_Description": "\"By deleting this flag we are saying this document cannot be keyed in Mexico.\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{3}",
+              "RegularExpression": "\"^GROUP$\\134|^INDIVIDUAL$\"",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"GROUP\",\"INDIVIDUAL\",\"GRPINDIFV\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "RegularExpression": "\"^DDC$\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

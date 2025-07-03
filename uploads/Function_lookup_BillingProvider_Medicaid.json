@@ -1,0 +1,373 @@
+[
+  {
+    "Container": "lookup_BillingProvider_Medicaid",
+    "RuleGUID": "aeca4526-8956-486b-8787-3102c2895e19",
+    "RuleName": "Clear Medicaid attr",
+    "RuleID": "",
+    "FunctionName": "_IClearDocAttr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "AttrName": "\"Medicaid\"",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "lookup_BillingProvider_Medicaid",
+    "RuleGUID": "6cc9cc05-0e1f-44fc-b19d-5e14ce79f1ea",
+    "RuleName": "Set temp2 to CM",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"CM\"",
+      "_ParamList0": "{1}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProvider_Medicaid",
+    "RuleGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+    "RuleName": "Check to see if this is Medicaid Provider?",
+    "RuleID": "",
+    "FunctionName": "IsInTable",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProvider_Medicaid",
+            "RuleGUID": "067f09ff-c128-4755-beee-51ecc309aa85",
+            "RuleName": "set Medicaid attr",
+            "RuleID": "",
+            "FunctionName": "_ISetDocAttr",
+            "ParentGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "AttrName": "\"Medicaid\"",
+              "_FunctionVersion": "0",
+              "_ParamList0": "{1}"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Medicaid",
+            "RuleGUID": "c7a2d99d-144d-436e-803c-ee5c92a3c2ed",
+            "RuleName": "PRIOR TO OPS 51 - Two rules below were enabled",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "3",
+              "_ParamList0": "{1}"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Medicaid",
+            "RuleGUID": "6f5e8cb5-1583-4e09-8452-c02a319c6b6d",
+            "RuleName": "Set temp3 to PCM",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"PCM,\"",
+              "_ParamList0": "{2}",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Medicaid",
+            "RuleGUID": "371deaa5-1167-4efd-8f13-e28321a465f6",
+            "RuleName": "PCM - Merge fields",
+            "RuleID": "",
+            "FunctionName": "MergeFields",
+            "ParentGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "65537",
+              "_ParamList0": "{2,0}",
+              "_Disabled": "1",
+              "ResultIfMultipleChecked": "0",
+              "_ParamList1": "{0}",
+              "SkipAppendOnBlankField": "0",
+              "SkipAppendOnBlankLine": "0",
+              "TreatMultiLineAllBlankAsBlank": "0"
+            }
+          },
+          {
+            "Container": "lookup_BillingProvider_Medicaid",
+            "RuleGUID": "81604e62-8132-49f6-b2db-659778bce9e1",
+            "RuleName": "Medicaid Rules/OPS51 - Get BL5BusinessUnit attr",
+            "RuleID": "",
+            "FunctionName": "_IGetDocAttr",
+            "ParentGUID": "26a7f87b-8240-4672-b75e-b008e69fccbd",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Okay",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProvider_Medicaid",
+                    "RuleGUID": "8010b017-055d-44f4-8931-2737748407f1",
+                    "RuleName": "Is this DeltaCare?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "81604e62-8132-49f6-b2db-659778bce9e1",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProvider_Medicaid",
+                            "RuleGUID": "cc342d2c-4680-4aac-86a4-23718b391fe4",
+                            "RuleName": "Set temp3 to PCM",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "8010b017-055d-44f4-8931-2737748407f1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"PCM,\"",
+                              "_ParamList0": "{2}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProvider_Medicaid",
+                            "RuleGUID": "bf94ea0b-b892-4e70-9d5d-ff066a61ace0",
+                            "RuleName": "PCM - Merge fields",
+                            "RuleID": "",
+                            "FunctionName": "helper_AddRemarktoNTE",
+                            "ParentGUID": "8010b017-055d-44f4-8931-2737748407f1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "0",
+                              "_ParamList0": "{2}",
+                              "ResultIfMultipleChecked": "0",
+                              "_ParamList1": "{0}",
+                              "SkipAppendOnBlankField": "0",
+                              "SkipAppendOnBlankLine": "0",
+                              "TreatMultiLineAllBlankAsBlank": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProvider_Medicaid",
+                            "RuleGUID": "43fabe2b-d01b-4596-b6e9-5413869c6968",
+                            "RuleName": "Set DCBP_Flag to REM_PCM",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttrConst",
+                            "ParentGUID": "8010b017-055d-44f4-8931-2737748407f1",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "AttrName": "\"DCBP_Flag\"",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "Value": "\"PCM\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "65539",
+                      "_ParamList0": "{1}",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"DELTACARE\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "AttrName": "\"BL5BusinessUnit\"",
+              "_FunctionVersion": "0",
+              "_ParamList0": "{1}",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_Description": "\"We do not want to run Medicaid rules for DeltaCare members - jdm 12/2016\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "65537",
+      "_ParamList0": "{1,3}",
+      "MaxMatchCount": "1000",
+      "MaxIndexCount": "1000",
+      "EmptyKeyFails": "1",
+      "AnyEmptyKeysFails": "0",
+      "CatchResourceUnavailable": "0",
+      "Table": "\"odbc_BillingProv\"",
+      "SelectionList": "\"selectionlist_BillingProvMED\"",
+      "NextInstance": "0",
+      "ExactColumns": "{\"MTV_BP_ID\",\"BP_PROV_TYP\"}",
+      "SelectionListColumns": "{\"Name\",\"Addr1\",\"Addr2\",\"Addr3\",\"City\",\"State\",\"ZIP\",\"Country\",\"ProvType\",\"ProvMTVID\",\"ProvID\",\"ProvIDType\",\"AddrType\",\"MTVPLID\"}",
+      "DataColumns": "{\"BP_NM\",\"BP_ADDR_LN_1\",\"BP_ADDR_LN_2\",\"BP_ADDR_LN_3\",\"BP_CTY\",\"BP_ST\",\"BP_ZIP\",\"BP_CTRY\",\"BP_PROV_TYP\",\"MTV_BP_ID\",\"BP_PROV_ID\",\"BP_PROV_ID_TYP\",\"BP_ADDR_TYP\",\"MTV_PRAC_LOC_ID\"}",
+      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "StripSpaces": "0",
+      "Columns": "{\"BP_PROV_TYP\",\"MTV_BP_ID\"}"
+    }
+  }
+]

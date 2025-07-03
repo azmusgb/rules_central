@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}{{ root_name }} - {{ diagram_name }} | Visualizer Pro{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 sm:px-6 pb-12 flex-grow">
+    <!-- Hero Section -->
+    <section class="pt-8">
+        <div class="container mx-auto px-4 sm:px-6 relative">
+            <!-- Breadcrumb -->
+            <nav aria-label="Breadcrumb" class="breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li class="breadcrumb-item">
+                        <a class="breadcrumb-link" href="#">
+                            <i class="fas fa-home mr-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="breadcrumb-separator">
+                        <i class="fas fa-chevron-right"></i>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="breadcrumb-link" href="#">
+                            {{ root_name }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-separator">
+                        <i class="fas fa-chevron-right"></i>
+                    </li>
+                    <li class="breadcrumb-item">
+            <span class="breadcrumb-current">
+              {{ diagram_name.replace('.mmd', '') }}
+            </span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Title and Actions -->
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2 flex items-center">
+                        {{ diagram_name.replace('.mmd', '') }}
+                        <span class="ml-3 text-xs font-normal px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400">
+              <i class="fas fa-check-circle mr-1"></i> Active
+            </span>
+                    </h1>
+                    <p class="text-slate-400 max-w-2xl flex items-center">
+                        <i class="fas fa-diagram-project mr-2 text-primary-400"></i>
+                        Interactive visualization and editing of your Mermaid diagram.
+                    </p>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="toolbar-button toolbar-button-primary" id="export-diagram-button-small">
+                        <i class="fas fa-download mr-1"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <!-- Last Updated Card -->
+                <div class="stats-card">
+                    <div class="stats-header">
+                        <h3 class="stats-title">Last Updated</h3>
+                        <div class="stats-icon bg-primary-900/30 text-primary-400">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <p class="stats-value">Just now</p>
+                </div>
+
+                <!-- Diagram Type Card -->
+                <div class="stats-card">
+                    <div class="stats-header">
+                        <h3 class="stats-title">Diagram Type</h3>
+                        <div class="stats-icon bg-emerald-900/30 text-emerald-400">
+                            <i class="fas fa-diagram-project"></i>
+                        </div>
+                    </div>
+                    <p class="stats-value text-emerald-400">Flowchart</p>
+                </div>
+
+                <!-- Complexity Card -->
+                <div class="stats-card">
+                    <div class="stats-header">
+                        <h3 class="stats-title">Complexity</h3>
+                        <div class="stats-icon bg-purple-900/30 text-purple-400">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <p class="stats-value text-purple-400">Medium</p>
+                    <div class="stats-progress">
+                        <div class="stats-progress-bar bg-purple-500" style="width: 65%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toolbar -->
+    <div class="toolbar-grid">
+        <!-- Left side controls -->
+        <div class="toolbar-left">
+            <div class="flex space-x-2">
+                <button class="toolbar-button toolbar-button-primary flex-grow" id="toggle-editor-button">
+                    <i class="fas fa-code mr-1"></i> Toggle Editor
+                </button>
+                <button class="toolbar-button toolbar-button-secondary" id="export-diagram-button">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Container -->
+        <div class="toolbar-center">
+            <div class="search-container">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input
+                        aria-label="Search diagram"
+                        class="search-input"
+                        id="search-svg-input"
+                        placeholder="Search diagram elements..."
+                        type="text"
+                />
+                <div class="search-controls">
+                    <span class="search-results-count hidden" id="search-results-count">0/0</span>
+                    <button
+                            aria-label="Clear search"
+                            class="clear-search"
+                            id="clear-search"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side controls -->
+        <div class="toolbar-right">
+            <button aria-label="Zoom In"
+                    class="toolbar-button toolbar-button-icon"
+                    id="zoom-in-button">
+                <i class="fas fa-search-plus"></i>
+            </button>
+            <button aria-label="Zoom Out"
+                    class="toolbar-button toolbar-button-icon"
+                    id="zoom-out-button">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <button aria-label="Reset Zoom"
+                    class="toolbar-button toolbar-button-icon"
+                    id="reset-zoom-button">
+                <i class="fas fa-expand-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Editor and Diagram Grid -->
+    <div class="diagram-grid">
+        <!-- Editor Column -->
+        <div class="editor-column" id="editor-column">
+            <div class="editor-container">
+                <div class="editor-header">
+                    <div class="flex items-center space-x-2">
+                        <h5 class="editor-title">
+                            <i class="fas fa-code text-primary-400"></i>
+                            Diagram Code
+                        </h5>
+                        <span class="text-xs px-2 py-1 rounded bg-dark-700 text-slate-300">Mermaid</span>
+                    </div>
+                </div>
+                <div class="editor-content" id="editor"></div>
+                <div class="editor-footer">
+                    <span id="line-count">0</span> lines, <span id="char-count">0</span> chars
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagram Column -->
+        <div class="diagram-column" id="diagram-column">
+            <div class="diagram-container">
+                <div class="diagram-header">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <h5 class="diagram-title">
+                                <i class="fas fa-diagram-project text-primary-400"></i>
+                                Interactive Diagram
+                            </h5>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs text-slate-400" id="zoom-level">100%</span>
+                            <button class="toolbar-button toolbar-button-icon" id="fullscreen-button">
+                                <i class="fas fa-expand text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="spinner-overlay" id="spinner-overlay">
+                        <div class="spinner"></div>
+                        <span class="spinner-text">Rendering diagram...</span>
+                    </div>
+                    <div class="diagram-preview" id="diagram-preview"></div>
+                </div>
+                <!-- Minimap -->
+                <div class="diagram-minimap">
+                    <div class="minimap-label">Minimap</div>
+                    <div class="minimap-viewport" id="minimap-viewport"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="export-modal hidden" id="export-modal">
+        <div class="export-modal-content" id="export-modal-content">
+            <div class="export-modal-header">
+                <h3 class="export-modal-title">Export Diagram</h3>
+                <button class="export-modal-close" id="close-export-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="export-modal-body">
+                <div class="space-y-6">
+                    <div>
+                        <label class="export-form-label">Format</label>
+                        <div class="export-options-grid">
+                            <button class="export-option" data-format="png">
+                                <i class="export-option-icon fas fa-image"></i>
+                                <span class="export-option-label">PNG</span>
+                            </button>
+                            <button class="export-option" data-format="svg">
+                                <i class="export-option-icon fas fa-vector-square"></i>
+                                <span class="export-option-label">SVG</span>
+                            </button>
+                            <button class="export-option" data-format="pdf">
+                                <i class="export-option-icon fas fa-file-pdf"></i>
+                                <span class="export-option-label">PDF</span>
+                            </button>
+                            <button class="export-option" data-format="json">
+                                <i class="export-option-icon fas fa-code"></i>
+                                <span class="export-option-label">JSON</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="export-form-group">
+                        <label class="export-form-label" for="export-filename">File Name</label>
+                        <input class="export-form-input" id="export-filename" type="text"
+                               value="{{ diagram_name.replace('.mmd', '') }}"/>
+                    </div>
+                    <div class="export-form-checkbox">
+                        <input class="export-form-checkbox-input" id="export-transparent" type="checkbox">
+                        <label class="export-form-checkbox-label" for="export-transparent">Transparent
+                            Background</label>
+                    </div>
+                    <div class="export-form-checkbox">
+                        <input checked class="export-form-checkbox-input" id="export-include-watermark" type="checkbox">
+                        <label class="export-form-checkbox-label" for="export-include-watermark">Include
+                            Watermark</label>
+                    </div>
+                </div>
+            </div>
+            <div class="export-modal-footer">
+                <button class="export-modal-button export-modal-button-secondary" id="cancel-export">
+                    Cancel
+                </button>
+                <button class="export-modal-button export-modal-button-primary" id="confirm-export">
+                    <i class="fas fa-download mr-2"></i> Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification hidden" id="toast-notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Diagram updated successfully!</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Diagram-specific scripts -->
+<script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.2/dist/svg-pan-zoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Mermaid from CDN -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    window.mermaid = mermaid;
+</script>
+
+<!-- Main diagram script -->
+<script src="{{ url_for('static', filename='js/diagram_viewer.js') }}" type="module"></script>
+{% endblock %}

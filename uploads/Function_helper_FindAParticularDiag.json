@@ -1,0 +1,137 @@
+[
+  {
+    "Container": "helper_FindAParticularDiag",
+    "RuleGUID": "d447f588-1a97-4132-8ee8-50c2bfe9dfbf",
+    "RuleName": "Add 1 to Counter",
+    "RuleID": "",
+    "FunctionName": "SubstChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "1",
+      "TargetList": "{\"0\",\"1\",\"2\",\"3\"}",
+      "Replacements": "\"1234\""
+    }
+  },
+  {
+    "Container": "helper_FindAParticularDiag",
+    "RuleGUID": "81f347d9-b34c-483d-b195-2a026428f8a8",
+    "RuleName": "Is the PtrFlag empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_FindAParticularDiag",
+            "RuleGUID": "a9d66604-8840-4d67-b5bc-6a062597f684",
+            "RuleName": "Is the DiagCode one we care about?",
+            "RuleID": "",
+            "FunctionName": "HasRegExprFromField",
+            "ParentGUID": "81f347d9-b34c-483d-b195-2a026428f8a8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindAParticularDiag",
+                    "RuleGUID": "5ba650d3-af6d-4c85-ad34-b3591f3d7108",
+                    "RuleName": "Copy Counter to PtrFlag",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "a9d66604-8840-4d67-b5bc-6a062597f684",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"This will tell us which DiagCode was the one we care about\"",
+                      "_ParamList1": "{1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "RegularExpression": "\"^Z3[34]\"",
+              "_ParamList1": "{3}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3",
+      "_Description": "\"If so, we haven't found the diag code we're hunting for.  If not, we have and don't want to keep looking.\""
+    }
+  }
+]

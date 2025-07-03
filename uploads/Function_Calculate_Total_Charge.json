@@ -1,0 +1,135 @@
+[
+  {
+    "Container": "Calculate_Total_Charge",
+    "RuleGUID": "d0164937-cbd3-40ac-ac76-f7693d9e25e2",
+    "RuleName": "Does Charge have a value?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "Calculate_Total_Charge",
+            "RuleGUID": "79619991-735b-45f9-b1a5-515f3421d3e5",
+            "RuleName": "Does Total have a value?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "d0164937-cbd3-40ac-ac76-f7693d9e25e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "Calculate_Total_Charge",
+                    "RuleGUID": "d3324506-78b7-4ddc-adb3-351a458e02ec",
+                    "RuleName": "Set Total = 0",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "79619991-735b-45f9-b1a5-515f3421d3e5",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"0\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3"
+            }
+          },
+          {
+            "Container": "Calculate_Total_Charge",
+            "RuleGUID": "2f095a41-1672-4c68-b7d1-9351edc8f36f",
+            "RuleName": "DoMathAndFormat",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "d0164937-cbd3-40ac-ac76-f7693d9e25e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,1}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"%.0f\"",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0 + F1\"",
+              "_ParamList1": "{0}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so and Total is not yet populated I want Total to be zero so we can add the charge to something.  I was just defaulting the Total to 0 prior to this UDF call, but I found that the Total would be zero when there was nothing to add up.\"",
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,191 @@
+[
+  {
+    "Container": "validate_State",
+    "RuleGUID": "2fac9300-28d4-466a-a24b-a2acad7c1841",
+    "RuleName": "Filter chars",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "1",
+      "_ParamList0": "{0}",
+      "FilterSet": "\"charset_Alpha\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "validate_State",
+    "RuleGUID": "ad44f0ed-e7ce-4f13-8cc2-e276fc9706f3",
+    "RuleName": "Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Reject: All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_State",
+            "RuleGUID": "a9ef8a04-7385-41da-8e11-07a28922650c",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "ad44f0ed-e7ce-4f13-8cc2-e276fc9706f3",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_SkipID": "4146",
+              "_BackupSkipID": "4146",
+              "RejectString": "\"State should not be empty\"",
+              "RejectCode": "2",
+              "RunOnce": "0",
+              "Languages_Fields": "\"Default\"",
+              "SelectionListAutoPop": "0",
+              "DelayEval": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_State",
+            "RuleGUID": "6b4dda6d-3a20-4b28-bca0-569c1de36138",
+            "RuleName": "Is in CSZ table?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "ad44f0ed-e7ce-4f13-8cc2-e276fc9706f3",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Reject: Entry not found",
+                "ChildRules": [
+                  {
+                    "Container": "validate_State",
+                    "RuleGUID": "9a595326-acbf-446f-9fc9-30de614186e2",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "6b4dda6d-3a20-4b28-bca0-569c1de36138",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4563",
+                      "_BackupSkipID": "4563",
+                      "RejectString": "\"Invalid State\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages_Fields": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "Table": "\"table_CSZ\"",
+              "Columns": "{\"state\"}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

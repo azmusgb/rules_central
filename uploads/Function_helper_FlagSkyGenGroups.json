@@ -1,0 +1,108 @@
+[
+  {
+    "Container": "helper_FlagSkyGenGroups",
+    "RuleGUID": "8de6a675-bf11-461c-82a6-6d6399ab1f38",
+    "RuleName": "Is SkyGenFlag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "helper_FlagSkyGenGroups",
+            "RuleGUID": "d0031bc8-641c-4fdf-b8cf-1d2543f7eb7d",
+            "RuleName": "Is the BL7 in the SkyGenGroups table?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "8de6a675-bf11-461c-82a6-6d6399ab1f38",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FlagSkyGenGroups",
+                    "RuleGUID": "e012656b-402c-4070-b7e5-96f739a7047e",
+                    "RuleName": "Set SkyGenFlag to 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "d0031bc8-641c-4fdf-b8cf-1d2543f7eb7d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65537",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"odbc_SkyGenGroups\"",
+              "Columns": "{\"BL7\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If even one record is non-SkyGen BL7 then we are not to send the claim to SkyGen - It would go down the normal path to MTV.  - wjr 10/2024\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

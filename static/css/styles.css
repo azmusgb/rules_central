@@ -1,0 +1,414 @@
+/* ==============================================================
+ * Quantum Hierarchy Viewer – Enhanced Core Stylesheet
+ * --------------------------------------------------------------
+ * Pure CSS (no Tailwind dependency) with improved organization
+ * Author: William Rahe · 2025-07-03
+ * ==============================================================*/
+
+/* ===================================================================
+ * SECTION 1: DESIGN TOKENS (CSS VARIABLES)
+ * =================================================================== */
+:root {
+  /* Color palette */
+  --clr-bg-900: #0f172a;   /* slate-900 */
+  --clr-bg-800: #1e293b;   /* slate-800 */
+  --clr-bg-700: #334155;   /* slate-700 */
+  --clr-bg-glass: rgba(148, 163, 184, 0.08);
+
+  --clr-fg-100: #f1f5f9;   /* slate-100 */
+  --clr-fg-400: #94a3b8;   /* slate-400 */
+  --clr-primary: #7c3aed;  /* indigo-500 */
+  --clr-primary-dark: #4c1d95;
+
+  /* Spacing & sizing */
+  --radius-sm: 4px;
+  --radius: 8px;
+  
+  /* Timing */
+  --trans-fast: 150ms;
+  
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 
+               "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, 
+               "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --clr-bg-900: #f8fafc;
+  --clr-bg-800: #e2e8f0;
+  --clr-bg-700: #cbd5e1;
+  --clr-bg-glass: rgba(100, 116, 139, 0.06);
+
+  --clr-fg-100: #0f172a;
+  --clr-fg-400: #334155;
+  --clr-primary: #6366f1;   /* indigo-400 */
+  --clr-primary-dark: #4f46e5;
+}
+
+/* ===================================================================
+ * SECTION 2: BASE STYLES
+ * =================================================================== */
+html, body {
+  background: var(--clr-bg-900);
+  color: var(--clr-fg-100);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0;
+  height: 100%;
+}
+
+/* Links */
+a {
+  color: var(--clr-primary);
+  text-decoration: none;
+  transition: color var(--trans-fast);
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Form elements */
+button,
+select,
+input {
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: var(--clr-bg-700);
+  color: var(--clr-fg-100);
+  border: 1px solid var(--clr-bg-700);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.75rem;
+  transition: 
+    background-color var(--trans-fast),
+    border-color var(--trans-fast);
+}
+
+button:hover,
+select:hover,
+input:hover {
+  background-color: var(--clr-bg-800);
+}
+
+/* ===================================================================
+ * SECTION 3: COMPONENT STYLES
+ * =================================================================== */
+
+/* --------------------------
+ * Buttons
+ * -------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--clr-bg-700);
+  color: var(--clr-fg-100);
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--clr-bg-700);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: 
+    background var(--trans-fast),
+    transform var(--trans-fast);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.btn:hover {
+  background: var(--clr-bg-800);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn i {
+  font-size: 0.9em;
+}
+
+/* --------------------------
+ * Panels & Glass UI
+ * -------------------------- */
+.panel {
+  background: var(--clr-bg-glass);
+  border: 1px solid var(--clr-bg-700);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.panel--glass {
+  background: var(--clr-bg-glass);
+  backdrop-filter: blur(12px);
+}
+
+/* Panel header */
+.panel > div:first-child {
+  border-bottom: 1px solid var(--clr-bg-700);
+  padding: 0.75rem 1rem;
+}
+
+/* Panel content */
+.panel > div:not(:first-child) {
+  padding: 1rem;
+}
+
+/* --------------------------
+ * Hierarchy Tree
+ * -------------------------- */
+#diagram-outline {
+  overflow: auto;
+  height: calc(100vh - 400px);
+  padding: 0.5rem;
+}
+
+/* Tree structure */
+#diagram-outline ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0.75rem;
+}
+
+/* Tree nodes */
+.tree-node {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--clr-fg-100);
+  transition: 
+    background var(--trans-fast),
+    border-left var(--trans-fast);
+  font-size: 15px;
+  line-height: 1.35;
+  margin-bottom: 0.125rem;
+}
+
+.tree-node:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--clr-primary);
+}
+
+/* Root nodes */
+.tree-node.root-node {
+  font-weight: 500;
+}
+
+/* Icons in tree nodes */
+.tree-node i {
+  width: 1rem;
+  text-align: center;
+  color: var(--clr-fg-400);
+  flex-shrink: 0;
+}
+
+/* Special icons */
+.tree-node i.fa-bolt {
+  color: var(--clr-primary);
+}
+
+/* Chevron icons */
+.tree-node i.fa-chevron-down,
+.tree-node i.fa-chevron-right {
+  font-size: 0.75rem;
+  margin-left: auto;
+  color: var(--clr-fg-400);
+  transition: transform var(--trans-fast);
+}
+
+.tree-node i.fa-chevron-down {
+  transform: rotate(0deg);
+}
+
+.tree-node i.fa-chevron-right {
+  transform: rotate(-90deg);
+}
+
+/* --------------------------
+ * Search Components
+ * -------------------------- */
+#search-suggestions {
+  background: var(--clr-bg-800);
+  border: 1px solid var(--clr-bg-700);
+  border-radius: var(--radius);
+  overflow: auto;
+  max-height: 14rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#search-suggestions li {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background var(--trans-fast);
+}
+
+#search-suggestions li:hover,
+#search-suggestions li.bg-indigo-700\/30 {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+/* --------------------------
+ * Details Panels
+ * -------------------------- */
+/* Tab content */
+[role="tabpanel"] {
+  padding: 1rem;
+}
+
+/* Tables in details panels */
+#attributes-tab table,
+#actions-tab table,
+#relations-tab table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#attributes-tab th,
+#actions-tab th,
+#relations-tab th {
+  text-align: left;
+  padding: 0.5rem 1rem;
+  background: var(--clr-bg-700);
+  color: var(--clr-fg-400);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+#attributes-tab td,
+#actions-tab td,
+#relations-tab td {
+  padding: 0.5rem 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--clr-bg-700);
+}
+
+/* Zebra striping */
+#attributes-tab tbody tr:nth-child(odd),
+#actions-tab tbody tr:nth-child(odd),
+#relations-tab tbody tr:nth-child(odd) {
+  background: var(--clr-bg-800);
+}
+
+/* JSON view */
+pre#raw-json-block {
+  background: var(--clr-bg-800);
+  border: 1px solid var(--clr-bg-700);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  overflow: auto;
+  max-height: 20rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* ===================================================================
+ * SECTION 4: UTILITY CLASSES
+ * =================================================================== */
+.hidden {
+  display: none !important;
+}
+
+/* Highlight classes */
+.tree-node.bg-indigo-600\/20,
+.tree-node.highlight {
+  background: rgba(99, 102, 241, 0.25) !important;
+}
+
+/* ===================================================================
+ * SECTION 5: SCROLLBARS
+ * =================================================================== */
+/* Custom scrollbar for tree view */
+#diagram-outline {
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-bg-700) transparent;
+}
+
+#diagram-outline::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+#diagram-outline::-webkit-scrollbar-thumb {
+  background: var(--clr-bg-700);
+  border-radius: 3px;
+}
+
+/* ===================================================================
+ * SECTION 6: THEME-SPECIFIC OVERRIDES
+ * =================================================================== */
+[data-theme="light"] {
+  /* Light theme tree nodes */
+  .tree-node {
+    color: var(--clr-fg-400);
+  }
+  
+  .tree-node:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Light theme scrollbar */
+  #diagram-outline::-webkit-scrollbar-thumb {
+    background: var(--clr-bg-700);
+  }
+}
+
+/* ===================================================================
+ * SECTION 7: ANIMATIONS
+ * =================================================================== */
+/* Loading spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Loading skeleton */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===================================================================
+ * SECTION 8: ACCESSIBILITY
+ * =================================================================== */
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap; 
+  width: 1px;
+}

@@ -1,0 +1,228 @@
+[
+  {
+    "Container": "lookup_DCFacility_Enc_GRP_Trim",
+    "RuleGUID": "0fb95bc0-bb12-4dfc-a69b-3d3a54a35bd3",
+    "RuleName": "Clear all temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,1,2}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_GRP_Trim",
+    "RuleGUID": "dbdb9ddf-f1c1-4f41-9fba-cc42b7ac020e",
+    "RuleName": "Check to see if all lines have the same GRP",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"lookup_DCFacility_GRP_Chk\"",
+      "Table": "\"selectionlist_Enc_BillFacility\"",
+      "Columns": "{\"BillingMTVID\",\"\",\"\"}",
+      "_ParamList1": "{1}",
+      "_ParamList2": "{2}",
+      "_Description": "\"Flag return:\\015\\012blank - all GRPs the same\\015\\0121 - different GRPs\""
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_GRP_Trim",
+    "RuleGUID": "399c1588-cbfd-427e-a748-f3ba6c3fb925",
+    "RuleName": "See if same GRP - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Same GRP",
+        "ChildRules": [
+          {
+            "Container": "lookup_DCFacility_Enc_GRP_Trim",
+            "RuleGUID": "5f8bd3b8-0bdb-4f9c-a9f7-58d8a3edec88",
+            "RuleName": "Clear all temps",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "399c1588-cbfd-427e-a748-f3ba6c3fb925",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "_ParamList0": "{0,1,2}",
+              "LinesFrom": "0",
+              "_FunctionVersion": "1"
+            }
+          },
+          {
+            "Container": "lookup_DCFacility_Enc_GRP_Trim",
+            "RuleGUID": "657ce86e-f027-49c3-a244-9b382842fb59",
+            "RuleName": "Clear all but first row",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "399c1588-cbfd-427e-a748-f3ba6c3fb925",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"lookup_DCFacility_Enc_GRP_Del\"",
+              "Table": "\"selectionlist_Enc_BillFacility\"",
+              "Columns": "{\"\",\"BillingMTVID\"}",
+              "_ParamList1": "{0}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "3",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "lookup_DCFacility_Enc_GRP_Trim",
+    "RuleGUID": "e86a30d7-8b8e-4fa4-a5a3-19108929c776",
+    "RuleName": "Clear all temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,1,2}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  }
+]

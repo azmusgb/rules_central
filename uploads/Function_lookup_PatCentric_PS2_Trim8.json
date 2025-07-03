@@ -1,0 +1,195 @@
+[
+  {
+    "Container": "lookup_PatCentric_PS2_Trim8",
+    "RuleGUID": "80790c78-294e-47c4-9201-81633871b1a2",
+    "RuleName": "Filter spaces + punct from dB names",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{3,4}",
+      "FilterSet": "\"charset_PuctSpace\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_Trim8",
+    "RuleGUID": "83fa71ab-78e3-4b90-a5b2-720d82445a74",
+    "RuleName": "Does partial LName match table value?",
+    "RuleID": "",
+    "FunctionName": "HasRegExprFromField",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - 2 of 3",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_Trim8",
+            "RuleGUID": "0f7cf14d-02d5-4d60-b542-e333bd166ae2",
+            "RuleName": "Does DOB match table value?",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "83fa71ab-78e3-4b90-a5b2-720d82445a74",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - 3 of 3",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_PS2_Trim8",
+                    "RuleGUID": "07dfe303-6ba1-4521-b9f8-8e8ade096553",
+                    "RuleName": "Return",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "0f7cf14d-02d5-4d60-b542-e333bd166ae2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_PS2_Trim8",
+                    "RuleGUID": "d0863a71-a399-4074-b846-5034745e947e",
+                    "RuleName": "Delete Current Row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "0f7cf14d-02d5-4d60-b542-e333bd166ae2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_PatientCentric\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "1",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1",
+              "_ParamList1": "{5}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_Trim8",
+            "RuleGUID": "2b6672cc-84cc-47a8-9756-03302bc67d5f",
+            "RuleName": "Delete Current Row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "83fa71ab-78e3-4b90-a5b2-720d82445a74",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "65537",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList1": "{1}",
+      "_Description": "\"This is the first of trimmking logic steps created with ESP 2.0 PS2  Keep in mind the 1-of-3 match is the ID.  So if we're in here it's because the SL has some number of rows in it.\\015\\012\\015\\012-jdm 9/2016\""
+    }
+  }
+]

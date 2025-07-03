@@ -1,0 +1,145 @@
+[
+  {
+    "Container": "output_SplitSORCovRowRemoval",
+    "RuleGUID": "cb7ffb54-65cb-44b2-a4c7-be01e030f617",
+    "RuleName": "Set temp2 = 0",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{10}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"0\""
+    }
+  },
+  {
+    "Container": "output_SplitSORCovRowRemoval",
+    "RuleGUID": "4599c586-b750-4d81-b75c-b52a6d645d94",
+    "RuleName": "Flag if any DOS within period",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyLinesUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{10}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"output_SplitSORFlagInPeriod\"",
+      "ForEach": "{0,1,0,0}",
+      "_ParamList1": "{11}",
+      "_ParamList2": "{3}",
+      "_ParamList3": "{4}",
+      "DelBlanksBefore": "0",
+      "DelBlanksAfter": "0",
+      "MakeColEqual": "0"
+    }
+  },
+  {
+    "Container": "output_SplitSORCovRowRemoval",
+    "RuleGUID": "a8815d12-d49b-4572-8565-ed9e82bcbeab",
+    "RuleName": "Is temp2 = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitSORCovRowRemoval",
+            "RuleGUID": "f35106a2-7521-4f62-a601-21865d688cae",
+            "RuleName": "Delete values",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "a8815d12-d49b-4572-8565-ed9e82bcbeab",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "_ParamList0": "{2,3,7,8,9,1,4,6,0,5}",
+              "LinesFrom": "0",
+              "_FunctionVersion": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{10}",
+      "_FunctionVersion": "65539",
+      "_Description": "\"If not no DOS was within the period we are in.  We don't need this period then.\"",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  }
+]

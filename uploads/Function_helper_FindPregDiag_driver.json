@@ -1,0 +1,621 @@
+[
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "dcbf64c2-dbac-48fa-a476-320b77ae64c4",
+    "RuleName": "Show fields",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3,7}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "f41b0715-5972-451d-828d-ba6e0cc53971",
+    "RuleName": "Clear fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4,6}",
+      "_FunctionVersion": "1",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "0287dd93-e79d-44a2-821f-1bcbb0fb6ad8",
+    "RuleName": "Set Counter to zero",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"0\""
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "cb343e9b-ea5f-4cdd-bb43-880e7c26d473",
+    "RuleName": "Call diag finder",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"helper_FindPregDiag\"",
+      "ForEach": "{1,0,0}",
+      "_ParamList1": "{4}",
+      "_ParamList2": "{5}",
+      "DelBlanksBefore": "0",
+      "DelBlanksAfter": "0",
+      "MakeColEqual": "0",
+      "ForEachF": "{1,0,0}",
+      "ForEachL": "{0,0,0}",
+      "ForEachI": "{0,0,0}"
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "f9d2ae42-f130-42ce-8ae3-79c0bebb725e",
+    "RuleName": "Swap Diags - Pregnancy diag found (and not 1)?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "9649a618-3a2d-40ee-aa82-ba231d355f82",
+            "RuleName": "Copy Diag1 to temp",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "f9d2ae42-f130-42ce-8ae3-79c0bebb725e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{6}"
+            }
+          },
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "1e755de2-f368-4406-aa30-ecaa7692fb1f",
+            "RuleName": "Is it 2?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "f9d2ae42-f130-42ce-8ae3-79c0bebb725e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "73ef79ca-5c5e-4f4e-919d-65f1f50e1fdd",
+                    "RuleName": "Copy Diag2 to Diag1",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "1e755de2-f368-4406-aa30-ecaa7692fb1f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0}"
+                    }
+                  },
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "ebe2cbb1-af62-4403-9699-d0f28d77a39e",
+                    "RuleName": "Copy temp to Diag2",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "1e755de2-f368-4406-aa30-ecaa7692fb1f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"2\""
+            }
+          },
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "e0b59663-062f-4c04-bd38-4639a4057823",
+            "RuleName": "Is it 3?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "f9d2ae42-f130-42ce-8ae3-79c0bebb725e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "f58e623a-72e9-4f83-882e-4a78feb98c26",
+                    "RuleName": "Copy Diag3 to Diag1",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "e0b59663-062f-4c04-bd38-4639a4057823",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0}"
+                    }
+                  },
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "35b43e47-6b78-4d06-b9cf-7c2eced254f7",
+                    "RuleName": "Copy temp to Diag3",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "e0b59663-062f-4c04-bd38-4639a4057823",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{2}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"3\""
+            }
+          },
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "bfedda70-f9b9-424c-8a9d-b3147ab9a060",
+            "RuleName": "Is it 4?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "f9d2ae42-f130-42ce-8ae3-79c0bebb725e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "3dc15b56-88b2-48f9-a433-4e528dcd426a",
+                    "RuleName": "Copy Diag4 to Diag1",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "bfedda70-f9b9-424c-8a9d-b3147ab9a060",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0}"
+                    }
+                  },
+                  {
+                    "Container": "helper_FindPregDiag_driver",
+                    "RuleGUID": "8d5fc422-a3a2-426c-b29c-a0eacbed0691",
+                    "RuleName": "Copy temp to Diag4",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "bfedda70-f9b9-424c-8a9d-b3147ab9a060",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{3}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"4\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"[2-4]\"",
+      "_Description": "\"If it is a 1 then the pregnancy diagnosis code is already in the primary postion.\""
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "77e28a73-18be-4564-a006-af93a9146a47",
+    "RuleName": "Show fields",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3,7}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "1be9d266-b989-44a1-aabb-844d20c58539",
+    "RuleName": "Swap Diag Ptrs - Pregnancy diag found (and not 1)?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "173776b8-97d3-4aa1-828a-d1416dd9d15c",
+            "RuleName": "Do the swap",
+            "RuleID": "",
+            "FunctionName": "_IIterateAllUDF",
+            "ParentGUID": "1be9d266-b989-44a1-aabb-844d20c58539",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"helper_SwapDiagPointersTo1\"",
+              "_ParamList1": "{4}",
+              "DelBlanksBefore": "0",
+              "DelBlanksAfter": "0",
+              "MakeColEqual": "0",
+              "ForEachF": "{0,0}",
+              "ForEachL": "{1,0}",
+              "ForEachI": "{0,0}"
+            }
+          },
+          {
+            "Container": "helper_FindPregDiag_driver",
+            "RuleGUID": "4735936e-0e3c-4fa7-a3da-88726115a7ef",
+            "RuleName": "Sort the DiagPtr",
+            "RuleID": "",
+            "FunctionName": "_IIterateOnlyLinesUDF",
+            "ParentGUID": "1be9d266-b989-44a1-aabb-844d20c58539",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"helper_SplitDiagsToLines_driver\"",
+              "ForEach": "{1,0,0}",
+              "_ParamList1": "{6}",
+              "_ParamList2": "{5}",
+              "DelBlanksBefore": "0",
+              "DelBlanksAfter": "0",
+              "MakeColEqual": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"[2-4]\"",
+      "_Description": "\"If it is a 1 then the pregnancy diagnosis code is already in the primary postion.\""
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag_driver",
+    "RuleGUID": "990c7d51-499a-4a64-9a4c-eb9df11c4fca",
+    "RuleName": "Show fields",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,2,3,7}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

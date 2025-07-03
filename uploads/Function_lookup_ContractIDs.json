@@ -1,0 +1,1907 @@
+[
+  {
+    "Container": "lookup_ContractIDs",
+    "RuleGUID": "f4d88dcf-23ec-42a1-9179-f310ff05c262",
+    "RuleName": "Get Patient Contract ID",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "--",
+        "ChildRules": [
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "7e7257e6-352b-483a-a050-20f6a0a6d187",
+            "RuleName": "Copy of Set end date to 99991231",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "f4d88dcf-23ec-42a1-9179-f310ff05c262",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "OutputFormat": "\"99991231\"",
+              "_ParamList0": "{8}",
+              "_FunctionVersion": "100",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "0f50a869-74b1-4e02-abf5-b96505e95ae3",
+            "RuleName": "Get Patient Coverage info for current coverage",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f4d88dcf-23ec-42a1-9179-f310ff05c262",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,8}",
+              "_FunctionVersion": "131076",
+              "MaxMatchCount": "9",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemCovInfo\"",
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_MTV_PID\",\"MEM_COV_END_DT\"}",
+              "_ParamList1": "{}",
+              "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+              "DataColumns": "{\"MEM_COV_CTRCT_ID\",\"MEM_COV_EFF_DT\",\"MEM_COV_END_DT\"}",
+              "EscapeFields": "{\"PatContractID\",\"EffDate\",\"EndDate\"}",
+              "PlugFields": "{\"PatContractID\",\"EffDate\",\"EndDate\"}",
+              "DataTableDataField": "{-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "d8e8ef2f-97d3-4b5f-a02f-eff726ecca06",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "f4d88dcf-23ec-42a1-9179-f310ff05c262",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "7fce9754-40e2-4155-b14f-0c936591951e",
+            "RuleName": "See if only one match in Coverage",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "f4d88dcf-23ec-42a1-9179-f310ff05c262",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "d5116793-7648-4f7b-8b97-002aa8d43497",
+                    "RuleName": "Copy PatContractID to MasterContractID",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "7fce9754-40e2-4155-b14f-0c936591951e",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{5}",
+                      "OverwriteInsertAppend": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Not plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "ce815b68-db27-4978-af2d-d4e44b378083",
+                    "RuleName": "Get Patient Coverage info",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "7fce9754-40e2-4155-b14f-0c936591951e",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "131076",
+                      "MaxMatchCount": "9",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemCovInfo\"",
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                      "_ParamList1": "{}",
+                      "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+                      "DataColumns": "{\"MEM_COV_CTRCT_ID\",\"MEM_COV_EFF_DT\",\"MEM_COV_END_DT\"}",
+                      "EscapeFields": "{\"PatContractID\",\"EffDate\",\"EndDate\"}",
+                      "PlugFields": "{\"PatContractID\",\"EffDate\",\"EndDate\"}",
+                      "DataTableDataField": "{-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1}",
+                      "CatchResourceUnavailable": "0"
+                    }
+                  },
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "86a214ba-f241-4751-b5df-e344db3328e4",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "7fce9754-40e2-4155-b14f-0c936591951e",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                    "RuleName": "See how many matches",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "7fce9754-40e2-4155-b14f-0c936591951e",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "ef28ca94-c26a-48a5-a4d5-01af65a81638",
+                            "RuleName": "Copy PatContractID to MasterContractID",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{5}",
+                              "OverwriteInsertAppend": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Multiple Matches",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "959b9843-9c30-48d0-abf1-d9148bbac1f5",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "31296340-9fcb-4aa9-9654-512a893926f4",
+                            "RuleName": "Clear Temp Fields",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,7}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1,-1}",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "663126c1-5405-4d9e-b35e-5997cf792f10",
+                            "RuleName": "Find MostCurrentDate",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "Table": "\"selectionlist_PatContractID\"",
+                              "_ParamList1": "{8}",
+                              "UDFName": "\"output_XML_FindMostCurrentDate\"",
+                              "Columns": "{\"\",\"EndDate\"}",
+                              "_ParamListOMRIndex1": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "4724f128-4e0e-4536-a6fa-05a1fdbc9bae",
+                            "RuleName": "Trim all but most current date row",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{8}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "Table": "\"selectionlist_PatContractID\"",
+                              "_ParamList1": "{2}",
+                              "UDFName": "\"output_PAT_TrimOldCov\"",
+                              "Columns": "{\"EndDate\",\"\",\"\"}",
+                              "_ParamListOMRIndex1": "{-1}",
+                              "_ParamList2": "{7}",
+                              "_ParamListOMRIndex2": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "832d5b3c-f7d0-46de-90f6-5e35a123124b",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "c01b4a7f-97f0-43e0-8d31-d3b86dd93821",
+                            "RuleName": "Plug single match",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "43993e1d-6c7b-4d7c-89ab-e2f68dc6a80c",
+                                    "RuleName": "Copy PatContractID to MasterContractID",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "c01b4a7f-97f0-43e0-8d31-d3b86dd93821",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{5}",
+                                      "OverwriteInsertAppend": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Entries found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "2aa9013b-0061-4300-a5d1-107df602add9",
+                                    "RuleName": "Copy first ID to Master",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "c01b4a7f-97f0-43e0-8d31-d3b86dd93821",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "0",
+                                      "Table": "\"selectionlist_PatContractID\"",
+                                      "_ParamList1": "{5}",
+                                      "UDFName": "\"output_837_CopyFirstID\"",
+                                      "Columns": "{\"ContractID\",\"\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{}",
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "f4a8d0a9-9d64-47db-97df-a4145a91ed04",
+                            "RuleName": "Set temp to MCID for lookup",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "OutputFormat": "\"MCID\"",
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "707290eb-06e9-461c-bea0-eef76388ae6b",
+                            "RuleName": "Plug Patient ContractID",
+                            "RuleID": "",
+                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                            "ParentGUID": "6494cf72-05c0-424f-a603-02dbbea4545a",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Already Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "bfc27283-b97a-43c4-ad56-057553fccdac",
+                                    "RuleName": "Copy PatContractID to MasterContractID",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "707290eb-06e9-461c-bea0-eef76388ae6b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{5}",
+                                      "OverwriteInsertAppend": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Multiple matches",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "38b3692c-664a-48ec-8cf1-7273fb8e3746",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "707290eb-06e9-461c-bea0-eef76388ae6b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_PatContractID\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "f15581c6-5691-4fbe-be67-d3df5b674aad",
+                                    "RuleName": "Copy first ID to Master",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "707290eb-06e9-461c-bea0-eef76388ae6b",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "0",
+                                      "Table": "\"selectionlist_PatContractID\"",
+                                      "_ParamList1": "{5}",
+                                      "UDFName": "\"output_837_CopyFirstID\"",
+                                      "Columns": "{\"ContractID\",\"\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0,2}",
+                              "_FunctionVersion": "131076",
+                              "MaxMatchCount": "9",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "Table": "\"odbc_MemInfo\"",
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_MTV_PID\",\"MEM_ID_TYP\"}",
+                              "_ParamList1": "{}",
+                              "SelectionListColumns": "{\"ContractID\",\"EndDate\",\"EffDate\"}",
+                              "DataColumns": "{\"MEM_ID\",\"MEM_DOB\",\"MEM_SSN\"}",
+                              "EscapeFields": "{\"PatContractID\",\"0\",\"0\"}",
+                              "PlugFields": "{\"PatContractID\",\"0\",\"0\"}",
+                              "DataTableDataField": "{-1,-1,-1}",
+                              "DataTableEmptyField": "{-1,-1,-1}",
+                              "EmptyTableDataField": "{-1,-1,-1}",
+                              "CatchResourceUnavailable": "0",
+                              "_Description": "\"We are plugging the DOB and SSN from table into the date fields on the SL.  We are required to plug into all fields on SL but we don't have dates in the meminfo table.\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{}",
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{}",
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{}",
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "PlugIfSinglePluggableMatch": "1",
+              "MaxSize": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InputFormat": "\"%s\"",
+      "OutputFormat": "\"%s\"",
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_ContractIDs",
+    "RuleGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+    "RuleName": "Get Subscriber Contract ID",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "--",
+        "ChildRules": [
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "8d9db0c3-43c4-42c3-b893-16d7064a9e6b",
+            "RuleName": "Copy of Set end date to 99991231",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "OutputFormat": "\"99991231\"",
+              "_ParamList0": "{8}",
+              "_FunctionVersion": "100",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "09ebd314-7087-4e24-94f0-0fc44df6f1fb",
+            "RuleName": "Get Subscr Coverage info for current coverage period",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1,8}",
+              "_FunctionVersion": "131076",
+              "MaxMatchCount": "9",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemCovInfo\"",
+              "SelectionList": "\"selectionlist_SubContractID\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_MTV_PID\",\"MEM_COV_END_DT\"}",
+              "_ParamList1": "{}",
+              "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+              "DataColumns": "{\"MEM_COV_CTRCT_ID\",\"MEM_COV_EFF_DT\",\"MEM_COV_END_DT\"}",
+              "EscapeFields": "{\"SubContractID\",\"EffDate\",\"EndDate\"}",
+              "PlugFields": "{\"SubContractID\",\"EffDate\",\"EndDate\"}",
+              "DataTableDataField": "{-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1}",
+              "CatchResourceUnavailable": "0",
+              "_Disabled": "1"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "eb6c97b3-7170-4fff-b888-695e451eab21",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_SubContractID\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "d55290fc-08d4-4520-af0b-916ade1c1ca2",
+            "RuleName": "See if only one match in Coverage",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "b1966160-6ffb-4004-9759-bb3744a0fae9",
+                    "RuleName": "Copy SubContractID to MasterContractID",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "d55290fc-08d4-4520-af0b-916ade1c1ca2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{6}",
+                      "OverwriteInsertAppend": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Not plugged",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "6eadc5ed-50af-423f-b3f6-c2a80a856744",
+                    "RuleName": "Get Subscr Coverage info",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "d55290fc-08d4-4520-af0b-916ade1c1ca2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "131076",
+                      "MaxMatchCount": "9",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemCovInfo\"",
+                      "SelectionList": "\"selectionlist_SubContractID\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                      "_ParamList1": "{}",
+                      "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+                      "DataColumns": "{\"MEM_COV_CTRCT_ID\",\"MEM_COV_EFF_DT\",\"MEM_COV_END_DT\"}",
+                      "EscapeFields": "{\"SubContractID\",\"EffDate\",\"EndDate\"}",
+                      "PlugFields": "{\"SubContractID\",\"EffDate\",\"EndDate\"}",
+                      "DataTableDataField": "{-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1}",
+                      "CatchResourceUnavailable": "0",
+                      "_Disabled": "1"
+                    }
+                  },
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "e311f122-c813-4755-80d4-5270363e7c3c",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "d55290fc-08d4-4520-af0b-916ade1c1ca2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_SubContractID\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                    "RuleName": "See how many matches",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "d55290fc-08d4-4520-af0b-916ade1c1ca2",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Plugged",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "8ba4b2b8-fd9a-495b-89eb-ea571585dc97",
+                            "RuleName": "Copy SubContractID to MasterContractID",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{6}",
+                              "OverwriteInsertAppend": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Multiple Matches",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "ff73b27d-c3d7-4581-9676-6b4aba23ebe9",
+                            "RuleName": "Clear Temp Fields",
+                            "RuleID": "",
+                            "FunctionName": "DeleteLines",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,7}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1,-1,-1}",
+                              "DeleteBlanks": "0",
+                              "MinLinesBeforeDelete": "0",
+                              "LinesFrom": "0"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "96ec32ba-fcdb-40e6-ba57-44c8090427dd",
+                            "RuleName": "Find MostCurrentDate",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "Table": "\"selectionlist_SubContractID\"",
+                              "_ParamList1": "{8}",
+                              "UDFName": "\"output_XML_FindMostCurrentDate\"",
+                              "Columns": "{\"\",\"EndDate\"}",
+                              "_ParamListOMRIndex1": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "9113eb0e-407a-4da7-bb68-62f9ca83a858",
+                            "RuleName": "Trim all but most current date row",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{8}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "Table": "\"selectionlist_SubContractID\"",
+                              "_ParamList1": "{2}",
+                              "UDFName": "\"output_SUB_TrimOldCov\"",
+                              "Columns": "{\"EndDate\",\"\",\"\"}",
+                              "_ParamListOMRIndex1": "{-1}",
+                              "_ParamList2": "{7}",
+                              "_ParamListOMRIndex2": "{-1}"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "df0e44a4-3589-4cb0-bbcd-6f4c95a9f13e",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_SubContractID\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "a81d26a7-38c2-4674-878d-52809cf074ff",
+                            "RuleName": "Plug single match",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "e12bad46-49c6-4b6a-ad3b-f15450bca7dd",
+                                    "RuleName": "Copy SubContractID to MasterContractID",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "a81d26a7-38c2-4674-878d-52809cf074ff",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{6}",
+                                      "OverwriteInsertAppend": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Entries found",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "0e432fb7-fc78-4bd6-a399-ef31bd7c0dfb",
+                                    "RuleName": "Copy first ID to Master",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "a81d26a7-38c2-4674-878d-52809cf074ff",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "0",
+                                      "Table": "\"selectionlist_SubContractID\"",
+                                      "_ParamList1": "{6}",
+                                      "UDFName": "\"output_837_CopyFirstID\"",
+                                      "Columns": "{\"ContractID\",\"\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{}",
+                              "SelectionList": "\"selectionlist_SubContractID\"",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Empty",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "ffdd584e-fbf1-4b60-bfbc-df4a79ffe4a4",
+                            "RuleName": "Set temp to MCID for lookup",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "OutputFormat": "\"MCID\"",
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "100"
+                            }
+                          },
+                          {
+                            "Container": "lookup_ContractIDs",
+                            "RuleGUID": "7e5979e0-de99-44cd-8528-33c60a9182e3",
+                            "RuleName": "Plug Subscriber ContractID",
+                            "RuleID": "",
+                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                            "ParentGUID": "cab47380-bda4-49f1-a7fb-862969b52ebf",
+                            "ParentActionIndex": 2,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Already Plugged",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "941571a3-844f-4fc5-b909-0c5e7cd6a5f1",
+                                    "RuleName": "Copy SubContractID to MasterContractID",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "7e5979e0-de99-44cd-8528-33c60a9182e3",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{6}",
+                                      "OverwriteInsertAppend": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Multiple matches",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "2d07daf1-c762-4344-97eb-9cc3f71388b1",
+                                    "RuleName": "LogSL",
+                                    "RuleID": "",
+                                    "FunctionName": "LogSL",
+                                    "ParentGUID": "7e5979e0-de99-44cd-8528-33c60a9182e3",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_SubContractID\"",
+                                      "LogLevel": "12"
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_ContractIDs",
+                                    "RuleGUID": "030b0aea-668b-457f-be49-e0e5be29de7e",
+                                    "RuleName": "Copy first ID to Master",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "7e5979e0-de99-44cd-8528-33c60a9182e3",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "0",
+                                      "Table": "\"selectionlist_SubContractID\"",
+                                      "_ParamList1": "{6}",
+                                      "UDFName": "\"output_837_CopyFirstID\"",
+                                      "Columns": "{\"ContractID\",\"\"}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1,2}",
+                              "_FunctionVersion": "131076",
+                              "MaxMatchCount": "9",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "Table": "\"odbc_MemInfo\"",
+                              "SelectionList": "\"selectionlist_SubContractID\"",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_MTV_PID\",\"MEM_ID_TYP\"}",
+                              "_ParamList1": "{}",
+                              "SelectionListColumns": "{\"ContractID\",\"EndDate\",\"EffDate\"}",
+                              "DataColumns": "{\"MEM_ID\",\"MEM_DOB\",\"MEM_SSN\"}",
+                              "EscapeFields": "{\"SubContractID\",\"0\",\"0\"}",
+                              "PlugFields": "{\"SubContractID\",\"0\",\"0\"}",
+                              "DataTableDataField": "{-1,-1,-1}",
+                              "DataTableEmptyField": "{-1,-1,-1}",
+                              "EmptyTableDataField": "{-1,-1,-1}",
+                              "CatchResourceUnavailable": "0",
+                              "_Description": "\"We are plugging the DOB and SSN from table into the date fields on the SL.  We are required to plug into all fields on SL but we don't have dates in the meminfo table.\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "516",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{}",
+                      "SelectionList": "\"selectionlist_SubContractID\"",
+                      "PlugIfSinglePluggableMatch": "1",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{}",
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{}",
+              "SelectionList": "\"selectionlist_SubContractID\"",
+              "PlugIfSinglePluggableMatch": "1",
+              "MaxSize": "0"
+            }
+          },
+          {
+            "Container": "lookup_ContractIDs",
+            "RuleGUID": "db443a3e-8d7e-4cd6-9746-579dce5420e9",
+            "RuleName": "Is MasterSubContractID empty?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "ca4a96c5-2c2c-4dfe-a787-0e36ecbb8496",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All Empty",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "38a520c3-f934-46f1-9f20-41508841018c",
+                    "RuleName": "Copy MasterPatContractID to MasterSubContractID",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "db443a3e-8d7e-4cd6-9746-579dce5420e9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{6}"
+                    }
+                  },
+                  {
+                    "Container": "lookup_ContractIDs",
+                    "RuleGUID": "1fe865ab-2c1f-4374-b09e-40e96ede9971",
+                    "RuleName": "Substitute last 2 chars for 01",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "db443a3e-8d7e-4cd6-9746-579dce5420e9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "InputFormat": "\"\\134(^.*\\134)..$\"",
+                      "OutputFormat": "\"\\134101\"",
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "2",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"123456789\",\"111111101\",\"111111102\",\"1111111\",\"123\",\"1\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_FunctionVersion": "3",
+              "_Description": "\"In the case of Legacy the contract ID can be empty or not present for MCID ID types.  If that's the case we might need something in this field (for 837, for instance) so we will use the Patient Contract ID with the proper extension.\\015\\012\\015\\012We can get a plug from the CTS table, but that may be an empty value.  This check at the end is the safest way to do this.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InputFormat": "\"%s\"",
+      "OutputFormat": "\"%s\"",
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "3",
+      "_Disabled": "1"
+    }
+  }
+]

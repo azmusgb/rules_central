@@ -1,0 +1,866 @@
+[
+  {
+    "Container": "output_837_FormatRelCode",
+    "RuleGUID": "c39e749e-e2cf-4b28-9033-d0c4f861fe8c",
+    "RuleName": "Filter leading S",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "RepeatInLine": "0",
+      "RepeatInAllLines": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"^S\\134(.*\\134)$\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"10\",\"S10\",\"SS10\",\"1S0\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "_Description": "\"Per Defect 130152 we are filtering leading S from plugged Relationship Codes because of DC Phase II conversion - jdm 04/2014\""
+    }
+  },
+  {
+    "Container": "output_837_FormatRelCode",
+    "RuleGUID": "f00b1987-ca9f-45cb-acf6-25f4a839c841",
+    "RuleName": "See if RelCode Mapping/Text is empty",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "32fb67b6-dd28-4277-ab36-81fdc06a2f83",
+            "RuleName": "Map checkbox to string",
+            "RuleID": "",
+            "FunctionName": "MapCheckboxToString",
+            "ParentGUID": "f00b1987-ca9f-45cb-acf6-25f4a839c841",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "ResultIfMultipleChecked": "0",
+              "OMRSubfieldName": "{\"Self\",\"Spouse\",\"Child\",\"Other\"}",
+              "ToStrings": "{\"10\",\"20\",\"30\",\"40\"}",
+              "_ParamList1": "{0}",
+              "UncheckedString": "\"10\"",
+              "MultipleString": "\"10\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3",
+      "_Description": "\"If Relationship Code is empty then map it from the checkbox.\""
+    }
+  },
+  {
+    "Container": "output_837_FormatRelCode",
+    "RuleGUID": "66c3e839-7b06-48ac-8357-8c9056100039",
+    "RuleName": "See if single number",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Not",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "cc5834cf-9509-42e3-aeaa-6b4ab6a844e7",
+            "RuleName": "Reformat old style",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "66c3e839-7b06-48ac-8357-8c9056100039",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "None matched",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_FormatRelCode",
+                    "RuleGUID": "d395fa6e-978f-420f-bb31-37b1254ae88a",
+                    "RuleName": "Trim leading zeros if needed",
+                    "RuleID": "",
+                    "FunctionName": "FormatRegExpr",
+                    "ParentGUID": "cc5834cf-9509-42e3-aeaa-6b4ab6a844e7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InputFormat": "\"^0*\\134([1-9][0-9]\\134)$\"",
+                      "OutputFormat": "\"\\1341\"",
+                      "CaseSensitive2": "0",
+                      "_RegExTestValues": "{\"0011\",\"0010\",\"0020\",\"020\",\"11\",\"01\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^0\\134([1-9]\\134)$\"",
+              "OutputFormat": "\"\\13410\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"1\",\"10\",\"01\",\"02\",\"020\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"^\\134([0-9]\\134)$\"",
+      "OutputFormat": "\"\\13410\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"1\",\"01\",\"10\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "output_837_FormatRelCode",
+    "RuleGUID": "03af6f19-ae46-4ade-af30-b3783b2fcb22",
+    "RuleName": "If RelCode is 10, 11, 12, 13, 01",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "55608f79-dbd6-4325-bd2b-fd54690286d4",
+            "RuleName": "Convert to 18",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "03af6f19-ae46-4ade-af30-b3783b2fcb22",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"18\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "8f47ab38-2339-4b59-bdde-bf4688bad1e4",
+            "RuleName": "If RelCode is 02, 20, or 21",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "03af6f19-ae46-4ade-af30-b3783b2fcb22",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_FormatRelCode",
+                    "RuleGUID": "6dbc2d19-641a-4ef9-89e1-b3aa58bf7553",
+                    "RuleName": "Convert to 01",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "8f47ab38-2339-4b59-bdde-bf4688bad1e4",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"01\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "None",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_FormatRelCode",
+                    "RuleGUID": "01a126e0-8a32-4331-bc55-ab96d2453f60",
+                    "RuleName": "If RelCode is 03, 30, 32, 33, 40, or 01",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "8f47ab38-2339-4b59-bdde-bf4688bad1e4",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All",
+                        "ChildRules": [
+                          {
+                            "Container": "output_837_FormatRelCode",
+                            "RuleGUID": "0003c675-6484-469f-a483-673c21a3a72b",
+                            "RuleName": "Convert to 19",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "01a126e0-8a32-4331-bc55-ab96d2453f60",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"19\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "None",
+                        "ChildRules": [
+                          {
+                            "Container": "output_837_FormatRelCode",
+                            "RuleGUID": "85b2e3a6-72b6-4826-8de3-aef2a6e55a67",
+                            "RuleName": "Convert to G8",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "01a126e0-8a32-4331-bc55-ab96d2453f60",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"G8\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"03\",\"01\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"30\\134|31\\134|32\\134|33\\134|40\\134|03\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"21\",\"22\",\"20\",\"02\",\"10\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"20\\134|21\\134|02\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65539",
+      "OutputFormat": "\"\"",
+      "_RegExTestValues": "{}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"10\\134|11\\134|12\\134|13\\134|01\""
+    }
+  },
+  {
+    "Container": "output_837_FormatRelCode",
+    "RuleGUID": "a884d033-764e-4832-9f44-ab153e1ddc03",
+    "RuleName": "If RelCode is 10, 11, 12, 01",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "121bfd01-3228-4e66-bb6f-d28ddd325774",
+            "RuleName": "Convert to 18",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "a884d033-764e-4832-9f44-ab153e1ddc03",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"18\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "None",
+        "ChildRules": [
+          {
+            "Container": "output_837_FormatRelCode",
+            "RuleGUID": "c7e76e2c-c0ab-432d-bda5-61546a5d044f",
+            "RuleName": "If RelCode is 02 or 20",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a884d033-764e-4832-9f44-ab153e1ddc03",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_FormatRelCode",
+                    "RuleGUID": "0c2eaafe-66ee-49db-8b14-ec16a9902824",
+                    "RuleName": "Convert to 01",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "c7e76e2c-c0ab-432d-bda5-61546a5d044f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"01\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "None",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_FormatRelCode",
+                    "RuleGUID": "24f098d7-a1c7-40cf-b4d0-c5e470912e83",
+                    "RuleName": "If RelCode is 21",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "c7e76e2c-c0ab-432d-bda5-61546a5d044f",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "All",
+                        "ChildRules": [
+                          {
+                            "Container": "output_837_FormatRelCode",
+                            "RuleGUID": "adde0c14-befc-4f19-a8cc-9d913945dfb3",
+                            "RuleName": "Convert to 29",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "24f098d7-a1c7-40cf-b4d0-c5e470912e83",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"29\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "None",
+                        "ChildRules": [
+                          {
+                            "Container": "output_837_FormatRelCode",
+                            "RuleGUID": "45d1ab21-d83e-401d-b082-5a21730332cb",
+                            "RuleName": "If RelCode is 03, 30 or 31",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "24f098d7-a1c7-40cf-b4d0-c5e470912e83",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "All",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_837_FormatRelCode",
+                                    "RuleGUID": "7516f643-2476-4a54-a62b-c5a6c469e83d",
+                                    "RuleName": "Convert to 19",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "45d1ab21-d83e-401d-b082-5a21730332cb",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"19\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "None",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_837_FormatRelCode",
+                                    "RuleGUID": "7bd46c8c-f75b-462b-81b9-7607fbcee472",
+                                    "RuleName": "If RelCode is 32",
+                                    "RuleID": "",
+                                    "FunctionName": "HasRegExpr",
+                                    "ParentGUID": "45d1ab21-d83e-401d-b082-5a21730332cb",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "All",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_837_FormatRelCode",
+                                            "RuleGUID": "9a51d6cf-48e9-49d0-b787-9394cc36f660",
+                                            "RuleName": "Convert to 22",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "7bd46c8c-f75b-462b-81b9-7607fbcee472",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"22\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "None",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_837_FormatRelCode",
+                                            "RuleGUID": "b5e5499d-950e-4d1e-b65a-fca4223e3aff",
+                                            "RuleName": "Convert to 76",
+                                            "RuleID": "",
+                                            "FunctionName": "Formatf",
+                                            "ParentGUID": "7bd46c8c-f75b-462b-81b9-7607fbcee472",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "100",
+                                              "OutputFormat": "\"76\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "65539",
+                                      "OutputFormat": "\"\"",
+                                      "_RegExTestValues": "{\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"03\",\"01\"}",
+                                      "_RegExMatchBaseline": "{}",
+                                      "_RegExOutputBaseline": "{}",
+                                      "CaseSensitive": "1",
+                                      "RegularExpression": "\"32\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "65539",
+                              "OutputFormat": "\"\"",
+                              "_RegExTestValues": "{\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"03\",\"01\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"30\\134|31\\134|03\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"03\",\"01\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"21\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"21\",\"22\",\"20\",\"02\",\"10\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"20\\134|02\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"10\\134|11\\134|12\\134|01\"",
+      "_Disabled": "1"
+    }
+  }
+]

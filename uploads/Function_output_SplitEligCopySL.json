@@ -1,0 +1,142 @@
+[
+  {
+    "Container": "output_SplitEligCopySL",
+    "RuleGUID": "929319ee-4492-4dd5-a5e2-bf457d30804b",
+    "RuleName": "Is the BL7 a Vision group?",
+    "RuleID": "",
+    "FunctionName": "IsInTable",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitEligCopySL",
+            "RuleGUID": "865e8804-c288-4d81-bb5c-d559b86ce0fa",
+            "RuleName": "Are tmp fields are blank?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "929319ee-4492-4dd5-a5e2-bf457d30804b",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligCopySL",
+                    "RuleGUID": "f56c1585-a8a4-4d50-ae6c-5dc72702eef0",
+                    "RuleName": "Copy fields to tmp",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "865e8804-c288-4d81-bb5c-d559b86ce0fa",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligCopySL",
+                    "RuleGUID": "3031ae75-9315-4790-bf8c-6b651d557a3f",
+                    "RuleName": "append Lines to tmp Fields",
+                    "RuleID": "",
+                    "FunctionName": "CopyLines",
+                    "ParentGUID": "865e8804-c288-4d81-bb5c-d559b86ce0fa",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                      "OverwriteInsertAppend": "2",
+                      "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                      "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                      "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                      "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3",
+              "_Description": "\"If so this is the first row of the SL so we can just copy in. \\015\\012\\015\\012If not append the fields.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "StripSpaces": "0",
+      "CatchResourceUnavailable": "0",
+      "Table": "\"odbc_VisionGroups\"",
+      "_ParamList0": "{23}",
+      "_FunctionVersion": "65537",
+      "Columns": "{\"GroupNumber\"}",
+      "_Description": "\"Per WRP 247 we want to skip Vision groups when considering contract IDs. - jdm 01/2018\""
+    }
+  }
+]

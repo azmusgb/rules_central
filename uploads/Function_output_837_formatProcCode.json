@@ -1,0 +1,139 @@
+[
+  {
+    "Container": "output_837_formatProcCode",
+    "RuleGUID": "dd8871c7-7fe3-4c43-9a76-181abc683d84",
+    "RuleName": "prepend 4 digit codes with a D",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InputFormat": "\"^\\134([0-9][0-9][0-9][0-9]\\134)$\"",
+      "OutputFormat": "\"D\\1341\"",
+      "CaseSensitive2": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "_RegExTestValues": "{\"1\",\"01\",\"001\",\"0001\",\"00001\",\"D1\",\"D01\",\"D001\",\"D0001\",\"D00001\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "output_837_formatProcCode",
+    "RuleGUID": "b497b599-a3dd-4e63-a32b-e7b62da9007e",
+    "RuleName": "Set temp to AD for qualifier",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "OutputFormat": "\"AD\"",
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "100"
+    }
+  },
+  {
+    "Container": "output_837_formatProcCode",
+    "RuleGUID": "c766971d-d366-4845-adb7-910420b015b0",
+    "RuleName": "Combine fields and store in ProcCode",
+    "RuleID": "",
+    "FunctionName": "MergeFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5,0}",
+      "_FunctionVersion": "65537",
+      "SkipAppendOnBlankField": "0",
+      "SkipAppendOnBlankLine": "0",
+      "TreatMultiLineAllBlankAsBlank": "0",
+      "_ParamList1": "{0}",
+      "InterFieldFiller": "\":\"",
+      "_Description": "\"Per SER 1607 we are no longer outputting ProcCode Modifiers - jdm 10/2017\""
+    }
+  },
+  {
+    "Container": "output_837_formatProcCode",
+    "RuleGUID": "56db156f-430f-4de0-b0bf-c67406bde74b",
+    "RuleName": "Strip trailing ':'s",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InputFormat": "\"^\\134(.*[A-Z0-9]\\134)[:]*$\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "_RegExTestValues": "{\"AD:2345:::\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  }
+]

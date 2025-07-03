@@ -1,0 +1,175 @@
+[
+  {
+    "Container": "helper_CleanUpFirstAdddressLine",
+    "RuleGUID": "26309230-27e7-484e-8b36-1e92f4c48843",
+    "RuleName": "Is this the First Row?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_CleanUpFirstAdddressLine",
+            "RuleGUID": "889f848b-bc37-4013-95c9-42f6246ca967",
+            "RuleName": "Set flag = 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "26309230-27e7-484e-8b36-1e92f4c48843",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          },
+          {
+            "Container": "helper_CleanUpFirstAdddressLine",
+            "RuleGUID": "8cc71b48-fd03-49f3-b6aa-f8fc700788e0",
+            "RuleName": "Does First Line contain Zip, State, or Code?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "26309230-27e7-484e-8b36-1e92f4c48843",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_CleanUpFirstAdddressLine",
+                    "RuleGUID": "d07d0f4f-0dfd-4932-90e4-d7492ad21ee2",
+                    "RuleName": "Delete current row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "8cc71b48-fd03-49f3-b6aa-f8fc700788e0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "1",
+                      "CaseSensitive": "1",
+                      "RepeatInLine": "0",
+                      "RepeatInAllLines": "0",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0",
+                      "LinesTo": "1"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"[Zz][Ii][Pp]\\134|[Ss][Tt][Aa][Tt][Ee]\\134|[Cc][Oo][Dd][Ee]\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"Zip\",\"Code\",\"Jarrod was here\",\"Neat, O City\",\"sTaTe\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "MinChars": "3",
+      "_ParamList0": "{0}",
+      "_ParamListOMRIndex0": "{-1,-1,-1,-1}",
+      "MaxChars": "3",
+      "CandidateSet": "\"charset_AlphaNum\"",
+      "_FunctionVersion": "65539",
+      "CaseSensitive": "1",
+      "OutputFELines": "1",
+      "FELinesAttribute": "\"OCRepFELines\"",
+      "MaxWidthRatio": "4",
+      "MaxLineMSE": "2",
+      "MaxRecomputeMSE": "10",
+      "MinRecomputeLength": "4",
+      "RecomputeCandidates": "1",
+      "MaxSlantSlope": "0.35",
+      "MaxExtraChars": "9",
+      "MinCharConfidence": "10",
+      "MinAverageSpacing": "0",
+      "MaxZeroSpacings": "2",
+      "MaxWidthMSE": "2.5",
+      "DetectDotMatrix": "1",
+      "UseCaseLogic": "1",
+      "AcceptUUL": "1",
+      "IgnoreLineAttribute": "\"cgk_ContainsHandPrint\"",
+      "RegularExpression": "\"0\""
+    }
+  }
+]

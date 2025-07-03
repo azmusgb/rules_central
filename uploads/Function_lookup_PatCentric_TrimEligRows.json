@@ -1,0 +1,231 @@
+[
+  {
+    "Container": "lookup_PatCentric_TrimEligRows",
+    "RuleGUID": "115123fa-56db-4c4f-8da4-14649d953a5d",
+    "RuleName": "Is EffDate less than or equal to LowDOS?",
+    "RuleID": "",
+    "FunctionName": "CompareDateFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_TrimEligRows",
+            "RuleGUID": "937153eb-3051-4a34-8ae7-5e91f36e6c13",
+            "RuleName": "Is EndDate = 99991231?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "115123fa-56db-4c4f-8da4-14649d953a5d",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_TrimEligRows",
+                    "RuleGUID": "2e4cad41-fc8f-4f5c-a927-ae151eb1152a",
+                    "RuleName": "Is EndDate less than LowDOS?",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "937153eb-3051-4a34-8ae7-5e91f36e6c13",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_TrimEligRows",
+                            "RuleGUID": "116009dc-bbb0-4e8c-a56d-9d93ef03c074",
+                            "RuleName": "Trim row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "2e4cad41-fc8f-4f5c-a927-ae151eb1152a",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_MemElig_Secondary\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{3}",
+                      "DateFormat": "\"Y4MD_output\"",
+                      "_FunctionVersion": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"99991231\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "No - Greater than",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_TrimEligRows",
+            "RuleGUID": "1c53bc42-502f-4c23-84f7-f36ff827fb0b",
+            "RuleName": "Is EffDate greater than HighDOS?",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "115123fa-56db-4c4f-8da4-14649d953a5d",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_TrimEligRows",
+                    "RuleGUID": "bf4626b5-cb2b-4fc3-9bfa-ce22936a2738",
+                    "RuleName": "Trim row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "1c53bc42-502f-4c23-84f7-f36ff827fb0b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MemElig_Secondary\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "DateFormat": "\"Y4MD_output\"",
+              "_FunctionVersion": "2"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_ParamList1": "{3}",
+      "DateFormat": "\"Y4MD_output\"",
+      "_FunctionVersion": "2"
+    }
+  }
+]

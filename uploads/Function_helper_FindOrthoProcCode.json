@@ -1,0 +1,185 @@
+[
+  {
+    "Container": "helper_FindOrthoProcCode",
+    "RuleGUID": "5c3702f4-366e-41bf-8d2f-9aa6e35ec6b6",
+    "RuleName": "Proc Code one of these?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_FindOrthoProcCode",
+            "RuleGUID": "f5e2c490-6379-44cd-8363-07a174944a0d",
+            "RuleName": "See if this is the same date",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "5c3702f4-366e-41bf-8d2f-9aa6e35ec6b6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "New date",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindOrthoProcCode",
+                    "RuleGUID": "ff0570da-5a05-40fc-b541-dff273f89430",
+                    "RuleName": "Set ProcOrthoInd to Y",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "f5e2c490-6379-44cd-8363-07a174944a0d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{2}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"Y\""
+                    }
+                  },
+                  {
+                    "Container": "helper_FindOrthoProcCode",
+                    "RuleGUID": "ce10453d-d53d-4aed-bec8-5b09332cdc8e",
+                    "RuleName": "Copy DOS to OrthoProcCodeDate",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "f5e2c490-6379-44cd-8363-07a174944a0d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{4}"
+                    }
+                  },
+                  {
+                    "Container": "helper_FindOrthoProcCode",
+                    "RuleGUID": "e22e567b-101e-4da1-bdda-afc054e4e46a",
+                    "RuleName": "Add 1 to count",
+                    "RuleID": "",
+                    "FunctionName": "DoMathAndFormat",
+                    "ParentGUID": "f5e2c490-6379-44cd-8363-07a174944a0d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "OutputFormat": "\"%.0f\"",
+                      "_ParamList1": "{3}",
+                      "Deviation": "0",
+                      "Remainder": "0",
+                      "MathExpression": "\"F0 + 1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "2",
+              "_ParamList1": "{4}",
+              "DateFormat": "\"MDY_for_DOB\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Sources": "{\"OCR_AEG\"}",
+      "_Description": "\"If so it is Date Appliance Placed and Treatment Months Remaining are required, otherwise it's related to ortho in a way not related to appliance work\\015\\012\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{1}",
+      "_ParamListOMRIndex0": "{-1}",
+      "_FunctionVersion": "65539",
+      "RegularExpression": "\"80[1-8][0-9]\\134|8090\"",
+      "OutputFormat": "\"\"",
+      "_RegExTestValues": "{\"8010\",\"8011\",\"8020\",\"8025\",\"8052\",\"8089\",\"8090\",\"8091\",\"8009\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  }
+]

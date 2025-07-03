@@ -1,0 +1,792 @@
+[
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "b1d54217-3e45-4a61-a223-2c436ac8de63",
+    "RuleName": "Clear Temps",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{0,7}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+    "RuleName": "DDIC Flag - Is this EDI?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "9dfc968d-a394-41f2-9d72-1003028e0b8e",
+            "RuleName": "Fetch all rows from Elig table for subscriber",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "MaxMatchCount": "9999",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemElig\"",
+              "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_MTV_PID\"}",
+              "SelectionListColumns": "{\"SubMTVPID\",\"MemEligBL5\",\"MemEligBL4\"}",
+              "DataColumns": "{\"MEM_MTV_PID\",\"MEM_ELIG_BL_5\",\"MEM_ELIG_BL_4\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1}",
+              "CatchResourceUnavailable": "0",
+              "_Disabled": "1",
+              "_Description": "\"Trying to improve load times.  If this UDF is needed, uncomment this rule. - jdm 7/2016\\015\\012\\015\\012This was a SSLTAM call for odbc_MemElig and SL selectionlist_RoutingEligInfo.\""
+            }
+          },
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "269a02a5-e933-40b7-b077-1124f85da804",
+            "RuleName": "Show Elig SL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "_Sources": "{\"OCR_AEG\"}",
+              "SelectionList": "\"selectionlist_RoutingEligInfo\"",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "1e117405-8cbc-4791-9f96-e395425e2434",
+            "RuleName": "Set DDICFlag to 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_Description": "\"We seed this to 1.  When we iterate the table if we find any row that is not DDIC and GROUP the flag is cleared.  This ensures that we only route to MX when all rows could possibly be routed.\"",
+              "OutputFormat": "\"1\""
+            }
+          },
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "582a9c77-d688-41ea-bcc1-c181c7055cd9",
+            "RuleName": "Make sure all rows are valid for DDIC",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "0",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "Table": "\"selectionlist_RoutingEligInfo\"",
+              "_Disabled": "1",
+              "_Description": "\"Trying to improve load times.  If this UDF is needed, uncomment this rule. - jdm 7/2016\"",
+              "UDFName": "\"routing_SetDDICFlag\"",
+              "Columns": "{\"MTVPID\",\"MemEligBL5\",\"\",\"MemEligBL4\"}",
+              "_ParamList1": "{3}",
+              "_ParamListOMRIndex1": "{-1}",
+              "_ParamList2": "{0}",
+              "_ParamListOMRIndex2": "{-1}",
+              "_ParamList3": "{8}"
+            }
+          },
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "febeeaa9-a53d-4021-a536-5b13ae4e8260",
+            "RuleName": "Is DDIC Flag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "de178f26-d71d-434d-84ed-811aa0ab3572",
+                    "RuleName": "Set USAGroupIDFlag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "febeeaa9-a53d-4021-a536-5b13ae4e8260",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "_Sources": "{\"OCR_AEG\"}",
+              "CaseSensitive": "1",
+              "_ParamListOMRIndex0": "{-1}",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "292fbee6-7216-4074-a87e-686b57ed9a53",
+            "RuleName": "Is this DDIC?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "9ce02a0c-562c-44c9-9d58-b6cf4df44435",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "e824a1aa-8063-4fb7-bfb2-d0088dae2864",
+                    "RuleName": "Set DDIC Flag",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "292fbee6-7216-4074-a87e-686b57ed9a53",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "100",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "0428c301-5093-4133-a8e3-38236f24154f",
+                    "RuleName": "Set USAGroupIDFlag = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "292fbee6-7216-4074-a87e-686b57ed9a53",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{6}",
+              "_FunctionVersion": "65539",
+              "_Sources": "{\"OCR_AEG\"}",
+              "CaseSensitive": "1",
+              "_ParamListOMRIndex0": "{-1}",
+              "RegularExpression": "\"3\"",
+              "_Description": "\"Meaning: was this scanned in GA?  Only documents scanned in GA are eligible to be keyed in MX.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "65539",
+      "_Sources": "{\"OCR_AEG\"}",
+      "CaseSensitive": "1",
+      "_ParamListOMRIndex0": "{-1}",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "29194f89-4bb3-42cd-96bc-35bee75d971a",
+    "RuleName": "Is the DDIC Flag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "routing_RoutingLogic_OLD",
+            "RuleGUID": "a06285d9-4109-4e98-8d9a-702c6c495888",
+            "RuleName": "Group ID Processing",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "29194f89-4bb3-42cd-96bc-35bee75d971a",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "---",
+                "ChildRules": [
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "352c7f24-3490-472a-8244-67148f04a86a",
+                    "RuleName": "Fetch all rows from CTS table for subscriber",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "a06285d9-4109-4e98-8d9a-702c6c495888",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "131076",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "MaxMatchCount": "9999",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemCovInfo\"",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                      "SelectionListColumns": "{\"SubMTVPID\",\"MemCovGrp\"}",
+                      "DataColumns": "{\"MEM_MTV_PID\",\"MEM_COV_GRP\"}",
+                      "EscapeFields": "{\"0\",\"0\"}",
+                      "PlugFields": "{\"0\",\"0\"}",
+                      "DataTableDataField": "{-1,-1}",
+                      "DataTableEmptyField": "{-1,-1}",
+                      "EmptyTableDataField": "{-1,-1}",
+                      "CatchResourceUnavailable": "0",
+                      "_Disabled": "1",
+                      "_Description": "\"Trying to improve load times.  If this UDF is needed, uncomment this rule. - jdm 7/2016\"",
+                      "_ParamList1": "{}",
+                      "_ParamListOMRIndex1": "{}"
+                    }
+                  },
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "3a3920a2-ff7b-460e-99d7-fe7898217e01",
+                    "RuleName": "Show CTS SL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "a06285d9-4109-4e98-8d9a-702c6c495888",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "routing_RoutingLogic_OLD",
+                    "RuleGUID": "a512d6b1-f2ac-40e3-8ed8-3da86d5e2cfd",
+                    "RuleName": "Any rows found?",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "a06285d9-4109-4e98-8d9a-702c6c495888",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_RoutingLogic_OLD",
+                            "RuleGUID": "f8371165-52ec-48a9-9dde-41da44af7e91",
+                            "RuleName": "Try to set USAGroupIDFlag",
+                            "RuleID": "",
+                            "FunctionName": "_IIterateDynamicTableUDF",
+                            "ParentGUID": "a512d6b1-f2ac-40e3-8ed8-3da86d5e2cfd",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "Table": "\"selectionlist_RoutingCTSInfo\"",
+                              "_Disabled": "1",
+                              "_Description": "\"Trying to improve load times.  If this UDF is needed, uncomment this rule. - jdm 7/2016\"",
+                              "UDFName": "\"routing_SetUSAGroupIDFlag_CTS\"",
+                              "Columns": "{\"SubMTVPID\",\"MemCovGrp\",\"\",\"\"}",
+                              "_ParamList1": "{2}",
+                              "_ParamListOMRIndex1": "{-1}",
+                              "_ParamList2": "{1}",
+                              "_ParamListOMRIndex2": "{-1}",
+                              "_ParamList3": "{9}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_RoutingLogic_OLD",
+                            "RuleGUID": "9b2ca146-0132-42f3-8da7-fdff25d688da",
+                            "RuleName": "Set USAGroupIDFlag = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "a512d6b1-f2ac-40e3-8ed8-3da86d5e2cfd",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1}",
+                              "_FunctionVersion": "100",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "_Description": "\"This indicates the document needs to be keyed in the USA. \"",
+                              "OutputFormat": "\"1\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{}",
+                      "_FunctionVersion": "1",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{}",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                      "PlugIfSinglePluggableMatch": "0",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "3",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65539",
+      "_Sources": "{\"OCR_AEG\"}",
+      "CaseSensitive": "1",
+      "_ParamListOMRIndex0": "{-1}",
+      "RegularExpression": "\"1\"",
+      "_Description": "\"If so we can continue with trying to set the USAGroupIDFlag, otherwise there is no need to check the CTS table.\""
+    }
+  },
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "51b82bec-a2bf-46f5-a30b-3ccf912ebb29",
+    "RuleName": "Show flags",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1,4,5,6,7,9}",
+      "_FunctionVersion": "3",
+      "_Description": "\"For logging purposes\""
+    }
+  },
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "72c0ad20-440a-482d-9240-24f6b1d32e40",
+    "RuleName": "Clear SL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_RoutingCTSInfo\""
+    }
+  },
+  {
+    "Container": "routing_RoutingLogic_OLD",
+    "RuleGUID": "c70928ef-b52a-4021-ac51-6039d7777c58",
+    "RuleName": "Clear SL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_RoutingEligInfo\""
+    }
+  }
+]

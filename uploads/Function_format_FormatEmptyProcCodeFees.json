@@ -1,0 +1,217 @@
+[
+  {
+    "Container": "format_FormatEmptyProcCodeFees",
+    "RuleGUID": "84810fe9-8372-49ee-b494-38f5697ad7ce",
+    "RuleName": "Is the ProcCode empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "All Empty",
+        "ChildRules": [
+          {
+            "Container": "format_FormatEmptyProcCodeFees",
+            "RuleGUID": "8bc12029-6cd0-4957-a30d-b4dd3c484daf",
+            "RuleName": "Set temp1 = 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "84810fe9-8372-49ee-b494-38f5697ad7ce",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          },
+          {
+            "Container": "format_FormatEmptyProcCodeFees",
+            "RuleGUID": "a1811bda-1c69-415b-b523-0ffadd85c29c",
+            "RuleName": "Set attr on ProcCode",
+            "RuleID": "",
+            "FunctionName": "SetFieldAttr",
+            "ParentGUID": "84810fe9-8372-49ee-b494-38f5697ad7ce",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "_Description": "\"This will be used to indicate we should ignore the value when creating totals.\"",
+              "_ParamList1": "{2}",
+              "AttributeName": "\"WasEmpty\""
+            }
+          },
+          {
+            "Container": "format_FormatEmptyProcCodeFees",
+            "RuleGUID": "53740422-909e-4b5f-9509-716f54499c1b",
+            "RuleName": "Is the Fee negative?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "84810fe9-8372-49ee-b494-38f5697ad7ce",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "format_FormatEmptyProcCodeFees",
+                    "RuleGUID": "070c7db4-1c58-453c-b117-164bb3e2b8c4",
+                    "RuleName": "Set ProcCode = D0001",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "53740422-909e-4b5f-9509-716f54499c1b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"D0001\""
+                    }
+                  },
+                  {
+                    "Container": "format_FormatEmptyProcCodeFees",
+                    "RuleGUID": "af19c5fb-cc67-43f0-b95f-b51bd5c216da",
+                    "RuleName": "Filter dashes from Fee",
+                    "RuleID": "",
+                    "FunctionName": "FilterChars",
+                    "ParentGUID": "53740422-909e-4b5f-9509-716f54499c1b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InvertCharSet": "0",
+                      "FilterSet": "\"charset_Dash\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "format_FormatEmptyProcCodeFees",
+                    "RuleGUID": "e2d80e58-92ba-447d-b116-55f0526af171",
+                    "RuleName": "Set ProcCode = D0000",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "53740422-909e-4b5f-9509-716f54499c1b",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"D0000\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^-\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

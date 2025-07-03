@@ -1,0 +1,719 @@
+[
+  {
+    "Container": "output_SplitEligRollup",
+    "RuleGUID": "07f326a6-470f-442c-b513-5c0dc844fdba",
+    "RuleName": "See if tmp2 and Main are empty",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "First time through",
+        "ChildRules": [
+          {
+            "Container": "output_SplitEligRollup",
+            "RuleGUID": "5b3e1fdb-8fdc-412d-8624-5f610ad85cc4",
+            "RuleName": "Copy tmp1 to Main",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "07f326a6-470f-442c-b513-5c0dc844fdba",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}"
+            }
+          },
+          {
+            "Container": "output_SplitEligRollup",
+            "RuleGUID": "0dc6e025-d7eb-4d40-81a0-d3d474197e4d",
+            "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "07f326a6-470f-442c-b513-5c0dc844fdba",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "All other times",
+        "ChildRules": [
+          {
+            "Container": "output_SplitEligRollup",
+            "RuleGUID": "39711af5-ddc0-4eb0-bb5e-9f49dcd35024",
+            "RuleName": "See if prev row (tmp2) values are same as curr row (tmp1)",
+            "RuleID": "",
+            "FunctionName": "CompareFields",
+            "ParentGUID": "07f326a6-470f-442c-b513-5c0dc844fdba",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Same Eligibilty",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligRollup",
+                    "RuleGUID": "5be60ece-3bac-4ddd-beb7-b1b204ab6083",
+                    "RuleName": "Copy tmp1 End Date to last line of Main",
+                    "RuleID": "",
+                    "FunctionName": "CopyLines",
+                    "ParentGUID": "39711af5-ddc0-4eb0-bb5e-9f49dcd35024",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{17}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{4}",
+                      "_Description": "\"This just extends the coverage end date.  We do not care if coverage was continuous because we would assume no gap in splitting anyway.\"",
+                      "OverwriteInsertAppend": "0",
+                      "Begin": "{0}",
+                      "End": "{0}",
+                      "LineNumber": "{-1}",
+                      "ClearToFields": "{0}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitEligRollup",
+                    "RuleGUID": "926fab87-da1a-43b2-9233-7609e2164f08",
+                    "RuleName": "Copy tmp1 End Date to temp2 End Date",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "39711af5-ddc0-4eb0-bb5e-9f49dcd35024",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{17}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{30}",
+                      "_Description": "\"Defect: 109407 (jtd) - don't forget to set update the previous end date as well for and future line processing.\"",
+                      "OverwriteInsertAppend": "0",
+                      "Begin": "{0}",
+                      "End": "{0}",
+                      "LineNumber": "{-1}",
+                      "ClearToFields": "{0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "New Eligibility",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitEligRollup",
+                    "RuleGUID": "2ad20b40-c7ff-424d-9910-edd271a9382f",
+                    "RuleName": "Is Pre row = M?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "39711af5-ddc0-4eb0-bb5e-9f49dcd35024",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligRollup",
+                            "RuleGUID": "3519d118-4720-4722-a66f-0b8d8f964507",
+                            "RuleName": "Is Curr row = M?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "2ad20b40-c7ff-424d-9910-edd271a9382f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligRollup",
+                                    "RuleGUID": "14cbdb07-0628-4b6a-bcbb-40ad95965ba0",
+                                    "RuleName": "Is Curr Start Date <= Pre End Date?",
+                                    "RuleID": "",
+                                    "FunctionName": "CompareDateFields",
+                                    "ParentGUID": "3519d118-4720-4722-a66f-0b8d8f964507",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitEligRollup",
+                                            "RuleGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                            "RuleName": "Is Curr End Date <= Pre End Date?",
+                                            "RuleID": "",
+                                            "FunctionName": "CompareDateFields",
+                                            "ParentGUID": "14cbdb07-0628-4b6a-bcbb-40ad95965ba0",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitEligRollup",
+                                                    "RuleGUID": "0c20ec2e-65e4-4b8d-aacc-a7e636f02d49",
+                                                    "RuleName": "Do nothing - within",
+                                                    "RuleID": "",
+                                                    "FunctionName": "IsEmpty",
+                                                    "ParentGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{7}",
+                                                      "_FunctionVersion": "3"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitEligRollup",
+                                                    "RuleGUID": "cafce307-6e72-4bf5-aa79-8065053abc34",
+                                                    "RuleName": "Set Pre End Date + 1",
+                                                    "RuleID": "",
+                                                    "FunctionName": "FormatDate",
+                                                    "ParentGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{30}",
+                                                      "_FunctionVersion": "6",
+                                                      "DateFormat": "\"Y4MD_output\"",
+                                                      "Offset": "\"+00010000\""
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitEligRollup",
+                                                    "RuleGUID": "7b4d35d5-3a1f-4d64-a7e8-5c7fd31e74a4",
+                                                    "RuleName": "Copy Pre End Date to Curr Start Date",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{30}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{16}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitEligRollup",
+                                                    "RuleGUID": "6868f09c-db1d-4d70-857e-f21e4b097eed",
+                                                    "RuleName": "Append tmp1 to Main",
+                                                    "RuleID": "",
+                                                    "FunctionName": "CopyLines",
+                                                    "ParentGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                                      "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                                      "OverwriteInsertAppend": "2",
+                                                      "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                                      "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                                      "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                                      "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                                    }
+                                                  },
+                                                  {
+                                                    "Container": "output_SplitEligRollup",
+                                                    "RuleGUID": "eeb7c5df-f5ed-4282-9ec6-04e676fdcea1",
+                                                    "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+                                                    "RuleID": "",
+                                                    "FunctionName": "Copy",
+                                                    "ParentGUID": "26d0130f-9e35-4bbb-9042-5e7d088998e6",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                                      "_FunctionVersion": "1",
+                                                      "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{17}",
+                                              "_FunctionVersion": "2",
+                                              "_ParamList1": "{30}",
+                                              "DateFormat": "\"Y4MD_output\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitEligRollup",
+                                            "RuleGUID": "25cd1d62-70a4-49d8-a8ed-46e635a64e9f",
+                                            "RuleName": "Append tmp1 to Main",
+                                            "RuleID": "",
+                                            "FunctionName": "CopyLines",
+                                            "ParentGUID": "14cbdb07-0628-4b6a-bcbb-40ad95965ba0",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                              "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                              "OverwriteInsertAppend": "2",
+                                              "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                              "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                              "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                              "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                            }
+                                          },
+                                          {
+                                            "Container": "output_SplitEligRollup",
+                                            "RuleGUID": "6ca74dfd-2fec-4fcd-bbdf-76c55d125060",
+                                            "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "14cbdb07-0628-4b6a-bcbb-40ad95965ba0",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{16}",
+                                      "_FunctionVersion": "2",
+                                      "_ParamList1": "{30}",
+                                      "DateFormat": "\"Y4MD_output\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitEligRollup",
+                                    "RuleGUID": "63ec0daa-fad1-4788-8dbe-b3466ee050fb",
+                                    "RuleName": "Append tmp1 to Main",
+                                    "RuleID": "",
+                                    "FunctionName": "CopyLines",
+                                    "ParentGUID": "3519d118-4720-4722-a66f-0b8d8f964507",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                                      "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                                      "OverwriteInsertAppend": "2",
+                                      "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                                      "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                                      "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitEligRollup",
+                                    "RuleGUID": "67be1e21-faa8-4470-b301-9f9d35539471",
+                                    "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "3519d118-4720-4722-a66f-0b8d8f964507",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{25}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"M\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitEligRollup",
+                            "RuleGUID": "1bd468e0-761b-4cc0-aa0a-e39ddb574391",
+                            "RuleName": "Append tmp1 to Main",
+                            "RuleID": "",
+                            "FunctionName": "CopyLines",
+                            "ParentGUID": "2ad20b40-c7ff-424d-9910-edd271a9382f",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{0,1,2,3,4,5,6,7,8,9,10,11,12}",
+                              "_Description": "\"This is a new coverage and therefore we must add a new line to the list.\"",
+                              "OverwriteInsertAppend": "2",
+                              "Begin": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                              "End": "{0,0,0,0,0,0,0,0,0,0,0,0,0}",
+                              "LineNumber": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+                              "ClearToFields": "{0,0,0,0,0,0,0,0,0,0,0,0,0}"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitEligRollup",
+                            "RuleGUID": "85f4637b-1c80-480b-bdac-a944e109d41f",
+                            "RuleName": "Copy tmp1 to tmp2 to retain a copy of the prev row",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "2ad20b40-c7ff-424d-9910-edd271a9382f",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{13,14,15,16,17,18,19,20,21,22,23,24,25}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{26,27,28,29,30,31,32,33,34,35,36,37,38}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{38}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"M\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{15,18,19,20,21,22,23,25}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{28,31,32,33,34,35,36,38}",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1",
+              "_Description": "\"By looking at the list of fields that are being compared you can say \\042We are splitting by...\\042 and then name a field.  For instance, Delta wants to split by SystemOfRecord (SOR).  By comparing them we can roll the lines up in to one when they are the same, but preserve the separate rows when they are different.  If they are different we'll have two lines with two date ranges when we go to compare the dates to the detail lines on the claim later on.\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,26}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

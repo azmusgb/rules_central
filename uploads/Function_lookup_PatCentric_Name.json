@@ -1,0 +1,1287 @@
+[
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "a202f5db-43ff-443d-8798-a0ff7d4763c8",
+    "RuleName": "Prep temp name fields",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "---",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "4739b47f-3caf-4017-891d-8637710a6ed9",
+            "RuleName": "Copy Name fields",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "a202f5db-43ff-443d-8798-a0ff7d4763c8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0,1}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{3,4}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "c7defde7-38dd-43f2-8903-4dd785b17377",
+            "RuleName": "Trim LName to 16",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a202f5db-43ff-443d-8798-a0ff7d4763c8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"\\134(^................\\134)\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNO\",\"ABCDEF\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "4845d623-da39-4b38-a0ad-380c4aee68e0",
+            "RuleName": "Trim FName to 8",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "a202f5db-43ff-443d-8798-a0ff7d4763c8",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{4}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"\\134(^........\\134)\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"ABCDEFGHIJKLMNOP\",\"ABCDEFGHIJKLMNOPQ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFG\",\"ABCDEF\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "StripSpaces": "0",
+      "Table": "\"odbc_BillingProv\"",
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "24bd98e0-3782-483a-bc38-c3fc1d0dd1bc",
+    "RuleName": "Clear SL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "dbe65b8f-f0d6-4d91-84a8-f563fdf4c705",
+    "RuleName": "Last Name - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "cac95786-4b24-4b5a-9338-f2d0e6e7acbd",
+            "RuleName": "Get all Members with DOB and Full LastName",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "dbe65b8f-f0d6-4d91-84a8-f563fdf4c705",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Table": "\"odbc_MemInfo\"",
+              "_ParamList0": "{0,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "1ede74d4-ae3c-4850-957d-e94c3bd042fb",
+    "RuleName": "Last Name 16 - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "b369c50d-e4b3-450c-957a-7f2017ae33ca",
+            "RuleName": "Get all Members with DOB and Partial LastName",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "1ede74d4-ae3c-4850-957d-e94c3bd042fb",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Table": "\"odbc_MemInfo\"",
+              "_ParamList0": "{3,2}",
+              "_FunctionVersion": "131076",
+              "_ParamList1": "{}",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "MaxMatchCount": "30000",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_LST_NM\",\"MEM_DOB\"}",
+              "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\",\"MemRefFilKeyVal\"}",
+              "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\",\"MEM_REF_FIL_KEY_VAL\"}",
+              "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+              "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{3}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "a4797698-6d71-4d00-a25f-d9af2c21e182",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "0d34ac01-af38-4917-a256-ad0276c9e7e5",
+    "RuleName": "Trim Based on First Name and Partial First Name",
+    "RuleID": "",
+    "FunctionName": "TrimSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1,4}",
+      "_FunctionVersion": "65537",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "GroupCount": "1",
+      "GroupNames": "{\"FirstName\"}",
+      "MatchType": "{0}",
+      "SwapFields": "{0}",
+      "TableIgnoreCharSets": "{\"\"}",
+      "NoneMatch": "{1}",
+      "Combine": "{1}",
+      "UseSubstrings": "{0}",
+      "EditDistance": "{0,0}",
+      "Percentage": "{0,0}",
+      "Required": "{0,0}",
+      "FieldGroup": "{0,0}",
+      "MatchColumns": "{\"MemberFirstName\",\"MemberFirstName\"}",
+      "ColumnGroup": "{0,0}",
+      "Depends": "{}",
+      "DependsType": "{}",
+      "DependsGroup": "{}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "57ae0d66-f936-4a30-8cf7-f2e0439288b0",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+    "RuleName": "Zip Trimming Logic",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "---",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "68dfc657-0b3a-43eb-b4d3-d83f6f486d89",
+            "RuleName": "Delete PatZipRegEx",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10}",
+              "_FunctionVersion": "1",
+              "InputFormat": "\"%s\"",
+              "OutputFormat": "\"%s\"",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "e03d887b-0c2f-428b-a22a-ade08deb8a07",
+            "RuleName": "Copy Zip to PatZipRegEx",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{10}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "9614f829-8e33-49f3-b1c7-732a53b4970a",
+            "RuleName": "Set flag = 0",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\"",
+              "_Description": "\"This will be used to indicate at least one row is kept from the SL trim.  If it comes back a 1 then we can trim.  If it doesn't then we shouldn't trim because we would remove all rows.\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "f866db72-6a0b-4d5b-844a-16b7605744a3",
+            "RuleName": "Trim PatZipRegEx to 5 Digits",
+            "RuleID": "",
+            "FunctionName": "LimitLineLength",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{10}",
+              "_FunctionVersion": "1",
+              "MaxNum": "1",
+              "TruncateLeft": "0",
+              "MaxLength": "5"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "116cb784-3106-4a88-832b-fc74d989c25e",
+            "RuleName": "Run Trim flagging UDF",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Table": "\"selectionlist_PatientCentric\"",
+              "_ParamList0": "{10}",
+              "_FunctionVersion": "0",
+              "_ParamList1": "{7}",
+              "UDFName": "\"lookup_PatCentric_ZipFlag\"",
+              "Columns": "{\"\",\"\",\"MemberZip\"}",
+              "_ParamList2": "{9}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "6efba53a-65c1-4723-9bad-262bd0956781",
+            "RuleName": "Delete temp fields",
+            "RuleID": "",
+            "FunctionName": "DeleteLines",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{9}",
+              "_FunctionVersion": "1",
+              "DeleteBlanks": "0",
+              "MinLinesBeforeDelete": "0",
+              "LinesFrom": "0",
+              "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "8e9fbfc6-de71-4069-9bb2-46f36e85dd86",
+            "RuleName": "Is flag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_Name",
+                    "RuleGUID": "754f84ab-7c65-4fe3-8ef5-0b425c7236e9",
+                    "RuleName": "Run Trimming UDF",
+                    "RuleID": "",
+                    "FunctionName": "_IIterateDynamicTableUDF",
+                    "ParentGUID": "8e9fbfc6-de71-4069-9bb2-46f36e85dd86",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "Table": "\"selectionlist_PatientCentric\"",
+                      "_ParamList0": "{10}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{9}",
+                      "UDFName": "\"lookup_PatCentric_ZipTrim\"",
+                      "Columns": "{\"\",\"MemberZip\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_Name",
+                    "RuleGUID": "6127b010-74a7-4f4e-9d08-5b5d48ba0a44",
+                    "RuleName": "Set field to XXX",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "8e9fbfc6-de71-4069-9bb2-46f36e85dd86",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"XXX\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_PatCentric_Name",
+                    "RuleGUID": "314b37fb-8b48-4909-b45c-19117ffe6c44",
+                    "RuleName": "Flag all rows as not pluggable",
+                    "RuleID": "",
+                    "FunctionName": "TrimSL",
+                    "ParentGUID": "8e9fbfc6-de71-4069-9bb2-46f36e85dd86",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "65537",
+                      "SelectionList": "\"selectionlist_PatientCentric\"",
+                      "GroupCount": "1",
+                      "GroupNames": "{\"Mark all bad\"}",
+                      "MatchType": "{1}",
+                      "SwapFields": "{0}",
+                      "TableIgnoreCharSets": "{\"\"}",
+                      "NoneMatch": "{1}",
+                      "Combine": "{0}",
+                      "UseSubstrings": "{0}",
+                      "EditDistance": "{0}",
+                      "Percentage": "{0}",
+                      "Required": "{0}",
+                      "FieldGroup": "{0}",
+                      "MatchColumns": "{\"MemberID\"}",
+                      "ColumnGroup": "{0}",
+                      "Depends": "{}",
+                      "DependsType": "{}",
+                      "DependsGroup": "{}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{7}",
+              "_FunctionVersion": "65539",
+              "_Description": "\"If so an actual trim will leave at least one row.  We don't want to remove all rows, but the IDT and DeleteCurrentRow logic doesn't have the same ability that TrimSL has to recognize that all rows would be removed.  Since temp10 = 1 we are safe to actually remove rows.\"",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "dd9156a1-1675-4b6f-aab0-45a4cbc82537",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "a74cd647-7d5a-4055-966a-9e52e6e93b80",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "LogLevel": "12"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "3"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "3c4cdc4e-7f93-4e60-ae4c-6d65ddfc9f9f",
+    "RuleName": "Set temp1 to MCID",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"MCID\"",
+      "_Description": "\"This will be used to filter the SL by the MCID id type.  This should eliminate false \\042multiple member\\042 conditions.\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "f8596f19-17be-431d-8871-917c5c196107",
+    "RuleName": "Trim based on ID Type",
+    "RuleID": "",
+    "FunctionName": "TrimSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "65537",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "GroupCount": "1",
+      "GroupNames": "{\"MCID Type\"}",
+      "MatchType": "{1}",
+      "SwapFields": "{0}",
+      "TableIgnoreCharSets": "{\"\"}",
+      "NoneMatch": "{2}",
+      "Combine": "{1}",
+      "UseSubstrings": "{0}",
+      "EditDistance": "{0}",
+      "Percentage": "{0}",
+      "Required": "{1}",
+      "FieldGroup": "{0}",
+      "MatchColumns": "{\"MemberIDType\"}",
+      "ColumnGroup": "{0}",
+      "Depends": "{}",
+      "DependsType": "{}",
+      "DependsGroup": "{}",
+      "_Description": "\"This should trim out ID Types != MCID.  The way Delta's tables are structured, you will never get a single match.  This is due to the fact that every member is listed with multiple IDs.  This step is used to isolate the one row with MCID.\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "71b10293-9633-44ca-896c-2a645a616f21",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "4fa69500-cc01-4fe0-94ba-b141e241b566",
+    "RuleName": "Delete temp fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{11,12,13,14,6}",
+      "_FunctionVersion": "1",
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "LinesFrom": "0",
+      "_Description": "\"These fields are used for iterating over the SL.  They are not claim fields.  \""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "228375fd-db1d-4d2b-999d-a6c0c2680edb",
+    "RuleName": "Iterate over rows to flag if PersonID is not the same",
+    "RuleID": "",
+    "FunctionName": "_IIterateDynamicTableUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "Table": "\"selectionlist_PatientCentric\"",
+      "_ParamList0": "{12}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{13}",
+      "UDFName": "\"lookup_FindPersonIDDifferences\"",
+      "Columns": "{\"MemberMTVPID\",\"\",\"\"}",
+      "_ParamList2": "{11}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "3c7dc248-8f3e-4b4f-834f-4deec8b567fa",
+    "RuleName": "Is PersonIDFlag = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - PersonID is the same on all rows",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_Name",
+            "RuleGUID": "f40dc55c-0ce1-407e-be98-c793bc7160a4",
+            "RuleName": "Delete all but first row from SL",
+            "RuleID": "",
+            "FunctionName": "_IIterateDynamicTableUDF",
+            "ParentGUID": "3c7dc248-8f3e-4b4f-834f-4deec8b567fa",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Table": "\"selectionlist_PatientCentric\"",
+              "_ParamList0": "{14}",
+              "_FunctionVersion": "0",
+              "UDFName": "\"lookup_PatCentric_DelNon1stRows\"",
+              "Columns": "{\"\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{11}",
+      "_FunctionVersion": "65539",
+      "_Description": "\"If so the PersonID was not the same over the SL so we do not want to do anything.\"",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"1\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_Name",
+    "RuleGUID": "13872f54-b0f7-4978-8d3d-5bf316402bb4",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  }
+]

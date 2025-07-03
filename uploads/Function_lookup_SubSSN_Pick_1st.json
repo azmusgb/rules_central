@@ -1,0 +1,89 @@
+[
+  {
+    "Container": "lookup_SubSSN_Pick_1st",
+    "RuleGUID": "2bcd113a-3a4c-4998-b573-f963473c4978",
+    "RuleName": "Is FirstRowFlag empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - this is the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_SubSSN_Pick_1st",
+            "RuleGUID": "d30e004a-c62c-4da2-b60f-9d35acb114a0",
+            "RuleName": "Set flag = 1",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "2bcd113a-3a4c-4998-b573-f963473c4978",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No - this is not the first row",
+        "ChildRules": [
+          {
+            "Container": "lookup_SubSSN_Pick_1st",
+            "RuleGUID": "f3ec7b5e-4c42-47a3-96b4-0717191565b7",
+            "RuleName": "Delete current row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "2bcd113a-3a4c-4998-b573-f963473c4978",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_SubSSN\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

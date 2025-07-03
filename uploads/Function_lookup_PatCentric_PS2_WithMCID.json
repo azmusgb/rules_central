@@ -1,0 +1,477 @@
+[
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "48387fca-c0b2-4450-9b85-263ae9172642",
+    "RuleName": "Is MCID 12 chars?",
+    "RuleID": "",
+    "FunctionName": "CheckLineLength",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_WithMCID",
+            "RuleGUID": "e8123990-ccc7-4dd8-8385-e52cd0c5d0a4",
+            "RuleName": "Copy MCID to HoldSuffix",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "48387fca-c0b2-4450-9b85-263ae9172642",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{2}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_PS2_WithMCID",
+            "RuleGUID": "ed38a188-2e28-475b-9fb6-c1a753c6feac",
+            "RuleName": "Save last two chars from ID",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "48387fca-c0b2-4450-9b85-263ae9172642",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{2}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^..........\\134(..\\134)$\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"123456789012\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_PS2_WithMCID",
+            "RuleGUID": "881a268e-5d6b-4e11-9a3f-60c95045a51f",
+            "RuleName": "Remove last two chars from ID",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "48387fca-c0b2-4450-9b85-263ae9172642",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "2",
+              "InputFormat": "\"^\\134(..........\\134)..$\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "MinLengthLimit": "12",
+      "MaxLengthLimit": "12",
+      "AllowedLengths": "{12}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "bad3574a-3d71-44ca-9776-65cce54354f7",
+    "RuleName": "Set IDType = MCID",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{3}",
+      "_FunctionVersion": "100",
+      "OutputFormat": "\"MCID\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "f276856a-eb3f-4186-957b-237075b171f7",
+    "RuleName": "Add 1 to Suffix",
+    "RuleID": "",
+    "FunctionName": "DoMathAndFormat",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{4}",
+      "OutputFormat": "\"%.0f\"",
+      "Deviation": "0",
+      "Remainder": "0",
+      "MathExpression": "\"F0 + 1\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "297c1eca-8596-4f56-88af-1bfd6cd6365c",
+    "RuleName": "Prepend a zero if 1 char",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{4}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"^\\134([0-9]\\134)$\"",
+      "OutputFormat": "\"0\\1341\"",
+      "CaseSensitive2": "0",
+      "DateFormat": "\"dfr_JDAY_TO_MDY\""
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "22ee1433-01c7-4aa1-b905-e5b72ce350d1",
+    "RuleName": "Put counter on MCID",
+    "RuleID": "",
+    "FunctionName": "MergeFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1,4}",
+      "_FunctionVersion": "65537",
+      "_ParamList1": "{1}",
+      "SkipAppendOnBlankField": "0",
+      "SkipAppendOnBlankLine": "0",
+      "TreatMultiLineAllBlankAsBlank": "0"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "bab0ea84-c1dd-4de4-b5a2-564639d2a257",
+    "RuleName": "Get all Pats with SSN",
+    "RuleID": "",
+    "FunctionName": "SelectSelectedListTableApproxMatch",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1,3}",
+      "_FunctionVersion": "131076",
+      "_ParamList1": "{}",
+      "MaxMatchCount": "300",
+      "MaxIndexCount": "0",
+      "EmptyKeyFails": "1",
+      "AnyEmptyKeysFails": "0",
+      "Table": "\"odbc_MemInfo\"",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "NextInstance": "0",
+      "SelectionListColumns": "{\"MemberLastName\",\"MemberFirstName\",\"MemberDOB\",\"MemberStAddress\",\"MemberCity\",\"MemberMI\",\"MemberID\",\"MemberSSN\",\"MemberStAddress2\",\"MemberStAddress3\",\"MemberZip\",\"MemberCountry\",\"MemberGender\",\"MemberMTVPID\",\"MemberRelCode\",\"MemberLegacyRelCode\",\"MemberERISAInd\",\"MemberUnitID\",\"MemberSOR\",\"MemberState\",\"MemberIDType\",\"MemRefFilKeyVal\",\"MemberLstNmNoSuffix\",\"MemberLstNmPartial\",\"MemLstNmWord1\",\"MemLstNmWord2\",\"MemZipFirst5\"}",
+      "DataColumns": "{\"MEM_LST_NM\",\"MEM_FST_NM\",\"MEM_DOB\",\"MEM_ADDR_LN_1\",\"MEM_CTY\",\"MEM_MDL_NM\",\"MEM_ID\",\"MEM_SSN\",\"MEM_ADDR_LN_2\",\"MEM_ADDR_LN_3\",\"MEM_ZIP\",\"MEM_CTRY\",\"MEM_GNDR\",\"MEM_MTV_PID\",\"MEM_MTV_REL_CD\",\"MEM_LEG_REL_CD\",\"MEM_ERISA_IND\",\"MEM_UNT_ID\",\"MEM_SOR\",\"MEM_ST\",\"MEM_ID_TYP\",\"MEM_REF_FIL_KEY_VAL\",\"MEM_LST_NM_NO_SUFFIX\",\"MEM_LST_NM_PARTIAL_WORD\",\"MEM_LST_NM_WORD_1\",\"MEM_LST_NM_WORD_2\",\"MEM_ZIP_FIRST_5\"}",
+      "EscapeFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+      "PlugFields": "{\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"}",
+      "DataTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "DataTableEmptyField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "EmptyTableDataField": "{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}",
+      "CatchResourceUnavailable": "0",
+      "ExactColumns": "{\"MEM_ID\",\"MEM_ID_TYP\"}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "7a5c96db-2d6a-4c5b-ad55-40674835857d",
+    "RuleName": "Remove counter from MCID",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"^\\134(.*.\\134)..$\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"123456789012\",\"12345678901\",\"1234567890123\",\"12312301\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "3d2372d3-71e9-47c1-9663-99298684ba46",
+    "RuleName": "LogSL",
+    "RuleID": "",
+    "FunctionName": "LogSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "1",
+      "SelectionList": "\"selectionlist_PatientCentric\"",
+      "LogLevel": "12"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_WithMCID",
+    "RuleGUID": "53e97ecb-a008-4a81-8e72-01987a9e65e2",
+    "RuleName": "Is HoldSuffix populated?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_WithMCID",
+            "RuleGUID": "9bca93df-880e-41d4-be79-578ccbc99264",
+            "RuleName": "Put MCID back together",
+            "RuleID": "",
+            "FunctionName": "MergeFields",
+            "ParentGUID": "53e97ecb-a008-4a81-8e72-01987a9e65e2",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1,2}",
+              "_FunctionVersion": "65537",
+              "_ParamList1": "{1}",
+              "SkipAppendOnBlankField": "0",
+              "SkipAppendOnBlankLine": "0",
+              "TreatMultiLineAllBlankAsBlank": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

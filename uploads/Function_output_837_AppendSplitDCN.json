@@ -1,0 +1,135 @@
+[
+  {
+    "Container": "output_837_AppendSplitDCN",
+    "RuleGUID": "d1e6115a-123d-46c2-af91-2968142628e1",
+    "RuleName": "See if Split DCN has data",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "output_837_AppendSplitDCN",
+            "RuleGUID": "8ad9c28a-7957-4078-b930-4babdad6ef06",
+            "RuleName": "See if this is the first split DCN",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "d1e6115a-123d-46c2-af91-2968142628e1",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "First Split DCN",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_AppendSplitDCN",
+                    "RuleGUID": "15f7bcdb-010d-4cad-b317-1eac835f40b7",
+                    "RuleName": "Merge with no comma",
+                    "RuleID": "",
+                    "FunctionName": "MergeFields",
+                    "ParentGUID": "8ad9c28a-7957-4078-b930-4babdad6ef06",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0,1}",
+                      "_FunctionVersion": "65537",
+                      "SkipAppendOnBlankField": "0",
+                      "SkipAppendOnBlankLine": "0",
+                      "TreatMultiLineAllBlankAsBlank": "0",
+                      "_ParamList1": "{0}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "All other splits",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_AppendSplitDCN",
+                    "RuleGUID": "43f501fc-6936-4acf-9e73-4b8699e43a7c",
+                    "RuleName": "Merge with comma and space",
+                    "RuleID": "",
+                    "FunctionName": "MergeFields",
+                    "ParentGUID": "8ad9c28a-7957-4078-b930-4babdad6ef06",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0,1}",
+                      "_FunctionVersion": "65537",
+                      "SkipAppendOnBlankField": "0",
+                      "SkipAppendOnBlankLine": "0",
+                      "TreatMultiLineAllBlankAsBlank": "0",
+                      "_ParamList1": "{0}",
+                      "InterFieldFiller": "\", \""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"IDs[ ]*$\"",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"IDs: \",\"IDs 20091331000050,\",\"IDs \"}",
+              "_RegExSubStringBaseline0": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+              "_RegExSubStringBaseline1": "{\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}",
+              "_RegExMatchBaseline": "{0,0,1}",
+              "_RegExOutputBaseline": "{\"IDs: \",\"IDs 20091331000050,\",\"\"}",
+              "_RegExSubStringBaseline2": "{\"IDs \",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

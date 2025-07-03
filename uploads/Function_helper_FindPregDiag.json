@@ -1,0 +1,130 @@
+[
+  {
+    "Container": "helper_FindPregDiag",
+    "RuleGUID": "01ece6a7-4171-458f-85e8-951c16632eda",
+    "RuleName": "Add 1 to Counter",
+    "RuleID": "",
+    "FunctionName": "SubstChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "1",
+      "TargetList": "{\"0\",\"1\",\"2\",\"3\"}",
+      "Replacements": "\"1234\""
+    }
+  },
+  {
+    "Container": "helper_FindPregDiag",
+    "RuleGUID": "fcd04f38-e92c-444e-829d-73ce2a95832c",
+    "RuleName": "Is the PregPtrFlag empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_FindPregDiag",
+            "RuleGUID": "74516e05-f54e-45af-ac83-f268d577e480",
+            "RuleName": "Is the DiagCode related to pregancy?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "fcd04f38-e92c-444e-829d-73ce2a95832c",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "All",
+                "ChildRules": [
+                  {
+                    "Container": "helper_FindPregDiag",
+                    "RuleGUID": "6f980e65-1a37-414e-9e9d-762a8a8db865",
+                    "RuleName": "Copy Counter to PregPtrFlag",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "74516e05-f54e-45af-ac83-f268d577e480",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2}",
+                      "_FunctionVersion": "1",
+                      "_Description": "\"This will tell us which DiagCode was the pregnancy one\"",
+                      "_ParamList1": "{1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"^Z3[34]\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "3",
+      "_Description": "\"If so, we haven't found a pregnancy diag code.  If not, we have and don't want to keep looking.\""
+    }
+  }
+]

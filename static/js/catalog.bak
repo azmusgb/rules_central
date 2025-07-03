@@ -1,0 +1,437 @@
+// catalog.js - Catalog Viewer Component
+class CatalogViewer {
+  constructor() {
+    this.debounceTimer = null;
+    this.allCatalogs = [];
+    this.filterState = {
+      searchTerm: "",
+      diagramTypes: new Set(),
+      expandedGroups: new Set(),
+    };
+    this.uiElements = {};
+  }
+
+  async init() {
+    try {
+      this.cacheElements();
+      this.setupEventListeners();
+      await this.loadCatalog();
+    } catch (error) {
+      console.error("Catalog initialization error:", error);
+      this.showError("Failed to load catalog");
+    }
+  }
+
+  cacheElements() {
+    this.uiElements = {
+      searchInput: document.getElementById("searchInput"),
+      clearSearchBtn: document.getElementById("clearSearchBtn"),
+      loadingIndicator: document.getElementById("loadingIndicator"),
+      catalogContainer: document.getElementById("catalogContainer"),
+      noResults: document.getElementById("noResults"),
+      filterMenu: document.querySelector(".filter-menu"),
+      backToTop: document.getElementById("backToTop"),
+      searchButton: document.getElementById("searchButton"),
+      resetButton: document.getElementById("resetButton"),
+      expandAllButton: document.getElementById("expandAllButton"),
+      collapseAllButton: document.getElementById("collapseAllButton"),
+      resetSearchButton: document.getElementById("resetSearchButton"),
+      categoryNavContainer: document.getElementById("categoryNavContainer"),
+      categoryNav: document.getElementById("categoryNav"),
+      filterToggle: document.getElementById("filterToggle")
+    };
+
+    // Initialize UI states
+    if (this.uiElements.loadingIndicator) {
+      this.uiElements.loadingIndicator.classList.remove("hidden");
+    }
+    if (this.uiElements.catalogContainer) {
+      this.uiElements.catalogContainer.classList.add("hidden");
+    }
+    if (this.uiElements.noResults) {
+      this.uiElements.noResults.classList.add("hidden");
+    }
+  }
+
+  setupEventListeners() {
+    // Search functionality
+    if (this.uiElements.searchInput) {
+      this.uiElements.searchInput.addEventListener("input", () => this.handleSearchInput());
+    }
+
+    // Clear search
+    if (this.uiElements.clearSearchBtn) {
+      this.uiElements.clearSearchBtn.addEventListener("click", () => this.clearSearch());
+    }
+
+    // Filter buttons
+    if (this.uiElements.searchButton) {
+      this.uiElements.searchButton.addEventListener("click", () => this.filterCatalog());
+    }
+
+    if (this.uiElements.resetButton) {
+      this.uiElements.resetButton.addEventListener("click", () => this.clearSearch());
+    }
+
+    if (this.uiElements.resetSearchButton) {
+      this.uiElements.resetSearchButton.addEventListener("click", () => this.clearSearch());
+    }
+
+    // Expand/collapse
+    if (this.uiElements.expandAllButton) {
+      this.uiElements.expandAllButton.addEventListener("click", () => this.expandAll());
+    }
+
+    if (this.uiElements.collapseAllButton) {
+      this.uiElements.collapseAllButton.addEventListener("click", () => this.collapseAll());
+    }
+
+    // Filter menu toggle
+    if (this.uiElements.filterToggle) {
+      this.uiElements.filterToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.uiElements.filterMenu.classList.toggle("hidden");
+      });
+    }
+
+    // Close filter menu when clicking outside
+    document.addEventListener("click", () => {
+      if (this.uiElements.filterMenu) {
+        this.uiElements.filterMenu.classList.add("hidden");
+      }
+    });
+
+    // Back to top is handled in main.js
+  }
+
+  async loadCatalog() {
+    try {
+      this.showLoading(true);
+
+      const response = await fetch("/api/diagram_catalogs");
+      if (!response.ok) {
+        throw new Error("HTTP Error! Status: " + response.status);
+      }
+
+      this.allCatalogs = await response.json();
+      this.renderCatalog(this.allCatalogs);
+      this.createCategoryNavigation();
+    } catch (error) {
+      console.error("Error loading catalog:", error);
+      this.showError("Failed to load catalog. Please try again later.");
+    } finally {
+      this.showLoading(false);
+    }
+  }
+
+  showLoading(show) {
+    if (!this.uiElements.loadingIndicator) return;
+
+    if (show) {
+      this.uiElements.loadingIndicator.classList.remove("hidden");
+      if (this.uiElements.catalogContainer) {
+        this.uiElements.catalogContainer.classList.add("hidden");
+      }
+    } else {
+      this.uiElements.loadingIndicator.classList.add("hidden");
+      if (this.uiElements.catalogContainer) {
+        this.uiElements.catalogContainer.classList.remove("hidden");
+      }
+    }
+  }
+
+  createCategoryNavigation() {
+    if (!this.allCatalogs || this.allCatalogs.length === 0) return;
+    if (!this.uiElements.categoryNavContainer) return;
+
+    const categories = new Set();
+    this.allCatalogs.forEach((cat) => {
+      if (cat?.category) {
+        const topCategory = cat.category.split("_")[0];
+        if (topCategory) categories.add(topCategory);
+      }
+    });
+
+    if (categories.size === 0) {
+      if (this.uiElements.categoryNav) {
+        this.uiElements.categoryNav.classList.add("hidden");
+      }
+      return;
+    }
+
+    this.uiElements.categoryNavContainer.innerHTML = "";
+    
+    if (this.uiElements.categoryNav) {
+      this.uiElements.categoryNav.classList.remove("hidden");
+    }
+
+    // Add "All" button
+    const allButton = document.createElement("button");
+    allButton.className = "px-4 py-2 bg-primary-600 text-white rounded-lg text-sm whitespace-nowrap hover:bg-primary-700 transition-colors";
+    allButton.textContent = "All";
+    allButton.addEventListener("click", () => this.filterByCategory("all"));
+    this.uiElements.categoryNavContainer.appendChild(allButton);
+
+    // Add category buttons
+    categories.forEach((category) => {
+      const button = document.createElement("button");
+      button.className = "px-4 py-2 bg-dark-700 hover:bg-dark-600 text-gray-300 rounded-lg text-sm whitespace-nowrap transition-colors";
+      button.textContent = category;
+      button.addEventListener("click", () => this.filterByCategory(category));
+      this.uiElements.categoryNavContainer.appendChild(button);
+    });
+  }
+
+  filterByCategory(category) {
+    const buttons = this.uiElements.categoryNavContainer?.querySelectorAll("button");
+    if (buttons) {
+      buttons.forEach((btn) => {
+        btn.classList.remove("bg-primary-600", "text-white");
+        btn.classList.add("bg-dark-700", "text-gray-300");
+      });
+
+      const selectedBtn = Array.from(buttons).find((btn) =>
+        category === "all" ? btn.textContent === "All" : btn.textContent === category
+      );
+
+      if (selectedBtn) {
+        selectedBtn.classList.remove("bg-dark-700", "text-gray-300");
+        selectedBtn.classList.add("bg-primary-600", "text-white");
+      }
+    }
+
+    if (category === "all") {
+      this.renderCatalog(this.allCatalogs);
+    } else {
+      const filtered = this.allCatalogs.filter(
+        (cat) => cat?.category?.startsWith(category)
+      );
+      this.renderCatalog(filtered);
+    }
+  }
+
+  renderCatalog(catalogs) {
+    if (!this.uiElements.catalogContainer) return;
+
+    this.uiElements.catalogContainer.innerHTML = "";
+    this.uiElements.catalogContainer.classList.remove("hidden");
+
+if (!Array.isArray(catalogs)) {
+  this.showNoResults();
+  return;
+}
+
+    const groupedCatalogs = this.groupCatalogs(catalogs);
+    this.createCatalogItems(groupedCatalogs);
+
+    if (this.uiElements.noResults) {
+      this.uiElements.noResults.classList.toggle(
+        "hidden",
+        Object.keys(groupedCatalogs).length > 0
+      );
+    }
+  }
+
+  groupCatalogs(catalogs) {
+    return catalogs.reduce((groups, cat) => {
+      if (!cat?.category) return groups;
+
+      const parts = cat.category.split("_");
+      const top = parts[0];
+      const subgroup = parts.length > 1 ? parts.slice(1).join("_") : "General";
+      if (!top) return groups;
+
+      if (!groups[top]) groups[top] = {};
+      if (!groups[top][subgroup]) groups[top][subgroup] = [];
+
+      if (cat.entries?.length > 0) {
+        groups[top][subgroup].push(
+          ...cat.entries.filter((entry) => entry?.root)
+        );
+      } else if (cat.root) {
+        groups[top][subgroup].push(cat);
+      }
+
+      return groups;
+    }, {});
+  }
+
+  createCatalogItems(groupedCatalogs) {
+    if (!this.uiElements.catalogContainer) return;
+
+    Object.entries(groupedCatalogs).forEach(([group, subgroups]) => {
+      const groupSection = document.createElement("div");
+      groupSection.className = "mb-10";
+      groupSection.id = `group-${group.toLowerCase().replace(/\s+/g, "-")}`;
+
+      const groupHeader = document.createElement("h3");
+      groupHeader.className = "text-xl font-bold text-white mb-6 flex items-center";
+      groupHeader.innerHTML = `<i class="fas fa-folder-open text-primary-500 mr-3"></i>${group}`;
+      groupSection.appendChild(groupHeader);
+
+      const subgroupsGrid = document.createElement("div");
+      subgroupsGrid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+
+      Object.entries(subgroups).forEach(([subgroup, entries]) => {
+        if (!entries?.length) return;
+        const subgroupCard = this.createSubgroupCard(subgroup, entries);
+        subgroupsGrid.appendChild(subgroupCard);
+      });
+
+      groupSection.appendChild(subgroupsGrid);
+      this.uiElements.catalogContainer.appendChild(groupSection);
+    });
+  }
+
+
+  createSubgroupCard(subgroup, entries) {
+    const card = document.createElement("div");
+    card.className = "rounded-xl overflow-hidden transition-all hover:shadow-glow hover:-translate-y-1 border border-dark-700 catalog-card";
+
+    const cardHeader = document.createElement("div");
+    cardHeader.className = "p-4 border-b border-dark-700 flex items-center";
+    cardHeader.innerHTML = `
+      <i class="fas fa-folder text-primary-500 mr-3"></i>
+      <h4 class="text-lg font-semibold text-white">${subgroup}</h4>
+      <span class="ml-auto bg-dark-700 text-gray-400 text-xs px-2 py-1 rounded-full">${entries.length} items</span>
+    `;
+
+    const cardBody = document.createElement("div");
+    cardBody.className = "p-4";
+    const entriesList = document.createElement("div");
+    entriesList.className = "space-y-3";
+
+    entries.forEach((entry) => {
+      const entryItem = document.createElement("div");
+      entryItem.className = "flex items-center justify-between py-2 px-3 hover:bg-dark-700/50 rounded-lg transition cursor-pointer";
+
+      const entryContent = document.createElement("div");
+      entryContent.className = "flex items-center";
+      entryContent.innerHTML = `<i class="fas fa-file-alt text-gray-400 mr-3"></i><span class="text-gray-200">${entry.root}</span>`;
+
+      const entryActions = document.createElement("div");
+      entryActions.className = "flex space-x-2";
+
+      // Diagram Button
+      const diagramButton = document.createElement("button");
+      diagramButton.className = "text-gray-400 hover:text-primary-500 transition";
+      diagramButton.title = "View Diagram";
+      diagramButton.innerHTML = '<i class="fas fa-project-diagram"></i>';
+      diagramButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = `/view_diagram?root_name=${encodeURIComponent(entry.root)}&diagram_name=${encodeURIComponent(entry.diagram)}`;
+      });
+
+      // Hierarchy Button
+      const hierarchyButton = document.createElement("button");
+      hierarchyButton.className = "text-gray-400 hover:text-primary-500 transition";
+      hierarchyButton.title = "View Hierarchy";
+      hierarchyButton.innerHTML = '<i class="fas fa-sitemap"></i>';
+      hierarchyButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const icon = e.target.querySelector('i') || e.target;
+        icon.className = 'fas fa-spinner fa-spin';
+
+        setTimeout(() => {
+          window.location.href = `/view_hierarchy?root_name=${encodeURIComponent(entry.root)}&diagramName=${encodeURIComponent(entry.hierarchy || '')}`;
+        }, 100);
+      });
+
+      entryActions.appendChild(diagramButton);
+      entryActions.appendChild(hierarchyButton);
+      entryItem.appendChild(entryContent);
+      entryItem.appendChild(entryActions);
+      entriesList.appendChild(entryItem);
+    });
+
+    cardBody.appendChild(entriesList);
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
+    return card;
+}
+
+  handleSearchInput() {
+    this.filterState.searchTerm = this.uiElements.searchInput.value.toLowerCase().trim();
+    if (this.uiElements.clearSearchBtn) {
+      this.uiElements.clearSearchBtn.classList.toggle("hidden", !this.filterState.searchTerm);
+    }
+    this.debouncedFilterCatalog();
+  }
+
+  debouncedFilterCatalog() {
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => this.filterCatalog(), 300);
+  }
+
+  filterCatalog() {
+    const searchTerm = this.filterState.searchTerm;
+    const catalogCards = this.uiElements.catalogContainer?.querySelectorAll(".catalog-card");
+    if (!catalogCards) return;
+
+    let anyVisible = false;
+    catalogCards.forEach((card) => {
+      const matches = !searchTerm || card.textContent.toLowerCase().includes(searchTerm);
+      card.style.display = matches ? "" : "none";
+      if (matches) anyVisible = true;
+    });
+
+    if (this.uiElements.noResults) {
+      this.uiElements.noResults.classList.toggle("hidden", anyVisible);
+    }
+  }
+
+  clearSearch() {
+    if (this.uiElements.searchInput) {
+      this.uiElements.searchInput.value = "";
+    }
+    if (this.uiElements.clearSearchBtn) {
+      this.uiElements.clearSearchBtn.classList.add("hidden");
+    }
+    this.filterState.searchTerm = "";
+    this.filterCatalog();
+  }
+
+  expandAll() {
+    console.log("Expand All functionality");
+    // Implementation would go here
+  }
+
+  collapseAll() {
+    console.log("Collapse All functionality");
+    // Implementation would go here
+  }
+
+  showError(message) {
+    if (!this.uiElements.catalogContainer) return;
+
+    this.uiElements.catalogContainer.innerHTML = `
+      <div class="bg-dark-800 border-l-4 border-red-500 p-4 rounded-lg">
+        <div class="flex items-center">
+          <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
+          <span class="text-red-400">${message}</span>
+        </div>
+        <button onclick="location.reload()" class="mt-2 text-primary-500 hover:text-primary-400 flex items-center">
+          <i class="fas fa-sync-alt mr-1"></i> Reload Page
+        </button>
+      </div>`;
+    this.uiElements.catalogContainer.classList.remove("hidden");
+    this.showLoading(false);
+  }
+
+  showNoResults() {
+    if (this.uiElements.catalogContainer) {
+      this.uiElements.catalogContainer.classList.add("hidden");
+    }
+    if (this.uiElements.noResults) {
+      this.uiElements.noResults.classList.remove("hidden");
+    }
+  }
+}
+
+// Initialize on DOM ready if catalog container exists
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('catalogContainer')) {
+    window.catalogViewer = new CatalogViewer();
+    window.catalogViewer.init();
+  }
+});

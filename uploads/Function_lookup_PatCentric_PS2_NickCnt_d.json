@@ -1,0 +1,198 @@
+[
+  {
+    "Container": "lookup_PatCentric_PS2_NickCnt_d",
+    "RuleGUID": "7fa3b2cf-6c16-4436-bfbe-427b6a2d125e",
+    "RuleName": "Set Nickname count to 0",
+    "RuleID": "",
+    "FunctionName": "Formatf",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "OutputFormat": "\"0\"",
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "100"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_NickCnt_d",
+    "RuleGUID": "add665c6-d6d5-4f58-8357-07225a79b277",
+    "RuleName": "Compare name to SL",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyLinesUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "0",
+      "UDFName": "\"lookup_PatCentric_PS2_NickCnt\"",
+      "Table": "\"selectionlist_PatientCentric\"",
+      "Columns": "{\"\",\"\",\"MemberFirstName\"}",
+      "_ParamList1": "{1}",
+      "_ParamList2": "{2}",
+      "ForEach": "{1,0,0}",
+      "DelBlanksBefore": "0",
+      "DelBlanksAfter": "0",
+      "MakeColEqual": "0"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_NickCnt_d",
+    "RuleGUID": "2e060613-c5fb-4b6c-9627-a94dde1842ac",
+    "RuleName": "Is the Nickname count still 0?",
+    "RuleID": "",
+    "FunctionName": "CheckAmount",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_NickCnt_d",
+            "RuleGUID": "ff6051d8-f9d6-45b7-b8c6-e068a708209a",
+            "RuleName": "Delete the row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "2e060613-c5fb-4b6c-9627-a94dde1842ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\""
+            }
+          },
+          {
+            "Container": "lookup_PatCentric_PS2_NickCnt_d",
+            "RuleGUID": "8930ddbc-6e0c-4560-b779-aa5989e9a464",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "2e060613-c5fb-4b6c-9627-a94dde1842ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\"",
+              "LogLevel": "12"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_NickCnt_d",
+            "RuleGUID": "b58db2dd-cb54-4965-b9f7-a63665bae514",
+            "RuleName": "Add 1 to TotalCount",
+            "RuleID": "",
+            "FunctionName": "DoMathAndFormat",
+            "ParentGUID": "2e060613-c5fb-4b6c-9627-a94dde1842ac",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "OutputFormat": "\"%.0f\"",
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "1",
+              "_ParamList1": "{3}",
+              "Deviation": "0",
+              "Remainder": "0",
+              "MathExpression": "\"F0 + 1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_FunctionVersion": "1",
+      "Deviation": "0",
+      "BracketedField": "0",
+      "MaximumValue": "0",
+      "InclusionValues": "{0}"
+    }
+  }
+]

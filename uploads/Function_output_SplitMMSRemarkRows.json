@@ -1,0 +1,905 @@
+[
+  {
+    "Container": "output_SplitMMSRemarkRows",
+    "RuleGUID": "4664ba23-f464-4fa2-8412-6b22dce2a4d9",
+    "RuleName": "Clear overlap dates",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{8,9}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_SplitMMSRemarkRows",
+    "RuleGUID": "29948760-b051-4802-a748-a1ae147d1c9e",
+    "RuleName": "Is PreviousEndDate empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_SplitMMSRemarkRows",
+            "RuleGUID": "42bb0469-eda5-4722-8856-f65465a3ba43",
+            "RuleName": "Compare DOS to CurrentDates",
+            "RuleID": "",
+            "FunctionName": "helper_CompareDateToRange",
+            "ParentGUID": "29948760-b051-4802-a748-a1ae147d1c9e",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Within",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitMMSRemarkRows",
+                    "RuleGUID": "93ac6006-267a-4d23-b686-3288f37fa354",
+                    "RuleName": "Copy CurrentDates to PreviousDates",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "42bb0469-eda5-4722-8856-f65465a3ba43",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1,2}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{6,7}"
+                    }
+                  },
+                  {
+                    "Container": "output_SplitMMSRemarkRows",
+                    "RuleGUID": "e974c6ca-4678-42d3-a109-8e48425d2811",
+                    "RuleName": "Set PreviousWithinFlag = SOR",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "42bb0469-eda5-4722-8856-f65465a3ba43",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{4}",
+                      "OutputFormat": "\"1\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "CaseSensitive": "1",
+              "_ParamList1": "{1}",
+              "_ParamList2": "{2}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitMMSRemarkRows",
+            "RuleGUID": "4da0d62c-6dc8-46ea-a73d-f58e407efc4c",
+            "RuleName": "Compare DOS to CurrentDates",
+            "RuleID": "",
+            "FunctionName": "helper_CompareDateToRange",
+            "ParentGUID": "29948760-b051-4802-a748-a1ae147d1c9e",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Within",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitMMSRemarkRows",
+                    "RuleGUID": "d1680386-5428-4c5b-9904-8a165bcbb094",
+                    "RuleName": "Get Dates to use",
+                    "RuleID": "",
+                    "FunctionName": "output_SplitMMSRemarkOverlap",
+                    "ParentGUID": "4da0d62c-6dc8-46ea-a73d-f58e407efc4c",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "Overlapping",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitMMSRemarkRows",
+                            "RuleGUID": "20e594ec-7354-4f08-9bce-8679bc2a8cc4",
+                            "RuleName": "Compare DOS to Eff Dates",
+                            "RuleID": "",
+                            "FunctionName": "helper_CompareDateToRange",
+                            "ParentGUID": "d1680386-5428-4c5b-9904-8a165bcbb094",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "Within",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitMMSRemarkRows",
+                                    "RuleGUID": "81a433c5-7d48-46d6-8023-5666623c87d5",
+                                    "RuleName": "Is PreviousWithinFlag empty?",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "20e594ec-7354-4f08-9bce-8679bc2a8cc4",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Yes",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitMMSRemarkRows",
+                                            "RuleGUID": "95632ecc-62f6-4761-bf7f-c306cf31fcfc",
+                                            "RuleName": "Set PreviousWithinFlag = SOR",
+                                            "RuleID": "",
+                                            "FunctionName": "Copy",
+                                            "ParentGUID": "81a433c5-7d48-46d6-8023-5666623c87d5",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{3}",
+                                              "_FunctionVersion": "1",
+                                              "_ParamList1": "{4}",
+                                              "OutputFormat": "\"1\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "No",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "output_SplitMMSRemarkRows",
+                                            "RuleGUID": "c9f85bba-5d6e-4f5c-97e4-10e9ae8be4df",
+                                            "RuleName": "Was the previous SOR = M?",
+                                            "RuleID": "",
+                                            "FunctionName": "HasRegExpr",
+                                            "ParentGUID": "81a433c5-7d48-46d6-8023-5666623c87d5",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "4",
+                                                "ActionName": "Yes",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitMMSRemarkRows",
+                                                    "RuleGUID": "711d77eb-0a01-4028-be8b-4dcf5bda8ed4",
+                                                    "RuleName": "Is the current SOR = M?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "HasRegExpr",
+                                                    "ParentGUID": "c9f85bba-5d6e-4f5c-97e4-10e9ae8be4df",
+                                                    "ParentActionIndex": 0,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes - M then M",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitMMSRemarkRows",
+                                                            "RuleGUID": "97beb5d4-7c4f-4c76-8737-21cc6b601d38",
+                                                            "RuleName": "Is the Flag already a 1, then set it to 3",
+                                                            "RuleID": "",
+                                                            "FunctionName": "HasRegExpr",
+                                                            "ParentGUID": "711d77eb-0a01-4028-be8b-4dcf5bda8ed4",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "Yes",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitMMSRemarkRows",
+                                                                    "RuleGUID": "b2f64f96-01ad-44e2-8114-830af65ef19c",
+                                                                    "RuleName": "Set flag = 3",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Formatf",
+                                                                    "ParentGUID": "97beb5d4-7c4f-4c76-8737-21cc6b601d38",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{5}",
+                                                                      "_FunctionVersion": "100",
+                                                                      "OutputFormat": "\"3\"",
+                                                                      "_Description": "\"This means we have a DOS within two overlapping coverage periods that are Legacy and MTV.  Set the flag.\\015\\012\""
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "No",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitMMSRemarkRows",
+                                                                    "RuleGUID": "f2adf34b-a118-4252-bb7f-f0c6d393424a",
+                                                                    "RuleName": "Set flag = 2",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Formatf",
+                                                                    "ParentGUID": "97beb5d4-7c4f-4c76-8737-21cc6b601d38",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{5}",
+                                                                      "_FunctionVersion": "100",
+                                                                      "OutputFormat": "\"2\"",
+                                                                      "_Description": "\"This means we have a DOS within two overlapping coverage periods that are Legacy and MTV.  Set the flag.\\015\\012\""
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "260",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{5}",
+                                                              "_FunctionVersion": "65539",
+                                                              "CaseSensitive": "1",
+                                                              "RegularExpression": "\"1\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "No - M then L",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitMMSRemarkRows",
+                                                            "RuleGUID": "d0f66d6c-a3fb-4983-9a58-f9f950d3ec0c",
+                                                            "RuleName": "Set flag = 1",
+                                                            "RuleID": "",
+                                                            "FunctionName": "Formatf",
+                                                            "ParentGUID": "711d77eb-0a01-4028-be8b-4dcf5bda8ed4",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{5}",
+                                                              "_FunctionVersion": "100",
+                                                              "OutputFormat": "\"1\"",
+                                                              "_Description": "\"This means we have a DOS within two overlapping coverage periods that are Legacy and MTV.  Set the flag.\\015\\012\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{3}",
+                                                      "_FunctionVersion": "65539",
+                                                      "CaseSensitive": "1",
+                                                      "RegularExpression": "\"M\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "No",
+                                                "ChildRules": [
+                                                  {
+                                                    "Container": "output_SplitMMSRemarkRows",
+                                                    "RuleGUID": "e3168dad-e118-4d5c-b80e-12e82bf37979",
+                                                    "RuleName": "Is the current SOR = M?",
+                                                    "RuleID": "",
+                                                    "FunctionName": "HasRegExpr",
+                                                    "ParentGUID": "c9f85bba-5d6e-4f5c-97e4-10e9ae8be4df",
+                                                    "ParentActionIndex": 1,
+                                                    "Children": [],
+                                                    "Actions": [
+                                                      {
+                                                        "ActionValue": "4",
+                                                        "ActionName": "Yes - L then M",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitMMSRemarkRows",
+                                                            "RuleGUID": "d7a90c7e-4228-4103-8e58-87b88e775cdd",
+                                                            "RuleName": "Is flag already 2?",
+                                                            "RuleID": "",
+                                                            "FunctionName": "HasRegExpr",
+                                                            "ParentGUID": "e3168dad-e118-4d5c-b80e-12e82bf37979",
+                                                            "ParentActionIndex": 0,
+                                                            "Children": [],
+                                                            "Actions": [
+                                                              {
+                                                                "ActionValue": "4",
+                                                                "ActionName": "Yes",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitMMSRemarkRows",
+                                                                    "RuleGUID": "23177973-c7ae-4894-9f2a-56f7881b0798",
+                                                                    "RuleName": "Set flag = 3",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Formatf",
+                                                                    "ParentGUID": "d7a90c7e-4228-4103-8e58-87b88e775cdd",
+                                                                    "ParentActionIndex": 0,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{5}",
+                                                                      "_FunctionVersion": "100",
+                                                                      "OutputFormat": "\"3\"",
+                                                                      "_Description": "\"This means we have a DOS within two overlapping coverage periods that are Legacy and MTV.  Set the flag.\\015\\012\""
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "0",
+                                                                "ActionName": "No",
+                                                                "ChildRules": [
+                                                                  {
+                                                                    "Container": "output_SplitMMSRemarkRows",
+                                                                    "RuleGUID": "5accaca7-86da-41e1-9c13-6eefa8509393",
+                                                                    "RuleName": "Set flag = 1",
+                                                                    "RuleID": "",
+                                                                    "FunctionName": "Formatf",
+                                                                    "ParentGUID": "d7a90c7e-4228-4103-8e58-87b88e775cdd",
+                                                                    "ParentActionIndex": 1,
+                                                                    "Children": [],
+                                                                    "Actions": [
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      },
+                                                                      {
+                                                                        "ActionValue": "0",
+                                                                        "ActionName": "",
+                                                                        "ChildRules": [],
+                                                                        "Attributes": {}
+                                                                      }
+                                                                    ],
+                                                                    "Attributes": {
+                                                                      "_ParamList0": "{5}",
+                                                                      "_FunctionVersion": "100",
+                                                                      "OutputFormat": "\"1\"",
+                                                                      "_Description": "\"This means we have a DOS within two overlapping coverage periods that are Legacy and MTV.  Set the flag.\\015\\012\""
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "Attributes": {}
+                                                              },
+                                                              {
+                                                                "ActionValue": "260",
+                                                                "ActionName": "",
+                                                                "ChildRules": [],
+                                                                "Attributes": {}
+                                                              }
+                                                            ],
+                                                            "Attributes": {
+                                                              "_ParamList0": "{5}",
+                                                              "_FunctionVersion": "65539",
+                                                              "CaseSensitive": "1",
+                                                              "RegularExpression": "\"2\""
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "0",
+                                                        "ActionName": "No - L then L",
+                                                        "ChildRules": [
+                                                          {
+                                                            "Container": "output_SplitMMSRemarkRows",
+                                                            "RuleGUID": "4fa937ef-7141-48e4-b3bd-9f7cd0005daf",
+                                                            "RuleName": "Here for readability",
+                                                            "RuleID": "",
+                                                            "FunctionName": null,
+                                                            "ParentGUID": "e3168dad-e118-4d5c-b80e-12e82bf37979",
+                                                            "ParentActionIndex": 1,
+                                                            "Children": [],
+                                                            "Actions": [],
+                                                            "Attributes": {
+                                                              "_Disabled": "1"
+                                                            }
+                                                          }
+                                                        ],
+                                                        "Attributes": {}
+                                                      },
+                                                      {
+                                                        "ActionValue": "260",
+                                                        "ActionName": "",
+                                                        "ChildRules": [],
+                                                        "Attributes": {}
+                                                      }
+                                                    ],
+                                                    "Attributes": {
+                                                      "_ParamList0": "{3}",
+                                                      "_FunctionVersion": "65539",
+                                                      "CaseSensitive": "1",
+                                                      "RegularExpression": "\"M\""
+                                                    }
+                                                  }
+                                                ],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "260",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{4}",
+                                              "_FunctionVersion": "65539",
+                                              "CaseSensitive": "1",
+                                              "RegularExpression": "\"M\""
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "3",
+                                      "_Description": "\"If so this is the first cts/elig row we have gotten to for this DOS.  We can set the flag to the SOR of the current row and use it for comparing to the previous row.\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Not Within",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitMMSRemarkRows",
+                                    "RuleGUID": "484fb64e-250e-431c-916a-0e170fd9cd84",
+                                    "RuleName": "Delete PreviousWithinFlag",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteLines",
+                                    "ParentGUID": "20e594ec-7354-4f08-9bce-8679bc2a8cc4",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "DeleteBlanks": "0",
+                                      "MinLinesBeforeDelete": "0",
+                                      "_ParamList0": "{4,6,7}",
+                                      "LinesFrom": "0",
+                                      "_FunctionVersion": "1"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitMMSRemarkRows",
+                                    "RuleGUID": "c5be6596-954e-47cf-bc47-db6555a34ec0",
+                                    "RuleName": "Copy CurrentDates to PreviousDates",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "20e594ec-7354-4f08-9bce-8679bc2a8cc4",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{1,2}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{6,7}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "CaseSensitive": "1",
+                              "_ParamList1": "{8}",
+                              "_ParamList2": "{9}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "NotOverlapping",
+                        "ChildRules": [
+                          {
+                            "Container": "output_SplitMMSRemarkRows",
+                            "RuleGUID": "3d797dfe-022e-4f18-acc6-2e8e043fb65f",
+                            "RuleName": "Compare DOS to CurrentDates",
+                            "RuleID": "",
+                            "FunctionName": "helper_CompareDateToRange",
+                            "ParentGUID": "d1680386-5428-4c5b-9904-8a165bcbb094",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "Within",
+                                "ChildRules": [
+                                  {
+                                    "Container": "output_SplitMMSRemarkRows",
+                                    "RuleGUID": "74165ab0-2ca7-4541-b6ff-517ca107de02",
+                                    "RuleName": "Copy CurrentDates to PreviousDates",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "3d797dfe-022e-4f18-acc6-2e8e043fb65f",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{1,2}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{6,7}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "output_SplitMMSRemarkRows",
+                                    "RuleGUID": "0dcef7bd-e2af-4dbb-88cc-f987c5886bc8",
+                                    "RuleName": "Set PreviousWithinFlag = SOR",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "3d797dfe-022e-4f18-acc6-2e8e043fb65f",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{3}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{4}",
+                                      "OutputFormat": "\"1\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "CaseSensitive": "1",
+                              "_ParamList1": "{1}",
+                              "_ParamList2": "{2}"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitMMSRemarkRows",
+                            "RuleGUID": "099dd4a4-2d6c-45e9-b273-d251bfeddb54",
+                            "RuleName": "Copy CurrentDates to PreviousDates",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "d1680386-5428-4c5b-9904-8a165bcbb094",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{1,2}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{6,7}",
+                              "_Disabled": "1"
+                            }
+                          },
+                          {
+                            "Container": "output_SplitMMSRemarkRows",
+                            "RuleGUID": "de4839a2-317e-4075-bb64-38bf33e53645",
+                            "RuleName": "Set PreviousWithinFlag = SOR",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "d1680386-5428-4c5b-9904-8a165bcbb094",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{3}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{4}",
+                              "OutputFormat": "\"1\"",
+                              "_Disabled": "1"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{6}",
+                      "_FunctionVersion": "0",
+                      "_ParamList1": "{7}",
+                      "_ParamList2": "{1}",
+                      "_ParamList3": "{2}",
+                      "_ParamList4": "{8}",
+                      "_ParamList5": "{9}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "CaseSensitive": "1",
+              "_ParamList1": "{1}",
+              "_ParamList2": "{2}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{7}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

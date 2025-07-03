@@ -1,0 +1,155 @@
+[
+  {
+    "Container": "output_SplitMMSRemarkDOS",
+    "RuleGUID": "eabc41c8-f239-46fa-8406-c74625417f23",
+    "RuleName": "Clear fields",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{4,8,9,6,7}",
+      "LinesFrom": "0",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_SplitMMSRemarkDOS",
+    "RuleGUID": "54df6d4c-7623-4b7e-96c7-23267a0bdfce",
+    "RuleName": "Is the OverlappingSORFlag = 3?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "output_SplitMMSRemarkDOS",
+            "RuleGUID": "419e43f4-8fee-4ee6-9170-0ba594210491",
+            "RuleName": "Is DOS populated?",
+            "RuleID": "",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "54df6d4c-7623-4b7e-96c7-23267a0bdfce",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_SplitMMSRemarkDOS",
+                    "RuleGUID": "bb030634-bfe3-40d3-885a-62dc1103ff91",
+                    "RuleName": "Iterate coverage/elig rows",
+                    "RuleID": "",
+                    "FunctionName": "_IIterateOnlyLinesUDF",
+                    "ParentGUID": "419e43f4-8fee-4ee6-9170-0ba594210491",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "UDFName": "\"output_SplitMMSRemarkRows\"",
+                      "ForEach": "{0,1,1,1,0,0,0,0,0,0}",
+                      "_ParamList1": "{1}",
+                      "_ParamList2": "{2}",
+                      "_ParamList3": "{3}",
+                      "_ParamList4": "{4}",
+                      "_ParamList5": "{5}",
+                      "DelBlanksBefore": "0",
+                      "DelBlanksAfter": "0",
+                      "MakeColEqual": "0",
+                      "_ParamList6": "{6}",
+                      "_ParamList7": "{7}",
+                      "_ParamList8": "{8}",
+                      "_ParamList9": "{9}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "3",
+              "CaseSensitive": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{5}",
+      "_FunctionVersion": "65539",
+      "_Description": "\"If so we don't need to keep checking for the condition.\"",
+      "CaseSensitive": "1",
+      "RegularExpression": "\"3\""
+    }
+  }
+]

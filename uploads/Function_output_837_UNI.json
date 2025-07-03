@@ -1,0 +1,121 @@
+[
+  {
+    "Container": "output_837_UNI",
+    "RuleGUID": "43bc3c5a-5df8-4967-8990-4f11bd07b658",
+    "RuleName": "Are the Units > 6?",
+    "RuleID": "",
+    "FunctionName": "CheckAmount",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "output_837_UNI",
+            "RuleGUID": "5301350c-857d-4504-9254-08db331a407d",
+            "RuleName": "Is this an anesthesia procedure code?",
+            "RuleID": "",
+            "FunctionName": "IsInTable",
+            "ParentGUID": "43bc3c5a-5df8-4967-8990-4f11bd07b658",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_837_UNI",
+                    "RuleGUID": "72b12a74-824e-466d-a80a-584daa3e8e7a",
+                    "RuleName": "Run conversion UDF",
+                    "RuleID": "",
+                    "FunctionName": "format_ConvertAnesthesiaUnits",
+                    "ParentGUID": "5301350c-857d-4504-9254-08db331a407d",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_FunctionVersion": "0",
+                      "OutputFormat": "\"1\"",
+                      "_ParamList1": "{2}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "Deviation": "0",
+              "BracketedField": "0",
+              "_ParamList0": "{0}",
+              "MaximumValue": "9999999",
+              "_FunctionVersion": "65537",
+              "MinLengthLimit": "8",
+              "MaxLengthLimit": "10",
+              "StripSpaces": "0",
+              "CatchResourceUnavailable": "0",
+              "Table": "\"odbc_AnesthesiaProcCodes\"",
+              "Columns": "{\"Proc_Code\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"I can skip a ODBC call by checking if a conversion would even be necessary first.  -jdm 10/2018\"",
+      "Deviation": "0",
+      "BracketedField": "0",
+      "_ParamList0": "{1}",
+      "MaximumValue": "6",
+      "_FunctionVersion": "1"
+    }
+  }
+]

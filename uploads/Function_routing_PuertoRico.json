@@ -1,0 +1,1642 @@
+[
+  {
+    "Container": "routing_PuertoRico",
+    "RuleGUID": "2128ba31-071d-4e69-9d1d-2b94eed15b78",
+    "RuleName": "PRE WRP 3794 - Is the MolinaGroupIDFlag already = 1?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - Check this member",
+        "ChildRules": [
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "f8c4bb2c-e940-4b5d-93e8-c32d3a3754d0",
+            "RuleName": "Set temp1 = 0",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "2128ba31-071d-4e69-9d1d-2b94eed15b78",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\""
+            }
+          },
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "71ffb716-6b13-4cdd-91c5-dbfa7ef40dee",
+            "RuleName": "Is this EDI?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2128ba31-071d-4e69-9d1d-2b94eed15b78",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "c64564a9-d6d6-4b2b-b1a1-516d01c92ce7",
+                    "RuleName": "Is this DV?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "71ffb716-6b13-4cdd-91c5-dbfa7ef40dee",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Worker is of specified type",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "aa329ba5-5fb4-4236-9df1-5786cb0d2584",
+                            "RuleName": "Set temp1 = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "c64564a9-d6d6-4b2b-b1a1-516d01c92ce7",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\"",
+                              "InvertCharSet": "0",
+                              "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "757b1b1d-a1b0-4328-a231-18fbe5976299",
+                    "RuleName": "Set temp1 = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "71ffb716-6b13-4cdd-91c5-dbfa7ef40dee",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\"",
+                      "InvertCharSet": "0",
+                      "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"1\""
+            }
+          },
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+            "RuleName": "Is temp1 = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2128ba31-071d-4e69-9d1d-2b94eed15b78",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "4ecdd1cd-2b84-45bf-8d22-9a84b2f2a63f",
+                    "RuleName": "Cleat temp1",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "d51b43bc-540c-429a-a21b-312341f9078f",
+                    "RuleName": "Group ID Processing",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "---",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "020b6ba4-2bbc-4c8f-b61d-e031ed24d1d1",
+                            "RuleName": "Fetch all rows from CTS table for member",
+                            "RuleID": "",
+                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                            "ParentGUID": "d51b43bc-540c-429a-a21b-312341f9078f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4}",
+                              "_FunctionVersion": "131076",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "MaxMatchCount": "9999",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "Table": "\"odbc_MemCovInfo\"",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_MTV_PID\"}",
+                              "_ParamList1": "{}",
+                              "_ParamListOMRIndex1": "{}",
+                              "SelectionListColumns": "{\"SubMTVPID\",\"MemCovGrp\"}",
+                              "DataColumns": "{\"MEM_MTV_PID\",\"MEM_COV_GRP\"}",
+                              "EscapeFields": "{\"0\",\"0\"}",
+                              "PlugFields": "{\"0\",\"0\"}",
+                              "DataTableDataField": "{-1,-1}",
+                              "DataTableEmptyField": "{-1,-1}",
+                              "EmptyTableDataField": "{-1,-1}",
+                              "CatchResourceUnavailable": "0"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "c810b63d-ed29-40bb-97b8-d6566a633a78",
+                            "RuleName": "Show CTS SL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "d51b43bc-540c-429a-a21b-312341f9078f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "3ccefbfc-4847-477e-b25f-883b86eac0ae",
+                            "RuleName": "Any rows found?",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "d51b43bc-540c-429a-a21b-312341f9078f",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "fac41ed9-499d-49ed-a1ba-e72c5e675aa2",
+                                    "RuleName": "Try to set MolinaGroupIDFlag",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "3ccefbfc-4847-477e-b25f-883b86eac0ae",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "Table": "\"selectionlist_RoutingCTSInfo\"",
+                                      "_ParamList1": "{1}",
+                                      "_ParamListOMRIndex1": "{-1}",
+                                      "UDFName": "\"routing_PuertoRicoGroupIDFlag\"",
+                                      "Columns": "{\"SubMTVPID\",\"MemCovGrp\",\"\"}",
+                                      "_ParamList2": "{0}",
+                                      "_ParamListOMRIndex2": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "b020fa71-68ed-4b43-8840-2e118e49b3eb",
+                                    "RuleName": "Set MolinaGroupIDFlag = 0",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "3ccefbfc-4847-477e-b25f-883b86eac0ae",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"This indicates the document needs to be keyed in the Commerical queues.\"",
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"1\"",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{}",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "PlugIfSinglePluggableMatch": "0",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "3",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "36cf62ae-ce11-4ba4-8fdd-22b1f8a70073",
+                    "RuleName": "Is MolinaGroupIDFlag = 1?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "b8b75833-6143-4a63-8069-2936e7979c71",
+                            "RuleName": "Set temp1 = PRM",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "36cf62ae-ce11-4ba4-8fdd-22b1f8a70073",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"PRM\"",
+                              "_Sources": "{\"OCR_AEG\"}"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "2c2af9ff-1e30-4ea8-b8ab-9b8a3717e91f",
+                            "RuleName": "Set SmartSourceInd to temp1",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttr",
+                            "ParentGUID": "36cf62ae-ce11-4ba4-8fdd-22b1f8a70073",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "AttrName": "\"SmartSourceInd\"",
+                              "Value": "\"USA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "912111ff-0060-4392-8ac5-ff57d080f7cc",
+                            "RuleName": "Set temp1 = PR",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "36cf62ae-ce11-4ba4-8fdd-22b1f8a70073",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"PR\"",
+                              "_Sources": "{\"OCR_AEG\"}"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "80d38da5-ea08-4537-a033-fa7819bc52a5",
+                            "RuleName": "Set SmartSourceInd to temp1",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttr",
+                            "ParentGUID": "36cf62ae-ce11-4ba4-8fdd-22b1f8a70073",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "AttrName": "\"SmartSourceInd\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "RegularExpression": "\"1\"",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "75df4c2c-8111-4cde-9fbb-7c44ad3209e8",
+                    "RuleName": "Show flags",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"For logging purposes\"",
+                      "_ParamList0": "{3,0,4}",
+                      "_FunctionVersion": "3"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "aaaf28a0-a7ce-4029-a788-fb3770b8bcac",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\""
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "b25b8a54-f843-4813-8d2c-4c512b08c2cf",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "45c30f35-f728-48ff-a9d8-a3673c3cb1ab",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingEligInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so it means we called this UDF for potential members and there is no use checking others.  If one potential member needs to be keyed in the Mooina queue then we will just move ti over there.\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65539",
+      "RegularExpression": "\"1\"",
+      "_Disabled": "1"
+    }
+  },
+  {
+    "Container": "routing_PuertoRico",
+    "RuleGUID": "2667cc53-ef6a-4e09-8c53-dfd94b346b14",
+    "RuleName": "Is the GroupIDFlag already = Molina or Menonita?",
+    "RuleID": "",
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No - Check this member",
+        "ChildRules": [
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "3a0d86cf-c9d6-48e0-98bd-f6d11620c0ff",
+            "RuleName": "Set temp1 = 0",
+            "RuleID": "",
+            "FunctionName": "Formatf",
+            "ParentGUID": "2667cc53-ef6a-4e09-8c53-dfd94b346b14",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "100",
+              "OutputFormat": "\"0\""
+            }
+          },
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "604d6928-3b16-43ab-a1c6-fc92d99dcfa9",
+            "RuleName": "Is this EDI?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2667cc53-ef6a-4e09-8c53-dfd94b346b14",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "45e5eb0b-9061-4168-bc29-93fa39456bf7",
+                    "RuleName": "Is this DV?",
+                    "RuleID": "",
+                    "FunctionName": "_IWorkerType",
+                    "ParentGUID": "604d6928-3b16-43ab-a1c6-fc92d99dcfa9",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Worker is of specified type",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "e9b7e062-3e27-4993-97d7-4df35e84af31",
+                            "RuleName": "Set temp1 = 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "45e5eb0b-9061-4168-bc29-93fa39456bf7",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\"",
+                              "InvertCharSet": "0",
+                              "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "0",
+                      "WorkerType": "{\"DV\"}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "34b574c2-ac08-471a-9150-4045f5d33dd4",
+                    "RuleName": "Set temp1 = 1",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "604d6928-3b16-43ab-a1c6-fc92d99dcfa9",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"1\"",
+                      "InvertCharSet": "0",
+                      "DateFormat": "\"dfr_JDAY_TO_MDY\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{3}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"1\""
+            }
+          },
+          {
+            "Container": "routing_PuertoRico",
+            "RuleGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+            "RuleName": "Is temp1 = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "2667cc53-ef6a-4e09-8c53-dfd94b346b14",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "ff5e1eac-fb1b-42bf-880f-a842fb3e6521",
+                    "RuleName": "Cleat temp1",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "d3d9b1c9-c060-416b-8dd6-26f5fddc827c",
+                    "RuleName": "Group ID Processing",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "---",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "5e1f7c16-301d-4a71-9e10-e24413f6cdf5",
+                            "RuleName": "Fetch all rows from CTS table for member",
+                            "RuleID": "",
+                            "FunctionName": "SelectSelectedListTableApproxMatch",
+                            "ParentGUID": "d3d9b1c9-c060-416b-8dd6-26f5fddc827c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{4}",
+                              "_FunctionVersion": "131076",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}",
+                              "MaxMatchCount": "9999",
+                              "MaxIndexCount": "0",
+                              "EmptyKeyFails": "1",
+                              "AnyEmptyKeysFails": "0",
+                              "Table": "\"odbc_MemCovInfo\"",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "NextInstance": "0",
+                              "ExactColumns": "{\"MEM_MTV_PID\"}",
+                              "_ParamList1": "{}",
+                              "_ParamListOMRIndex1": "{}",
+                              "SelectionListColumns": "{\"SubMTVPID\",\"MemCovGrp\"}",
+                              "DataColumns": "{\"MEM_MTV_PID\",\"MEM_COV_GRP\"}",
+                              "EscapeFields": "{\"0\",\"0\"}",
+                              "PlugFields": "{\"0\",\"0\"}",
+                              "DataTableDataField": "{-1,-1}",
+                              "DataTableEmptyField": "{-1,-1}",
+                              "EmptyTableDataField": "{-1,-1}",
+                              "CatchResourceUnavailable": "0"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "03383d47-da80-42f0-b4c7-22fc8d7225d1",
+                            "RuleName": "Show CTS SL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "d3d9b1c9-c060-416b-8dd6-26f5fddc827c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "fbd36811-ec38-4248-9934-71a5b644bc52",
+                            "RuleName": "Any rows found?",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "d3d9b1c9-c060-416b-8dd6-26f5fddc827c",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "487b5e02-d55f-4db0-b3e5-e196e90c6c40",
+                                    "RuleName": "Try to set PRGroupIDFlag",
+                                    "RuleID": "",
+                                    "FunctionName": "_IIterateDynamicTableUDF",
+                                    "ParentGUID": "fbd36811-ec38-4248-9934-71a5b644bc52",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{4}",
+                                      "_FunctionVersion": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "Table": "\"selectionlist_RoutingCTSInfo\"",
+                                      "_ParamList1": "{1}",
+                                      "_ParamListOMRIndex1": "{-1}",
+                                      "UDFName": "\"routing_PuertoRicoGroupIDFlag\"",
+                                      "Columns": "{\"SubMTVPID\",\"MemCovGrp\",\"\"}",
+                                      "_ParamList2": "{0}",
+                                      "_ParamListOMRIndex2": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "5876fa02-2cac-44ca-81b0-b28f65b8c515",
+                                    "RuleName": "Set PRGroupIDFlag = Comm",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "fbd36811-ec38-4248-9934-71a5b644bc52",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_Description": "\"This indicates the document needs to be keyed in the Commerical queues.\"",
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"Comm\"",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{}",
+                              "_FunctionVersion": "1",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{}",
+                              "SelectionList": "\"selectionlist_RoutingCTSInfo\"",
+                              "PlugIfSinglePluggableMatch": "0",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{5}",
+                      "_FunctionVersion": "3",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "01c2bd3b-12cc-4089-812a-4df2dabcc3a2",
+                    "RuleName": "Is the PRGroupIDFlag = Molina?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "12302011-342f-4165-8169-c2ea856d8fb8",
+                            "RuleName": "Set temp1 = PRM",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "01c2bd3b-12cc-4089-812a-4df2dabcc3a2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"PRM\"",
+                              "_Sources": "{\"OCR_AEG\"}"
+                            }
+                          },
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "2c953332-e296-417c-9dd1-6054ec1378fa",
+                            "RuleName": "Set SmartSourceInd to temp1",
+                            "RuleID": "",
+                            "FunctionName": "_ISetDocAttr",
+                            "ParentGUID": "01c2bd3b-12cc-4089-812a-4df2dabcc3a2",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{5}",
+                              "_FunctionVersion": "0",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "AttrName": "\"SmartSourceInd\"",
+                              "Value": "\"USA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "routing_PuertoRico",
+                            "RuleGUID": "9937167f-4a5e-45c1-8468-f8a5cdc64202",
+                            "RuleName": "Is the PRGroupIDFlag = Menonita?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "01c2bd3b-12cc-4089-812a-4df2dabcc3a2",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "574c82de-fb63-4d1f-ade9-efe418664dff",
+                                    "RuleName": "Set temp1 = PSM",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "9937167f-4a5e-45c1-8468-f8a5cdc64202",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"PSM\"",
+                                      "_Sources": "{\"OCR_AEG\"}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "8b1dec44-ca02-4d34-8ebe-45735d59946f",
+                                    "RuleName": "Set SmartSourceInd to temp1",
+                                    "RuleID": "",
+                                    "FunctionName": "_ISetDocAttr",
+                                    "ParentGUID": "9937167f-4a5e-45c1-8468-f8a5cdc64202",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "AttrName": "\"SmartSourceInd\"",
+                                      "Value": "\"USA\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "037eb6c6-d69f-48e8-85e0-75e8ec337710",
+                                    "RuleName": "Set temp1 = PR",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "9937167f-4a5e-45c1-8468-f8a5cdc64202",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"PR\"",
+                                      "_Sources": "{\"OCR_AEG\"}"
+                                    }
+                                  },
+                                  {
+                                    "Container": "routing_PuertoRico",
+                                    "RuleGUID": "8ec656ed-bf1f-404f-b63b-15327668697f",
+                                    "RuleName": "Set SmartSourceInd to temp1",
+                                    "RuleID": "",
+                                    "FunctionName": "_ISetDocAttr",
+                                    "ParentGUID": "9937167f-4a5e-45c1-8468-f8a5cdc64202",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{5}",
+                                      "_FunctionVersion": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}",
+                                      "AttrName": "\"SmartSourceInd\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "CaseSensitive": "1",
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "65539",
+                              "RegularExpression": "\"Menonita\"",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "_ParamListOMRIndex0": "{-1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "CaseSensitive": "1",
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "RegularExpression": "\"Molina\"",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "514aab63-41d2-4712-99c2-0bfd5fa75750",
+                    "RuleName": "Show flags",
+                    "RuleID": "",
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_Description": "\"For logging purposes\"",
+                      "_ParamList0": "{3,0,4}",
+                      "_FunctionVersion": "3"
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "e8fb7932-3437-4ba8-8452-1569b980ec5c",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingCTSInfo\""
+                    }
+                  },
+                  {
+                    "Container": "routing_PuertoRico",
+                    "RuleGUID": "b60e2012-42e7-49e8-89ca-036cf41a1401",
+                    "RuleName": "Clear SL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "23035697-bbc4-4594-ac7d-40a97f59790b",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_RoutingEligInfo\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "CaseSensitive": "1",
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "65539",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_Description": "\"If so it means we called this UDF for potential members and there is no use checking others.  If one potential member needs to be keyed in the Mooina queue then we will just move ti over there.\"",
+      "CaseSensitive": "1",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "65539",
+      "RegularExpression": "\"Molina\\134|Menonita\""
+    }
+  }
+]

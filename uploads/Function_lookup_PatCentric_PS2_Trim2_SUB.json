@@ -1,0 +1,317 @@
+[
+  {
+    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+    "RuleGUID": "dbc029e0-3d77-4e9f-8945-9b9870342b26",
+    "RuleName": "Filter spaces + punct from dB names",
+    "RuleID": "",
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{4,5}",
+      "FilterSet": "\"charset_PuctSpace\"",
+      "_FunctionVersion": "2"
+    }
+  },
+  {
+    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+    "RuleGUID": "4124c19a-e35b-4feb-adf1-048f61b5b164",
+    "RuleName": "Does FName match table value?",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes - 2 of 5",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+            "RuleGUID": "5ba014e1-36b7-4035-b6e0-7ee278cb064a",
+            "RuleName": "Does LName match table value?",
+            "RuleID": "",
+            "FunctionName": "HasRegExprFromField",
+            "ParentGUID": "4124c19a-e35b-4feb-adf1-048f61b5b164",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes - 3 of 5",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                    "RuleGUID": "1bf023ac-6750-4482-911e-45ac2730f7e5",
+                    "RuleName": "Does MI match table value?",
+                    "RuleID": "",
+                    "FunctionName": "CompareFields",
+                    "ParentGUID": "5ba014e1-36b7-4035-b6e0-7ee278cb064a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes - 4 of 5",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                            "RuleGUID": "fcc23818-63d3-40f9-b48c-703cd7b16fb3",
+                            "RuleName": "Does DOB match table value?",
+                            "RuleID": "",
+                            "FunctionName": "CompareFields",
+                            "ParentGUID": "1bf023ac-6750-4482-911e-45ac2730f7e5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes - 5 of 5",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                                    "RuleGUID": "f50608e9-1a67-467c-9831-7111f2eb3a47",
+                                    "RuleName": "Return",
+                                    "RuleID": "",
+                                    "FunctionName": "IsEmpty",
+                                    "ParentGUID": "fcc23818-63d3-40f9-b48c-703cd7b16fb3",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2}",
+                                      "_FunctionVersion": "3"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                                    "RuleGUID": "91de740e-45de-4d67-b899-72cdfc52e42f",
+                                    "RuleName": "Delete Current Row",
+                                    "RuleID": "",
+                                    "FunctionName": "DeleteCurrentRow",
+                                    "ParentGUID": "fcc23818-63d3-40f9-b48c-703cd7b16fb3",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_FunctionVersion": "1",
+                                      "SelectionList": "\"selectionlist_PatientCentric\""
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2}",
+                              "_FunctionVersion": "1",
+                              "EndWhiteSpaceSensitive": "1",
+                              "CaseSensitive": "1",
+                              "_ParamList1": "{6}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                            "RuleGUID": "c1ed84eb-7c58-489d-8efa-6b12ef2c16d9",
+                            "RuleName": "Delete Current Row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "1bf023ac-6750-4482-911e-45ac2730f7e5",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_PatientCentric\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{3}",
+                      "_FunctionVersion": "1",
+                      "EndWhiteSpaceSensitive": "1",
+                      "CaseSensitive": "1",
+                      "_ParamList1": "{7}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+                    "RuleGUID": "4be0bf99-e92e-47b6-a40e-e81dbcb4fe44",
+                    "RuleName": "Delete Current Row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "5ba014e1-36b7-4035-b6e0-7ee278cb064a",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_PatientCentric\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{5}",
+              "_FunctionVersion": "65537",
+              "EndWhiteSpaceSensitive": "1",
+              "CaseSensitive": "1",
+              "_ParamList1": "{1}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "lookup_PatCentric_PS2_Trim2_SUB",
+            "RuleGUID": "7ca91977-6c81-450f-8d93-17db72e68f78",
+            "RuleName": "Delete Current Row",
+            "RuleID": "",
+            "FunctionName": "DeleteCurrentRow",
+            "ParentGUID": "4124c19a-e35b-4feb-adf1-048f61b5b164",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "SelectionList": "\"selectionlist_PatientCentric\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "1",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1",
+      "_ParamList1": "{4}",
+      "_Description": "\"This is the first of trimmking logic steps created with ESP 2.0 PS2  Keep in mind the 1-of-5 match is the ID.  So if we're in here it's because the SL has some number of rows in it.\\015\\012\\015\\012-jdm 9/2016\""
+    }
+  }
+]

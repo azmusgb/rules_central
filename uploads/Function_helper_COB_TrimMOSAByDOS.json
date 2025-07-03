@@ -1,0 +1,231 @@
+[
+  {
+    "Container": "helper_COB_TrimMOSAByDOS",
+    "RuleGUID": "a71f6b98-a101-4ee7-8a5d-035fc4f94430",
+    "RuleName": "Is MOSAEffDate less than LowDOS?",
+    "RuleID": "",
+    "FunctionName": "CompareDateFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_TrimMOSAByDOS",
+            "RuleGUID": "2b751795-999a-4575-9205-cce92ba8b293",
+            "RuleName": "Is MOSAEndDate = 99991231?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "a71f6b98-a101-4ee7-8a5d-035fc4f94430",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_TrimMOSAByDOS",
+                    "RuleGUID": "a7cab441-ba89-4139-8b15-1c33109d6995",
+                    "RuleName": "Is MOSAEndDate less than LowDOS?",
+                    "RuleID": "",
+                    "FunctionName": "CompareDateFields",
+                    "ParentGUID": "2b751795-999a-4575-9205-cce92ba8b293",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "helper_COB_TrimMOSAByDOS",
+                            "RuleGUID": "e2b5b124-373b-4449-9a30-f0e75fbee473",
+                            "RuleName": "Trim row",
+                            "RuleID": "",
+                            "FunctionName": "DeleteCurrentRow",
+                            "ParentGUID": "a7cab441-ba89-4139-8b15-1c33109d6995",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_FunctionVersion": "1",
+                              "SelectionList": "\"selectionlist_MOSA\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{1}",
+                      "_ParamList1": "{3}",
+                      "DateFormat": "\"Y4MD_output\"",
+                      "_FunctionVersion": "2"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"99991231\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "No - Greater than",
+        "ChildRules": [
+          {
+            "Container": "helper_COB_TrimMOSAByDOS",
+            "RuleGUID": "cb4fd816-749c-488f-aab2-1eda31a2e813",
+            "RuleName": "Is EffDOS greater than HighDOS?",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "a71f6b98-a101-4ee7-8a5d-035fc4f94430",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "helper_COB_TrimMOSAByDOS",
+                    "RuleGUID": "83bf8907-953e-4d8c-a71b-dd753e22e0bb",
+                    "RuleName": "Trim row",
+                    "RuleID": "",
+                    "FunctionName": "DeleteCurrentRow",
+                    "ParentGUID": "cb4fd816-749c-488f-aab2-1eda31a2e813",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_FunctionVersion": "1",
+                      "SelectionList": "\"selectionlist_MOSA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "DateFormat": "\"Y4MD_output\"",
+              "_FunctionVersion": "2"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_ParamList1": "{3}",
+      "DateFormat": "\"Y4MD_output\"",
+      "_FunctionVersion": "2"
+    }
+  }
+]

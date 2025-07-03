@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block title %}Rules Central{% endblock %}
+
+{% block hero_title %}Rules Central{% endblock %}
+
+{% block hero_subtitle %}Key metrics and insights about your rules ecosystem{% endblock %}
+
+{% block content %}
+<!-- Dashboard Overview -->
+{% set color_map = {
+    'primary': '#3b82f6',
+    'emerald': '#10b981',
+    'green': '#22c55e',
+    'purple': '#a78bfa'
+} %}
+<div class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Metric Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="metricsContainer">
+        {% set metrics = [
+            ['fa-project-diagram', 'Diagrams Processed', 'diagramCount', 'primary', 75, 100],
+            ['fa-sitemap', 'Rules Extracted', 'rulesExtractedCount', 'emerald', 65, 200],
+            ['fa-tasks', 'Rules by Status', 'rulesStatusChart', 'green', 80, 300],
+            ['fa-history', 'Recent Changes', 'recentChangesCount', 'purple', 50, 400]
+        ] %}
+        {% for icon, label, id, color, progress, delay in metrics %}
+        {% set bar_color = color_map.get(color, '#3b82f6') %}
+        <div aria-atomic="true"
+             aria-live="polite"
+             class="glass-panel p-6 rounded-2xl dashboard-card animate-on-scroll"
+             data-metric-id="{{ id }}"
+             id="{{ id }}-card"
+             data-delay="{{ delay }}">
+            <div class="flex justify-center mb-4">
+                <i aria-hidden="true" class="fas {{ icon }} text-3xl stats-icon" style="color: {{ bar_color | e }};"></i>
+            </div>
+            <div class="metric-content">
+                <h2 class="text-4xl font-bold text-white mb-2" id="{{ id }}">
+                    <span class="sr-only">Loading</span>
+                    <span class="countup">0</span>
+                </h2>
+                <p class="text-gray-400">{{ label }}</p>
+                <div class="mt-4 h-2 bg-dark-700 rounded-full overflow-hidden">
+                    <div class="h-full progress-bar"
+                         style="width: {{ progress }}%; background-color: {{ bar_color }};">
+                    </div>
+                </div>
+            </div>
+            <div class="metric-loading">
+                <div class="loading-spinner"></div>
+            </div>
+            <div class="metric-error hidden">
+                <div class="flex items-center justify-center gap-2 text-red-400">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Failed to load</span>
+                </div>
+                <button aria-label="Retry loading {{ label }}"
+                    class="retry-btn mt-2 text-sm"
+                    style="color: {{ bar_color }};">
+                <i class="fas fa-sync-alt mr-1"></i> Retry
+            </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Features Section -->
+<section aria-labelledby="features-heading" class="container mx-auto px-4 py-16 relative z-10">
+    <div class="text-center mb-12">
+        <h2 id="features-heading" class="text-3xl font-bold mb-2 animate-on-scroll">Powerful Features</h2>
+        <p class="text-gray-400 animate-on-scroll" data-delay="100">Manage, analyze, and visualize rules efficiently</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% set features = [
+            ['fa-upload', 'Create & Upload', 'Upload diagrams with validation', '/upload'],
+            ['fa-search', 'Explore & Analyze', 'Advanced query and visual tools', '/search'],
+            ['fa-tools', 'Tools & Utilities', 'Test and customize your rules', '/api_test_utility']
+        ] %}
+        {% for icon, title, desc, link in features %}
+        <div aria-labelledby="feature-{{ loop.index }}-title"
+             class="glass-panel p-6 rounded-2xl flex flex-col dashboard-card animate-on-scroll hover:transform hover:-translate-y-1 transition-transform duration-300"
+             role="region"
+             data-delay="{{ loop.index * 100 }}">
+            <div class="flex justify-center mb-4">
+                <div class="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center feature-icon">
+                    <i aria-hidden="true" class="fas {{ icon }} text-primary-400 text-2xl"></i>
+                </div>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2" id="feature-{{ loop.index }}-title">{{ title }}</h3>
+            <p class="text-gray-400 mb-6">{{ desc }}</p>
+            <a aria-label="Go to {{ title }}"
+               class="mt-auto text-primary-400 hover:text-primary-300 inline-flex items-center group transition-colors"
+               href="{{ link }}">
+                <span class="group-hover:underline">Explore feature</span>
+                <i aria-hidden="true" class="fas fa-chevron-right ml-2 transition-transform group-hover:translate-x-1"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Back to Top Button -->
+<button aria-label="Back to top"
+        class="fixed bottom-8 right-8 p-4 rounded-full bg-primary-600 text-white hover:bg-primary-700 transition-all opacity-0 invisible focus:outline-none focus:ring-2 focus:ring-primary-500 shadow-lg back-to-top"
+        id="backToTop">
+    <i aria-hidden="true" class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Loading Overlay (for initial load) -->
+<div class="fixed inset-0 bg-dark-900/80 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none" id="globalLoader">
+    <div class="text-center">
+        <div class="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-gray-300">Loading Dashboard...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize global loader
+    const globalLoader = document.getElementById('globalLoader');
+    if (globalLoader) {
+        globalLoader.classList.remove('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            globalLoader.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => globalLoader.remove(), 300);
+        }, 1000);
+    }
+
+    // Initialize metrics
+    const loadMetrics = async () => {
+        const metricCards = document.querySelectorAll('[data-metric-id]');
+
+        try {
+            // Fetch actual data from API
+            const response = await fetch('/api/stats');
+            if (!response.ok) throw new Error('Failed to fetch metrics');
+            const data = await response.json();
+
+            metricCards.forEach(card => {
+                const metricId = card.dataset.metricId;
+                let value;
+                
+                switch(metricId) {
+                    case 'diagramCount':
+                        value = data.diagramsProcessed;
+                        break;
+                    case 'rulesExtractedCount':
+                        value = data.rulesExtracted;
+                        break;
+                    case 'rulesStatusChart':
+                        // Sum all status counts for the chart
+                        value = Object.values(data.rules_by_status || {}).reduce((a, b) => a + b, 0);
+                        break;
+                    case 'recentChangesCount':
+                        value = data.recent_changes || 0;
+                        break;
+                    default:
+                        value = 0;
+                }
+
+                const countElement = card.querySelector('.countup');
+                const progressBar = card.querySelector('.progress-bar');
+
+                if (countElement && progressBar) {
+                    // Animate count up
+                    animateValue(countElement, 0, value, 2000);
+
+                    // Animate progress bar
+                    const targetWidth = progressBar.style.width;
+                    progressBar.style.width = '0%';
+                    setTimeout(() => {
+                        progressBar.style.width = targetWidth;
+                    }, 100);
+
+                    // Hide loading state
+                    const loadingEl = card.querySelector('.metric-loading');
+                    if (loadingEl) loadingEl.classList.add('hidden');
+                }
+            });
+
+        } catch (error) {
+            console.error('Failed to load metrics:', error);
+            metricCards.forEach(card => {
+                const loadingEl = card.querySelector('.metric-loading');
+                const errorEl = card.querySelector('.metric-error');
+                if (loadingEl) loadingEl.classList.add('hidden');
+                if (errorEl) errorEl.classList.remove('hidden');
+            });
+        }
+    };
+
+    // Value animation helper
+    function animateValue(element, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            element.textContent = Math.floor(progress * (end - start) + start).toLocaleString();
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Initialize back to top button
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            const show = window.scrollY > 300;
+            backToTop.classList.toggle('opacity-0', !show);
+            backToTop.classList.toggle('invisible', !show);
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Initialize intersection observer for scroll animations
+    const initScrollAnimations = () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            const delay = el.dataset.delay || 0;
+            el.style.setProperty('--animation-delay', `${delay}ms`);
+            observer.observe(el);
+        });
+    };
+
+    // Initialize everything
+    loadMetrics();
+    initScrollAnimations();
+
+    // Add retry functionality
+    document.querySelectorAll('.retry-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const card = btn.closest('.dashboard-card');
+            if (card) {
+                const loadingEl = card.querySelector('.metric-loading');
+                const errorEl = card.querySelector('.metric-error');
+                if (loadingEl) loadingEl.classList.remove('hidden');
+                if (errorEl) errorEl.classList.add('hidden');
+                loadMetrics();
+            }
+        });
+    });
+});
+</script>
+
+<style>
+    /* Animation styles */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        transition-delay: var(--animation-delay, 0ms);
+    }
+
+    .animate-on-scroll.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Metric card styles */
+    .dashboard-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .stats-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .dashboard-card:hover .stats-icon {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    .progress-bar {
+        transition: width 1.5s ease-out;
+    }
+
+    /* Loading states */
+    .metric-loading {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    .loading-spinner {
+        width: 2rem;
+        height: 2rem;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    .metric-error {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.9);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+        transition: all 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    /* Feature icons */
+    .feature-icon {
+        transition: all 0.3s ease;
+    }
+
+    .dashboard-card:hover .feature-icon {
+        transform: scale(1.1);
+        background-color: rgba(59, 130, 246, 0.3);
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
+{% endblock %}

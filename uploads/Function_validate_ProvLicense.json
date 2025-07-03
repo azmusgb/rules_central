@@ -1,0 +1,401 @@
+[
+  {
+    "Container": "validate_ProvLicense",
+    "RuleGUID": "76f5071b-0670-4667-af61-a18654094310",
+    "RuleName": "Filter P&S",
+    "RuleID": null,
+    "FunctionName": "FilterChars",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "FilterSet": "\"charset_PuctSpaceCtrl\""
+    }
+  },
+  {
+    "Container": "validate_ProvLicense",
+    "RuleGUID": "c6f84cd1-8611-402e-bc73-3314b00048ca",
+    "RuleName": "Filter Leading 0's",
+    "RuleID": null,
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "InvertCharSet": "0",
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "DeleteBlankRows": "0",
+      "TruncateExtraRows": "0",
+      "OutputFormat": "\"\\1342\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"0000AA000000\",\"AAAAAAAA\",\"AAA000AAA\",\"AAA000\",\"0AAA\",\"000\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "InputFormat": "\"^\\134(0*\\134)\\134(.*\\134)$\""
+    }
+  },
+  {
+    "Container": "validate_ProvLicense",
+    "RuleGUID": "0e607ced-788c-4587-8bd9-5d38bba812f6",
+    "RuleName": "Is ProvLicNo empty?",
+    "RuleID": null,
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "validate_ProvLicense",
+            "RuleGUID": "36602084-3cf2-47ee-83a8-b6556601cf37",
+            "RuleName": "Is Corro/AO?",
+            "RuleID": null,
+            "FunctionName": "_IBatchType",
+            "ParentGUID": "0e607ced-788c-4587-8bd9-5d38bba812f6",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Reject: Batch is of specified type",
+                "ChildRules": [
+                  {
+                    "Container": "validate_ProvLicense",
+                    "RuleGUID": "e79797cb-3d36-4659-b88d-fcf015b49b78",
+                    "RuleName": "Reject Fields",
+                    "RuleID": null,
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "36602084-3cf2-47ee-83a8-b6556601cf37",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "5250",
+                      "_BackupSkipID": "5250",
+                      "RejectString": "\"Please enter Provider License Number\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages_Fields": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Reject: Batch is not of specified type",
+                "ChildRules": [
+                  {
+                    "Container": "validate_ProvLicense",
+                    "RuleGUID": "d74dbf2a-a8fb-4dfe-9a39-a094c26b38af",
+                    "RuleName": "Reject Fields",
+                    "RuleID": null,
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "36602084-3cf2-47ee-83a8-b6556601cf37",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "5232",
+                      "_BackupSkipID": "5232",
+                      "RejectString": "\"License is required\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "SelectionListAutoPop": "0",
+                      "Languages_Fields": "\"Default\"",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "BatchType": "{\"CN\",\"CY\",\"AN\",\"AY\",\"CPEGAN\",\"CPEGAY\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "validate_ProvLicense",
+            "RuleGUID": "f6af7370-4756-42e3-bb9d-261b3a432bc0",
+            "RuleName": "Is all numbers?",
+            "RuleID": "538",
+            "FunctionName": "CheckCharSet",
+            "ParentGUID": "0e607ced-788c-4587-8bd9-5d38bba812f6",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_ProvLicense",
+                    "RuleGUID": "eb313c92-9c0d-4743-9e7a-53183efc0169",
+                    "RuleName": "Numbers followed by 2 letters?",
+                    "RuleID": null,
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "f6af7370-4756-42e3-bb9d-261b3a432bc0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_ProvLicense",
+                            "RuleGUID": "10950979-6948-44c4-b351-63fd162d305b",
+                            "RuleName": "Numbers followed by 2 letters and a letter?",
+                            "RuleID": null,
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "eb313c92-9c0d-4743-9e7a-53183efc0169",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "validate_ProvLicense",
+                                    "RuleGUID": "b3ae1ea2-de7e-4c8a-9ee0-09fb0f2b88f5",
+                                    "RuleName": "Reject Fields",
+                                    "RuleID": "539",
+                                    "FunctionName": "_IRejectFields",
+                                    "ParentGUID": "10950979-6948-44c4-b351-63fd162d305b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "0",
+                                      "_SkipID": "5466",
+                                      "_BackupSkipID": "5466",
+                                      "RejectString": "\"Invalid License characters\"",
+                                      "RejectCode": "2",
+                                      "RunOnce": "0",
+                                      "SelectionListAutoPop": "0",
+                                      "Languages_Fields": "\"Default\"",
+                                      "DelayEval": "0",
+                                      "_Sources": "{\"OCR_AEG\"}",
+                                      "_ParamListOMRIndex0": "{-1}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "65539",
+                              "OutputFormat": "\"\"",
+                              "_RegExTestValues": "{\"AB12345\",\"12345AB\",\"AB12\",\"12AB\",\"ABC12345\",\"12345ABC\",\"12345CAD\",\"12345\"}",
+                              "_RegExMatchBaseline": "{}",
+                              "_RegExOutputBaseline": "{}",
+                              "_Sources": "{\"OCR_AEG\"}",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"^[0-9]\\134+[A-Z][A-Z][A-Z]$\"",
+                              "_ParamListOMRIndex0": "{-1}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"AB12345\",\"12345AB\",\"AB12\",\"12AB\",\"ABC12345\",\"12345ABC\",\"AB12345CD\",\"12345\",\"1AS\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"^[0-9]\\134+[A-Z][A-Z]$\"",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "OutputFormat": "\"\"",
+              "_RegExTestValues": "{\"123456789\",\"12345678\",\"1234567890\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}",
+              "_Sources": "{\"OCR_AEG\"}",
+              "MinLengthLimit": "9",
+              "MaxLengthLimit": "9",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$\"",
+              "LegalSet": "\"charset_Numeric\"",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

@@ -1,0 +1,823 @@
+[
+  {
+    "Container": "validate_SubscriberID",
+    "RuleGUID": "d70aabc5-0e59-40e4-b2e8-3ce93a400517",
+    "RuleName": "Filter P&S",
+    "RuleID": "",
+    "FunctionName": "format_FilterPSC",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "0"
+    }
+  },
+  {
+    "Container": "validate_SubscriberID",
+    "RuleGUID": "a2b573da-73ba-497f-accb-92374ea440d0",
+    "RuleName": "Filter ID#",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "2",
+      "RepeatInLine": "0",
+      "RepeatInAllLines": "0",
+      "Expr": "\"\\134(.*\\134)ID\\134#\\134(.*\\134)\"",
+      "OutputFormat": "\"\\1341\\1342\"",
+      "_RegExTestValues": "{\"123456\",\"ID#123456\",\"1234ID#456\",\"123456ID#\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "InputFormat": "\"\\134(.*\\134)ID#\\134(.*\\134)\"",
+      "CaseSensitive2": "0"
+    }
+  },
+  {
+    "Container": "validate_SubscriberID",
+    "RuleGUID": "ad7eafaa-d37b-44af-bdc2-b6a1cef32814",
+    "RuleName": "SubSSN - Fewer than 4 characters?",
+    "RuleID": "",
+    "FunctionName": "CheckLineLength",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "Yes",
+        "ChildRules": [
+          {
+            "Container": "validate_SubscriberID",
+            "RuleGUID": "571a4940-0e9e-46e4-82f9-c2b40d9df56f",
+            "RuleName": "Is this EDI?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "ad7eafaa-d37b-44af-bdc2-b6a1cef32814",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "89ff0f79-0dac-4449-84e0-dbec9784dcc7",
+                    "RuleName": "Delete value",
+                    "RuleID": "",
+                    "FunctionName": "DeleteLines",
+                    "ParentGUID": "571a4940-0e9e-46e4-82f9-c2b40d9df56f",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "DeleteBlanks": "0",
+                      "MinLinesBeforeDelete": "0",
+                      "LinesFrom": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "1",
+      "MinLengthLimit": "4",
+      "_Description": "\"Per CQ 145438 we are now deleting if fewer than 4 characters. - jdm 07/2015\""
+    }
+  },
+  {
+    "Container": "validate_SubscriberID",
+    "RuleGUID": "65939455-d641-4213-96a7-5cdf0454130b",
+    "RuleName": "SubSSN - Is Empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Reject: All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_SubscriberID",
+            "RuleGUID": "0e06e092-485a-49a9-bed8-f44bf79be0ce",
+            "RuleName": "Is Corro/AO?",
+            "RuleID": "",
+            "FunctionName": "_IBatchType",
+            "ParentGUID": "65939455-d641-4213-96a7-5cdf0454130b",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Batch is of specified type",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "d0b8ba1c-3e3e-4b98-bc5c-88e502137c77",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "0e06e092-485a-49a9-bed8-f44bf79be0ce",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "5245",
+                      "_BackupSkipID": "5245",
+                      "RejectString": "\"Please enter Member ID\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "260",
+                "ActionName": "Batch is not of specified type",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "a9ecd50c-d05e-42e7-8b3f-faa4d880e989",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "0e06e092-485a-49a9-bed8-f44bf79be0ce",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "5222",
+                      "_BackupSkipID": "5222",
+                      "RejectString": "\"ID is Required\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0",
+                      "Languages_Fields": "\"Default\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "0",
+              "BatchType": "{\"CN\",\"CY\",\"AN\",\"AY\",\"CPEGAN\",\"CPEGAY\"}"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "validate_SubscriberID",
+            "RuleGUID": "cd9e9956-3266-447e-b002-d9df672f74d6",
+            "RuleName": "Check length between 6 and 25",
+            "RuleID": "",
+            "FunctionName": "CheckLineLength",
+            "ParentGUID": "65939455-d641-4213-96a7-5cdf0454130b",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "260",
+                "ActionName": "Is greater than 25",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "a3517819-fa51-466d-a1f7-c47064d0bf0a",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "cd9e9956-3266-447e-b002-d9df672f74d6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "5223",
+                      "_BackupSkipID": "5223",
+                      "RejectString": "\"Must be no more than 25 characters\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "516",
+                "ActionName": "Is 25",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "6569c878-d5f0-460d-9d55-ad52ab076232",
+                    "RuleName": "Is it all the same number?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "cd9e9956-3266-447e-b002-d9df672f74d6",
+                    "ParentActionIndex": 1,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Reject: Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubscriberID",
+                            "RuleGUID": "19040b8b-18ff-486f-9839-f03c68b047d7",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "6569c878-d5f0-460d-9d55-ad52ab076232",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "5224",
+                              "_BackupSkipID": "5224",
+                              "RejectString": "\"ID is invalid\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0",
+                              "Languages": "\"Default\"",
+                              "SelectionListAutoPop": "0",
+                              "DelayEval": "0",
+                              "Languages_Fields": "\"Default\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"111111111\",\"222222222\",\"333333333\",\"444444444\",\"555555555\",\"666666666\",\"777777777\",\"888888888\",\"999999999\",\"000000000\",\"123123123\",\"0000000000000000000000000\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"1111111111111111111111111\\134|2222222222222222222222222\\134|3333333333333333333333333\\134|4444444444444444444444444\\134|5555555555555555555555555\\134|6666666666666666666666666\\134|7777777777777777777777777\\134|8888888888888888888888888\\134|9999999999999999999999999\\134|0000000000000000000000000\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "Less than 6",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "73f2bb4e-3ebb-4ec9-a7b5-42bbe68c2f7d",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "cd9e9956-3266-447e-b002-d9df672f74d6",
+                    "ParentActionIndex": 2,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "6074",
+                      "_BackupSkipID": "6074",
+                      "RejectString": "\"Must be no fewer than 6 characters\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "Languages": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0",
+                      "Languages_Fields": "\"Default\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "MinLengthLimit": "6",
+              "_Description": "\"For Q2 2016 (CQ 152026) the lower limit is now 6 and the upper is 25. - jdm 06/2016\"",
+              "MaxLengthLimit": "25",
+              "AllowedLengths": "{25}"
+            }
+          },
+          {
+            "Container": "validate_SubscriberID",
+            "RuleGUID": "d0ca5da4-6d88-4030-ab4e-b4d3b1f72b08",
+            "RuleName": "Is length = 9?",
+            "RuleID": "",
+            "FunctionName": "CheckLineLength",
+            "ParentGUID": "65939455-d641-4213-96a7-5cdf0454130b",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "4",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "847d48c3-88bc-413e-9bc4-b4ed67fcd844",
+                    "RuleName": "Must be all numbers",
+                    "RuleID": "",
+                    "FunctionName": "CheckCharSet",
+                    "ParentGUID": "d0ca5da4-6d88-4030-ab4e-b4d3b1f72b08",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Reject: Some characters not in set",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubscriberID",
+                            "RuleGUID": "c662275c-a9b7-4475-8eb1-5425d1db8ff0",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "847d48c3-88bc-413e-9bc4-b4ed67fcd844",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "5226",
+                              "_BackupSkipID": "5226",
+                              "RejectString": "\"SSN is invalid\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "1",
+                      "LegalSet": "\"charset_Numeric\""
+                    }
+                  },
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "b222e560-5c64-42dc-9b45-056d3a616474",
+                    "RuleName": "Is it all the same number?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "d0ca5da4-6d88-4030-ab4e-b4d3b1f72b08",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Reject: Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubscriberID",
+                            "RuleGUID": "71c98d69-548b-4bcd-91f3-f632f61b3617",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "b222e560-5c64-42dc-9b45-056d3a616474",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "5227",
+                              "_BackupSkipID": "5227",
+                              "RejectString": "\"ID is invalid\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"111111111\",\"222222222\",\"333333333\",\"444444444\",\"555555555\",\"666666666\",\"777777777\",\"888888888\",\"999999999\",\"000000000\",\"123123123\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"111111111\\134|222222222\\134|333333333\\134|444444444\\134|555555555\\134|666666666\\134|777777777\\134|888888888\\134|999999999\\134|000000000\""
+                    }
+                  },
+                  {
+                    "Container": "validate_SubscriberID",
+                    "RuleGUID": "7087da80-a4ab-4704-ae5b-05f0d8c85eb5",
+                    "RuleName": "Is one of these?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "d0ca5da4-6d88-4030-ab4e-b4d3b1f72b08",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Reject: Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "validate_SubscriberID",
+                            "RuleGUID": "c00989b2-66f4-4389-8d07-d806b7def384",
+                            "RuleName": "Reject Fields",
+                            "RuleID": "",
+                            "FunctionName": "_IRejectFields",
+                            "ParentGUID": "7087da80-a4ab-4704-ae5b-05f0d8c85eb5",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "0",
+                              "_SkipID": "5228",
+                              "_BackupSkipID": "5228",
+                              "RejectString": "\"ID is invalid\"",
+                              "RejectCode": "2",
+                              "RunOnce": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "65539",
+                      "OutputFormat": "\"\"",
+                      "_RegExTestValues": "{\"012345678\",\"987654321\",\"123456789\"}",
+                      "_RegExMatchBaseline": "{}",
+                      "_RegExOutputBaseline": "{}",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"012345678\\134|123456789\\134|987654321\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "1",
+              "_Description": "\"These validation rules were disabled per defect 79334/change control 27.\"",
+              "AllowedLengths": "{9}",
+              "_Disabled": "1"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]

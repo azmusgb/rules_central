@@ -1,0 +1,508 @@
+[
+  {
+    "Container": "ADA_DetailLines_MedicaidOnly",
+    "RuleGUID": "94f3bfb5-212d-446d-b483-659d220c7b74",
+    "RuleName": "Is EDI?",
+    "RuleID": null,
+    "FunctionName": "HasRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "ADA_DetailLines_MedicaidOnly",
+            "RuleGUID": "58ca18f2-1217-40dc-aab1-adcb736f03ef",
+            "RuleName": "Check if whole line empty",
+            "RuleID": "1",
+            "FunctionName": "IsEmpty",
+            "ParentGUID": "94f3bfb5-212d-446d-b483-659d220c7b74",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Not all empty",
+                "ChildRules": [
+                  {
+                    "Container": "ADA_DetailLines_MedicaidOnly",
+                    "RuleGUID": "f6d70843-758f-4a7f-b615-ba187d943682",
+                    "RuleName": "Filter Control Chars",
+                    "RuleID": null,
+                    "FunctionName": "_IIterateOnlyFieldsUDF",
+                    "ParentGUID": "58ca18f2-1217-40dc-aab1-adcb736f03ef",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "UDFName": "\"format_FilterControlChars\"",
+                      "ForEach": "{1}"
+                    }
+                  },
+                  {
+                    "Container": "ADA_DetailLines_MedicaidOnly",
+                    "RuleGUID": "01e2da5b-bb0c-4d0d-a78e-1366f7558fdb",
+                    "RuleName": "Filter P&S Leave Dash",
+                    "RuleID": null,
+                    "FunctionName": "FilterChars",
+                    "ParentGUID": "58ca18f2-1217-40dc-aab1-adcb736f03ef",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "2",
+                      "InvertCharSet": "0",
+                      "FilterSet": "\"charset_PandSNodash\""
+                    }
+                  },
+                  {
+                    "Container": "ADA_DetailLines_MedicaidOnly",
+                    "RuleGUID": "b024e80a-d96a-4d11-ac09-046ed9f23cca",
+                    "RuleName": "Is the DOS populated?",
+                    "RuleID": null,
+                    "FunctionName": "IsEmpty",
+                    "ParentGUID": "58ca18f2-1217-40dc-aab1-adcb736f03ef",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes - Payable line",
+                        "ChildRules": [
+                          {
+                            "Container": "ADA_DetailLines_MedicaidOnly",
+                            "RuleGUID": "96a8df86-aa23-400f-90a6-6c1cef2683d5",
+                            "RuleName": "Medicaid Amount - Is empty?",
+                            "RuleID": null,
+                            "FunctionName": "IsEmpty",
+                            "ParentGUID": "b024e80a-d96a-4d11-ac09-046ed9f23cca",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "Yes",
+                                "ChildRules": [
+                                  {
+                                    "Container": "ADA_DetailLines_MedicaidOnly",
+                                    "RuleGUID": "dd61303b-fc4e-49f7-a481-e173340c08ff",
+                                    "RuleName": "Reject Fields",
+                                    "RuleID": null,
+                                    "FunctionName": "_IRejectFields",
+                                    "ParentGUID": "96a8df86-aa23-400f-90a6-6c1cef2683d5",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "0",
+                                      "_SkipID": "7815",
+                                      "_BackupSkipID": "7815",
+                                      "RejectString": "\"Please enter Medicaid Amount\"",
+                                      "RejectCode": "2",
+                                      "RunOnce": "0",
+                                      "Languages": "\"Default\"",
+                                      "SelectionListAutoPop": "0",
+                                      "DelayEval": "0"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "ADA_DetailLines_MedicaidOnly",
+                                    "RuleGUID": "47f9ca79-a287-48e8-86bc-ab7f9e8cd367",
+                                    "RuleName": "Compare to Fee",
+                                    "RuleID": null,
+                                    "FunctionName": "CompareAmountFields",
+                                    "ParentGUID": "96a8df86-aa23-400f-90a6-6c1cef2683d5",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Reject: Greater than",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_MedicaidOnly",
+                                            "RuleGUID": "790e856a-b46e-4ad2-90d4-ed42621367cb",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": null,
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "47f9ca79-a287-48e8-86bc-ab7f9e8cd367",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0,6}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "7862",
+                                              "_BackupSkipID": "7862",
+                                              "RejectString": "\"Medicaid Amount should not be greater than Fee\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0",
+                                              "Languages": "\"Default\"",
+                                              "SelectionListAutoPop": "0",
+                                              "DelayEval": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "CaseSensitive": "1",
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "EndWhiteSpaceSensitive": "1",
+                                      "_ParamList1": "{6}",
+                                      "BracketedField": "0"
+                                    }
+                                  },
+                                  {
+                                    "Container": "ADA_DetailLines_MedicaidOnly",
+                                    "RuleGUID": "743e5db3-bd98-4484-9558-c78460a8c8f1",
+                                    "RuleName": "Check if valid amount",
+                                    "RuleID": null,
+                                    "FunctionName": "CheckAmount",
+                                    "ParentGUID": "96a8df86-aa23-400f-90a6-6c1cef2683d5",
+                                    "ParentActionIndex": 1,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "Reject: Bad Amount",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_MedicaidOnly",
+                                            "RuleGUID": "e6d96f97-b8e2-4da6-8ba8-0898055d08e0",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": null,
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "743e5db3-bd98-4484-9558-c78460a8c8f1",
+                                            "ParentActionIndex": 0,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "7816",
+                                              "_BackupSkipID": "7816",
+                                              "RejectString": "\"Must be greater than 0 and less than or equal to 9,999.99\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0",
+                                              "Languages": "\"Default\"",
+                                              "SelectionListAutoPop": "0",
+                                              "DelayEval": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "516",
+                                        "ActionName": "Reject: Not an amount",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_MedicaidOnly",
+                                            "RuleGUID": "04a010de-735e-41e3-bffe-bf257c03b714",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": null,
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "743e5db3-bd98-4484-9558-c78460a8c8f1",
+                                            "ParentActionIndex": 1,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "7817",
+                                              "_BackupSkipID": "7817",
+                                              "RejectString": "\"Invalid amount\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0",
+                                              "Languages": "\"Default\"",
+                                              "SelectionListAutoPop": "0",
+                                              "DelayEval": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "4",
+                                        "ActionName": "Reject: Too small",
+                                        "ChildRules": [
+                                          {
+                                            "Container": "ADA_DetailLines_MedicaidOnly",
+                                            "RuleGUID": "4b74c021-cce0-4580-9118-6ea6b0796534",
+                                            "RuleName": "Reject Fields",
+                                            "RuleID": null,
+                                            "FunctionName": "_IRejectFields",
+                                            "ParentGUID": "743e5db3-bd98-4484-9558-c78460a8c8f1",
+                                            "ParentActionIndex": 2,
+                                            "Children": [],
+                                            "Actions": [
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              },
+                                              {
+                                                "ActionValue": "0",
+                                                "ActionName": "",
+                                                "ChildRules": [],
+                                                "Attributes": {}
+                                              }
+                                            ],
+                                            "Attributes": {
+                                              "_ParamList0": "{0}",
+                                              "_FunctionVersion": "0",
+                                              "_SkipID": "7818",
+                                              "_BackupSkipID": "7818",
+                                              "RejectString": "\"Must be greater than 0 and less than or equal to 9,999.99\"",
+                                              "RejectCode": "2",
+                                              "RunOnce": "0",
+                                              "Languages": "\"Default\"",
+                                              "SelectionListAutoPop": "0",
+                                              "DelayEval": "0"
+                                            }
+                                          }
+                                        ],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "260",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{0}",
+                                      "_FunctionVersion": "1",
+                                      "BracketedField": "0",
+                                      "Deviation": "0",
+                                      "MaximumValue": "999999",
+                                      "MinimumValue": "1",
+                                      "_Disabled": "1"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "260",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{0}",
+                              "_FunctionVersion": "3"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{4}",
+                      "_FunctionVersion": "3"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{1,4,5,6,2,3,7,10,11}",
+              "_FunctionVersion": "3"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "CaseSensitive": "1",
+      "_ParamList0": "{9}",
+      "RegularExpression": "\"1\"",
+      "_FunctionVersion": "65539"
+    }
+  }
+]

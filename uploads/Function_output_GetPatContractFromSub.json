@@ -1,0 +1,783 @@
+[
+  {
+    "Container": "output_GetPatContractFromSub",
+    "RuleGUID": "99ede7e1-a852-4ea4-b606-5c0c24fb7d3a",
+    "RuleName": "ClearSL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_PatContractID\"",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "output_GetPatContractFromSub",
+    "RuleGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+    "RuleName": "SubContractID - Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "None Empty",
+        "ChildRules": [
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "e0eb7b2a-c93b-4da3-9e85-ce1a8bb87990",
+            "RuleName": "Copy to temp5",
+            "RuleID": "",
+            "FunctionName": "Copy",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "1",
+              "_ParamList0": "{0}",
+              "_ParamList1": "{3}"
+            }
+          },
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "9936cae1-ebfd-43dd-af42-35e9a2437524",
+            "RuleName": "temp5 - Drop extension",
+            "RuleID": "",
+            "FunctionName": "FormatRegExpr",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_FunctionVersion": "2",
+              "_ParamList0": "{3}",
+              "InputFormat": "\"^\\134(.*\\134)01$\"",
+              "OutputFormat": "\"\\1341\"",
+              "CaseSensitive2": "0",
+              "_RegExTestValues": "{\"12345678901\",\"123401\",\"01\",\"012345\",\"12301456\"}",
+              "_RegExMatchBaseline": "{}",
+              "_RegExOutputBaseline": "{}"
+            }
+          },
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "b396c655-60de-4002-ab7a-5ea09857b054",
+            "RuleName": "Fetch CTS rows with PID",
+            "RuleID": "",
+            "FunctionName": "SelectSelectedListTableApproxMatch",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "_FunctionVersion": "131076",
+              "_ParamList0": "{2}",
+              "_ParamList1": "{}",
+              "MaxMatchCount": "999",
+              "MaxIndexCount": "0",
+              "EmptyKeyFails": "1",
+              "AnyEmptyKeysFails": "0",
+              "Table": "\"odbc_MemCovInfo\"",
+              "NextInstance": "0",
+              "ExactColumns": "{\"MEM_MTV_PID\"}",
+              "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+              "DataColumns": "{\"MEM_COV_CTRCT_ID\",\"MEM_COV_EFF_DT\",\"MEM_COV_END_DT\"}",
+              "EscapeFields": "{\"PatContractID\",\"temp6\",\"temp7\"}",
+              "PlugFields": "{\"PatContractID\",\"temp6\",\"temp7\"}",
+              "DataTableDataField": "{-1,-1,-1}",
+              "DataTableEmptyField": "{-1,-1,-1}",
+              "EmptyTableDataField": "{-1,-1,-1}",
+              "CatchResourceUnavailable": "0"
+            }
+          },
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "8ddc0097-00f2-4cbd-8c66-9bc62bd38df3",
+            "RuleName": "LogSL",
+            "RuleID": "",
+            "FunctionName": "LogSL",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "_FunctionVersion": "1",
+              "LogLevel": "12"
+            }
+          },
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "a9552803-9a5b-433f-9eb4-5852795c3d3a",
+            "RuleName": "Any matches?",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Yes",
+                "ChildRules": [
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "1b8141b8-12c6-4b74-b1cb-c412b057d1c2",
+                    "RuleName": "Use SubContractID (temp5) to trim",
+                    "RuleID": "",
+                    "FunctionName": "TrimSL",
+                    "ParentGUID": "a9552803-9a5b-433f-9eb4-5852795c3d3a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "65537",
+                      "_ParamList0": "{3}",
+                      "GroupCount": "1",
+                      "GroupNames": "{\"SubContractID\"}",
+                      "MatchType": "{0}",
+                      "SwapFields": "{0}",
+                      "TableIgnoreCharSets": "{\"\"}",
+                      "NoneMatch": "{1}",
+                      "Combine": "{0}",
+                      "UseSubstrings": "{0}",
+                      "EditDistance": "{0}",
+                      "Percentage": "{0}",
+                      "Required": "{0}",
+                      "FieldGroup": "{0}",
+                      "MatchColumns": "{\"ContractID\"}",
+                      "ColumnGroup": "{0}",
+                      "Depends": "{}",
+                      "DependsType": "{}",
+                      "DependsGroup": "{}"
+                    }
+                  },
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "3a98768c-8274-47c1-888b-75afe3b29343",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "a9552803-9a5b-433f-9eb4-5852795c3d3a",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "1",
+                      "LogLevel": "12"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "_FunctionVersion": "1",
+              "_ParamList0": "{}",
+              "PlugIfSinglePluggableMatch": "0",
+              "MaxSize": "0"
+            }
+          },
+          {
+            "Container": "output_GetPatContractFromSub",
+            "RuleGUID": "25b98b49-48b9-481d-a063-0cba55617187",
+            "RuleName": "Plug if possible",
+            "RuleID": "",
+            "FunctionName": "CheckSLState4",
+            "ParentGUID": "f0915069-1f1f-4dd0-b8a8-7212899487ac",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Not plugged",
+                "ChildRules": [
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "e035cc43-8a9f-4533-8521-f2c5362aaee3",
+                    "RuleName": "ClearSL",
+                    "RuleID": "",
+                    "FunctionName": "ClearSL",
+                    "ParentGUID": "25b98b49-48b9-481d-a063-0cba55617187",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "1"
+                    }
+                  },
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "57ab2846-8840-46d3-8eb8-2d0f09af7291",
+                    "RuleName": "Fetch Elig rows with PID",
+                    "RuleID": "",
+                    "FunctionName": "SelectSelectedListTableApproxMatch",
+                    "ParentGUID": "25b98b49-48b9-481d-a063-0cba55617187",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "131076",
+                      "_ParamList0": "{2}",
+                      "_ParamList1": "{}",
+                      "MaxMatchCount": "999",
+                      "MaxIndexCount": "0",
+                      "EmptyKeyFails": "1",
+                      "AnyEmptyKeysFails": "0",
+                      "Table": "\"odbc_MemElig\"",
+                      "NextInstance": "0",
+                      "ExactColumns": "{\"MEM_MTV_PID\"}",
+                      "SelectionListColumns": "{\"ContractID\",\"EffDate\",\"EndDate\"}",
+                      "DataColumns": "{\"MEM_ELIG_CTRCT_ID\",\"MEM_ELIG_EFF_DT\",\"MEM_ELIG_END_DT\"}",
+                      "EscapeFields": "{\"PatContractID\",\"temp6\",\"temp7\"}",
+                      "PlugFields": "{\"PatContractID\",\"temp6\",\"temp7\"}",
+                      "DataTableDataField": "{-1,-1,-1}",
+                      "DataTableEmptyField": "{-1,-1,-1}",
+                      "EmptyTableDataField": "{-1,-1,-1}",
+                      "CatchResourceUnavailable": "0"
+                    }
+                  },
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "4db446d3-373b-41b2-93f9-da4b0620bbff",
+                    "RuleName": "LogSL",
+                    "RuleID": "",
+                    "FunctionName": "LogSL",
+                    "ParentGUID": "25b98b49-48b9-481d-a063-0cba55617187",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "1",
+                      "LogLevel": "12"
+                    }
+                  },
+                  {
+                    "Container": "output_GetPatContractFromSub",
+                    "RuleGUID": "b02938c4-d7a3-4d62-b171-ff3e4d8236bf",
+                    "RuleName": "Any matches?",
+                    "RuleID": "",
+                    "FunctionName": "CheckSLState4",
+                    "ParentGUID": "25b98b49-48b9-481d-a063-0cba55617187",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "output_GetPatContractFromSub",
+                            "RuleGUID": "3a4e1e1a-3174-4290-bd29-5844b5c4b549",
+                            "RuleName": "Use SubContractID (temp5) to trim",
+                            "RuleID": "",
+                            "FunctionName": "TrimSL",
+                            "ParentGUID": "b02938c4-d7a3-4d62-b171-ff3e4d8236bf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "_FunctionVersion": "65537",
+                              "_ParamList0": "{3}",
+                              "GroupCount": "1",
+                              "GroupNames": "{\"SubContractID\"}",
+                              "MatchType": "{0}",
+                              "SwapFields": "{0}",
+                              "TableIgnoreCharSets": "{\"\"}",
+                              "NoneMatch": "{1}",
+                              "Combine": "{0}",
+                              "UseSubstrings": "{0}",
+                              "EditDistance": "{0}",
+                              "Percentage": "{0}",
+                              "Required": "{0}",
+                              "FieldGroup": "{0}",
+                              "MatchColumns": "{\"ContractID\"}",
+                              "ColumnGroup": "{0}",
+                              "Depends": "{}",
+                              "DependsType": "{}",
+                              "DependsGroup": "{}"
+                            }
+                          },
+                          {
+                            "Container": "output_GetPatContractFromSub",
+                            "RuleGUID": "74f46cb7-c5bb-41c9-a89b-f1f34ee7df09",
+                            "RuleName": "LogSL",
+                            "RuleID": "",
+                            "FunctionName": "LogSL",
+                            "ParentGUID": "b02938c4-d7a3-4d62-b171-ff3e4d8236bf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "_FunctionVersion": "1",
+                              "LogLevel": "12"
+                            }
+                          },
+                          {
+                            "Container": "output_GetPatContractFromSub",
+                            "RuleGUID": "c768d983-b8c4-4498-9a13-81585d0db6be",
+                            "RuleName": "Plug if possible",
+                            "RuleID": "",
+                            "FunctionName": "CheckSLState4",
+                            "ParentGUID": "b02938c4-d7a3-4d62-b171-ff3e4d8236bf",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "SelectionList": "\"selectionlist_PatContractID\"",
+                              "_FunctionVersion": "1",
+                              "_ParamList0": "{}",
+                              "PlugIfSinglePluggableMatch": "1",
+                              "MaxSize": "0"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "SelectionList": "\"selectionlist_PatContractID\"",
+                      "_FunctionVersion": "1",
+                      "_ParamList0": "{}",
+                      "PlugIfSinglePluggableMatch": "0",
+                      "MaxSize": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "SelectionList": "\"selectionlist_PatContractID\"",
+              "_FunctionVersion": "1",
+              "_ParamList0": "{}",
+              "PlugIfSinglePluggableMatch": "1",
+              "MaxSize": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "4",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_FunctionVersion": "3",
+      "_ParamList0": "{0}"
+    }
+  },
+  {
+    "Container": "output_GetPatContractFromSub",
+    "RuleGUID": "797a8c96-2d8a-476a-a00c-90d7effe1172",
+    "RuleName": "ClearSL",
+    "RuleID": "",
+    "FunctionName": "ClearSL",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "SelectionList": "\"selectionlist_PatContractID\"",
+      "_FunctionVersion": "1"
+    }
+  }
+]

@@ -1,0 +1,949 @@
+[
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "242038e4-7fa0-482b-b969-d46f32b709d8",
+    "RuleName": "Clear temp",
+    "RuleID": "",
+    "FunctionName": "DeleteLines",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "DeleteBlanks": "0",
+      "MinLinesBeforeDelete": "0",
+      "_ParamList0": "{9,10}",
+      "_FunctionVersion": "1",
+      "LinesFrom": "0"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "0a551811-06e8-48d3-98f8-3235aa7035d7",
+    "RuleName": "Copy fields",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{10}",
+      "_Disabled": "1"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "2ede05b2-faa8-4f9f-80fb-9470f020c2fa",
+    "RuleName": "Trim ProvZip to first 5 contiguous chars",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{10}",
+      "_FunctionVersion": "2",
+      "_Disabled": "1",
+      "InputFormat": "\"\\134([^ ][^ ][^ ][^ ][^ ]\\134)\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"ABCDE\",\"ABCDEF\",\"A BCDEF\",\"AB CDEF\",\"ABC DEF\",\"ABCD EF\",\"ABCDE F\",\"THE BOB WESTERN PLAN\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamListOMRIndex0": "{-1}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "e46a6d28-e462-4330-8d12-2c776aeefbba",
+    "RuleName": "Trim table Zip to first 5 contiguous chars",
+    "RuleID": "",
+    "FunctionName": "FormatRegExpr",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{6}",
+      "_FunctionVersion": "2",
+      "InputFormat": "\"\\134([^ ][^ ][^ ][^ ][^ ]\\134)\"",
+      "OutputFormat": "\"\\1341\"",
+      "CaseSensitive2": "0",
+      "_RegExTestValues": "{\"ABCDE\",\"ABCDEF\",\"A BCDEF\",\"AB CDEF\",\"ABC DEF\",\"ABCD EF\",\"ABCDE F\",\"THE BOB WESTERN PLAN\"}",
+      "_RegExMatchBaseline": "{}",
+      "_RegExOutputBaseline": "{}",
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamListOMRIndex0": "{-1}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "c7176a72-d82b-433c-9882-f897c259bc07",
+    "RuleName": "Table Address - Do some PO Box Formatting",
+    "RuleID": "",
+    "FunctionName": "_IIterateOnlyFieldsUDF",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "0",
+      "_Sources": "{\"OCR_AEG\"}",
+      "_ParamListOMRIndex0": "{-1}",
+      "UDFName": "\"format_FixPOBoxes\"",
+      "ForEach": "{0}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "29fbe724-7b32-4a22-a7df-afee66db3a78",
+    "RuleName": "Table Address - Get numeric portion of the billing addr",
+    "RuleID": "",
+    "FunctionName": "helper_GetFirstNumbers",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "0",
+      "_ParamList1": "{9}"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "8fa4cec6-b5a2-4299-82b6-d03576dadcc4",
+    "RuleName": "PRIOR TO WRP-2666 - Compare addrNum and zip code",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "perfect match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProv_MedicaidPL",
+            "RuleGUID": "03c9fc5f-21c7-4b82-916c-b498987a89dc",
+            "RuleName": "is flag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "8fa4cec6-b5a2-4299-82b6-d03576dadcc4",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProv_MedicaidPL",
+                    "RuleGUID": "c3dcfe2c-5c99-40bf-8e50-bb63a8f58a38",
+                    "RuleName": "Is this business address?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "03c9fc5f-21c7-4b82-916c-b498987a89dc",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "51b4c352-6842-4d79-91d6-9321e45ab3f0",
+                            "RuleName": "set flag to 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "c3dcfe2c-5c99-40bf-8e50-bb63a8f58a38",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "5dcd5b7e-254d-454c-8c1e-8e1991de5c45",
+                            "RuleName": "copy address and PL fields",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "c3dcfe2c-5c99-40bf-8e50-bb63a8f58a38",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3,5,4,6,7}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{11,12,14,13,15,16}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "b5b4b49b-f55c-4cdf-adc2-69f0c88e377b",
+                            "RuleName": "Is flag = 2?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "c3dcfe2c-5c99-40bf-8e50-bb63a8f58a38",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProv_MedicaidPL",
+                                    "RuleGUID": "f0663945-e1c4-4821-aa25-e5f5fef95584",
+                                    "RuleName": "copy address and PL fields",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "b5b4b49b-f55c-4cdf-adc2-69f0c88e377b",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2,3,5,4,6,7}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{11,12,14,13,15,16}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"2\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"BA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{17}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "Not perfect match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProv_MedicaidPL",
+            "RuleGUID": "312fd603-0fc0-4414-b36b-038df2dc3db7",
+            "RuleName": "is flag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "8fa4cec6-b5a2-4299-82b6-d03576dadcc4",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProv_MedicaidPL",
+                    "RuleGUID": "65b1ab42-caba-4101-80ce-cb617a3ee848",
+                    "RuleName": "Is this business address?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "312fd603-0fc0-4414-b36b-038df2dc3db7",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "72688954-0d5a-4a88-8059-13982a510c3f",
+                            "RuleName": "set flag to 2",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "65b1ab42-caba-4101-80ce-cb617a3ee848",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"2\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "2945cb86-4ba3-48a2-8f14-456aeae3b027",
+                            "RuleName": "copy address and PL fields",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "65b1ab42-caba-4101-80ce-cb617a3ee848",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3,5,4,6,7}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{11,12,14,13,15,16}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "db465a91-aac5-4996-9988-8b82fd7f2b87",
+                            "RuleName": "Is flag = 2?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "65b1ab42-caba-4101-80ce-cb617a3ee848",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProv_MedicaidPL",
+                                    "RuleGUID": "90c97683-7f8c-4a4d-9bf4-a5e58f4b2f64",
+                                    "RuleName": "copy address and PL fields",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "db465a91-aac5-4996-9988-8b82fd7f2b87",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2,3,5,4,6,7}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{11,12,14,13,15,16}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"2\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"BA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{17}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{9,6}",
+      "_Disabled": "1",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1"
+    }
+  },
+  {
+    "Container": "lookup_BillingProv_MedicaidPL",
+    "RuleGUID": "09d23491-fddc-4b0d-8612-ac66b2d2d980",
+    "RuleName": "Compare addrNum and zip code",
+    "RuleID": "",
+    "FunctionName": "CompareFields",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "perfect match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProv_MedicaidPL",
+            "RuleGUID": "b46e8e88-e166-412d-af57-e5ae87e22273",
+            "RuleName": "is flag = 1?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "09d23491-fddc-4b0d-8612-ac66b2d2d980",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProv_MedicaidPL",
+                    "RuleGUID": "fe56d1bb-b5ba-465d-88ac-5fc1195f0f37",
+                    "RuleName": "Is this business address?",
+                    "RuleID": "",
+                    "FunctionName": "HasRegExpr",
+                    "ParentGUID": "b46e8e88-e166-412d-af57-e5ae87e22273",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "4",
+                        "ActionName": "Yes",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "ed46009c-537d-4074-b96d-5c8a9a20e311",
+                            "RuleName": "set flag to 1",
+                            "RuleID": "",
+                            "FunctionName": "Formatf",
+                            "ParentGUID": "fe56d1bb-b5ba-465d-88ac-5fc1195f0f37",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "100",
+                              "OutputFormat": "\"1\""
+                            }
+                          },
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "3471086a-2e9a-4b14-b8f5-e007b2b07554",
+                            "RuleName": "copy address and PL fields",
+                            "RuleID": "",
+                            "FunctionName": "Copy",
+                            "ParentGUID": "fe56d1bb-b5ba-465d-88ac-5fc1195f0f37",
+                            "ParentActionIndex": 0,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{2,3,5,4,6,7}",
+                              "_FunctionVersion": "1",
+                              "_ParamList1": "{11,12,14,13,15,16}"
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "No",
+                        "ChildRules": [
+                          {
+                            "Container": "lookup_BillingProv_MedicaidPL",
+                            "RuleGUID": "0875438f-315e-44df-8a7e-035f5dfcc7e7",
+                            "RuleName": "Is flag = 1 or 2?",
+                            "RuleID": "",
+                            "FunctionName": "HasRegExpr",
+                            "ParentGUID": "fe56d1bb-b5ba-465d-88ac-5fc1195f0f37",
+                            "ParentActionIndex": 1,
+                            "Children": [],
+                            "Actions": [
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "No",
+                                "ChildRules": [
+                                  {
+                                    "Container": "lookup_BillingProv_MedicaidPL",
+                                    "RuleGUID": "c5348dcd-a8ba-4004-ab67-824340409317",
+                                    "RuleName": "set flag to 2",
+                                    "RuleID": "",
+                                    "FunctionName": "Formatf",
+                                    "ParentGUID": "0875438f-315e-44df-8a7e-035f5dfcc7e7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      },
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{17}",
+                                      "_FunctionVersion": "100",
+                                      "OutputFormat": "\"2\""
+                                    }
+                                  },
+                                  {
+                                    "Container": "lookup_BillingProv_MedicaidPL",
+                                    "RuleGUID": "08ea718f-89d5-42b1-a48a-dbeb93f73963",
+                                    "RuleName": "copy address and PL fields",
+                                    "RuleID": "",
+                                    "FunctionName": "Copy",
+                                    "ParentGUID": "0875438f-315e-44df-8a7e-035f5dfcc7e7",
+                                    "ParentActionIndex": 0,
+                                    "Children": [],
+                                    "Actions": [
+                                      {
+                                        "ActionValue": "0",
+                                        "ActionName": "",
+                                        "ChildRules": [],
+                                        "Attributes": {}
+                                      }
+                                    ],
+                                    "Attributes": {
+                                      "_ParamList0": "{2,3,5,4,6,7}",
+                                      "_FunctionVersion": "1",
+                                      "_ParamList1": "{11,12,14,13,15,16}"
+                                    }
+                                  }
+                                ],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "0",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              },
+                              {
+                                "ActionValue": "4",
+                                "ActionName": "",
+                                "ChildRules": [],
+                                "Attributes": {}
+                              }
+                            ],
+                            "Attributes": {
+                              "_ParamList0": "{17}",
+                              "_FunctionVersion": "65539",
+                              "CaseSensitive": "1",
+                              "RegularExpression": "\"[12]\""
+                            }
+                          }
+                        ],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "260",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{8}",
+                      "_FunctionVersion": "65539",
+                      "CaseSensitive": "1",
+                      "RegularExpression": "\"BA\""
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{17}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"1\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "Not perfect match",
+        "ChildRules": [
+          {
+            "Container": "lookup_BillingProv_MedicaidPL",
+            "RuleGUID": "9b4678fe-28e0-4231-8f66-de1d16fc2b93",
+            "RuleName": "is flag = 1, 2, or 3?",
+            "RuleID": "",
+            "FunctionName": "HasRegExpr",
+            "ParentGUID": "09d23491-fddc-4b0d-8612-ac66b2d2d980",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "No",
+                "ChildRules": [
+                  {
+                    "Container": "lookup_BillingProv_MedicaidPL",
+                    "RuleGUID": "84dcc92f-17d2-479f-9180-01f1fdfaced1",
+                    "RuleName": "set flag to 3",
+                    "RuleID": "",
+                    "FunctionName": "Formatf",
+                    "ParentGUID": "9b4678fe-28e0-4231-8f66-de1d16fc2b93",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{17}",
+                      "_FunctionVersion": "100",
+                      "OutputFormat": "\"3\""
+                    }
+                  },
+                  {
+                    "Container": "lookup_BillingProv_MedicaidPL",
+                    "RuleGUID": "490dca0a-fd76-45ad-a901-0bb906b0e643",
+                    "RuleName": "copy address and PL fields",
+                    "RuleID": "",
+                    "FunctionName": "Copy",
+                    "ParentGUID": "9b4678fe-28e0-4231-8f66-de1d16fc2b93",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{2,3,5,4,6,7}",
+                      "_FunctionVersion": "1",
+                      "_ParamList1": "{11,12,14,13,15,16}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{17}",
+              "_FunctionVersion": "65539",
+              "CaseSensitive": "1",
+              "RegularExpression": "\"[1-3]\"",
+              "_Description": "\"If so a good address was already found.  \""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0,1}",
+      "_FunctionVersion": "1",
+      "_ParamList1": "{9,6}",
+      "EndWhiteSpaceSensitive": "1",
+      "CaseSensitive": "1"
+    }
+  }
+]

@@ -1,0 +1,483 @@
+[
+  {
+    "Container": "validate_Gen_DOB",
+    "RuleGUID": "af3bb20a-dd4e-4020-a378-b333712fe8b4",
+    "RuleName": "Copy ReceiptDate to temp",
+    "RuleID": "",
+    "FunctionName": "Copy",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{1}",
+      "_ParamList1": "{2}",
+      "_FunctionVersion": "1"
+    }
+  },
+  {
+    "Container": "validate_Gen_DOB",
+    "RuleGUID": "08312cd3-01bb-440c-87f3-e541d2d46ad5",
+    "RuleName": "Format temp",
+    "RuleID": "",
+    "FunctionName": "FormatDate",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{2}",
+      "_FunctionVersion": "6",
+      "DateFormat": "\"YMD_to_MDY\""
+    }
+  },
+  {
+    "Container": "validate_Gen_DOB",
+    "RuleGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+    "RuleName": "Is empty?",
+    "RuleID": "",
+    "FunctionName": "IsEmpty",
+    "ParentGUID": null,
+    "ParentActionIndex": null,
+    "Children": [],
+    "Actions": [
+      {
+        "ActionValue": "4",
+        "ActionName": "Reject: All Empty",
+        "ChildRules": [
+          {
+            "Container": "validate_Gen_DOB",
+            "RuleGUID": "3a247c79-2f1d-4641-ac4d-6bd64b9c6fa0",
+            "RuleName": "Reject Fields",
+            "RuleID": "",
+            "FunctionName": "_IRejectFields",
+            "ParentGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+            "ParentActionIndex": 0,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "0",
+              "_SkipID": "4457",
+              "_BackupSkipID": "4457",
+              "RejectString": "\"Date of birth missing\"",
+              "RejectCode": "2",
+              "RunOnce": "0"
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "0",
+        "ActionName": "No",
+        "ChildRules": [
+          {
+            "Container": "validate_Gen_DOB",
+            "RuleGUID": "63a2af44-7833-427a-bdf3-0ae048eb4bc2",
+            "RuleName": "Format Date (no invalid validation)",
+            "RuleID": "",
+            "FunctionName": "FormatDate",
+            "ParentGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: Invalid date",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Gen_DOB",
+                    "RuleGUID": "5404cebe-2e17-4a12-a742-a7dea79b95bb",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "63a2af44-7833-427a-bdf3-0ae048eb4bc2",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4453",
+                      "_BackupSkipID": "4453",
+                      "RejectString": "\"Invalid Date Format\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "6",
+              "DateFormat": "\"MDY_for_DOB\"",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          },
+          {
+            "Container": "validate_Gen_DOB",
+            "RuleGUID": "4fee8dcb-dda0-48f4-af07-9a1f31277223",
+            "RuleName": "Format Date (w/ validation)",
+            "RuleID": "",
+            "FunctionName": "FormatDate",
+            "ParentGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: Bad",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Gen_DOB",
+                    "RuleGUID": "0dc4e733-35b5-4179-92be-477b9185981b",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "4fee8dcb-dda0-48f4-af07-9a1f31277223",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4454",
+                      "_BackupSkipID": "4454",
+                      "RejectString": "\"Invalid Date Format\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_FunctionVersion": "6",
+              "DateFormat": "\"MDY_for_DOB\"",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}"
+            }
+          },
+          {
+            "Container": "validate_Gen_DOB",
+            "RuleGUID": "b675d44e-45e2-4556-94b9-86936882e7f6",
+            "RuleName": "Check if after received date",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: Greater than",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Gen_DOB",
+                    "RuleGUID": "7a5e4c7a-5c17-4a89-967c-0d288ac5ff5f",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "b675d44e-45e2-4556-94b9-86936882e7f6",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4455",
+                      "_BackupSkipID": "4455",
+                      "RejectString": "\"Future dates not allowed\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}",
+                      "Languages": "\"Default\"",
+                      "SelectionListAutoPop": "0",
+                      "DelayEval": "0"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "_FunctionVersion": "2",
+              "DateFormat": "\"MDY_for_DOB\"",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_ParamListOMRIndex1": "{-1}"
+            }
+          },
+          {
+            "Container": "validate_Gen_DOB",
+            "RuleGUID": "23dbe242-f1b7-4875-9f22-ae7fe90c24e0",
+            "RuleName": "Check if much older than received date",
+            "RuleID": "",
+            "FunctionName": "CompareDateFields",
+            "ParentGUID": "dd2b8f97-4cb8-4889-9347-5012af88fed1",
+            "ParentActionIndex": 1,
+            "Children": [],
+            "Actions": [
+              {
+                "ActionValue": "0",
+                "ActionName": "Reject: Less than",
+                "ChildRules": [
+                  {
+                    "Container": "validate_Gen_DOB",
+                    "RuleGUID": "20f4a5b5-430c-4ebf-a2ff-96c6343378f3",
+                    "RuleName": "Reject Fields",
+                    "RuleID": "",
+                    "FunctionName": "_IRejectFields",
+                    "ParentGUID": "23dbe242-f1b7-4875-9f22-ae7fe90c24e0",
+                    "ParentActionIndex": 0,
+                    "Children": [],
+                    "Actions": [
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      },
+                      {
+                        "ActionValue": "0",
+                        "ActionName": "",
+                        "ChildRules": [],
+                        "Attributes": {}
+                      }
+                    ],
+                    "Attributes": {
+                      "_ParamList0": "{0}",
+                      "_FunctionVersion": "0",
+                      "_SkipID": "4456",
+                      "_BackupSkipID": "4456",
+                      "RejectString": "\"Older date validation\"",
+                      "RejectCode": "2",
+                      "RunOnce": "0",
+                      "_Sources": "{\"OCR_AEG\"}",
+                      "_ParamListOMRIndex0": "{-1}"
+                    }
+                  }
+                ],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "4",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              },
+              {
+                "ActionValue": "0",
+                "ActionName": "",
+                "ChildRules": [],
+                "Attributes": {}
+              }
+            ],
+            "Attributes": {
+              "_ParamList0": "{0}",
+              "_ParamList1": "{2}",
+              "_FunctionVersion": "2",
+              "DateFormat": "\"MDY_for_DOB\"",
+              "_Sources": "{\"OCR_AEG\"}",
+              "_ParamListOMRIndex0": "{-1}",
+              "_ParamListOMRIndex1": "{-1}",
+              "Offset": "\"-00000100\""
+            }
+          }
+        ],
+        "Attributes": {}
+      },
+      {
+        "ActionValue": "260",
+        "ActionName": "",
+        "ChildRules": [],
+        "Attributes": {}
+      }
+    ],
+    "Attributes": {
+      "_ParamList0": "{0}",
+      "_FunctionVersion": "3"
+    }
+  }
+]
