@@ -1,3 +1,4 @@
+'use strict';
 // Help content object for all pages
 window.helpContent = {
   "index": {

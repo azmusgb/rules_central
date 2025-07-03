@@ -1,3 +1,4 @@
+'use strict';
 /* ==========================================================================
    Hierarchy UI – glue layer around HierarchyViewer ▸ 2025-06-19 rev-FULL
    • real-time metric counters

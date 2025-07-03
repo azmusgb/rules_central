@@ -1,3 +1,4 @@
+'use strict';
 document.getElementById('file-upload').addEventListener('change', handleFileUpload);
 
 function handleFileUpload(event) {
