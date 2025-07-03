@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+'use strict';
+// Lightweight help panel system
+document.addEventListener('DOMContentLoaded', () => {
     const helpButton = document.getElementById('help-button');
     const helpPanel = document.getElementById('help-panel');
     const closeHelp = document.getElementById('close-help');
@@ -11,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isHelpOpen = false;
 
-    function toggleHelpPanel(e) {
+    const toggleHelpPanel = (e) => {
         if (e) e.stopPropagation();
         isHelpOpen = !isHelpOpen;
         helpButton.setAttribute('aria-expanded', isHelpOpen.toString());
@@ -19,28 +21,27 @@ document.addEventListener('DOMContentLoaded', function() {
             helpPanel.classList.remove('hidden');
             helpPanel.classList.add('show');
             loadHelpContent();
-            // Focus the panel for accessibility
             helpPanel.focus();
         } else {
             helpPanel.classList.remove('show');
             setTimeout(() => helpPanel.classList.add('hidden'), 300);
         }
-    }
+    };
 
-    function loadHelpContent() {
+    const loadHelpContent = () => {
         const page = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
         const content = window.helpContent[page] || window.helpContent['default'];
         if (content && helpContentDiv) {
             helpContentDiv.innerHTML = content.content;
         }
-    }
+    };
 
-    function closeHelpPanel(e) {
+    const closeHelpPanel = (e) => {
         if (e) e.stopPropagation();
         if (isHelpOpen) {
             toggleHelpPanel();
         }
-    }
+    };
 
     // Event listeners
     helpButton.addEventListener('click', toggleHelpPanel);
@@ -50,10 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close when clicking outside the panel
     document.addEventListener('click', (e) => {
-if (isHelpOpen && !helpPanel.contains(e.target)) {
-    closeHelpPanel(e);
-}
-
+        if (isHelpOpen && !helpPanel.contains(e.target)) {
+            closeHelpPanel(e);
+        }
     });
 
     // Close with Escape key

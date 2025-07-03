@@ -1,3 +1,4 @@
+'use strict';
 // static/js/catalog.js
 
 class CatalogViewer {

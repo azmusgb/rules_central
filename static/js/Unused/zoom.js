@@ -1,3 +1,4 @@
+'use strict';
 // Zoom functionality for diagrams
 
 export function enableZoom() {

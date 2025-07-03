@@ -1,3 +1,4 @@
+'use strict';
 // activityLogger.js
 const ActivityLogger = {
   async logAction(action) {

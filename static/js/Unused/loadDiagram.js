@@ -1,3 +1,4 @@
+'use strict';
 export function loadDiagram(diagramDefinition) {
     const container = document.getElementById('diagramContainer');
     if (container) {

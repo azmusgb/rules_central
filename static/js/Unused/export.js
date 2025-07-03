@@ -1,3 +1,4 @@
+'use strict';
 // Export functionality for diagrams
 
 export function exportSvg() {

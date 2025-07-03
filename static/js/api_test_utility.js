@@ -1,3 +1,4 @@
+'use strict';
 document.addEventListener('DOMContentLoaded', () => {
     // Show animated content after a short delay
     setTimeout(() => {
