@@ -13,9 +13,13 @@ from flask import (
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functions import (
-    generate_files, allowed_file,
-    ensure_directory_exists, load_and_sanitize_json,
+    generate_files,
+    allowed_file,
+    ensure_directory_exists,
+    load_and_sanitize_json,
     log_activity,
+    diagram_type_from_filename,
+    get_snippet,
 )
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -212,28 +216,6 @@ def search_diagrams():
         current_app.logger.error(f"Search error: {str(e)}", exc_info=True)
         return jsonify({'error': 'Server error during search'}), 500
 
-
-def diagram_type_from_filename(filename):
-    """Extract diagram type from filename pattern"""
-    if 'flowchart' in filename.lower():
-        return 'flowchart'
-    elif 'sequence' in filename.lower():
-        return 'sequence'
-    elif 'class' in filename.lower():
-        return 'class'
-    elif 'state' in filename.lower():
-        return 'state'
-    return None
-
-
-def get_snippet(content, query, snippet_length=100):
-    """Extract a snippet of text around the query match"""
-    index = content.find(query)
-    if index == -1:
-        return ''
-    start = max(0, index - snippet_length // 2)
-    end = min(len(content), index + len(query) + snippet_length // 2)
-    return content[start:end]
 
 
 @routes_bp.route('/api/hierarchy/<root_name>/<diagram_name>')
