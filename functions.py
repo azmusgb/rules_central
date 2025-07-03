@@ -7,7 +7,7 @@ from flask import current_app
 from flask_login import current_user
 # from collections import defaultdict
 
-from config import load_configurations
+from config import load_configurations, Config
 from werkzeug.utils import secure_filename
 
 # Load configurations
@@ -388,10 +388,11 @@ def generate_files(json_data: list, output_dir: str) -> None:
 # --- Activity Logging ---
 
 def log_activity(action, rule_id=None, user=None, details=None):
-    """Log an activity to the activity log."""
+    """Log an activity to ``Config.ACTIVITY_LOG``."""
     try:
-        activity_log_path = CONFIG['ACTIVITY_LOG']
-        data = {}
+        Config.ensure_data_dir()
+        activity_log_path = Config.ACTIVITY_LOG
+        data: dict = {}
         if os.path.exists(activity_log_path):
             try:
                 with open(activity_log_path, 'r', encoding='utf-8') as f:

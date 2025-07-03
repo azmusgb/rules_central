@@ -331,7 +331,7 @@ def config_page():
 # =============
 @routes_bp.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    """Handle file uploads and processing"""
+    """Handle file uploads, generate diagrams, and log the activity."""
     if request.method == 'GET':
         return render_template('upload.html', help_available=True)
 
@@ -342,6 +342,11 @@ def upload_file():
     if not files or any(f.filename == '' for f in files):
         return jsonify(success=False, message="Invalid file selection"), 400
 
+    uploads_dir = current_app.config['UPLOAD_FOLDER']
+    diagrams_dir = current_app.config['DIAGRAMS_FOLDER']
+    ensure_directory_exists(uploads_dir)
+    ensure_directory_exists(diagrams_dir)
+
     processed_files = []
     errors = []
 
@@ -351,7 +356,7 @@ def upload_file():
                 raise ValueError("Invalid file type")
 
             filename = secure_filename(file.filename)
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            file_path = os.path.join(uploads_dir, filename)
             file.save(file_path)
 
             json_data = load_and_sanitize_json(file_path)
@@ -359,20 +364,39 @@ def upload_file():
                 raise ValueError("Invalid JSON content")
 
             root_name = os.path.splitext(filename)[0]
-            output_dir = os.path.join(current_app.config['DIAGRAMS_FOLDER'], root_name)
+            output_dir = os.path.join(diagrams_dir, root_name)
             ensure_directory_exists(output_dir)
 
             generate_files(json_data, output_dir)
             processed_files.append(filename)
+
+            log_activity(
+                action="upload",
+                rule_id=root_name,
+                user=get_current_user(),
+                details=f"Uploaded {filename}"
+            )
 
         except Exception as e:
             errors.append(f"{file.filename}: {str(e)}")
             current_app.logger.error(f"Upload error: {file.filename} - {str(e)}")
 
     if errors:
-        return jsonify(success=not bool(errors), message="Some files failed to process", processed=processed_files, errors=errors), 207
+        return (
+            jsonify(
+                success=not bool(errors),
+                message="Some files failed to process",
+                processed=processed_files,
+                errors=errors,
+            ),
+            207,
+        )
 
-    return jsonify(success=True, message=f"Processed {len(processed_files)} files", redirect_url=url_for("routes.catalog"))
+    return jsonify(
+        success=True,
+        message=f"Processed {len(processed_files)} files",
+        redirect_url=url_for("routes.catalog"),
+    )
 
 # ============
 # APP ROUTES
