@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (files.length !== e.dataTransfer.files.length) {
-            window.app.showToast('Only JSON files are accepted', 'red');
+            window.app.showToast('Only JSON files are accepted', 'error');
         }
 
         if (files.length > 0) {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (files.length !== input.files.length) {
-            window.app.showToast('Only JSON files are accepted', 'red');
+            window.app.showToast('Only JSON files are accepted', 'error');
             const dataTransfer = new DataTransfer();
             files.forEach(file => dataTransfer.items.add(file));
             input.files = dataTransfer.files;
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         if (input.files.length === 0) {
-            window.app.showToast('Please select at least one JSON file', 'red');
+            window.app.showToast('Please select at least one JSON file', 'error');
             return;
         }
 
@@ -178,32 +178,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     response = JSON.parse(xhr.responseText);
                 } catch (err) {
-                    window.app.showToast('Invalid server response', 'red');
+                    window.app.showToast('Invalid server response', 'error');
                     progressContainer.classList.add('hidden');
                     submitBtn.disabled = false;
                     return;
                 }
                 if (response.success) {
-                    window.app.showToast('JSON files uploaded successfully!', 'green');
+                    window.app.showToast('JSON files uploaded successfully!', 'success');
                     setTimeout(() => {
                         const redirectUrl = response.redirect_url ||
                             `/view_diagram?root_name=${input.files[0].name.replace(/\.[^/.]+$/, "")}&diagramName=${input.files[0].name.replace(/\.[^/.]+$/, "")}.mmd`;
                         window.location.href = redirectUrl;
                     }, 1500);
                 } else {
-                    window.app.showToast(response.message || 'Upload failed', 'red');
+                    window.app.showToast(response.message || 'Upload failed', 'error');
                     progressContainer.classList.add('hidden');
                     submitBtn.disabled = false;
                 }
             } else {
-                window.app.showToast('Unexpected server response', 'red');
+                window.app.showToast('Unexpected server response', 'error');
                 progressContainer.classList.add('hidden');
                 submitBtn.disabled = false;
             }
         });
 
         xhr.addEventListener('error', () => {
-            window.app.showToast('Network error occurred', 'red');
+            window.app.showToast('Network error occurred', 'error');
             progressContainer.classList.add('hidden');
             submitBtn.disabled = false;
         });
