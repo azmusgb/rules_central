@@ -302,6 +302,7 @@ def get_node_click(rule, rule_to_page, current_page, root_name, edge_map):
                 break
     if target_page is not None:
         return f'click {guid} "/view_diagrams/{root_name}?page={target_page}" "View Page {target_page}"'
+    return ""
 
 def generate_mermaid_code(nodes, edges, layout="TD"):
     """Generate Mermaid code for the diagram."""
@@ -393,7 +394,7 @@ def log_activity(action, rule_id=None, user=None, details=None):
         data = {}
         if os.path.exists(activity_log_path):
             try:
-                with open(activity_log_path, 'r') as f:
+                with open(activity_log_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
             except (json.JSONDecodeError, FileNotFoundError):
                 data = {"rules": {}, "activity_log": []}
@@ -412,7 +413,7 @@ def log_activity(action, rule_id=None, user=None, details=None):
                 "last_modified": entry["timestamp"],
                 "modified_by": user or "system"
             }
-        with open(activity_log_path, 'w') as f:
+        with open(activity_log_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2)
     except Exception as e:
         logging.error(f"Failed to log activity: {str(e)}")
@@ -476,9 +477,10 @@ def highlight_matches(text, query):
         return text
     try:
         pattern = re.compile(re.escape(query), re.IGNORECASE)
-        return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
-    except Exception:
+    except re.error as exc:
+        logging.error("Invalid regex in highlight_matches: %s", exc)
         return text
+    return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
 def find_rule_by_guid(rules, guid):
     """Find a rule by its GUID."""
     for rule in rules:
