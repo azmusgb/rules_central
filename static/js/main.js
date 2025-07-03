@@ -37,6 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Toast notification system
 function showToast(message, type = 'info') {
+  // Normalize color aliases to standard types
+  const normalized = {
+    red: 'error',
+    danger: 'error',
+    green: 'success',
+    success: 'success',
+    info: 'info'
+  }[type] || type;
+
   const icons = {
     error: 'fa-exclamation-circle',
     success: 'fa-check-circle',
@@ -47,11 +56,11 @@ function showToast(message, type = 'info') {
   if (existing.length >= 3) existing[0].remove();
 
   const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
+  toast.className = `toast ${normalized}`;
   toast.setAttribute('role', 'alert');
   toast.setAttribute('aria-live', 'polite');
   toast.innerHTML = `
-    <i class="fas ${icons[type] || icons.info}"></i>
+    <i class="fas ${icons[normalized] || icons.info}"></i>
     <span>${message}</span>
     <button class="toast-close" aria-label="Close notification"><i class="fas fa-times"></i></button>
   `;

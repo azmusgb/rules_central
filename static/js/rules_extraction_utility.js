@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // Make the API request
-      const response = await fetch('{{ url_for("routes.execute_file") }}', {
+      // Replace server endpoint below with the actual extraction API
+      const response = await fetch('/api/rules_extraction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}) // Send an empty object or any required data
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       executionMessage.textContent = 'Execution Failed';
       outputMessage.textContent = ''; // Clear output on error
-      window.app.showToast('Error extracting rules. Please try again.', 'bg-red-600'); // Show error toast
+      window.app.showToast('Error extracting rules. Please try again.', 'error');
       console.error('Error during execution:', error); // Log error for debugging
     } finally {
       executeButton.disabled = false; // Re-enable button
