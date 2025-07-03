@@ -18,21 +18,21 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
         },
         accent: {
-          DEFAULT: '#14b8a6',
-          purple: '#a855f7',
+          DEFAULT: '#2dd4bf',
+          purple: '#c084fc',
         },
         dark: {
-          700: '#334155',
-          800: '#1e293b',
-          850: '#162032',
-          900: '#0f172a',
-          950: '#0a1120',
+          700: '#374151',
+          800: '#111827',
+          850: '#0f172a',
+          900: '#0e1524',
+          950: '#070b16',
         },
         slate: {
           300: '#CBD5E1',
@@ -60,7 +60,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'hero-pattern': "linear-gradient(120deg, #1e293b 0%, #3b82f6 100%)",
+        'hero-pattern': "linear-gradient(120deg, #111827 0%, #8b5cf6 100%)",
       },
     },
   },
@@ -73,18 +73,18 @@ module.exports = {
     themes: [
       {
         light: {
-          "primary": "#3b82f6",
-          "secondary": "#a855f7",
-          "accent": "#14b8a6",
+          "primary": "#8b5cf6",
+          "secondary": "#c084fc",
+          "accent": "#2dd4bf",
           "neutral": "#64748b",
           "base-100": "#ffffff",
         },
         dark: {
-          "primary": "#3b82f6",
-          "secondary": "#a855f7",
-          "accent": "#14b8a6",
+          "primary": "#8b5cf6",
+          "secondary": "#c084fc",
+          "accent": "#2dd4bf",
           "neutral": "#64748b",
-          "base-100": "#0f172a",
+          "base-100": "#0e1524",
         }
       }
     ],
