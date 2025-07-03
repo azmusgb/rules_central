@@ -1,12 +1,12 @@
-import os
 import json
 import logging
+import os
 import uuid
 from datetime import datetime, timezone
-# from collections import defaultdict
+
+from werkzeug.utils import secure_filename
 
 from config import load_configurations
-from werkzeug.utils import secure_filename
 
 # Load configurations
 CONFIG = load_configurations()
@@ -19,8 +19,12 @@ logging.basicConfig(
 # --- File and Directory Utilities ---
 
 def allowed_file(filename):
-    """Check if the uploaded file has a valid extension."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'json'
+    """Return ``True`` if ``filename`` has an approved extension."""
+    allowed_exts = {"json", "mmd"}
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in allowed_exts
+    )
 
 def ensure_directory_exists(directory):
     """Ensure the directory exists, create it if necessary."""
@@ -84,7 +88,8 @@ def load_and_sanitize_json(filepath):
                     rule["Attributes"] = remove_all_quotes(rule["Attributes"])
                     udf_value = rule["Attributes"].get("UDFName", "").strip()
                     if udf_value:
-                        pass  # Placeholder for any UDF-specific logic
+                        # Reserved for future UDF-specific processing
+                        pass
             add_missing_guids_if_needed(data)
             logging.info(f"JSON file {filepath} successfully loaded. Missing GUIDs assigned if needed.")
             return data
@@ -533,3 +538,37 @@ def build_edge_map(edges):
                 right = right.split("|")[-1].strip()
             edge_map.setdefault(left, []).append(right)
     return edge_map
+
+
+def diagram_type_from_filename(filename: str) -> str | None:
+    """Return the diagram type inferred from its filename."""
+    fname = filename.lower()
+    if "flowchart" in fname:
+        return "flowchart"
+    if "sequence" in fname:
+        return "sequence"
+    if "class" in fname:
+        return "class"
+    if "state" in fname:
+        return "state"
+    return None
+
+
+def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
+    """Extract a short snippet of ``content`` around ``query``."""
+    index = content.find(query)
+    if index == -1:
+        return ""
+    start = max(0, index - snippet_length // 2)
+    end = min(len(content), index + len(query) + snippet_length // 2)
+    return content[start:end]
+
+
+def get_help_topics(static_dir: str) -> list[str]:
+    """Return available help topics from ``static_dir``."""
+    help_dir = os.path.join(static_dir, "help")
+    if not os.path.exists(help_dir):
+        return []
+    return sorted(
+        f.removesuffix(".md") for f in os.listdir(help_dir) if f.endswith(".md")
+    )

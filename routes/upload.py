@@ -1,22 +1,14 @@
 import os
 from flask import Blueprint, current_app, request, redirect, url_for, flash, render_template, jsonify
 from werkzeug.utils import secure_filename
+from functions import (
+    allowed_file,
+    load_and_sanitize_json,
+    ensure_directory_exists,
+    generate_files,
+)
 
 upload = Blueprint('upload', __name__)
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'json', 'mmd'}
-
-def load_and_sanitize_json(file_path):
-    # Placeholder: implement your JSON loading and validation here
-    return {}
-
-def ensure_directory_exists(path):
-    os.makedirs(path, exist_ok=True)
-
-def generate_files(json_data, output_dir):
-    # Placeholder: implement your file generation logic here
-    pass
 
 @upload.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -25,7 +17,6 @@ def upload_file():
 
     is_json = request.accept_mimetypes['application/json'] > request.accept_mimetypes['text/html']
 
-    # Change 'files' to 'file'
     if 'file' not in request.files:
         msg = "No file provided"
         if is_json:

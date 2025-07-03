@@ -3,23 +3,38 @@ Routes Configuration for Diagram Management System
 Organized by functional areas with consistent error handling
 """
 
-import os
 import json
 import logging
+import os
+from collections import defaultdict
+from datetime import datetime, timedelta
+
 from flask import (
-    Blueprint, request, render_template, jsonify, send_from_directory,
-    abort, current_app, url_for, send_file, flash
+    Blueprint,
+    abort,
+    current_app,
+    flash,
+    jsonify,
+    render_template,
+    request,
+    send_file,
+    send_from_directory,
+    url_for,
 )
 from flask_login import current_user
 from werkzeug.utils import secure_filename
+
+from config import Config
 from functions import (
-    generate_files, allowed_file,
-    ensure_directory_exists, load_and_sanitize_json,
+    allowed_file,
+    diagram_type_from_filename,
+    ensure_directory_exists,
+    generate_files,
+    get_help_topics,
+    get_snippet,
+    load_and_sanitize_json,
     log_activity,
 )
-from collections import defaultdict
-from datetime import datetime, timedelta
-from config import Config
 
 # ------------------------------------------------------------------
 # Blueprint setup
@@ -212,28 +227,6 @@ def search_diagrams():
         current_app.logger.error(f"Search error: {str(e)}", exc_info=True)
         return jsonify({'error': 'Server error during search'}), 500
 
-
-def diagram_type_from_filename(filename):
-    """Extract diagram type from filename pattern"""
-    if 'flowchart' in filename.lower():
-        return 'flowchart'
-    elif 'sequence' in filename.lower():
-        return 'sequence'
-    elif 'class' in filename.lower():
-        return 'class'
-    elif 'state' in filename.lower():
-        return 'state'
-    return None
-
-
-def get_snippet(content, query, snippet_length=100):
-    """Extract a snippet of text around the query match"""
-    index = content.find(query)
-    if index == -1:
-        return ''
-    start = max(0, index - snippet_length // 2)
-    end = min(len(content), index + len(query) + snippet_length // 2)
-    return content[start:end]
 
 
 @routes_bp.route('/api/hierarchy/<root_name>/<diagram_name>')
@@ -450,7 +443,10 @@ def get_logs():
 @routes_bp.route('/full-help')
 def full_help():
     """Comprehensive help documentation"""
-    return render_template('full_help.html', version=current_app.config.get('VERSION', '1.0'), help_topics=get_help_topics())
+    topics = get_help_topics(current_app.root_path)
+    return render_template(
+        'full_help.html', version=current_app.config.get('VERSION', '1.0'), help_topics=topics
+    )
 
 
 @routes_bp.route('/api/help/<page>')
@@ -468,12 +464,6 @@ def get_help_content(page):
         return jsonify({'error': str(e)}), 500
 
 
-def get_help_topics():
-    """Scan and return available help topics"""
-    help_dir = os.path.join(current_app.root_path, 'static', 'help')
-    if not os.path.exists(help_dir):
-        return []
-    return sorted(f.replace('.md', '') for f in os.listdir(help_dir) if f.endswith('.md'))
 
 
 @routes_bp.route('/view_diagram')
