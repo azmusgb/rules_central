@@ -19,8 +19,12 @@ logging.basicConfig(
 # --- File and Directory Utilities ---
 
 def allowed_file(filename):
-    """Check if the uploaded file has a valid extension."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'json'
+    """Return ``True`` if ``filename`` has an approved extension."""
+    allowed_exts = {"json", "mmd"}
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in allowed_exts
+    )
 
 def ensure_directory_exists(directory):
     """Ensure the directory exists, create it if necessary."""
