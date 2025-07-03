@@ -120,11 +120,18 @@
       // Theme management
       const html = document.documentElement;
       const btn = document.getElementById('theme-toggle');
+      const icon = btn?.querySelector('i');
+      const updateIcon = (theme) => {
+        if (!icon) return;
+        icon.classList.remove('fa-moon', 'fa-sun');
+        icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+      };
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const storedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
 
       html.setAttribute('data-theme', storedTheme);
       if (storedTheme === 'dark') html.classList.add('dark');
+      updateIcon(storedTheme);
 
       if (btn) {
         btn.addEventListener('click', () => {
@@ -132,6 +139,7 @@
           const theme = isDark ? 'dark' : 'light';
           html.setAttribute('data-theme', theme);
           localStorage.setItem('theme', theme);
+          updateIcon(theme);
 
           // Dispatch event for other components
           document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }));
