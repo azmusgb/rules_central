@@ -11,17 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultMessage = document.getElementById('result-message');
     const spinner = document.getElementById('spinner');
     const copyButton = document.getElementById('copyButton');
-    const toast = document.getElementById('toast');
 
-    // Function to show toast notifications
-    function showToast(message, color = 'bg-blue-600') {
-        toast.textContent = message;
-        toast.className = `${color} text-white px-4 py-2 rounded shadow fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 opacity-100 transition-opacity`;
-        toast.classList.remove('hidden');
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 2000);
-    }
 
     // Function to validate JSON
     function isValidJSON(str) {
@@ -41,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validate input
         if (!endpoint || !body || !isValidJSON(body)) {
-            showToast('Please check your endpoint and JSON format.', 'bg-red-600');
+            window.app.showToast('Please check your endpoint and JSON format.', 'bg-red-600');
             return;
         }
 
@@ -82,12 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('API Response:', data);
             resultMessage.textContent = JSON.stringify(data, null, 2);
             resultSection.className = 'p-6 rounded-lg shadow bg-green-100 text-sm';
-            showToast('Request successful!', 'bg-green-600');
+            window.app.showToast('Request successful!', 'bg-green-600');
         } catch (error) {
             console.error('API Error:', error);
             resultMessage.textContent = `Error: ${error.message}`;
             resultSection.className = 'p-6 rounded-lg shadow bg-red-100 text-sm';
-            showToast('Request failed.', 'bg-red-600');
+            window.app.showToast('Request failed.', 'bg-red-600');
         } finally {
             // Hide the spinner and reset button state
             spinner.classList.add('hidden');
@@ -101,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Copy response to clipboard
     copyButton.addEventListener('click', () => {
         navigator.clipboard.writeText(resultMessage.textContent)
-            .then(() => showToast('Response copied to clipboard!', 'bg-blue-600'))
-            .catch(() => showToast('Failed to copy.', 'bg-red-600'));
+            .then(() => window.app.showToast('Response copied to clipboard!', 'bg-blue-600'))
+            .catch(() => window.app.showToast('Failed to copy.', 'bg-red-600'));
     });
 });

@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUI();
         } catch (error) {
             console.error('Error loading config:', error);
-            showToast('Failed to load configuration', 'error');
+            window.app.showToast('Failed to load configuration', 'error');
         }
     }
 
@@ -123,11 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) throw new Error('Server error');
-            showToast('Theme saved successfully');
+            window.app.showToast('Theme saved successfully');
             return true;
         } catch (error) {
             console.error('Error saving config:', error);
-            showToast('Failed to save theme', 'error');
+            window.app.showToast('Failed to save theme', 'error');
             return false;
         } finally {
             elements.saveBtn.disabled = false;
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------------------------
     function createNewTheme(name, baseTheme = null) {
         if (!name || config.themes[name]) {
-            showToast('Theme name already exists or is invalid', 'error');
+            window.app.showToast('Theme name already exists or is invalid', 'error');
             return false;
         }
         const newTheme = baseTheme ?
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
         config.themes[name] = newTheme;
         config.currentTheme = name;
         updateUI();
-        showToast(`Created new theme: ${name}`);
+        window.app.showToast(`Created new theme: ${name}`);
         return true;
     }
 
@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         theme.classDefs = generateClassDefs(classDefs);
         updateUI();
-        showToast(`Reset ${config.currentTheme} to defaults`);
+        window.app.showToast(`Reset ${config.currentTheme} to defaults`);
     }
 
     function showDeleteModal(themeName) {
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function deleteTheme(themeName) {
         if (!themeName || !config.themes[themeName] || Object.keys(config.themes).length <= 1) {
-            showToast('Cannot delete the only theme', 'error');
+            window.app.showToast('Cannot delete the only theme', 'error');
             return;
         }
         delete config.themes[themeName];
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
             config.currentTheme = Object.keys(config.themes)[0];
         }
         updateUI();
-        showToast(`Theme "${themeName}" deleted`);
+        window.app.showToast(`Theme "${themeName}" deleted`);
     }
 
     function exportThemes() {
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('Themes exported');
+        window.app.showToast('Themes exported');
     }
 
     function importThemes(file) {
@@ -561,33 +561,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     config.edgeSettings = imported.edgeSettings;
                 }
                 updateUI();
-                showToast('Themes imported successfully');
+                window.app.showToast('Themes imported successfully');
             } catch (error) {
                 console.error('Error importing themes:', error);
-                showToast('Invalid theme file', 'error');
+                window.app.showToast('Invalid theme file', 'error');
             }
         };
         reader.readAsText(file);
     }
 
-    // ---------------------------
-    // Toast Notification (Merged Implementation)
-    // ---------------------------
-    function showToast(message, type = 'success') {
-        elements.toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transition-all duration-300 flex items-center ${
-      type === 'success' ? 'bg-green-600' : 'bg-red-600'
-    } text-white`;
-        elements.toastMessage.textContent = message;
-        elements.toast.classList.remove('hidden', 'opacity-0', 'translate-y-4');
-        elements.toast.classList.add('opacity-100', 'translate-y-0');
-
-        setTimeout(() => {
-            elements.toast.classList.add('opacity-0', 'translate-y-4');
-            setTimeout(() => {
-                elements.toast.classList.add('hidden');
-            }, 300);
-        }, 3000);
-    }
 
     // ---------------------------
     // Open Color Picker for Editing Additional Properties
@@ -730,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
             config.themes[config.currentTheme].classDefs = elements.classDefsEditor.value;
             updateNodePreviews(config.themes[config.currentTheme]);
             renderDiagram();
-            showToast('Class definitions applied');
+            window.app.showToast('Class definitions applied');
         });
 
         elements.edgeWidth?.addEventListener('input', (e) => {

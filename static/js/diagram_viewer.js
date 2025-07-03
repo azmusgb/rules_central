@@ -486,27 +486,6 @@ function setupContextMenu() {
 // Toast Notifications
 // ======================
 
-function showToast(message, type = 'success') {
-  const toast = document.getElementById('toast-notification');
-  const toastMessage = document.getElementById('toast-message');
-
-  if (!toast || !toastMessage) {
-    console.error('Toast elements not found!');
-    return;
-  }
-
-  toastMessage.textContent = message;
-  toast.className = 'toast';
-  toast.classList.add('toast-' + type);
-
-  setTimeout(() => {
-    toast.classList.add('visible');
-  }, 10);
-
-  setTimeout(() => {
-    toast.classList.remove('visible');
-  }, 3000);
-}
 
 // ======================
 // Mermaid Functions
@@ -550,7 +529,7 @@ async function initializeMermaid() {
     mermaidInitialized = true;
   } catch (error) {
     console.error("Mermaid initialization failed:", error);
-    showToast("Failed to initialize diagram engine", "error");
+    window.app.showToast("Failed to initialize diagram engine", "error");
   }
 }
 
@@ -989,7 +968,7 @@ async function initializeApp() {
 
     // Show ready message
     setTimeout(() => {
-      showToast('Diagram editor ready!');
+      window.app.showToast('Diagram editor ready!');
     }, 1500);
 
   } catch (error) {
