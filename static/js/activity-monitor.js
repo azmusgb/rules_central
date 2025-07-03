@@ -1,3 +1,4 @@
+'use strict';
 // activity-monitor.js
 export class ActivityMonitor {
   constructor() {

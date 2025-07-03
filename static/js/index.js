@@ -1,3 +1,4 @@
+'use strict';
 // index.js - Optimized Core Initialization
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Rules Central Dashboard initialized");

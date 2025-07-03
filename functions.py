@@ -3,6 +3,8 @@ import json
 import logging
 import uuid
 from datetime import datetime, timezone
+from flask import current_app
+from flask_login import current_user
 # from collections import defaultdict
 
 from config import load_configurations
@@ -561,3 +563,39 @@ def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
     start = max(0, index - snippet_length // 2)
     end = min(len(content), index + len(query) + snippet_length // 2)
     return content[start:end]
+
+
+# --- Application Helper Utilities ---
+
+def get_current_user() -> str:
+    """Return the username of the authenticated user or 'anonymous'."""
+    try:
+        return current_user.username if current_user.is_authenticated else 'anonymous'
+    except Exception:
+        return 'anonymous'
+
+
+def initialize_directories(app) -> None:
+    """Ensure required application directories exist."""
+    required_dirs = {
+        'uploads': app.config.get('UPLOAD_FOLDER', './uploads'),
+        'diagrams': app.config.get('DIAGRAMS_FOLDER', './diagrams'),
+        'help': os.path.join(app.static_folder, 'help'),
+    }
+    for path in required_dirs.values():
+        try:
+            os.makedirs(path, exist_ok=True)
+            app.logger.info(f"Directory verified: {path}")
+        except OSError as e:
+            app.logger.error(f"Failed to create directory {path}: {e}")
+            raise
+
+
+def get_help_topics() -> list[str]:
+    """Return a sorted list of available help topic names."""
+    help_dir = os.path.join(current_app.root_path, 'static', 'help')
+    if not os.path.exists(help_dir):
+        return []
+    return sorted(
+        f.replace('.md', '') for f in os.listdir(help_dir) if f.endswith('.md')
+    )
