@@ -2,7 +2,7 @@ import os
 import json
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 # from collections import defaultdict
 
 from config import load_configurations
@@ -394,7 +394,7 @@ def log_activity(action, rule_id=None, user=None, details=None):
         else:
             data = {"rules": {}, "activity_log": []}
         entry = {
-            "timestamp": datetime.now(datetime.timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "user": user or "anonymous",
             "details": details or f"{action} operation"
