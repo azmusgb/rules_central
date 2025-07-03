@@ -59,16 +59,6 @@ def initialize_directories(app):
 # ==============
 # API ENDPOINTS
 # ==============
-import os
-from flask import Blueprint, jsonify, current_app, make_response
-
-routes_bp = Blueprint('routes', __name__)
-
-import os
-from flask import Blueprint, jsonify, current_app, make_response
-
-routes_bp = Blueprint('routes', __name__)
-
 
 @routes_bp.route('/api/diagram_catalogs', methods=['GET'])
 def get_diagram_catalogs():
