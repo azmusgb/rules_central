@@ -1,3 +1,4 @@
+'use strict';
 // diagram.js - Complete Mermaid Diagram Editor Implementation
 
 // Global variables

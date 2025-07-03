@@ -1,3 +1,4 @@
+'use strict';
 class StatsManager {
   constructor() {
     // Cache all stats elements

@@ -1,3 +1,4 @@
+'use strict';
 function renderDiagram() {
     const input = document.getElementById('mermaid-input').value;
     const container = document.getElementById('diagram-container');

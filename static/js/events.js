@@ -1,3 +1,4 @@
+'use strict';
 /*events.js*/
 document.addEventListener('DOMContentLoaded', () => {
     const toggleSidebarButton = document.getElementById("toggleSidebar");

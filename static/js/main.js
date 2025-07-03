@@ -1,12 +1,16 @@
+'use strict';
 // Theme Management
 document.addEventListener('DOMContentLoaded', () => {
   // Dark mode toggle
-  const darkModeToggle = document.getElementById('dark-mode-toggle');
-  if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', () => {
+  // Use the same toggle element across all templates
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme',
-        document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      localStorage.setItem(
+        'theme',
+        document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+      );
     });
   }
 

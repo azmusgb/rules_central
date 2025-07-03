@@ -1,3 +1,4 @@
+'use strict';
    document.addEventListener('DOMContentLoaded', function() {
       // Update current time every second
       function updateCurrentTime() {
