@@ -8,7 +8,7 @@ from flask_material import Material
 from flask_assets import Environment
 from markdown import markdown
 
-from config import load_configurations
+from config import Config, load_configurations
 from routes import routes_bp
 
 # -------------------------------------------------------------------
@@ -62,6 +62,7 @@ def create_app() -> Flask:
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
+    Config.ensure_data_dir()
 
     # ─── Directory checks ──────────────────────────────────────────
     with app.app_context():
