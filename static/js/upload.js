@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressStatus = document.getElementById("progressStatus");
     const progressPercent = document.getElementById("progressPercent");
     const submitBtn = document.getElementById("submitBtn");
+    const fileCountDisplay = document.getElementById("fileCount");
+    const totalSizeDisplay = document.getElementById("totalSizeDisplay");
+    const uploadedSizeDisplay = document.getElementById("uploadedSize");
+    const totalSize = document.getElementById("totalSize");
+    const loadingOverlay = document.getElementById("loadingOverlay");
 
     // Trigger file input when clicking the drop zone or button
     dropZone.addEventListener("click", (e) => {
@@ -75,12 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (input.files.length === 0) {
             filesPreview.classList.add('hidden');
             submitBtn.disabled = true;
+            fileCountDisplay.textContent = '(0 files)';
+            totalSizeDisplay.textContent = '0 KB';
             return;
         }
 
         submitBtn.disabled = false;
         filesPreview.classList.remove('hidden');
         fileList.innerHTML = '';
+        fileCountDisplay.textContent = `(${input.files.length} ${input.files.length === 1 ? 'file' : 'files'})`;
+        totalSizeDisplay.textContent = formatFileSize(calculateTotalSize(input.files));
 
         Array.from(input.files).forEach((file, index) => {
             const fileCard = document.createElement('div');
@@ -139,6 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
+    function calculateTotalSize(fileList) {
+        return Array.from(fileList).reduce((total, f) => total + f.size, 0);
+    }
+
     // Form submission
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -150,10 +163,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formData = new FormData(form);
         submitBtn.disabled = true;
+        const totalBytes = calculateTotalSize(input.files);
         progressContainer.classList.remove('hidden');
         progressBar.style.width = '0%';
         progressPercent.textContent = '0%';
         progressStatus.textContent = 'Preparing upload...';
+        uploadedSizeDisplay.textContent = '0 KB';
+        totalSize.textContent = formatFileSize(totalBytes);
+        loadingOverlay?.classList.remove('hidden');
 
         const xhr = new XMLHttpRequest();
 
@@ -162,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const percent = Math.round((e.loaded / e.total) * 100);
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
+                uploadedSizeDisplay.textContent = formatFileSize(e.loaded);
 
                 if (percent < 100) {
                     progressStatus.textContent = 'Uploading...';
@@ -172,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         xhr.addEventListener('load', () => {
+            loadingOverlay?.classList.add('hidden');
             const contentType = xhr.getResponseHeader('Content-Type') || '';
             let response;
             if (contentType.includes('application/json')) {
@@ -184,6 +203,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
                 if (response.success) {
+                    progressBar.style.width = '100%';
+                    progressPercent.textContent = '100%';
+                    uploadedSizeDisplay.textContent = totalSize.textContent;
+                    progressStatus.textContent = 'Upload complete';
                     window.app.showToast('JSON files uploaded successfully!', 'success');
                     setTimeout(() => {
                         const redirectUrl = response.redirect_url ||
@@ -205,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.addEventListener('error', () => {
             window.app.showToast('Network error occurred', 'error');
             progressContainer.classList.add('hidden');
+            loadingOverlay?.classList.add('hidden');
             submitBtn.disabled = false;
         });
 
@@ -221,6 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
         progressBar.style.width = '0%';
         progressPercent.textContent = '0%';
         progressStatus.textContent = 'Preparing upload...';
+        uploadedSizeDisplay.textContent = '0 KB';
+        totalSize.textContent = '0 KB';
+        loadingOverlay?.classList.add('hidden');
     });
 
 });
