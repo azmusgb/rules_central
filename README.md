@@ -8,6 +8,7 @@ It provides tools to upload diagrams, analyze rules, and collaborate with others
 - **Upload** diagrams with validation
 - **Search** and explore stored rules
 - **API utility** for testing rules
+- **About** page with version info and documentation links
 
 ## Requirements
 - Python 3.10+
@@ -32,6 +33,7 @@ Use Flask's built‑in server to start the app:
 python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
+You can also visit [/about](http://127.0.0.1:8080/about) to view the running version and helpful links.
 
 ### Custom configuration
 Set the ``CONFIG_PATH`` environment variable to load an alternative
