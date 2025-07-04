@@ -18,10 +18,10 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          400: '#a5b4fc',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
+          400: '#a0b4ff',
+          500: '#4f6fff',
+          600: '#3f5bf0',
+          700: '#334fc8',
         },
         accent: {
           DEFAULT: '#14b8a6',
@@ -60,7 +60,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'hero-pattern': "linear-gradient(120deg, #111827 0%, #6366f1 100%)",
+        'hero-pattern': "linear-gradient(120deg, #111827 0%, #4f6fff 100%)",
       },
     },
   },
@@ -73,14 +73,14 @@ module.exports = {
     themes: [
       {
         light: {
-          "primary": "#8b5cf6",
+          "primary": "#4f6fff",
           "secondary": "#c084fc",
           "accent": "#14b8a6",
           "neutral": "#64748b",
           "base-100": "#ffffff",
         },
         dark: {
-          "primary": "#8b5cf6",
+          "primary": "#4f6fff",
           "secondary": "#c084fc",
           "accent": "#14b8a6",
           "neutral": "#64748b",
