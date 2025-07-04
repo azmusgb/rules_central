@@ -46,5 +46,13 @@ Set the ``CONFIG_PATH`` environment variable to load an alternative
 - `templates/` – Jinja2 templates
 - `static/` – static assets
 
+## Codespaces
+
+This project includes a development container configuration for GitHub Codespaces. The container installs Python dependencies and builds the CSS assets for you. Once the container is ready, start the app with:
+```bash
+python app.py
+```
+The site will be available at http://127.0.0.1:8080.
+
 ## License
 This project is provided as‑is without warranty.
