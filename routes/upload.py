@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, current_app, request, redirect, url_for, flash, render_template, jsonify
 from werkzeug.utils import secure_filename
-from functions import (
+from utils import (
     allowed_file,
     load_and_sanitize_json,
     ensure_directory_exists,
