@@ -18,13 +18,13 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
+          400: '#a5b4fc',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
         },
         accent: {
-          DEFAULT: '#2dd4bf',
+          DEFAULT: '#14b8a6',
           purple: '#c084fc',
         },
         dark: {
@@ -60,7 +60,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'hero-pattern': "linear-gradient(120deg, #111827 0%, #8b5cf6 100%)",
+        'hero-pattern': "linear-gradient(120deg, #111827 0%, #6366f1 100%)",
       },
     },
   },
@@ -75,14 +75,14 @@ module.exports = {
         light: {
           "primary": "#8b5cf6",
           "secondary": "#c084fc",
-          "accent": "#2dd4bf",
+          "accent": "#14b8a6",
           "neutral": "#64748b",
           "base-100": "#ffffff",
         },
         dark: {
           "primary": "#8b5cf6",
           "secondary": "#c084fc",
-          "accent": "#2dd4bf",
+          "accent": "#14b8a6",
           "neutral": "#64748b",
           "base-100": "#0e1524",
         }
