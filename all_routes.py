@@ -11,7 +11,7 @@ from flask import (
     abort, current_app, url_for, send_file, flash
 )
 from werkzeug.utils import secure_filename
-from functions import (
+from utils import (
     generate_files,
     allowed_file,
     ensure_directory_exists,
@@ -427,7 +427,7 @@ def get_logs():
 @routes_bp.route('/full-help')
 def full_help():
     """Comprehensive help documentation"""
-    return render_template('full_help.html', version=current_app.config.get('VERSION', '1.0'), help_topics=get_help_topics())
+    return render_template('documentation.html', version=current_app.config.get('VERSION', '1.0'), help_topics=get_help_topics())
 
 
 @routes_bp.route('/faq')
