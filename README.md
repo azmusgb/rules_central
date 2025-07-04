@@ -46,5 +46,15 @@ Set the ``CONFIG_PATH`` environment variable to load an alternative
 - `templates/` – Jinja2 templates
 - `static/` – static assets
 
+## Codespaces
+
+Open this repository in GitHub Codespaces to develop in a pre-configured container.
+The `postCreateCommand` installs Python requirements, installs npm packages, and
+builds the Tailwind CSS assets automatically. When the codespace launches the
+`postStartCommand` runs `python app.py`, so the site starts automatically.
+
+Port `8080` is forwarded automatically and will open in your browser when the
+server starts.
+
 ## License
 This project is provided as‑is without warranty.
