@@ -38,3 +38,4 @@ class Config:
             with open(cls.ACTIVITY_LOG, 'w') as f:
                 json.dump(initial_data, f, indent=2)
             cls.ACTIVITY_LOG.chmod(0o644)
+        return cls.ACTIVITY_LOG
