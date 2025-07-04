@@ -1,0 +1,19 @@
+{
+    "name": "Rules Central Dev Container",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "18"
+        }
+    },
+    "postCreateCommand": "pip install -r requirements.txt && npm install && npm run build:css",
+    "postStartCommand": "python -u app.py",
+    "forwardPorts": [8080],
+    "portsAttributes": {
+        "8080": {
+            "label": "Web Application",
+            "onAutoForward": "openBrowser"
+        }
+    },
+    "remoteUser": "vscode"
+}
