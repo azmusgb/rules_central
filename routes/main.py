@@ -45,3 +45,14 @@ def about():
     except Exception as exc:  # pragma: no cover - unexpected errors
         current_app.logger.error("About page error: %s", exc)
         abort(500)
+
+
+@main.route('/contact')
+def contact():
+    """Display the contact page for user feedback."""
+
+    try:
+        return render_template('contact.html')
+    except Exception as exc:  # pragma: no cover - unexpected errors
+        current_app.logger.error("Contact page error: %s", exc)
+        abort(500)
