@@ -7,7 +7,7 @@ class CatalogViewer {
         this.allCatalogs = [];
         this.filterState = {
             searchTerm: "",
-            diagramTypes: new Set(["flow", "sequence", "state"]),
+            diagramTypes: new Set(["flowchart", "sequence", "class", "state"]),
             expandedGroups: new Set(),
             expandedSubgroups: new Set(),
             activeCategory: "all"
@@ -44,6 +44,7 @@ class CatalogViewer {
             catalogContainer: document.getElementById("catalogContainer"),
             noResults: document.getElementById("noResults"),
             filterMenu: document.getElementById("filterMenu"),
+            filterCheckboxes: document.querySelectorAll(".filter-checkbox"),
             backToTop: document.getElementById("backToTop"),
             searchButton: document.getElementById("searchButton"),
             resetButton: document.getElementById("resetButton"),
@@ -114,6 +115,11 @@ class CatalogViewer {
 
         // View mode toggle
         this.uiElements.viewToggle?.addEventListener("click", () => this.toggleViewMode());
+
+        // Filter checkboxes
+        this.uiElements.filterCheckboxes.forEach(cb => {
+            cb.addEventListener('change', () => this.handleFilterCheckbox());
+        });
 
         // Back to top
         this.uiElements.backToTop?.addEventListener("click", () => {
@@ -428,6 +434,7 @@ class CatalogViewer {
         card.className = "entry-item group relative bg-gradient-to-br from-gray-800/80 to-gray-900/90 rounded-xl overflow-hidden border border-gray-700/30 hover:border-purple-500/30 transition-all duration-300 hover:shadow-glow-sm flex flex-col h-full transform hover:-translate-y-1 animate-fadeIn";
         card.title = entry.description || "No description available";
         card.dataset.searchTerms = `${entry.root} ${entry.diagram} ${entry.hierarchy}`.toLowerCase();
+        card.dataset.diagramType = entry.type || '';
         card.innerHTML = `
             <div class="p-4 flex-grow flex flex-col relative">
                 <div class="absolute top-0 right-0 m-2 invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-300 z-10">
@@ -494,20 +501,12 @@ class CatalogViewer {
 
     filterCatalog() {
         const searchTerm = this.filterState.searchTerm.toLowerCase().trim();
-        if (!searchTerm) {
-            document.querySelectorAll('.group-section, .subgroup-section, .entry-item').forEach(el => {
-                el.style.display = "";
-            });
-            this.uiElements.noResults?.classList.add("hidden");
-            return;
-        }
         let anyVisible = false;
         const groupSections = document.querySelectorAll('.group-section');
         groupSections.forEach(groupSection => {
             const groupHeader = groupSection.querySelector('h3');
             const groupName = groupHeader?.textContent.toLowerCase() || '';
-            let groupMatches = groupName.includes(searchTerm);
-            let subgroupMatches = false;
+            let groupVisible = false;
             const subgroups = groupSection.querySelectorAll('.subgroup-section');
             subgroups.forEach(subgroup => {
                 const subgroupHeader = subgroup.querySelector('h4');
@@ -516,21 +515,33 @@ class CatalogViewer {
                 const entries = subgroup.querySelectorAll('.entry-item');
                 entries.forEach(entry => {
                     const terms = entry.dataset.searchTerms || '';
-                    const match = terms.includes(searchTerm) || subgroupName.includes(searchTerm);
-                    entry.style.display = match ? "" : "none";
-                    if (match) subgroupVisible = true;
+                    const type = entry.dataset.diagramType || '';
+                    const matchesSearch = !searchTerm || terms.includes(searchTerm) || subgroupName.includes(searchTerm) || groupName.includes(searchTerm);
+                    const matchesType = this.filterState.diagramTypes.has(type);
+                    const visible = matchesSearch && matchesType;
+                    entry.style.display = visible ? '' : 'none';
+                    if (visible) subgroupVisible = true;
                 });
-                subgroup.style.display = subgroupVisible ? "" : "none";
-                if (subgroupVisible) subgroupMatches = true;
+                subgroup.style.display = subgroupVisible ? '' : 'none';
+                if (subgroupVisible) groupVisible = true;
             });
-            groupSection.style.display = (groupMatches || subgroupMatches) ? "" : "none";
-            if (groupMatches || subgroupMatches) anyVisible = true;
+            groupSection.style.display = groupVisible ? '' : 'none';
+            if (groupVisible) anyVisible = true;
         });
-        this.uiElements.noResults?.classList.toggle("hidden", anyVisible);
+        this.uiElements.noResults?.classList.toggle('hidden', anyVisible);
         if (anyVisible) {
-            const firstVisible = document.querySelector('.group-section[style=""]');
+            const firstVisible = document.querySelector('.group-section:not([style*="display: none"])');
             firstVisible?.scrollIntoView({ behavior: 'smooth' });
         }
+    }
+
+    handleFilterCheckbox() {
+        this.filterState.diagramTypes = new Set(
+            Array.from(this.uiElements.filterCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value)
+        );
+        this.filterCatalog();
     }
 
     clearSearch() {
@@ -543,6 +554,8 @@ class CatalogViewer {
         this.uiElements.searchInput.value = "";
         this.uiElements.clearSearchBtn?.classList.add("opacity-0", "invisible");
         this.filterState.searchTerm = "";
+        this.uiElements.filterCheckboxes.forEach(cb => cb.checked = true);
+        this.filterState.diagramTypes = new Set(Array.from(this.uiElements.filterCheckboxes).map(cb => cb.value));
         this.filterByCategory("all");
         this.renderCatalog(this.allCatalogs);
     }

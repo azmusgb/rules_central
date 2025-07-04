@@ -74,7 +74,8 @@ def get_diagram_catalogs():
                         entries.append({
                             'root': root_name,
                             'diagram': filename,
-                            'hierarchy': json_file
+                            'hierarchy': json_file,
+                            'type': diagram_type_from_filename(filename)
                         })
                     else:
                         current_app.logger.debug("JSON file %s not found in directory %s", json_file, root_name)
