@@ -11,7 +11,7 @@ from flask_assets import Environment
 from markdown import markdown
 
 from config import Config, load_configurations
-from routes import routes_bp
+from routes import all_blueprints
 
 # -------------------------------------------------------------------
 # Environment & App Setup
@@ -71,7 +71,8 @@ def create_app() -> Flask:
         ensure_directories(app)
 
     # ─── Blueprints & Config ───────────────────────────────────────
-    app.register_blueprint(routes_bp)
+    for bp in all_blueprints:
+        app.register_blueprint(bp)
     try:
         app.config.update(load_configurations())
     except Exception as exc:  # pragma: no cover - config errors rarely occur
