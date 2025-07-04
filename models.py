@@ -1,8 +1,12 @@
+"""Database models for the Rules Central application."""
+
 from extensions import db
 from flask_login import UserMixin
 
 
 class User(db.Model, UserMixin):
+    """Application user model."""
+
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -12,10 +16,14 @@ class User(db.Model, UserMixin):
     is_active = db.Column(db.Boolean, default=True)
 
     def get_id(self):
+        """Return the user's id as a string."""
+
         return str(self.id)
 
 
 class Diagram(db.Model):
+    """Stored diagram metadata."""
+
     __tablename__ = 'diagrams'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,4 +35,5 @@ class Diagram(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
 
+    # Relationship back to the owning :class:`User`
     user = db.relationship('User', backref='diagrams')

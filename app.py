@@ -1,3 +1,5 @@
+"""Application factory and runtime setup for Rules Central."""
+
 import logging
 import os
 from datetime import datetime, timezone
@@ -70,7 +72,10 @@ def create_app() -> Flask:
 
     # ─── Blueprints & Config ───────────────────────────────────────
     app.register_blueprint(routes_bp)
-    app.config.update(load_configurations())
+    try:
+        app.config.update(load_configurations())
+    except Exception as exc:  # pragma: no cover - config errors rarely occur
+        app.logger.error("Configuration load failed: %s", exc)
 
     return app
 

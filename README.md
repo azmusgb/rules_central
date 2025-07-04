@@ -13,9 +13,11 @@ It provides tools to upload diagrams, analyze rules, and collaborate with others
 - Python 3.10+
 - Node.js for building Tailwind CSS assets
 
-Install Python dependencies:
+Install Python dependencies (or install the package in editable mode):
 ```bash
 pip install -r requirements.txt
+# or
+pip install -e .
 ```
 
 Build CSS assets (optional):
@@ -30,6 +32,10 @@ Use Flask's built‑in server to start the app:
 python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
+
+### Custom configuration
+Set the ``CONFIG_PATH`` environment variable to load an alternative
+``config.json`` file when running the app or tests.
 
 ## Project structure
 - `app.py` – application factory

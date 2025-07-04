@@ -1,5 +1,16 @@
+"""Routes for file uploads and diagram generation."""
+
 import os
-from flask import Blueprint, current_app, request, redirect, url_for, flash, render_template, jsonify
+from flask import (
+    Blueprint,
+    current_app,
+    request,
+    redirect,
+    url_for,
+    flash,
+    render_template,
+    jsonify,
+)
 from werkzeug.utils import secure_filename
 from utils import (
     allowed_file,
@@ -12,6 +23,8 @@ upload = Blueprint('upload', __name__)
 
 @upload.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    """Handle file uploads and generate diagrams."""
+
     if request.method == 'GET':
         return render_template('upload.html', help_available=True)
 
