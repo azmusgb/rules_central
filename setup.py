@@ -17,11 +17,17 @@ def parse_requirements(path: Path) -> list[str]:
 BASE_DIR = Path(__file__).parent
 README = (BASE_DIR / "README.md").read_text(encoding="utf-8")
 
-setup(
-    name="rules_central",
-    version="0.1",
-    packages=find_packages(),
-    install_requires=parse_requirements(BASE_DIR / "requirements.txt"),
-    long_description=README,
-    long_description_content_type="text/markdown",
-)
+def main() -> None:
+    """Package the project using :mod:`setuptools`."""
+    setup(
+        name="rules_central",
+        version="0.1",
+        packages=find_packages(),
+        install_requires=parse_requirements(BASE_DIR / "requirements.txt"),
+        long_description=README,
+        long_description_content_type="text/markdown",
+    )
+
+
+if __name__ == "__main__":
+    main()

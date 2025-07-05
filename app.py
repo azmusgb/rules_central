@@ -18,9 +18,12 @@ from routes import all_blueprints
 # -------------------------------------------------------------------
 load_dotenv()
 
+LOGGER = logging.getLogger(__name__)
+
 
 def create_app() -> Flask:
     """Factory function to create and configure the Flask application."""
+    LOGGER.debug("Initializing Flask application")
     app = Flask(__name__, static_folder="static", static_url_path="/static")
 
     # ─── Basic configuration ────────────────────────────────────────

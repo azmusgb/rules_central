@@ -14,15 +14,17 @@ CONFIG_PATH = os.environ.get(
     os.path.join(os.path.dirname(__file__), "config", "config.json"),
 )
 
+LOGGER = logging.getLogger(__name__)
 
-def load_configurations():
+
+def load_configurations() -> dict:
     """Load configuration data from :data:`CONFIG_PATH`."""
 
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as config_file:
             return json.load(config_file)
     except (FileNotFoundError, json.JSONDecodeError) as err:
-        logging.error("Error loading configuration file: %s", err)
+        LOGGER.error("Error loading configuration file: %s", err)
         return {"translations": {}, "styles": {}}
 
 

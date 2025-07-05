@@ -2,10 +2,12 @@ import os
 import json
 import logging
 import uuid
+from pathlib import Path
 from datetime import datetime, timezone
+from typing import Any, Dict, Iterable
+
 from flask import current_app
 from flask_login import current_user
-# from collections import defaultdict
 
 from config import load_configurations, Config
 from werkzeug.utils import secure_filename
@@ -15,40 +17,37 @@ CONFIG = load_configurations()
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]'
+    format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
 )
+LOGGER = logging.getLogger(__name__)
 
 # --- File and Directory Utilities ---
 
-def allowed_file(filename):
+def allowed_file(filename: str) -> bool:
     """Return ``True`` if ``filename`` has an approved extension."""
     allowed_exts = {"json", "mmd"}
-    return (
-        "." in filename
-        and filename.rsplit(".", 1)[1].lower() in allowed_exts
-    )
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in allowed_exts
 
-def ensure_directory_exists(directory):
-    """Ensure the directory exists, create it if necessary."""
-    if not os.path.exists(directory):
+def ensure_directory_exists(directory: str | Path) -> None:
+    """Ensure ``directory`` exists, creating it if necessary."""
+    path = Path(directory)
+    if not path.exists():
         try:
-            os.makedirs(directory, exist_ok=True)
-            logging.info(f"Created directory: {directory}")
-        except Exception as e:
-            logging.error(f"Failed to create directory {directory}: {e}")
+            path.mkdir(parents=True, exist_ok=True)
+            LOGGER.info("Created directory: %s", directory)
+        except OSError as exc:
+            LOGGER.error("Failed to create directory %s: %s", directory, exc)
 
-def get_file_metadata(filepath):
-    """Get basic file metadata."""
-    stat = os.stat(filepath)
-    return {
-        'size': stat.st_size,
-        'last_modified': stat.st_mtime
-    }
+
+def get_file_metadata(filepath: str | Path) -> Dict[str, float]:
+    """Return basic file metadata for ``filepath``."""
+    stat = Path(filepath).stat()
+    return {"size": stat.st_size, "last_modified": stat.st_mtime}
 
 # --- JSON Loading and Sanitization ---
 
-def remove_all_quotes(obj):
-    """Recursively remove all double quotes from strings in the object."""
+def remove_all_quotes(obj: Any) -> Any:
+    """Recursively remove all double quotes from strings in ``obj``."""
     if isinstance(obj, str):
         return obj.replace('"', '')
     elif isinstance(obj, dict):
@@ -57,8 +56,8 @@ def remove_all_quotes(obj):
         return [remove_all_quotes(item) for item in obj]
     return obj
 
-def add_missing_guids_if_needed(rules):
-    """Recursively add GUIDs to rules if they are missing."""
+def add_missing_guids_if_needed(rules: Iterable[Dict[str, Any]]) -> None:
+    """Recursively add GUIDs to ``rules`` if they are missing."""
     def recurse(rule):
         if not rule.get("RuleGUID"):
             rule["RuleGUID"] = f"udf_{uuid.uuid4()}"
@@ -70,8 +69,8 @@ def add_missing_guids_if_needed(rules):
     for top_rule in rules:
         recurse(top_rule)
 
-def load_and_sanitize_json(filepath):
-    """Load and sanitize JSON data from a file."""
+def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
+    """Load and sanitize JSON data from ``filepath``."""
     try:
         with open(filepath, "r", encoding="utf-8") as file:
             content = file.read()
@@ -92,19 +91,19 @@ def load_and_sanitize_json(filepath):
                     if udf_value:
                         pass  # Placeholder for any UDF-specific logic
             add_missing_guids_if_needed(data)
-            logging.info(f"JSON file {filepath} successfully loaded. Missing GUIDs assigned if needed.")
+            LOGGER.info("JSON file %s successfully loaded. Missing GUIDs assigned if needed.", filepath)
             return data
     except (json.JSONDecodeError, FileNotFoundError, ValueError) as e:
-        logging.error(f"Error loading JSON file {filepath}: {e}")
+        LOGGER.error("Error loading JSON file %s: %s", filepath, e)
         return None
 
 # --- Grouping and Catalog Utilities ---
 
-def get_dynamic_groups(diagrams_folder):
-    """Group directories based on shared prefixes before the second underscore."""
+def get_dynamic_groups(diagrams_folder: str | Path) -> list[Dict[str, Any]]:
+    """Return groups of diagrams by common prefix."""
     if not os.path.exists(diagrams_folder):
         return []
-    grouped_catalog = {}
+    grouped_catalog: Dict[str, Dict[str, Any]] = {}
     for folder in os.listdir(diagrams_folder):
         folder_path = os.path.join(diagrams_folder, folder)
         if not os.path.isdir(folder_path):
@@ -132,7 +131,7 @@ def get_dynamic_groups(diagrams_folder):
 
 # --- Rule Flattening and Hierarchy ---
 
-def flatten_rules(rules):
+def flatten_rules(rules: Iterable[Dict[str, Any]]) -> list[Dict[str, Any]]:
     """
     Flatten a nested structure of rules (Children, Actions->ChildRules) into
     a single list, ensuring each rule has a valid 'ParentGUID' reference.
@@ -329,20 +328,20 @@ def generate_files(json_data: list, output_dir: str) -> None:
       - A Mermaid diagram file named <container>.mmd.
       - A JSON file containing the rules and the action names for that container named <container>.json.
     """
-    logging.info(f"Processing {len(json_data)} rules...")
+    LOGGER.info("Processing %d rules...", len(json_data))
     os.makedirs(output_dir, exist_ok=True)
     propagate_disabled_rules(json_data)
     flat_rules = flatten_rules(json_data)
     edges, _ = build_all_edges(json_data)
     edge_map = build_edge_map(edges)
-    logging.info(f"Processed {len(flat_rules)} flat rules and {len(edges)} edges.")
+    LOGGER.info("Processed %d flat rules and %d edges.", len(flat_rules), len(edges))
     container_groups = {}
     for rule in flat_rules:
         container = rule.get("Container") or os.path.basename(output_dir)
         container_groups.setdefault(container, []).append(rule)
     total_containers = len(container_groups)
     root_name = os.path.basename(output_dir)
-    logging.info(f"Found {total_containers} unique container(s) in the data.")
+    LOGGER.info("Found %d unique container(s) in the data.", total_containers)
     for container, rules in container_groups.items():
         group_ids = {r["RuleGUID"] for r in rules}
         group_nodes = build_nodes(
@@ -375,7 +374,7 @@ def generate_files(json_data: list, output_dir: str) -> None:
         diagram_path = os.path.join(output_dir, diagram_filename)
         with open(diagram_path, "w", encoding="utf-8") as f:
             f.write(mermaid_code)
-        logging.info(f"Created diagram file '{diagram_filename}' with {len(group_nodes)} nodes.")
+        LOGGER.info("Created diagram file '%s' with %d nodes.", diagram_filename, len(group_nodes))
         output_data = {
             "rules": rules,
             "actionNames": sorted(list(container_action_names))
@@ -383,12 +382,17 @@ def generate_files(json_data: list, output_dir: str) -> None:
         container_json_path = os.path.join(output_dir, f"{sanitized_container}.json")
         with open(container_json_path, "w", encoding="utf-8") as f:
             json.dump(output_data, f, indent=4)
-        logging.info(f"Saved container JSON to '{container_json_path}'.")
+        LOGGER.info("Saved container JSON to '%s'.", container_json_path)
 
 # --- Activity Logging ---
 
-def log_activity(action, rule_id=None, user=None, details=None):
-    """Log an activity to ``Config.ACTIVITY_LOG``."""
+def log_activity(
+    action: str,
+    rule_id: str | None = None,
+    user: str | None = None,
+    details: str | None = None,
+) -> None:
+    """Log an activity entry to :data:`Config.ACTIVITY_LOG`."""
     try:
         Config.ensure_data_dir()
         activity_log_path = Config.ACTIVITY_LOG
@@ -416,8 +420,8 @@ def log_activity(action, rule_id=None, user=None, details=None):
             }
         with open(activity_log_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2)
-    except Exception as e:
-        logging.error(f"Failed to log activity: {str(e)}")
+    except Exception as exc:
+        LOGGER.error("Failed to log activity: %s", exc)
 
 # --- Hierarchy Validation and Building ---
 
@@ -479,7 +483,7 @@ def highlight_matches(text, query):
     try:
         pattern = re.compile(re.escape(query), re.IGNORECASE)
     except re.error as exc:
-        logging.error("Invalid regex in highlight_matches: %s", exc)
+        LOGGER.error("Invalid regex in highlight_matches: %s", exc)
         return text
     return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
 def find_rule_by_guid(rules, guid):
@@ -511,9 +515,9 @@ def update_mmd_files_with_translations(diagrams_folder, translations):
                     content = content.replace(key, replacement)
                 with open(filepath, "w", encoding="utf-8") as f:
                     f.write(content)
-                logging.info(f"Updated translations in {filename}")
-            except Exception as e:
-                logging.error(f"Error updating {filename}: {e}")
+                LOGGER.info("Updated translations in %s", filename)
+            except Exception as exc:
+                LOGGER.error("Error updating %s: %s", filename, exc)
 
 def propagate_disabled_rules(rules, inherited_disabled=False):
     """Propagate the disabled state through the rules."""
