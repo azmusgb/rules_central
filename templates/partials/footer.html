@@ -1,13 +1,14 @@
 <footer class="bg-gradient-to-t from-dark-900 to-dark-950/90 border-t border-dark-800/50 py-12 backdrop-blur-sm relative overflow-hidden">
-    <!-- Floating decorative elements -->
-    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary-500/5 rounded-full blur-xl"></div>
-    <div class="absolute -top-10 -right-10 w-40 h-40 bg-accent-purple/5 rounded-full blur-lg"></div>
+    <!-- Floating decorative elements (enhanced) -->
+    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary-500/5 rounded-full blur-xl animate-float-slow"></div>
+    <div class="absolute -top-10 -right-10 w-40 h-40 bg-accent-purple/5 rounded-full blur-lg animate-float-medium"></div>
+    <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500/5 rounded-full blur-md animate-float-fast"></div>
 
     <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
-            <!-- Brand Column -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <!-- Brand Column (Enhanced) -->
             <div class="lg:col-span-1">
-                <a class="flex items-center group mb-6" href="#">
+                <a class="flex items-center group mb-6 w-max" href="#" aria-label="Rules Central Home">
                     <div class="relative">
                         <div class="absolute -inset-1 bg-primary-500/20 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <i class="fas fa-project-diagram text-primary-500 text-2xl mr-3 relative z-10 transition-transform duration-500 group-hover:rotate-[30deg]"></i>
@@ -20,15 +21,18 @@
                 <div class="flex space-x-5">
                     {% for social in social_links %}
                     <a aria-label="{{ social.name }}"
-                       class="text-gray-400 hover:text-white transition-colors text-lg w-10 h-10 flex items-center justify-center rounded-full hover:bg-dark-700/50 group"
-                       href="{{ social.url }}">
-                        <i class="{{ social.icon }} group-hover:scale-110 transition-transform"></i>
+                       class="text-gray-400 hover:text-white transition-colors text-lg w-10 h-10 flex items-center justify-center rounded-full hover:bg-dark-700/50 group relative"
+                       href="{{ social.url }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <span class="absolute inset-0 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        <i class="{{ social.icon }} group-hover:scale-110 transition-transform relative z-10"></i>
                     </a>
                     {% endfor %}
                 </div>
             </div>
 
-            <!-- Enhanced Footer Links -->
+            <!-- Enhanced Footer Links with better spacing -->
             {% for section in footer_sections %}
             <div>
                 <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-6 relative inline-block">
@@ -38,84 +42,202 @@
                 <ul class="space-y-3">
                     {% for link in section.links %}
                     <li>
-                        <a class="flex items-center group text-gray-400 hover:text-white transition-colors duration-300"
-                           href="{{ link.url }}">
-                            <span class="w-2 h-2 bg-primary-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                            {{ link.name }}
-                            <i class="fas fa-arrow-up-right-from-square ml-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                        <a class="flex items-center group text-gray-400 hover:text-white transition-colors duration-300 py-1"
+                           href="{{ link.url }}"
+                           {% if link.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                            <span class="w-2 h-2 bg-primary-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
+                            <span class="flex-grow">{{ link.name }}</span>
+                            {% if link.external %}
+                            <i class="fas fa-arrow-up-right-from-square ml-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></i>
+                            {% endif %}
                         </a>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             {% endfor %}
+
+            <!-- Newsletter Section (New Addition) -->
+            <div>
+                <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-6 relative inline-block">
+                    <span class="relative z-10">Newsletter</span>
+                    <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-purple w-full"></span>
+                </h4>
+                <p class="text-gray-400 mb-4">Stay updated with our latest features and news.</p>
+                <form class="space-y-3">
+                    <input type="email" 
+                           placeholder="Your email address" 
+                           class="w-full px-4 py-2 bg-dark-800 border border-dark-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+                           required>
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-glow-lg">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 mt-2">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
         </div>
 
         <!-- Enhanced Copyright Section -->
         <div class="border-t border-dark-700/50 mt-12 pt-8 flex flex-col md:flex-row md:justify-between md:items-center relative">
             <div class="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-            <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                © <span id="current-year"></span> Rules Central. All rights reserved.
-            </p>
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-6">
+                <p class="text-gray-500 text-sm">
+                    © <span id="current-year"></span> Rules Central. All rights reserved.
+                </p>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-globe text-gray-500 text-sm"></i>
+                    <span class="text-gray-400 text-sm">English (US)</span>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-4 mt-4 md:mt-0">
                 {% for legal in legal_links %}
                 <a class="text-gray-400 hover:text-primary-400 transition-colors text-sm hover:underline underline-offset-4 decoration-primary-500/50"
-                   href="{{ legal.url }}">
+                   href="{{ legal.url }}"
+                   {% if legal.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
                     {{ legal.name }}
                 </a>
                 {% endfor %}
             </div>
         </div>
     </div>
-
-
 </footer>
-<!-- Help System Container - Moved outside footer -->
-<div class="fixed bottom-6 right-6 z-[9999]" id="help-system">
-    <button aria-controls="help-panel" class="w-14 h-14 bg-gradient-to-br from-primary-500 to-accent-purple text-white rounded-full shadow-xl hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
-            id="help-button">
+
+<!-- Help System - Enhanced with better animations and accessibility -->
+<div class="fixed bottom-6 right-6 z-[9999]" id="help-system" x-data="{ open: false }">
+    <button 
+        @click="open = !open"
+        @keydown.escape="open = false"
+        aria-controls="help-panel" 
+        :aria-expanded="open"
+        class="w-14 h-14 bg-gradient-to-br from-primary-500 to-accent-purple text-white rounded-full shadow-xl hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50"
+        id="help-button">
         <div class="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-        <i class="fas fa-question text-xl relative z-10 transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+        <i class="fas fa-question text-xl relative z-10 transform transition-all duration-300" :class="{'rotate-12 scale-110': open}"></i>
+        <span class="sr-only">Help</span>
     </button>
 
-    <div class="hidden absolute bottom-full right-0 mb-4 w-80 bg-dark-800/95 backdrop-blur-lg rounded-xl shadow-2xl overflow-hidden border border-dark-700/50"
-         id="help-panel" style="z-index: 10000;">
+    <div 
+        x-show="open"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-2"
+        class="absolute bottom-full right-0 mb-4 w-80 bg-dark-800/95 backdrop-blur-lg rounded-xl shadow-2xl overflow-hidden border border-dark-700/50"
+        id="help-panel" 
+        style="z-index: 10000;"
+        @click.away="open = false">
         <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-5 py-4 flex items-center justify-between">
             <h3 class="font-semibold text-sm flex items-center">
                 <i class="fas fa-life-ring mr-2"></i>
                 Help Center
             </h3>
-            <button aria-label="Close help menu" class="text-white/80 hover:text-white transition-colors"
-                    id="close-help">
+            <button 
+                @click="open = false"
+                aria-label="Close help menu" 
+                class="text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full p-1">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="p-5 max-h-[60vh] overflow-y-auto custom-scrollbar" id="help-content">
-            <!-- Dynamic content will be loaded here -->
+            <div class="space-y-4">
+                <div class="bg-dark-700/50 rounded-lg p-4 hover:bg-dark-700/70 transition-colors cursor-pointer">
+                    <h4 class="font-medium text-white flex items-center">
+                        <i class="fas fa-book mr-2 text-primary-400"></i>
+                        Getting Started Guide
+                    </h4>
+                    <p class="text-gray-400 text-sm mt-1">Learn how to create your first diagram</p>
+                </div>
+                <div class="bg-dark-700/50 rounded-lg p-4 hover:bg-dark-700/70 transition-colors cursor-pointer">
+                    <h4 class="font-medium text-white flex items-center">
+                        <i class="fas fa-video mr-2 text-primary-400"></i>
+                        Video Tutorials
+                    </h4>
+                    <p class="text-gray-400 text-sm mt-1">Watch our step-by-step tutorials</p>
+                </div>
+                <div class="bg-dark-700/50 rounded-lg p-4 hover:bg-dark-700/70 transition-colors cursor-pointer">
+                    <h4 class="font-medium text-white flex items-center">
+                        <i class="fas fa-question-circle mr-2 text-primary-400"></i>
+                        Common Questions
+                    </h4>
+                    <p class="text-gray-400 text-sm mt-1">Find answers to frequently asked questions</p>
+                </div>
+            </div>
         </div>
         <div class="bg-dark-700/50 px-5 py-3 border-t border-dark-600/50">
-            <div class="flex space-x-4">
+            <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-4">
                 <a class="text-primary-400 hover:text-primary-300 text-sm flex items-center transition-colors duration-200 group"
                    href="/full-help">
                     <i class="fas fa-book-open mr-2 text-sm group-hover:translate-x-0.5 transition-transform"></i>
-                    View Full Documentation
+                    Full Documentation
                 </a>
                 <a class="text-primary-400 hover:text-primary-300 text-sm flex items-center transition-colors duration-200 group"
-                   href="/faq">
-                    <i class="fas fa-question-circle mr-2 text-sm group-hover:translate-x-0.5 transition-transform"></i>
-                    FAQ
+                   href="/contact">
+                    <i class="fas fa-headset mr-2 text-sm group-hover:translate-x-0.5 transition-transform"></i>
+                    Contact Support
                 </a>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    /* Custom animations */
+    @keyframes float-slow {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-20px) translateX(10px); }
+    }
+    @keyframes float-medium {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-15px) translateX(-5px); }
+    }
+    @keyframes float-fast {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-10px) translateX(5px); }
+    }
+    
+    .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
+    .animate-float-medium { animation: float-medium 8s ease-in-out infinite; }
+    .animate-float-fast { animation: float-fast 6s ease-in-out infinite; }
+    
+    /* Custom scrollbar for help panel */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.05);
+        border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.2);
+    }
+    
+    /* Enhanced hover effects */
+    .hover-glow {
+        transition: box-shadow 0.3s ease;
+    }
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+</style>
+
 <script>
     // Set current year automatically
     document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Initialize Alpine.js components
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('helpSystem', () => ({
+            open: false,
+            toggle() {
+                this.open = !this.open;
+            }
+        }));
+    });
 </script>
-
-<!-- Load help system scripts -->
-
-<script src="{{ url_for('static', filename='js/help_content.js') }}" type="module"></script>
-<script src="{{ url_for('static', filename='js/help_system.js') }}" type="module"></script>

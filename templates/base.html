@@ -4,21 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="description" content="Rules Central – a comprehensive rules-management system">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 
   <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rules Central">
 
   {% block meta %}
   <meta property="og:title" content="Rules Central">
   <meta property="og:description" content="Rules Central – a comprehensive rules-management system">
   <meta property="og:image" content="{{ url_for('static', filename='images/RulesCentralLogo.png') }}">
+  <meta property="og:url" content="{{ request.url }}">
   <meta name="twitter:card" content="summary_large_image">
   {% endblock %}
 
   <title>{% block title %}Rules Central{% endblock %}</title>
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
 
   <!-- Preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,23 +30,31 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" as="style">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style">
-
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preload" href="{{ url_for('static', filename='css/main.css') }}" as="style">
 
   <!-- Critical CSS (inlined) -->
   <style>
     :root {
       --color-primary: 59, 130, 246;
+      --color-accent: 168, 85, 247;
       --color-dark-950: 15, 23, 42;
       --color-dark-900: 30, 41, 59;
+      --color-dark-800: 51, 65, 85;
     }
+    
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Gradient text utility */
     .gradient-text {
-      -webkit-background-clip: text;
       background-clip: text;
+      -webkit-background-clip: text;
       color: transparent;
     }
+    
+    /* Screen reader only utility */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -54,9 +66,32 @@
       white-space: nowrap;
       border-width: 0;
     }
+    
+    /* Focus styles for accessibility */
+    :focus-visible {
+      outline: 2px solid rgba(var(--color-primary), 0.8);
+      outline-offset: 2px;
+    }
+    
+    /* Initial loading animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    body {
+      animation: fadeIn 0.5s ease-out;
+    }
   </style>
 
   <!-- Non-critical CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <noscript>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/overhaul.css') }}">
+  </noscript>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/overhaul.css') }}" media="print" onload="this.media='all'">
@@ -66,15 +101,15 @@
 
 <body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal" {% block body_attrs %}{% endblock %}>
   <!-- Skip link for accessibility -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus-ring">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:ring-2 focus:ring-white">
     Skip to content
   </a>
 
   <!-- App loading indicator -->
   <div id="app-loader" class="fixed inset-0 z-[9999] bg-dark-900 flex items-center justify-center transition-opacity duration-300" role="status" aria-live="polite">
     <div class="animate-pulse flex flex-col items-center">
-      <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-purple rounded-xl flex items-center justify-center mb-4">
-        <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-purple rounded-xl flex items-center justify-center mb-4 animate-spin-slow">
+        <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
           <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -85,11 +120,13 @@
 
   {% include 'partials/header.html' %}
 
-  <main id="main-content" class="flex-grow flex flex-col">
+  <main id="main-content" class="flex-grow flex flex-col" tabindex="-1">
     {% block hero %}
     <section class="hero-section relative overflow-hidden bg-gradient-to-br from-primary-900 via-dark-800 to-dark-700 py-24">
       <div class="particles absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        {% for i in range(15) %}
+        <div class="particle" style="--size: {{ (0.5 + random() * 2)|round(2) }}px; --x: {{ random() * 100 }}%; --y: {{ random() * 100 }}%; --delay: {{ random() * 5 }}s; --duration: {{ 10 + random() * 20 }}s;"></div>
+        {% endfor %}
       </div>
       <div class="container mx-auto px-4 text-center relative z-10">
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tighter">
@@ -100,8 +137,21 @@
         <p class="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
           <span class="typing-effect">{% block hero_subtitle %}Manage your rules efficiently{% endblock %}</span>
         </p>
-        {% block hero_cta %}{% endblock %}
-        <div class="mt-12 animate-bounce"><i class="fas fa-chevron-down text-2xl text-white opacity-70"></i></div>
+        {% block hero_cta %}
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <a href="/getting-started" class="px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-purple text-white rounded-lg font-medium shadow-lg hover:shadow-glow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white">
+            Get Started
+          </a>
+          <a href="/features" class="px-6 py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-medium shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+            Learn More
+          </a>
+        </div>
+        {% endblock %}
+        <div class="mt-12 animate-bounce">
+          <a href="#main-content" class="inline-block" aria-label="Scroll down">
+            <i class="fas fa-chevron-down text-2xl text-white opacity-70 hover:opacity-100 transition-opacity"></i>
+          </a>
+        </div>
       </div>
     </section>
     {% endblock %}
@@ -111,7 +161,7 @@
 
   {% if show_back_to_top is not defined or show_back_to_top %}
     <!-- Back to Top Button -->
-    <div class="fixed bottom-8 right-8">
+    <div class="fixed bottom-8 right-8 z-50">
       {% include 'partials/back_to_top.html' %}
     </div>
   {% endif %}
@@ -119,37 +169,77 @@
   {% include 'partials/footer.html' %}
 
   <!-- Global JS -->
-  <script defer src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-  <script defer src="{{ url_for('static', filename='js/app-utils.js') }}"></script>
-  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-  <!-- Service Worker Registration -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('{{ url_for('static', filename='js/service-worker.js') }}');
+    // Load non-critical scripts with Intersection Observer
+    const loadScript = (src, attrs = {}) => {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.defer = true;
+        Object.entries(attrs).forEach(([key, value]) => {
+          script.setAttribute(key, value);
+        });
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
       });
-    }
-  </script>
+    };
 
-  <!-- Theme management -->
-  <script>
+    // Load scripts when visible in viewport
+    const lazyLoadScripts = () => {
+      const scripts = [
+        { src: 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js' },
+        { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2' },
+        { src: "{{ url_for('static', filename='js/app-utils.js') }}" },
+        { src: "{{ url_for('static', filename='js/app.js') }}" }
+      ];
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const { src, ...attrs } = entry.target.dataset;
+              loadScript(src, attrs);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '200px' });
+
+        scripts.forEach(script => {
+          const placeholder = document.createElement('div');
+          placeholder.dataset.src = script.src;
+          Object.entries(script).forEach(([key, value]) => {
+            if (key !== 'src') placeholder.dataset[key] = value;
+          });
+          placeholder.style.display = 'none';
+          document.body.appendChild(placeholder);
+          observer.observe(placeholder);
+        });
+      } else {
+        // Fallback for browsers without IntersectionObserver
+        scripts.forEach(script => loadScript(script.src, script));
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       // Hide loader
       const loader = document.getElementById('app-loader');
-      if (loader) loader.style.opacity = '0';
-      setTimeout(() => loader.remove(), 300);
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 300);
+      }
 
       // Theme management
       const html = document.documentElement;
       const btn = document.getElementById('theme-toggle');
       const icon = btn?.querySelector('i');
+      
       const updateIcon = (theme) => {
         if (!icon) return;
         icon.classList.remove('fa-moon', 'fa-sun');
         icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
       };
+      
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const storedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
 
@@ -169,7 +259,37 @@
           document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }));
         });
       }
+
+      // Watch for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+          const newTheme = e.matches ? 'dark' : 'light';
+          html.setAttribute('data-theme', newTheme);
+          if (newTheme === 'dark') {
+            html.classList.add('dark');
+          } else {
+            html.classList.remove('dark');
+          }
+          updateIcon(newTheme);
+        }
+      });
+
+      // Lazy load non-critical scripts
+      lazyLoadScripts();
     });
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('{{ url_for('static', filename='js/service-worker.js') }}')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
   </script>
 
   {% block scripts %}{% endblock %}
