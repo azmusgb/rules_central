@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 // activity-monitor.js
 export class ActivityMonitor {
   constructor() {
     this.cache = {
       lastUpdated: null,
-      data: null
+      data: null,
     };
   }
 
   async refresh() {
     try {
-      const response = await fetch('/api/activity?cachebuster=' + Date.now());
-      if (!response.ok) throw new Error('Server error');
+      const response = await fetch("/api/activity?cachebuster=" + Date.now());
+      if (!response.ok) throw new Error("Server error");
 
       this.cache = {
         lastUpdated: new Date(),
-        data: await response.json()
+        data: await response.json(),
       };
 
       return true;
     } catch (error) {
-      console.error('Activity refresh failed:', error);
+      console.error("Activity refresh failed:", error);
       return false;
     }
   }
@@ -33,9 +33,9 @@ export class ActivityMonitor {
     return {
       totalRules: Object.keys(this.cache.data.rules).length,
       recentChanges: this.cache.data.activity_log.filter(
-        entry => new Date(entry.timestamp) > recentThreshold
+        (entry) => new Date(entry.timestamp) > recentThreshold,
       ).length,
-      statusCounts: this.countStatuses()
+      statusCounts: this.countStatuses(),
     };
   }
 
@@ -55,8 +55,8 @@ async function updateDashboard() {
   await monitor.refresh();
   const stats = monitor.getStats();
 
-  document.getElementById('totalRules').textContent = stats.totalRules;
-  document.getElementById('recentActivity').textContent = stats.recentChanges;
+  document.getElementById("totalRules").textContent = stats.totalRules;
+  document.getElementById("recentActivity").textContent = stats.recentChanges;
 
   // Update status badges
   Object.entries(stats.statusCounts).forEach(([status, count]) => {
@@ -66,4 +66,4 @@ async function updateDashboard() {
 
 // Auto-refresh every 5 minutes
 setInterval(updateDashboard, 300000);
-document.addEventListener('DOMContentLoaded', updateDashboard);
+document.addEventListener("DOMContentLoaded", updateDashboard);

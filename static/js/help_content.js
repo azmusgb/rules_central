@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 // Help content object for all pages
 window.helpContent = {
-  "index": {
-    "title": "Dashboard Overview",
-    "content": `
+  index: {
+    title: "Dashboard Overview",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -30,11 +30,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "api_test_utility": {
-    "title": "API Test Utility",
-    "content": `
+  api_test_utility: {
+    title: "API Test Utility",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -61,11 +61,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "catalog": {
-    "title": "Diagram Catalog",
-    "content": `
+  catalog: {
+    title: "Diagram Catalog",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -92,11 +92,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "config": {
-    "title": "Diagram Theme Manager",
-    "content": `
+  config: {
+    title: "Diagram Theme Manager",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -123,11 +123,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "view_diagram": {
-    "title": "Diagram Viewer",
-    "content": `
+  view_diagram: {
+    title: "Diagram Viewer",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -154,11 +154,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "view_hierarchy": {
-    "title": "Hierarchy Viewer",
-    "content": `
+  view_hierarchy: {
+    title: "Hierarchy Viewer",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -185,11 +185,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "rules_extraction_utility": {
-    "title": "Rules Extraction Utility",
-    "content": `
+  rules_extraction_utility: {
+    title: "Rules Extraction Utility",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -216,11 +216,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "search": {
-    "title": "Search Diagrams",
-    "content": `
+  search: {
+    title: "Search Diagrams",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -247,11 +247,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "upload": {
-    "title": "Upload JSON Diagrams",
-    "content": `
+  upload: {
+    title: "Upload JSON Diagrams",
+    content: `
       <div class="space-y-4">
         <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
           <h4 class="font-medium flex items-center text-white">
@@ -278,11 +278,11 @@ window.helpContent = {
           </ul>
         </div>
       </div>
-    `
+    `,
   },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "content": `
+  faq: {
+    title: "Frequently Asked Questions",
+    content: `
       <div class="space-y-4">
         <p class="text-sm text-slate-300">
           Find quick answers to common questions about Rules Central.
@@ -293,11 +293,11 @@ window.helpContent = {
           <li><strong>Need more help?</strong> Visit the <a href="/full-help" class="text-primary-400 hover:underline">documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.</li>
         </ul>
       </div>
-    `
+    `,
   },
-  "default": {
-    "title": "Help Center",
-    "content": `
+  default: {
+    title: "Help Center",
+    content: `
       <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
         <p class="text-sm text-slate-300">
           For comprehensive documentation, please visit our
@@ -309,13 +309,13 @@ window.helpContent = {
           for additional assistance.
         </p>
       </div>
-    `
-  }
+    `,
+  },
 };
 
 // Helper function to show help content
-function showHelp(page = 'default') {
-  const helpData = window.helpContent[page] || window.helpContent['default'];
+function showHelp(page = "default") {
+  const helpData = window.helpContent[page] || window.helpContent["default"];
 
   // Create help modal HTML with higher z-index and improved styling
   const helpModal = `
@@ -345,71 +345,81 @@ function showHelp(page = 'default') {
   `;
 
   // Add modal to DOM
-  const modalContainer = document.createElement('div');
-  modalContainer.id = 'help-modal';
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "help-modal";
   modalContainer.innerHTML = helpModal;
   document.body.appendChild(modalContainer);
 
   // Animate modal in
   setTimeout(() => {
-    const content = document.getElementById('help-modal-content');
-    content.classList.remove('scale-95', 'opacity-0');
-    content.classList.add('scale-100', 'opacity-100');
+    const content = document.getElementById("help-modal-content");
+    content.classList.remove("scale-95", "opacity-0");
+    content.classList.add("scale-100", "opacity-100");
   }, 10);
 
   // Add event listeners
-  document.getElementById('close-help').addEventListener('click', closeHelp);
-  document.getElementById('close-help-btn').addEventListener('click', closeHelp);
-  document.getElementById('help-modal-backdrop').addEventListener('click', closeHelp);
+  document.getElementById("close-help").addEventListener("click", closeHelp);
+  document
+    .getElementById("close-help-btn")
+    .addEventListener("click", closeHelp);
+  document
+    .getElementById("help-modal-backdrop")
+    .addEventListener("click", closeHelp);
 
   // Close on ESC key
-  document.addEventListener('keydown', function helpKeyListener(e) {
-    if (e.key === 'Escape') {
+  document.addEventListener("keydown", function helpKeyListener(e) {
+    if (e.key === "Escape") {
       closeHelp();
-      document.removeEventListener('keydown', helpKeyListener);
+      document.removeEventListener("keydown", helpKeyListener);
     }
   });
 
   // Prevent body scrolling when modal is open
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = "hidden";
 }
 
 function closeHelp() {
-  const modal = document.getElementById('help-modal');
+  const modal = document.getElementById("help-modal");
   if (modal) {
-    const content = document.getElementById('help-modal-content');
-    content.classList.remove('scale-100', 'opacity-100');
-    content.classList.add('scale-95', 'opacity-0');
+    const content = document.getElementById("help-modal-content");
+    content.classList.remove("scale-100", "opacity-100");
+    content.classList.add("scale-95", "opacity-0");
 
     setTimeout(() => {
       modal.remove();
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }, 200);
   }
 }
 
 // Initialize help system when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Add help button to header if it exists
-  const header = document.querySelector('header');
+  const header = document.querySelector("header");
   if (header) {
-    const helpBtn = document.createElement('button');
-    helpBtn.className = 'ml-4 p-2 text-slate-400 hover:text-primary-400 transition-colors relative group';
+    const helpBtn = document.createElement("button");
+    helpBtn.className =
+      "ml-4 p-2 text-slate-400 hover:text-primary-400 transition-colors relative group";
     helpBtn.innerHTML = `
       <i class="fas fa-question-circle text-lg"></i>
       <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-slate-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
         Help
       </span>
     `;
-    helpBtn.title = 'Help';
-    helpBtn.addEventListener('click', function() {
+    helpBtn.title = "Help";
+    helpBtn.addEventListener("click", function () {
       // Get current page from URL or use default
-      const path = window.location.pathname.split('/').pop().replace('.html', '') || 'default';
+      const path =
+        window.location.pathname.split("/").pop().replace(".html", "") ||
+        "default";
       showHelp(path);
     });
 
     // Add to header (try to find a suitable spot)
-    const nav = header.querySelector('nav') || header.querySelector('.header-actions') || header;
+    const nav =
+      header.querySelector("nav") ||
+      header.querySelector(".header-actions") ||
+      header;
     nav.appendChild(helpBtn);
   }
 });

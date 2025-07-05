@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 // diagram.js - Complete Mermaid Diagram Editor Implementation
 
 // Global variables
@@ -13,9 +13,12 @@ let mermaidInitialized = false;
 // ======================
 
 function initializeTheme() {
-  if (localStorage.getItem('theme') === 'dark' ||
-      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
+  if (
+    localStorage.getItem("theme") === "dark" ||
+    (!localStorage.getItem("theme") &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    document.documentElement.classList.add("dark");
     isLightMode = false;
   } else {
     isLightMode = true;
@@ -27,24 +30,26 @@ function setupThemeToggle() {
   let attempts = 0;
 
   const trySetup = () => {
-    const toggleThemeButton = document.getElementById('theme-toggle');
+    const toggleThemeButton = document.getElementById("theme-toggle");
     if (toggleThemeButton) {
-      toggleThemeButton.addEventListener('click', function() {
+      toggleThemeButton.addEventListener("click", function () {
         const html = document.documentElement;
-        const isDark = html.classList.contains('dark');
+        const isDark = html.classList.contains("dark");
 
-        html.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        html.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "light" : "dark");
         isLightMode = !isDark;
 
         if (editor) {
-          editor.setTheme(isLightMode ? "ace/theme/monokai" : "ace/theme/dracula");
+          editor.setTheme(
+            isLightMode ? "ace/theme/monokai" : "ace/theme/dracula",
+          );
         }
 
-        const icon = toggleThemeButton.querySelector('i');
+        const icon = toggleThemeButton.querySelector("i");
         if (icon) {
-          icon.classList.toggle('fa-moon', !isDark);
-          icon.classList.toggle('fa-sun', isDark);
+          icon.classList.toggle("fa-moon", !isDark);
+          icon.classList.toggle("fa-sun", isDark);
         }
 
         initializeMermaid();
@@ -66,29 +71,32 @@ function setupThemeToggle() {
 // ======================
 
 function setupQuickActions() {
-  const quickActionsBtn = document.getElementById('quick-actions-button');
-  const quickActionsMenu = document.getElementById('quick-actions-menu');
+  const quickActionsBtn = document.getElementById("quick-actions-button");
+  const quickActionsMenu = document.getElementById("quick-actions-menu");
 
   // Gracefully handle missing elements
   if (!quickActionsBtn || !quickActionsMenu) {
-    console.warn('Quick actions elements not found - feature disabled');
+    console.warn("Quick actions elements not found - feature disabled");
     return;
   }
 
-  quickActionsBtn.addEventListener('click', function(e) {
+  quickActionsBtn.addEventListener("click", function (e) {
     e.stopPropagation();
-    quickActionsMenu.classList.toggle('hidden');
+    quickActionsMenu.classList.toggle("hidden");
   });
 
-  document.addEventListener('click', function(event) {
-    if (!quickActionsBtn.contains(event.target) && !quickActionsMenu.contains(event.target)) {
-      quickActionsMenu.classList.add('hidden');
+  document.addEventListener("click", function (event) {
+    if (
+      !quickActionsBtn.contains(event.target) &&
+      !quickActionsMenu.contains(event.target)
+    ) {
+      quickActionsMenu.classList.add("hidden");
     }
   });
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      quickActionsMenu.classList.add('hidden');
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      quickActionsMenu.classList.add("hidden");
     }
   });
 }
@@ -98,29 +106,29 @@ function setupQuickActions() {
 // ======================
 
 function setupExportModal() {
-  const exportModal = document.getElementById('export-modal');
-  const exportModalContent = document.getElementById('export-modal-content');
-  const exportButton = document.getElementById('export-diagram-button');
-  const closeButton = document.getElementById('close-export-modal');
+  const exportModal = document.getElementById("export-modal");
+  const exportModalContent = document.getElementById("export-modal-content");
+  const exportButton = document.getElementById("export-diagram-button");
+  const closeButton = document.getElementById("close-export-modal");
 
   if (!exportModal || !exportModalContent || !exportButton || !closeButton) {
-    console.error('Export modal elements not found!');
+    console.error("Export modal elements not found!");
     return;
   }
 
-  exportButton.addEventListener('click', () => {
-    exportModal.classList.remove('hidden');
+  exportButton.addEventListener("click", () => {
+    exportModal.classList.remove("hidden");
     setTimeout(() => {
-      exportModalContent.classList.remove('scale-95', 'opacity-0');
-      exportModalContent.classList.add('scale-100', 'opacity-100');
+      exportModalContent.classList.remove("scale-95", "opacity-0");
+      exportModalContent.classList.add("scale-100", "opacity-100");
     }, 10);
   });
 
-  closeButton.addEventListener('click', () => {
-    exportModalContent.classList.remove('scale-100', 'opacity-100');
-    exportModalContent.classList.add('scale-95', 'opacity-0');
+  closeButton.addEventListener("click", () => {
+    exportModalContent.classList.remove("scale-100", "opacity-100");
+    exportModalContent.classList.add("scale-95", "opacity-0");
     setTimeout(() => {
-      exportModal.classList.add('hidden');
+      exportModal.classList.add("hidden");
     }, 300);
   });
 
@@ -128,26 +136,41 @@ function setupExportModal() {
 }
 
 function setupExportOptions() {
-  const exportOptions = document.querySelectorAll('.export-option');
-  let selectedFormat = 'png';
+  const exportOptions = document.querySelectorAll(".export-option");
+  let selectedFormat = "png";
 
   if (!exportOptions.length) {
-    console.error('Export options not found!');
+    console.error("Export options not found!");
     return;
   }
 
-  exportOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      exportOptions.forEach(opt => {
-        opt.classList.remove('border-primary-500', 'dark:border-primary-400', 'bg-primary-50', 'dark:bg-primary-900');
+  exportOptions.forEach((option) => {
+    option.addEventListener("click", function () {
+      exportOptions.forEach((opt) => {
+        opt.classList.remove(
+          "border-primary-500",
+          "dark:border-primary-400",
+          "bg-primary-50",
+          "dark:bg-primary-900",
+        );
       });
-      this.classList.add('border-primary-500', 'dark:border-primary-400', 'bg-primary-50', 'dark:bg-primary-900');
+      this.classList.add(
+        "border-primary-500",
+        "dark:border-primary-400",
+        "bg-primary-50",
+        "dark:bg-primary-900",
+      );
       selectedFormat = this.dataset.format;
     });
   });
 
   if (exportOptions.length > 0) {
-    exportOptions[0].classList.add('border-primary-500', 'dark:border-primary-400', 'bg-primary-50', 'dark:bg-primary-900');
+    exportOptions[0].classList.add(
+      "border-primary-500",
+      "dark:border-primary-400",
+      "bg-primary-50",
+      "dark:bg-primary-900",
+    );
   }
 }
 
@@ -156,32 +179,32 @@ function setupExportOptions() {
 // ======================
 
 function setupEditorToggle() {
-  const toggleEditorButton = document.getElementById('toggle-editor-button');
-  const editorColumn = document.getElementById('editor-column');
-  const diagramColumn = document.getElementById('diagram-column');
+  const toggleEditorButton = document.getElementById("toggle-editor-button");
+  const editorColumn = document.getElementById("editor-column");
+  const diagramColumn = document.getElementById("diagram-column");
 
   if (!toggleEditorButton || !editorColumn || !diagramColumn) {
-    console.error('Editor toggle elements not found!');
+    console.error("Editor toggle elements not found!");
     return;
   }
 
   // Initial state
-  editorColumn.classList.add('hidden');
-  diagramColumn.classList.add('lg:col-span-12');
-  diagramColumn.classList.remove('lg:col-span-8');
+  editorColumn.classList.add("hidden");
+  diagramColumn.classList.add("lg:col-span-12");
+  diagramColumn.classList.remove("lg:col-span-8");
   toggleEditorButton.innerHTML = '<i class="fas fa-code mr-2"></i> Show Editor';
 
   // Toggle handler
-  toggleEditorButton.addEventListener('click', function() {
-    editorColumn.classList.toggle('hidden');
-    diagramColumn.classList.toggle('lg:col-span-8');
-    diagramColumn.classList.toggle('lg:col-span-12');
+  toggleEditorButton.addEventListener("click", function () {
+    editorColumn.classList.toggle("hidden");
+    diagramColumn.classList.toggle("lg:col-span-8");
+    diagramColumn.classList.toggle("lg:col-span-12");
 
-    toggleEditorButton.innerHTML = editorColumn.classList.contains('hidden')
+    toggleEditorButton.innerHTML = editorColumn.classList.contains("hidden")
       ? '<i class="fas fa-code mr-2"></i> Show Editor'
       : '<i class="fas fa-eye-slash mr-2"></i> Hide Editor';
 
-    if (!editorColumn.classList.contains('hidden') && editor) {
+    if (!editorColumn.classList.contains("hidden") && editor) {
       editor.focus();
     }
 
@@ -205,16 +228,16 @@ function initializeEditor() {
       showPrintMargin: false,
       fontFamily: "'Fira Code', monospace",
       enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true
+      enableLiveAutocompletion: true,
     });
 
-    aceEditor.session.on('change', function() {
+    aceEditor.session.on("change", function () {
       const lineCount = aceEditor.session.getLength();
       const charCount = aceEditor.getValue().length;
 
       // Update line and character counts
-      const lineCountEl = document.getElementById('line-count');
-      const charCountEl = document.getElementById('char-count');
+      const lineCountEl = document.getElementById("line-count");
+      const charCountEl = document.getElementById("char-count");
       if (lineCountEl) lineCountEl.textContent = lineCount;
       if (charCountEl) charCountEl.textContent = charCount;
 
@@ -238,21 +261,21 @@ function initializeEditor() {
 
 let currentMatchIndex = 0;
 let totalMatches = 0;
-let searchTerm = '';
+let searchTerm = "";
 let matchedElements = [];
 
 function setupSearch() {
-  const clearSearchButton = document.getElementById('clear-search');
-  const searchInput = document.getElementById('search-svg-input');
-  const prevMatchButton = document.getElementById('prev-match');
-  const nextMatchButton = document.getElementById('next-match');
-  const searchResultsCount = document.getElementById('search-results-count');
+  const clearSearchButton = document.getElementById("clear-search");
+  const searchInput = document.getElementById("search-svg-input");
+  const prevMatchButton = document.getElementById("prev-match");
+  const nextMatchButton = document.getElementById("next-match");
+  const searchResultsCount = document.getElementById("search-results-count");
 
   // Clear search handler
   if (clearSearchButton) {
-    clearSearchButton.addEventListener('click', () => {
+    clearSearchButton.addEventListener("click", () => {
       if (searchInput) {
-        searchInput.value = '';
+        searchInput.value = "";
         clearSearchHighlights();
         resetSearchState();
       }
@@ -261,7 +284,7 @@ function setupSearch() {
 
   // Search input handler
   if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener("input", (e) => {
       searchTerm = e.target.value.trim();
       if (searchTerm) {
         performSearch(searchTerm);
@@ -272,29 +295,33 @@ function setupSearch() {
     });
 
     // Add keyboard navigation
-    searchInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
         navigateToMatch(currentMatchIndex + 1);
-      } else if (e.key === 'Escape') {
+      } else if (e.key === "Escape") {
         clearSearchHighlights();
         resetSearchState();
-        searchInput.value = '';
+        searchInput.value = "";
       }
     });
   }
 
   // Navigation buttons
   if (prevMatchButton) {
-    prevMatchButton.addEventListener('click', () => navigateToMatch(currentMatchIndex - 1));
+    prevMatchButton.addEventListener("click", () =>
+      navigateToMatch(currentMatchIndex - 1),
+    );
   }
 
   if (nextMatchButton) {
-    nextMatchButton.addEventListener('click', () => navigateToMatch(currentMatchIndex + 1));
+    nextMatchButton.addEventListener("click", () =>
+      navigateToMatch(currentMatchIndex + 1),
+    );
   }
 }
 
 function performSearch(term) {
-  const diagramPreview = document.getElementById('diagram-preview');
+  const diagramPreview = document.getElementById("diagram-preview");
   if (!diagramPreview) return;
 
   // Clear previous highlights
@@ -302,10 +329,12 @@ function performSearch(term) {
   matchedElements = [];
 
   // Find all text elements in the SVG
-  const textElements = diagramPreview.querySelectorAll('text, foreignObject div');
+  const textElements = diagramPreview.querySelectorAll(
+    "text, foreignObject div",
+  );
   const lowerTerm = term.toLowerCase();
 
-  textElements.forEach(element => {
+  textElements.forEach((element) => {
     const textContent = element.textContent || element.innerText;
     if (textContent.toLowerCase().includes(lowerTerm)) {
       matchedElements.push(element);
@@ -326,26 +355,27 @@ function performSearch(term) {
 function highlightMatches() {
   matchedElements.forEach((element, index) => {
     // Create highlight effect
-    const highlight = document.createElement('div');
-    highlight.className = 'search-highlight';
-    highlight.style.backgroundColor = 'rgba(234, 179, 8, 0.3)';
-    highlight.style.borderRadius = '4px';
-    highlight.style.padding = '0 2px';
-    highlight.style.margin = '0 -2px';
-    highlight.style.display = 'inline-block';
+    const highlight = document.createElement("div");
+    highlight.className = "search-highlight";
+    highlight.style.backgroundColor = "rgba(234, 179, 8, 0.3)";
+    highlight.style.borderRadius = "4px";
+    highlight.style.padding = "0 2px";
+    highlight.style.margin = "0 -2px";
+    highlight.style.display = "inline-block";
 
     // For foreignObject divs
-    if (element.tagName.toLowerCase() === 'div') {
+    if (element.tagName.toLowerCase() === "div") {
       const textNodes = findTextNodes(element);
-      textNodes.forEach(node => {
-        const span = document.createElement('span');
-        span.className = 'search-highlight';
-        span.style.backgroundColor = index === currentMatchIndex
-          ? 'rgba(234, 179, 8, 0.6)'
-          : 'rgba(234, 179, 8, 0.3)';
-        span.style.borderRadius = '4px';
-        span.style.padding = '0 2px';
-        span.style.margin = '0 -2px';
+      textNodes.forEach((node) => {
+        const span = document.createElement("span");
+        span.className = "search-highlight";
+        span.style.backgroundColor =
+          index === currentMatchIndex
+            ? "rgba(234, 179, 8, 0.6)"
+            : "rgba(234, 179, 8, 0.3)";
+        span.style.borderRadius = "4px";
+        span.style.padding = "0 2px";
+        span.style.margin = "0 -2px";
 
         const range = document.createRange();
         range.selectNode(node);
@@ -354,9 +384,11 @@ function highlightMatches() {
         span.appendChild(contents);
         range.insertNode(span);
       });
-    } else { // For SVG text elements
-      element.style.fill = index === currentMatchIndex ? '#f59e0b' : '#fbbf24';
-      element.style.fontWeight = index === currentMatchIndex ? 'bold' : 'normal';
+    } else {
+      // For SVG text elements
+      element.style.fill = index === currentMatchIndex ? "#f59e0b" : "#fbbf24";
+      element.style.fontWeight =
+        index === currentMatchIndex ? "bold" : "normal";
     }
   });
 }
@@ -367,12 +399,12 @@ function findTextNodes(element) {
     element,
     NodeFilter.SHOW_TEXT,
     null,
-    false
+    false,
   );
 
   let node;
-  while (node = walker.nextNode()) {
-    if (node.nodeValue.trim() !== '') {
+  while ((node = walker.nextNode())) {
+    if (node.nodeValue.trim() !== "") {
       textNodes.push(node);
     }
   }
@@ -399,9 +431,9 @@ function navigateToMatch(index) {
   const currentElement = matchedElements[currentMatchIndex];
   if (currentElement) {
     currentElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center'
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
     });
 
     // For SVG elements, we may need to pan/zoom
@@ -411,31 +443,39 @@ function navigateToMatch(index) {
       const centerY = bbox.y + bbox.height / 2;
 
       panZoomInstance.pan({
-        x: -centerX + document.getElementById('diagram-preview').clientWidth / panZoomInstance.getZoom() / 2,
-        y: -centerY + document.getElementById('diagram-preview').clientHeight / panZoomInstance.getZoom() / 2
+        x:
+          -centerX +
+          document.getElementById("diagram-preview").clientWidth /
+            panZoomInstance.getZoom() /
+            2,
+        y:
+          -centerY +
+          document.getElementById("diagram-preview").clientHeight /
+            panZoomInstance.getZoom() /
+            2,
       });
     }
   }
 }
 
 function updateSearchResultsDisplay() {
-  const searchResultsCount = document.getElementById('search-results-count');
+  const searchResultsCount = document.getElementById("search-results-count");
   if (searchResultsCount) {
     if (totalMatches > 0) {
       searchResultsCount.textContent = `${currentMatchIndex + 1}/${totalMatches}`;
-      searchResultsCount.classList.remove('hidden');
+      searchResultsCount.classList.remove("hidden");
     } else {
-      searchResultsCount.classList.add('hidden');
+      searchResultsCount.classList.add("hidden");
     }
   }
 }
 
 function clearSearchHighlights() {
-  const diagramPreview = document.getElementById('diagram-preview');
+  const diagramPreview = document.getElementById("diagram-preview");
   if (!diagramPreview) return;
 
   // Remove all highlight spans
-  diagramPreview.querySelectorAll('.search-highlight').forEach(highlight => {
+  diagramPreview.querySelectorAll(".search-highlight").forEach((highlight) => {
     const parent = highlight.parentNode;
     while (highlight.firstChild) {
       parent.insertBefore(highlight.firstChild, highlight);
@@ -444,9 +484,9 @@ function clearSearchHighlights() {
   });
 
   // Reset SVG text styles
-  diagramPreview.querySelectorAll('text').forEach(text => {
-    text.style.fill = '';
-    text.style.fontWeight = '';
+  diagramPreview.querySelectorAll("text").forEach((text) => {
+    text.style.fill = "";
+    text.style.fontWeight = "";
   });
 }
 
@@ -461,31 +501,30 @@ function resetSearchState() {
 // ======================
 
 function setupContextMenu() {
-  const diagramContextMenu = document.getElementById('diagram-context-menu');
-  const diagramPreview = document.getElementById('diagram-preview');
+  const diagramContextMenu = document.getElementById("diagram-context-menu");
+  const diagramPreview = document.getElementById("diagram-preview");
 
   // Gracefully handle missing elements
   if (!diagramContextMenu || !diagramPreview) {
-    console.warn('Context menu elements not found - feature disabled');
+    console.warn("Context menu elements not found - feature disabled");
     return;
   }
 
-  diagramPreview.addEventListener('contextmenu', function(e) {
+  diagramPreview.addEventListener("contextmenu", function (e) {
     e.preventDefault();
     diagramContextMenu.style.top = `${e.pageY}px`;
     diagramContextMenu.style.left = `${e.pageX}px`;
-    diagramContextMenu.classList.remove('hidden');
+    diagramContextMenu.classList.remove("hidden");
   });
 
-  document.addEventListener('click', function() {
-    diagramContextMenu.classList.add('hidden');
+  document.addEventListener("click", function () {
+    diagramContextMenu.classList.add("hidden");
   });
 }
 
 // ======================
 // Toast Notifications
 // ======================
-
 
 // ======================
 // Mermaid Functions
@@ -494,25 +533,34 @@ function setupContextMenu() {
 async function initializeMermaid() {
   try {
     if (!window.mermaid) {
-      const mermaidModule = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      const mermaidModule = await import(
+        "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+      );
       window.mermaid = mermaidModule.default;
     }
 
     const themeName = isLightMode ? "light" : "dark";
-    const themeConfig = configData.themes ? (configData.themes[themeName] || {}) : {};
+    const themeConfig = configData.themes
+      ? configData.themes[themeName] || {}
+      : {};
     const themeVariables = themeConfig.themeVariables || {};
 
-    let themeCSS = '';
+    let themeCSS = "";
     if (themeConfig.classDefs) {
-      themeCSS = themeConfig.classDefs.split('\n').map(line => {
-        const match = line.match(/^classDef\s+(\w+)\s+(.*)$/);
-        return match ? `.${match[1]} rect, .${match[1]} polygon, .${match[1]} path { ${match[2].replace(/,/g, ';')} }` : '';
-      }).join('\n');
+      themeCSS = themeConfig.classDefs
+        .split("\n")
+        .map((line) => {
+          const match = line.match(/^classDef\s+(\w+)\s+(.*)$/);
+          return match
+            ? `.${match[1]} rect, .${match[1]} polygon, .${match[1]} path { ${match[2].replace(/,/g, ";")} }`
+            : "";
+        })
+        .join("\n");
     }
 
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'base',
+      theme: "base",
       securityLevel: "loose",
       htmlLabels: true,
       maxTextSize: 500000000,
@@ -522,8 +570,8 @@ async function initializeMermaid() {
       flowchart: {
         useMaxWidth: true,
         htmlLabels: true,
-        curve: "basis"
-      }
+        curve: "basis",
+      },
     });
 
     mermaidInitialized = true;
@@ -538,11 +586,11 @@ async function initializeMermaid() {
 // ======================
 
 async function renderMermaidDiagram(code) {
-  const diagramPreview = document.getElementById('diagram-preview');
-  const spinnerOverlay = document.getElementById('spinner-overlay');
+  const diagramPreview = document.getElementById("diagram-preview");
+  const spinnerOverlay = document.getElementById("spinner-overlay");
 
   if (!diagramPreview || !spinnerOverlay) {
-    console.error('Diagram preview elements not found!');
+    console.error("Diagram preview elements not found!");
     return;
   }
 
@@ -557,19 +605,20 @@ async function renderMermaidDiagram(code) {
   }
 
   // Clear minimap if exists
-  const minimapContainer = document.querySelector('.minimap-container');
+  const minimapContainer = document.querySelector(".minimap-container");
   if (minimapContainer) {
-    minimapContainer.innerHTML = '<div id="minimap-viewport" class="absolute border-2 border-primary-500 dark:border-primary-400 opacity-50"></div>';
+    minimapContainer.innerHTML =
+      '<div id="minimap-viewport" class="absolute border-2 border-primary-500 dark:border-primary-400 opacity-50"></div>';
   }
 
   if (!code.trim()) {
     diagramPreview.innerHTML = `<p class="text-red-500">Diagram content is empty.</p>`;
-    spinnerOverlay.classList.add('hidden');
+    spinnerOverlay.classList.add("hidden");
     return;
   }
 
   // Show loading state
-  spinnerOverlay.classList.remove('hidden');
+  spinnerOverlay.classList.remove("hidden");
   diagramPreview.innerHTML = "";
 
   try {
@@ -577,24 +626,27 @@ async function renderMermaidDiagram(code) {
       await initializeMermaid();
     }
 
-    const { svg } = await mermaid.render('diagram', code);
+    const { svg } = await mermaid.render("diagram", code);
     diagramPreview.innerHTML = svg;
-    const svgElement = diagramPreview.querySelector('svg');
+    const svgElement = diagramPreview.querySelector("svg");
 
     if (!svgElement) {
       throw new Error("SVG element not found in rendered diagram");
     }
 
     // Style the SVG
-    svgElement.style.width = '100%';
-    svgElement.style.height = '100%';
-    svgElement.style.display = 'block';
+    svgElement.style.width = "100%";
+    svgElement.style.height = "100%";
+    svgElement.style.display = "block";
 
     // Set viewBox if not already set
-    if (!svgElement.getAttribute('viewBox')) {
+    if (!svgElement.getAttribute("viewBox")) {
       try {
         const bbox = svgElement.getBBox();
-        svgElement.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+        svgElement.setAttribute(
+          "viewBox",
+          `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`,
+        );
       } catch (e) {
         console.error("Couldn't set viewBox:", e);
       }
@@ -604,12 +656,11 @@ async function renderMermaidDiagram(code) {
     initializePanZoom(svgElement);
 
     // Initialize minimap if elements exist
-    if (document.getElementById('diagram-minimap')) {
+    if (document.getElementById("diagram-minimap")) {
       setTimeout(() => {
         initializeMinimap(svgElement);
       }, 300);
     }
-
   } catch (error) {
     console.error("Diagram rendering error:", error);
     diagramPreview.innerHTML = `
@@ -619,7 +670,7 @@ async function renderMermaidDiagram(code) {
       </div>
     `;
   } finally {
-    spinnerOverlay.classList.add('hidden');
+    spinnerOverlay.classList.add("hidden");
   }
 }
 
@@ -643,7 +694,7 @@ function initializePanZoom(svgElement) {
     minZoom: 0.1,
     maxZoom: 10,
     zoomScaleSensitivity: 0.4,
-    dblClickZoomEnabled: false
+    dblClickZoomEnabled: false,
   });
 
   // Update zoom level display
@@ -661,7 +712,7 @@ function initializePanZoom(svgElement) {
 
 function updateZoomLevel() {
   if (!panZoomInstance) return;
-  const zoomLevel = document.getElementById('zoom-level');
+  const zoomLevel = document.getElementById("zoom-level");
   if (zoomLevel) {
     zoomLevel.textContent = `${Math.round(panZoomInstance.getZoom() * 100)}%`;
   }
@@ -672,22 +723,22 @@ function updateZoomLevel() {
 // ======================
 
 function initializeMinimap(svgElement) {
-  const minimap = document.getElementById('diagram-minimap');
+  const minimap = document.getElementById("diagram-minimap");
   if (!minimap || !svgElement) {
-    console.warn('Minimap elements not found - feature disabled');
+    console.warn("Minimap elements not found - feature disabled");
     return;
   }
 
-  const minimapContainer = minimap.querySelector('.minimap-container');
-  const viewportIndicator = minimap.querySelector('#minimap-viewport');
+  const minimapContainer = minimap.querySelector(".minimap-container");
+  const viewportIndicator = minimap.querySelector("#minimap-viewport");
 
   if (!minimapContainer || !viewportIndicator) {
-    console.warn('Minimap container elements not found');
+    console.warn("Minimap container elements not found");
     return;
   }
 
   // Clear existing content
-  minimapContainer.innerHTML = '';
+  minimapContainer.innerHTML = "";
 
   // Get dimensions
   const bbox = svgElement.getBBox();
@@ -698,21 +749,24 @@ function initializeMinimap(svgElement) {
 
   // Calculate scale
   const scale = Math.min(
-    containerWidth / svgWidth * 0.9,
-    containerHeight / svgHeight * 0.9
+    (containerWidth / svgWidth) * 0.9,
+    (containerHeight / svgHeight) * 0.9,
   );
 
   // Create minimap SVG
-  const minimapSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  minimapSvg.setAttribute('width', '100%');
-  minimapSvg.setAttribute('height', '100%');
-  minimapSvg.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`);
+  const minimapSvg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg",
+  );
+  minimapSvg.setAttribute("width", "100%");
+  minimapSvg.setAttribute("height", "100%");
+  minimapSvg.setAttribute("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
   minimapSvg.style.transform = `scale(${scale})`;
-  minimapSvg.style.transformOrigin = '0 0';
+  minimapSvg.style.transformOrigin = "0 0";
 
   // Clone the diagram SVG
   const svgClone = svgElement.cloneNode(true);
-  svgClone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  svgClone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
   minimapSvg.appendChild(svgClone);
   minimapContainer.appendChild(minimapSvg);
 
@@ -722,7 +776,7 @@ function initializeMinimap(svgElement) {
 
     const zoom = panZoomInstance.getZoom();
     const pan = panZoomInstance.getPan();
-    const container = document.getElementById('diagram-preview');
+    const container = document.getElementById("diagram-preview");
 
     if (!container) return;
 
@@ -741,19 +795,19 @@ function initializeMinimap(svgElement) {
   }
 
   // Click to navigate
-  minimapContainer.addEventListener('click', (e) => {
+  minimapContainer.addEventListener("click", (e) => {
     if (!panZoomInstance) return;
 
     const rect = minimapContainer.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / containerWidth * svgWidth;
-    const y = (e.clientY - rect.top) / containerHeight * svgHeight;
+    const x = ((e.clientX - rect.left) / containerWidth) * svgWidth;
+    const y = ((e.clientY - rect.top) / containerHeight) * svgHeight;
 
-    const container = document.getElementById('diagram-preview');
+    const container = document.getElementById("diagram-preview");
     if (!container) return;
 
     panZoomInstance.pan({
       x: -x + container.clientWidth / panZoomInstance.getZoom() / 2,
-      y: -y + container.clientHeight / panZoomInstance.getZoom() / 2
+      y: -y + container.clientHeight / panZoomInstance.getZoom() / 2,
     });
   });
 
@@ -772,12 +826,12 @@ function initializeMinimap(svgElement) {
 // ======================
 
 function setupZoomControls() {
-  const zoomInButton = document.getElementById('zoom-in-button');
-  const zoomOutButton = document.getElementById('zoom-out-button');
-  const fitViewButton = document.getElementById('reset-zoom-button');
+  const zoomInButton = document.getElementById("zoom-in-button");
+  const zoomOutButton = document.getElementById("zoom-out-button");
+  const fitViewButton = document.getElementById("reset-zoom-button");
 
   if (zoomInButton) {
-    zoomInButton.addEventListener('click', () => {
+    zoomInButton.addEventListener("click", () => {
       if (panZoomInstance) {
         panZoomInstance.zoomIn();
         updateZoomLevel();
@@ -786,7 +840,7 @@ function setupZoomControls() {
   }
 
   if (zoomOutButton) {
-    zoomOutButton.addEventListener('click', () => {
+    zoomOutButton.addEventListener("click", () => {
       if (panZoomInstance) {
         panZoomInstance.zoomOut();
         updateZoomLevel();
@@ -795,7 +849,7 @@ function setupZoomControls() {
   }
 
   if (fitViewButton) {
-    fitViewButton.addEventListener('click', () => {
+    fitViewButton.addEventListener("click", () => {
       if (panZoomInstance) {
         panZoomInstance.fit();
         panZoomInstance.center();
@@ -811,8 +865,12 @@ function setupZoomControls() {
 
 async function loadDiagramFromURL() {
   const params = new URLSearchParams(window.location.search);
-  const rootName = params.get('root_name') || document.body.getAttribute("data-root-name");
-  const diagramName = params.get('diagramName') || params.get('diagram_name') || document.body.getAttribute("data-diagram-name");
+  const rootName =
+    params.get("root_name") || document.body.getAttribute("data-root-name");
+  const diagramName =
+    params.get("diagramName") ||
+    params.get("diagram_name") ||
+    document.body.getAttribute("data-diagram-name");
 
   if (!rootName || !diagramName) {
     showError("Missing diagram parameters in URL");
@@ -820,7 +878,9 @@ async function loadDiagramFromURL() {
   }
 
   try {
-    const response = await fetch(`/diagrams/${encodeURIComponent(rootName)}/${encodeURIComponent(diagramName)}`);
+    const response = await fetch(
+      `/diagrams/${encodeURIComponent(rootName)}/${encodeURIComponent(diagramName)}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
@@ -841,10 +901,10 @@ async function loadDiagramFromURL() {
 }
 
 function showError(message) {
-  const diagramPreview = document.getElementById('diagram-preview');
+  const diagramPreview = document.getElementById("diagram-preview");
 
   if (!diagramPreview) {
-    console.error('Diagram preview element not found!');
+    console.error("Diagram preview element not found!");
     return;
   }
 
@@ -862,8 +922,8 @@ function showError(message) {
 // ======================
 
 function setupAnimations() {
-  const animatedElements = document.querySelectorAll('[data-animate]');
-  animatedElements.forEach(el => {
+  const animatedElements = document.querySelectorAll("[data-animate]");
+  animatedElements.forEach((el) => {
     const delay = el.dataset.animate * 100;
     el.style.animationDelay = `${delay}ms`;
   });
@@ -874,14 +934,17 @@ function setupAnimations() {
 // ======================
 
 function setupResizeListener() {
-  window.addEventListener('resize', debounce(() => {
-    if (panZoomInstance) {
-      panZoomInstance.resize();
-      panZoomInstance.fit();
-      panZoomInstance.center();
-      updateZoomLevel();
-    }
-  }, 250));
+  window.addEventListener(
+    "resize",
+    debounce(() => {
+      if (panZoomInstance) {
+        panZoomInstance.resize();
+        panZoomInstance.fit();
+        panZoomInstance.center();
+        updateZoomLevel();
+      }
+    }, 250),
+  );
 }
 
 // ======================
@@ -889,18 +952,18 @@ function setupResizeListener() {
 // ======================
 
 function setupFullscreenButton() {
-  const fullscreenButton = document.getElementById('fullscreen-button');
+  const fullscreenButton = document.getElementById("fullscreen-button");
   if (!fullscreenButton) return;
 
-  fullscreenButton.addEventListener('click', toggleFullscreen);
+  fullscreenButton.addEventListener("click", toggleFullscreen);
 }
 
 function toggleFullscreen() {
-  const diagramPreview = document.getElementById('diagram-preview');
+  const diagramPreview = document.getElementById("diagram-preview");
   if (!diagramPreview) return;
 
   if (!document.fullscreenElement) {
-    diagramPreview.requestFullscreen().catch(err => {
+    diagramPreview.requestFullscreen().catch((err) => {
       console.error(`Error attempting to enable fullscreen: ${err.message}`);
     });
   } else {
@@ -914,7 +977,7 @@ function toggleFullscreen() {
 
 function debounce(func, wait) {
   let timeout;
-  return function() {
+  return function () {
     const context = this;
     const args = arguments;
     clearTimeout(timeout);
@@ -930,7 +993,7 @@ async function initializeApp() {
   try {
     // Load configuration
     try {
-      const res = await fetch('/config/config.json');
+      const res = await fetch("/config/config.json");
       if (res.ok) {
         configData = await res.json();
         console.log("✅ Config loaded:", configData);
@@ -968,9 +1031,8 @@ async function initializeApp() {
 
     // Show ready message
     setTimeout(() => {
-      window.app.showToast('Diagram editor ready!');
+      window.app.showToast("Diagram editor ready!");
     }, 1500);
-
   } catch (error) {
     console.error("Initialization error:", error);
     showError("Failed to initialize application. Please refresh the page.");
@@ -981,8 +1043,8 @@ async function initializeApp() {
 // Start the Application
 // ======================
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeApp);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
 } else {
   initializeApp();
 }
