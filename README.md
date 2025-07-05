@@ -28,16 +28,19 @@ npm run build:css
 ```
 
 ## Running locally
-Use Flask's built‑in server to start the app:
+Start the development server with:
 ```bash
 python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
-You can also visit [/about](http://127.0.0.1:8080/about) to view the running version and helpful links.
+Visit [/about](http://127.0.0.1:8080/about) for version info and links.
 
 ### Custom configuration
 Set the ``CONFIG_PATH`` environment variable to load an alternative
-``config.json`` file when running the app or tests.
+``config.json`` file when running the app or tests:
+```bash
+export CONFIG_PATH=/path/to/config.json
+```
 
 ## Project structure
 - `app.py` – application factory
