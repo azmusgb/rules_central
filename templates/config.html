@@ -8,16 +8,16 @@ Diagram Theme Manager – Rules Central
 {% block hero_subtitle %}Customize Mermaid diagram styles and themes with real-time preview{% endblock %}
 
 {% block content %}
-<section role="region" aria-label="Theme Manager" class="container mx-auto px-4 sm:px-6 py-8 bg-dark-900/80 rounded-2xl shadow-lg">
-<div class="relative min-h-screen bg-gray-900 text-white overflow-hidden">
+<section role="region" aria-label="Theme Manager" class="container mx-auto px-4 sm:px-6 py-8 glass-effect rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden">
+<div class="relative min-h-screen bg-gradient-to-br from-dark-950 to-dark-900 text-white overflow-hidden">
     <!-- Animated background elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 left-0 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl opacity-10 animate-float"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-10 animate-float animation-delay-2000"></div>
+        <div class="absolute top-0 left-0 w-64 h-64 bg-accent-purple rounded-full filter blur-3xl opacity-10 animate-float"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary-500 rounded-full filter blur-3xl opacity-10 animate-float animation-delay-2000"></div>
     </div>
 
     <!-- Main Content Container -->
-    <div class="container mx-auto px-4 py-8 relative z-10">
+    <div class="container mx-auto px-4 py-16 relative z-10">
         <div class="text-center mb-6">
           <h2 class="text-3xl font-bold text-white mb-2">Diagram Theme Manager</h2>
           <p class="text-gray-400">Customize and preview your Mermaid diagram themes.</p>
@@ -465,5 +465,52 @@ Diagram Theme Manager – Rules Central
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 
 <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+<style>
+:root {
+    --animation-duration: 0.6s;
+    --animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-effect {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.skeleton-loading {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.skeleton-loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: skeleton 1.5s infinite;
+}
+@keyframes skeleton {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+    animation: fadeInUp var(--animation-duration) var(--animation-easing) forwards;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.animate-modalIn {
+    animation: modalIn 0.4s var(--animation-easing) forwards;
+}
+</style>
 {% endblock %}
 
