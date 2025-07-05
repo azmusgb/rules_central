@@ -27,6 +27,8 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from config import Config
 
+LOGGER = logging.getLogger(__name__)
+
 # ------------------------------------------------------------------
 # Blueprint setup
 # ------------------------------------------------------------------
@@ -241,11 +243,20 @@ def serve_diagram(root_name, diagram_name):
         diagram_dir = os.path.join(current_app.config['DIAGRAMS_FOLDER'], safe_root)
         diagram_path = os.path.join(diagram_dir, safe_file)
         if not os.path.exists(diagram_path):
-            current_app.logger.error(f"File not found: {diagram_path}")
-            available_files = []
+            current_app.logger.error("File not found: %s", diagram_path)
+            available_files: list[str] = []
             if os.path.exists(diagram_dir):
                 available_files = os.listdir(diagram_dir)
-            abort(404, jsonify({'error': 'File not found', 'requested': safe_file, 'available': available_files}))
+            return (
+                jsonify(
+                    {
+                        "error": "File not found",
+                        "requested": safe_file,
+                        "available": available_files,
+                    }
+                ),
+                404,
+            )
         return send_from_directory(diagram_dir, safe_file)
     except Exception as e:
         current_app.logger.error(f"Error serving diagram: {str(e)}")
@@ -281,7 +292,7 @@ def serve_diagram_file(root_name, diagram_name):
         safe_file = secure_filename(diagram_name)
         dir_path = os.path.join(current_app.config['DIAGRAMS_FOLDER'], safe_root)
         if not os.path.exists(os.path.join(dir_path, safe_file)):
-            abort(404, "Diagram file not found")
+            return jsonify({"error": "Diagram file not found"}), 404
         return send_from_directory(dir_path, safe_file)
     except Exception as e:
         current_app.logger.error(f"File serve error: {str(e)}")

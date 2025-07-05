@@ -8,6 +8,8 @@ import servicemanager
 from waitress import serve
 from app import app  # Import your Flask app from your app module
 
+LOGGER = logging.getLogger(__name__)
+
 class WaitressService(win32serviceutil.ServiceFramework):
     """Run the Flask application as a Windows service via Waitress."""
 
@@ -36,10 +38,12 @@ class WaitressService(win32serviceutil.ServiceFramework):
             # Start Waitress. This call blocks until the service is stopped.
             serve(app, host="0.0.0.0", port=8081)
         except Exception as exc:  # pragma: no cover - platform specific
-            logging.exception("Waitress service failed: %s", exc)
+            LOGGER.exception("Waitress service failed: %s", exc)
         finally:
             # Wait until the stop signal is received
             win32event.WaitForSingleObject(self.hWaitStop, win32event.INFINITE)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    if os.name != "nt":  # pragma: no cover - Windows specific
+        raise SystemExit("This service can only run on Windows")
     win32serviceutil.HandleCommandLine(WaitressService)

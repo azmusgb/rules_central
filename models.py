@@ -15,8 +15,8 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     is_active = db.Column(db.Boolean, default=True)
 
-    def get_id(self):
-        """Return the user's id as a string."""
+    def get_id(self) -> str:
+        """Return the user's ID as a string."""
 
         return str(self.id)
 
