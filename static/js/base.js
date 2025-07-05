@@ -100,12 +100,43 @@ const initTheme = () => {
     });
 };
 
+let pageLoader;
 const hideLoader = () => {
-  const loader = document.getElementById("app-loader");
-  if (loader) {
-    loader.style.opacity = "0";
-    setTimeout(() => loader.remove(), 300);
+  pageLoader = document.getElementById("app-loader");
+  if (pageLoader) {
+    pageLoader.style.opacity = "0";
+    setTimeout(() => (pageLoader.style.display = "none"), 300);
   }
+};
+
+const showLoader = () => {
+  if (pageLoader) {
+    pageLoader.style.display = "flex";
+    requestAnimationFrame(() => {
+      pageLoader.style.opacity = "1";
+    });
+  }
+};
+
+const setupPageTransitions = () => {
+  document.querySelectorAll("a[href]").forEach((link) => {
+    const url = new URL(link.href, window.location.origin);
+    if (
+      link.target ||
+      url.origin !== window.location.origin ||
+      url.hash
+    ) {
+      return;
+    }
+    link.addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      showLoader();
+      setTimeout(() => {
+        window.location.href = link.href;
+      }, 200);
+    });
+  });
 };
 
 const registerServiceWorker = () => {
@@ -129,6 +160,7 @@ const registerServiceWorker = () => {
 const initBase = () => {
   hideLoader();
   initTheme();
+  setupPageTransitions();
   lazyLoadScripts();
   registerServiceWorker();
 };
