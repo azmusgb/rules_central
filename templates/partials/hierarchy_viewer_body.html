@@ -194,15 +194,4 @@ data-json="{{ url_for('routes.get_hierarchy_data',
 
 {# ─── helper classes used above (avoid repeating across projects) ─── #}
 
-<script type="module">
-    /* lightweight tab switcher (kept inline to avoid another file) */
-    document.addEventListener('click', e => {
-        if (!e.target.closest('.tab-btn')) return;
-        const btn = e.target.closest('.tab-btn');
-        btn.parentElement.querySelectorAll('.tab-btn')
-            .forEach(b => b.classList.toggle('is-active', b === btn));
-        document.querySelectorAll('.tab-panel')
-            .forEach(p => p.classList.toggle(
-                'is-active', p.id === btn.dataset.target.slice(1)));
-    });
-</script>
+<script type="module" src="{{ url_for('static', filename='js/hierarchy_viewer_tabs.js') }}"></script>

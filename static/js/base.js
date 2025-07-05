@@ -1,0 +1,124 @@
+// Global script for layout and theme management
+
+const loadScript = (src, attrs = {}) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.defer = true;
+    Object.entries(attrs).forEach(([key, value]) => {
+      script.setAttribute(key, value);
+    });
+    script.onload = resolve;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+};
+
+const lazyLoadScripts = () => {
+  const body = document.body;
+  const scripts = [
+    { src: 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js' },
+    { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2' },
+    { src: body.dataset.appUtilsUrl },
+    { src: body.dataset.appUrl }
+  ];
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const { src, ...attrs } = entry.target.dataset;
+          loadScript(src, attrs);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    scripts.forEach(script => {
+      const placeholder = document.createElement('div');
+      placeholder.dataset.src = script.src;
+      Object.entries(script).forEach(([key, value]) => {
+        if (key !== 'src') placeholder.dataset[key] = value;
+      });
+      placeholder.style.display = 'none';
+      document.body.appendChild(placeholder);
+      observer.observe(placeholder);
+    });
+  } else {
+    scripts.forEach(script => loadScript(script.src, script));
+  }
+};
+
+const initTheme = () => {
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const icon = btn?.querySelector('i');
+
+  const updateIcon = (theme) => {
+    if (!icon) return;
+    icon.classList.remove('fa-moon', 'fa-sun');
+    icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+  };
+
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const storedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+
+  html.setAttribute('data-theme', storedTheme);
+  if (storedTheme === 'dark') html.classList.add('dark');
+  updateIcon(storedTheme);
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const isDark = html.classList.toggle('dark');
+      const theme = isDark ? 'dark' : 'light';
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      updateIcon(theme);
+      document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }));
+    });
+  }
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const newTheme = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      if (newTheme === 'dark') {
+        html.classList.add('dark');
+      } else {
+        html.classList.remove('dark');
+      }
+      updateIcon(newTheme);
+    }
+  });
+};
+
+const hideLoader = () => {
+  const loader = document.getElementById('app-loader');
+  if (loader) {
+    loader.style.opacity = '0';
+    setTimeout(() => loader.remove(), 300);
+  }
+};
+
+const registerServiceWorker = () => {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(document.body.dataset.serviceWorkerUrl)
+        .then(registration => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
+};
+
+const initBase = () => {
+  hideLoader();
+  initTheme();
+  lazyLoadScripts();
+  registerServiceWorker();
+};
+
+document.addEventListener('DOMContentLoaded', initBase);

@@ -49,7 +49,11 @@
   {% block head %}{% endblock %}
 </head>
 
-<body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal" {% block body_attrs %}{% endblock %}>
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal"
+      data-app-utils-url="{{ url_for('static', filename='js/app-utils.js') }}"
+      data-app-url="{{ url_for('static', filename='js/app.js') }}"
+      data-service-worker-url="{{ url_for('static', filename='js/service-worker.js') }}"
+      {% block body_attrs %}{% endblock %}>
   <!-- Skip link for accessibility -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:ring-2 focus:ring-white">
     Skip to content
@@ -119,128 +123,7 @@
   {% include 'partials/footer.html' %}
 
   <!-- Global JS -->
-  <script>
-    // Load non-critical scripts with Intersection Observer
-    const loadScript = (src, attrs = {}) => {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.defer = true;
-        Object.entries(attrs).forEach(([key, value]) => {
-          script.setAttribute(key, value);
-        });
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-    };
-
-    // Load scripts when visible in viewport
-    const lazyLoadScripts = () => {
-      const scripts = [
-        { src: 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js' },
-        { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2' },
-        { src: "{{ url_for('static', filename='js/app-utils.js') }}" },
-        { src: "{{ url_for('static', filename='js/app.js') }}" }
-      ];
-
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const { src, ...attrs } = entry.target.dataset;
-              loadScript(src, attrs);
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { rootMargin: '200px' });
-
-        scripts.forEach(script => {
-          const placeholder = document.createElement('div');
-          placeholder.dataset.src = script.src;
-          Object.entries(script).forEach(([key, value]) => {
-            if (key !== 'src') placeholder.dataset[key] = value;
-          });
-          placeholder.style.display = 'none';
-          document.body.appendChild(placeholder);
-          observer.observe(placeholder);
-        });
-      } else {
-        // Fallback for browsers without IntersectionObserver
-        scripts.forEach(script => loadScript(script.src, script));
-      }
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Hide loader
-      const loader = document.getElementById('app-loader');
-      if (loader) {
-        loader.style.opacity = '0';
-        setTimeout(() => loader.remove(), 300);
-      }
-
-      // Theme management
-      const html = document.documentElement;
-      const btn = document.getElementById('theme-toggle');
-      const icon = btn?.querySelector('i');
-      
-      const updateIcon = (theme) => {
-        if (!icon) return;
-        icon.classList.remove('fa-moon', 'fa-sun');
-        icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
-      };
-      
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const storedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
-
-      html.setAttribute('data-theme', storedTheme);
-      if (storedTheme === 'dark') html.classList.add('dark');
-      updateIcon(storedTheme);
-
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const isDark = html.classList.toggle('dark');
-          const theme = isDark ? 'dark' : 'light';
-          html.setAttribute('data-theme', theme);
-          localStorage.setItem('theme', theme);
-          updateIcon(theme);
-
-          // Dispatch event for other components
-          document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme } }));
-        });
-      }
-
-      // Watch for system theme changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-          const newTheme = e.matches ? 'dark' : 'light';
-          html.setAttribute('data-theme', newTheme);
-          if (newTheme === 'dark') {
-            html.classList.add('dark');
-          } else {
-            html.classList.remove('dark');
-          }
-          updateIcon(newTheme);
-        }
-      });
-
-      // Lazy load non-critical scripts
-      lazyLoadScripts();
-    });
-
-    // Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('{{ url_for('static', filename='js/service-worker.js') }}')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-  </script>
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
   {% block scripts %}{% endblock %}
 </body>
