@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 /* =============================================================
  * Quantum Hierarchy Viewer – Enhanced Profile Module  •  v2.1
  * -------------------------------------------------------------
  * Author: William Rahe & AI Assistant  •  July 2025
- * 
+ *
  * Key Improvements:
  *  - Better code organization and structure
  *  - Enhanced documentation and comments
  *  - Consistent coding style
  *  - Improved error handling
  *  - Maintained all existing functionality
- * 
+ *
  * Responsibilities:
  *  • Persist user preferences (theme, history, favorites, layout, etc.)
  *  • Abstract localStorage access behind a stable API
@@ -46,22 +46,22 @@ export const PROFILE_UPDATED_EVENT = "qc:profile:updated";
  */
 const DEFAULT_PROFILE = Object.freeze({
   /* UI Preferences */
-  theme: "system",            // "light" | "dark" | "system"
+  theme: "system", // "light" | "dark" | "system"
   sidebarCollapsed: false,
   shortcutsEnabled: true,
 
   /* User Data */
-  searchHistory: [],          // Array<string>
-  favourites: [],             // Array<nodeId>
-  lastVisitedNodeId: null,    // string|null
+  searchHistory: [], // Array<string>
+  favourites: [], // Array<nodeId>
+  lastVisitedNodeId: null, // string|null
 
   /* Behavior Settings */
-  toastDuration: 2500,        // milliseconds
+  toastDuration: 2500, // milliseconds
   experimentalFeatures: false,
 
   /* Metadata */
   created: new Date().toISOString(),
-  updated: new Date().toISOString()
+  updated: new Date().toISOString(),
 });
 
 // ===================================================================
@@ -93,10 +93,9 @@ const safelyParseJSON = (json) => {
  * @param {Object} profile - Current profile data
  */
 const dispatchProfileUpdate = (profile) => {
-  window.dispatchEvent(new CustomEvent(
-    PROFILE_UPDATED_EVENT, 
-    { detail: profile }
-  ));
+  window.dispatchEvent(
+    new CustomEvent(PROFILE_UPDATED_EVENT, { detail: profile }),
+  );
 };
 
 /**
@@ -117,12 +116,12 @@ const writeToStorage = (data) => {
  */
 export function loadProfile() {
   const storedData = safelyParseJSON(localStorage.getItem(STORAGE_KEY));
-  
+
   if (!storedData) {
     writeToStorage(DEFAULT_PROFILE);
     return { ...DEFAULT_PROFILE };
   }
-  
+
   return { ...DEFAULT_PROFILE, ...storedData };
 }
 
@@ -132,10 +131,10 @@ export function loadProfile() {
  * @returns {Object|null} Saved profile or null on error
  */
 export function saveProfile(profileData) {
-  const completeProfile = { 
-    ...DEFAULT_PROFILE, 
-    ...profileData, 
-    updated: getCurrentTimestamp() 
+  const completeProfile = {
+    ...DEFAULT_PROFILE,
+    ...profileData,
+    updated: getCurrentTimestamp(),
   };
 
   try {
@@ -166,7 +165,7 @@ export function resetProfile() {
   const resetProfile = {
     ...DEFAULT_PROFILE,
     created: currentProfile.created, // Preserve original creation date
-    updated: getCurrentTimestamp()
+    updated: getCurrentTimestamp(),
   };
 
   writeToStorage(resetProfile);
@@ -184,13 +183,13 @@ export function resetProfile() {
  */
 export function getEffectiveTheme() {
   const { theme } = loadProfile();
-  
+
   if (theme === "system") {
-    return window.matchMedia("(prefers-color-scheme: light)").matches 
-      ? "light" 
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
       : "dark";
   }
-  
+
   return theme;
 }
 
@@ -201,7 +200,7 @@ export function getEffectiveTheme() {
 export function toggleTheme() {
   const currentTheme = loadProfile().theme;
   let nextTheme;
-  
+
   switch (currentTheme) {
     case "light":
       nextTheme = "dark";
@@ -212,7 +211,7 @@ export function toggleTheme() {
     default:
       nextTheme = "light";
   }
-  
+
   return updateProfile({ theme: nextTheme });
 }
 
@@ -227,13 +226,13 @@ export function toggleTheme() {
  */
 export function addSearchQuery(query) {
   const { searchHistory } = loadProfile();
-  
+
   // Deduplicate and limit history length
   const updatedHistory = [
     query,
-    ...searchHistory.filter(existingQuery => existingQuery !== query)
+    ...searchHistory.filter((existingQuery) => existingQuery !== query),
   ].slice(0, MAX_HISTORY_ENTRIES);
-  
+
   return updateProfile({ searchHistory: updatedHistory });
 }
 
@@ -248,13 +247,13 @@ export function addSearchQuery(query) {
  */
 export function addFavourite(nodeId) {
   const { favourites } = loadProfile();
-  
+
   if (favourites.includes(nodeId)) {
     return loadProfile(); // No change needed
   }
-  
-  return updateProfile({ 
-    favourites: [...favourites, nodeId] 
+
+  return updateProfile({
+    favourites: [...favourites, nodeId],
   });
 }
 
@@ -265,9 +264,9 @@ export function addFavourite(nodeId) {
  */
 export function removeFavourite(nodeId) {
   const { favourites } = loadProfile();
-  
+
   return updateProfile({
-    favourites: favourites.filter(id => id !== nodeId)
+    favourites: favourites.filter((id) => id !== nodeId),
   });
 }
 
@@ -280,7 +279,9 @@ export function removeFavourite(nodeId) {
  */
 window.addEventListener("storage", (event) => {
   if (event.key === STORAGE_KEY) {
-    const updatedProfile = safelyParseJSON(event.newValue) || { ...DEFAULT_PROFILE };
+    const updatedProfile = safelyParseJSON(event.newValue) || {
+      ...DEFAULT_PROFILE,
+    };
     dispatchProfileUpdate(updatedProfile);
   }
 });

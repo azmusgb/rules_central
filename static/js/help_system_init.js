@@ -1,13 +1,13 @@
 // Help system initialization and fallback
 
 function loadHelpScripts() {
-  const configEl = document.getElementById('help-system-config');
+  const configEl = document.getElementById("help-system-config");
   const url = configEl?.dataset.helpUrl;
   if (!url) return;
-  const script = document.createElement('script');
+  const script = document.createElement("script");
   script.src = url;
-  script.onerror = function() {
-    console.warn('Failed to load help_system.js, using fallback');
+  script.onerror = function () {
+    console.warn("Failed to load help_system.js, using fallback");
     initializeFallbackHelpSystem();
   };
   document.body.appendChild(script);
@@ -16,7 +16,7 @@ function loadHelpScripts() {
 // Inline fallback help content if external files fail to load
 window.helpContent = window.helpContent || {
   default: {
-    title: 'Help Center',
+    title: "Help Center",
     content: `
                 <div class="space-y-4">
                     <div class="p-3 bg-blue-900/20 rounded-lg">
@@ -39,30 +39,30 @@ window.helpContent = window.helpContent || {
                         </p>
                     </div>
                 </div>
-            `
-  }
+            `,
+  },
 };
 
 function initializeFallbackHelpSystem() {
-  const helpButton = document.getElementById('help-button');
-  const helpPanel = document.getElementById('help-panel');
-  const closeHelp = document.getElementById('close-help');
+  const helpButton = document.getElementById("help-button");
+  const helpPanel = document.getElementById("help-panel");
+  const closeHelp = document.getElementById("close-help");
 
   if (!helpButton || !helpPanel) return;
 
-  helpButton.addEventListener('click', function() {
-    helpPanel.classList.toggle('hidden');
-    helpPanel.classList.toggle('show');
-    document.getElementById('help-content-loaded').innerHTML =
+  helpButton.addEventListener("click", function () {
+    helpPanel.classList.toggle("hidden");
+    helpPanel.classList.toggle("show");
+    document.getElementById("help-content-loaded").innerHTML =
       window.helpContent.default.content;
   });
 
   if (closeHelp) {
-    closeHelp.addEventListener('click', function() {
-      helpPanel.classList.remove('show');
-      helpPanel.classList.add('hidden');
+    closeHelp.addEventListener("click", function () {
+      helpPanel.classList.remove("show");
+      helpPanel.classList.add("hidden");
     });
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadHelpScripts);
+document.addEventListener("DOMContentLoaded", loadHelpScripts);
