@@ -2,145 +2,155 @@
 
 {% block title %}Rules Central{% endblock %}
 
-{% block hero_title %}Rules Central{% endblock %}
+{% block meta %}
+<meta name="description" content="Comprehensive dashboard for managing and analyzing business rules with key metrics and visualization tools.">
+{% endblock %}
 
-{% block hero_subtitle %}Key metrics and insights about your rules ecosystem{% endblock %}
-{% block hero_cta %}
-<div class="mt-6">
-    <a href="/search" class="inline-block bg-primary-500 hover:bg-primary-400 text-white font-medium px-6 py-3 rounded-lg shadow-lg transition-colors">
-        Explore Dashboard
-    </a>
-</div>
+{% block hero %}
+<section aria-labelledby="hero-heading" class="hero-section">
+    <div class="container mx-auto px-4 py-20 text-center">
+        <h1 id="hero-heading" class="hero-title">Rules Central</h1>
+        <p class="hero-subtitle">Key metrics and insights about your rules ecosystem</p>
+        <div class="mt-8">
+            <a href="/search" class="hero-cta-btn">
+                Explore Dashboard
+                <span class="sr-only">Navigate to the dashboard explorer</span>
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block content %}
-<!-- Dashboard Overview -->
-{% set color_map = {
-    'primary': '#3b82f6',
-    'emerald': '#10b981',
-    'green': '#22c55e',
-    'purple': '#a78bfa'
-} %}
-<div class="container mx-auto px-4 py-12 relative z-10">
-    <!-- Metric Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="metricsContainer">
-        {% set metrics = [
-            ['fa-project-diagram', 'Diagrams Processed', 'diagramCount', 'primary', 75, 100],
-            ['fa-sitemap', 'Rules Extracted', 'rulesExtractedCount', 'emerald', 65, 200],
-            ['fa-tasks', 'Rules by Status', 'rulesStatusChart', 'green', 80, 300],
-            ['fa-history', 'Recent Changes', 'recentChangesCount', 'purple', 50, 400]
-        ] %}
-        {% for icon, label, id, color, progress, delay in metrics %}
-        {% set bar_color = color_map.get(color, '#3b82f6') %}
-        <div aria-atomic="true"
-             aria-live="polite"
-             class="glass-panel p-6 rounded-2xl dashboard-card animate-on-scroll"
-             data-metric-id="{{ id }}"
-             id="{{ id }}-card"
-             data-delay="{{ delay }}">
-            <div class="flex justify-center mb-4">
-                <i aria-hidden="true" class="fas {{ icon }} text-3xl stats-icon" style="color: {{ bar_color | e }};"></i>
-            </div>
-            <div class="metric-content">
-                <h2 class="text-4xl font-bold text-white mb-2" id="{{ id }}">
-                    <span class="sr-only">Loading</span>
-                    <span class="countup">0</span>
-                </h2>
-                <p class="text-gray-400">{{ label }}</p>
-                <div class="mt-4 h-2 bg-dark-700 rounded-full overflow-hidden">
-                    <div class="h-full progress-bar"
-                         style="width: {{ progress }}%; background-color: {{ bar_color }};">
+<!-- Performance Metrics Section -->
+<section aria-labelledby="metrics-heading" class="metrics-section">
+    <div class="container mx-auto px-4 py-12">
+        <h2 id="metrics-heading" class="section-heading sr-only">Performance Metrics</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="metricsContainer">
+            {% set metrics = [
+                ['fa-project-diagram', 'Diagrams Processed', 'diagramCount', 'primary', 75, 100],
+                ['fa-sitemap', 'Rules Extracted', 'rulesExtractedCount', 'emerald', 65, 200],
+                ['fa-tasks', 'Rules by Status', 'rulesStatusChart', 'green', 80, 300],
+                ['fa-history', 'Recent Changes', 'recentChangesCount', 'purple', 50, 400]
+            ] %}
+            
+            {% for icon, label, id, color, progress, delay in metrics %}
+            <div class="metric-card animate-on-scroll" 
+                 data-metric-id="{{ id }}"
+                 data-delay="{{ delay }}"
+                 aria-labelledby="{{ id }}-label {{ id }}-value">
+                <div class="metric-icon-container">
+                    <i class="fas {{ icon }} metric-icon" aria-hidden="true"></i>
+                </div>
+                <div class="metric-content">
+                    <span id="{{ id }}-label" class="metric-label">{{ label }}</span>
+                    <div class="metric-value-container">
+                        <span id="{{ id }}-value" class="metric-value" aria-live="polite">
+                            <span class="sr-only">Loading</span>
+                            <span class="countup">0</span>
+                        </span>
+                        <span class="metric-trend-indicator" data-trend="up">
+                            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                            <span class="sr-only">Increasing</span>
+                        </span>
+                    </div>
+                    <div class="metric-progress-container">
+                        <div class="metric-progress-bar" 
+                             style="--progress: {{ progress }}%; --progress-color: var(--color-{{ color }});"
+                             aria-hidden="true">
+                        </div>
+                        <span class="sr-only">Progress: {{ progress }}%</span>
                     </div>
                 </div>
-            </div>
-            <div class="metric-loading">
-                <div class="loading-spinner"></div>
-            </div>
-            <div class="metric-error hidden">
-                <div class="flex items-center justify-center gap-2 text-red-400">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>Failed to load</span>
+                <div class="metric-loading-state">
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <span class="sr-only">Loading {{ label }} data</span>
                 </div>
-                <button aria-label="Retry loading {{ label }}"
-                    class="retry-btn mt-2 text-sm"
-                    style="color: {{ bar_color }};">
-                <i class="fas fa-sync-alt mr-1"></i> Retry
-            </button>
+                <div class="metric-error-state">
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                        <span>Failed to load</span>
+                    </div>
+                    <button class="retry-btn" 
+                            aria-label="Retry loading {{ label }} data"
+                            data-metric="{{ id }}">
+                        <i class="fas fa-sync-alt" aria-hidden="true"></i> Retry
+                    </button>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
+</section>
 
 <!-- Features Section -->
-<section aria-labelledby="features-heading" class="container mx-auto px-4 py-16 relative z-10">
-    <div class="text-center mb-12">
-        <h2 id="features-heading" class="text-3xl font-bold mb-2 animate-on-scroll">Powerful Features</h2>
-        <p class="text-gray-400 animate-on-scroll" data-delay="100">Manage, analyze, and visualize rules efficiently</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {% set features = [
-            ['fa-upload', 'Create & Upload', 'Upload diagrams with validation', '/upload'],
-            ['fa-search', 'Explore & Analyze', 'Advanced query and visual tools', '/search'],
-            ['fa-tools', 'Tools & Utilities', 'Test and customize your rules', '/api_test_utility']
-        ] %}
-        {% for icon, title, desc, link in features %}
-        <div aria-labelledby="feature-{{ loop.index }}-title"
-             class="glass-panel p-6 rounded-2xl flex flex-col dashboard-card animate-on-scroll hover:transform hover:-translate-y-1 transition-transform duration-300"
-             role="region"
-             data-delay="{{ loop.index * 100 }}">
-            <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center feature-icon">
-                    <i aria-hidden="true" class="fas {{ icon }} text-primary-400 text-2xl"></i>
-                </div>
-            </div>
-            <h3 class="text-xl font-semibold text-white mb-2" id="feature-{{ loop.index }}-title">{{ title }}</h3>
-            <p class="text-gray-400 mb-6">{{ desc }}</p>
-            <a aria-label="Go to {{ title }}"
-               class="mt-auto text-primary-400 hover:text-primary-300 inline-flex items-center group transition-colors"
-               href="{{ link }}">
-                <span class="group-hover:underline">Explore feature</span>
-                <i aria-hidden="true" class="fas fa-chevron-right ml-2 transition-transform group-hover:translate-x-1"></i>
-            </a>
+<section aria-labelledby="features-heading" class="features-section">
+    <div class="container mx-auto px-4 py-16">
+        <div class="section-header">
+            <h2 id="features-heading" class="section-heading">Powerful Features</h2>
+            <p class="section-subheading">Manage, analyze, and visualize rules efficiently</p>
         </div>
-        {% endfor %}
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% set features = [
+                ['fa-upload', 'Create & Upload', 'Upload diagrams with automatic validation and processing', '/upload'],
+                ['fa-search', 'Explore & Analyze', 'Advanced query tools with visual rule exploration', '/search'],
+                ['fa-tools', 'Tools & Utilities', 'Comprehensive testing and customization utilities', '/api_test_utility']
+            ] %}
+            
+            {% for icon, title, desc, link in features %}
+            <article class="feature-card animate-on-scroll" data-delay="{{ loop.index * 100 }}">
+                <div class="feature-icon-container">
+                    <i class="fas {{ icon }}" aria-hidden="true"></i>
+                </div>
+                <h3 class="feature-title">{{ title }}</h3>
+                <p class="feature-description">{{ desc }}</p>
+                <a href="{{ link }}" class="feature-link" aria-label="Learn more about {{ title }}">
+                    Explore feature
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
 <!-- Quick Start Section -->
-<section aria-labelledby="quickstart-heading" class="container mx-auto px-4 py-16 relative z-10">
-    <div class="text-center mb-12">
-        <h2 id="quickstart-heading" class="text-3xl font-bold mb-2 animate-on-scroll">Get Started in Minutes</h2>
-        <p class="text-gray-400 animate-on-scroll" data-delay="100">Three simple steps to unleash the power of Rules Central</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {% set steps = [
-            ['fa-upload', 'Upload Diagrams', 'Import your diagrams or data using our upload tool'],
-            ['fa-magic', 'Extract Rules', 'Automatically generate rules from your diagrams'],
-            ['fa-chart-line', 'Visualize Results', 'Explore insights with interactive dashboards']
-        ] %}
-        {% for icon, title, desc in steps %}
-        <div class="glass-panel p-6 rounded-2xl flex flex-col items-center dashboard-card animate-on-scroll" role="region" data-delay="{{ loop.index * 100 }}">
-            <div class="flex justify-center mb-4">
-                <div class="w-14 h-14 bg-primary-500/20 rounded-full flex items-center justify-center feature-icon">
-                    <i aria-hidden="true" class="fas {{ icon }} text-primary-400 text-2xl"></i>
-                </div>
-            </div>
-            <h3 class="text-xl font-semibold text-white mb-2">{{ title }}</h3>
-            <p class="text-gray-400 text-center">{{ desc }}</p>
+<section aria-labelledby="quickstart-heading" class="quickstart-section">
+    <div class="container mx-auto px-4 py-16">
+        <div class="section-header">
+            <h2 id="quickstart-heading" class="section-heading">Get Started in Minutes</h2>
+            <p class="section-subheading">Three simple steps to unleash the power of Rules Central</p>
         </div>
-        {% endfor %}
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% set steps = [
+                ['fa-upload', '1. Upload Diagrams', 'Import your diagrams or data using our intuitive upload tool with automatic validation'],
+                ['fa-magic', '2. Extract Rules', 'Our system automatically processes and extracts rules from your diagrams'],
+                ['fa-chart-line', '3. Visualize Results', 'Explore insights with our interactive dashboards and reporting tools']
+            ] %}
+            
+            {% for icon, title, desc in steps %}
+            <div class="step-card animate-on-scroll" data-delay="{{ loop.index * 100 }}">
+                <div class="step-number">{{ loop.index }}</div>
+                <div class="step-icon-container">
+                    <i class="fas {{ icon }}" aria-hidden="true"></i>
+                </div>
+                <h3 class="step-title">{{ title }}</h3>
+                <p class="step-description">{{ desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
-
-<!-- Loading Overlay (for initial load) -->
-<div class="fixed inset-0 bg-dark-900/80 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none" id="globalLoader">
-    <div class="text-center">
-        <div class="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p class="text-gray-300">Loading Dashboard...</p>
+<!-- Loading Overlay -->
+<div id="globalLoader" class="loading-overlay" aria-live="assertive" aria-busy="true">
+    <div class="loading-content">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text">Loading Dashboard</p>
+        <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 </div>
 {% endblock %}
@@ -149,39 +159,96 @@
 {{ super() }}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize global loader
-    const globalLoader = document.getElementById('globalLoader');
-    if (globalLoader) {
-        globalLoader.classList.remove('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-            globalLoader.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => globalLoader.remove(), 300);
-        }, 1000);
-    }
-
-    // Initialize metrics
-    const loadMetrics = async () => {
-        const metricCards = document.querySelectorAll('[data-metric-id]');
-
+    // Performance metrics data
+    const METRICS_API_ENDPOINT = '/api/stats';
+    const METRIC_UPDATE_INTERVAL = 300000; // 5 minutes
+    
+    // Initialize loader
+    const initLoader = () => {
+        const loader = document.getElementById('globalLoader');
+        if (!loader) return;
+        
+        // Simulate progress for better UX
+        let progress = 0;
+        const progressBar = loader.querySelector('.loading-progress');
+        const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                    setTimeout(() => loader.remove(), 500);
+                }, 300);
+            }
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
+        }, 100);
+    };
+    
+    // Animate values with easing
+    const animateValue = (element, start, end, duration) => {
+        const startTime = performance.now();
+        const formatNumber = (num) => num.toLocaleString();
+        
+        const updateValue = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = progress < 0.5 
+                ? 2 * progress * progress 
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            
+            const currentValue = Math.floor(start + (end - start) * easedProgress);
+            element.textContent = formatNumber(currentValue);
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateValue);
+            } else {
+                element.textContent = formatNumber(end);
+            }
+        };
+        
+        requestAnimationFrame(updateValue);
+    };
+    
+    // Fetch metrics data
+    const fetchMetricsData = async () => {
         try {
-            // Fetch actual data from API
-            const response = await fetch('/api/stats');
-            if (!response.ok) throw new Error('Failed to fetch metrics');
-            const data = await response.json();
-
-            metricCards.forEach(card => {
-                const metricId = card.dataset.metricId;
+            const response = await fetch(METRICS_API_ENDPOINT, {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
+            
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to fetch metrics:', error);
+            throw error;
+        }
+    };
+    
+    // Update metric cards with data
+    const updateMetrics = (data) => {
+        const metricCards = document.querySelectorAll('[data-metric-id]');
+        
+        metricCards.forEach(card => {
+            const metricId = card.dataset.metricId;
+            const valueElement = card.querySelector('.metric-value .countup');
+            const loadingState = card.querySelector('.metric-loading-state');
+            const errorState = card.querySelector('.metric-error-state');
+            
+            try {
                 let value;
-                
                 switch(metricId) {
                     case 'diagramCount':
-                        value = data.diagramsProcessed;
+                        value = data.diagramsProcessed || 0;
                         break;
                     case 'rulesExtractedCount':
-                        value = data.rulesExtracted;
+                        value = data.rulesExtracted || 0;
                         break;
                     case 'rulesStatusChart':
-                        // Sum all status counts for the chart
                         value = Object.values(data.rules_by_status || {}).reduce((a, b) => a + b, 0);
                         break;
                     case 'recentChangesCount':
@@ -190,53 +257,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     default:
                         value = 0;
                 }
-
-                const countElement = card.querySelector('.countup');
-                const progressBar = card.querySelector('.progress-bar');
-
-                if (countElement && progressBar) {
-                    // Animate count up
-                    animateValue(countElement, 0, value, 2000);
-
-                    // Animate progress bar
-                    const targetWidth = progressBar.style.width;
-                    progressBar.style.width = '0%';
-                    setTimeout(() => {
-                        progressBar.style.width = targetWidth;
-                    }, 100);
-
-                    // Hide loading state
-                    const loadingEl = card.querySelector('.metric-loading');
-                    if (loadingEl) loadingEl.classList.add('hidden');
+                
+                // Animate the value
+                if (valueElement) {
+                    const currentValue = parseInt(valueElement.textContent.replace(/,/g, '')) || 0;
+                    animateValue(valueElement, currentValue, value, 1500);
                 }
-            });
-
-        } catch (error) {
-            console.error('Failed to load metrics:', error);
-            metricCards.forEach(card => {
-                const loadingEl = card.querySelector('.metric-loading');
-                const errorEl = card.querySelector('.metric-error');
-                if (loadingEl) loadingEl.classList.add('hidden');
-                if (errorEl) errorEl.classList.remove('hidden');
-            });
-        }
-    };
-
-    // Value animation helper
-    function animateValue(element, start, end, duration) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            element.textContent = Math.floor(progress * (end - start) + start).toLocaleString();
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
+                
+                // Update progress bar animation
+                const progressBar = card.querySelector('.metric-progress-bar');
+                if (progressBar) {
+                    progressBar.style.setProperty('--progress-animated', progressBar.style.getPropertyValue('--progress'));
+                }
+                
+                // Hide loading state
+                if (loadingState) loadingState.classList.add('hidden');
+                if (errorState) errorState.classList.add('hidden');
+                
+            } catch (error) {
+                console.error(`Error updating metric ${metricId}:`, error);
+                if (loadingState) loadingState.classList.add('hidden');
+                if (errorState) errorState.classList.remove('hidden');
             }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-
+        });
+    };
+    
     // Initialize intersection observer for scroll animations
     const initScrollAnimations = () => {
         const observer = new IntersectionObserver((entries) => {
@@ -247,116 +292,326 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { threshold: 0.1 });
-
+        
         document.querySelectorAll('.animate-on-scroll').forEach(el => {
             const delay = el.dataset.delay || 0;
             el.style.setProperty('--animation-delay', `${delay}ms`);
             observer.observe(el);
         });
     };
-
-    // Initialize everything
-    loadMetrics();
-    initScrollAnimations();
-
-    // Add retry functionality
-    document.querySelectorAll('.retry-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const card = btn.closest('.dashboard-card');
-            if (card) {
-                const loadingEl = card.querySelector('.metric-loading');
-                const errorEl = card.querySelector('.metric-error');
-                if (loadingEl) loadingEl.classList.remove('hidden');
-                if (errorEl) errorEl.classList.add('hidden');
-                loadMetrics();
+    
+    // Set up metric refresh
+    const setupMetricRefresh = () => {
+        let refreshTimer;
+        
+        const refreshMetrics = async () => {
+            try {
+                const data = await fetchMetricsData();
+                updateMetrics(data);
+            } catch (error) {
+                console.error('Failed to refresh metrics:', error);
+            } finally {
+                refreshTimer = setTimeout(refreshMetrics, METRIC_UPDATE_INTERVAL);
+            }
+        };
+        
+        // Initial load
+        refreshMetrics();
+        
+        // Clean up on page hide
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearTimeout(refreshTimer);
+            } else {
+                refreshMetrics();
             }
         });
-    });
+    };
+    
+    // Initialize retry functionality
+    const initRetryHandlers = () => {
+        document.querySelectorAll('.retry-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const metricId = btn.dataset.metric;
+                const card = btn.closest('.metric-card');
+                const loadingState = card?.querySelector('.metric-loading-state');
+                const errorState = card?.querySelector('.metric-error-state');
+                
+                if (loadingState) loadingState.classList.remove('hidden');
+                if (errorState) errorState.classList.add('hidden');
+                
+                try {
+                    const data = await fetchMetricsData();
+                    updateMetrics(data);
+                } catch (error) {
+                    if (loadingState) loadingState.classList.add('hidden');
+                    if (errorState) errorState.classList.remove('hidden');
+                }
+            });
+        });
+    };
+    
+    // Initialize everything
+    initLoader();
+    initScrollAnimations();
+    setupMetricRefresh();
+    initRetryHandlers();
+    
+    // Load initial data
+    fetchMetricsData()
+        .then(updateMetrics)
+        .catch(error => {
+            console.error('Initial metrics load failed:', error);
+            document.querySelectorAll('.metric-error-state').forEach(el => {
+                el.classList.remove('hidden');
+            });
+        });
 });
 </script>
 
 <style>
-    /* Animation styles */
-    .animate-on-scroll {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        transition-delay: var(--animation-delay, 0ms);
-    }
+:root {
+    /* Color variables */
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-emerald: #10b981;
+    --color-green: #22c55e;
+    --color-purple: #a78bfa;
+    --color-dark-800: #1e293b;
+    --color-dark-700: #334155;
+    --color-dark-600: #475569;
+    --color-gray-400: #94a3b8;
+    --color-gray-300: #cbd5e1;
+    
+    /* Animation variables */
+    --animation-duration: 0.6s;
+    --animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-    .animate-on-scroll.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Base styles */
+.section-header {
+    @apply text-center mb-12;
+}
 
-    /* Metric card styles */
-    .dashboard-card {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.3s ease;
-    }
+.section-heading {
+    @apply text-3xl font-bold mb-2 text-white;
+}
 
-    .dashboard-card:hover {
-        border-color: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-    }
+.section-subheading {
+    @apply text-gray-400 max-w-2xl mx-auto;
+}
 
-    .stats-icon {
-        transition: transform 0.3s ease;
-    }
+/* Hero section styles */
+.hero-section {
+    @apply bg-gradient-to-r from-dark-800 to-dark-700 py-24 relative overflow-hidden;
+}
 
-    .dashboard-card:hover .stats-icon {
-        transform: scale(1.1) rotate(10deg);
-    }
+.hero-title {
+    @apply text-5xl md:text-6xl font-bold text-white mb-4;
+}
 
-    .progress-bar {
-        transition: width 1.5s ease-out;
-    }
+.hero-subtitle {
+    @apply text-xl text-gray-300 max-w-2xl mx-auto;
+}
 
-    /* Loading states */
-    .metric-loading {
-        position: absolute;
-        inset: 0;
-        background: rgba(15, 23, 42, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-    }
+.hero-cta-btn {
+    @apply inline-block bg-primary-500 hover:bg-primary-400 text-white font-medium px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800;
+}
 
-    .loading-spinner {
-        width: 2rem;
-        height: 2rem;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #3b82f6;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
+/* Metric card styles */
+.metrics-section {
+    @apply relative;
+}
 
-    .metric-error {
-        position: absolute;
-        inset: 0;
-        background: rgba(15, 23, 42, 0.9);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 3;
-    }
+.metric-card {
+    @apply bg-dark-700 border border-gray-800 rounded-xl p-6 relative overflow-hidden transition-all duration-300 hover:border-primary-500 hover:shadow-lg;
+    opacity: 0;
+    transform: translateY(20px);
+}
 
-    /* Feature icons */
-    .feature-icon {
-        transition: all 0.3s ease;
-    }
+.metric-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--animation-duration) var(--animation-easing), 
+                transform var(--animation-duration) var(--animation-easing);
+    transition-delay: var(--animation-delay, 0ms);
+}
 
-    .dashboard-card:hover .feature-icon {
-        transform: scale(1.1);
-        background-color: rgba(59, 130, 246, 0.3);
-    }
+.metric-icon-container {
+    @apply w-12 h-12 rounded-full bg-opacity-20 flex items-center justify-center mb-4;
+    background-color: var(--metric-color, var(--color-primary));
+}
 
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
+.metric-icon {
+    @apply text-2xl;
+    color: var(--metric-color, var(--color-primary));
+}
+
+.metric-label {
+    @apply text-gray-400 text-sm font-medium block mb-1;
+}
+
+.metric-value-container {
+    @apply flex items-baseline gap-2 mb-2;
+}
+
+.metric-value {
+    @apply text-3xl font-bold text-white;
+}
+
+.metric-trend-indicator {
+    @apply text-xs px-2 py-1 rounded-full bg-opacity-20 flex items-center;
+    background-color: var(--color-emerald);
+    color: var(--color-emerald);
+}
+
+.metric-progress-container {
+    @apply h-2 bg-dark-600 rounded-full overflow-hidden mt-4;
+}
+
+.metric-progress-bar {
+    @apply h-full rounded-full;
+    width: 0%;
+    background-color: var(--progress-color, var(--color-primary));
+    transition: width 1.5s var(--animation-easing);
+}
+
+.metric-card:hover .metric-progress-bar {
+    width: var(--progress-animated, var(--progress, 0%));
+}
+
+.metric-loading-state {
+    @apply absolute inset-0 bg-dark-800 bg-opacity-90 flex items-center justify-center;
+}
+
+.metric-error-state {
+    @apply absolute inset-0 bg-dark-800 bg-opacity-90 flex flex-col items-center justify-center hidden;
+}
+
+.retry-btn {
+    @apply mt-2 text-sm text-primary-500 hover:text-primary-400 transition-colors;
+}
+
+/* Feature card styles */
+.features-section {
+    @apply bg-dark-800 bg-opacity-50;
+}
+
+.feature-card {
+    @apply bg-dark-700 border border-gray-800 rounded-xl p-8 flex flex-col h-full transition-all duration-300 hover:border-primary-500 hover:shadow-lg;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.feature-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--animation-duration) var(--animation-easing), 
+                transform var(--animation-duration) var(--animation-easing);
+    transition-delay: var(--animation-delay, 0ms);
+}
+
+.feature-icon-container {
+    @apply w-16 h-16 rounded-full bg-primary-500 bg-opacity-20 flex items-center justify-center mb-6 text-primary-400 text-2xl transition-all duration-300;
+}
+
+.feature-card:hover .feature-icon-container {
+    @apply bg-opacity-30 transform scale-110;
+}
+
+.feature-title {
+    @apply text-xl font-semibold text-white mb-3;
+}
+
+.feature-description {
+    @apply text-gray-400 mb-6 flex-grow;
+}
+
+.feature-link {
+    @apply text-primary-400 hover:text-primary-300 inline-flex items-center group transition-colors mt-auto;
+}
+
+.feature-link i {
+    @apply transition-transform duration-300 ml-2;
+}
+
+.feature-link:hover i {
+    @apply transform translate-x-1;
+}
+
+/* Quick start section styles */
+.quickstart-section {
+    @apply bg-dark-900;
+}
+
+.step-card {
+    @apply bg-dark-700 border border-gray-800 rounded-xl p-8 text-center relative overflow-hidden transition-all duration-300 hover:shadow-lg;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.step-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--animation-duration) var(--animation-easing), 
+                transform var(--animation-duration) var(--animation-easing);
+    transition-delay: var(--animation-delay, 0ms);
+}
+
+.step-number {
+    @apply absolute top-4 right-4 text-4xl font-bold text-gray-800;
+}
+
+.step-icon-container {
+    @apply w-16 h-16 rounded-full bg-primary-500 bg-opacity-20 flex items-center justify-center mx-auto mb-6 text-primary-400 text-2xl;
+}
+
+.step-title {
+    @apply text-xl font-semibold text-white mb-3;
+}
+
+.step-description {
+    @apply text-gray-400;
+}
+
+/* Loading overlay styles */
+.loading-overlay {
+    @apply fixed inset-0 bg-dark-900 bg-opacity-90 flex items-center justify-center z-50 transition-opacity duration-500;
+}
+
+.loading-content {
+    @apply text-center max-w-xs;
+}
+
+.loading-spinner {
+    @apply w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4;
+}
+
+.loading-text {
+    @apply text-gray-300 mb-2;
+}
+
+.loading-progress {
+    @apply h-1 bg-gray-800 rounded-full overflow-hidden;
+}
+
+.loading-progress::after {
+    @apply block h-full bg-primary-500;
+    content: '';
+}
+
+.fade-out {
+    @apply opacity-0 pointer-events-none;
+}
+
+/* Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 {% endblock %}
