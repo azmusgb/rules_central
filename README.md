@@ -45,7 +45,6 @@ export CONFIG_PATH=/path/to/config.json
 ## Project structure
 - `app.py` – application factory
 - `routes/` – blueprints and route handlers
-- `services/` – backend services
 - `templates/` – Jinja2 templates
 - `static/` – static assets
 
