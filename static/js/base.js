@@ -157,12 +157,24 @@ const registerServiceWorker = () => {
   }
 };
 
+const updateScrollProgress = () => {
+  const progress = document.getElementById("scroll-progress");
+  if (!progress) return;
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const docHeight =
+    document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progress.style.width = `${percent}%`;
+};
+
 const initBase = () => {
   hideLoader();
   initTheme();
   setupPageTransitions();
   lazyLoadScripts();
   registerServiceWorker();
+  updateScrollProgress();
+  window.addEventListener("scroll", updateScrollProgress);
 };
 
 document.addEventListener("DOMContentLoaded", initBase);
