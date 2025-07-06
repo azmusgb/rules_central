@@ -167,6 +167,14 @@ const updateScrollProgress = () => {
   progress.style.width = `${percent}%`;
 };
 
+const disableAnimationsForReducedMotion = () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll(".particle").forEach((el) => {
+      el.style.animation = "none";
+    });
+  }
+};
+
 const initBase = () => {
   hideLoader();
   initTheme();
@@ -175,6 +183,7 @@ const initBase = () => {
   registerServiceWorker();
   updateScrollProgress();
   window.addEventListener("scroll", updateScrollProgress);
+  disableAnimationsForReducedMotion();
 };
 
 document.addEventListener("DOMContentLoaded", initBase);
