@@ -47,6 +47,7 @@ document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
       "dark:text-primary-400",
       "font-medium",
     );
+    link.setAttribute("aria-current", "page");
     const underline = link.querySelector("span:last-child");
     if (underline) underline.classList.add("w-4/5", "left-[10%]");
   }
