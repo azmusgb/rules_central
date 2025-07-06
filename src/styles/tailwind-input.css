@@ -32,7 +32,21 @@
 @layer components {
   /* Panel/Card */
   .panel-card {
-    @apply bg-dark-800 border border-slate-700 rounded-xl p-4 shadow transition-shadow duration-200;
+    /* Glass‑card aesthetic */
+    @apply bg-dark-800/80 backdrop-blur-lg border border-white/5 rounded-2xl p-6 shadow-lg shadow-black/40 transition-transform duration-300;
+  }
+
+  .panel-card:hover {
+    @apply -translate-y-1 shadow-2xl;
+  }
+
+  /* Generic glass card — reuse anywhere */
+  .glass-card {
+    @apply bg-dark-800/80 backdrop-blur-lg border border-white/5 rounded-2xl p-6 shadow-lg shadow-black/40 transition-transform duration-300;
+  }
+
+  .glass-card:hover {
+    @apply -translate-y-1 shadow-2xl;
   }
 
   .card-header {
@@ -90,7 +104,7 @@
   }
 
   .hover-lift:hover {
-    @apply -translate-y-1 shadow-lg;
+    @apply -translate-y-2 shadow-2xl;
   }
 
   /* Magnetic button (for subtle hover effect) */
@@ -153,6 +167,14 @@
   /* Sidebar safe-bottom padding to avoid footer overlap */
   .pb-sidebar-footer {
     @apply pb-44;
+  }
+}
+
+/* Gradient‑text fallback (if background‑clip not supported) */
+@supports not (-webkit-background-clip: text) {
+  .gradient-text {
+    background: none;
+    color: #a855f7; /* primary‑400 */
   }
 }
 
