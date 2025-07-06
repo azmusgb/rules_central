@@ -12,6 +12,19 @@ from flask_login import current_user
 from config import load_configurations, Config
 from werkzeug.utils import secure_filename
 
+__all__ = [
+    "allowed_file",
+    "ensure_directory_exists",
+    "load_and_sanitize_json",
+    "generate_files",
+    "log_activity",
+    "diagram_type_from_filename",
+    "get_snippet",
+    "get_current_user",
+    "initialize_directories",
+    "get_help_topics",
+]
+
 # Load configurations
 CONFIG = load_configurations()
 
@@ -37,6 +50,7 @@ def ensure_directory_exists(directory: str | Path) -> None:
             LOGGER.info("Created directory: %s", directory)
         except OSError as exc:
             LOGGER.error("Failed to create directory %s: %s", directory, exc)
+            raise
 
 
 def get_file_metadata(filepath: str | Path) -> Dict[str, float]:

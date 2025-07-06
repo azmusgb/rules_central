@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
+__all__ = ["db", "login_manager", "migrate"]
+
 # Instantiate the core extensions. These will be initialized with the Flask
 # application in the factory defined in ``app.py``.
 db = SQLAlchemy()

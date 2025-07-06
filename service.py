@@ -1,6 +1,7 @@
 """Windows service wrapper for running the Flask app with Waitress."""
 
 import logging
+import os
 import win32serviceutil
 import win32service
 import win32event
@@ -9,6 +10,8 @@ from waitress import serve
 from app import app  # Import your Flask app from your app module
 
 LOGGER = logging.getLogger(__name__)
+
+__all__ = ["WaitressService"]
 
 class WaitressService(win32serviceutil.ServiceFramework):
     """Run the Flask application as a Windows service via Waitress."""
