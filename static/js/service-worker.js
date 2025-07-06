@@ -2,8 +2,7 @@ const CACHE_NAME = "rules-central-v1";
 const URLS_TO_CACHE = [
   "/",
   "/static/css/tailwind.css",
-  "/static/css/main.css",
-  "/static/css/overhaul.css",
+  "/static/css/app.css",
   "/static/js/app.js",
   "/static/js/app-utils.js",
 ];
