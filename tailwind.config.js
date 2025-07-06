@@ -16,6 +16,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter", "Plus Jakarta Sans", "sans-serif"],
+        heading: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+        mono: ["Fira Code", "monospace"],
+      },
       colors: {
         primary: {
           400: "#60a5fa",
