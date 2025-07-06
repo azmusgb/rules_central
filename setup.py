@@ -17,6 +17,8 @@ def parse_requirements(path: Path) -> list[str]:
 BASE_DIR = Path(__file__).parent
 README = (BASE_DIR / "README.md").read_text(encoding="utf-8")
 
+__all__ = ["main"]
+
 def main() -> None:
     """Package the project using :mod:`setuptools`."""
     setup(

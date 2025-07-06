@@ -20,6 +20,8 @@ load_dotenv()
 
 LOGGER = logging.getLogger(__name__)
 
+__all__ = ["create_app", "ensure_directories", "app"]
+
 
 def create_app() -> Flask:
     """Factory function to create and configure the Flask application."""

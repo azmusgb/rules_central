@@ -3,6 +3,8 @@
 from extensions import db
 from flask_login import UserMixin
 
+__all__ = ["User", "Diagram"]
+
 
 class User(db.Model, UserMixin):
     """Application user model."""
