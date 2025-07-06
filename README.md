@@ -9,6 +9,7 @@ It provides tools to upload diagrams, analyze rules, and collaborate with others
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
+- **Clean typography** using custom fonts
 
 ## Requirements
 - Python 3.10+
