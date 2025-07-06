@@ -27,6 +27,8 @@ Build CSS assets (optional):
 npm install
 npm run build:css
 ```
+The compiled stylesheet is saved to `static/css/app.css`. It contains the
+combined rules from the old `main.css` and `overhaul.css` files.
 
 ## Running locally
 Start the development server with:
