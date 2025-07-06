@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 from flask import Flask
-from flask_material import Material
 from flask_assets import Environment
 from markdown import markdown
 
@@ -18,7 +17,7 @@ from routes import all_blueprints
 # -------------------------------------------------------------------
 load_dotenv()
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("rules_central")
 
 __all__ = ["create_app", "ensure_directories", "app"]
 
@@ -28,12 +27,11 @@ def create_app() -> Flask:
     LOGGER.debug("Initializing Flask application")
     app = Flask(__name__, static_folder="static", static_url_path="/static")
 
-    # ─── Basic configuration ────────────────────────────────────────
+    # ─── Basic configuration ───────────────────────────────────────
     app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
     app.config["VERSION"] = "1.0"
 
     # ─── Extensions ────────────────────────────────────────────────
-    material = Material(app)
     _assets = Environment(app)
 
     # ─── Paths ─────────────────────────────────────────────────────
@@ -41,11 +39,10 @@ def create_app() -> Flask:
     app.config["DIAGRAMS_FOLDER"] = os.path.abspath(
         os.getenv("DIAGRAMS_FOLDER", "diagrams")
     )
-    app.config["MATERIAL"] = material
 
     # ─── Filters & Globals ─────────────────────────────────────────
     @app.template_filter("markdown")
-    def _render_markdown(text: str) -> str:  # noqa: ANN001
+    def _render_markdown(text: str) -> str:
         """Render Markdown inside templates."""
         return markdown(text)
 
@@ -61,12 +58,11 @@ def create_app() -> Flask:
         def _now(fmt: str | None = None):
             ts = datetime.now(timezone.utc)
             return ts if fmt is None else ts.strftime(fmt)
-
         return {"now": _now}
 
     # ─── Logging ───────────────────────────────────────────────────
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
     Config.ensure_data_dir()
@@ -80,8 +76,9 @@ def create_app() -> Flask:
         app.register_blueprint(bp)
     try:
         app.config.update(load_configurations())
-    except Exception as exc:  # pragma: no cover - config errors rarely occur
-        app.logger.error("Configuration load failed: %s", exc)
+    except Exception as exc:
+        LOGGER.error("Configuration load failed: %s", exc)
+        raise
 
     return app
 
@@ -96,9 +93,9 @@ def ensure_directories(app: Flask) -> None:
     for path in required_dirs:
         try:
             os.makedirs(path, exist_ok=True)
-            app.logger.info("Directory verified: %s", path)
+            LOGGER.info("Directory verified: %s", path)
         except OSError as exc:
-            app.logger.error("Failed to create directory %s: %s", path, exc)
+            LOGGER.error("Failed to create directory %s: %s", path, exc)
             raise
 
 
@@ -108,5 +105,5 @@ def ensure_directories(app: Flask) -> None:
 app = create_app()
 
 if __name__ == "__main__":
-    app.logger.info("Starting Flask Application on http://127.0.0.1:8080")
+    LOGGER.info("Starting Flask Application on http://127.0.0.1:8080")
     app.run(debug=True, host="127.0.0.1", port=8080)

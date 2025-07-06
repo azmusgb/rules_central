@@ -6,28 +6,39 @@
 {% block hero_subtitle %}Quick answers to common questions about Rules Central{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-12 relative z-10">
+<div class="container mx-auto px-4 py-16 relative z-10">
     <div class="max-w-3xl mx-auto space-y-8">
-        <div>
-            <h2 class="text-xl font-semibold text-white mb-2">What is Rules Central?</h2>
-            <p class="text-slate-300">Rules Central is a platform for managing, analyzing, and visualizing business rules through diagrams.</p>
+        {% set faqs = [
+            [
+                'What is Rules Central?',
+                'Rules Central is a platform for managing, analyzing, and visualizing business rules through diagrams.'
+            ],
+            [
+                'How do I upload a diagram?',
+                'Navigate to the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page and drag & drop your JSON files or select them from your computer.'
+            ],
+            [
+                'How do I extract rules from FormWorks documents?',
+                'Use the <a href="/rules_extraction_utility" class="text-primary-400 hover:underline">Rules Extraction Utility</a> to process FormWorks documents and generate diagrams.'
+            ],
+            [
+                'Can I customize diagram themes?',
+                'Yes. Visit the <a href="/config" class="text-primary-400 hover:underline">Theme Manager</a> to create or modify themes for your diagrams.'
+            ],
+            [
+                'Where can I get additional support?',
+                'Check the <a href="/full-help" class="text-primary-400 hover:underline">full documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.'
+            ]
+        ] %}
+        {% for question, answer in faqs %}
+        <div class="faq-card bg-dark-800/80 border border-dark-700/60 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 animate-fadeIn">
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fas fa-question-circle text-primary-400 text-xl"></i>
+                <h2 class="text-2xl font-bold text-white">{{ question }}</h2>
+            </div>
+            <p class="text-slate-300 text-lg" >{{ answer|safe }}</p>
         </div>
-        <div>
-            <h2 class="text-xl font-semibold text-white mb-2">How do I upload a diagram?</h2>
-            <p class="text-slate-300">Navigate to the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page and drag & drop your JSON files or select them from your computer.</p>
-        </div>
-        <div>
-            <h2 class="text-xl font-semibold text-white mb-2">How do I extract rules from FormWorks documents?</h2>
-            <p class="text-slate-300">Use the <a href="/rules_extraction_utility" class="text-primary-400 hover:underline">Rules Extraction Utility</a> to process FormWorks documents and generate diagrams.</p>
-        </div>
-        <div>
-            <h2 class="text-xl font-semibold text-white mb-2">Can I customize diagram themes?</h2>
-            <p class="text-slate-300">Yes. Visit the <a href="/config" class="text-primary-400 hover:underline">Theme Manager</a> to create or modify themes for your diagrams.</p>
-        </div>
-        <div>
-            <h2 class="text-xl font-semibold text-white mb-2">Where can I get additional support?</h2>
-            <p class="text-slate-300">Check the <a href="/full-help" class="text-primary-400 hover:underline">full documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.</p>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

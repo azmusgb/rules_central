@@ -49,7 +49,7 @@
   {% block head %}{% endblock %}
 </head>
 
-<body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal"
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-dark-950 to-dark-900 text-slate-300 font-sans antialiased leading-relaxed tracking-normal relative"
       data-app-utils-url="{{ url_for('static', filename='js/app-utils.js') }}"
       data-app-url="{{ url_for('static', filename='js/app.js') }}"
       data-service-worker-url="{{ url_for('static', filename='js/service-worker.js') }}"
@@ -62,7 +62,7 @@
   <!-- App loading indicator -->
   <div id="app-loader" class="fixed inset-0 z-[9999] bg-dark-900 flex items-center justify-center transition-opacity duration-300" role="status" aria-live="polite">
     <div class="animate-pulse flex flex-col items-center">
-      <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-purple rounded-xl flex items-center justify-center mb-4 animate-spin-slow">
+      <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-purple rounded-xl flex items-center justify-center mb-4 animate-spin-slow shadow-2xl">
         <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
           <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -73,7 +73,7 @@
   </div>
 
   <!-- Scroll progress indicator -->
-  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary-500 to-accent-purple z-40"></div>
+  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary-500 to-accent-purple z-40 rounded-full shadow-lg transition-all duration-500"></div>
 
   {% include 'partials/header.html' %}
 
@@ -82,24 +82,24 @@
     <section class="hero-section relative overflow-hidden bg-gradient-to-br from-primary-800 via-accent-purple/20 to-dark-700 py-24">
       <div class="particles absolute inset-0 overflow-hidden pointer-events-none -z-10">
         {% for i in range(15) %}
-        <div class="particle" style="--size: {{ (0.5 + random() * 2)|round(2) }}px; --x: {{ random() * 100 }}%; --y: {{ random() * 100 }}%; --delay: {{ random() * 5 }}s; --duration: {{ 10 + random() * 20 }}s;"></div>
+        <div class="particle animate-float-slow shadow-lg" style="--size: {{ (0.5 + random() * 2)|round(2) }}px; --x: {{ random() * 100 }}%; --y: {{ random() * 100 }}%; --delay: {{ random() * 5 }}s; --duration: {{ 10 + random() * 20 }}s;"></div>
         {% endfor %}
       </div>
       <div class="container mx-auto px-4 text-center relative z-10">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tighter">
-          <span class="gradient-text bg-gradient-to-r from-primary-300 via-accent-500 to-primary-300">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tighter drop-shadow-lg">
+          <span class="gradient-text bg-gradient-to-r from-primary-300 via-accent-500 to-primary-300 animate-fadeIn">
             {% block hero_title %}Welcome{% endblock %}
           </span>
         </h1>
-        <p class="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
+        <p class="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto animate-fadeIn" style="animation-delay:0.2s;">
           <span class="typing-effect">{% block hero_subtitle %}Manage your rules efficiently{% endblock %}</span>
         </p>
         {% block hero_cta %}
-        <div class="mt-8 flex flex-wrap justify-center gap-4">
-          <a href="/getting-started" class="px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-purple text-white rounded-lg font-medium shadow-lg hover:shadow-glow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white">
+        <div class="mt-8 flex flex-wrap justify-center gap-4 animate-fadeIn" style="animation-delay:0.4s;">
+          <a href="/getting-started" class="px-7 py-3 bg-gradient-to-r from-primary-500 to-accent-purple text-white rounded-xl font-semibold shadow-xl hover:shadow-glow transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white text-lg">
             Get Started
           </a>
-          <a href="/features" class="px-6 py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-medium shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+          <a href="/features" class="px-7 py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-semibold shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 text-lg">
             Learn More
           </a>
         </div>
