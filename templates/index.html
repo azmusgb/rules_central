@@ -417,44 +417,5 @@
 
 {% block scripts %}
     <!-- Additional JavaScript for Enhanced Interactions -->
-    <script>
-        // Add smooth scrolling and interaction enhancements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add intersection observer for fade-in animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-in');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all cards
-            document.querySelectorAll('.card-hover').forEach(card => {
-                observer.observe(card);
-            });
-
-            // Add hover effects to activity items
-            document.querySelectorAll('[class*="hover:bg-dark-750"]').forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(5px)';
-                });
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
-            });
-
-            // Enhanced FAB functionality
-            const fab = document.querySelector('.fixed button');
-            fab.addEventListener('click', function() {
-                // Add your FAB click functionality here
-                console.log('FAB clicked!');
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/index-interactions.js') }}" defer></script>
 {% endblock %}
