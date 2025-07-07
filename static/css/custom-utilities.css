@@ -1,72 +1,194 @@
 @import url('tokens.css');
 
 /**
- * Custom Utilities & Global Styles
+ * Enhanced CSS Utilities & Global Styles
  * -------------------------------------------------------
- * This file contains all custom CSS utilities, global styles,
- * accessibility helpers, and reusable classes for the project.
+ * Comprehensive utility-first CSS with improved organization and additional helpers.
  * 
- * Organization:
- * 1. Global Reset/Normalization
+ * Structure:
+ * 1. Core Reset & Base Styles
  * 2. Typography Utilities
- * 3. Layout Utilities
- * 4. Spacing Utilities
- * 5. Color Utilities
- * 6. Interactive Utilities (hover, focus states)
- * 7. Accessibility Utilities
- * 8. Component-specific Utilities
+ * 3. Layout & Positioning
+ * 4. Spacing System
+ * 5. Color System
+ * 6. Border & Effects
+ * 7. Interactive States
+ * 8. Accessibility
+ * 9. Responsive Utilities
+ * 10. Component-Specific Utilities
  * 
- * Guidelines:
- * - Use semantic variables from tokens.css for all values
- * - Prefix utility classes with 'u-' for clarity
- * - Group related utilities together with clear section comments
- * - Mobile-first approach for responsive utilities
- * - Include helpful comments for each utility group
+ * Best Practices:
+ * - All values reference design tokens
+ * - Consistent naming: u-{property}-{value}
+ * - Mobile-first responsive design
+ * - Grouped by function with clear section headers
  */
 
-/* 1. Global Reset/Normalization */
+/* =============================================
+   1. Core Reset & Base Styles
+   ============================================= */
 :root {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: inherit;
+  margin: 0;
 }
 
-/* 2. Typography Utilities */
-.u-text-center { text-align: center; }
-.u-text-uppercase { text-transform: uppercase; }
-.u-font-bold { font-weight: var(--qc-font-weight-bold); }
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: var(--qc-line-height-base);
+}
+
+/* =============================================
+   2. Typography Utilities
+   ============================================= */
+/* Font Families */
+.u-font-sans { font-family: var(--qc-font-family-sans); }
+.u-font-mono { font-family: var(--qc-font-family-mono); }
+
+/* Font Weights */
+.u-font-thin { font-weight: var(--qc-font-weight-thin); }
+.u-font-light { font-weight: var(--qc-font-weight-light); }
 .u-font-normal { font-weight: var(--qc-font-weight-normal); }
+.u-font-medium { font-weight: var(--qc-font-weight-medium); }
+.u-font-bold { font-weight: var(--qc-font-weight-bold); }
+.u-font-black { font-weight: var(--qc-font-weight-black); }
+
+/* Text Alignment */
+.u-text-left { text-align: left; }
+.u-text-center { text-align: center; }
+.u-text-right { text-align: right; }
+
+/* Text Transformation */
+.u-text-uppercase { text-transform: uppercase; }
+.u-text-lowercase { text-transform: lowercase; }
+.u-text-capitalize { text-transform: capitalize; }
+
+/* Text Colors */
 .u-text-main { color: var(--qc-text-main); }
 .u-text-light { color: var(--qc-text-light); }
-.u-link { color: var(--qc-link); text-decoration: underline; }
-.u-link:hover { color: var(--qc-link-hover); }
+.u-text-muted { color: var(--qc-text-muted); }
 
-/* 3. Layout Utilities */
+/* Links */
+.u-link {
+  color: var(--qc-link);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+.u-link:hover {
+  color: var(--qc-link-hover);
+  text-decoration: none;
+}
+
+/* Line Height */
+.u-leading-tight { line-height: var(--qc-line-height-tight); }
+.u-leading-normal { line-height: var(--qc-line-height-base); }
+.u-leading-loose { line-height: var(--qc-line-height-loose); }
+
+/* =============================================
+   3. Layout & Positioning
+   ============================================= */
+/* Display */
+.u-block { display: block; }
+.u-inline { display: inline; }
+.u-inline-block { display: inline-block; }
 .u-flex { display: flex; }
 .u-grid { display: grid; }
-.u-block { display: block; }
-.u-inline-block { display: inline-block; }
+.u-hidden { display: none; }
 
-/* 4. Spacing Utilities */
+/* Flexbox */
+.u-flex-col { flex-direction: column; }
+.u-flex-wrap { flex-wrap: wrap; }
+.u-items-center { align-items: center; }
+.u-justify-center { justify-content: center; }
+.u-justify-between { justify-content: space-between; }
+
+/* Grid */
+.u-grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.u-gap-4 { gap: var(--space-4); }
+
+/* Positioning */
+.u-relative { position: relative; }
+.u-absolute { position: absolute; }
+.u-fixed { position: fixed; }
+.u-sticky { position: sticky; }
+.u-top-0 { top: 0; }
+.u-right-0 { right: 0; }
+
+/* Sizing */
+.u-w-full { width: 100%; }
+.u-h-full { height: 100%; }
+.u-min-h-screen { min-height: 100vh; }
+
+/* =============================================
+   4. Spacing System
+   ============================================= */
+/* Margin */
+.u-m-0 { margin: var(--space-0); }
+.u-m-2 { margin: var(--space-2); }
+.u-mx-auto { margin-left: auto; margin-right: auto; }
 .u-mt-1 { margin-top: var(--space-1); }
-.u-mb-1 { margin-bottom: var(--space-1); }
+.u-mb-2 { margin-bottom: var(--space-2); }
+.u-ml-3 { margin-left: var(--space-3); }
+
+/* Padding */
+.u-p-0 { padding: var(--space-0); }
 .u-p-2 { padding: var(--space-2); }
+.u-px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.u-py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
 
-/* 5. Color Utilities */
+/* =============================================
+   5. Color System
+   ============================================= */
+/* Background Colors */
 .u-bg-primary { background-color: var(--color-primary); }
-.u-text-accent { color: var(--color-accent); }
+.u-bg-secondary { background-color: var(--color-secondary); }
+.u-bg-dark { background-color: var(--qc-bg-dark); }
 
-/* 6. Interactive Utilities */
+/* Text Colors */
+.u-text-primary { color: var(--color-primary); }
+.u-text-accent { color: var(--color-accent); }
+.u-text-error { color: var(--color-error); }
+
+/* =============================================
+   6. Border & Effects
+   ============================================= */
+/* Borders */
+.u-border { border: 1px solid var(--qc-border-color); }
+.u-border-t { border-top: 1px solid var(--qc-border-color); }
+.u-rounded { border-radius: var(--qc-border-radius); }
+.u-rounded-full { border-radius: 9999px; }
+
+/* Shadows */
+.u-shadow-sm { box-shadow: var(--qc-shadow-sm); }
+.u-shadow-md { box-shadow: var(--qc-shadow-md); }
+
+/* =============================================
+   7. Interactive States
+   ============================================= */
 .u-hover-scale:hover {
   transform: scale(1.02);
   transition: transform 0.2s ease;
 }
 
-/* 7. Accessibility Utilities */
+.u-active-scale:active {
+  transform: scale(0.98);
+}
+
+.u-focus-ring:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* =============================================
+   8. Accessibility
+   ============================================= */
 .u-sr-only {
   position: absolute;
   width: 1px;
@@ -79,13 +201,56 @@
   border: 0;
 }
 
-/* 8. Component-specific Utilities */
-/* Add component utilities here when they're used in multiple components */
-.bg-dark-gradient {
-  background: linear-gradient(135deg, var(--qc-bg) 0%, var(--qc-panel) 50%, var(--qc-bg-dark) 100%);
+.u-visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
+/* =============================================
+   9. Responsive Utilities
+   ============================================= */
 @media (min-width: 48rem) {
-  /* Responsive utilities */
+  .u-md-flex { display: flex; }
+  .u-md-hidden { display: none; }
   .u-md-text-left { text-align: left; }
+}
+
+@media (min-width: 64rem) {
+  .u-lg-grid { display: grid; }
+}
+
+/* =============================================
+   10. Component-Specific Utilities
+   ============================================= */
+/* Dark gradient background */
+.bg-dark-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--qc-bg) 0%,
+    var(--qc-panel) 50%,
+    var(--qc-bg-dark) 100%
+  );
+}
+
+/* Card utility */
+.u-card {
+  background: var(--qc-panel);
+  border-radius: var(--qc-border-radius-lg);
+  box-shadow: var(--qc-shadow-md);
+  padding: var(--space-4);
+}
+
+/* Container utility */
+.u-container {
+  width: 100%;
+  max-width: var(--qc-container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
 }

@@ -35,6 +35,7 @@ from utils import (
 from collections import defaultdict
 from datetime import datetime, timedelta
 from config import Config
+from urllib.parse import urlencode
 
 LOGGER = logging.getLogger(__name__)
 
@@ -44,6 +45,33 @@ __all__ = ["routes_bp"]
 # Blueprint setup
 # ------------------------------------------------------------------
 routes_bp = Blueprint('routes', __name__)
+
+# ------------------------------------------------------------------
+# Template helper functions
+# ------------------------------------------------------------------
+
+@routes_bp.app_template_global('update_query_param')
+def update_query_param(param: str, value: str | int):
+    """
+    Return the current query string with *param* set to *value*.
+    Usage in a Jinja template:
+        href="?{{ update_query_param('page', 2) }}"
+    """
+    args = request.args.to_dict(flat=True)   # copy to avoid mutation
+    args[param] = value
+    return urlencode(args, doseq=True)
+
+@routes_bp.app_template_global('remove_query_param')
+def remove_query_param(*keys: str):
+    """
+    Return the current query string with the specified *keys* removed.
+    Usage in a Jinja template:
+        href="?{{ remove_query_param('sort', 'type') }}"
+    """
+    args = request.args.to_dict(flat=True)   # copy to avoid mutation
+    for key in keys:
+        args.pop(key, None)
+    return urlencode(args, doseq=True)
 
 # ------------------------------------------------------------------
 # API ENDPOINTS

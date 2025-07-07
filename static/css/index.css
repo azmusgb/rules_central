@@ -1,41 +1,274 @@
+/**
+ * Enhanced Visual Effects Styles
+ * -------------------------------------------------------
+ * A collection of modern UI effects with improved flexibility and performance
+ * 
+ * Effects Included:
+ * 1. Glass Morphism
+ * 2. Gradient Text
+ * 3. Card Hover Effects
+ * 4. Animated Pulse Rings
+ * 5. Progress Bars
+ * 6. Shimmer Loading
+ * 7. Floating Animation
+ * 8. Gradient Borders
+ * 
+ * Usage Recommendations:
+ * - Use CSS variables for easy theming
+ * - Prefer transforms over animating box-model properties
+ * - Use will-change for elements with animations
+ * - Add reduced-motion alternatives
+ */
+
+/* =============================================
+   1. Glass Morphism Effects
+   ============================================= */
 .glass-effect {
-    backdrop-filter: blur(10px);
-    background: rgba(31, 41, 55, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-blur: 10px;
+  --glass-bg: rgba(31, 41, 55, 0.8);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: var(--qc-border-radius-lg);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  will-change: backdrop-filter, background;
 }
 
+/* Glass effect variations */
+.glass-effect-light {
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-effect-accent {
+  --glass-bg: rgba(59, 130, 246, 0.2);
+}
+
+/* =============================================
+   2. Gradient Text Effects
+   ============================================= */
 .gradient-text {
-    background: linear-gradient(135deg, #3b82f6, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  --gradient-start: var(--color-primary);
+  --gradient-end: var(--color-accent);
+  --gradient-angle: 135deg;
+  
+  background: linear-gradient(
+    var(--gradient-angle),
+    var(--gradient-start),
+    var(--gradient-end)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
+/* Gradient text variations */
+.gradient-text-vertical {
+  --gradient-angle: 180deg;
+}
+
+.gradient-text-rainbow {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3
+  );
+}
+
+/* =============================================
+   3. Card Hover Effects
+   ============================================= */
 .card-hover {
-    transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
 }
 
 .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
+/* Card hover variations */
+.card-hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.card-hover-rotate:hover {
+  transform: rotate(1deg) scale(1.02);
+}
+
+/* =============================================
+   4. Animated Pulse Rings
+   ============================================= */
 .pulse-ring {
-    animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
 
 @keyframes pulse-ring {
-    0% { transform: scale(0.33); }
-    40%, 50% { opacity: 1; }
-    100% { opacity: 0; transform: scale(1.2); }
+  0% { transform: scale(0.8); opacity: 0.8; }
+  70%, 100% { transform: scale(1.3); opacity: 0; }
 }
 
+/* Pulse variations */
+.pulse-ring-fast {
+  animation-duration: 1s;
+}
+
+.pulse-ring-accent::before {
+  border-color: var(--color-accent);
+}
+
+/* =============================================
+   5. Progress Bars
+   ============================================= */
 .progress-bar {
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    animation: progress-fill 2s ease-in-out;
+  --progress-start: var(--color-primary);
+  --progress-end: var(--color-accent);
+  --progress-speed: 2s;
+  
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--progress-start),
+    var(--progress-end)
+  );
+  border-radius: 3px;
+  animation: progress-fill var(--progress-speed) ease-in-out;
+  transform-origin: left;
+  will-change: transform;
 }
 
 @keyframes progress-fill {
-    0% { width: 0%; }
-    100% { width: 100%; }
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+/* Progress bar variations */
+.progress-bar-thin {
+  height: 3px;
+}
+
+.progress-bar-striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+
+/* =============================================
+   6. Shimmer Loading Effect
+   ============================================= */
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--qc-bg-light);
+}
+
+.shimmer-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* =============================================
+   7. Floating Animation
+   ============================================= */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.floating-fast {
+  animation-duration: 2s;
+}
+
+.floating-delay {
+  animation-delay: 0.5s;
+}
+
+/* =============================================
+   8. Gradient Borders
+   ============================================= */
+.gradient-border {
+  position: relative;
+  border-radius: var(--qc-border-radius);
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Reduced motion alternatives */
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring::before,
+  .progress-bar,
+  .shimmer-effect::after,
+  .floating {
+    animation: none !important;
+  }
+  
+  .card-hover:hover {
+    transform: none;
+  }
 }

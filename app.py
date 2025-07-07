@@ -12,6 +12,7 @@ except ImportError:  # pragma: no cover - optional dependency
         logging.getLogger("rules_central").warning(
             "python-dotenv not installed; skipping load_dotenv"
         )
+
 from flask import Flask
 from flask_assets import Environment
 from markdown import markdown
@@ -53,7 +54,6 @@ def create_app() -> Flask:
     @app.template_filter("markdown")
     def _render_markdown(text: str) -> str:
         """Render Markdown inside templates."""
-        # Defensive: Return empty string if text is None
         if not text:
             return ""
         return markdown(text)
@@ -62,9 +62,9 @@ def create_app() -> Flask:
     def _inject_now():
         """
         Make `now()` available in every template.
-        Usage in Jinja:
+        Usage:
             {{ now().year }}              → 2025
-            {{ now('%b %d, %Y') }}        → Jun 18, 2025
+            {{ now('%b %d, %Y') }}        → Jul 07, 2025
         """
         def _now(fmt: Optional[str] = None):
             ts = datetime.now(timezone.utc)
