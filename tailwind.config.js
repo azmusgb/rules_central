@@ -20,6 +20,15 @@ module.exports = {
     "border-slate-700",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1rem",
+      screens: {
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
+    },
     extend: {
       fontFamily: {
         sans: ["Inter", "Plus Jakarta Sans", "sans-serif"],
@@ -55,6 +64,10 @@ module.exports = {
           500: "#64748B",
           700: "#334155",
         },
+        textMain: "var(--qc-text-main)",
+        textLight: "var(--qc-text-light)",
+        link: "var(--qc-link)",
+        linkHover: "var(--qc-link-hover)",
         // Optionally, add CSS variable references for tokens
         // e.g. 'brand': 'var(--qc-accent)'
       },
