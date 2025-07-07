@@ -5,7 +5,13 @@ import os
 from datetime import datetime, timezone
 from typing import Optional
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - optional dependency
+    def load_dotenv(*_args, **_kwargs):
+        logging.getLogger("rules_central").warning(
+            "python-dotenv not installed; skipping load_dotenv"
+        )
 from flask import Flask
 from flask_assets import Environment
 from markdown import markdown
