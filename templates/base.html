@@ -40,6 +40,37 @@
     >
       {% block content %}{% endblock %}
     </main>
-    {% include 'partials/footer.html' %} {% block scripts %}{% endblock %}
+    {% include 'partials/footer.html' %}
+    {% if show_back_to_top is not defined or show_back_to_top %}
+    {% include 'partials/back_to_top.html' %}
+    <style>
+      #backToTop {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.9);
+        transition: opacity 0.3s, transform 0.3s;
+      }
+      #backToTop.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+      }
+    </style>
+    <script>
+      const backToTopBtn = document.getElementById('backToTop');
+      if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+          backToTopBtn.classList.toggle('show', window.scrollY > 300);
+        });
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    </script>
+    {% endif %}
+    {% block scripts %}{% endblock %}
   </body>
 </html>
