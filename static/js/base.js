@@ -1,4 +1,5 @@
 // Global script for layout and theme management
+// Improved: ARIA, event cleanup, maintainability
 
 const loadScript = (src, attrs = {}) => {
   return new Promise((resolve, reject) => {
@@ -61,6 +62,7 @@ const initTheme = () => {
     if (!icon) return;
     icon.classList.remove("fa-moon", "fa-sun");
     icon.classList.add(theme === "dark" ? "fa-sun" : "fa-moon");
+    if (btn) btn.setAttribute("aria-pressed", theme === "dark" ? "false" : "true");
   };
 
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -71,33 +73,41 @@ const initTheme = () => {
   if (storedTheme === "dark") html.classList.add("dark");
   updateIcon(storedTheme);
 
+  let themeListener;
   if (btn) {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", themeListener = () => {
       const isDark = html.classList.toggle("dark");
       const theme = isDark ? "dark" : "light";
       html.setAttribute("data-theme", theme);
       localStorage.setItem("theme", theme);
       updateIcon(theme);
+      btn.setAttribute("aria-pressed", theme === "dark" ? "false" : "true");
       document.dispatchEvent(
         new CustomEvent("theme-change", { detail: { theme } }),
       );
     });
   }
 
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => {
-      if (!localStorage.getItem("theme")) {
-        const newTheme = e.matches ? "dark" : "light";
-        html.setAttribute("data-theme", newTheme);
-        if (newTheme === "dark") {
-          html.classList.add("dark");
-        } else {
-          html.classList.remove("dark");
-        }
-        updateIcon(newTheme);
+  const mqListener = (e) => {
+    if (!localStorage.getItem("theme")) {
+      const newTheme = e.matches ? "dark" : "light";
+      html.setAttribute("data-theme", newTheme);
+      if (newTheme === "dark") {
+        html.classList.add("dark");
+      } else {
+        html.classList.remove("dark");
       }
-    });
+      updateIcon(newTheme);
+    }
+  };
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener("change", mqListener);
+
+  // Clean up listeners on unload
+  window.addEventListener("unload", () => {
+    if (btn && themeListener) btn.removeEventListener("click", themeListener);
+    mq.removeEventListener("change", mqListener);
+  });
 };
 
 let pageLoader;
@@ -175,6 +185,7 @@ const disableAnimationsForReducedMotion = () => {
   }
 };
 
+// Main initializer for base layout and theme
 const initBase = () => {
   hideLoader();
   initTheme();
@@ -187,3 +198,5 @@ const initBase = () => {
 };
 
 document.addEventListener("DOMContentLoaded", initBase);
+
+// End of base.js

@@ -3,6 +3,7 @@
 import logging
 import os
 from datetime import datetime, timezone
+from typing import Optional
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -13,11 +14,15 @@ from config import Config, load_configurations
 from routes import all_blueprints
 
 # -------------------------------------------------------------------
-# Environment & App Setup
+# Environment & Logging Setup
 # -------------------------------------------------------------------
 load_dotenv()
 
 LOGGER = logging.getLogger("rules_central")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 __all__ = ["create_app", "ensure_directories", "app"]
 
@@ -32,40 +37,33 @@ def create_app() -> Flask:
     app.config["VERSION"] = "1.0"
 
     # ─── Extensions ────────────────────────────────────────────────
-    _assets = Environment(app)
+    Environment(app)
 
     # ─── Paths ─────────────────────────────────────────────────────
     app.config["UPLOAD_FOLDER"] = os.path.abspath(os.getenv("UPLOAD_FOLDER", "uploads"))
-    app.config["DIAGRAMS_FOLDER"] = os.path.abspath(
-        os.getenv("DIAGRAMS_FOLDER", "diagrams")
-    )
+    app.config["DIAGRAMS_FOLDER"] = os.path.abspath(os.getenv("DIAGRAMS_FOLDER", "diagrams"))
 
     # ─── Filters & Globals ─────────────────────────────────────────
     @app.template_filter("markdown")
     def _render_markdown(text: str) -> str:
         """Render Markdown inside templates."""
+        # Defensive: Return empty string if text is None
+        if not text:
+            return ""
         return markdown(text)
 
     @app.context_processor
     def _inject_now():
         """
         Make `now()` available in every template.
-
-        Usage examples in Jinja:
+        Usage in Jinja:
             {{ now().year }}              → 2025
             {{ now('%b %d, %Y') }}        → Jun 18, 2025
         """
-        def _now(fmt: str | None = None):
+        def _now(fmt: Optional[str] = None):
             ts = datetime.now(timezone.utc)
             return ts if fmt is None else ts.strftime(fmt)
         return {"now": _now}
-
-    # ─── Logging ───────────────────────────────────────────────────
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-    )
-    Config.ensure_data_dir()
 
     # ─── Directory checks ──────────────────────────────────────────
     with app.app_context():
@@ -77,8 +75,17 @@ def create_app() -> Flask:
     try:
         app.config.update(load_configurations())
     except Exception as exc:
-        LOGGER.error("Configuration load failed: %s", exc)
+        LOGGER.error("Configuration load failed: %s", exc, exc_info=True)
         raise
+
+    # ─── Data directory check ─────────────────────────────────────
+    Config.ensure_data_dir()
+
+    # ─── Onboarding/Welcome Log ────────────────────────────────────
+    LOGGER.info("Rules Central Flask app initialized. Version: %s", app.config["VERSION"])
+    LOGGER.info("Static folder: %s", app.static_folder)
+    LOGGER.info("Upload folder: %s", app.config["UPLOAD_FOLDER"])
+    LOGGER.info("Diagrams folder: %s", app.config["DIAGRAMS_FOLDER"])
 
     return app
 
@@ -95,7 +102,7 @@ def ensure_directories(app: Flask) -> None:
             os.makedirs(path, exist_ok=True)
             LOGGER.info("Directory verified: %s", path)
         except OSError as exc:
-            LOGGER.error("Failed to create directory %s: %s", path, exc)
+            LOGGER.error("Failed to create directory %s: %s", path, exc, exc_info=True)
             raise
 
 
@@ -106,4 +113,8 @@ app = create_app()
 
 if __name__ == "__main__":
     LOGGER.info("Starting Flask Application on http://127.0.0.1:8080")
-    app.run(debug=True, host="127.0.0.1", port=8080)
+    try:
+        app.run(debug=True, host="127.0.0.1", port=8080)
+    except Exception as exc:
+        LOGGER.critical("Flask app failed to start: %s", exc, exc_info=True)
+        raise

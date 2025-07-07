@@ -1,116 +1,54 @@
 {% extends "base.html" %}
-
-{% block title %}Search – Rules Central{% endblock %}
-
-{% block hero_tagline %}Version 3.0 Released{% endblock %}
-
-{% block hero_title %}
-<span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-200">Search</span>
-{% endblock %}
-
-{% block hero_subtitle %}
-Search and discover diagrams across all catalogs in the Rules Central system
-{% endblock %}
+{% block title %}Search | Rules Central{% endblock %}
 
 {% block content %}
-<!-- Main Content -->
-<main class="container mx-auto px-4 sm:px-6 pb-16 flex-grow mt-6 relative z-10">
-    <!-- Search Card -->
-    <div class="panel panel--glass p-6 mb-8 rounded-xl shadow-lg transition-all duration-500 hover:shadow-glow-lg">
-        <!-- Search Bar -->
-        <div class="flex flex-col md:flex-row gap-4 mb-6">
-            <div class="relative flex-1">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary-500">
-                    <i class="fas fa-search"></i>
-                </div>
-                <input aria-describedby="search-help" autocomplete="off" class="w-full pl-12 pr-12 py-3 text-base bg-dark-800 border border-slate-700 rounded-xl placeholder-slate-500 focus:placeholder-slate-600 focus:border-primary-500 transition-all duration-200 outline-none shadow-sm"
-                       id="search-input"
-                       placeholder="Search diagrams..." type="text"/>
-                <button aria-label="Clear search" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-primary-500 transition duration-200 hidden"
-                        id="clear-input">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="flex gap-3">
-                <button class="px-6 py-3 rounded-xl font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md hover:shadow-glow transition-transform duration-300 hover:-translate-y-1"
-                        id="search-button">
-                    <i class="fas fa-search mr-2"></i>
-                    Search
-                </button>
-                <button class="px-6 py-3 rounded-xl font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 shadow-sm transition-transform duration-300 hover:-translate-y-1"
-                        id="clear-button">
-                    <i class="fas fa-broom mr-2"></i>
-                    Clear
-                </button>
-            </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-            <div class="flex-1">
-                <select class="w-full py-3 px-4 bg-dark-800 border border-slate-700 rounded-xl text-slate-300 focus:border-primary-500 transition-all duration-200 outline-none shadow-sm"
-                        id="catalog-filter">
-                    <option value="">All Catalogs</option>
-                    <option disabled value="">Loading catalogs...</option>
-                </select>
-            </div>
-            <button class="px-6 py-3 rounded-xl font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 shadow-sm transition-transform duration-300 hover:-translate-y-1"
-                    id="clear-filters">
-                <i class="fas fa-filter-circle-xmark mr-2"></i>
-                Clear Filters
-            </button>
-        </div>
-
-        <!-- Spinner -->
-        <div class="hidden text-center py-8" id="spinner">
-            <div class="inline-flex flex-col items-center">
-                <div class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p class="text-gray-400 text-lg">Searching diagrams...</p>
-            </div>
-        </div>
-
-        <!-- Results Summary -->
-        <div class="hidden mb-6" id="results-summary">
-            <p class="text-slate-300">
-                Found <span class="font-semibold text-primary-400" id="results-count">0</span> results for: <span
-                    class="font-medium text-white" id="query-display"></span>
-            </p>
-        </div>
-
-        <!-- Results Container -->
-        <div class="hidden" id="results-container">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="results">
-                <!-- Results will be inserted here -->
-            </div>
-
-            <!-- Pagination -->
-            <nav class="mt-8 flex justify-center" id="pagination">
-                <!-- Pagination will be inserted here -->
-            </nav>
-        </div>
-
-        <!-- No Results -->
-        <div class="hidden text-center py-12" id="no-results">
-            <div class="flex flex-col items-center">
-                <i class="fas fa-search-minus text-5xl text-slate-500 mb-4"></i>
-                <h2 class="text-xl font-medium text-white mb-2">No results found</h2>
-                <p class="text-slate-400">Try adjusting your search or filters</p>
-            </div>
-        </div>
+{% include 'partials/hero_bg.html' %}
+<section class="relative z-10 flex flex-col items-center justify-center min-h-[40vh] py-12 animate-fadeIn">
+  <h1 class="text-4xl font-extrabold mb-4 text-primary-500 text-center animate-fadeIn">Search Catalog</h1>
+  <p class="text-lg text-slate-300 mb-10 text-center max-w-2xl animate-fadeIn delay-100">Find rules, users, and diagrams instantly. Use filters and keywords for precise results.</p>
+</section>
+<div class="flex flex-col items-center justify-center animate-fadeIn delay-200">
+  <form class="w-full max-w-2xl flex flex-col sm:flex-row items-center gap-4 mb-8" method="get" aria-label="Search form">
+    <div class="flex-1 relative w-full">
+      <input name="q" value="{{ request.args.get('q', '') }}" type="text" placeholder="Search all catalogs..." class="w-full rounded-2xl bg-dark-800/80 border border-dark-700 px-6 py-5 text-lg text-white shadow-lg focus:ring-4 focus:ring-primary-500 focus:border-primary-500 glassmorphism placeholder-slate-400 transition-all duration-300" autocomplete="off" aria-label="Search input">
+      <svg class="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-primary-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
     </div>
-</main>
-
-<!-- Toast Notification -->
-<div class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-xl shadow-lg hidden z-50 flex items-center animate-fade-in"
-     id="toast">
-    <i class="fas fa-check-circle text-emerald-500 mr-3" id="toastIcon"></i>
-    <div>
-        <p class="font-medium text-white" id="toastTitle">Success</p>
-        <p class="text-sm text-slate-400" id="toastMessage">Search completed successfully</p>
+    <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-purple text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-lg focus:outline-none focus:ring-4 focus:ring-primary-500">Search</button>
+  </form>
+  <div class="flex flex-wrap gap-3 mb-8 justify-center">
+    {% set filters = ['All', 'Rules', 'Users', 'Diagrams'] %}
+    {% for filter in filters %}
+      <a href="?filter={{ filter|lower }}" class="px-5 py-2 rounded-full bg-dark-800/80 border border-dark-700 text-slate-200 font-semibold shadow hover:bg-primary-500/20 hover:text-primary-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 {% if request.args.get('filter', 'all') == filter|lower %}bg-gradient-to-r from-primary-500 to-accent-purple text-white{% endif %}">
+        {{ filter }}
+      </a>
+    {% endfor %}
+  </div>
+  {% if loading %}
+    {% include 'partials/skeleton_loader.html' %}
+  {% elif results %}
+    <div class="w-full max-w-2xl flex flex-col gap-8">
+      <div class="text-slate-400 text-lg mb-4 animate-fadeIn">{{ results|length }} result{{ results|length != 1 and 's' or '' }} found</div>
+      {% for result in results %}
+        <div class="bg-dark-800/80 rounded-2xl shadow-2xl border border-dark-700 p-8 glassmorphism flex flex-col gap-4 animate-fadeIn group hover:scale-[1.02] hover:shadow-3xl transition-all duration-300">
+          <div class="flex items-center gap-4 mb-2">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple text-white text-2xl shadow-lg animate-bounce">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zm0 0v4a4 4 0 01-8 0v-4" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <div>
+              <div class="text-xl font-bold text-primary-400">{{ result.title }}</div>
+              <div class="text-slate-400 text-base">{{ result.description }}</div>
+            </div>
+          </div>
+          <a href="{{ result.url }}" class="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-purple text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-lg focus:outline-none focus:ring-4 focus:ring-primary-500 text-center">View Details</a>
+        </div>
+      {% endfor %}
     </div>
+  {% else %}
+    <div class="flex flex-col items-center justify-center w-full max-w-2xl mt-16 animate-fadeIn">
+      <svg class="w-32 h-32 mb-6 text-primary-500 animate-bounce-slow" fill="none" viewBox="0 0 120 120"><ellipse cx="60" cy="60" rx="54" ry="36" fill="#6366f1" fill-opacity="0.12"/><ellipse cx="60" cy="80" rx="36" ry="18" fill="#a78bfa" fill-opacity="0.14"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="36" font-weight="bold" dy=".3em">🔍</text></svg>
+      <div class="text-2xl font-bold text-primary-400 mb-2">No results found</div>
+      <div class="text-slate-400 text-lg text-center">Try adjusting your search or filters to find what you need.</div>
+    </div>
+  {% endif %}
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script src="{{ url_for('static', filename='js/search.js') }}" type="module"></script>
 {% endblock %}

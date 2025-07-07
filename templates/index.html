@@ -1,224 +1,63 @@
 {% extends "base.html" %}
-
-{% block title %}Rules Central Dashboard{% endblock %}
-
-{% block meta %}
-<meta name="description" content="Comprehensive dashboard for managing and analyzing business rules with key metrics and visualization tools.">
-<meta property="og:image" content="{{ url_for('static', filename='images/dashboard-preview.png') }}">
-{% endblock %}
-
-{% block hero %}
-<section aria-labelledby="hero-heading" class="hero-section relative overflow-hidden">
-  <div class="particles absolute inset-0 overflow-hidden pointer-events-none -z-10 backdrop-blur-md opacity-40">
-    {% for i in range(15) %}
-    <div class="particle animate-float-slow shadow-lg" style="--size: {{ [0.5, 1.0, 1.5, 2.0]|random }}px; --x: {{ range(0, 100)|random }}%; --y: {{ range(0, 100)|random }}%; --delay: {{ range(0, 5)|random }}s; --duration: {{ range(10, 30)|random }}s;"></div>
-    {% endfor %}
-  </div>
-  
-  <div class="container mx-auto px-4 py-32 text-center relative z-10">
-    <h1 id="hero-heading" class="text-6xl sm:text-7xl md:text-8xl font-extrabold mb-10 tracking-tighter drop-shadow-2xl animate-fadeIn">
-      <span class="gradient-text bg-gradient-to-r from-indigo-300 via-purple-400 to-sky-300 animate-fadeIn">
-        Rules Central Dashboard
-      </span>
-    </h1>
-    <p class="text-2xl sm:text-3xl md:text-4xl text-slate-200 leading-relaxed max-w-3xl mx-auto animate-fadeIn" style="animation-delay:0.2s;">
-      <span class="typing-effect">Your comprehensive rules management solution</span>
-    </p>
-    <div class="mt-12 flex flex-wrap justify-center gap-8 animate-fadeIn" style="animation-delay:0.4s;">
-      <a href="/search" class="px-10 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-3xl font-extrabold shadow-2xl hover:shadow-glow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white text-2xl flex items-center gap-3">
-        <i class="fas fa-compass"></i> Explore Dashboard
-        <span class="sr-only">Navigate to the dashboard explorer</span>
-      </a>
-      <a href="/getting-started" class="px-10 py-5 bg-dark-700 hover:bg-dark-600 text-white rounded-3xl font-extrabold shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 text-2xl flex items-center gap-3">
-        <i class="fas fa-rocket"></i> Quick Start Guide
-      </a>
-    </div>
-  </div>
-</section>
-{% endblock %}
+{% block title %}Dashboard | Rules Central{% endblock %}
 
 {% block content %}
-<!-- Performance Metrics Section -->
-<section aria-labelledby="metrics-heading" class="py-24 bg-gradient-to-br from-dark-900/80 to-dark-950/90">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-20">
-      <h2 id="metrics-heading" class="text-5xl font-extrabold text-white mb-4 animate-fadeIn">Key Performance Metrics</h2>
-      <p class="text-slate-400 max-w-2xl mx-auto text-lg animate-fadeIn">Real-time insights into your rules ecosystem</p>
+<!-- Animated Hero Background -->
+{% include 'partials/hero_bg.html' %}
+<section class="relative z-10 mb-16 mt-10 flex flex-col items-center justify-center">
+  <h1 class="text-6xl md:text-7xl font-extrabold mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-500 via-accent-purple to-primary-500 animate-gradient-x drop-shadow-xl animate-fadeIn">
+    Welcome to <span class="inline-block animate-bounce">Rules Central</span>
+  </h1>
+  <p class="text-2xl text-slate-300 mb-10 animate-fadeIn delay-100 text-center max-w-2xl">Your comprehensive, next-gen rules management platform. Experience the future of business logic.</p>
+  <div class="flex flex-col sm:flex-row justify-center gap-6 mb-16 animate-fadeIn delay-200">
+    <a href="/upload" class="inline-block px-10 py-4 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-purple text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-xl focus:outline-none focus:ring-4 focus:ring-primary-500">Upload Now</a>
+    <a href="/documentation" class="inline-block px-10 py-4 rounded-2xl bg-gradient-to-r from-accent-purple to-primary-500 text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-xl focus:outline-none focus:ring-4 focus:ring-accent-purple">Quick Start Guide</a>
+  </div>
+</section>
+
+<section class="relative z-10">
+  <h2 class="text-4xl font-bold mb-12 text-center tracking-tight animate-fadeIn">Key Performance Metrics</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-center">
+    <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl shadow-2xl border border-dark-700 p-10 flex flex-col items-center hover:scale-105 transition-transform duration-200 glassmorphism group animate-fadeIn delay-100" tabindex="0" aria-label="Active Rules">
+      <svg class="w-20 h-20 text-primary-500 mb-6 animate-bounce group-hover:animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m4 0h-1v-4h-1m4 0h-1v-4h-1m4 0h-1v-4h-1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="text-5xl font-extrabold mb-2 countup" data-count="1234">0</div>
+      <div class="text-slate-400 text-lg">Active Rules</div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" id="metricsContainer">
-      {% set metrics = [
-        ['fa-project-diagram', 'Diagrams Processed', 'diagramCount', 'primary', 75],
-        ['fa-sitemap', 'Rules Extracted', 'rulesExtractedCount', 'emerald', 65],
-        ['fa-tasks', 'Rules by Status', 'rulesStatusChart', 'green', 80],
-        ['fa-history', 'Recent Changes', 'recentChangesCount', 'purple', 50]
-      ] %}
-      {% for icon, label, id, color, progress in metrics %}
-      {% set progress_fill_class = 
-        'bg-primary-500' if color == 'primary' else
-        'bg-emerald-500' if color == 'emerald' else
-        'bg-green-500' if color == 'green' else
-        'bg-purple-500'
-      %}
-      <div class="metric-card animate-on-scroll hover:-translate-y-1 transition-transform duration-300 shadow-lg shadow-primary/30 bg-[var(--rc-bg-900)]/80 backdrop-blur-xl border border-white/5 rounded-3xl p-8" 
-           data-metric-id="{{ id }}"
-           data-delay="{{ loop.index * 100 }}"
-           aria-labelledby="{{ id }}-label {{ id }}-value">
-        <div class="metric-icon w-16 h-16 rounded-full flex items-center justify-center glass-ring bg-{{ color }}-500/20 text-{{ color }}-500 shadow-lg mb-6 text-3xl">
-          <i class="fas {{ icon }}" aria-hidden="true"></i>
-        </div>
-        <div class="metric-content">
-          <span id="{{ id }}-label" class="metric-label text-lg font-semibold">{{ label }}</span>
-          <div class="metric-value-container mt-2 mb-2 flex items-center gap-3">
-            <span id="{{ id }}-value" class="metric-value text-4xl font-extrabold text-white" aria-live="polite">
-              <span class="sr-only">Loading</span>
-              <span class="countup">0</span>
-            </span>
-            <span class="metric-trend bg-{{ color }}-500/20 text-{{ color }}-500 px-2 py-1 rounded-full text-base flex items-center gap-1" data-trend="up">
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-              <span class="sr-only">Increasing</span>
-            </span>
-          </div>
-          <div class="metric-progress mt-2">
-            <div class="progress-bar bg-{{ color }}-500/30 h-3 rounded-full relative overflow-hidden">
-              <div class="progress-fill {{ progress_fill_class }} h-3 rounded-full absolute top-0 left-0 transition-all duration-1000" style="width: {{ progress }}%;"></div>
-            </div>
-            <span class="sr-only">Progress: {{ progress }}%</span>
-          </div>
-        </div>
-        <div class="metric-loading mt-4">
-          <div class="loading-spinner w-6 h-6" aria-hidden="true"></div>
-          <span class="sr-only">Loading {{ label }} data</span>
-        </div>
-        <div class="metric-error mt-4">
-          <div class="error-message flex items-center gap-2">
-            <i class="fas fa-exclamation-circle text-lg" aria-hidden="true"></i>
-            <span>Failed to load</span>
-          </div>
-          <button class="retry-btn mt-2 px-4 py-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 text-white text-sm font-semibold hover:from-primary-500 hover:to-primary-600 transition-all shadow focus:outline-none focus:ring-2 focus:ring-primary-500/50 flex items-center gap-2" 
-                  aria-label="Retry loading {{ label }} data"
-                  data-metric="{{ id }}">
-            <i class="fas fa-sync-alt" aria-hidden="true"></i> Retry
-          </button>
-        </div>
-      </div>
-      {% endfor %}
+    <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl shadow-2xl border border-dark-700 p-10 flex flex-col items-center hover:scale-105 transition-transform duration-200 glassmorphism group animate-fadeIn delay-200" tabindex="0" aria-label="Users">
+      <svg class="w-20 h-20 text-accent-purple mb-6 animate-pulse group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/></svg>
+      <div class="text-5xl font-extrabold mb-2 countup" data-count="567">0</div>
+      <div class="text-slate-400 text-lg">Users</div>
+    </div>
+    <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl shadow-2xl border border-dark-700 p-10 flex flex-col items-center hover:scale-105 transition-transform duration-200 glassmorphism group animate-fadeIn delay-300" tabindex="0" aria-label="System Uptime">
+      <svg class="w-20 h-20 text-primary-500 mb-6 animate-spin-slow group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="12" width="16" height="8" rx="4" stroke-width="2"/><rect x="8" y="8" width="8" height="8" rx="4" stroke-width="2"/></svg>
+      <div class="text-5xl font-extrabold mb-2 countup" data-count="99.9">0</div>
+      <div class="text-slate-400 text-lg">System Uptime</div>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
-<section aria-labelledby="features-heading" class="py-24 bg-gradient-to-br from-dark-950/90 to-dark-900/80">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-20">
-      <h2 id="features-heading" class="text-5xl font-extrabold text-white mb-4 animate-fadeIn">Core Features</h2>
-      <p class="text-slate-400 max-w-2xl mx-auto text-lg animate-fadeIn">Powerful tools for rules management and analysis</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-      {% set features = [
-        ['fa-upload', 'Create & Upload', 'Upload diagrams with automatic validation and processing', '/upload'],
-        ['fa-search', 'Explore & Analyze', 'Advanced query tools with visual rule exploration', '/search'],
-        ['fa-tools', 'Tools & Utilities', 'Comprehensive testing and customization utilities', '/api_test_utility']
-      ] %}
-      {% for icon, title, desc, link in features %}
-      <article class="feature-card animate-on-scroll hover-lift shadow-2xl bg-gradient-to-br from-dark-800/80 to-dark-900/90 border border-primary-500/10 rounded-3xl p-8" data-delay="{{ loop.index * 100 }}">
-        <div class="feature-icon bg-primary-500/20 text-primary-500 shadow-lg w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-3xl">
-          <i class="fas {{ icon }}" aria-hidden="true"></i>
-        </div>
-        <h3 class="feature-title text-2xl font-bold text-white mb-2">{{ title }}</h3>
-        <p class="feature-desc text-lg text-slate-300 mb-4">{{ desc }}</p>
-        <a href="{{ link }}" class="feature-link text-primary-400 hover:text-primary-300 text-lg font-semibold inline-flex items-center group transition-colors mt-auto">
-          Explore feature
-          <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-        </a>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+<!-- Floating Action Button -->
+{% include 'partials/fab.html' %}
 
-<!-- Quick Start Section -->
-<section aria-labelledby="quickstart-heading" class="py-24 bg-gradient-to-br from-dark-900/80 to-dark-950/90">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-20">
-      <h2 id="quickstart-heading" class="text-5xl font-extrabold text-white mb-4 animate-fadeIn">Get Started in Minutes</h2>
-      <p class="text-slate-400 max-w-2xl mx-auto text-lg animate-fadeIn">Three simple steps to unleash the power of Rules Central</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-      {% set steps = [
-        ['fa-upload', '1. Upload Diagrams', 'Import your diagrams or data using our intuitive upload tool with automatic validation'],
-        ['fa-magic', '2. Extract Rules', 'Our system automatically processes and extracts rules from your diagrams'],
-        ['fa-chart-line', '3. Visualize Results', 'Explore insights with our interactive dashboards and reporting tools']
-      ] %}
-      {% for icon, title, desc in steps %}
-      <div class="step-card animate-on-scroll hover-lift shadow-2xl bg-gradient-to-br from-dark-800/80 to-dark-900/90 border border-primary-500/10 rounded-3xl p-8" data-delay="{{ loop.index * 100 }}">
-        <div class="step-number text-3xl font-extrabold text-primary-400 mb-4">{{ loop.index }}</div>
-        <div class="step-icon bg-primary-500/20 text-primary-500 shadow-lg w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-3xl">
-          <i class="fas {{ icon }}" aria-hidden="true"></i>
-        </div>
-        <h3 class="step-title text-2xl font-bold text-white mb-2">{{ title }}</h3>
-        <p class="step-desc text-lg text-slate-300">{{ desc }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<!-- Data Visualization Section -->
-<section aria-labelledby="visualization-heading" class="py-24 bg-gradient-to-br from-dark-950/90 to-dark-900/80">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-20">
-      <h2 id="visualization-heading" class="text-5xl font-extrabold text-white mb-4 animate-fadeIn">Rules Analytics</h2>
-      <p class="text-slate-400 max-w-2xl mx-auto text-lg animate-fadeIn">Interactive visualizations of your rules data</p>
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      <div class="chart-card animate-on-scroll hover-lift shadow-2xl bg-gradient-to-br from-dark-800/80 to-dark-900/90 border border-primary-500/10 rounded-3xl p-8">
-        <div class="chart-header flex items-center justify-between mb-6">
-          <h3 class="chart-title text-2xl font-bold text-white">Rules by Category</h3>
-          <div class="chart-actions flex gap-2">
-            <button class="chart-action-btn w-10 h-10 flex items-center justify-center rounded-full bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-white transition-colors text-xl" aria-label="Refresh chart data">
-              <i class="fas fa-sync-alt" aria-hidden="true"></i>
-            </button>
-            <button class="chart-action-btn w-10 h-10 flex items-center justify-center rounded-full bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-white transition-colors text-xl" aria-label="Download chart">
-              <i class="fas fa-download" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-        <div class="chart-container">
-          <canvas id="rulesByCategoryChart" aria-label="Rules by category chart" role="img"></canvas>
-        </div>
-      </div>
-      <div class="chart-card animate-on-scroll hover-lift shadow-2xl bg-gradient-to-br from-dark-800/80 to-dark-900/90 border border-primary-500/10 rounded-3xl p-8">
-        <div class="chart-header flex items-center justify-between mb-6">
-          <h3 class="chart-title text-2xl font-bold text-white">Rules Status Distribution</h3>
-          <div class="chart-actions flex gap-2">
-            <button class="chart-action-btn w-10 h-10 flex items-center justify-center rounded-full bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-white transition-colors text-xl" aria-label="Refresh chart data">
-              <i class="fas fa-sync-alt" aria-hidden="true"></i>
-            </button>
-            <button class="chart-action-btn w-10 h-10 flex items-center justify-center rounded-full bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-white transition-colors text-xl" aria-label="Download chart">
-              <i class="fas fa-download" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-        <div class="chart-container">
-          <canvas id="rulesStatusChart" aria-label="Rules status distribution chart" role="img"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Loading Overlay -->
-<div id="globalLoader" class="loading-overlay" aria-live="assertive" aria-busy="true">
-  <div class="loading-content">
-    <div class="loading-spinner" aria-hidden="true"></div>
-    <p class="loading-text">Loading Dashboard</p>
-    <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>
-</div>
-{% endblock %}
-
+<!-- CountUp Animation Script -->
 {% block scripts %}
 {{ super() }}
-<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script defer src="{{ url_for('static', filename='js/index-page.js') }}"></script>
+<script>
+  document.querySelectorAll('.countup').forEach(function(el) {
+    const end = parseFloat(el.getAttribute('data-count'));
+    let start = 0;
+    let decimals = (end % 1 !== 0) ? 1 : 0;
+    let duration = 1200;
+    let startTime = null;
+    function animateCountUp(ts) {
+      if (!startTime) startTime = ts;
+      let progress = Math.min((ts - startTime) / duration, 1);
+      let value = start + (end - start) * progress;
+      el.textContent = value.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+      if (progress < 1) requestAnimationFrame(animateCountUp);
+    }
+    requestAnimationFrame(animateCountUp);
+  });
+</script>
+{% endblock %}
 {% endblock %}

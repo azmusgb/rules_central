@@ -503,6 +503,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function showToast(message, type = "info", title = "") {
+    if (!elements.toast) return;
+    elements.toast.classList.remove("hidden");
+    elements.toast.setAttribute("role", "status");
+    elements.toast.setAttribute("aria-live", "polite");
+    if (type === "success") {
+      elements.toast.classList.add("bg-emerald-700");
+      elements.toast.classList.remove("bg-red-700");
+    } else if (type === "error") {
+      elements.toast.classList.add("bg-red-700");
+      elements.toast.classList.remove("bg-emerald-700");
+    }
+    if (elements.toastTitle) elements.toastTitle.textContent = title || (type === "success" ? "Success" : type === "error" ? "Error" : "Info");
+    if (elements.toastMessage) elements.toastMessage.textContent = message;
+    elements.toast.focus();
+    setTimeout(() => {
+      if (elements.toast) elements.toast.classList.add("hidden");
+    }, 4000);
+  }
+  window.app = window.app || {};
+  window.app.showToast = showToast;
+
   // Initialize
   init();
 });

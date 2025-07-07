@@ -767,13 +767,25 @@ def user_profile():
 def user_settings():
     """User settings page with form handling"""
     try:
+        # Dummy user data (replace with real user lookup in production)
+        user_data = {
+            "display_name": "John Doe",
+            "email": "john.doe@example.com",
+            "avatar_url": url_for('static', filename='images/default-avatar.png')
+        }
+
         # Default settings data
         settings_data = {
             "theme": "dark",
             "timezone": "UTC",
             "email_notifications": True,
             "push_notifications": False,
-            "language": "en"
+            "inapp_notifications": True,
+            "language": "en",
+            "experimental_features": False,
+            "font_size": "normal",
+            "contrast": "normal",
+            "motion": "normal"
         }
 
         # Handle form submission
@@ -783,11 +795,14 @@ def user_settings():
                 "timezone": request.form.get('timezone', 'UTC'),
                 "email_notifications": 'email_notifications' in request.form,
                 "push_notifications": 'push_notifications' in request.form,
-                "language": request.form.get('language', 'en')
+                "inapp_notifications": 'inapp_notifications' in request.form,
+                "language": request.form.get('language', 'en'),
+                "experimental_features": 'experimental_features' in request.form,
+                "font_size": request.form.get('font_size', 'normal'),
+                "contrast": request.form.get('contrast', 'normal'),
+                "motion": request.form.get('motion', 'normal')
             })
-
-            # In a real app, you would save these to the database here
-            current_app.logger.info(f"Updated settings: {settings_data}")
+            # Save logic here
             flash('Settings updated successfully!', 'success')
 
         security_data = {
@@ -800,6 +815,7 @@ def user_settings():
 
         return render_template(
             'settings.html',
+            user=user_data,
             settings=settings_data,
             security=security_data,
             help_available=True

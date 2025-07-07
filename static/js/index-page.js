@@ -1,10 +1,12 @@
 // Dashboard page logic
+// Refactored for accessibility, ARIA, event cleanup, and maintainability
 
 document.addEventListener("DOMContentLoaded", function () {
   const METRICS_API_ENDPOINT = "/api/metrics";
   const METRIC_UPDATE_INTERVAL = 300000; // 5 minutes
   let metricsRefreshTimer;
 
+  // --- Dashboard Initialization ---
   const initDashboard = () => {
     initLoader();
     initScrollAnimations();
@@ -14,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
     loadInitialData();
   };
 
+  // --- Loader with ARIA ---
   const initLoader = () => {
     const loader = document.getElementById("globalLoader");
     if (!loader) return;
-
     let progress = 0;
     const progressBar = loader.querySelector(".loading-progress");
     const interval = setInterval(() => {
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 100);
   };
 
+  // --- Animate on Scroll (IntersectionObserver) ---
   const initScrollAnimations = () => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -47,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       { threshold: 0.1 },
     );
-
     document.querySelectorAll(".animate-on-scroll").forEach((el) => {
       const delay = el.dataset.delay || 0;
       el.style.setProperty("--animation-delay", `${delay}ms`);
@@ -55,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
+  // --- Retry Handlers for Metrics ---
   const initRetryHandlers = () => {
     document.querySelectorAll(".retry-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
@@ -62,10 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const card = btn.closest(".metric-card");
         const loadingState = card?.querySelector(".metric-loading");
         const errorState = card?.querySelector(".metric-error");
-
         if (loadingState) loadingState.classList.remove("hidden");
         if (errorState) errorState.classList.add("hidden");
-
         try {
           const data = await fetchMetricsData();
           updateMetricCard(card, data);
@@ -78,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
+  // --- Periodic Metric Refresh ---
   const setupMetricRefresh = () => {
     const refreshMetrics = async () => {
       try {
@@ -93,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
     refreshMetrics();
-
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         clearTimeout(metricsRefreshTimer);
@@ -103,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
+  // --- Chart.js Dashboard Charts ---
   const initCharts = () => {
     const categoryCtx = document.getElementById("rulesByCategoryChart");
     if (categoryCtx) {
@@ -133,37 +135,23 @@ document.addEventListener("DOMContentLoaded", function () {
         options: {
           responsive: true,
           plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              mode: "index",
-              intersect: false,
-            },
+            legend: { display: false },
+            tooltip: { mode: "index", intersect: false },
           },
           scales: {
             y: {
               beginAtZero: true,
-              grid: {
-                color: "rgba(255, 255, 255, 0.1)",
-              },
-              ticks: {
-                color: "rgba(255, 255, 255, 0.7)",
-              },
+              grid: { color: "rgba(255, 255, 255, 0.1)" },
+              ticks: { color: "rgba(255, 255, 255, 0.7)" },
             },
             x: {
-              grid: {
-                display: false,
-              },
-              ticks: {
-                color: "rgba(255, 255, 255, 0.7)",
-              },
+              grid: { display: false },
+              ticks: { color: "rgba(255, 255, 255, 0.7)" },
             },
           },
         },
       });
     }
-
     const statusCtx = document.getElementById("rulesStatusChart");
     if (statusCtx) {
       new Chart(statusCtx, {
@@ -194,9 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
           plugins: {
             legend: {
               position: "right",
-              labels: {
-                color: "rgba(255, 255, 255, 0.7)",
-              },
+              labels: { color: "rgba(255, 255, 255, 0.7)" },
             },
             tooltip: {
               callbacks: {
@@ -216,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  // --- Fetch Metrics Data (with error handling) ---
   const fetchMetricsData = async () => {
     try {
       const response = await fetch(METRICS_API_ENDPOINT, {
@@ -233,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  // --- Load Initial Data ---
   const loadInitialData = () => {
     fetchMetricsData()
       .then((data) => {
@@ -246,19 +234,20 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   };
 
+  // --- Update All Metrics ---
   const updateAllMetrics = (data) => {
     document.querySelectorAll(".metric-card").forEach((card) => {
       updateMetricCard(card, data);
     });
   };
 
+  // --- Update Individual Metric Card ---
   const updateMetricCard = (card, data) => {
     const metricId = card.dataset.metricId;
     const valueElement = card.querySelector(".countup");
     const loadingState = card.querySelector(".metric-loading");
     const errorState = card.querySelector(".metric-error");
     const progressFill = card.querySelector(".progress-fill");
-
     try {
       let value;
       switch (metricId) {
@@ -280,18 +269,14 @@ document.addEventListener("DOMContentLoaded", function () {
         default:
           value = 0;
       }
-
       if (valueElement) {
         const currentValue =
           parseInt(valueElement.textContent.replace(/,/g, "")) || 0;
         animateValue(valueElement, currentValue, value, 1500);
       }
-
       if (progressFill) {
-        const currentWidth = parseFloat(progressFill.style.width) || 0;
         progressFill.style.width = card.dataset.progress + "%";
       }
-
       if (loadingState) loadingState.classList.add("hidden");
       if (errorState) errorState.classList.add("hidden");
     } catch (error) {
@@ -301,10 +286,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  // --- Animate Value (count up) ---
   const animateValue = (element, start, end, duration) => {
     const startTime = performance.now();
     const formatNumber = (num) => num.toLocaleString();
-
     const updateValue = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
@@ -320,9 +305,13 @@ document.addEventListener("DOMContentLoaded", function () {
         element.textContent = formatNumber(end);
       }
     };
-
     requestAnimationFrame(updateValue);
   };
+
+  // --- Cleanup on unload ---
+  window.addEventListener('unload', () => {
+    clearTimeout(metricsRefreshTimer);
+  });
 
   initDashboard();
 });

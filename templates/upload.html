@@ -1,156 +1,71 @@
 {% extends "base.html" %}
-
-{% block title %}Upload JSON Diagrams – Rules Central{% endblock %}
-
-{% block hero_title %}Upload Diagrams{% endblock %}
-{% block hero_subtitle %}Upload and process your JSON diagram files{% endblock %}
+{% block title %}Upload | Rules Central{% endblock %}
 
 {% block content %}
-<div class="relative min-h-screen bg-gray-900 text-white overflow-hidden">
-<!-- Animated background elements -->
-<div class="absolute inset-0 overflow-hidden pointer-events-none">
-<div class="absolute top-0 left-0 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl opacity-10 animate-float"></div>
-<div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-10 animate-float animation-delay-2000"></div>
+{% include 'partials/hero_bg.html' %}
+<section class="relative z-10 flex flex-col items-center justify-center min-h-[40vh] py-12 animate-fadeIn">
+  <h1 class="text-4xl font-extrabold mb-4 text-primary-500 text-center animate-fadeIn">Upload Diagram</h1>
+  <p class="text-lg text-slate-300 mb-10 text-center max-w-2xl animate-fadeIn delay-100">Drag & drop your diagram files here, or click to select from your computer.</p>
+</section>
+<div class="flex flex-col items-center justify-center animate-fadeIn delay-200">
+  <form id="uploadForm" class="w-full max-w-xl bg-dark-800/80 rounded-3xl shadow-2xl border border-dark-700 p-10 glassmorphism flex flex-col items-center gap-8" method="post" enctype="multipart/form-data" aria-label="Upload form">
+    <label for="fileInput" class="w-full flex flex-col items-center justify-center border-2 border-dashed border-primary-500 rounded-2xl p-10 cursor-pointer bg-gradient-to-br from-dark-900/80 to-dark-800/80 hover:from-primary-500/10 hover:to-accent-purple/10 transition-all duration-300 animate-fadeIn" tabindex="0" aria-label="Drag and drop files or click to select">
+      <svg class="w-16 h-16 mb-4 text-primary-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="text-lg text-slate-200">Drop files here or <span class="underline text-primary-400">click to browse</span></span>
+      <input id="fileInput" name="file" type="file" class="hidden" required multiple>
+    </label>
+    <button type="submit" class="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-purple text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-lg focus:outline-none focus:ring-4 focus:ring-primary-500">Upload</button>
+    <div id="progressBar" class="w-full h-3 rounded-full bg-dark-900 mt-4 overflow-hidden hidden">
+      <div class="h-full bg-gradient-to-r from-primary-500 to-accent-purple transition-all" style="width: 0%"></div>
+    </div>
+    <div id="uploadSuccess" class="hidden mt-6">
+      {% include 'partials/confetti_success.html' %}
+      <div class="text-lg text-green-400 font-bold text-center mt-4">Upload successful!</div>
+    </div>
+    <div id="uploadError" class="hidden mt-6 text-lg text-red-400 font-bold text-center">Upload failed. Please try again.</div>
+  </form>
 </div>
-<div class="relative min-h-screen bg-gray-900 text-white overflow-hidden">
-<!-- Floating Background Elements -->
-<div aria-hidden="true" class="absolute inset-0 overflow-hidden pointer-events-none">
-<div class="absolute top-10 left-10 w-40 h-40 bg-blue-400/20 rounded-full blur-2xl"></div>
-<div class="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-</div>
-
-<!-- Main Content -->
-<div class="container mx-auto px-4 py-12 relative z-10">
-<!-- Upload Card -->
-<div class="glass-panel rounded-xl p-8 upload-card animate-fade-in-up">
-<form action="{{ url_for('routes.upload_file') }}" class="space-y-6" enctype="multipart/form-data"
-id="uploadForm" method="POST">
-<!-- Drop Zone -->
-<div class="p-12 text-center cursor-pointer rounded-lg" id="dropZone">
-<div class="flex flex-col items-center space-y-4">
-<div class="p-4 bg-primary-500/10 rounded-full">
-<i class="fas fa-cloud-upload-alt text-4xl text-primary-400"></i>
-</div>
-<h3 class="text-xl font-semibold text-white">
-Drag & Drop JSON Files Here
-</h3>
-<p class="text-sm text-slate-400 max-w-md">
-Supports .json files up to 10MB each. Files will be automatically validated.
-</p>
-<button class="mt-6 px-6 py-3 rounded-lg font-medium text-white flex items-center" id="selectFilesBtn"
-type="button">
-<i class="fas fa-folder-open mr-2"></i>
-Select Files
-</button>
-</div>
-<input accept=".json" class="hidden" id="fileInput" multiple name="files" type="file">
-</div>
-
-<!-- Selected Files -->
-<div class="hidden" id="filesPreview">
-<div class="flex items-center justify-between mb-4">
-<h3 class="text-md font-medium text-white flex items-center">
-<i class="fas fa-file-alt text-primary-400 mr-2"></i>
-Selected Files
-<span class="ml-2 text-sm font-normal text-slate-400" id="fileCount">(0 files)</span>
-</h3>
-<button class="text-sm text-slate-400 hover:text-primary-400 transition-colors flex items-center" id="clearFilesBtn"
-type="button">
-<i class="fas fa-trash-alt mr-2"></i>
-Clear All
-</button>
-</div>
-<div class="space-y-2 max-h-64 overflow-y-auto pr-2" id="fileList">
-<!-- Files will be listed here -->
-</div>
-<div class="mt-4 text-xs text-slate-500 flex items-center">
-<i class="fas fa-info-circle mr-2"></i>
-<span>Total size: <span id="totalSizeDisplay">0 KB</span></span>
-</div>
-</div>
-
-<!-- Progress and Actions -->
-<div class="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-slate-700/50">
-<div class="w-full md:w-2/3 mb-4 md:mb-0">
-<div class="hidden" id="progressContainer">
-<div class="flex justify-between text-sm text-slate-400 mb-1">
-<span id="progressStatus">Preparing upload...</span>
-<span id="progressPercent">0%</span>
-</div>
-<div class="w-full h-2 bg-dark-700 rounded-full overflow-hidden">
-<div class="h-full progress-bar" id="progressBar" style="width: 0%"></div>
-</div>
-<div class="flex justify-between text-xs text-slate-500 mt-1">
-<span id="uploadedSize">0 KB</span>
-<span id="totalSize">0 KB</span>
-</div>
-</div>
-</div>
-<div class="flex gap-3">
-<button class="px-6 py-3 rounded-lg font-medium bg-dark-700 text-gray-300 hover:bg-dark-600 transition-all" id="resetBtn"
-type="reset">
-<i class="fas fa-redo mr-2"></i>
-Reset
-</button>
-<button class="px-6 py-3 rounded-lg font-medium text-white bg-primary-500/20 border border-primary-500/30 hover:bg-primary-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled id="submitBtn"
-type="submit">
-<i class="fas fa-upload mr-2"></i>
-Upload Files
-</button>
-</div>
-</div>
-</form>
-</div>
-
-<!-- Validation Results -->
-<div class="glass-panel rounded-xl mt-8 hidden" id="validationResults">
-<div class="p-6">
-<div class="flex items-center justify-between mb-6">
-<h3 class="text-xl font-bold text-white flex items-center">
-<i class="fas fa-check-circle text-emerald-400 mr-3"></i>
-Validation Results
-</h3>
-<button class="text-slate-400 hover:text-primary-400 transition-colors" id="closeResults"
-type="button">
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div class="space-y-4" id="resultsContainer">
-<!-- Results will be shown here -->
-</div>
-<div class="mt-6 pt-4 border-t border-slate-700/50 flex justify-end">
-<button class="px-6 py-2 rounded-lg font-medium text-white bg-primary-500/20 border border-primary-500/30 hover:bg-primary-500/30 transition-all" id="confirmResults"
-type="button">
-Continue to Catalog
-</button>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Toast Notification -->
-<div class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-xl shadow-lg hidden z-50 flex items-center"
-id="toast">
-<i class="fas fa-check-circle text-emerald-400 mr-3" id="toastIcon"></i>
-<div>
-<p class="font-medium text-white" id="toastTitle">Success</p>
-<p class="text-sm text-slate-400" id="toastMessage">Files uploaded successfully!</p>
-</div>
-</div>
-
-<!-- Loading Overlay -->
-<div class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-50"
-id="loadingOverlay">
-<div class="flex flex-col items-center bg-dark-800 p-8 rounded-xl border border-slate-700/50">
-<div class="loading-spinner rounded-full h-12 w-12 border-4 border-transparent"></div>
-<p class="mt-4 text-white font-medium" id="loadingText">Processing files...</p>
-<p class="text-sm text-slate-400 mt-1">This may take a few moments</p>
-</div>
-</div>
-</div>
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-<script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script nonce="{{ csp_nonce }}">
+  const form = document.getElementById('uploadForm');
+  const fileInput = document.getElementById('fileInput');
+  const progressBar = document.getElementById('progressBar');
+  const progress = progressBar.querySelector('div');
+  const uploadSuccess = document.getElementById('uploadSuccess');
+  const uploadError = document.getElementById('uploadError');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    progressBar.classList.remove('hidden');
+    progress.style.width = '0%';
+    uploadSuccess.classList.add('hidden');
+    uploadError.classList.add('hidden');
+    const data = new FormData(form);
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', form.action || window.location.pathname, true);
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percent = (e.loaded / e.total) * 100;
+          progress.style.width = percent + '%';
+        }
+      };
+      xhr.onload = () => {
+        progressBar.classList.add('hidden');
+        if (xhr.status === 200) {
+          uploadSuccess.classList.remove('hidden');
+          form.reset();
+        } else {
+          uploadError.classList.remove('hidden');
+        }
+      };
+      xhr.onerror = () => {
+        progressBar.classList.add('hidden');
+        uploadError.classList.remove('hidden');
+      };
+      xhr.send(data);
+    } catch {
+      progressBar.classList.add('hidden');
+      uploadError.classList.remove('hidden');
+    }
+  });
+</script>
 {% endblock %}

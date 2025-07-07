@@ -1,15 +1,20 @@
+// tailwind.config.js
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: "class", // Use class-based dark mode
   content: [
     "./*.html",
     "./templates/**/*.html",
     "./static/**/*.html",
     "./static/js/**/*.js",
     "./src/**/*.js",
+    // Add more paths if you use Tailwind classes in other file types
   ],
   safelist: [
-    "hidden-by-filter",
-    "bg-dark-700",
+    // Safelisted classes used dynamically in JS or templates
+    "hidden-by-filter", // Used for dynamic filtering
+    "bg-dark-700",      // Used for dark backgrounds
     "bg-dark-800",
     "bg-dark-900",
     "border-slate-700",
@@ -22,6 +27,7 @@ module.exports = {
         mono: ["Fira Code", "monospace"],
       },
       colors: {
+        // Use semantic names and avoid duplicating DaisyUI theme colors
         primary: {
           400: "#60a5fa",
           500: "#3b82f6",
@@ -49,6 +55,8 @@ module.exports = {
           500: "#64748B",
           700: "#334155",
         },
+        // Optionally, add CSS variable references for tokens
+        // e.g. 'brand': 'var(--qc-accent)'
       },
       animation: {
         typing: "typing 2s steps(22)",
@@ -78,6 +86,7 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("daisyui"),
   ],
+  // DaisyUI theme configuration
   daisyui: {
     themes: [
       {

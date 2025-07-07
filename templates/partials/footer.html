@@ -1,186 +1,26 @@
-<footer class="bg-gradient-to-t from-dark-900 to-dark-950/95 border-t border-dark-800/60 py-16 backdrop-blur-2xl relative overflow-hidden shadow-2xl">
-    <!-- Floating decorative elements (more depth, more subtle) -->
-    <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-primary-500/10 rounded-full blur-2xl animate-float-slow"></div>
-    <div class="absolute -top-16 -right-16 w-56 h-56 bg-accent-purple/10 rounded-full blur-xl animate-float-medium"></div>
-    <div class="absolute top-1/3 left-1/3 w-40 h-40 bg-blue-500/10 rounded-full blur-lg animate-float-fast"></div>
-
-    <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <!-- Brand Column (bolder, more visual depth) -->
-            <div class="lg:col-span-1">
-                <a class="flex items-center group mb-8 w-max" href="#" aria-label="Rules Central Home">
-                    <div class="relative">
-                        <div class="absolute -inset-2 bg-primary-500/20 rounded-full blur opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <i class="fas fa-project-diagram text-primary-500 text-3xl mr-4 relative z-10 transition-transform duration-500 group-hover:rotate-[30deg] group-hover:scale-110"></i>
-                    </div>
-                    <span class="text-2xl font-extrabold text-white tracking-tight drop-shadow-lg">Rules<span class="text-primary-400">Central</span></span>
-                </a>
-                <p class="text-gray-400 mb-8 leading-relaxed text-base">
-                    Powerful diagramming tools for teams to visualize, collaborate, and share knowledge.
-                </p>
-                <div class="flex space-x-5">
-                    {% for social in social_links %}
-                    <a aria-label="{{ social.name }}"
-                       class="text-gray-400 hover:text-white transition-colors text-xl w-12 h-12 flex items-center justify-center rounded-full hover:bg-dark-700/60 group relative shadow-md"
-                       href="{{ social.url }}"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <span class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                        <i class="{{ social.icon }} group-hover:scale-125 transition-transform relative z-10"></i>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- Enhanced Footer Links with more spacing and visual cues -->
-            {% for section in footer_sections %}
-            <div>
-                <h4 class="text-base font-bold text-white uppercase tracking-wider mb-7 relative inline-block">
-                    <span class="relative z-10">{{ section.title }}</span>
-                    <span class="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary-500 to-accent-purple w-full rounded"></span>
-                </h4>
-                <ul class="space-y-4">
-                    {% for link in section.links %}
-                    <li>
-                        <a class="flex items-center group text-gray-400 hover:text-primary-400 transition-colors duration-300 py-1 font-medium"
-                           href="{{ link.url }}"
-                           {% if link.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
-                            <span class="w-2 h-2 bg-primary-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
-                            <span class="flex-grow">{{ link.name }}</span>
-                            {% if link.external %}
-                            <i class="fas fa-arrow-up-right-from-square ml-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></i>
-                            {% endif %}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
-
-            <!-- Newsletter Section (more visual, more spacing) -->
-            <div>
-                <h4 class="text-base font-bold text-white uppercase tracking-wider mb-7 relative inline-block">
-                    <span class="relative z-10">Newsletter</span>
-                    <span class="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary-500 to-accent-purple w-full rounded"></span>
-                </h4>
-                <p class="text-gray-400 mb-5 text-base">Stay updated with our latest features and news.</p>
-                <form class="space-y-4">
-                    <input type="email" 
-                           placeholder="Your email address" 
-                           class="w-full px-5 py-3 bg-dark-800 border border-dark-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all text-base shadow-inner"
-                           required>
-                    <button type="submit" 
-                            class="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white py-3 px-5 rounded-xl transition-all duration-300 shadow-lg hover:shadow-glow-lg font-bold text-base">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-xs text-gray-500 mt-3">We respect your privacy. Unsubscribe at any time.</p>
-            </div>
-        </div>
-
-        <!-- Copyright Section (more spacing, more visual separation) -->
-        <div class="border-t border-dark-700/60 mt-14 pt-8 flex flex-col md:flex-row md:justify-between md:items-center relative">
-            <div class="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/40 to-transparent"></div>
-            <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-8">
-                <p class="text-gray-500 text-base">
-                    © <span id="current-year"></span> Rules Central. All rights reserved.
-                </p>
-                <div class="flex items-center space-x-3">
-                    <i class="fas fa-globe text-gray-500 text-base"></i>
-                    <span class="text-gray-400 text-base">English (US)</span>
-                </div>
-            </div>
-            <div class="flex flex-wrap gap-5 mt-5 md:mt-0">
-                {% for legal in legal_links %}
-                <a class="text-gray-400 hover:text-primary-400 transition-colors text-base hover:underline underline-offset-4 decoration-primary-500/60 font-medium"
-                   href="{{ legal.url }}"
-                   {% if legal.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
-                    {{ legal.name }}
-                </a>
-                {% endfor %}
-            </div>
-        </div>
+<footer class="bg-dark-900 border-t border-dark-800 py-8 mt-12 shadow-inner">
+  <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2 text-slate-400 text-base">
+      <span class="font-bold text-white">Rules Central</span>
+      <span>&copy; {{ year or 2025 }}</span>
     </div>
+    <div class="flex gap-8 text-slate-400 text-base">
+      <a href="/about" class="hover:text-primary-400 transition">About</a>
+      <a href="/contact" class="hover:text-primary-400 transition">Contact</a>
+      <a href="/faq" class="hover:text-primary-400 transition">FAQ</a>
+      <a href="/documentation" class="hover:text-primary-400 transition">Docs</a>
+    </div>
+    <div class="flex gap-4">
+      <a href="mailto:support@rulescentral.com" class="text-slate-400 hover:text-primary-400 transition" title="Support">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zm0 0v4a4 4 0 01-8 0v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="https://github.com/your-org/rules_central" class="text-slate-400 hover:text-primary-400 transition" title="GitHub" target="_blank" rel="noopener">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.417-.012 2.747 0 .267.18.577.688.48C19.138 20.2 22 16.448 22 12.021 22 6.484 17.523 2 12 2z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 </footer>
-
-<!-- Help System - More visual, more accessible, more animation -->
-<div class="fixed bottom-8 right-8 z-[9999]" id="help-system" x-data="{ open: false }">
-    <button 
-        @click="open = !open"
-        @keydown.escape="open = false"
-        aria-controls="help-panel" 
-        :aria-expanded="open"
-        class="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-purple text-white rounded-full shadow-2xl hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50 text-2xl"
-        id="help-button">
-        <div class="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-        <i class="fas fa-question relative z-10 transform transition-all duration-300" :class="{'rotate-12 scale-110': open}"></i>
-        <span class="sr-only">Help</span>
-    </button>
-    <div
-        x-show="open"
-        x-cloak
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-2"
-        class="absolute bottom-full right-0 mb-6 w-96 bg-dark-800/95 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden border border-dark-700/60 animate-fadeIn"
-        id="help-panel"
-        style="z-index: 10000;"
-        @click.away="open = false">
-        <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-7 py-5 flex items-center justify-between">
-            <h3 class="font-bold text-base flex items-center">
-                <i class="fas fa-life-ring mr-3"></i>
-                Help Center
-            </h3>
-            <button 
-                @click="open = false"
-                aria-label="Close help menu" 
-                class="text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full p-2">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="p-7 max-h-[60vh] overflow-y-auto custom-scrollbar" id="help-content">
-            <div class="space-y-5">
-                <div class="bg-dark-700/60 rounded-xl p-5 hover:bg-dark-700/80 transition-colors cursor-pointer">
-                    <h4 class="font-semibold text-white flex items-center text-lg">
-                        <i class="fas fa-book mr-3 text-primary-400"></i>
-                        Getting Started Guide
-                    </h4>
-                    <p class="text-gray-400 text-base mt-1">Learn how to create your first diagram</p>
-                </div>
-                <div class="bg-dark-700/60 rounded-xl p-5 hover:bg-dark-700/80 transition-colors cursor-pointer">
-                    <h4 class="font-semibold text-white flex items-center text-lg">
-                        <i class="fas fa-video mr-3 text-primary-400"></i>
-                        Video Tutorials
-                    </h4>
-                    <p class="text-gray-400 text-base mt-1">Watch our step-by-step tutorials</p>
-                </div>
-                <div class="bg-dark-700/60 rounded-xl p-5 hover:bg-dark-700/80 transition-colors cursor-pointer">
-                    <h4 class="font-semibold text-white flex items-center text-lg">
-                        <i class="fas fa-question-circle mr-3 text-primary-400"></i>
-                        Common Questions
-                    </h4>
-                    <p class="text-gray-400 text-base mt-1">Find answers to frequently asked questions</p>
-                </div>
-            </div>
-        </div>
-        <div class="bg-dark-700/60 px-7 py-4 border-t border-dark-600/60">
-            <div class="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-6">
-                <a class="text-primary-400 hover:text-primary-300 text-base flex items-center transition-colors duration-200 group font-medium"
-                   href="/full-help">
-                    <i class="fas fa-book-open mr-3 text-base group-hover:translate-x-0.5 transition-transform"></i>
-                    Full Documentation
-                </a>
-                <a class="text-primary-400 hover:text-primary-300 text-base flex items-center transition-colors duration-200 group font-medium"
-                   href="/contact">
-                    <i class="fas fa-headset mr-3 text-base group-hover:translate-x-0.5 transition-transform"></i>
-                    Contact Support
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script defer src="{{ url_for('static', filename='js/footer.js') }}"></script>
