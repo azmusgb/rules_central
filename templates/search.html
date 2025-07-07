@@ -25,15 +25,16 @@
   <div class="max-w-4xl mx-auto mb-12">
     <form class="w-full" method="get" aria-label="Search form">
       <div class="relative">
-        <input name="q" 
-               value="{{ request.args.get('q', '') }}" 
-               type="text" 
-               placeholder="Search rules, users, diagrams..." 
-               class="w-full rounded-xl bg-dark-800/80 border border-dark-700 px-6 py-4 text-lg text-white shadow-lg focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-300 placeholder-slate-400 pr-14"
-               autocomplete="off" 
-               aria-label="Search input">
-        <button type="submit" 
-                class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 transition-all">
+        <input name="q"
+               value="{{ request.args.get('q', '') }}"
+               type="text"
+               placeholder="Search rules, users, diagrams..."
+               class="w-full rounded-full bg-dark-800/80 border border-dark-700 px-6 py-4 text-lg text-white shadow-lg focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-300 placeholder-slate-400 pr-14"
+               autocomplete="off"
+               aria-label="Search input"
+               autofocus>
+        <button type="submit"
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-3 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 transition-all shadow">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -105,9 +106,9 @@
       </div>
 
       <!-- Results List -->
-      <div class="space-y-6">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {% for result in results %}
-        <div class="bg-dark-800/50 rounded-xl border border-dark-700 overflow-hidden hover:border-primary-500/50 transition-colors group">
+        <div class="bg-dark-800/50 rounded-xl border border-dark-700 overflow-hidden hover:border-primary-500/50 transition-colors transform hover:-translate-y-1 shadow group">
           <div class="p-6">
             <div class="flex items-start">
               <!-- Result Icon -->
@@ -193,7 +194,7 @@
         <p class="text-slate-400 max-w-md mx-auto mb-6">
           Try different keywords or adjust your filters to find what you're looking for.
         </p>
-        <button class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow hover:shadow-md hover:from-primary-600 hover:to-primary-700 transition-all duration-300 inline-flex items-center"
+        <button class="px-4 py-2 rounded-full font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow hover:shadow-md hover:from-primary-600 hover:to-primary-700 transition-all duration-300 inline-flex items-center"
                 onclick="document.querySelector('input[name=q]').focus()">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
