@@ -1,42 +1,55 @@
-{% extends "base.html" %}
-{% block title %}Diagram Viewer | Rules Central{% endblock %}
-
-{% block hero_title %}Diagram Viewer{% endblock %}
-{% block hero_subtitle %}View, zoom, and interact with your diagrams in a beautiful, immersive interface.{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Diagram Viewer | Rules Central{%
+endblock %} {% block hero_title %}Diagram Viewer{% endblock %} {% block
+hero_subtitle %}View, zoom, and interact with your diagrams in a beautiful,
+immersive interface.{% endblock %} {% block content %}
 <!-- Diagram Card -->
-  <div class="relative bg-dark-800 rounded-3xl shadow-2xl border border-dark-700 p-10 w-full max-w-4xl glassmorphism animate-fadeIn delay-200 flex flex-col items-center">
-    <!-- Animated Toolbar -->
-    {% include 'partials/diagram_toolbar.html' %}
-    <!-- Animated Loading Skeleton (shown while diagram loads) -->
-    <div id="diagramSkeleton" class="w-full h-96 flex items-center justify-center animate-fadeIn">
-      {% include 'partials/diagram_skeleton.html' %}
-    </div>
-    <!-- Diagram Content (hidden until loaded) -->
-    <div id="diagramContent" class="w-full h-96 hidden animate-fadeIn">
-      <!-- Replace with actual diagram rendering logic -->
-      <div class="w-full h-full flex items-center justify-center">
-        <svg class="w-64 h-64 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 64 64">
-          <rect x="8" y="8" width="48" height="48" rx="8" stroke-width="4"/>
-          <path d="M16 32h32M32 16v32" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-      </div>
+<div
+  class="relative bg-dark-800 rounded-3xl shadow-2xl border border-dark-700 p-10 w-full max-w-4xl glassmorphism animate-fadeIn delay-200 flex flex-col items-center"
+>
+  <!-- Animated Toolbar -->
+  {% include 'partials/diagram_toolbar.html' %}
+  <!-- Animated Loading Skeleton (shown while diagram loads) -->
+  <div
+    id="diagramSkeleton"
+    class="w-full h-96 flex items-center justify-center animate-fadeIn"
+  >
+    {% include 'partials/diagram_skeleton.html' %}
+  </div>
+  <!-- Diagram Content (hidden until loaded) -->
+  <div id="diagramContent" class="w-full h-96 hidden animate-fadeIn">
+    <!-- Replace with actual diagram rendering logic -->
+    <div class="w-full h-full flex items-center justify-center">
+      <svg
+        class="w-64 h-64 text-primary-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 64 64"
+      >
+        <rect x="8" y="8" width="48" height="48" rx="8" stroke-width="4" />
+        <path d="M16 32h32M32 16v32" stroke-width="4" stroke-linecap="round" />
+      </svg>
     </div>
   </div>
-{% block scripts %}
-{{ super() }}
+</div>
+{% block scripts %} {{ super() }}
 <script>
-// Simulate diagram loading
-setTimeout(() => {
-  document.getElementById('diagramSkeleton').classList.add('hidden');
-  document.getElementById('diagramContent').classList.remove('hidden');
-}, 1500);
-// Toolbar button interactions (add real logic as needed)
-function zoomIn() { alert('Zoom In!'); }
-function zoomOut() { alert('Zoom Out!'); }
-function downloadDiagram() { alert('Download!'); }
-function fullscreenDiagram() { alert('Fullscreen!'); }
+  // Simulate diagram loading
+  setTimeout(() => {
+    document.getElementById("diagramSkeleton").classList.add("hidden");
+    document.getElementById("diagramContent").classList.remove("hidden");
+  }, 1500);
+  // Toolbar button interactions (add real logic as needed)
+  function zoomIn() {
+    alert("Zoom In!");
+  }
+  function zoomOut() {
+    alert("Zoom Out!");
+  }
+  function downloadDiagram() {
+    alert("Download!");
+  }
+  function fullscreenDiagram() {
+    alert("Fullscreen!");
+  }
 </script>
-{% endblock %}
-{% endblock %}
+{% endblock %} {% endblock %}

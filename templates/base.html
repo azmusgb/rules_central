@@ -1,35 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Rules Central{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  {% block head %}{% endblock %}
-</head>
-<body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans text-white pt-20">
-  {% include 'partials/header.html' %}
-  {% if self.hero_title().strip() or self.hero_subtitle().strip() %}
-  <section class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12 mt-20">
-    {% include 'partials/hero_bg.html' %}
-    <div class="relative z-10">
-      <h1 class="text-4xl font-extrabold mb-4 text-primary-500">
-        {% block hero_title %}{% endblock %}
-      </h1>
-      {% if self.hero_subtitle().strip() %}
-      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-        {% block hero_subtitle %}{% endblock %}
-      </p>
-      {% endif %}
-    </div>
-  </section>
-  {% endif %}
-  <main class="pt-8 px-4 md:px-8 max-w-6xl mx-auto w-full min-h-[70vh] flex flex-col gap-10">
-    {% block content %}{% endblock %}
-  </main>
-  {% include 'partials/footer.html' %}
-  {% block scripts %}{% endblock %}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Rules Central{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body
+    class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans text-white pt-20"
+  >
+    {% include 'partials/header.html' %} {% if self.hero_title().strip() or
+    self.hero_subtitle().strip() %}
+    <section
+      class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12 mt-20"
+    >
+      {% include 'partials/hero_bg.html' %}
+      <div class="relative z-10">
+        <h1 class="text-4xl font-extrabold mb-4 text-primary-500">
+          {% block hero_title %}{% endblock %}
+        </h1>
+        {% if self.hero_subtitle().strip() %}
+        <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+          {% block hero_subtitle %}{% endblock %}
+        </p>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+    <main
+      class="pt-8 px-4 md:px-8 max-w-6xl mx-auto w-full min-h-[70vh] flex flex-col gap-10"
+    >
+      {% block content %}{% endblock %}
+    </main>
+    {% include 'partials/footer.html' %} {% block scripts %}{% endblock %}
+  </body>
 </html>
-
