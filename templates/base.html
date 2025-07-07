@@ -10,6 +10,21 @@
 </head>
 <body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans text-white">
   {% include 'partials/header.html' %}
+  {% if self.hero_title().strip() or self.hero_subtitle().strip() %}
+  <section class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12">
+    {% include 'partials/hero_bg.html' %}
+    <div class="relative z-10">
+      <h1 class="text-4xl font-extrabold mb-4 text-primary-500">
+        {% block hero_title %}{% endblock %}
+      </h1>
+      {% if self.hero_subtitle().strip() %}
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        {% block hero_subtitle %}{% endblock %}
+      </p>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
   <main class="pt-28 px-4 md:px-8 max-w-6xl mx-auto w-full min-h-[70vh] flex flex-col gap-10">
     {% block content %}{% endblock %}
   </main>
