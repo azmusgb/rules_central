@@ -48,6 +48,8 @@ def user_profile():
         current_app.logger.error(f"Profile error: {exc}")
         abort(500, "Error loading profile page")
 
+
+@user_routes.route('/settings', methods=['GET', 'POST'])
 def user_settings():
     """User settings page with form handling."""
     try:
@@ -104,6 +106,7 @@ def user_settings():
         current_app.logger.error(f"Settings error: {exc}")
         abort(500, "Error loading settings page")
 
+@user_routes.route('/api/profile')
 def get_user_profile():
     """API endpoint for user profile data."""
     try:
@@ -124,6 +127,7 @@ def get_user_profile():
         current_app.logger.error(f"Profile API error: {exc}")
         return jsonify({'error': str(exc)}), 500
 
+@user_routes.route('/api/activity')
 def get_user_activity():
     """API endpoint for user activity data."""
     try:
@@ -154,6 +158,7 @@ def get_user_activity():
         current_app.logger.error(f"Activity API error: {exc}")
         return jsonify({'error': str(exc)}), 500
 
+@user_routes.route('/api/settings', methods=['GET', 'PUT'])
 def handle_user_settings():
     """API endpoint for user settings."""
     try:
