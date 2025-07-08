@@ -6,6 +6,7 @@ from .main import main
 from .collab import collab
 from .analytics_routes import analytics_routes
 from .user_routes import user_routes
+
 from .metrics_api import *
 from all_routes import routes_bp
 
