@@ -106,6 +106,13 @@ def user_settings():
         current_app.logger.error(f"Settings error: {exc}")
         abort(500, "Error loading settings page")
 
+# Provide /settings.html as a compatibility alias so users can
+# access the settings page by file name.
+@user_routes.route('/settings.html', methods=['GET', 'POST'])
+def user_settings_html():
+    """Alias for ``/settings`` that renders the same page."""
+    return user_settings()
+
 @user_routes.route('/api/profile')
 def get_user_profile():
     """API endpoint for user profile data."""
