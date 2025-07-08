@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="color-scheme" content="dark light" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Design tokens -->
+    <style>
+      :root {
+        /* Match the sticky header height so we can reuse it for padding/scroll‑offsets */
+        --header-height: 4rem;
+      }
+    </style>
     <title>{% block title %}Rules Central{% endblock %}</title>
     <link
       rel="stylesheet"
@@ -20,7 +27,7 @@
     {% block head %}{% endblock %}
   </head>
   <body
-    class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans text-white pt-20"
+    class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
   >
     {% include 'partials/header.html' %} {% if self.hero_title().strip() or
     self.hero_subtitle().strip() %}
@@ -41,7 +48,7 @@
     </section>
     {% endif %}
     <main
-      class="pt-8 px-4 md:px-8 max-w-6xl mx-auto w-full min-h-[70vh] flex flex-col gap-10 scroll-mt-24"
+      class="pt-8 px-4 md:px-8 max-w-6xl xl:max-w-7xl 2xl:max-w-8xl mx-auto w-full min-h-[70vh] flex flex-col gap-10 scroll-mt-24"
     >
       {% block content %}{% endblock %}
     </main>
@@ -55,13 +62,13 @@
         right: 2rem;
         opacity: 0;
         pointer-events: none;
-        transform: scale(0.9);
-        transition: opacity 0.3s, transform 0.3s;
+        transform: translateY(0.5rem) scale(0.9);
+        transition: opacity .3s, transform .3s;
       }
       #backToTop.show {
         opacity: 1;
         pointer-events: auto;
-        transform: scale(1);
+        transform: translateY(0) scale(1);
       }
     </style>
     <script>
