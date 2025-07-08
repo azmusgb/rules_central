@@ -8,9 +8,9 @@ from flask import Blueprint, jsonify, current_app, request, send_file
 from config import Config
 from utils import log_activity, get_current_user
 
-analytics = Blueprint('analytics', __name__)
+analytics_routes = Blueprint('analytics_routes', __name__)
 
-@analytics.route('/api/stats')
+@analytics_routes.route('/api/stats')
 def get_stats():
     """Return accurate counts of diagrams and rules."""
     try:
@@ -44,7 +44,6 @@ def get_stats():
         current_app.logger.error(f"Stats error: {exc}")
         return jsonify({'status': 'error', 'message': 'Could not calculate statistics'}), 500
 
-@analytics.route('/api/advanced_stats')
 def get_advanced_stats():
     """Return business metrics tracked in a JSON file."""
     try:
@@ -67,7 +66,6 @@ def get_advanced_stats():
         current_app.logger.error(f"Advanced stats error: {exc}")
         return jsonify({'error': str(exc)}), 500
 
-@analytics.route('/api/analytics/activity', methods=['GET'])
 def get_activity():
     """Return the raw activity log file."""
     Config.ensure_data_dir()
@@ -80,7 +78,6 @@ def get_activity():
     except FileNotFoundError:
         return jsonify({'error': 'Activity log not found'}), 404
 
-@analytics.route('/api/activity_stats')
 def get_activity_stats():
     """Return comprehensive activity statistics with accurate counting."""
     try:
@@ -126,7 +123,6 @@ def get_activity_stats():
         current_app.logger.error(f"Stats generation failed: {exc}")
         return jsonify({'error': str(exc)}), 500
 
-@analytics.route('/api/rules/<rule_id>', methods=['PUT'])
 def update_rule(rule_id):
     """Example rule update endpoint that logs an activity entry."""
     data = request.get_json()
@@ -143,7 +139,6 @@ def update_rule(rule_id):
         current_app.logger.error(f"Rule update error: {exc}")
         return jsonify({'error': str(exc)}), 500
 
-@analytics.route('/test/log_activity')
 def test_log_activity():
     """Test endpoint to verify activity logging."""
     try:
@@ -157,7 +152,6 @@ def test_log_activity():
     except Exception as exc:
         return jsonify({'status': 'error', 'message': str(exc)}), 500
 
-@analytics.route('/test/view_activity_log')
 def test_view_activity_log():
     """Test endpoint to view raw activity log."""
     try:
@@ -167,7 +161,6 @@ def test_view_activity_log():
     except Exception as exc:
         return jsonify({'error': str(exc)}), 500
 
-@analytics.route('/force_log_activity')
 def force_log_activity():
     """Force log a test activity."""
     try:
