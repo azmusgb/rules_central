@@ -4,9 +4,14 @@
   This file is for Tailwind-based custom component classes only.
   All non-Tailwind or reusable utility styles should go in /static/css/custom-utilities.css.
   Use semantic variables from /static/css/tokens.css for all color and spacing values.
-  
+
   Do NOT add global resets or base styles here—use input.css for base overrides.
 */
+
+/* Include Tailwind layers so @layer rules compile correctly */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import url('../../static/css/tokens.css');
 @import url('../../static/css/custom-utilities.css');
@@ -50,5 +55,16 @@
   }
   .tab {
     @apply px-3 py-2 text-sm font-medium text-slate-400 hover:text-white transition;
+  }
+
+  /* Panel utilities used throughout templates */
+  .panel {
+    @apply bg-dark-850 border border-slate-700/60 rounded-2xl p-6 shadow-lg;
+  }
+  .panel--glass {
+    @apply bg-dark-800/70 backdrop-blur-md border border-white/10;
+  }
+  .glass-panel {
+    @apply backdrop-blur-md bg-dark-800/70 border border-white/10;
   }
 }
