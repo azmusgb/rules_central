@@ -1,60 +1,108 @@
 /*
   input.css — Tailwind CSS Entrypoint
-  --------------------------------------------------
-  This file is for Tailwind imports and project-specific Tailwind base customizations only.
-  All custom CSS utilities, variables, and reusable styles should go in /static/css/custom-utilities.css.
-  Use semantic variables from /static/css/tokens.css for all color and spacing values.
-  Do NOT add new custom utilities here—add them to custom-utilities.css for maintainability.
+  ----------------------------------------------------------------------------
+  This file contains Tailwind imports and project-specific base customizations.
 
-  If you need to add Tailwind-based custom components, use /src/styles/tailwind-input.css.
+  Structure:
+  1. Tailwind directives
+  2. Base layer customizations
+  3. Plugin imports
+
+  Guidelines:
+  - Use CSS variables from tokens.css exclusively
+  - Keep base styles minimal and semantic
+  - Add responsive variants where appropriate
+  - Document all non-obvious decisions
+  - Do NOT add new custom utilities here—add them to /static/css/custom-utilities.css
 */
 
-/* Tailwind Directives */
+/* ==========================================================================
+   Tailwind Core Directives
+   ========================================================================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Project-specific Tailwind base customizations */
+/* ==========================================================================
+   Base Layer Customizations
+   ========================================================================== */
 @layer base {
-  html {
-    font-family: var(--qc-font-sans);
-    background-color: var(--qc-bg);
-    color: var(--qc-text-main);
+  /* Root element styles */
+  :root {
     scroll-behavior: smooth;
+    color-scheme: light dark;
+    accent-color: var(--qc-link);
   }
 
+  /* HTML document */
+  html {
+    font-family: var(--qc-font-family-sans);
+    background-color: var(--qc-bg);
+    color: var(--qc-text-main);
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Body styles */
   body {
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--qc-bg) 0%, var(--qc-panel) 50%, var(--qc-bg-dark) 100%);
+    min-height: 100dvh; /* Modern viewport unit */
+    background: linear-gradient(
+      135deg,
+      var(--qc-bg) 0%,
+      var(--qc-panel) 50%,
+      var(--qc-bg-dark) 100%
+    );
+    background-attachment: fixed; /* For consistent gradient */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--qc-font-heading);
+  /* Typography hierarchy */
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--qc-font-family-sans);
     font-weight: var(--qc-font-weight-bold);
     letter-spacing: -0.01em;
+    color: var(--qc-text-main);
+    line-height: 1.2;
   }
 
+  /* Interactive elements */
   a {
-    text-underline-offset: 4px;
-    transition: color 0.2s;
+    --qc-link-underline-offset: 0.25em;
+    text-underline-offset: var(--qc-link-underline-offset);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    text-decoration-thickness: 1px;
     outline: none;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--qc-link);
+      outline-offset: 0.25em;
+      border-radius: 0.125em;
+    }
   }
 
-  a:focus {
-    outline: 2px solid var(--qc-link);
-    outline-offset: 2px;
+  /* Form elements reset */
+  :where(input, button, textarea, select) {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Selection styles */
+  ::selection {
+    background-color: var(--qc-link);
+    color: white;
   }
 }
 
-/* Tailwind Plugins */
-@import url("@tailwindcss/forms");
-@import url("@tailwindcss/typography");
-@import url("@tailwindcss/aspect-ratio");
-@import url("daisyui");
+/* ==========================================================================
+   Tailwind Plugin Imports
+   ========================================================================== */
+@import "@tailwindcss/forms" layer(base);
+@import "@tailwindcss/typography" layer(components);
+@import "@tailwindcss/aspect-ratio" layer(components);
+@import "daisyui" layer(components);
