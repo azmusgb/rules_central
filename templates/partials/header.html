@@ -18,7 +18,7 @@
 
             <!-- Desktop Navigation (Premium look, more spacing, subtle hover) -->
             <nav class="hidden md:flex items-center space-x-2" aria-label="Main navigation">
-                <a class="nav-link font-semibold text-base tracking-wide uppercase" href="{{ url_for('main.index') }}">
+                <a class="nav-link font-semibold text-base tracking-wide uppercase {{ is_active('main.index') }}" href="{{ url_for('main.index') }}">
                     <i aria-hidden="true" class="fas fa-home mr-2"></i>Home
                 </a>
                 <!-- Tools Dropdown -->
@@ -56,13 +56,13 @@
                         </a>
                     </div>
                 </div>
-                <a class="nav-link font-semibold text-base tracking-wide uppercase" href="/catalog">
+                <a class="nav-link font-semibold text-base tracking-wide uppercase {{ is_active('main.catalog') }}" href="{{ url_for('main.catalog') }}">
                     <i aria-hidden="true" class="fas fa-folder mr-2"></i>Catalog
                 </a>
-                <a class="nav-link font-semibold text-base tracking-wide uppercase" href="/search">
+                <a class="nav-link font-semibold text-base tracking-wide uppercase {{ is_active('routes.search') }}" href="{{ url_for('routes.search') }}">
                     <i aria-hidden="true" class="fas fa-search mr-2"></i>Search
                 </a>
-                <a class="nav-link font-semibold text-base tracking-wide uppercase" href="/config">
+                <a class="nav-link font-semibold text-base tracking-wide uppercase {{ is_active('routes.config_page') }}" href="{{ url_for('routes.config_page') }}">
                     <i aria-hidden="true" class="fas fa-cog mr-2"></i>Configuration
                 </a>
                 <!-- Help Dropdown -->
@@ -100,8 +100,9 @@
             <!-- Right Side Controls (More premium, larger, and animated) -->
             <div class="flex items-center space-x-4">
                 <!-- Theme Toggle (with tooltip) -->
-                <button 
-                    id="theme-toggle" 
+                <button
+                    id="theme-toggle"
+                    aria-keyshortcuts="t"
                     aria-label="Toggle theme"
                     class="p-3 rounded-xl text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors relative group bg-white/60 dark:bg-dark-700/60 shadow hover:shadow-lg"
                     data-tippy-content="Toggle dark mode"
@@ -168,19 +169,19 @@
         @click.away="open = false"
     >
         <div class="px-6 py-5 space-y-3">
-            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase" href="{{ url_for('main.index') }}">
+            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase {{ is_active('main.index') }}" href="{{ url_for('main.index') }}">
                 <i aria-hidden="true" class="fas fa-home"></i>Home
             </a>
             <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase" href="/upload">
                 <i aria-hidden="true" class="fas fa-upload"></i>Upload
             </a>
-            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase" href="/catalog">
+            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase {{ is_active('main.catalog') }}" href="{{ url_for('main.catalog') }}">
                 <i aria-hidden="true" class="fas fa-folder"></i>Catalog
             </a>
-            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase" href="/search">
+            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase {{ is_active('routes.search') }}" href="{{ url_for('routes.search') }}">
                 <i aria-hidden="true" class="fas fa-search"></i>Search
             </a>
-            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase" href="/config">
+            <a class="mobile-nav-link font-semibold text-base tracking-wide uppercase {{ is_active('routes.config_page') }}" href="{{ url_for('routes.config_page') }}">
                 <i aria-hidden="true" class="fas fa-cog"></i>Configuration
             </a>
             <div class="border-t border-gray-200 dark:border-slate-700 my-2"></div>

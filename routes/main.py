@@ -1,6 +1,20 @@
 """Main user-facing pages."""
 
-from flask import Blueprint, render_template, current_app, abort
+from flask import (
+    Blueprint,
+    render_template,
+    current_app,
+    abort,
+    request,
+    redirect,
+    url_for,
+    flash,
+)
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from config import Config
+from utils import ensure_directory_exists
 
 main = Blueprint('main', __name__)
 
@@ -47,11 +61,32 @@ def about():
         abort(500)
 
 
-@main.route('/contact')
+@main.route('/contact', methods=['GET', 'POST'])
 def contact():
-    """Display the contact page for user feedback."""
+    """Display the contact page and handle feedback submissions."""
 
     try:
+        if request.method == 'POST':
+            data = {
+                'name': request.form.get('name', 'Anonymous'),
+                'email': request.form.get('email', ''),
+                'subject': request.form.get('subject', ''),
+                'message': request.form.get('message', ''),
+                'timestamp': datetime.now(timezone.utc).isoformat(),
+            }
+            feedback_path = Path(Config.FEEDBACK_FILE)
+            ensure_directory_exists(feedback_path.parent)
+            existing = []
+            if feedback_path.exists():
+                try:
+                    existing = json.loads(feedback_path.read_text())
+                except json.JSONDecodeError:
+                    existing = []
+            existing.append(data)
+            feedback_path.write_text(json.dumps(existing, indent=2))
+            flash('Thank you for your feedback!', 'success')
+            return redirect(url_for('main.contact'))
+
         return render_template('contact.html')
     except Exception as exc:  # pragma: no cover - unexpected errors
         current_app.logger.error("Contact page error: %s", exc)

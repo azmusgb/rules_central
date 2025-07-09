@@ -33,6 +33,7 @@
   <body
     class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen u-font-sans text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
   >
+    <div id="scroll-progress" class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50"></div>
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only absolute top-0 left-0 m-4 bg-dark-800 text-white px-4 py-2 rounded"
@@ -93,8 +94,21 @@
       }
     </script>
     {% endif %}
+    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/help_content.js') }}"></script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var msgs = {{ messages|tojson }};
+        if (window.app && window.app.showToast) {
+          msgs.forEach(function(m){ window.app.showToast(m[1], m[0]); });
+        }
+      });
+    </script>
+    {% endif %}
+    {% endwith %}
     {% block scripts %}{% endblock %}
   </body>
 </html>
