@@ -21,6 +21,8 @@ pip install -r requirements.txt
 # or
 pip install -e .
 ```
+python-dotenv is optional. If it is not installed, the application will log a warning but still run.
+
 
 Build CSS assets (optional):
 ```bash
