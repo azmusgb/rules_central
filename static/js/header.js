@@ -41,17 +41,20 @@ if (themeToggle && window.AppUtils && window.AppUtils.toggleTheme) {
 
 // Highlight current navigation link and set aria-current
 function highlightCurrentNav() {
-  document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
-    if (link.getAttribute("href") === window.location.pathname) {
-      link.classList.add(
-        "text-primary-600",
-        "dark:text-primary-400",
-        "font-medium",
-      );
-      link.setAttribute("aria-current", "page");
-      const underline = link.querySelector("span:last-child");
-      if (underline) underline.classList.add("w-4/5", "left-[10%]");
-    }
-  });
+  document
+    .querySelectorAll(".nav-link, .mobile-nav-link, .sidebar-link")
+    .forEach((link) => {
+      if (link.getAttribute("href") === window.location.pathname) {
+        link.classList.add(
+          "text-primary-600",
+          "dark:text-primary-400",
+          "font-medium",
+          "active"
+        );
+        link.setAttribute("aria-current", "page");
+        const underline = link.querySelector("span:last-child");
+        if (underline) underline.classList.add("w-4/5", "left-[10%]");
+      }
+    });
 }
 document.addEventListener("DOMContentLoaded", highlightCurrentNav);
