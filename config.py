@@ -34,6 +34,7 @@ class Config:
 
     DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
     ACTIVITY_LOG = Path(DATA_DIR) / "activity_log.json"
+    FEEDBACK_FILE = Path(DATA_DIR) / "feedback.json"
 
     @classmethod
     def ensure_data_dir(cls):
@@ -54,4 +55,8 @@ class Config:
             with open(cls.ACTIVITY_LOG, "w", encoding="utf-8") as f:
                 json.dump(initial_data, f, indent=2)
             cls.ACTIVITY_LOG.chmod(0o644)
+        if not cls.FEEDBACK_FILE.exists():
+            with open(cls.FEEDBACK_FILE, "w", encoding="utf-8") as f:
+                json.dump([], f, indent=2)
+            cls.FEEDBACK_FILE.chmod(0o644)
         return cls.ACTIVITY_LOG
