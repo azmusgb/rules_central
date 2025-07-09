@@ -71,6 +71,20 @@ def create_app() -> Flask:
             return ts if fmt is None else ts.strftime(fmt)
         return {"now": _now}
 
+    @app.context_processor
+    def _active_nav():
+        """Return helper to mark navigation links as active."""
+        def is_active(endpoint: str) -> str:
+            from flask import request
+
+            return (
+                "text-primary-600 dark:text-primary-400 font-medium"
+                if request.endpoint == endpoint
+                else ""
+            )
+
+        return {"is_active": is_active}
+
     # ─── Directory checks ──────────────────────────────────────────
     with app.app_context():
         ensure_directories(app)
