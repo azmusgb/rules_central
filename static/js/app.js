@@ -41,6 +41,20 @@
     if (window.AppUtils.initAnimations) window.AppUtils.initAnimations();
     if (window.AppUtils.setupBackToTop) window.AppUtils.setupBackToTop();
     if (window.AppUtils.setupSearchInputs) window.AppUtils.setupSearchInputs();
+    const updateProgress = () => {
+      const progress = document.getElementById("scroll-progress");
+      if (progress) {
+        const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        const docHeight =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progress.style.width = `${percent}%`;
+      }
+    };
+    updateProgress();
+    window.addEventListener("scroll", updateProgress);
   });
 
   // Expose AppUtils under previous namespace for legacy scripts

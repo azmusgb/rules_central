@@ -267,3 +267,43 @@ body {
 .u-container {  width: min(100% - 2rem, var(--qc-container-max));
   margin-inline: auto;
 }
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  background: var(--qc-color-bg-elevated);
+  color: var(--qc-color-text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: var(--qc-radius-lg);
+  box-shadow: var(--qc-shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--qc-z-index-toast);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -0.5rem);
+}
+.toast .toast-close {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.toast.success {
+  background: var(--qc-color-success-400);
+}
+.toast.error {
+  background: var(--qc-color-danger-400);
+}
+.toast.info {
+  background: var(--qc-color-info-400);
+}
