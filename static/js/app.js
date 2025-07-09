@@ -41,6 +41,8 @@
     if (window.AppUtils.initAnimations) window.AppUtils.initAnimations();
     if (window.AppUtils.setupBackToTop) window.AppUtils.setupBackToTop();
     if (window.AppUtils.setupSearchInputs) window.AppUtils.setupSearchInputs();
+    if (window.AppUtils.setupCopyButtons) window.AppUtils.setupCopyButtons();
+    if (window.AppUtils.setupHotkeys) window.AppUtils.setupHotkeys();
     const updateProgress = () => {
       const progress = document.getElementById("scroll-progress");
       if (progress) {
