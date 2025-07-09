@@ -1,7 +1,18 @@
 # Rules Central
 
-Rules Central is a Flask application for managing and visualizing rule sets.
-It provides tools to upload diagrams, analyze rules, and collaborate with others.
+Rules Central is a Flask web application for managing and visualizing rule sets.
+It provides tools to upload diagrams, analyze rules and collaborate with others.
+
+## Table of Contents
+- [Features](#features)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Running Locally](#running-locally)
+- [Running Tests](#running-tests)
+- [Custom configuration](#custom-configuration)
+- [Project structure](#project-structure)
+- [Codespaces](#codespaces)
+- [License](#license)
 
 ## Features
 - **Dashboard** with live metrics
@@ -15,30 +26,36 @@ It provides tools to upload diagrams, analyze rules, and collaborate with others
 - Python 3.10+
 - Node.js for building Tailwind CSS assets
 
+## Setup
 Install Python dependencies (or install the package in editable mode):
 ```bash
 pip install -r requirements.txt
 # or
 pip install -e .
 ```
-python-dotenv is optional. If it is not installed, the application will log a warning but still run.
-
+`python-dotenv` is optional. If it is not installed, the application will log a warning but still run.
 
 Build CSS assets (optional):
 ```bash
 npm install
 npm run build:css
 ```
-The compiled stylesheet is saved to `static/css/app.css`. It contains the
-combined rules from the old `main.css` and `overhaul.css` files.
+The compiled stylesheet is saved to `static/css/app.css`. It contains the combined rules from the old `main.css` and `overhaul.css` files.
 
-## Running locally
+## Running Locally
 Start the development server with:
 ```bash
 python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 Visit [/about](http://127.0.0.1:8080/about) for version info and links.
+
+## Running Tests
+Run the unit tests with:
+```bash
+pytest
+```
+The tests cover helper functions in [utils.py](utils.py) and ensure the application factory can be imported without optional dependencies.
 
 ### Custom configuration
 Set the ``CONFIG_PATH`` environment variable to load an alternative
@@ -49,9 +66,13 @@ export CONFIG_PATH=/path/to/config.json
 
 ## Project structure
 - `app.py` – application factory
+- `wsgi.py` – WSGI entry point for production servers
+- `service.py` – Windows service wrapper
 - `routes/` – blueprints and route handlers
 - `templates/` – Jinja2 templates
 - `static/` – static assets
+- `config/` – default configuration files
+- `tests/` – pytest unit tests
 
 ## Codespaces
 
