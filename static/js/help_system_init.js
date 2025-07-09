@@ -38,6 +38,15 @@ window.helpContent = window.helpContent || {
                             Email us at <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>
                         </p>
                     </div>
+                    <div class="p-3 bg-green-900/20 rounded-lg">
+                        <h4 class="font-medium flex items-center">
+                            <i class="fas fa-question-circle mr-2 text-green-400"></i>
+                            FAQ
+                        </h4>
+                        <p class="text-sm mt-2 text-gray-300">
+                            Check the <a href="/faq" class="text-primary-400 hover:underline">FAQ page</a> for quick answers.
+                        </p>
+                    </div>
                 </div>
             `,
   },
