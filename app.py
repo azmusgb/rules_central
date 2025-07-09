@@ -122,5 +122,4 @@ if __name__ == "__main__":
     try:
         app.run(debug=True, host="127.0.0.1", port=8080)
     except Exception as exc:
-        LOGGER.critical("Flask app failed to start: %s", exc, exc_info=True)
-        raise
+        LOGGER.critical("Flask app failed to start: %s", exc, exc_info=True)        raise
