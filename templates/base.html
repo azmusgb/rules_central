@@ -2,16 +2,23 @@
 <html lang="en" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="color-scheme" content="dark light" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Design tokens -->
-    <style>
-      :root {
-        /* Match the sticky header height so we can reuse it for padding/scroll‑offsets */
-        --header-height: 4rem;
-      }
-    </style>
+    <meta name="color-scheme" content="dark light" />
+    {% block meta_description %}
+    <meta name="description" content="Rules Central: Your one-stop destination for rules and regulations.">
+    {% endblock %}
+
     <title>{% block title %}Rules Central{% endblock %}</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+
+    <!-- Preload critical CSS for faster rendering -->
+    <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style" />
+
+    <!-- Stylesheets -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/app.css') }}"
@@ -22,22 +29,38 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
+
+
+    <!-- Head Scripts (deferred) -->
     <script
       defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js"
     ></script>
-    {% block head %}{% endblock %}
+
+    <!-- Extra head content block -->
+    {% block head %}
+    <style nonce="{{ g.nonce }}">
+      .dropdown-menu { display: none; }
+    </style>
+    {% endblock %}
   </head>
+  {% with messages = get_flashed_messages(with_categories=true) %}
   <body
     class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen u-font-sans text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
+    {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
   >
+    <!-- The `with` block above makes flashed messages available to the entire body, used by app.js to show notifications. -->
     <div id="scroll-progress" class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50"></div>
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only absolute top-0 left-0 m-4 bg-dark-800 text-white px-4 py-2 rounded"
     >Skip to main content</a>
+
     {% include 'partials/header.html' %} {% if self.hero_title().strip() or
     self.hero_subtitle().strip() %}
     <section
@@ -64,51 +87,11 @@
     </main>
     {% include 'partials/footer.html' %}
     {% include 'help_system.html' %}
-    {% if show_back_to_top is not defined or show_back_to_top %}
-    {% include 'partials/back_to_top.html' %}
-    <style>
-      #backToTop {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(0.5rem) scale(0.9);
-        transition: opacity .3s, transform .3s;
-      }
-      #backToTop.show {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0) scale(1);
-      }
-    </style>
-    <script>
-      const backToTopBtn = document.getElementById('backToTop');
-      if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-          backToTopBtn.classList.toggle('show', window.scrollY > 300);
-        });
-        backToTopBtn.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-    </script>
-    {% endif %}
-    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/help_content.js') }}"></script>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var msgs = {{ messages|tojson }};
-        if (window.app && window.app.showToast) {
-          msgs.forEach(function(m){ window.app.showToast(m[1], m[0]); });
-        }
-      });
-    </script>
-    {% endif %}
-    {% endwith %}
+    {% if show_back_to_top is not defined or show_back_to_top %}{% include 'partials/back_to_top.html' %}{% endif %}
+    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" nonce="{{ g.nonce }}"></script>
+    <script defer src="{{ url_for('static', filename='js/app.js') }}" nonce="{{ g.nonce }}"></script>
+    <script defer src="{{ url_for('static', filename='js/help_content.js') }}" nonce="{{ g.nonce }}"></script>
     {% block scripts %}{% endblock %}
+    {% endwith %}
   </body>
 </html>
