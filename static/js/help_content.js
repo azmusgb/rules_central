@@ -289,7 +289,10 @@ window.helpContent = {
         </p>
         <ul class="list-disc pl-5 text-sm text-slate-300 space-y-1">
           <li><strong>What is Rules Central?</strong> A web platform for managing and visualizing business rules.</li>
-          <li><strong>How do I upload diagrams?</strong> Use the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page to add JSON files.</li>
+          <li><strong>How do I upload diagrams?</strong> Use the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page to add JSON or Mermaid files.</li>
+          <li><strong>Where are my diagrams stored?</strong> Uploaded diagrams appear in the catalog and can be searched at any time.</li>
+          <li><strong>Can I share diagrams with others?</strong> Open a diagram and copy its share link from the viewer.</li>
+          <li><strong>What if an upload fails?</strong> Ensure your file is valid JSON and under 10&nbsp;MB, then try again.</li>
           <li><strong>Need more help?</strong> Visit the <a href="/full-help" class="text-primary-400 hover:underline">documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.</li>
         </ul>
       </div>
@@ -298,15 +301,18 @@ window.helpContent = {
   default: {
     title: "Help Center",
     content: `
-      <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
+      <div class="p-4 bg-dark-800 rounded-lg border border-slate-700 space-y-2">
         <p class="text-sm text-slate-300">
-          For comprehensive documentation, please visit our
-          <a href="/full-help" class="text-primary-400 hover:underline">Help Portal</a>.
+          Welcome to Rules Central. Use the sidebar to browse diagrams and manage rules.
         </p>
-        <p class="text-sm mt-2 text-slate-300">
-          Contact support at
-          <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>
-          for additional assistance.
+        <p class="text-sm text-slate-300">
+          Visit the <a href="/full-help" class="text-primary-400 hover:underline">Help Portal</a> for tutorials and examples.
+        </p>
+        <p class="text-sm text-slate-300">
+          See the <a href="/faq" class="text-primary-400 hover:underline">FAQ</a> for answers to common questions.
+        </p>
+        <p class="text-sm text-slate-300">
+          Need assistance? Email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.
         </p>
       </div>
     `,
