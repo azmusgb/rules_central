@@ -84,7 +84,7 @@ def add_missing_guids_if_needed(rules: Iterable[Dict[str, Any]]) -> None:
         recurse(top_rule)
 
 def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
-    """Load and sanitize JSON data from ``filepath``."""
+    """Load JSON from ``filepath`` and remove unexpected fields."""
     try:
         with open(filepath, "r", encoding="utf-8") as file:
             content = file.read()
@@ -92,24 +92,48 @@ def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
                 raise ValueError("Uploaded file appears to be HTML, not valid JSON.")
             file.seek(0)
             data = json.load(file)
-            if isinstance(data, dict) and "rules" in data:
-                data = data["rules"]
-            if not isinstance(data, list):
-                raise ValueError("JSON data must be a list of rules.")
-            for rule in data:
-                if "RuleName" not in rule:
-                    rule["RuleName"] = "Unnamed"
-                if "Attributes" in rule and isinstance(rule["Attributes"], dict):
-                    rule["Attributes"] = remove_all_quotes(rule["Attributes"])
-                    udf_value = rule["Attributes"].get("UDFName", "").strip()
-                    if udf_value:
-                        pass  # Placeholder for any UDF-specific logic
-            add_missing_guids_if_needed(data)
-            LOGGER.info("JSON file %s successfully loaded. Missing GUIDs assigned if needed.", filepath)
-            return data
+
+        if isinstance(data, dict) and "rules" in data:
+            data = data["rules"]
+        if not isinstance(data, list):
+            raise ValueError("JSON data must be a list of rules.")
+
+        allowed_fields = {
+            "RuleGUID",
+            "RuleName",
+            "Children",
+            "Actions",
+            "Attributes",
+            "ParentGUID",
+            "ParentActionIndex",
+            "Container",
+            "FunctionName",
+            "RootName",
+        }
+
+        def sanitize_rule(rule: Dict[str, Any]) -> Dict[str, Any]:
+            cleaned = {k: v for k, v in rule.items() if k in allowed_fields}
+            if "Attributes" in cleaned and isinstance(cleaned["Attributes"], dict):
+                cleaned["Attributes"] = remove_all_quotes(cleaned["Attributes"])
+            if "Children" in cleaned and isinstance(cleaned["Children"], list):
+                cleaned["Children"] = [sanitize_rule(c) for c in cleaned["Children"]]
+            if "Actions" in cleaned and isinstance(cleaned["Actions"], list):
+                actions = []
+                for action in cleaned["Actions"]:
+                    a = {"ActionName": action.get("ActionName")}
+                    if "ChildRules" in action and isinstance(action["ChildRules"], list):
+                        a["ChildRules"] = [sanitize_rule(cr) for cr in action["ChildRules"]]
+                    actions.append(a)
+                cleaned["Actions"] = actions
+            return cleaned
+
+        sanitized = [sanitize_rule(r) for r in data]
+        add_missing_guids_if_needed(sanitized)
+        LOGGER.info("JSON file %s successfully loaded. Missing GUIDs assigned if needed.", filepath)
+        return sanitized
     except (json.JSONDecodeError, FileNotFoundError, ValueError) as e:
         LOGGER.error("Error loading JSON file %s: %s", filepath, e)
-        return None
+        raise
 
 # --- Grouping and Catalog Utilities ---
 
@@ -118,7 +142,7 @@ def get_dynamic_groups(diagrams_folder: str | Path) -> list[Dict[str, Any]]:
     if not os.path.exists(diagrams_folder):
         return []
     grouped_catalog: Dict[str, Dict[str, Any]] = {}
-    for folder in os.listdir(diagrams_folder):
+    for folder in sorted(os.listdir(diagrams_folder)):
         folder_path = os.path.join(diagrams_folder, folder)
         if not os.path.isdir(folder_path):
             continue
@@ -141,7 +165,10 @@ def get_dynamic_groups(diagrams_folder: str | Path) -> list[Dict[str, Any]]:
                         existing_entry["diagram"] = filename
                     elif filename.endswith('.json'):
                         existing_entry["hierarchy"] = filename
-    return list(grouped_catalog.values())
+    groups = list(grouped_catalog.values())
+    for g in groups:
+        g["entries"].sort(key=lambda e: e["root"])
+    return sorted(groups, key=lambda g: g["category"])
 
 # --- Rule Flattening and Hierarchy ---
 
@@ -495,11 +522,17 @@ def highlight_matches(text, query):
     if not query:
         return text
     try:
+        words = [w for w in query.split() if w]
+        if len(words) > 1:
+            for w in words:
+                pattern = re.compile(re.escape(w), re.IGNORECASE)
+                text = pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
+            return text
         pattern = re.compile(re.escape(query), re.IGNORECASE)
+        return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
     except re.error as exc:
         LOGGER.error("Invalid regex in highlight_matches: %s", exc)
         return text
-    return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
 def find_rule_by_guid(rules, guid):
     """Find a rule by its GUID."""
     for rule in rules:
@@ -577,13 +610,26 @@ def diagram_type_from_filename(filename: str) -> str | None:
 
 
 def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
-    """Extract a short snippet of ``content`` around ``query``."""
-    index = content.find(query)
+    """Extract a short snippet of ``content`` around ``query`` without cutting words."""
+    index = content.lower().find(query.lower())
     if index == -1:
         return ""
-    start = max(0, index - snippet_length // 2)
-    end = min(len(content), index + len(query) + snippet_length // 2)
-    return content[start:end]
+
+    if len(content) <= len(query) + snippet_length:
+        return content
+
+    half = snippet_length // 2
+    start = max(0, index - half)
+    start = content.rfind(" ", 0, start)
+    start = 0 if start == -1 else start + 1
+
+    end = min(len(content), index + len(query) + half)
+    space_after = content.rfind(" ", index + len(query), end)
+    if space_after != -1 and space_after > index + len(query):
+        end = space_after
+
+    snippet = content[start:end]
+    return snippet.strip()
 
 
 # --- Application Helper Utilities ---
