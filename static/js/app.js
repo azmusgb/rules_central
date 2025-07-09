@@ -43,6 +43,8 @@
     if (window.AppUtils.setupSearchInputs) window.AppUtils.setupSearchInputs();
     if (window.AppUtils.setupCopyButtons) window.AppUtils.setupCopyButtons();
     if (window.AppUtils.setupHotkeys) window.AppUtils.setupHotkeys();
+    if (window.AppUtils.setupPageTransitions)
+      window.AppUtils.setupPageTransitions();
     const updateProgress = () => {
       const progress = document.getElementById("scroll-progress");
       if (progress) {

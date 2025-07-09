@@ -143,6 +143,40 @@
     });
   };
 
+  // Subtle page fade transitions for same-origin links
+  AppUtils.setupPageTransitions = function () {
+    const body = document.body;
+    if (!body) return;
+
+    body.classList.add("page-transition");
+    requestAnimationFrame(() => {
+      body.classList.add("page-transition-active");
+    });
+
+    document.querySelectorAll("a[href]").forEach((link) => {
+      const url = new URL(link.href, location.href);
+      if (url.origin !== location.origin || url.hash) return;
+
+      link.addEventListener("click", (e) => {
+        if (
+          e.defaultPrevented ||
+          link.target === "_blank" ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey
+        ) {
+          return;
+        }
+        e.preventDefault();
+        body.classList.remove("page-transition-active");
+        setTimeout(() => {
+          location.href = link.href;
+        }, 200);
+      });
+    });
+  };
+
   global.AppUtils = AppUtils;
   if (!global.app) {
     global.app = AppUtils; // backward compatibility
