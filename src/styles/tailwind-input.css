@@ -1,86 +1,150 @@
 /*
   tailwind-input.css — Tailwind Custom Components Entrypoint
-  ---------------------------------------------------------
-  This file is for Tailwind-based custom component classes only.
-  All non-Tailwind or reusable utility styles should go in /static/css/custom-utilities.css.
-  Use semantic variables from /static/css/tokens.css for all color and spacing values.
+  ----------------------------------------------------------
+  This file contains Tailwind-based custom component classes only.
 
-  Do NOT add global resets or base styles here—use input.css for base overrides.
+  Guidelines:
+  1. Use semantic variables from tokens.css for all values
+  2. Keep components reusable and composable
+  3. Group related components together with clear section comments
+  4. Maintain consistent naming conventions (BEM-like where appropriate)
+
+  Structure:
+  - Base styles (minimal)
+  - Cards & Panels
+  - Interactive elements
+  - Layout components
 */
 
-/* Include Tailwind layers so @layer rules compile correctly */
+/* Core Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import foundation styles */
 @import url("../../static/css/tokens.css");
 @import url("../../static/css/custom-utilities.css");
 
-/* Tailwind-based custom base styles (rarely needed) */
+/* ==========================================================================
+   Base styles (minimal overrides)
+   ========================================================================== */
 @layer base {
-  html[data-theme="dark"] {
-    color-scheme: dark;
-  }
-
-  html[data-theme="light"] {
-    color-scheme: light;
+  :root {
+    color-scheme: light dark;
   }
 
   html {
     scroll-behavior: smooth;
+
+    @apply subpixel-antialiased; /* More consistent than antialiased */
   }
 
   body {
-    @apply bg-dark-950 text-slate-300 font-sans antialiased transition-colors duration-300;
+    @apply bg-dark-950 text-slate-300 font-sans transition-colors duration-300;
   }
 
+  /* Typography hierarchy */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-heading;
+    @apply font-heading text-slate-100;
+  }
+
+  /* Theme-specific adjustments */
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
+
+    body {
+      @apply bg-slate-50 text-dark-800;
+    }
   }
 }
 
-/* Tailwind-based custom components */
+/* ==========================================================================
+   Cards & Panels
+   ========================================================================== */
 @layer components {
-  /* Add only Tailwind-based custom components below. */
-  .panel-card {
-    @apply bg-dark-800/80 backdrop-blur-lg border border-white/5 rounded-2xl p-6 shadow-lg shadow-black/40 transition-transform duration-300;
+  /* Base card component */
+  .card {
+    @apply bg-dark-800 border border-white/5 rounded-2xl shadow-lg transition-all duration-300;
+
+    /* Optional glass variant */
+    &--glass {
+      @apply bg-dark-800/70 backdrop-blur-lg;
+    }
+
+    &:hover {
+      @apply shadow-xl -translate-y-0.5;
+    }
   }
 
-  .panel-card:hover {
-    @apply -translate-y-1 shadow-2xl;
+  /* Card with padding preset */
+  .card-padded {
+    @apply card p-6;
   }
 
-  .glass-card {
-    @apply bg-dark-800/80 backdrop-blur-lg border border-white/5 rounded-2xl p-6 shadow-lg shadow-black/40 transition-transform duration-300;
+  /* Panel component (more structural than cards) */
+  .panel {
+    @apply bg-dark-850 border border-slate-700/60 rounded-2xl shadow-lg;
+
+    &--glass {
+      @apply bg-dark-800/70 backdrop-blur-md border-white/10;
+    }
+
+    &--padded {
+      @apply p-6;
+    }
   }
 
-  .glass-card:hover {
-    @apply -translate-y-1 shadow-2xl;
-  }
-
+  /* Card header - reusable across components */
   .card-header {
     @apply flex justify-between items-center bg-dark-900 border-b border-slate-700 px-4 py-3 rounded-t-xl;
-  }
 
+    &__title {
+      @apply text-lg font-semibold text-slate-100;
+    }
+
+    &__actions {
+      @apply flex gap-2;
+    }
+  }
+}
+
+/* ==========================================================================
+   Interactive elements
+   ========================================================================== */
+@layer components {
+  /* Tab navigation */
   .tab {
-    @apply px-3 py-2 text-sm font-medium text-slate-400 hover:text-white transition;
+    @apply px-3 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors;
+
+    &--active {
+      @apply text-white border-b-2 border-primary-500;
+    }
   }
 
-  /* Panel utilities used throughout templates */
-  .panel {
-    @apply bg-dark-850 border border-slate-700/60 rounded-2xl p-6 shadow-lg;
-  }
+  /* Enhanced version of your glass-card with variants */
+  .glass-card {
+    @apply card--glass p-6;
 
-  .panel--glass {
-    @apply bg-dark-800/70 backdrop-blur-md border border-white/10;
+    &--hover-effect:hover {
+      @apply -translate-y-1 shadow-2xl;
+    }
   }
+}
 
-  .glass-panel {
-    @apply backdrop-blur-md bg-dark-800/70 border border-white/10;
-  }
+/* ==========================================================================
+   Layout components
+   ========================================================================== */
+@layer components {
+  /* Add your layout-specific components here when needed */
+
+  /* Example: .grid-layout, .sidebar, etc. */
 }
