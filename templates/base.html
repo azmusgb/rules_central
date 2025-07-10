@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth" data-theme="dark">
+<html lang="en" x-data="{theme: localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'),showToast:false,toastMsg:''}" :class="{dark: theme==='dark'}" data-theme="dark" x-init="$watch('theme',t=>{localStorage.theme=t;document.documentElement.setAttribute('data-theme',t);})" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,6 +99,9 @@
     {% if show_back_to_top is not defined or show_back_to_top %}
       {% include 'partials/back_to_top.html' %}
     {% endif %}
+
+    <!-- Toast Notification -->
+    <div x-show="showToast" x-transition.opacity class="fixed bottom-4 right-4 bg-dark-800 text-white px-4 py-3 rounded shadow-soft" role="status" aria-live="polite" @click="showToast=false" x-text="toastMsg" style="display:none"></div>
 
     <!-- Scripts with nonce and defer -->
     <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" 

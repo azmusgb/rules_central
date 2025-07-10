@@ -1,8 +1,8 @@
-// tailwind.config.js
+// tailwind.config.cjs
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class", // Use class-based dark mode
+  darkMode: "class", // class based dark mode
   content: [
     "./*.html",
     "./templates/**/*.html",
@@ -31,8 +31,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "Plus Jakarta Sans", "sans-serif"],
-        heading: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+        sans: ["Inter", "Montserrat", "ui-sans-serif", "system-ui"],
+        heading: ["Inter", "Montserrat", "ui-sans-serif"],
         mono: ["Fira Code", "monospace"],
       },
       colors: {
@@ -70,6 +70,10 @@ module.exports = {
         linkHover: "var(--qc-link-hover)",
         // Optionally, add CSS variable references for tokens
         // e.g. 'brand': 'var(--qc-accent)'
+      },
+      boxShadow: {
+        soft: '0 2px 8px rgba(0,0,0,0.15)',
+        focus: '0 0 0 3px rgba(59,130,246,0.45)',
       },
       animation: {
         typing: "typing 2s steps(22)",

@@ -6,7 +6,11 @@ endblock %} {% block content %}
   <form
     id="uploadForm"
     class="w-full max-w-xl bg-dark-800/80 rounded-3xl shadow-2xl border border-dark-700 p-10 u-glass flex flex-col items-center gap-8"
-    method="post"
+    hx-post="{{ url_for('upload.upload_file') }}"
+    hx-target="#uploadSuccess"
+    hx-swap="innerHTML"
+    hx-indicator="#progressBar"
+    hx-on="htmx:xhr:progress: window.dispatchEvent(new CustomEvent('upload-progress',{detail:event.detail}));"
     enctype="multipart/form-data"
     aria-label="Upload form"
   >
@@ -72,46 +76,18 @@ endblock %} {% block content %}
   </form>
 </div>
 <script nonce="{{ csp_nonce }}">
-  const form = document.getElementById("uploadForm");
-  const fileInput = document.getElementById("fileInput");
-  const progressBar = document.getElementById("progressBar");
-  const progress = progressBar.querySelector("div");
-  const uploadSuccess = document.getElementById("uploadSuccess");
-  const uploadError = document.getElementById("uploadError");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    progressBar.classList.remove("hidden");
-    progress.style.width = "0%";
-    uploadSuccess.classList.add("hidden");
-    uploadError.classList.add("hidden");
-    const data = new FormData(form);
-    try {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", form.action || window.location.pathname, true);
-      xhr.upload.onprogress = (e) => {
-        if (e.lengthComputable) {
-          const percent = (e.loaded / e.total) * 100;
-          progress.style.width = percent + "%";
-        }
-      };
-      xhr.onload = () => {
-        progressBar.classList.add("hidden");
-        if (xhr.status === 200) {
-          uploadSuccess.classList.remove("hidden");
-          form.reset();
-        } else {
-          uploadError.classList.remove("hidden");
-        }
-      };
-      xhr.onerror = () => {
-        progressBar.classList.add("hidden");
-        uploadError.classList.remove("hidden");
-      };
-      xhr.send(data);
-    } catch {
-      progressBar.classList.add("hidden");
-      uploadError.classList.remove("hidden");
-    }
+  const progressBar = document.getElementById('progressBar');
+  const progress = progressBar.querySelector('div');
+  document.addEventListener('htmx:xhr:loadstart', () => {
+    progressBar.classList.remove('hidden');
+    progress.style.width = '0%';
+  });
+  document.addEventListener('upload-progress', e => {
+    const percent = (e.detail.loaded / e.detail.total) * 100;
+    progress.style.width = percent + '%';
+  });
+  document.addEventListener('htmx:xhr:loadend', () => {
+    progressBar.classList.add('hidden');
   });
 </script>
 {% endblock %}
