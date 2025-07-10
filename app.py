@@ -29,6 +29,24 @@ logging.basicConfig(
 )
 
 # -----------------------------------------------------------------------------
+# Directory helpers
+# -----------------------------------------------------------------------------
+def ensure_directories(app: Flask) -> None:
+    """
+    Guarantee that the upload and diagrams folders exist so other parts of the
+    application can read/write without raising FileNotFoundError.
+
+    Parameters
+    ----------
+    app : Flask
+        The current Flask application instance whose config specifies the
+        folder paths.
+    """
+    for path in (app.config["UPLOAD_FOLDER"], app.config["DIAGRAMS_FOLDER"]):
+        os.makedirs(path, exist_ok=True)
+        LOGGER.info("Directory ensured: %s", path)
+
+# -----------------------------------------------------------------------------
 # Blueprint auto‑import
 # -----------------------------------------------------------------------------
 try:
@@ -117,12 +135,6 @@ def create_app() -> Flask:
     for bp in all_blueprints:
         app.register_blueprint(bp)
 
-    # -------------------------------------------------------------------------
-    # Ensure required directories
-    # -------------------------------------------------------------------------
-    for path in (app.config["UPLOAD_FOLDER"], app.config["DIAGRAMS_FOLDER"]):
-        os.makedirs(path, exist_ok=True)
-        LOGGER.info("Directory ensured: %s", path)
 
     LOGGER.info("Rules Central initialised (version %s)", app.config["VERSION"])
     return app
