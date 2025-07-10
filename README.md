@@ -35,12 +35,12 @@ pip install -e .
 ```
 `python-dotenv` is optional. If it is not installed, the application will log a warning but still run.
 
-Build CSS assets (optional):
+Build CSS assets:
 ```bash
 npm install
 npm run build:css
 ```
-The compiled stylesheet is saved to `static/css/app.css`. It contains the combined rules from the old `main.css` and `overhaul.css` files.
+The compiled stylesheet is saved to `static/css/app.css` and includes autoprefixing and minification. The legacy `main.css` has been removed.
 
 ## Running Locally
 Start the development server with:
