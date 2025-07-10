@@ -5,72 +5,75 @@ import os
 from datetime import datetime, timezone
 from typing import Optional
 
-try:
-    from dotenv import load_dotenv
-except ImportError:  # pragma: no cover - optional dependency
-
-    def load_dotenv(*_args, **_kwargs):
-        logging.getLogger("rules_central").warning(
-            "python-dotenv not installed; skipping load_dotenv"
-        )
-
-
 from flask import Flask
 from flask_assets import Environment
 from markdown import markdown
 
-from config import Config, load_configurations
-from routes import all_blueprints
+# Optional .env support -------------------------------------------------------
+try:
+    from dotenv import load_dotenv
 
-# -------------------------------------------------------------------
-# Environment & Logging Setup
-# -------------------------------------------------------------------
-load_dotenv()
+    load_dotenv()
+except ImportError:  # pragma: no cover
+    logging.getLogger("rules_central").warning(
+        "python-dotenv not installed; skipping load_dotenv()"
+    )
 
+# -----------------------------------------------------------------------------
+# Logging
+# -----------------------------------------------------------------------------
 LOGGER = logging.getLogger("rules_central")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-__all__ = ["create_app", "ensure_directories", "app"]
+# -----------------------------------------------------------------------------
+# Blueprint auto‑import
+# -----------------------------------------------------------------------------
+try:
+    from routes import all_blueprints  # your project aggregates them here
+except ImportError:  # pragma: no cover
+    LOGGER.error("Cannot import 'routes.all_blueprints'.")
+    all_blueprints = []  # keep the app bootable for now
 
 
+# -----------------------------------------------------------------------------
+# Factory
+# -----------------------------------------------------------------------------
 def create_app() -> Flask:
-    """Factory function to create and configure the Flask application."""
-    LOGGER.debug("Initializing Flask application")
+    """Create and configure a Flask application instance."""
     app = Flask(__name__, static_folder="static", static_url_path="/static")
 
-    # ─── Basic configuration ───────────────────────────────────────
-    app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
-    app.config["VERSION"] = "1.0"
-
-    # ─── Extensions ────────────────────────────────────────────────
-    Environment(app)
-
-    # ─── Paths ─────────────────────────────────────────────────────
-    app.config["UPLOAD_FOLDER"] = os.path.abspath(os.getenv("UPLOAD_FOLDER", "uploads"))
+    # -------------------------------------------------------------------------
+    # Config
+    # -------------------------------------------------------------------------
+    app.config["VERSION"] = "1.0.0"
+    app.config["UPLOAD_FOLDER"] = os.path.abspath(
+        os.getenv("UPLOAD_FOLDER", os.path.join(app.root_path, "uploads"))
+    )
     app.config["DIAGRAMS_FOLDER"] = os.path.abspath(
-        os.getenv("DIAGRAMS_FOLDER", "diagrams")
+        os.getenv("DIAGRAMS_FOLDER", os.path.join(app.root_path, "diagrams"))
     )
 
-    # ─── Filters & Globals ─────────────────────────────────────────
+    # -------------------------------------------------------------------------
+    # Extensions
+    # -------------------------------------------------------------------------
+    Environment(app)  # Flask-Assets pipeline (CSS/JS)
+
+    # -------------------------------------------------------------------------
+    # Template helpers
+    # -------------------------------------------------------------------------
     @app.template_filter("markdown")
-    def _render_markdown(text: str) -> str:
+    def _render_markdown(text: str) -> str:  # noqa: WPS430
         """Render Markdown inside templates."""
         if not text:
             return ""
         return markdown(text)
 
     @app.context_processor
-    def _inject_now():
-        """
-        Make `now()` available in every template.
-        Usage:
-            {{ now().year }}              → 2025
-            {{ now('%b %d, %Y') }}        → Jul 07, 2025
-        """
-
+    def _inject_now():  # noqa: WPS430
+        """Expose `now()` helper to Jinja."""
         def _now(fmt: Optional[str] = None):
             ts = datetime.now(timezone.utc)
             return ts if fmt is None else ts.strftime(fmt)
@@ -108,53 +111,26 @@ def create_app() -> Flask:
         ensure_directories(app)
 
     # ─── Blueprints & Config ───────────────────────────────────────
+    # -------------------------------------------------------------------------
+    # Register blueprints
+    # -------------------------------------------------------------------------
     for bp in all_blueprints:
         app.register_blueprint(bp)
-    try:
-        app.config.update(load_configurations())
-    except Exception as exc:
-        LOGGER.error("Configuration load failed: %s", exc, exc_info=True)
-        raise
 
-    # ─── Data directory check ─────────────────────────────────────
-    Config.ensure_data_dir()
+    # -------------------------------------------------------------------------
+    # Ensure required directories
+    # -------------------------------------------------------------------------
+    for path in (app.config["UPLOAD_FOLDER"], app.config["DIAGRAMS_FOLDER"]):
+        os.makedirs(path, exist_ok=True)
+        LOGGER.info("Directory ensured: %s", path)
 
-    # ─── Onboarding/Welcome Log ────────────────────────────────────
-    LOGGER.info(
-        "Rules Central Flask app initialized. Version: %s", app.config["VERSION"]
-    )
-    LOGGER.info("Static folder: %s", app.static_folder)
-    LOGGER.info("Upload folder: %s", app.config["UPLOAD_FOLDER"])
-    LOGGER.info("Diagrams folder: %s", app.config["DIAGRAMS_FOLDER"])
-
+    LOGGER.info("Rules Central initialised (version %s)", app.config["VERSION"])
     return app
 
 
-def ensure_directories(app: Flask) -> None:
-    """Create required directories if they don't exist."""
-    required_dirs = [
-        app.config["UPLOAD_FOLDER"],
-        app.config["DIAGRAMS_FOLDER"],
-        os.path.join(app.static_folder, "help"),
-    ]
-    for path in required_dirs:
-        try:
-            os.makedirs(path, exist_ok=True)
-            LOGGER.info("Directory verified: %s", path)
-        except OSError as exc:
-            LOGGER.error("Failed to create directory %s: %s", path, exc, exc_info=True)
-            raise
-
-
-# -------------------------------------------------------------------
-# Create and run application
-# -------------------------------------------------------------------
+# Create a global application instance for WSGI servers -----------------------
 app = create_app()
 
-if __name__ == "__main__":
-    LOGGER.info("Starting Flask Application on http://127.0.0.1:8080")
-    try:
-        app.run(debug=True, host="127.0.0.1", port=8080)
-    except Exception as exc:
-        LOGGER.critical("Flask app failed to start: %s", exc, exc_info=True)
-        raise
+if __name__ == "__main__":  # pragma: no cover
+    LOGGER.info("Starting Flask dev server: http://127.0.0.1:8080")
+    app.run(debug=True, host="127.0.0.1", port=8080)
