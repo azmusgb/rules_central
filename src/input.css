@@ -1,20 +1,36 @@
-/*
-  input.css — Tailwind CSS Entrypoint
-  ----------------------------------------------------------------------------
-  This file contains Tailwind imports and project-specific base customizations.
+/**
+ * input.css — Tailwind CSS Entrypoint
+ * ----------------------------------------------------------------------------
+ * This file serves as the main entry point for Tailwind CSS in the project,
+ * containing all directives, base layer customizations, and plugin imports.
+ *
+ * Structure:
+ * 1. Preflight configuration
+ * 2. Tailwind core directives
+ * 3. Base layer customizations
+ * 4. Plugin imports
+ * 5. Project-specific base styles
+ *
+ * Guidelines:
+ * - Use design tokens from tokens.css exclusively
+ * - Prefer modern CSS features (e.g., :where, :is, logical properties)
+ * - Keep base styles semantic and minimal
+ * - Add responsive variants where appropriate
+ * - Document all non-obvious decisions with inline comments
+ * - Group related styles with clear section headers
+ */
 
-  Structure:
-  1. Tailwind directives
-  2. Base layer customizations
-  3. Plugin imports
+/* ==========================================================================
+   Preflight Configuration
+   ========================================================================== */
 
-  Guidelines:
-  - Use CSS variables from tokens.css exclusively
-  - Keep base styles minimal and semantic
-  - Add responsive variants where appropriate
-  - Document all non-obvious decisions
-  - Do NOT add new custom utilities here—add them to /static/css/custom-utilities.css
-*/
+/* Disable default border reset for elements like tables and images */
+@layer base {
+  img,
+  video {
+    @apply align-middle;
+  }
+}
 
 /* ==========================================================================
    Tailwind Core Directives
@@ -27,58 +43,83 @@
    Base Layer Customizations
    ========================================================================== */
 @layer base {
-  /* Root element styles */
+  /* ========================
+     Root Element Styles
+     ======================== */
   :root {
     scroll-behavior: smooth;
     color-scheme: light dark;
     accent-color: var(--qc-link);
+    scroll-padding-top: 1rem; /* Account for fixed headers */
   }
 
-  /* HTML document */
+  /* ========================
+     Document Fundamentals
+     ======================== */
   html {
     font-family: var(--qc-font-family-sans);
     background-color: var(--qc-bg);
     color: var(--qc-text-main);
     text-rendering: optimizelegibility;
     -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
   }
 
-  /* Body styles */
+  /* ========================
+     Core Page Structure
+     ======================== */
   body {
-    min-height: 100vh;
-    min-height: 100dvh; /* Modern viewport unit */
+    --qc-body-bg-angle: 135deg;
+    --qc-body-bg-stops:
+      var(--qc-bg) 0%,
+      var(--qc-panel) 50%,
+      var(--qc-bg-dark) 100%;
+
+    min-height: 100svh; /* Prefer modern viewport unit */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     background:
       linear-gradient(
-        135deg,
-        var(--qc-bg) 0%,
-        var(--qc-panel) 50%,
-        var(--qc-bg-dark) 100%
+        var(--qc-body-bg-angle),
+        var(--qc-body-bg-stops)
       );
-    background-attachment: fixed; /* For consistent gradient */
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Typography hierarchy */
+  /* ========================
+     Typography System
+     ======================== */
   :where(h1, h2, h3, h4, h5, h6) {
     font-family: var(--qc-font-family-sans);
     font-weight: var(--qc-font-weight-bold);
     letter-spacing: -0.01em;
     color: var(--qc-text-main);
-    line-height: 1.2;
+    line-height: var(--qc-heading-line-height, 1.2);
+    text-wrap: balance; /* Prevent awkward heading breaks */
   }
 
-  /* Interactive elements */
+  /* ========================
+     Interactive Elements
+     ======================== */
   a {
     --qc-link-underline-offset: 0.25em;
+    --qc-link-decoration-thickness: 1px;
 
     text-underline-offset: var(--qc-link-underline-offset);
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
-    text-decoration-thickness: 1px;
+    text-decoration-thickness: var(--qc-link-decoration-thickness);
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease,
+      text-decoration-thickness 0.2s ease;
     outline: none;
+    color: var(--qc-link);
 
-    &:hover {
-      text-decoration-thickness: 2px;
+    &:where(:hover, :focus-visible) {
+      --qc-link-decoration-thickness: 2px;
+
+      text-decoration-color: currentcolor;
     }
 
     &:focus-visible {
@@ -88,24 +129,61 @@
     }
   }
 
-  /* Form elements reset */
+  /* ========================
+     Form Element Reset
+     ======================== */
   :where(input, button, textarea, select) {
     font: inherit;
     color: inherit;
+    background-color: transparent;
   }
 
-  /* Selection styles */
+  /* ========================
+     Selection & Highlighting
+     ======================== */
   ::selection {
     background-color: var(--qc-link);
-    color: white;
+    color: var(--qc-text-inverse);
+  }
+
+  /* ========================
+     Accessibility Utilities
+     ======================== */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      scroll-behavior: auto;
+    }
   }
 }
 
 /* ==========================================================================
-   Tailwind Plugin Imports
+   Plugin Imports with Layer Annotations
    ========================================================================== */
 @import url("@tailwindcss/forms") layer(base);
 @import url("@tailwindcss/typography") layer(components);
 @import url("@tailwindcss/aspect-ratio") layer(components);
-@import url("daisyui") layer(components);
-@import url("./styles/header.css");
+@import url("@tailwindcss/container-queries") layer(components);
+@import url("daisyui/dist/full.css") layer(components);
+
+/* ==========================================================================
+   Project-Specific Base Styles
+   ========================================================================== */
+@layer base {
+  /* Custom focus states for non-interactive elements */
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--qc-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Prevent layout shift when scrollbar appears */
+  @media (hover: hover) {
+    html {
+      scrollbar-gutter: stable;
+    }
+  }
+}
+
+/* ==========================================================================
+   Local Component Imports
+   ========================================================================== */
+@import url("./styles/header.css") layer(components);
