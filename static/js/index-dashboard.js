@@ -127,14 +127,6 @@ function initChart() {
   }, 1000);
 }
 
-// Search functionality
-document.querySelector('.search-input').addEventListener('input', function(e) {
-  const query = e.target.value.toLowerCase();
-  if (query.length > 2) {
-    console.log('Searching for:', query);
-    // Add search logic here
-  }
-});
 
 // Real-time updates simulation
 function simulateRealTimeUpdates() {
@@ -221,11 +213,23 @@ document.addEventListener('keydown', function(e) {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initChart();
-  
+
+  // Search functionality (moved inside DOMContentLoaded)
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase();
+      if (query.length > 2) {
+        console.log('Searching for:', query);
+        // Add search logic here
+      }
+    });
+  }
+
   // Set up intervals
   setInterval(simulateRealTimeUpdates, 5000);
   setInterval(updateStats, 30000);
-  
+
   // Progressive enhancement for animations
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
@@ -235,12 +239,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-    
+
     document.querySelectorAll('.card-hover').forEach(card => {
       observer.observe(card);
     });
   }
-  
+
   // Demo notification after 3 seconds
   setTimeout(() => {
     showNotification('Welcome to Rules Central!', 'success');
