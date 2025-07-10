@@ -92,6 +92,17 @@ def create_app() -> Flask:
 
         return {"is_active": is_active}
 
+    @app.context_processor
+    def _expose_globals():
+        """Expose Jinja environment globals for conditional checks."""
+
+        from flask import current_app
+
+        def _globals() -> dict:
+            return current_app.jinja_env.globals
+
+        return {"globals": _globals}
+
     # ─── Directory checks ──────────────────────────────────────────
     with app.app_context():
         ensure_directories(app)
