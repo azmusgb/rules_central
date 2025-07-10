@@ -2,9 +2,10 @@
 
 from flask import Blueprint, current_app, jsonify
 
-collab = Blueprint('collab', __name__)
+collab = Blueprint("collab", __name__)
 
-@collab.route('/collab')
+
+@collab.route("/collab")
 def collab_index():
     """Placeholder collaboration page."""
 

@@ -2,9 +2,10 @@
 
 from flask import Blueprint, current_app, jsonify
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint("auth", __name__)
 
-@auth.route('/login')
+
+@auth.route("/login")
 def login():
     """Simple login endpoint placeholder."""
 

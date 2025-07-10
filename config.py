@@ -48,9 +48,9 @@ class Config:
                         "timestamp": datetime.utcnow().isoformat(),
                         "action": "system",
                         "user": "init",
-                        "details": "Activity log initialized"
+                        "details": "Activity log initialized",
                     }
-                ]
+                ],
             }
             with open(cls.ACTIVITY_LOG, "w", encoding="utf-8") as f:
                 json.dump(initial_data, f, indent=2)

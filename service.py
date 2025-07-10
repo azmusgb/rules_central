@@ -13,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 __all__ = ["WaitressService"]
 
+
 class WaitressService(win32serviceutil.ServiceFramework):
     """Run the Flask application as a Windows service via Waitress."""
 
@@ -34,7 +35,7 @@ class WaitressService(win32serviceutil.ServiceFramework):
         servicemanager.LogMsg(
             servicemanager.EVENTLOG_INFORMATION_TYPE,
             servicemanager.PYS_SERVICE_STARTED,
-            (self._svc_name_, "")
+            (self._svc_name_, ""),
         )
 
         try:
@@ -45,6 +46,7 @@ class WaitressService(win32serviceutil.ServiceFramework):
         finally:
             # Wait until the stop signal is received
             win32event.WaitForSingleObject(self.hWaitStop, win32event.INFINITE)
+
 
 if __name__ == "__main__":
     if os.name != "nt":  # pragma: no cover - Windows specific
