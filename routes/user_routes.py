@@ -12,16 +12,17 @@ from flask import (
     jsonify,
 )
 
-user_routes = Blueprint('user_routes', __name__)
+user_routes = Blueprint("user_routes", __name__)
 
-@user_routes.route('/profile')
+
+@user_routes.route("/profile")
 def user_profile():
     """User profile page with activity and statistics."""
     try:
         user_data = {
             "username": "johndoe",
             "email": "john.doe@example.com",
-            "avatar": url_for('static', filename='images/default-avatar.png'),
+            "avatar": url_for("static", filename="images/default-avatar.png"),
             "member_since": "2023-01-15",
             "last_login": datetime.now().strftime("%Y-%m-%d %H:%M"),
             "role": "Administrator",
@@ -32,14 +33,26 @@ def user_profile():
             "diagrams_uploaded": 28,
             "api_calls": 1240,
             "recent_activity": [
-                {"action": "Uploaded rule set", "timestamp": "2023-06-15 14:30", "details": "Fraud Detection v2.1"},
-                {"action": "Extracted rules", "timestamp": "2023-06-14 09:15", "details": "From production dataset"},
-                {"action": "API Test", "timestamp": "2023-06-12 16:45", "details": "/rules/validate endpoint"},
+                {
+                    "action": "Uploaded rule set",
+                    "timestamp": "2023-06-15 14:30",
+                    "details": "Fraud Detection v2.1",
+                },
+                {
+                    "action": "Extracted rules",
+                    "timestamp": "2023-06-14 09:15",
+                    "details": "From production dataset",
+                },
+                {
+                    "action": "API Test",
+                    "timestamp": "2023-06-12 16:45",
+                    "details": "/rules/validate endpoint",
+                },
             ],
         }
 
         return render_template(
-            'profile.html',
+            "profile.html",
             user=user_data,
             stats=activity_stats,
             help_available=True,
@@ -49,14 +62,14 @@ def user_profile():
         abort(500, "Error loading profile page")
 
 
-@user_routes.route('/settings', methods=['GET', 'POST'])
+@user_routes.route("/settings", methods=["GET", "POST"])
 def user_settings():
     """User settings page with form handling."""
     try:
         user_data = {
             "display_name": "John Doe",
             "email": "john.doe@example.com",
-            "avatar_url": url_for('static', filename='images/default-avatar.png'),
+            "avatar_url": url_for("static", filename="images/default-avatar.png"),
         }
 
         settings_data = {
@@ -72,31 +85,38 @@ def user_settings():
             "motion": "normal",
         }
 
-        if request.method == 'POST':
-            settings_data.update({
-                "theme": request.form.get('theme', 'dark'),
-                "timezone": request.form.get('timezone', 'UTC'),
-                "email_notifications": 'email_notifications' in request.form,
-                "push_notifications": 'push_notifications' in request.form,
-                "inapp_notifications": 'inapp_notifications' in request.form,
-                "language": request.form.get('language', 'en'),
-                "experimental_features": 'experimental_features' in request.form,
-                "font_size": request.form.get('font_size', 'normal'),
-                "contrast": request.form.get('contrast', 'normal'),
-                "motion": request.form.get('motion', 'normal'),
-            })
-            flash('Settings updated successfully!', 'success')
+        if request.method == "POST":
+            settings_data.update(
+                {
+                    "theme": request.form.get("theme", "dark"),
+                    "timezone": request.form.get("timezone", "UTC"),
+                    "email_notifications": "email_notifications" in request.form,
+                    "push_notifications": "push_notifications" in request.form,
+                    "inapp_notifications": "inapp_notifications" in request.form,
+                    "language": request.form.get("language", "en"),
+                    "experimental_features": "experimental_features" in request.form,
+                    "font_size": request.form.get("font_size", "normal"),
+                    "contrast": request.form.get("contrast", "normal"),
+                    "motion": request.form.get("motion", "normal"),
+                }
+            )
+            flash("Settings updated successfully!", "success")
 
         security_data = {
             "last_password_change": "2023-05-10",
             "two_factor_enabled": False,
             "active_sessions": [
-                {"ip": "192.168.1.100", "browser": "Chrome", "location": "New York", "last_active": "10 minutes ago"},
+                {
+                    "ip": "192.168.1.100",
+                    "browser": "Chrome",
+                    "location": "New York",
+                    "last_active": "10 minutes ago",
+                },
             ],
         }
 
         return render_template(
-            'settings.html',
+            "settings.html",
             user=user_data,
             settings=settings_data,
             security=security_data,
@@ -106,21 +126,23 @@ def user_settings():
         current_app.logger.error(f"Settings error: {exc}")
         abort(500, "Error loading settings page")
 
+
 # Provide /settings.html as a compatibility alias so users can
 # access the settings page by file name.
-@user_routes.route('/settings.html', methods=['GET', 'POST'])
+@user_routes.route("/settings.html", methods=["GET", "POST"])
 def user_settings_html():
     """Alias for ``/settings`` that renders the same page."""
     return user_settings()
 
-@user_routes.route('/api/profile')
+
+@user_routes.route("/api/profile")
 def get_user_profile():
     """API endpoint for user profile data."""
     try:
         profile_data = {
             "username": "johndoe",
             "email": "john.doe@example.com",
-            "avatar_url": url_for('static', filename='images/default-avatar.png'),
+            "avatar_url": url_for("static", filename="images/default-avatar.png"),
             "member_since": "2023-01-15",
             "role": "Administrator",
             "stats": {
@@ -132,9 +154,10 @@ def get_user_profile():
         return jsonify(profile_data)
     except Exception as exc:
         current_app.logger.error(f"Profile API error: {exc}")
-        return jsonify({'error': str(exc)}), 500
+        return jsonify({"error": str(exc)}), 500
 
-@user_routes.route('/api/activity')
+
+@user_routes.route("/api/activity")
 def get_user_activity():
     """API endpoint for user activity data."""
     try:
@@ -163,13 +186,14 @@ def get_user_activity():
         return jsonify(activity_data)
     except Exception as exc:
         current_app.logger.error(f"Activity API error: {exc}")
-        return jsonify({'error': str(exc)}), 500
+        return jsonify({"error": str(exc)}), 500
 
-@user_routes.route('/api/settings', methods=['GET', 'PUT'])
+
+@user_routes.route("/api/settings", methods=["GET", "PUT"])
 def handle_user_settings():
     """API endpoint for user settings."""
     try:
-        if request.method == 'GET':
+        if request.method == "GET":
             settings = {
                 "theme": "dark",
                 "timezone": "UTC",
@@ -177,11 +201,10 @@ def handle_user_settings():
                 "language": "en",
             }
             return jsonify(settings)
-        if request.method == 'PUT':
+        if request.method == "PUT":
             new_settings = request.get_json()
             current_app.logger.info(f"Updating settings: {new_settings}")
-            return jsonify({'status': 'success', 'message': 'Settings updated'})
+            return jsonify({"status": "success", "message": "Settings updated"})
     except Exception as exc:
         current_app.logger.error(f"Settings API error: {exc}")
-        return jsonify({'error': str(exc)}), 500
-
+        return jsonify({"error": str(exc)}), 500

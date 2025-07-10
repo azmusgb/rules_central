@@ -1,7 +1,8 @@
 from flask import jsonify, current_app
 from .api import api
 
-@api.route('/api/metrics')
+
+@api.route("/api/metrics")
 def metrics():
     """Return dashboard metrics for the main page."""
     try:
@@ -10,7 +11,7 @@ def metrics():
             "diagramCount": 75,
             "rulesExtractedCount": 65,
             "rulesStatusChart": 80,
-            "recentChangesCount": 50
+            "recentChangesCount": 50,
         }
         return jsonify(data)
     except Exception as exc:

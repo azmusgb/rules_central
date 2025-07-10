@@ -12,6 +12,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 
+
 @login_manager.user_loader
 def load_user(user_id: str | int):
     """Return the user instance associated with ``user_id``."""

@@ -8,10 +8,12 @@ from typing import Optional
 try:
     from dotenv import load_dotenv
 except ImportError:  # pragma: no cover - optional dependency
+
     def load_dotenv(*_args, **_kwargs):
         logging.getLogger("rules_central").warning(
             "python-dotenv not installed; skipping load_dotenv"
         )
+
 
 from flask import Flask
 from flask_assets import Environment
@@ -48,7 +50,9 @@ def create_app() -> Flask:
 
     # ─── Paths ─────────────────────────────────────────────────────
     app.config["UPLOAD_FOLDER"] = os.path.abspath(os.getenv("UPLOAD_FOLDER", "uploads"))
-    app.config["DIAGRAMS_FOLDER"] = os.path.abspath(os.getenv("DIAGRAMS_FOLDER", "diagrams"))
+    app.config["DIAGRAMS_FOLDER"] = os.path.abspath(
+        os.getenv("DIAGRAMS_FOLDER", "diagrams")
+    )
 
     # ─── Filters & Globals ─────────────────────────────────────────
     @app.template_filter("markdown")
@@ -66,14 +70,17 @@ def create_app() -> Flask:
             {{ now().year }}              → 2025
             {{ now('%b %d, %Y') }}        → Jul 07, 2025
         """
+
         def _now(fmt: Optional[str] = None):
             ts = datetime.now(timezone.utc)
             return ts if fmt is None else ts.strftime(fmt)
+
         return {"now": _now}
 
     @app.context_processor
     def _active_nav():
         """Return helper to mark navigation links as active."""
+
         def is_active(endpoint: str) -> str:
             from flask import request
 
@@ -102,7 +109,9 @@ def create_app() -> Flask:
     Config.ensure_data_dir()
 
     # ─── Onboarding/Welcome Log ────────────────────────────────────
-    LOGGER.info("Rules Central Flask app initialized. Version: %s", app.config["VERSION"])
+    LOGGER.info(
+        "Rules Central Flask app initialized. Version: %s", app.config["VERSION"]
+    )
     LOGGER.info("Static folder: %s", app.static_folder)
     LOGGER.info("Upload folder: %s", app.config["UPLOAD_FOLDER"])
     LOGGER.info("Diagrams folder: %s", app.config["DIAGRAMS_FOLDER"])

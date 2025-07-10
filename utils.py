@@ -36,10 +36,12 @@ LOGGER = logging.getLogger(__name__)
 
 # --- File and Directory Utilities ---
 
+
 def allowed_file(filename: str) -> bool:
     """Return ``True`` if ``filename`` has an approved extension."""
     allowed_exts = {"json", "mmd"}
     return "." in filename and filename.rsplit(".", 1)[1].lower() in allowed_exts
+
 
 def ensure_directory_exists(directory: str | Path) -> None:
     """Ensure ``directory`` exists, creating it if necessary."""
@@ -58,20 +60,24 @@ def get_file_metadata(filepath: str | Path) -> Dict[str, float]:
     stat = Path(filepath).stat()
     return {"size": stat.st_size, "last_modified": stat.st_mtime}
 
+
 # --- JSON Loading and Sanitization ---
+
 
 def remove_all_quotes(obj: Any) -> Any:
     """Recursively remove all double quotes from strings in ``obj``."""
     if isinstance(obj, str):
-        return obj.replace('"', '')
+        return obj.replace('"', "")
     elif isinstance(obj, dict):
         return {k: remove_all_quotes(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [remove_all_quotes(item) for item in obj]
     return obj
 
+
 def add_missing_guids_if_needed(rules: Iterable[Dict[str, Any]]) -> None:
     """Recursively add GUIDs to ``rules`` if they are missing."""
+
     def recurse(rule):
         if not rule.get("RuleGUID"):
             rule["RuleGUID"] = f"udf_{uuid.uuid4()}"
@@ -80,8 +86,10 @@ def add_missing_guids_if_needed(rules: Iterable[Dict[str, Any]]) -> None:
         for action in rule.get("Actions", []):
             for c in action.get("ChildRules", []):
                 recurse(c)
+
     for top_rule in rules:
         recurse(top_rule)
+
 
 def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
     """Load JSON from ``filepath`` and remove unexpected fields."""
@@ -121,21 +129,30 @@ def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
                 actions = []
                 for action in cleaned["Actions"]:
                     a = {"ActionName": action.get("ActionName")}
-                    if "ChildRules" in action and isinstance(action["ChildRules"], list):
-                        a["ChildRules"] = [sanitize_rule(cr) for cr in action["ChildRules"]]
+                    if "ChildRules" in action and isinstance(
+                        action["ChildRules"], list
+                    ):
+                        a["ChildRules"] = [
+                            sanitize_rule(cr) for cr in action["ChildRules"]
+                        ]
                     actions.append(a)
                 cleaned["Actions"] = actions
             return cleaned
 
         sanitized = [sanitize_rule(r) for r in data]
         add_missing_guids_if_needed(sanitized)
-        LOGGER.info("JSON file %s successfully loaded. Missing GUIDs assigned if needed.", filepath)
+        LOGGER.info(
+            "JSON file %s successfully loaded. Missing GUIDs assigned if needed.",
+            filepath,
+        )
         return sanitized
     except (json.JSONDecodeError, FileNotFoundError, ValueError) as e:
         LOGGER.error("Error loading JSON file %s: %s", filepath, e)
         raise
 
+
 # --- Grouping and Catalog Utilities ---
+
 
 def get_dynamic_groups(diagrams_folder: str | Path) -> list[Dict[str, Any]]:
     """Return groups of diagrams by common prefix."""
@@ -151,26 +168,39 @@ def get_dynamic_groups(diagrams_folder: str | Path) -> list[Dict[str, Any]]:
         if prefix not in grouped_catalog:
             grouped_catalog[prefix] = {"category": prefix, "entries": []}
         for filename in os.listdir(folder_path):
-            if filename.endswith('.mmd') or filename.endswith('.json'):
+            if filename.endswith(".mmd") or filename.endswith(".json"):
                 # base_name = os.path.splitext(filename)[0]
-                existing_entry = next((e for e in grouped_catalog[prefix]["entries"] if e["root"] == folder), None)
+                existing_entry = next(
+                    (
+                        e
+                        for e in grouped_catalog[prefix]["entries"]
+                        if e["root"] == folder
+                    ),
+                    None,
+                )
                 if not existing_entry:
-                    grouped_catalog[prefix]["entries"].append({
-                        "root": folder,
-                        "diagram": filename if filename.endswith('.mmd') else None,
-                        "hierarchy": filename if filename.endswith('.json') else None
-                    })
+                    grouped_catalog[prefix]["entries"].append(
+                        {
+                            "root": folder,
+                            "diagram": filename if filename.endswith(".mmd") else None,
+                            "hierarchy": (
+                                filename if filename.endswith(".json") else None
+                            ),
+                        }
+                    )
                 else:
-                    if filename.endswith('.mmd'):
+                    if filename.endswith(".mmd"):
                         existing_entry["diagram"] = filename
-                    elif filename.endswith('.json'):
+                    elif filename.endswith(".json"):
                         existing_entry["hierarchy"] = filename
     groups = list(grouped_catalog.values())
     for g in groups:
         g["entries"].sort(key=lambda e: e["root"])
     return sorted(groups, key=lambda g: g["category"])
 
+
 # --- Rule Flattening and Hierarchy ---
+
 
 def flatten_rules(rules: Iterable[Dict[str, Any]]) -> list[Dict[str, Any]]:
     """
@@ -179,6 +209,7 @@ def flatten_rules(rules: Iterable[Dict[str, Any]]) -> list[Dict[str, Any]]:
     """
     flat_list = []
     seen = set()
+
     def dfs(rule, parent_guid=None, parent_action_index=None):
         guid = rule.get("RuleGUID")
         if not guid:
@@ -195,29 +226,34 @@ def flatten_rules(rules: Iterable[Dict[str, Any]]) -> list[Dict[str, Any]]:
         for i, action in enumerate(rule.get("Actions", [])):
             for child_rule in action.get("ChildRules", []):
                 dfs(child_rule, guid, i)
+
     for r in rules:
         dfs(r, parent_guid=None)
     return flat_list
 
+
 # --- Mermaid Diagram Generation ---
+
 
 def escape_mermaid_chars(text):
     """Escape special characters for Mermaid syntax."""
     return (
         text.replace('"', '\\"')
-        .replace('&', '&amp;')
-        .replace('<', '&lt;')
-        .replace('>', '&gt;')
-        .replace('&lt;br&gt;', '<br>')
-        .replace('(', '- ')
-        .replace(')', '')
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("&lt;br&gt;", "<br>")
+        .replace("(", "- ")
+        .replace(")", "")
     )
+
 
 def apply_translations(text):
     """Apply translations to the given text based on the configuration."""
-    for key, value in CONFIG.get('translations', {}).items():
+    for key, value in CONFIG.get("translations", {}).items():
         text = text.replace(key, value)
     return text
+
 
 def get_node_label(rule, clickable=False):
     """Generate a label for a node based on its attributes."""
@@ -230,6 +266,7 @@ def get_node_label(rule, clickable=False):
         label += " ↪"
     return label
 
+
 def get_node_shape(rule):
     """Determine the shape of a node based on its name."""
     rname = rule.get("RuleName", "").lower()
@@ -241,6 +278,7 @@ def get_node_shape(rule):
         return "set"
     return "rect"
 
+
 def build_sibling_chain(rule, edges):
     """Build sibling chains for a given rule."""
     parent_guid = rule["RuleGUID"]
@@ -248,17 +286,21 @@ def build_sibling_chain(rule, edges):
     action_names = []
     if children:
         first_child_guid = children[0]["RuleGUID"]
-        edges.append({
-            "edge_str": f"{parent_guid} --> {first_child_guid}",
-            "edge_type": "PC",
-            "label": ""
-        })
+        edges.append(
+            {
+                "edge_str": f"{parent_guid} --> {first_child_guid}",
+                "edge_type": "PC",
+                "label": "",
+            }
+        )
         for i in range(len(children) - 1):
-            edges.append({
-                "edge_str": f"{children[i]['RuleGUID']} --> {children[i + 1]['RuleGUID']}",
-                "edge_type": "SB",
-                "label": ""
-            })
+            edges.append(
+                {
+                    "edge_str": f"{children[i]['RuleGUID']} --> {children[i + 1]['RuleGUID']}",
+                    "edge_type": "SB",
+                    "label": "",
+                }
+            )
     for action in rule.get("Actions", []):
         child_rules = action.get("ChildRules", [])
         if child_rules:
@@ -267,17 +309,21 @@ def build_sibling_chain(rule, edges):
                 action_name = "Continue"
             label_part = f"|{escape_mermaid_chars(action_name)}|" if action_name else ""
             first_c_guid = child_rules[0]["RuleGUID"]
-            edges.append({
-                "edge_str": f"{parent_guid} -->{label_part} {first_c_guid}",
-                "edge_type": "PC",
-                "label": action_name
-            })
+            edges.append(
+                {
+                    "edge_str": f"{parent_guid} -->{label_part} {first_c_guid}",
+                    "edge_type": "PC",
+                    "label": action_name,
+                }
+            )
             for i in range(len(child_rules) - 1):
-                edges.append({
-                    "edge_str": f"{child_rules[i]['RuleGUID']} --> {child_rules[i + 1]['RuleGUID']}",
-                    "edge_type": "SB",
-                    "label": ""
-                })
+                edges.append(
+                    {
+                        "edge_str": f"{child_rules[i]['RuleGUID']} --> {child_rules[i + 1]['RuleGUID']}",
+                        "edge_type": "SB",
+                        "label": "",
+                    }
+                )
             if action_name:
                 action_names.append(action_name)
     for c in children:
@@ -286,6 +332,7 @@ def build_sibling_chain(rule, edges):
         for c in action.get("ChildRules", []):
             build_sibling_chain(c, edges)
     return action_names
+
 
 def build_all_edges(rules):
     """Build all edges for the given rules."""
@@ -296,7 +343,15 @@ def build_all_edges(rules):
         action_names.extend(build_sibling_chain(rule, edges))
     return edges, action_names
 
-def build_nodes(flat_rules, group_ids=None, root_name="", edge_map=None, rule_to_page=None, current_page=None):
+
+def build_nodes(
+    flat_rules,
+    group_ids=None,
+    root_name="",
+    edge_map=None,
+    rule_to_page=None,
+    current_page=None,
+):
     """Build nodes for the Mermaid diagram."""
     nodes = {}
     for rule in flat_rules:
@@ -305,14 +360,19 @@ def build_nodes(flat_rules, group_ids=None, root_name="", edge_map=None, rule_to
         if group_ids is not None:
             children = rule.get("Children", [])
             if children:
-                clickable = any(child["RuleGUID"] not in group_ids for child in children)
+                clickable = any(
+                    child["RuleGUID"] not in group_ids for child in children
+                )
             else:
                 clickable = False
                 if edge_map is not None and guid in edge_map:
-                    clickable = any(child_guid not in group_ids for child_guid in edge_map[guid])
+                    clickable = any(
+                        child_guid not in group_ids for child_guid in edge_map[guid]
+                    )
         else:
-            has_children = bool(rule.get("Children")) or any("ChildRules" in a and a["ChildRules"]
-                                                             for a in rule.get("Actions", []))
+            has_children = bool(rule.get("Children")) or any(
+                "ChildRules" in a and a["ChildRules"] for a in rule.get("Actions", [])
+            )
             clickable = has_children
         label = get_node_label(rule, clickable=clickable)
         shape = get_node_shape(rule)
@@ -322,20 +382,26 @@ def build_nodes(flat_rules, group_ids=None, root_name="", edge_map=None, rule_to
             node_str = f'{guid}["{label}"]'
         disabled = rule.get("Attributes", {}).get("_Disabled") in ["1", 1, True]
         if disabled:
-            node_str += ':::classDisabled'
+            node_str += ":::classDisabled"
         else:
-            node_str += f':::class{shape}'
+            node_str += f":::class{shape}"
         node_str = node_str.rstrip() + "\n"
         if clickable:
             node_str += f"{get_node_click(rule, rule_to_page, current_page, root_name, edge_map)}\n"
         nodes[guid] = node_str
     return nodes
 
+
 def get_node_click(rule, rule_to_page, current_page, root_name, edge_map):
     """Generate click event for a node."""
     guid = rule["RuleGUID"]
     target_page = None
-    if edge_map and guid in edge_map and rule_to_page is not None and current_page is not None:
+    if (
+        edge_map
+        and guid in edge_map
+        and rule_to_page is not None
+        and current_page is not None
+    ):
         for child_guid in edge_map[guid]:
             if rule_to_page.get(child_guid, current_page) != current_page:
                 target_page = rule_to_page[child_guid]
@@ -343,6 +409,7 @@ def get_node_click(rule, rule_to_page, current_page, root_name, edge_map):
     if target_page is not None:
         return f'click {guid} "/view_diagrams/{root_name}?page={target_page}" "View Page {target_page}"'
     return ""
+
 
 def generate_mermaid_code(nodes, edges, layout="TD"):
     """Generate Mermaid code for the diagram."""
@@ -357,10 +424,14 @@ def generate_mermaid_code(nodes, edges, layout="TD"):
         if edge_type == "PC":
             code += f"    linkStyle {i} stroke:#000,stroke-width:2px;\n"
         elif edge_type == "SB":
-            code += f"    linkStyle {i} stroke:#666,stroke-dasharray:3,stroke-width:2px;\n"
+            code += (
+                f"    linkStyle {i} stroke:#666,stroke-dasharray:3,stroke-width:2px;\n"
+            )
     return code
 
+
 # --- File Generation ---
+
 
 def generate_files(json_data: list, output_dir: str) -> None:
     """
@@ -391,11 +462,10 @@ def generate_files(json_data: list, output_dir: str) -> None:
             root_name=root_name,
             edge_map=edge_map,
             rule_to_page=None,
-            current_page=1
+            current_page=1,
         )
         group_edges = [
-            e for e in edges
-            if e["edge_str"].split("-->")[0].strip() in group_ids
+            e for e in edges if e["edge_str"].split("-->")[0].strip() in group_ids
         ]
         container_action_names = set()
         for rule in rules:
@@ -403,29 +473,33 @@ def generate_files(json_data: list, output_dir: str) -> None:
                 name = action.get("ActionName", "").strip()
                 if name and name != "---":
                     container_action_names.add(name)
-        mermaid_code = generate_mermaid_code(
-            group_nodes,
-            group_edges,
-            layout="TD"
-        )
+        mermaid_code = generate_mermaid_code(group_nodes, group_edges, layout="TD")
         if container_action_names:
-            mermaid_code += "\n%% ActionNames: " + ", ".join(sorted(container_action_names))
+            mermaid_code += "\n%% ActionNames: " + ", ".join(
+                sorted(container_action_names)
+            )
         sanitized_container = secure_filename(container)
         diagram_filename = f"{sanitized_container}.mmd"
         diagram_path = os.path.join(output_dir, diagram_filename)
         with open(diagram_path, "w", encoding="utf-8") as f:
             f.write(mermaid_code)
-        LOGGER.info("Created diagram file '%s' with %d nodes.", diagram_filename, len(group_nodes))
+        LOGGER.info(
+            "Created diagram file '%s' with %d nodes.",
+            diagram_filename,
+            len(group_nodes),
+        )
         output_data = {
             "rules": rules,
-            "actionNames": sorted(list(container_action_names))
+            "actionNames": sorted(list(container_action_names)),
         }
         container_json_path = os.path.join(output_dir, f"{sanitized_container}.json")
         with open(container_json_path, "w", encoding="utf-8") as f:
             json.dump(output_data, f, indent=4)
         LOGGER.info("Saved container JSON to '%s'.", container_json_path)
 
+
 # --- Activity Logging ---
+
 
 def log_activity(
     action: str,
@@ -440,7 +514,7 @@ def log_activity(
         data: dict = {}
         if os.path.exists(activity_log_path):
             try:
-                with open(activity_log_path, 'r', encoding='utf-8') as f:
+                with open(activity_log_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
             except (json.JSONDecodeError, FileNotFoundError):
                 data = {"rules": {}, "activity_log": []}
@@ -450,26 +524,28 @@ def log_activity(
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "user": user or "anonymous",
-            "details": details or f"{action} operation"
+            "details": details or f"{action} operation",
         }
         data["activity_log"].append(entry)
         if rule_id:
             data["rules"][rule_id] = {
                 "status": "active",
                 "last_modified": entry["timestamp"],
-                "modified_by": user or "system"
+                "modified_by": user or "system",
             }
-        with open(activity_log_path, 'w', encoding='utf-8') as f:
+        with open(activity_log_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
     except Exception as exc:
         LOGGER.error("Failed to log activity: %s", exc)
 
+
 # --- Hierarchy Validation and Building ---
+
 
 def validate_hierarchy_data(data):
     """Validate and normalize hierarchy data structure."""
     if isinstance(data, dict):
-        rules = data.get('rules', [data])
+        rules = data.get("rules", [data])
     elif isinstance(data, list):
         rules = data
     else:
@@ -479,43 +555,54 @@ def validate_hierarchy_data(data):
     for rule in rules:
         if not isinstance(rule, dict):
             continue
-        rule['RuleGUID'] = rule.get('RuleGUID') or rule.get('_RuleGUID', '').strip('"') or str(uuid.uuid4())
-        rule['RuleName'] = rule.get('RuleName') or \
-                           rule.get('_RuleName', '').strip('"') or \
-                           rule.get('RootName') or \
-                           f"Rule_{rule['RuleGUID'][:8]}"
-        for legacy_field in ['_RuleGUID', '_RuleName', '_FunctionName']:
+        rule["RuleGUID"] = (
+            rule.get("RuleGUID")
+            or rule.get("_RuleGUID", "").strip('"')
+            or str(uuid.uuid4())
+        )
+        rule["RuleName"] = (
+            rule.get("RuleName")
+            or rule.get("_RuleName", "").strip('"')
+            or rule.get("RootName")
+            or f"Rule_{rule['RuleGUID'][:8]}"
+        )
+        for legacy_field in ["_RuleGUID", "_RuleName", "_FunctionName"]:
             rule.pop(legacy_field, None)
-        guid_map[rule['RuleGUID']] = rule
+        guid_map[rule["RuleGUID"]] = rule
         normalized.append(rule)
     return normalized, guid_map
+
 
 def build_hierarchy(normalized_rules, guid_map):
     """Build proper hierarchy structure from normalized rules."""
     roots = []
     for rule in normalized_rules:
-        parent_guid = rule.get('ParentGUID')
+        parent_guid = rule.get("ParentGUID")
         if parent_guid and parent_guid in guid_map:
             parent = guid_map[parent_guid]
-            if 'children' not in parent:
-                parent['children'] = []
-            if rule.get('ParentActionIndex') is not None:
-                if 'Actions' not in parent:
-                    parent['Actions'] = []
-                while len(parent['Actions']) <= rule['ParentActionIndex']:
-                    parent['Actions'].append({'ActionName': f'Action {len(parent["Actions"])}'})
-                if 'ChildRules' not in parent['Actions'][rule['ParentActionIndex']]:
-                    parent['Actions'][rule['ParentActionIndex']]['ChildRules'] = []
-                parent['Actions'][rule['ParentActionIndex']]['ChildRules'].append(rule)
+            if "children" not in parent:
+                parent["children"] = []
+            if rule.get("ParentActionIndex") is not None:
+                if "Actions" not in parent:
+                    parent["Actions"] = []
+                while len(parent["Actions"]) <= rule["ParentActionIndex"]:
+                    parent["Actions"].append(
+                        {"ActionName": f'Action {len(parent["Actions"])}'}
+                    )
+                if "ChildRules" not in parent["Actions"][rule["ParentActionIndex"]]:
+                    parent["Actions"][rule["ParentActionIndex"]]["ChildRules"] = []
+                parent["Actions"][rule["ParentActionIndex"]]["ChildRules"].append(rule)
             else:
-                parent['children'].append(rule)
+                parent["children"].append(rule)
         else:
             roots.append(rule)
     return roots
 
+
 # --- Miscellaneous Utilities ---
 
 import re
+
 
 def highlight_matches(text, query):
     """Highlight matches case-insensitively."""
@@ -526,13 +613,15 @@ def highlight_matches(text, query):
         if len(words) > 1:
             for w in words:
                 pattern = re.compile(re.escape(w), re.IGNORECASE)
-                text = pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
+                text = pattern.sub(lambda m: f"<strong>{m.group()}</strong>", text)
             return text
         pattern = re.compile(re.escape(query), re.IGNORECASE)
-        return pattern.sub(lambda m: f'<strong>{m.group()}</strong>', text)
+        return pattern.sub(lambda m: f"<strong>{m.group()}</strong>", text)
     except re.error as exc:
         LOGGER.error("Invalid regex in highlight_matches: %s", exc)
         return text
+
+
 def find_rule_by_guid(rules, guid):
     """Find a rule by its GUID."""
     for rule in rules:
@@ -550,6 +639,7 @@ def find_rule_by_guid(rules, guid):
                         return found
     return None
 
+
 def update_mmd_files_with_translations(diagrams_folder, translations):
     """Update .mmd files in the given folder with translations."""
     for filename in os.listdir(diagrams_folder):
@@ -566,10 +656,13 @@ def update_mmd_files_with_translations(diagrams_folder, translations):
             except Exception as exc:
                 LOGGER.error("Error updating %s: %s", filename, exc)
 
+
 def propagate_disabled_rules(rules, inherited_disabled=False):
     """Propagate the disabled state through the rules."""
     for rule in rules:
-        current_disabled = inherited_disabled or (rule.get("Attributes", {}).get("_Disabled") in ["1", 1, True])
+        current_disabled = inherited_disabled or (
+            rule.get("Attributes", {}).get("_Disabled") in ["1", 1, True]
+        )
         if "Attributes" not in rule:
             rule["Attributes"] = {}
         if current_disabled:
@@ -580,6 +673,7 @@ def propagate_disabled_rules(rules, inherited_disabled=False):
             for action in rule.get("Actions", []):
                 if "ChildRules" in action:
                     propagate_disabled_rules(action["ChildRules"], current_disabled)
+
 
 def build_edge_map(edges):
     """Build a mapping of edges for quick access."""
@@ -634,20 +728,21 @@ def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
 
 # --- Application Helper Utilities ---
 
+
 def get_current_user() -> str:
     """Return the username of the authenticated user or 'anonymous'."""
     try:
-        return current_user.username if current_user.is_authenticated else 'anonymous'
+        return current_user.username if current_user.is_authenticated else "anonymous"
     except Exception:
-        return 'anonymous'
+        return "anonymous"
 
 
 def initialize_directories(app) -> None:
     """Ensure required application directories exist."""
     required_dirs = {
-        'uploads': app.config.get('UPLOAD_FOLDER', './uploads'),
-        'diagrams': app.config.get('DIAGRAMS_FOLDER', './diagrams'),
-        'help': os.path.join(app.static_folder, 'help'),
+        "uploads": app.config.get("UPLOAD_FOLDER", "./uploads"),
+        "diagrams": app.config.get("DIAGRAMS_FOLDER", "./diagrams"),
+        "help": os.path.join(app.static_folder, "help"),
     }
     for path in required_dirs.values():
         try:
@@ -660,9 +755,9 @@ def initialize_directories(app) -> None:
 
 def get_help_topics() -> list[str]:
     """Return a sorted list of available help topic names."""
-    help_dir = os.path.join(current_app.root_path, 'static', 'help')
+    help_dir = os.path.join(current_app.root_path, "static", "help")
     if not os.path.exists(help_dir):
         return []
     return sorted(
-        f.replace('.md', '') for f in os.listdir(help_dir) if f.endswith('.md')
+        f.replace(".md", "") for f in os.listdir(help_dir) if f.endswith(".md")
     )

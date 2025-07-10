@@ -2,9 +2,10 @@
 
 from flask import Blueprint, current_app, jsonify
 
-diagrams = Blueprint('diagrams', __name__)
+diagrams = Blueprint("diagrams", __name__)
 
-@diagrams.route('/diagrams')
+
+@diagrams.route("/diagrams")
 def diagrams_index():
     """Return a placeholder message for diagrams."""
 
