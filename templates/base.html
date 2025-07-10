@@ -1,12 +1,22 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="dark scroll-smooth" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)">
+    
     {% block meta_description %}
     <meta name="description" content="Rules Central: Your one-stop destination for rules and regulations.">
     {% endblock %}
+    
+    <!-- Open Graph / Social Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Your one-stop destination for rules and regulations.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url if request else '' }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/social-preview.png', _external=True) }}">
 
     <title>{% block title %}Rules Central{% endblock %}</title>
 
@@ -14,84 +24,102 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
     <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
-    <!-- Preload critical CSS for faster rendering -->
-    <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style" />
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/app.js') }}" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <!-- Stylesheets -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/app.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/custom-utilities.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/index.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom-utilities.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+          crossorigin="anonymous" 
+          referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" 
+            integrity="sha512-XuZvMgv3M9j5A5f5Z8jZUJg1XFyKz0q6n1fY6b+JU7kY5+0qwrkZQzryQ6hX4Nk7N3Oy7K9Vv7xkZ8J+XlWlKg==" 
+            crossorigin="anonymous"></script>
 
-    <!-- Head Scripts (deferred) -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js"
-    ></script>
-
-    <!-- Extra head content block -->
     {% block head %}{% endblock %}
   </head>
+  
   {% with messages = get_flashed_messages(with_categories=true) %}
-  <body
-    class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen u-font-sans text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
-    {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
+  <body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans antialiased text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
+        {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
+        x-data="{ isScrolled: false }"
+        @scroll.window="isScrolled = window.scrollY > 50"
   >
-    <!-- The `with` block above makes flashed messages available to the entire body, used by app.js to show notifications. -->
-    <div id="scroll-progress" class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50"></div>
-    <a
-      href="#main-content"
-      class="sr-only focus:not-sr-only absolute top-0 left-0 m-4 bg-dark-800 text-white px-4 py-2 rounded"
-    >Skip to main content</a>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only fixed top-4 left-4 z-[100] bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded transition-all transform focus:scale-105">
+      Skip to main content
+    </a>
 
-    {% include 'partials/header.html' %} {% if self.hero_title().strip() or
-    self.hero_subtitle().strip() %}
-    <section
-      class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12"
-    >
+    <!-- Progress Indicator -->
+    <div id="scroll-progress" 
+         class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50 h-0.5 bg-primary-500 transition-all duration-200 ease-out"
+         :class="{ 'opacity-0': !isScrolled }"></div>
+
+    {% include 'partials/header.html' %}
+    
+    {% if self.hero_title().strip() or self.hero_subtitle().strip() %}
+    <section class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12 px-4">
       {% include 'partials/hero_bg.html' %}
-      <div class="relative z-10">
-        <h1 class="u-text-fluid u-text-balance font-extrabold mb-4 text-primary-500">
+      <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="u-text-fluid u-text-balance font-extrabold mb-4 text-primary-500 lg:text-5xl mx-auto"
+            data-aos="fade-up">
           {% block hero_title %}{% endblock %}
         </h1>
         {% if self.hero_subtitle().strip() %}
-        <p class="text-lg text-slate-300 max-w-2xl mx-auto u-text-balance">
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto u-text-balance"
+           data-aos="fade-up" data-aos-delay="100">
           {% block hero_subtitle %}{% endblock %}
         </p>
         {% endif %}
       </div>
     </section>
     {% endif %}
-    <main
-      id="main-content"
-      class="u-container pt-8 px-4 md:px-8 min-h-[70vh] flex flex-col gap-10 scroll-mt-24"
-    >
+
+    <main id="main-content" 
+          class="u-container pt-8 px-4 md:px-8 min-h-[70vh] flex flex-col gap-10 scroll-mt-24"
+          role="main">
       {% block content %}{% endblock %}
     </main>
+
     {% include 'partials/footer.html' %}
     {% include 'help_system.html' %}
-    {% if show_back_to_top is not defined or show_back_to_top %}{% include 'partials/back_to_top.html' %}{% endif %}
-    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" nonce="{{ g.nonce }}"></script>
-    <script defer src="{{ url_for('static', filename='js/app.js') }}" nonce="{{ g.nonce }}"></script>
-    <script defer src="{{ url_for('static', filename='js/help_content.js') }}" nonce="{{ g.nonce }}"></script>
+    
+    {% if show_back_to_top is not defined or show_back_to_top %}
+      {% include 'partials/back_to_top.html' %}
+    {% endif %}
+
+    <!-- Scripts with nonce and defer -->
+    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" 
+            nonce="{{ g.nonce }}"></script>
+    <script defer src="{{ url_for('static', filename='js/app.js') }}" 
+            nonce="{{ g.nonce }}"></script>
+    <script defer src="{{ url_for('static', filename='js/help_content.js') }}" 
+            nonce="{{ g.nonce }}"></script>
+    
     {% block scripts %}{% endblock %}
-    {% endwith %}
+    
+    <!-- Performance Monitoring -->
+    <script defer nonce="{{ g.nonce }}">
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const timing = performance.timing;
+          const loadTime = timing.loadEventEnd - timing.navigationStart;
+          console.log('Page fully loaded in', loadTime + 'ms');
+        }
+      });
+    </script>
   </body>
+  {% endwith %}
 </html>

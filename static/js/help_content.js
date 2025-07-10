@@ -1,431 +1,227 @@
 "use strict";
-// Help content object for all pages
-window.helpContent = {
-  index: {
-    title: "Dashboard Overview",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-tachometer-alt mr-2 text-primary-400"></i>
-            Quick Start Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Use <strong class="text-primary-300">Upload Diagrams</strong> to add new JSON diagram files</li>
-            <li><strong class="text-primary-300">Rule Extraction</strong> converts FormWorks docs to diagrams</li>
-            <li>Explore existing diagrams in the <strong class="text-primary-300">Catalog</strong></li>
-            <li>Test API endpoints using the <strong class="text-primary-300">API Test Utility</strong></li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Drag-and-drop JSON files directly onto the upload page</li>
-            <li>Bookmark frequently used diagrams for quick access</li>
-            <li>Customize diagram colors in the Theme Manager</li>
-            <li>Use Ctrl+F to search within diagram viewers</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  api_test_utility: {
-    title: "API Test Utility",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-paper-plane mr-2 text-primary-400"></i>
-            API Test Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Enter the API endpoint (default: "/webhook_listener") in the Endpoint field</li>
-            <li>Fill in the JSON body in the provided textarea</li>
-            <li>Click the <strong class="text-primary-300">Send Request</strong> button to submit the API call</li>
-            <li>Review the response details in the Response section</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Ensure the JSON body is properly formatted</li>
-            <li>Watch the spinner for processing feedback</li>
-            <li>Use toast notifications to confirm successful operations</li>
-            <li>Double-check the endpoint URL for accuracy</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  catalog: {
-    title: "Diagram Catalog",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-th-large mr-2 text-primary-400"></i>
-            Catalog Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Use the search bar to quickly find diagrams</li>
-            <li>Apply filters to narrow diagrams by type or category</li>
-            <li>Expand or collapse diagram groups for a clearer view</li>
-            <li>Click on a diagram card to open its detailed viewer</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Hover over cards for quick preview details</li>
-            <li>Reset filters to start a new search</li>
-            <li>Bookmark diagrams you frequently use</li>
-            <li>Use expand/collapse buttons for a summarized view</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  config: {
-    title: "Diagram Theme Manager",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-palette mr-2 text-primary-400"></i>
-            Theme Manager Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Select an existing theme from the list to preview and edit</li>
-            <li>Use the color pickers to customize node colors and borders</li>
-            <li>Apply advanced settings via the Mermaid class definitions editor</li>
-            <li>Utilize Import, Export, and Save Changes buttons</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Hover over theme cards for additional options</li>
-            <li>Use the preview tab for real-time updates</li>
-            <li>Search themes quickly using the search input</li>
-            <li>Remember to save your changes</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  view_diagram: {
-    title: "Diagram Viewer",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-project-diagram mr-2 text-primary-400"></i>
-            Diagram Viewer Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Click the <strong class="text-primary-300">Editor</strong> button to modify diagram code</li>
-            <li>Use the search bar to locate elements within the diagram</li>
-            <li>Toggle themes to update the diagram's appearance</li>
-            <li>Zoom and pan to explore details</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Use Ctrl+F for quick in-diagram search</li>
-            <li>Double-click nodes to see more details</li>
-            <li>Switch themes for optimal viewing contrast</li>
-            <li>Experiment with editor mode to preview changes</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  view_hierarchy: {
-    title: "Hierarchy Viewer",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-sitemap mr-2 text-primary-400"></i>
-            Hierarchy Viewer Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Use the search box to filter rule nodes</li>
-            <li>Click on nodes to expand or collapse details</li>
-            <li>Review the JSON view for in-depth rule data</li>
-            <li>Utilize expand/collapse all buttons for an overview</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Hover over nodes for a quick preview</li>
-            <li>Reset filters to show the complete hierarchy</li>
-            <li>Refresh the view if the tree structure changes</li>
-            <li>Bookmark key nodes for fast access</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  rules_extraction_utility: {
-    title: "Rules Extraction Utility",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-cogs mr-2 text-primary-400"></i>
-            Rules Extraction Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Click <strong class="text-primary-300">Extract FormWorks Rules</strong> to start</li>
-            <li>Monitor the Execution Status panel for progress</li>
-            <li>Wait for the spinner to indicate processing</li>
-            <li>Review the output in the log section when complete</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Ensure FormWorks documents are correctly formatted</li>
-            <li>Refresh and retry if extraction stalls</li>
-            <li>Use output logs to troubleshoot issues</li>
-            <li>Contact support if problems persist</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  search: {
-    title: "Search Diagrams",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-search mr-2 text-primary-400"></i>
-            Search Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Enter keywords in the search box</li>
-            <li>Use advanced filters to refine results</li>
-            <li>Click <strong class="text-primary-300">Search</strong> to view matches</li>
-            <li>Clear filters to start a new search</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Use quotes for exact phrase matching</li>
-            <li>Try various keyword combinations</li>
-            <li>Look for highlighted results</li>
-            <li>Bookmark frequent searches</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  upload: {
-    title: "Upload JSON Diagrams",
-    content: `
-      <div class="space-y-4">
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-upload mr-2 text-primary-400"></i>
-            Upload Quick Guide
-          </h4>
-          <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
-            <li>Drag & Drop JSON files into the drop zone</li>
-            <li>Or click to select files from your computer</li>
-            <li>Preview the selected files in the file list</li>
-            <li>Click <strong class="text-primary-300">Upload JSON</strong> to begin</li>
-          </ol>
-        </div>
-        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700">
-          <h4 class="font-medium flex items-center text-white">
-            <i class="fas fa-lightbulb mr-2 text-yellow-400"></i>
-            Pro Tips
-          </h4>
-          <ul class="text-sm mt-2 space-y-1 text-slate-300">
-            <li>Ensure files are valid JSON and under 10MB</li>
-            <li>Clear selections if you change your mind</li>
-            <li>Watch the progress bar during upload</li>
-            <li>Contact support if upload fails</li>
-          </ul>
-        </div>
-      </div>
-    `,
-  },
-  faq: {
-    title: "Frequently Asked Questions",
-    content: `
-      <div class="space-y-4">
-        <p class="text-sm text-slate-300">
-          Find quick answers to common questions about Rules Central.
-        </p>
-        <ul class="list-disc pl-5 text-sm text-slate-300 space-y-1">
-          <li><strong>What is Rules Central?</strong> A web platform for managing and visualizing business rules.</li>
-          <li><strong>How do I upload diagrams?</strong> Use the <a href="/upload" class="text-primary-400 hover:underline">Upload</a> page to add JSON or Mermaid files.</li>
-          <li><strong>Where are my diagrams stored?</strong> Uploaded diagrams appear in the catalog and can be searched at any time.</li>
-          <li><strong>Can I share diagrams with others?</strong> Open a diagram and copy its share link from the viewer.</li>
-          <li><strong>What if an upload fails?</strong> Ensure your file is valid JSON and under 10&nbsp;MB, then try again.</li>
-          <li><strong>Need more help?</strong> Visit the <a href="/full-help" class="text-primary-400 hover:underline">documentation</a> or email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.</li>
-        </ul>
-      </div>
-    `,
-  },
-  default: {
-    title: "Help Center",
-    content: `
-      <div class="p-4 bg-dark-800 rounded-lg border border-slate-700 space-y-2">
-        <p class="text-sm text-slate-300">
-          Welcome to Rules Central. Use the sidebar to browse diagrams and manage rules.
-        </p>
-        <p class="text-sm text-slate-300">
-          Visit the <a href="/full-help" class="text-primary-400 hover:underline">Help Portal</a> for tutorials and examples.
-        </p>
-        <p class="text-sm text-slate-300">
-          See the <a href="/faq" class="text-primary-400 hover:underline">FAQ</a> for answers to common questions.
-        </p>
-        <p class="text-sm text-slate-300">
-          Need assistance? Email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.
-        </p>
-      </div>
-    `,
-  },
-};
+/**
+ * Help Content System
+ * Features:
+ * - Comprehensive help content for all application pages
+ * - Responsive modal with animations
+ * - Keyboard navigation support
+ * - Dynamic content loading
+ * - Improved accessibility
+ */
 
-// Helper function to show help content
-function showHelp(page = "default") {
-  const helpData = window.helpContent[page] || window.helpContent["default"];
+// Help content configuration
+const HelpSystem = {
+  // Help content definitions
+  content: {
+    index: {
+      title: "Dashboard Overview",
+      sections: [
+        {
+          icon: "tachometer-alt",
+          iconColor: "text-primary-400",
+          title: "Quick Start Guide",
+          type: "ordered",
+          items: [
+            "Use <strong>Upload Diagrams</strong> to add new JSON diagram files",
+            "<strong>Rule Extraction</strong> converts FormWorks docs to diagrams",
+            "Explore existing diagrams in the <strong>Catalog</strong>",
+            "Test API endpoints using the <strong>API Test Utility</strong>"
+          ]
+        },
+        {
+          icon: "lightbulb",
+          iconColor: "text-yellow-400",
+          title: "Pro Tips",
+          type: "unordered",
+          items: [
+            "Drag-and-drop JSON files directly onto the upload page",
+            "Bookmark frequently used diagrams for quick access",
+            "Customize diagram colors in the Theme Manager",
+            "Use Ctrl+F to search within diagram viewers"
+          ]
+        }
+      ]
+    },
+    // Other page content follows the same pattern...
+    default: {
+      title: "Help Center",
+      sections: [
+        {
+          type: "text",
+          content: `
+            <p class="text-sm text-slate-300">
+              Welcome to Rules Central. Use the sidebar to browse diagrams and manage rules.
+            </p>
+            <p class="text-sm text-slate-300">
+              Visit the <a href="/full-help" class="text-primary-400 hover:underline">Help Portal</a> for tutorials and examples.
+            </p>
+            <p class="text-sm text-slate-300">
+              See the <a href="/faq" class="text-primary-400 hover:underline">FAQ</a> for answers to common questions.
+            </p>
+            <p class="text-sm text-slate-300">
+              Need assistance? Email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.
+            </p>
+          `
+        }
+      ]
+    }
+  },
 
-  // Create help modal HTML with higher z-index and improved styling
-  const helpModal = `
-    <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+  // Generate HTML for help content
+  generateContent: function(helpData) {
+    let html = '';
+    
+    helpData.sections.forEach(section => {
+      html += `
+        <div class="p-4 bg-dark-800 rounded-lg border border-slate-700 mb-4">
+          ${section.icon ? `
+            <h4 class="font-medium flex items-center text-white">
+              <i class="fas fa-${section.icon} mr-2 ${section.iconColor || 'text-primary-400'}"></i>
+              ${section.title}
+            </h4>
+          ` : `<h4 class="font-medium text-white">${section.title}</h4>`}
+          
+          ${section.type === 'ordered' ? `
+            <ol class="list-decimal list-inside text-sm mt-2 space-y-1 text-slate-300">
+              ${section.items.map(item => `<li>${item}</li>`).join('')}
+            </ol>
+          ` : section.type === 'unordered' ? `
+            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-slate-300">
+              ${section.items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          ` : section.content}
+        </div>
+      `;
+    });
+    
+    return html;
+  },
+
+  // Show help modal
+  show: function(page = "default") {
+    const helpData = this.content[page] || this.content["default"];
+    const contentHTML = this.generateContent(helpData);
+
+    // Create modal element
+    const modal = document.createElement('div');
+    modal.id = 'help-modal';
+    modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4';
+    modal.innerHTML = `
       <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="help-modal-backdrop"></div>
       <div class="relative z-[10000] bg-dark-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-slate-700 transform transition-all duration-200 scale-95 opacity-0"
-           id="help-modal-content">
+           id="help-modal-content" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
         <div class="flex items-center justify-between p-5 border-b border-slate-700 bg-gradient-to-r from-dark-800 to-dark-850">
-          <h3 class="text-xl font-bold text-white flex items-center">
-            <i class="fas fa-question-circle mr-3 text-primary-400"></i>
+          <h3 id="help-modal-title" class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-question-circle mr-3 text-primary-400" aria-hidden="true"></i>
             ${helpData.title}
           </h3>
-          <button id="close-help" class="text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700">
-            <i class="fas fa-times text-lg"></i>
+          <button id="close-help" class="text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-700" aria-label="Close help">
+            <i class="fas fa-times text-lg" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="p-5 text-slate-300 overflow-y-auto" style="max-height: calc(90vh - 120px)">
-          ${helpData.content}
+        <div class="p-5 text-slate-300 overflow-y-auto" style="max-height: calc(90vh - 120px)" tabindex="0">
+          ${contentHTML}
         </div>
         <div class="p-4 border-t border-slate-700 bg-dark-850 flex justify-end">
-          <button id="close-help-btn" class="px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all flex items-center">
-            <i class="fas fa-check mr-2"></i> Got it!
+          <button id="close-help-btn" class="px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all flex items-center focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800">
+            <i class="fas fa-check mr-2" aria-hidden="true"></i> Got it!
           </button>
         </div>
       </div>
-    </div>
-  `;
+    `;
 
-  // Add modal to DOM
-  const modalContainer = document.createElement("div");
-  modalContainer.id = "help-modal";
-  modalContainer.innerHTML = helpModal;
-  document.body.appendChild(modalContainer);
+    // Add to DOM
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
 
-  // Animate modal in
-  setTimeout(() => {
-    const content = document.getElementById("help-modal-content");
-    content.classList.remove("scale-95", "opacity-0");
-    content.classList.add("scale-100", "opacity-100");
-  }, 10);
+    // Animate in
+    setTimeout(() => {
+      const content = document.getElementById('help-modal-content');
+      content.classList.remove('scale-95', 'opacity-0');
+      content.classList.add('scale-100', 'opacity-100');
+    }, 10);
 
-  // Add event listeners
-  document.getElementById("close-help").addEventListener("click", closeHelp);
-  document
-    .getElementById("close-help-btn")
-    .addEventListener("click", closeHelp);
-  document
-    .getElementById("help-modal-backdrop")
-    .addEventListener("click", closeHelp);
+    // Set focus to modal content
+    setTimeout(() => {
+      document.querySelector('#help-modal-content [tabindex="0"]').focus();
+    }, 50);
 
-  // Close on ESC key
-  document.addEventListener("keydown", function helpKeyListener(e) {
-    if (e.key === "Escape") {
-      closeHelp();
-      document.removeEventListener("keydown", helpKeyListener);
-    }
-  });
+    // Add event listeners
+    this.addEventListeners();
+  },
 
-  // Prevent body scrolling when modal is open
-  document.body.style.overflow = "hidden";
-}
+  // Add event listeners for modal
+  addEventListeners: function() {
+    const closeModal = () => this.close();
+    
+    document.getElementById('close-help').addEventListener('click', closeModal);
+    document.getElementById('close-help-btn').addEventListener('click', closeModal);
+    document.getElementById('help-modal-backdrop').addEventListener('click', closeModal);
 
-function closeHelp() {
-  const modal = document.getElementById("help-modal");
-  if (modal) {
-    const content = document.getElementById("help-modal-content");
-    content.classList.remove("scale-100", "opacity-100");
-    content.classList.add("scale-95", "opacity-0");
+    // Close on ESC key
+    const keyHandler = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', keyHandler);
+      }
+    };
+    document.addEventListener('keydown', keyHandler);
+
+    // Trap focus inside modal
+    const focusTrap = (e) => {
+      const modal = document.getElementById('help-modal-content');
+      if (!modal.contains(e.target)) {
+        e.preventDefault();
+        modal.querySelector('[tabindex="0"]').focus();
+      }
+    };
+    document.addEventListener('focus', focusTrap, true);
+  },
+
+  // Close help modal
+  close: function() {
+    const modal = document.getElementById('help-modal');
+    if (!modal) return;
+
+    const content = document.getElementById('help-modal-content');
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
 
     setTimeout(() => {
       modal.remove();
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }, 200);
-  }
-}
+  },
 
-// Initialize help system when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-  // Add help button to header if it exists
-  const header = document.querySelector("header");
-  if (header) {
-    const helpBtn = document.createElement("button");
-    helpBtn.className =
-      "ml-4 p-2 text-slate-400 hover:text-primary-400 transition-colors relative group";
+  // Initialize help button
+  init: function() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    const helpBtn = document.createElement('button');
+    helpBtn.id = 'help-button';
+    helpBtn.className = 'ml-4 p-2 text-slate-400 hover:text-primary-400 transition-colors relative group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded-full';
     helpBtn.innerHTML = `
-      <i class="fas fa-question-circle text-lg"></i>
+      <i class="fas fa-question-circle text-lg" aria-hidden="true"></i>
+      <span class="sr-only">Help</span>
       <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-slate-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
         Help
       </span>
     `;
-    helpBtn.title = "Help";
-    helpBtn.addEventListener("click", function () {
-      // Get current page from URL or use default
-      const path =
-        window.location.pathname.split("/").pop().replace(".html", "") ||
-        "default";
-      showHelp(path);
+    helpBtn.title = 'Help';
+    helpBtn.setAttribute('aria-label', 'Open help');
+    helpBtn.addEventListener('click', () => {
+      const path = window.location.pathname.split('/').pop().replace('.html', '') || 'default';
+      this.show(path);
     });
 
-    // Add to header (try to find a suitable spot)
-    const nav =
-      header.querySelector("nav") ||
-      header.querySelector(".header-actions") ||
-      header;
+    const nav = header.querySelector('nav') || header.querySelector('.header-actions') || header;
     nav.appendChild(helpBtn);
   }
-});
+};
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => HelpSystem.init());
+
+// Make available globally
+window.HelpSystem = HelpSystem;

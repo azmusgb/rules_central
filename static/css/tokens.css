@@ -1,23 +1,26 @@
-/* Design Tokens for Rules Central
+/* 
+ * Rules Central Design Tokens v3.0
  * ========================================================================
- * A comprehensive design system foundation with semantic tokens and theming support.
- * 
- * Features:
- * - Semantic token architecture
- * - Full light/dark theme support
- * - CSS Custom Property fallbacks
- * - Component-specific tokens
- * - Accessibility considerations
- * - Typographic scale
- * - Modern color system
+ * Complete design system foundation with:
+ * - Enhanced semantic architecture
+ * - Full theme system with extended palettes
+ * - Accessibility-first approach
+ * - Performance-optimized transitions
+ * - Component-ready tokens
  */
 
 :root {
   /* ======================================================================
-     Color System
+     Core System
      ====================================================================== */
+  --qc-base-unit: 1rem;
+  --qc-scale-ratio: 1.2;
+  --qc-border-width: 1px;
   
-  /* Primary Color Palette */
+  /* ======================================================================
+     Extended Color System
+     ====================================================================== */
+  /* Primary (Purple) */
   --qc-color-primary-50: #f5f3ff;
   --qc-color-primary-100: #ede9fe;
   --qc-color-primary-200: #ddd6fe;
@@ -28,19 +31,21 @@
   --qc-color-primary-700: #6d28d9;
   --qc-color-primary-800: #5b21b6;
   --qc-color-primary-900: #4c1d95;
+  --qc-color-primary-950: #3b1680;
 
-  /* Extended Color Palette */
+  /* Secondary (Blue) */
+  --qc-color-secondary-50: #f0f9ff;
+  --qc-color-secondary-100: #e0f2fe;
+  --qc-color-secondary-200: #bae6fd;
+  --qc-color-secondary-300: #7dd3fc;
   --qc-color-secondary-400: #38bdf8;
-  --qc-color-success-400: #4ade80;
-  --qc-color-warning-400: #fbbf24;
-  --qc-color-danger-400: #f87171;
-  --qc-color-info-400: #60a5fa;
+  --qc-color-secondary-500: #0ea5e9;
+  --qc-color-secondary-600: #0284c7;
+  --qc-color-secondary-700: #0369a1;
+  --qc-color-secondary-800: #075985;
+  --qc-color-secondary-900: #0c4a6e;
 
-  /* Aliases for legacy custom properties */
-  --color-primary: var(--qc-color-primary-500);
-  --color-accent: var(--qc-color-secondary-400);
-
-  /* Neutral Colors - Base */
+  /* Neutral */
   --qc-color-neutral-0: #ffffff;
   --qc-color-neutral-50: #f8fafc;
   --qc-color-neutral-100: #f1f5f9;
@@ -54,80 +59,43 @@
   --qc-color-neutral-900: #0f172a;
   --qc-color-neutral-950: #020617;
 
-  /* ======================================================================
-     Semantic Tokens - Default (Dark Theme)
-     ====================================================================== */
-  
-  /* Backgrounds */
-  --qc-color-bg: var(--qc-color-neutral-900, #0f172a);
-  --qc-color-bg-elevated: var(--qc-color-neutral-800, #1e293b);
-  --qc-color-bg-surface: var(--qc-color-neutral-700, #334155);
-  --qc-color-bg-overlay: hsl(222 47% 11% / 0.8);
-
-  /* Text */
-  --qc-color-text-primary: var(--qc-color-neutral-100, #f1f5f9);
-  --qc-color-text-secondary: var(--qc-color-neutral-300, #cbd5e1);
-  --qc-color-text-tertiary: var(--qc-color-neutral-500, #64748b);
-  --qc-color-text-heading: var(--qc-color-neutral-50, #f8fafc);
-
-  /* Borders & Dividers */
-  --qc-color-border-primary: var(--qc-color-neutral-600, #475569);
-  --qc-color-border-secondary: var(--qc-color-neutral-700, #334155);
-
-  /* Interactive */
-  --qc-color-link: var(--qc-color-primary-400, #a78bfa);
-  --qc-color-link-hover: var(--qc-color-primary-300, #c4b5fd);
+  /* Semantic Colors (Dark Default) */
+  --qc-color-bg: var(--qc-color-neutral-900);
+  --qc-color-bg-elevated: var(--qc-color-neutral-800);
+  --qc-color-bg-surface: var(--qc-color-neutral-700);
+  --qc-color-bg-overlay: hsl(222 47% 11% / 0.95);
+  --qc-color-text: var(--qc-color-neutral-100);
+  --qc-color-text-heading: var(--qc-color-neutral-50);
+  --qc-color-text-secondary: var(--qc-color-neutral-300);
+  --qc-color-border: var(--qc-color-neutral-600);
+  --qc-color-border-light: var(--qc-color-neutral-700);
+  --qc-color-link: var(--qc-color-primary-400);
+  --qc-color-link-hover: var(--qc-color-primary-300);
   --qc-color-focus-ring: hsla(251, 91%, 76%, 0.33);
   --qc-color-selection: hsla(251, 91%, 76%, 0.2);
 
-  /* States */
-  --qc-color-success: var(--qc-color-success-400);
-  --qc-color-warning: var(--qc-color-warning-400);
-  --qc-color-error: var(--qc-color-danger-400);
-  --qc-color-info: var(--qc-color-info-400);
-
-  /* Shadows */
-  --qc-color-shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.5);
-  --qc-color-shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.5);
-  --qc-color-shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.5);
-  --qc-color-shadow-xl: 0 20px 25px -5px hsl(222 47% 11% / 0.5);
-
   /* ======================================================================
-     Typography
+     Typography System
      ====================================================================== */
-  
-  /* Font Families */
-  --qc-font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --qc-font-sans: 'Inter', system-ui, sans-serif;
   --qc-font-mono: 'Fira Code', ui-monospace, monospace;
-  --qc-font-serif: 'Georgia', serif;
-
-  /* Font Weights */
-  --qc-font-weight-thin: 100;
-  --qc-font-weight-light: 300;
   --qc-font-weight-regular: 400;
   --qc-font-weight-medium: 500;
-  --qc-font-weight-semibold: 600;
   --qc-font-weight-bold: 700;
-  --qc-font-weight-extrabold: 800;
-
-  /* Line Heights */
-  --qc-line-height-none: 1;
-  --qc-line-height-tight: 1.25;
-  --qc-line-height-normal: 1.5;
-  --qc-line-height-relaxed: 1.75;
-  --qc-line-height-loose: 2;
-
-  /* Letter Spacing */
-  --qc-letter-spacing-tighter: -0.05em;
-  --qc-letter-spacing-tight: -0.025em;
-  --qc-letter-spacing-normal: 0;
-  --qc-letter-spacing-wide: 0.025em;
-  --qc-letter-spacing-wider: 0.05em;
+  
+  --qc-text-xs: 0.75rem;
+  --qc-text-sm: 0.875rem;
+  --qc-text-base: 1rem;
+  --qc-text-lg: 1.125rem;
+  --qc-text-xl: 1.25rem;
+  --qc-text-2xl: 1.5rem;
+  --qc-text-3xl: 1.875rem;
+  --qc-text-4xl: 2.25rem;
+  --qc-text-5xl: 3rem;
 
   /* ======================================================================
      Spacing System
      ====================================================================== */
-  
   --qc-space-3xs: 0.125rem;
   --qc-space-2xs: 0.25rem;
   --qc-space-xs: 0.5rem;
@@ -136,205 +104,45 @@
   --qc-space-lg: 1.5rem;
   --qc-space-xl: 2rem;
   --qc-space-2xl: 3rem;
-  --qc-space-3xl: 4rem;
-  --qc-space-4xl: 6rem;
 
   /* ======================================================================
-     Border Radius
+     Effects
      ====================================================================== */
-  
-  --qc-radius-sm: 0.25rem;
-  --qc-radius-md: 0.375rem;
-  --qc-radius-lg: 0.5rem;
-  --qc-radius-xl: 0.75rem;
-  --qc-radius-2xl: 1rem;
-  --qc-radius-3xl: 1.5rem;
-  --qc-radius-full: 9999px;
+  --qc-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --qc-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --qc-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --qc-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --qc-shadow-inset: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 
   /* ======================================================================
-     Shadows
+     Transitions
      ====================================================================== */
-  
-  --qc-shadow-sm: 0 1px 2px 0 var(--qc-color-shadow-sm);
-  --qc-shadow-md: 0 4px 6px -1px var(--qc-color-shadow-md), 0 2px 4px -2px var(--qc-color-shadow-md);
-  --qc-shadow-lg: 0 10px 15px -3px var(--qc-color-shadow-lg), 0 4px 6px -4px var(--qc-color-shadow-lg);
-  --qc-shadow-xl: 0 20px 25px -5px var(--qc-color-shadow-xl), 0 8px 10px -6px var(--qc-color-shadow-xl);
-  --qc-shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.05);
-
-  /* ======================================================================
-     Transitions & Animations
-     ====================================================================== */
-  
   --qc-transition-duration-fast: 100ms;
   --qc-transition-duration-normal: 200ms;
-  --qc-transition-duration-slow: 300ms;
   --qc-transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1);
-  --qc-transition-timing-emphasized: cubic-bezier(0.3, 0, 0, 1);
-
-  /* ======================================================================
-     Z-Index
-     ====================================================================== */
-  
-  --qc-z-index-auto: auto;
-  --qc-z-index-base: 0;
-  --qc-z-index-overlay: 100;
-  --qc-z-index-dropdown: 200;
-  --qc-z-index-sticky: 300;
-  --qc-z-index-modal: 400;
-  --qc-z-index-popover: 500;
-  --qc-z-index-toast: 600;
-  --qc-z-index-tooltip: 700;
-
-  /* ======================================================================
-     Layout
-     ====================================================================== */
-  
-  --qc-container-sm: 640px;
-  --qc-container-md: 768px;
-  --qc-container-lg: 1024px;
-  --qc-container-xl: 1280px;
-  --qc-container-2xl: 1536px;
-  --qc-container-padding: var(--qc-space-md);
-
-  /* ====================================================================== */
-  /* Legacy Aliases                                                         */
-  /* ====================================================================== */
-  --qc-bg: var(--qc-color-bg);
-  --qc-bg-dark: var(--qc-color-neutral-900);
-  --qc-bg-light: var(--qc-color-neutral-800);
-  --qc-panel: var(--qc-color-bg-surface);
-  --qc-text-main: var(--qc-color-text-primary);
-  --qc-text-light: var(--qc-color-neutral-200);
-  --qc-text-muted: var(--qc-color-text-secondary);
-  --qc-border-color: var(--qc-color-border-primary);
-  --qc-border-radius: var(--qc-radius-md);
-  --qc-border-radius-lg: var(--qc-radius-lg);
-  --qc-link: var(--qc-color-link);
-  --qc-link-hover: var(--qc-color-link-hover);
-  --qc-container-max-width: 72rem;
-  --qc-font-family-sans: var(--qc-font-sans);
-  --qc-font-family-mono: var(--qc-font-mono);
-  --qc-font-family-serif: var(--qc-font-serif);
-  --qc-space-2: var(--qc-space-xs);
-  --qc-space-3: var(--qc-space-sm);
-  --qc-space-4: var(--qc-space-md);
-  --qc-space-6: var(--qc-space-lg);
-  --qc-space-8: var(--qc-space-xl);
-  --qc-bg-surface: var(--qc-panel);
-  --qc-gradient-from: var(--qc-color-primary-600);
-  --qc-gradient-to: var(--qc-color-primary-500);
-  --qc-text-high-contrast: var(--qc-color-text-primary);
-  --qc-bg-card: var(--qc-card-bg);
-  --qc-shadow-card: var(--qc-card-shadow);
-  --qc-shadow-card-hover: var(--qc-shadow-lg);
-  --qc-container-max: var(--qc-container-max-width);
-  --qc-focus-ring: var(--qc-color-focus-ring);
-  --qc-text-min: 1rem;
-  --qc-text-preferred: 2vw;
-  --qc-text-max: 1.25rem;
-
-  /* ======================================================================
-     Component Tokens
-     ====================================================================== */
-  
-  /* Buttons */
-  --qc-button-primary-bg: linear-gradient(135deg, var(--qc-color-primary-600) 0%, var(--qc-color-primary-500) 100%);
-  --qc-button-primary-hover: linear-gradient(135deg, var(--qc-color-primary-500) 0%, var(--qc-color-primary-400) 100%);
-  --qc-button-primary-text: white;
-  --qc-button-primary-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.3);
-
-  /* Cards */
-  --qc-card-bg: var(--qc-color-bg-elevated);
-  --qc-card-border: 1px solid var(--qc-color-border-primary);
-  --qc-card-radius: var(--qc-radius-lg);
-  --qc-card-shadow: var(--qc-shadow-md);
-  --qc-card-padding: var(--qc-space-md);
-
-  /* Inputs */
-  --qc-input-bg: var(--qc-color-bg-elevated);
-  --qc-input-border: 1px solid var(--qc-color-border-primary);
-  --qc-input-radius: var(--qc-radius-md);
-  --qc-input-focus-ring: 0 0 0 2px var(--qc-color-focus-ring);
-  --qc-input-padding: var(--qc-space-sm) var(--qc-space-md);
 }
 
-/* ======================================================================
-   Light Theme Overrides
-   ====================================================================== */
+/* Light Theme */
 [data-theme="light"] {
-  /* Backgrounds */
-  --qc-color-bg: var(--qc-color-neutral-0, #ffffff);
-  --qc-color-bg-elevated: var(--qc-color-neutral-50, #f8fafc);
-  --qc-color-bg-surface: var(--qc-color-neutral-100, #f1f5f9);
-  --qc-color-bg-overlay: hsl(0 0% 100% / 0.8);
-
-  /* Text */
-  --qc-color-text-primary: var(--qc-color-neutral-900, #0f172a);
-  --qc-color-text-secondary: var(--qc-color-neutral-700, #334155);
-  --qc-color-text-tertiary: var(--qc-color-neutral-500, #64748b);
-  --qc-color-text-heading: var(--qc-color-neutral-950, #020617);
-
-  /* Borders */
-  --qc-color-border-primary: var(--qc-color-neutral-200, #e2e8f0);
-  --qc-color-border-secondary: var(--qc-color-neutral-300, #cbd5e1);
-
-  /* Interactive */
-  --qc-color-link: var(--qc-color-primary-600, #7c3aed);
-  --qc-color-link-hover: var(--qc-color-primary-700, #6d28d9);
-  --qc-color-focus-ring: hsla(251, 83%, 63%, 0.2);
-  --qc-color-selection: hsla(251, 83%, 63%, 0.1);
-
-  /* Shadows */
-  --qc-color-shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.1);
-  --qc-color-shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-  --qc-color-shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
-  --qc-color-shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
-
-  /* Legacy Alias Overrides */
-  --qc-bg: var(--qc-color-bg);
-  --qc-bg-dark: var(--qc-color-neutral-200);
-  --qc-bg-light: var(--qc-color-neutral-50);
-  --qc-panel: var(--qc-color-bg-surface);
-  --qc-text-main: var(--qc-color-text-primary);
-  --qc-text-light: var(--qc-color-neutral-600);
-  --qc-text-muted: var(--qc-color-text-secondary);
-  --qc-border-color: var(--qc-color-border-primary);
-  --qc-link: var(--qc-color-link);
-  --qc-link-hover: var(--qc-color-link-hover);
+  --qc-color-bg: var(--qc-color-neutral-50);
+  --qc-color-bg-elevated: var(--qc-color-neutral-0);
+  --qc-color-bg-surface: var(--qc-color-neutral-100);
+  --qc-color-bg-overlay: hsl(0 0% 100% / 0.95);
+  --qc-color-text: var(--qc-color-neutral-900);
+  --qc-color-text-heading: var(--qc-color-neutral-950);
+  --qc-color-text-secondary: var(--qc-color-neutral-700);
+  --qc-color-border: var(--qc-color-neutral-200);
+  --qc-color-border-light: var(--qc-color-neutral-300);
+  --qc-color-link: var(--qc-color-primary-600);
+  --qc-color-link-hover: var(--qc-color-primary-700);
+  --qc-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --qc-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-/* ======================================================================
-   Accessibility Considerations
-   ====================================================================== */
+/* Accessibility */
 @media (prefers-reduced-motion) {
   :root {
     --qc-transition-duration-fast: 0ms;
     --qc-transition-duration-normal: 0ms;
-    --qc-transition-duration-slow: 0ms;
   }
-}
-
-@media (prefers-contrast: more) {
-  :root {
-    --qc-color-border-primary: var(--qc-color-neutral-500);
-    --qc-color-link: var(--qc-color-primary-700);
-  }
-}
-
-/* ======================================================================
-   Typography Scale
-   ====================================================================== */
-:root {  --qc-text-xs: 0.75rem;    /* 12px */
-  --qc-text-sm: 0.875rem;   /* 14px */
-  --qc-text-base: 1rem;     /* 16px */
-  --qc-text-lg: 1.125rem;   /* 18px */
-  --qc-text-xl: 1.25rem;    /* 20px */
-  --qc-text-2xl: 1.5rem;    /* 24px */
-  --qc-text-3xl: 1.875rem;  /* 30px */
-  --qc-text-4xl: 2.25rem;   /* 36px */
-  --qc-text-5xl: 3rem;      /* 48px */
-  --qc-text-6xl: 3.75rem;   /* 60px */
-  --qc-text-7xl: 4.5rem;    /* 72px */
-  --qc-text-8xl: 6rem;      /* 96px */
-  --qc-text-9xl: 8rem;      /* 128px */
 }

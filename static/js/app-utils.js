@@ -1,184 +1,369 @@
 "use strict";
 (function (global) {
-  const AppUtils = {};
+  const AppUtils = {
+    config: {
+      toast: {
+        maxVisible: 3,
+        defaultDuration: 4000,
+        animationDuration: 300
+      },
+      animations: {
+        intersectionThreshold: 0.1
+      },
+      transitions: {
+        pageFadeDuration: 200
+      }
+    }
+  };
 
   // Toast notification system
-  AppUtils.showToast = function (message, type = "info") {
-    const normalized =
-      {
-        red: "error",
-        danger: "error",
-        green: "success",
-        success: "success",
-        info: "info",
-      }[type] || type;
+  AppUtils.toast = {
+    show: function (message, type = "info", duration = AppUtils.config.toast.defaultDuration) {
+      const types = {
+        error: { icon: "fa-circle-exclamation", class: "error" },
+        success: { icon: "fa-circle-check", class: "success" },
+        info: { icon: "fa-circle-info", class: "info" },
+        warning: { icon: "fa-triangle-exclamation", class: "warning" }
+      };
 
-    const icons = {
-      error: "fa-exclamation-circle",
-      success: "fa-check-circle",
-      info: "fa-info-circle",
-    };
+      const toastType = types[type] || types.info;
+      const toasts = document.querySelectorAll(".toast");
 
-    const existing = document.querySelectorAll(".toast");
-    if (existing.length >= 3) existing[0].remove();
+      // Remove oldest toast if max visible reached
+      if (toasts.length >= AppUtils.config.toast.maxVisible) {
+        const oldestToast = toasts[0];
+        oldestToast.classList.remove("show");
+        setTimeout(() => oldestToast.remove(), AppUtils.config.toast.animationDuration);
+      }
 
-    const toast = document.createElement("div");
-    toast.className = `toast ${normalized}`;
-    toast.setAttribute("role", "alert");
-    toast.setAttribute("aria-live", "polite");
-    toast.innerHTML = `
-      <i class="fas ${icons[normalized] || icons.info}"></i>
-      <span>${message}</span>
-      <button class="toast-close" aria-label="Close notification"><i class="fas fa-times"></i></button>
-    `;
+      // Create new toast
+      const toast = document.createElement("div");
+      toast.className = `toast ${toastType.class}`;
+      toast.setAttribute("role", "alert");
+      toast.setAttribute("aria-live", "assertive");
+      toast.setAttribute("aria-atomic", "true");
+      toast.innerHTML = `
+        <i class="fas ${toastType.icon}" aria-hidden="true"></i>
+        <span class="toast-message">${message}</span>
+        <button class="toast-close" aria-label="Close notification">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+      `;
 
-    document.body.appendChild(toast);
-    toast.offsetHeight;
-    toast.classList.add("show");
+      document.body.appendChild(toast);
+      // Force reflow to enable CSS transition
+      void toast.offsetHeight;
+      toast.classList.add("show");
 
-    const remove = () => {
-      toast.classList.remove("show");
-      setTimeout(() => toast.remove(), 300);
-    };
+      const removeToast = () => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), AppUtils.config.toast.animationDuration);
+      };
 
-    const timer = setTimeout(remove, 4000);
-    toast.querySelector(".toast-close").addEventListener("click", () => {
-      clearTimeout(timer);
-      remove();
-    });
+      const timer = setTimeout(removeToast, duration);
+      
+      // Close on click or keyboard
+      const closeBtn = toast.querySelector(".toast-close");
+      closeBtn.addEventListener("click", () => {
+        clearTimeout(timer);
+        removeToast();
+      });
+      
+      // Auto-remove when obscured
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) {
+          clearTimeout(timer);
+          removeToast();
+          observer.disconnect();
+        }
+      }, { threshold: 0 });
+      observer.observe(toast);
+
+      return {
+        dismiss: () => {
+          clearTimeout(timer);
+          removeToast();
+        }
+      };
+    }
   };
 
   // Animation system
-  AppUtils.initAnimations = function () {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-            observer.unobserve(entry.target);
+  AppUtils.animate = {
+    init: function () {
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("animate-in");
+              this.observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: AppUtils.config.animations.intersectionThreshold }
+      );
+
+      document.querySelectorAll("[data-animate]").forEach((el) => {
+        this.observer.observe(el);
+      });
+    },
+
+    animateElement: function (element, animationClass) {
+      element.classList.add(animationClass);
+      return new Promise((resolve) => {
+        const handler = () => {
+          element.removeEventListener("animationend", handler);
+          resolve();
+        };
+        element.addEventListener("animationend", handler);
+      });
+    }
+  };
+
+  // Scroll management
+  AppUtils.scroll = {
+    setupBackToTop: function () {
+      const backToTopBtn = document.getElementById("backToTop");
+      if (!backToTopBtn) return;
+
+      const toggleVisibility = () => {
+        backToTopBtn.classList.toggle("show", window.scrollY > 300);
+        backToTopBtn.setAttribute("aria-hidden", window.scrollY <= 300);
+      };
+
+      window.addEventListener("scroll", toggleVisibility);
+      toggleVisibility(); // Initialize state
+
+      backToTopBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+        backToTopBtn.blur();
+      });
+    },
+
+    trackProgress: function () {
+      const progressBar = document.getElementById("scroll-progress");
+      if (!progressBar) return;
+
+      const updateProgress = () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPosition = window.scrollY;
+        const progress = (scrollPosition / scrollHeight) * 100;
+        progressBar.style.width = `${progress}%`;
+      };
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress(); // Initialize
+    }
+  };
+
+  // Form utilities
+  AppUtils.forms = {
+    setupSearchInputs: function () {
+      document.querySelectorAll(".search-container").forEach((container) => {
+        const input = container.querySelector('input[type="search"]');
+        const clearBtn = container.querySelector(".clear-search");
+
+        if (!input || !clearBtn) return;
+
+        const updateClearButton = () => {
+          const hasValue = input.value.trim().length > 0;
+          clearBtn.classList.toggle("hidden", !hasValue);
+          clearBtn.setAttribute("aria-hidden", !hasValue);
+        };
+
+        input.addEventListener("input", updateClearButton);
+        input.addEventListener("focus", updateClearButton);
+        input.addEventListener("blur", () => {
+          if (!input.value.trim()) {
+            clearBtn.classList.add("hidden");
+            clearBtn.setAttribute("aria-hidden", true);
           }
         });
-      },
-      { threshold: 0.1 },
-    );
 
-    document.querySelectorAll(".animate-on-scroll").forEach((el) => {
-      observer.observe(el);
-    });
-  };
-
-  // Back to top button
-  AppUtils.setupBackToTop = function () {
-    const backToTopBtn = document.getElementById("backToTop");
-    if (!backToTopBtn) return;
-
-    window.addEventListener("scroll", () => {
-      backToTopBtn.classList.toggle("show", window.scrollY > 300);
-    });
-
-    backToTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  };
-
-  // Search input clear buttons
-  AppUtils.setupSearchInputs = function () {
-    document.querySelectorAll(".search-container").forEach((container) => {
-      const input = container.querySelector('input[type="search"]');
-      const clearBtn = container.querySelector(".clear-search");
-
-      if (input && clearBtn) {
-        input.addEventListener("input", () => {
-          clearBtn.classList.toggle("hidden", !input.value);
-        });
-
-        clearBtn.addEventListener("click", () => {
+        clearBtn.addEventListener("click", (e) => {
+          e.preventDefault();
           input.value = "";
-          clearBtn.classList.add("hidden");
-          input.dispatchEvent(new Event("input"));
+          input.focus();
+          updateClearButton();
+          input.dispatchEvent(new Event("input", { bubbles: true }));
         });
-      }
-    });
-  };
-
-  // Add copy buttons to all code blocks
-  AppUtils.setupCopyButtons = function () {
-    document.querySelectorAll("pre > code").forEach((code) => {
-      const pre = code.parentElement;
-      if (pre.classList.contains("has-copy-btn")) return;
-      pre.classList.add("has-copy-btn");
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "copy-btn";
-      btn.setAttribute("aria-label", "Copy code");
-      btn.innerHTML = '<i class="fas fa-copy"></i>';
-      btn.addEventListener("click", () => {
-        navigator.clipboard
-          .writeText(code.innerText)
-          .then(() => AppUtils.showToast("Copied to clipboard!", "info"))
-          .catch(() => AppUtils.showToast("Failed to copy", "error"));
       });
-      pre.appendChild(btn);
-    });
+    }
   };
 
-  // Keyboard shortcuts for common actions
-  AppUtils.setupHotkeys = function () {
-    const searchInput = document.getElementById("search-input");
-    const themeToggle = document.getElementById("theme-toggle");
-    const helpButton = document.getElementById("help-button");
+  // Code utilities
+  AppUtils.code = {
+    setupCopyButtons: function () {
+      document.querySelectorAll("pre > code").forEach((code) => {
+        const pre = code.parentElement;
+        if (pre.querySelector(".copy-btn")) return;
 
-    document.addEventListener("keydown", (e) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === "/" && searchInput) {
-        e.preventDefault();
-        searchInput.focus();
-      } else if (e.key.toLowerCase() === "t" && themeToggle) {
-        e.preventDefault();
-        themeToggle.click();
-      } else if (e.shiftKey && e.key === "?" && helpButton) {
-        e.preventDefault();
-        helpButton.click();
-      }
-    });
-  };
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code to clipboard");
+        btn.innerHTML = '<i class="fas fa-copy" aria-hidden="true"></i>';
+        
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(code.textContent || "");
+            this.showCopyFeedback(btn, "Copied!");
+          } catch (err) {
+            this.showCopyFeedback(btn, "Failed to copy");
+            console.error("Failed to copy text: ", err);
+          }
+        });
 
-  // Subtle page fade transitions for same-origin links
-  AppUtils.setupPageTransitions = function () {
-    const body = document.body;
-    if (!body) return;
-
-    body.classList.add("page-transition");
-    requestAnimationFrame(() => {
-      body.classList.add("page-transition-active");
-    });
-
-    document.querySelectorAll("a[href]").forEach((link) => {
-      const url = new URL(link.href, location.href);
-      if (url.origin !== location.origin || url.hash) return;
-
-      link.addEventListener("click", (e) => {
-        if (
-          e.defaultPrevented ||
-          link.target === "_blank" ||
-          e.metaKey ||
-          e.ctrlKey ||
-          e.shiftKey ||
-          e.altKey
-        ) {
-          return;
-        }
-        e.preventDefault();
-        body.classList.remove("page-transition-active");
-        setTimeout(() => {
-          location.href = link.href;
-        }, 200);
+        const wrapper = document.createElement("div");
+        wrapper.className = "code-block-wrapper";
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        pre.appendChild(btn);
       });
-    });
+    },
+
+    showCopyFeedback: function (button, message) {
+      const originalHTML = button.innerHTML;
+      button.innerHTML = `<i class="fas fa-check" aria-hidden="true"></i> ${message}`;
+      button.disabled = true;
+      
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.disabled = false;
+      }, 2000);
+    }
   };
 
+  // Keyboard shortcuts
+  AppUtils.keyboard = {
+    init: function () {
+      document.addEventListener("keydown", this.handleHotkeys.bind(this));
+    },
+
+    handleHotkeys: function (e) {
+      // Skip if typing in an input/textarea or with modifier keys
+      if (e.target.matches("input, textarea, [contenteditable]") || 
+          e.metaKey || e.ctrlKey || e.altKey) {
+        return;
+      }
+
+      const searchInput = document.getElementById("search-input");
+      const themeToggle = document.getElementById("theme-toggle");
+      const helpButton = document.getElementById("help-button");
+
+      switch (e.key) {
+        case "/":
+          if (searchInput && !e.shiftKey) {
+            e.preventDefault();
+            searchInput.focus();
+          }
+          break;
+        case "t":
+        case "T":
+          if (themeToggle) {
+            e.preventDefault();
+            themeToggle.click();
+          }
+          break;
+        case "?":
+          if (helpButton && e.shiftKey) {
+            e.preventDefault();
+            helpButton.click();
+          }
+          break;
+        case "Escape":
+          // Close any open modals or dropdowns
+          document.activeElement.blur();
+          break;
+      }
+    }
+  };
+
+  // Page transitions
+  AppUtils.transitions = {
+    init: function () {
+      if (!document.body) return;
+
+      document.body.classList.add("page-transition");
+      requestAnimationFrame(() => {
+        document.body.classList.add("page-transition-active");
+      });
+
+      this.setupLinkTransitions();
+    },
+
+    setupLinkTransitions: function () {
+      document.querySelectorAll("a[href]").forEach((link) => {
+        const url = new URL(link.href, location.href);
+        if (url.origin !== location.origin || url.hash) return;
+
+        link.addEventListener("click", (e) => {
+          if (this.shouldIgnoreClick(e, link)) return;
+          
+          e.preventDefault();
+          this.fadeOutPage(link.href);
+        });
+      });
+    },
+
+    shouldIgnoreClick: function (event, link) {
+      return (
+        event.defaultPrevented ||
+        link.target === "_blank" ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      );
+    },
+
+    fadeOutPage: function (destination) {
+      document.body.classList.remove("page-transition-active");
+      setTimeout(() => {
+        location.href = destination;
+      }, AppUtils.config.transitions.pageFadeDuration);
+    }
+  };
+
+  // Initialize everything
+  AppUtils.init = function () {
+    this.animate.init();
+    this.scroll.setupBackToTop();
+    this.scroll.trackProgress();
+    this.forms.setupSearchInputs();
+    this.code.setupCopyButtons();
+    this.keyboard.init();
+    this.transitions.init();
+
+    // Handle flashed messages
+    const flashedMessages = document.body.dataset.flashedMessages;
+    if (flashedMessages) {
+      try {
+        const messages = JSON.parse(flashedMessages);
+        messages.forEach(([type, message]) => {
+          this.toast.show(message, type);
+        });
+      } catch (e) {
+        console.error("Error parsing flashed messages:", e);
+      }
+    }
+  };
+
+  // Export to global scope
   global.AppUtils = AppUtils;
+  
+  // Initialize when DOM is ready
+  document.addEventListener("DOMContentLoaded", () => AppUtils.init());
+  
+  // For backward compatibility
   if (!global.app) {
-    global.app = AppUtils; // backward compatibility
+    global.app = {
+      showToast: AppUtils.toast.show,
+      init: AppUtils.init
+    };
   }
 })(window);
