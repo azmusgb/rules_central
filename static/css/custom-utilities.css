@@ -1,5 +1,8 @@
 @import url('tokens.css');
 
+/* Organize utility classes using a CSS layer to help manage specificity */
+@layer utilities {
+
 /**
  * CSS Utility Framework
  * ========================================================================
@@ -84,6 +87,13 @@ body {
   text-underline-offset: 0.2em;
 }
 
+/* Handle long text gracefully */
+.u-text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ========================================================================
    3. Layout
    ======================================================================== */
@@ -109,6 +119,19 @@ body {
   aspect-ratio: 16/9;
 }
 
+/* Basic list reset */
+.u-list-unstyled {
+  list-style: none;
+  padding: 0;
+}
+
+/* Table layout helpers */
+.u-table-auto { table-layout: auto; }
+.u-table-fixed { table-layout: fixed; }
+.u-table-striped tr:nth-child(odd) {
+  background-color: color-mix(in srgb, var(--qc-color-bg-elevated), transparent 50%);
+}
+
 /* Container queries support */
 .u-container-type-inline {
   container-type: inline-size;
@@ -126,6 +149,12 @@ body {
 .u-flow > * + * {
   margin-top: var(--space, var(--qc-space-4));
 }
+
+/* Margin helpers */
+.u-mt-4 { margin-top: var(--qc-space-4); }
+.u-mr-4 { margin-right: var(--qc-space-4); }
+.u-mb-4 { margin-bottom: var(--qc-space-4); }
+.u-ml-4 { margin-left: var(--qc-space-4); }
 
 /* Padding */
 .u-padding {
@@ -221,6 +250,37 @@ body {
   outline-offset: 2px;
 }
 
+/* Generic focus-visible utility */
+.u-focus\:visible:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Disabled state helper */
+.u-disabled[disabled],
+.u-disabled:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Hide visually while remaining accessible */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Remove element from accessibility tree */
+.u-sr-only {
+  display: none;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .u-motion-safe {
@@ -271,8 +331,9 @@ body {
 /* Toast notifications */
 .toast {
   position: fixed;
-  left: 50%;
-  bottom: 1.5rem;
+  /* Logical positioning for RTL support */
+  inset-inline-start: 50%;
+  inset-block-end: 1.5rem;
   transform: translateX(-50%);
   background: var(--qc-color-bg-elevated);
   color: var(--qc-color-text-primary);
@@ -322,3 +383,5 @@ body {
 .page-transition-active {
   opacity: 1;
 }
+
+} /* End utilities layer */
