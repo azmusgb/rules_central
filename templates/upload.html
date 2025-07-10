@@ -1,93 +1,40 @@
-{% extends "base.html" %} {% block title %}Upload | Rules Central{% endblock %}
-{% block hero_title %}Upload Diagram{% endblock %} {% block hero_subtitle %}Drag
-& drop your diagram files here, or click to select from your computer.{%
-endblock %} {% block content %}
-<div class="flex flex-col items-center justify-center animate-fadeIn delay-200">
-  <form
-    id="uploadForm"
-    class="w-full max-w-xl bg-dark-800/80 rounded-3xl shadow-2xl border border-dark-700 p-10 u-glass flex flex-col items-center gap-8"
-    hx-post="{{ url_for('upload.upload_file') }}"
-    hx-target="#uploadSuccess"
-    hx-swap="innerHTML"
-    hx-indicator="#progressBar"
-    hx-on="htmx:xhr:progress: window.dispatchEvent(new CustomEvent('upload-progress',{detail:event.detail}));"
-    enctype="multipart/form-data"
-    aria-label="Upload form"
-  >
-    <label
-      for="fileInput"
-      class="w-full flex flex-col items-center justify-center border-2 border-dashed border-primary-500 rounded-2xl p-10 cursor-pointer bg-gradient-to-br from-dark-900/80 to-dark-800/80 hover:from-primary-500/10 hover:to-accent-purple/10 transition-all duration-300 animate-fadeIn"
-      tabindex="0"
-      aria-label="Drag and drop files or click to select"
-    >
-      <svg
-        class="w-16 h-16 mb-4 text-primary-500 animate-bounce"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 4v16m8-8H4"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <span class="text-lg text-slate-200"
-        >Drop files here or
-        <span class="underline text-primary-400">click to browse</span></span
-      >
-      <input
-        id="fileInput"
-        name="file"
-        type="file"
-        class="hidden"
-        required
-        multiple
-      />
-    </label>
-    <button
-      type="submit"
-      class="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-purple text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all text-lg focus:outline-none focus:ring-4 focus:ring-primary-500"
-    >
-      Upload
-    </button>
-    <div
-      id="progressBar"
-      class="w-full h-3 rounded-full bg-dark-900 mt-4 overflow-hidden hidden"
-    >
-      <div
-        class="h-full bg-gradient-to-r from-primary-500 to-accent-purple transition-all w-0"
-      ></div>
-    </div>
-    <div id="uploadSuccess" class="hidden mt-6" aria-live="polite">
-      {% include 'partials/confetti_success.html' %}
-      <div class="text-lg text-green-400 font-bold text-center mt-4">
-        Upload successful!
-      </div>
-    </div>
-    <div
-      id="uploadError"
-      class="hidden mt-6 text-lg text-red-400 font-bold text-center"
-      role="alert"
-    >
-      Upload failed. Please try again.
-    </div>
-  </form>
-</div>
-<script nonce="{{ csp_nonce }}">
-  const progressBar = document.getElementById('progressBar');
-  const progress = progressBar.querySelector('div');
-  document.addEventListener('htmx:xhr:loadstart', () => {
-    progressBar.classList.remove('hidden');
-    progress.style.width = '0%';
-  });
-  document.addEventListener('upload-progress', e => {
-    const percent = (e.detail.loaded / e.detail.total) * 100;
-    progress.style.width = percent + '%';
-  });
-  document.addEventListener('htmx:xhr:loadend', () => {
-    progressBar.classList.add('hidden');
-  });
+{% extends 'layouts/base.html' %}
+{% from 'macros/components.html' import button, alert %}
+{% block title %}Upload Diagram{% endblock %}
+{% block content %}
+<h1 class="sr-only">Upload</h1>
+<form id="upload-form" action="{{ url_for('upload_file') if 'upload_file' in globals() else url_for('routes_bp.upload_file') }}" method="post"
+      enctype="multipart/form-data" class="max-w-xl mx-auto space-y-4">
+  {{ csrf_field() }}
+  <div class="border-2 border-dashed border-slate-600 p-8 text-center rounded"
+       x-data="{hover:false}" @dragover.prevent="hover=true" @dragleave="hover=false" @drop.prevent>
+    <p class="mb-2">Drag files here or click to select</p>
+    <input type="file" name="file" class="hidden" x-ref="file">
+    <button type="button" @click="$refs.file.click()" class="underline">Choose File</button>
+  </div>
+  {% if error %}
+    {{ alert(error, 'error') }}
+  {% endif %}
+  {{ button('Upload', 'primary', 'submit') }}
+  <div id="progress" class="h-2 bg-slate-700 rounded hidden">
+    <div class="h-full bg-primary-600 w-0" id="progress-bar"></div>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+const form=document.getElementById('upload-form');
+const bar=document.getElementById('progress-bar');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const xhr=new XMLHttpRequest();
+  xhr.open('POST',form.action);
+  xhr.upload.onprogress=ev=>{
+    document.getElementById('progress').classList.remove('hidden');
+    bar.style.width=(ev.loaded/ev.total*100)+'%';
+  };
+  xhr.onload=()=>location.reload();
+  xhr.send(new FormData(form));
+});
 </script>
 {% endblock %}

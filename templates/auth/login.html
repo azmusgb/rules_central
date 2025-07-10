@@ -1,45 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Login | Rules Central{% endblock %}
-{% block hero_title %}Welcome Back{% endblock %}
-{% block hero_subtitle %}Sign in to continue to Rules Central{% endblock %}
+{% extends 'layouts/base.html' %}
+{% from 'macros/components.html' import input, button %}
+{% block title %}Login{% endblock %}
 {% block content %}
-<section class="flex flex-col items-center justify-center min-h-[60vh] font-sans">
-  <div class="panel panel--glass w-full max-w-md">
-    <h1 class="text-3xl font-bold mb-6 text-primary-500 text-center">
-      Sign In
-    </h1>
-    <form id="loginForm" method="POST" action="{{ url_for('auth.login') }}" class="space-y-4" novalidate>
-      <div>
-        <label class="block text-slate-400 mb-1" for="email">Email</label>
-        <input
-          class="u-form-input w-full"
-          id="email"
-          name="email"
-          type="email"
-          required
-        />
-      </div>
-      <div>
-        <label class="block text-slate-400 mb-1" for="password">Password</label>
-        <input
-          class="u-form-input w-full"
-          id="password"
-          name="password"
-          type="password"
-          required
-        />
-      </div>
-      <button
-        type="submit"
-        class="w-full py-3 rounded-xl bg-primary-500 text-white font-bold shadow-lg hover:bg-primary-600 transition"
-      >
-        Sign In
-      </button>
-    </form>
-    <div class="text-center text-slate-400 mt-4">
-      Don't have an account?
-      <a href="/register" class="text-primary-400 hover:underline">Register</a>
-    </div>
-  </div>
-</section>
+<form action="{{ url_for('routes_bp.index') }}" method="post" class="max-w-sm mx-auto space-y-4">
+  {{ csrf_field() }}
+  {{ input('email','email','Email') }}
+  {{ input('password','password','Password') }}
+  {{ button('Sign In') }}
+</form>
+<p class="text-center mt-4 text-sm text-slate-400">
+  <a href="{{ url_for('routes_bp.index') }}" class="text-primary-400 hover:underline">Create account</a>
+</p>
 {% endblock %}
