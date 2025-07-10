@@ -2,7 +2,7 @@
 {% from 'macros/components.html' import input %}
 {% block title %}Search{% endblock %}
 {% block content %}
-<form action="{{ url_for('search') if 'search' in globals() else url_for('routes_bp.search') }}" method="get" class="flex gap-3">
+<form action="{{ url_for('routes.search') }}" method="get" class="flex gap-3">
   {{ input('q','search','Search…') }}
   <button class="px-4 py-2 bg-primary-600 text-white rounded">Search</button>
 </form>
@@ -17,7 +17,7 @@
     <ul class="divide-y divide-slate-700">
       {% for item in results|default([]) %}
         <li class="py-3">
-          <a href="{{ url_for('rule_detail', id=item.id) if 'rule_detail' in globals() else url_for('routes_bp.rule_detail', id=item.id) }}" class="text-primary-400 hover:underline">{{ item.name }}</a>
+          <a href="{{ url_for('routes.rule_detail', id=item.id) }}" class="text-primary-400 hover:underline">{{ item.name }}</a>
         </li>
       {% else %}
         <li class="py-3 text-slate-400">No results found</li>
