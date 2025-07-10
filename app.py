@@ -4,6 +4,7 @@ import logging
 import os
 from datetime import datetime, timezone
 from typing import Optional
+from secrets import token_hex
 
 from flask import Flask
 from flask_assets import Environment
@@ -71,7 +72,8 @@ def create_app() -> Flask:
     # -------------------------------------------------------------------------
     # Security: CSRF
     # -------------------------------------------------------------------------
-    app.config.setdefault("SECRET_KEY", os.getenv("SECRET_KEY", "change-me"))
+    # Use env SECRET_KEY if provided and non‑empty; otherwise generate one.
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY") or token_hex(32)
     csrf.init_app(app)
 
     # -------------------------------------------------------------------------

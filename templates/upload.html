@@ -1,40 +1,130 @@
 {% extends 'layouts/base.html' %}
 {% from 'macros/components.html' import button, alert %}
 {% block title %}Upload Diagram{% endblock %}
+
 {% block content %}
-<h1 class="sr-only">Upload</h1>
-<form id="upload-form" action="{{ url_for('routes.upload_file') }}" method="post"
-      enctype="multipart/form-data" class="max-w-xl mx-auto space-y-4">
-  {{ csrf_field() }}
-  <div class="border-2 border-dashed border-slate-600 p-8 text-center rounded"
-       x-data="{hover:false}" @dragover.prevent="hover=true" @dragleave="hover=false" @drop.prevent>
-    <p class="mb-2">Drag files here or click to select</p>
-    <input type="file" name="file" class="hidden" x-ref="file">
-    <button type="button" @click="$refs.file.click()" class="underline">Choose File</button>
-  </div>
-  {% if error %}
-    {{ alert(error, 'error') }}
-  {% endif %}
-  {{ button('Upload', 'primary', 'submit') }}
-  <div id="progress" class="h-2 bg-slate-700 rounded hidden">
-    <div class="h-full bg-primary-600 w-0" id="progress-bar"></div>
-  </div>
-</form>
+<div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-bold text-text-heading mb-6">Upload Diagram</h1>
+  
+  <form id="upload-form" 
+        action="{{ url_for('routes.upload_file') }}" 
+        method="post"
+        enctype="multipart/form-data" 
+        class="space-y-6"
+        x-data="{
+          hover: false,
+          file: null,
+          isLoading: false,
+          progress: 0
+        }"
+        @dragover.prevent="hover = true"
+        @dragleave.prevent="hover = false"
+        @drop.prevent="hover = false; file = $event.dataTransfer.files[0]">
+    
+    {{ csrf_field() }}
+    
+    <!-- Drag & Drop Zone -->
+    <div class="border-2 border-dashed rounded-xl transition-all duration-200"
+         :class="{
+           'border-primary-500 bg-primary-500/10': hover,
+           'border-border': !hover
+         }">
+      <div class="p-8 text-center space-y-4">
+        <div class="mx-auto h-12 w-12 text-text-secondary"
+             x-show="!file">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+        
+        <p class="text-sm text-text-secondary" x-show="!file">
+          <span class="font-medium text-primary-500">Click to browse</span> or drag and drop
+        </p>
+        
+        <p class="text-sm text-text-secondary" x-show="file">
+          <span class="font-medium text-primary-500" x-text="file.name"></span> selected
+        </p>
+        
+        <input type="file" 
+               name="file" 
+               class="hidden" 
+               x-ref="fileInput"
+               @change="file = $refs.fileInput.files[0]">
+        
+        <button type="button" 
+                @click="$refs.fileInput.click()"
+                class="text-sm font-medium text-primary-500 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md transition-colors">
+          <span x-text="file ? 'Change file' : 'Select file'"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    {% if error %}
+      {{ alert(error, 'error') }}
+    {% endif %}
+
+    <!-- Upload Button -->
+    <div class="flex items-center justify-between">
+      <div class="w-full sm:w-auto">
+        {{ button('Upload Diagram', 'primary', 'submit') }}
+      </div>
+      
+      <span class="text-sm text-text-secondary ml-4" x-show="isLoading">
+        Uploading... <span x-text="progress + '%'"></span>
+      </span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="h-2 bg-bg-surface rounded-full overflow-hidden transition-all duration-300"
+         :class="{ 'opacity-0': !isLoading }">
+      <div class="h-full bg-primary-500 transition-all duration-300 ease-out"
+           :style="`width: ${progress}%`"></div>
+    </div>
+  </form>
+</div>
 {% endblock %}
+
 {% block scripts %}
 <script>
-const form=document.getElementById('upload-form');
-const bar=document.getElementById('progress-bar');
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  const xhr=new XMLHttpRequest();
-  xhr.open('POST',form.action);
-  xhr.upload.onprogress=ev=>{
-    document.getElementById('progress').classList.remove('hidden');
-    bar.style.width=(ev.loaded/ev.total*100)+'%';
-  };
-  xhr.onload=()=>location.reload();
-  xhr.send(new FormData(form));
+document.addEventListener('alpine:init', () => {
+  Alpine.data('uploadForm', () => ({
+    submitForm(e) {
+      e.preventDefault();
+      
+      if (!this.file) return;
+      
+      this.isLoading = true;
+      this.progress = 0;
+      
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', this.$el.action);
+      
+      xhr.upload.onprogress = (ev) => {
+        if (ev.lengthComputable) {
+          this.progress = Math.round((ev.loaded / ev.total) * 100);
+        }
+      };
+      
+      xhr.onload = () => {
+        this.isLoading = false;
+        if (xhr.status >= 200 && xhr.status < 300) {
+          window.location.reload();
+        } else {
+          // Handle error response
+          console.error('Upload failed');
+        }
+      };
+      
+      xhr.onerror = () => {
+        this.isLoading = false;
+        console.error('Upload error');
+      };
+      
+      const formData = new FormData(this.$el);
+      xhr.send(formData);
+    }
+  }));
 });
 </script>
 {% endblock %}
