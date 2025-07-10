@@ -1,105 +1,15 @@
-{% extends "base.html" %} {% block title %}Register - Rules Central{% endblock
-%} {% block hero_title %}Create Account{% endblock %} {% block hero_subtitle
-%}Join Rules Central and collaborate{% endblock %} {% block content %}
-<div
-  class="max-w-md mx-auto mt-16 panel panel--glass p-8 font-sans"
->
-  <div class="text-center mb-4 text-primary-400">
-    <i aria-hidden="true" class="fas fa-user-plus text-4xl"></i>
-  </div>
-  <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
-  <form
-    id="registerForm"
-    method="POST"
-    action="{{ url_for('auth.register') }}"
-    novalidate
-  >
-    <div class="mb-4">
-      <label
-        class="block text-sm font-semibold mb-2 text-slate-400"
-        for="username"
-      >
-        Username
-      </label>
-      <input
-        class="u-form-input w-full"
-        id="username"
-        name="username"
-        type="text"
-        required
-      />
-    </div>
-    <div class="mb-4">
-      <label class="block text-sm font-semibold mb-2 text-slate-400" for="email">
-        Email
-      </label>
-      <input
-        class="u-form-input w-full"
-        id="email"
-        name="email"
-        type="email"
-        required
-      />
-    </div>
-    <div class="mb-4 relative">
-      <label
-        class="block text-sm font-semibold mb-2 text-slate-400"
-        for="password"
-      >
-        Password
-      </label>
-      <input
-        class="u-form-input w-full"
-        id="password"
-        name="password"
-        type="password"
-        required
-      />
-      <button
-        type="button"
-        id="togglePassword"
-        class="absolute right-3 top-9 text-slate-400 hover:text-white"
-      >
-        <i aria-hidden="true" class="fas fa-eye"></i>
-      </button>
-    </div>
-    <div class="mb-6 relative">
-      <label
-        class="block text-sm font-semibold mb-2 text-slate-400"
-        for="confirm_password"
-      >
-        Confirm Password
-      </label>
-      <input
-        class="u-form-input w-full"
-        id="confirm_password"
-        name="confirm_password"
-        type="password"
-        required
-      />
-      <button
-        type="button"
-        id="toggleConfirm"
-        class="absolute right-3 top-9 text-slate-400 hover:text-white"
-      >
-        <i aria-hidden="true" class="fas fa-eye"></i>
-      </button>
-    </div>
-    <div class="flex items-center justify-between">
-      <button class="btn btn-primary w-full font-semibold" type="submit">
-        Register
-      </button>
-    </div>
-    <div class="mt-4 text-center text-slate-400">
-      <a
-        href="{{ url_for('auth.login') }}"
-        class="text-primary-400 hover:text-primary-300 text-sm"
-      >
-        Already have an account? Login
-      </a>
-    </div>
-  </form>
-</div>
-{% endblock %} {% block scripts %} {{ super() }}
-<script defer src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% extends 'layouts/base.html' %}
+{% from 'macros/components.html' import input, button %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<form action="{{ url_for('routes_bp.index') }}" method="post" class="max-w-sm mx-auto space-y-4">
+  {{ csrf_field() }}
+  {{ input('username','text','Username') }}
+  {{ input('email','email','Email') }}
+  {{ input('password','password','Password') }}
+  {{ button('Register') }}
+</form>
+<p class="text-center mt-4 text-sm text-slate-400">
+  <a href="{{ url_for('routes_bp.index') }}" class="text-primary-400 hover:underline">Already have an account?</a>
+</p>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros/components.html' import card %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="sr-only">Dashboard</h1>
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+  {{ card('Rules', '<p class="text-2xl font-bold">' ~ (metrics.rules|default(0)) ~ '</p>') }}
+  {{ card('Users', '<p class="text-2xl font-bold">' ~ (metrics.users|default(0)) ~ '</p>') }}
+  {{ card('Uploads', '<p class="text-2xl font-bold">' ~ (metrics.uploads|default(0)) ~ '</p>') }}
+  {{ card('Errors', '<p class="text-2xl font-bold">' ~ (metrics.errors|default(0)) ~ '</p>') }}
+</div>
+<div class="grid gap-6 lg:grid-cols-2">
+  <div class="bg-slate-800 p-4 rounded">
+    <canvas id="chart-rules" class="w-full h-64"></canvas>
+  </div>
+  <div class="bg-slate-800 p-4 rounded">
+    <canvas id="chart-uploads" class="w-full h-64"></canvas>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx1 = document.getElementById('chart-rules');
+    if(ctx1){ new Chart(ctx1,{type:'line',data:{{ charts.rules|default({})|tojson }} }); }
+    const ctx2 = document.getElementById('chart-uploads');
+    if(ctx2){ new Chart(ctx2,{type:'bar',data:{{ charts.uploads|default({})|tojson }} }); }
+  </script>
+{% endblock %}
