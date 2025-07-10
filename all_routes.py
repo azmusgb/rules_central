@@ -579,19 +579,16 @@ def view_diagram():
         abort(500, "Error loading diagram viewer")
 
 
-@routes_bp.route("/view_hierarchy")
-def view_hierarchy():
-    root_name = request.args.get("root_name")
-    diagram_name = request.args.get("diagram_name") or request.args.get(
-        "diagramName"
-    )  # Accept both
-    if not root_name or not diagram_name:
-        abort(400, "Missing required parameters")
-    if not diagram_name.endswith(".json"):
-        diagram_name = f"{os.path.splitext(diagram_name)[0]}.json"
+
+
+# --------------------------------------------------------------------------- #
+# About page
+# --------------------------------------------------------------------------- #
+@routes_bp.route("/about", methods=["GET"])
+def about():
+    """Serve the About page with version information and useful links."""
     return render_template(
-        "hierarchy_viewer.html",
-        root_name=secure_filename(root_name),
-        diagram_name=secure_filename(diagram_name),
+        "about.html",
+        version=current_app.config.get("VERSION", "dev"),
         help_available=True,
     )

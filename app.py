@@ -8,6 +8,7 @@ from typing import Optional
 from flask import Flask
 from flask_assets import Environment
 from markdown import markdown
+from flask_wtf import CSRFProtect
 
 # Optional .env support -------------------------------------------------------
 try:
@@ -27,6 +28,11 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+
+ # -----------------------------------------------------------------------------
+# CSRF protection
+# -----------------------------------------------------------------------------
+csrf = CSRFProtect()
 
 # -----------------------------------------------------------------------------
 # Directory helpers
@@ -62,6 +68,11 @@ except ImportError:  # pragma: no cover
 def create_app() -> Flask:
     """Create and configure a Flask application instance."""
     app = Flask(__name__, static_folder="static", static_url_path="/static")
+    # -------------------------------------------------------------------------
+    # Security: CSRF
+    # -------------------------------------------------------------------------
+    app.config.setdefault("SECRET_KEY", os.getenv("SECRET_KEY", "change-me"))
+    csrf.init_app(app)
 
     # -------------------------------------------------------------------------
     # Config
@@ -123,6 +134,12 @@ def create_app() -> Flask:
             return current_app.jinja_env.globals
 
         return {"globals": _globals}
+
+    @app.context_processor
+    def _inject_csrf_token():
+        """Make {{ csrf_token() }} available in all Jinja templates."""
+        from flask_wtf.csrf import generate_csrf
+        return {"csrf_token": generate_csrf}
 
     # ─── Directory checks ──────────────────────────────────────────
     with app.app_context():
