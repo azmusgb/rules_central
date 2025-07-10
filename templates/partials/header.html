@@ -1,32 +1,23 @@
+{% from 'macros/nav_links.html' import render_nav_links %}
+
+{% set nav_items = [
+  {'endpoint': 'main.index', 'icon': 'fas fa-home', 'text': 'Home'},
+  {'endpoint': 'routes.catalog', 'icon': 'fas fa-folder', 'text': 'Catalog'},
+  {'endpoint': 'upload.upload_file', 'icon': 'fas fa-upload', 'text': 'Upload'},
+  {'endpoint': 'main.search', 'icon': 'fas fa-search', 'text': 'Search'},
+  {'endpoint': 'user_routes.user_settings', 'icon': 'fas fa-cog', 'text': 'Settings'},
+  {'endpoint': 'routes.faq_page', 'icon': 'fas fa-question-circle', 'text': 'FAQ'},
+  {'endpoint': 'main.about', 'icon': 'fas fa-info-circle', 'text': 'About'},
+  {'endpoint': 'main.contact', 'icon': 'fas fa-envelope', 'text': 'Contact'}
+] %}
+
 <header id="site-header" x-data="{openMobile:false}" class="fixed inset-x-0 top-0 z-50 border-b border-dark-700 bg-dark-900/90 backdrop-blur" style="--header-height: 4rem;">
-  {% set current = request.endpoint %}
   <div class="u-container flex items-center justify-between h-16">
     <a href="{{ url_for('main.index') }}" class="text-lg font-bold text-white hover:text-primary-400">Rules Central</a>
     <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
-      <a href="{{ url_for('main.index') }}" class="nav-link flex items-center gap-1{% if current == 'main.index' %} active{% endif %}"{% if current == 'main.index' %} aria-current="page"{% endif %}>
-        <i class="fas fa-home"></i><span>Home</span>
-      </a>
-      <a href="{{ url_for('routes.catalog') }}" class="nav-link flex items-center gap-1{% if current == 'routes.catalog' %} active{% endif %}"{% if current == 'routes.catalog' %} aria-current="page"{% endif %}>
-        <i class="fas fa-folder"></i><span>Catalog</span>
-      </a>
-      <a href="{{ url_for('upload.upload_file') }}" class="nav-link flex items-center gap-1{% if current == 'upload.upload_file' %} active{% endif %}"{% if current == 'upload.upload_file' %} aria-current="page"{% endif %}>
-        <i class="fas fa-upload"></i><span>Upload</span>
-      </a>
-      <a href="{{ url_for('main.search') }}" class="nav-link flex items-center gap-1{% if current == 'main.search' %} active{% endif %}"{% if current == 'main.search' %} aria-current="page"{% endif %}>
-        <i class="fas fa-search"></i><span>Search</span>
-      </a>
-      <a href="{{ url_for('user_routes.user_settings') }}" class="nav-link flex items-center gap-1{% if current == 'user_routes.user_settings' %} active{% endif %}"{% if current == 'user_routes.user_settings' %} aria-current="page"{% endif %}>
-        <i class="fas fa-cog"></i><span>Settings</span>
-      </a>
-      <a href="{{ url_for('routes.faq_page') }}" class="nav-link flex items-center gap-1{% if current == 'routes.faq_page' %} active{% endif %}"{% if current == 'routes.faq_page' %} aria-current="page"{% endif %}>
-        <i class="fas fa-question-circle"></i><span>FAQ</span>
-      </a>
-      <a href="{{ url_for('main.about') }}" class="nav-link flex items-center gap-1{% if current == 'main.about' %} active{% endif %}"{% if current == 'main.about' %} aria-current="page"{% endif %}>
-        <i class="fas fa-info-circle"></i><span>About</span>
-      </a>
-      <a href="{{ url_for('main.contact') }}" class="nav-link flex items-center gap-1{% if current == 'main.contact' %} active{% endif %}"{% if current == 'main.contact' %} aria-current="page"{% endif %}>
-        <i class="fas fa-envelope"></i><span>Contact</span>
-      </a>
+      <ul class="flex items-center gap-6">
+        {{ render_nav_links(nav_items) }}
+      </ul>
     </nav>
     <div class="flex items-center gap-3">
       <button id="theme-toggle" @click="theme = theme==='dark' ? 'light' : 'dark'; showToast=true; toastMsg = theme==='dark' ? 'Dark mode' : 'Light mode'" :aria-pressed="theme==='dark'" class="p-2 text-slate-400 hover:text-primary-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" aria-label="Toggle theme">
@@ -38,14 +29,7 @@
     </div>  </div>
   <nav id="mobile-menu" x-show="openMobile" x-transition class="md:hidden border-t border-dark-700 bg-dark-900" aria-label="Mobile navigation" @click.away="openMobile=false" style="display:none">
     <ul class="flex flex-col p-4 gap-2">
-      <li><a href="{{ url_for('main.index') }}" class="mobile-nav-link{% if current == 'main.index' %} active{% endif %}"{% if current == 'main.index' %} aria-current="page"{% endif %}>Home</a></li>
-      <li><a href="{{ url_for('routes.catalog') }}" class="mobile-nav-link{% if current == 'routes.catalog' %} active{% endif %}"{% if current == 'routes.catalog' %} aria-current="page"{% endif %}>Catalog</a></li>
-      <li><a href="{{ url_for('upload.upload_file') }}" class="mobile-nav-link{% if current == 'upload.upload_file' %} active{% endif %}"{% if current == 'upload.upload_file' %} aria-current="page"{% endif %}>Upload</a></li>
-      <li><a href="{{ url_for('main.search') }}" class="mobile-nav-link{% if current == 'main.search' %} active{% endif %}"{% if current == 'main.search' %} aria-current="page"{% endif %}>Search</a></li>
-      <li><a href="{{ url_for('user_routes.user_settings') }}" class="mobile-nav-link{% if current == 'user_routes.user_settings' %} active{% endif %}"{% if current == 'user_routes.user_settings' %} aria-current="page"{% endif %}>Settings</a></li>
-      <li><a href="{{ url_for('routes.faq_page') }}" class="mobile-nav-link{% if current == 'routes.faq_page' %} active{% endif %}"{% if current == 'routes.faq_page' %} aria-current="page"{% endif %}>FAQ</a></li>
-      <li><a href="{{ url_for('main.about') }}" class="mobile-nav-link{% if current == 'main.about' %} active{% endif %}"{% if current == 'main.about' %} aria-current="page"{% endif %}>About</a></li>
-      <li><a href="{{ url_for('main.contact') }}" class="mobile-nav-link{% if current == 'main.contact' %} active{% endif %}"{% if current == 'main.contact' %} aria-current="page"{% endif %}>Contact</a></li>
+      {{ render_nav_links(nav_items, is_mobile=true) }}
     </ul>
   </nav>
 </header>
