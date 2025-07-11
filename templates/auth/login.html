@@ -1,9 +1,9 @@
-{% extends 'layouts/base.html' %}
+{% extends 'base.html' %}
 {% from 'macros/components.html' import input, button %}
 {% block title %}Login{% endblock %}
 {% block content %}
 <form action="{{ url_for('routes.index') }}" method="post" class="max-w-sm mx-auto space-y-4">
-  {{ csrf_field() }}
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   {{ input('email','email','Email') }}
   {{ input('password','password','Password') }}
   {{ button('Sign In') }}
