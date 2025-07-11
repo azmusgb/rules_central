@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'base.html' %}
 {% from 'macros/components.html' import button, alert %}
 {% block title %}Upload Diagram{% endblock %}
 
@@ -21,7 +21,7 @@
         @dragleave.prevent="hover = false"
         @drop.prevent="hover = false; file = $event.dataTransfer.files[0]">
     
-    {{ csrf_field() }}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     
     <!-- Drag & Drop Zone -->
     <div class="border-2 border-dashed rounded-xl transition-all duration-200"
