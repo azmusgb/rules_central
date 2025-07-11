@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Dashboard | Rules Central{% endblock %}
-{% block head %}{% endblock %}
+{% block head %}
+  <style>
+    .floating-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 15s infinite linear;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 0.6; }
+      50% { opacity: 0.3; }
+      100% { transform: translateY(-100vh); opacity: 0.6; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
+{% endblock %}
 {% block hero_title %}Rules Central{% endblock %}
 {% block hero_subtitle %}Transform your business logic with cutting-edge AI-powered rules engine. Monitor, analyze, and optimize decision workflows with real-time insights.{% endblock %}
 {% block content %}
@@ -161,7 +190,7 @@
           <canvas id="rulesChart" class="w-full h-full"></canvas>
           
           <!-- Loading state -->
-          <div class="absolute inset-0 flex items-center justify-center" id="chartLoading">
+          <div class="absolute inset-0 flex items-center justify-center skeleton" id="chartLoading">
             <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         </div>
@@ -342,6 +371,20 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="{{ url_for('static', filename='js/index-dashboard.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.min.js"
+          integrity="sha512-JmP7Osw6QGI2uT2ZSC7r3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7"
+          crossorigin="anonymous"
+          onerror="document.write('<script src=\"{{ url_for('static', filename='js/chart.min.js') }}\"><\\/script>')"></script>
+  <script defer src="{{ url_for('static', filename='js/index-dashboard.js') }}?v=1.0.0"></script>
+  <script defer nonce="{{ g.nonce }}">
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          document.getElementById('chartLoading').style.display = 'none';
+          observer.disconnect();
+        }
+      }, { threshold: 0.1 });
+      observer.observe(document.getElementById('rulesChart'));
+    });
+  </script>
 {% endblock %}
