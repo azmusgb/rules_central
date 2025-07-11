@@ -3,125 +3,137 @@
 {% block title %}Upload Diagram{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-  <h1 class="text-2xl font-bold text-text-heading mb-6">Upload Diagram</h1>
-  
-  <form id="upload-form" 
-        action="{{ url_for('routes.upload_file') }}" 
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <!-- Hero -->
+  <header class="text-center mb-10">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+      Upload&nbsp;a&nbsp;Diagram
+    </h1>
+    <p class="mt-3 text-slate-400">
+      Drag &amp; drop or browse for a file (<code>.wr</code>, <code>.json</code>, <code>.png</code>) to add it to Rules&nbsp;Central.
+    </p>
+  </header>
+
+  <!-- Upload form -->
+  <form id="upload-form"
+        action="{{ url_for('routes.upload_file') }}"
         method="post"
-        enctype="multipart/form-data" 
-        class="space-y-6"
-        x-data="{
-          hover: false,
-          file: null,
-          isLoading: false,
-          progress: 0
-        }"
-        @dragover.prevent="hover = true"
-        @dragleave.prevent="hover = false"
-        @drop.prevent="hover = false; file = $event.dataTransfer.files[0]">
-    
+        enctype="multipart/form-data"
+        class="space-y-8"
+        x-data="uploadForm()"
+        @submit.prevent="submitForm">
+
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    
+
     <!-- Drag & Drop Zone -->
-    <div class="border-2 border-dashed rounded-xl transition-all duration-200"
-         :class="{
-           'border-primary-500 bg-primary-500/10': hover,
-           'border-border': !hover
-         }">
-      <div class="p-8 text-center space-y-4">
-        <div class="mx-auto h-12 w-12 text-text-secondary"
-             x-show="!file">
+    <div class="transition-all duration-300 rounded-2xl border-2 border-dashed flex justify-center items-center"
+         :class="hover ? 'border-primary-500 bg-primary-500/10' : 'border-slate-600/60 bg-slate-800/20'"
+         @dragover.prevent="hover = true"
+         @dragleave.prevent="hover = false"
+         @drop.prevent="handleDrop($event)">
+      <div class="p-12 text-center">
+        <!-- Icon -->
+        <div class="mx-auto mb-4 h-14 w-14 text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M3 15a4 4 0 00.88 7.903L4 23h16a4 4 0 00.88-7.903A5 5 0 0015 9h-1a5 5 0 000-10 5 5 0 00-4.9 4H9a5 5 0 00-4.12 8.06A4 4 0 003 15zm12 2l-3-3m0 0l-3 3m3-3v12" />
           </svg>
         </div>
-        
-        <p class="text-sm text-text-secondary" x-show="!file">
-          <span class="font-medium text-primary-500">Click to browse</span> or drag and drop
+
+        <!-- Prompt -->
+        <p class="text-sm text-slate-400" x-show="!file">
+          <span class="font-semibold text-primary-400 cursor-pointer" @click="$refs.fileInput.click()">
+            Click&nbsp;to&nbsp;browse
+          </span>
+          or drag &amp; drop
         </p>
-        
-        <p class="text-sm text-text-secondary" x-show="file">
-          <span class="font-medium text-primary-500" x-text="file.name"></span> selected
+
+        <!-- Selected file -->
+        <p class="text-sm text-slate-300" x-show="file">
+          <span class="font-medium text-primary-300" x-text="file.name"></span> selected
         </p>
-        
-        <input type="file" 
-               name="file" 
-               class="hidden" 
+
+        <!-- Hidden file input -->
+        <input type="file"
+               name="file"
                x-ref="fileInput"
+               class="sr-only"
                @change="file = $refs.fileInput.files[0]">
-        
-        <button type="button" 
-                @click="$refs.fileInput.click()"
-                class="text-sm font-medium text-primary-500 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md transition-colors">
-          <span x-text="file ? 'Change file' : 'Select file'"></span>
-        </button>
       </div>
     </div>
 
-    <!-- Error Message -->
+    <!-- Error -->
     {% if error %}
       {{ alert(error, 'error') }}
     {% endif %}
 
-    <!-- Upload Button -->
-    <div class="flex items-center justify-between">
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row items-center gap-4">
       <div class="w-full sm:w-auto">
         {{ button('Upload Diagram', 'primary', 'submit') }}
       </div>
-      
-      <span class="text-sm text-text-secondary ml-4" x-show="isLoading">
-        Uploading... <span x-text="progress + '%'"></span>
-      </span>
+
+      <template x-if="isLoading">
+        <span class="text-sm text-slate-400">Uploading… <span x-text="progress + '%'"></span></span>
+      </template>
     </div>
 
-    <!-- Progress Bar -->
-    <div class="h-2 bg-bg-surface rounded-full overflow-hidden transition-all duration-300"
-         :class="{ 'opacity-0': !isLoading }">
-      <div class="h-full bg-primary-500 transition-all duration-300 ease-out"
+    <!-- Progress bar -->
+    <div class="h-2 rounded-full bg-slate-700/50 overflow-hidden transition-opacity duration-300"
+         :class="isLoading ? 'opacity-100' : 'opacity-0'">
+      <div class="h-full bg-primary-500"
            :style="`width: ${progress}%`"></div>
     </div>
   </form>
-</div>
+</section>
 {% endblock %}
 
 {% block scripts %}
 <script>
 document.addEventListener('alpine:init', () => {
   Alpine.data('uploadForm', () => ({
-    submitForm(e) {
-      e.preventDefault();
-      
-      if (!this.file) return;
-      
+    hover: false,
+    file: null,
+    isLoading: false,
+    progress: 0,
+
+    handleDrop(ev) {
+      this.hover = false;
+      if (ev.dataTransfer.files.length) {
+        this.file = ev.dataTransfer.files[0];
+      }
+    },
+
+    submitForm() {
+      if (!this.file || this.isLoading) return;
+
       this.isLoading = true;
       this.progress = 0;
-      
+
+      const formData = new FormData(this.$root);
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', this.$el.action);
-      
+      xhr.open('POST', this.$root.action);
+
       xhr.upload.onprogress = (ev) => {
         if (ev.lengthComputable) {
           this.progress = Math.round((ev.loaded / ev.total) * 100);
         }
       };
-      
+
       xhr.onload = () => {
         this.isLoading = false;
         if (xhr.status >= 200 && xhr.status < 300) {
-          window.location.reload();
+          window.location.href = '{{ url_for("routes.index") }}';
         } else {
-          // Handle error response
           console.error('Upload failed');
         }
       };
-      
+
       xhr.onerror = () => {
         this.isLoading = false;
         console.error('Upload error');
       };
-      
-      const formData = new FormData(this.$el);
+
       xhr.send(formData);
     }
   }));
