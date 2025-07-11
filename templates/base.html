@@ -21,38 +21,37 @@
     <title>{% block title %}Rules Central{% endblock %}</title>
 
     <!-- Favicons -->
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any">
-    <link rel="icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any" loading="lazy">
+    <link rel="icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" type="image/png" loading="lazy">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" loading="lazy">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
     <!-- Preload Critical Resources -->
     <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style">
     <link rel="preload" href="{{ url_for('static', filename='js/app.js') }}" as="script">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom-utilities.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
-          crossorigin="anonymous" 
-          referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js" 
-            integrity="sha512-XuZvMgv3M9j5A5f5Z8jZUJg1XFyKz0q6n1fY6b+JU7kY5+0qwrkZQzryQ6hX4Nk7N3Oy7K9Vv7xkZ8J+XlWlKg==" 
-            crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+            integrity="sha512-F2VS4G1zDb1p6n3pD2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h"
+            crossorigin="anonymous"
+            onerror="document.write('<script src="{{ url_for('static', filename='js/alpine.min.js') }}"><\/script>')"></script>
 
     {% block head %}{% endblock %}
   </head>
   
   {% with messages = get_flashed_messages(with_categories=true) %}
   <body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans antialiased text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
+        style="font-family: 'Inter', system-ui, -apple-system, sans-serif;"
         {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
         x-data="{ isScrolled: false }"
         @scroll.window="isScrolled = window.scrollY > 50"
@@ -63,14 +62,15 @@
     </a>
 
     <!-- Progress Indicator -->
-    <div id="scroll-progress" 
-         class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50 h-0.5 bg-primary-500 transition-all duration-200 ease-out"
+    <div id="scroll-progress"
+         class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50 h-0.5 bg-primary-500 transition-all duration-300 ease-out"
          :class="{ 'opacity-0': !isScrolled }"></div>
 
     {% include 'partials/header.html' %}
     
     {% if self.hero_title().strip() or self.hero_subtitle().strip() %}
     <section class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12 px-4">
+      <div class="absolute inset-0 bg-black/30 z-0"></div>
       {% include 'partials/hero_bg.html' %}
       <div class="relative z-10 w-full u-section">
         <h1 class="u-text-fluid u-text-balance font-extrabold mb-4 text-primary-500 lg:text-5xl mx-auto"
@@ -101,7 +101,7 @@
     {% endif %}
 
     <!-- Toast Notification -->
-    <div x-show="showToast" x-transition.opacity class="fixed bottom-4 right-4 bg-dark-800 text-white px-4 py-3 rounded shadow-soft" role="status" aria-live="polite" @click="showToast=false" x-text="toastMsg" x-cloak></div>
+    <div x-show="showToast" x-transition.opacity class="fixed bottom-4 right-4 bg-dark-800 text-white px-4 py-3 rounded shadow-soft" role="status" aria-live="polite" @click="showToast=false" x-text="toastMsg" x-cloak x-init="setTimeout(() => showToast = false, 5000)"></div>
 
     <!-- Scripts with nonce and defer -->
     <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" 
