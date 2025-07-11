@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
-{% from 'macros/components.html' import input, button %}
-{% block title %}Login{% endblock %}
+{% from 'macros/components.html' import input, button, alert %}
+
+{% block title %}Sign in{% endblock %}
+
 {% block content %}
-<form action="{{ url_for('routes.index') }}" method="post" class="max-w-sm mx-auto space-y-4">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  {{ input('email','email','Email') }}
-  {{ input('password','password','Password') }}
-  {{ button('Sign In') }}
-</form>
-<p class="text-center mt-4 text-sm text-slate-400">
-  <a href="{{ url_for('routes.index') }}" class="text-primary-400 hover:underline">Create account</a>
-</p>
+  <div class="max-w-sm mx-auto">
+    <h1 class="text-3xl font-semibold mb-8">Welcome back</h1>
+
+    {# show any flashed messages #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        {{ alert(category if category else 'info', msg) }}
+      {% endfor %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.login') }}" class="space-y-6">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      {{ input('email', 'email', 'Email address') }}
+      {{ input('password', 'password', 'Password') }}
+
+      {{ button('Sign In') }}
+    </form>
+
+    <p class="mt-6 text-center text-sm">
+      No account yet?
+      <a href="{{ url_for('auth.register') }}" class="link link-primary">Create one</a>
+    </p>
+  </div>
 {% endblock %}
