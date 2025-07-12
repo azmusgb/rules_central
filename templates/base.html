@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" x-data="{theme: localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'),showToast:false,toastMsg:''}" :class="{dark: theme==='dark'}" data-theme="dark" x-init="$watch('theme',t=>{localStorage.theme=t;document.documentElement.setAttribute('data-theme',t);})" class="scroll-smooth">
+<html lang="en" x-data="{theme: localStorage.theme || 'light',showToast:false,toastMsg:''}" :class="{dark: theme==='dark'}" data-theme="light" x-init="$watch('theme',t=>{localStorage.theme=t;document.documentElement.setAttribute('data-theme',t);})" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,7 +50,7 @@
   </head>
   
   {% with messages = get_flashed_messages(with_categories=true) %}
-  <body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 min-h-screen font-sans antialiased text-white selection:bg-primary-500/20 pt-[var(--header-height)]"
+  <body class="bg-bg min-h-screen font-sans antialiased text-text selection:bg-primary-500/20 pt-[var(--header-height)]"
         style="font-family: 'Inter', system-ui, -apple-system, sans-serif;"
         {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
         x-data="{ isScrolled: false }"
