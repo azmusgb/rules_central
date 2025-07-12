@@ -85,6 +85,7 @@ def user_settings():
             "motion": "normal",
         }
 
+        settings_saved = False
         if request.method == "POST":
             settings_data.update(
                 {
@@ -101,6 +102,7 @@ def user_settings():
                 }
             )
             flash("Settings updated successfully!", "success")
+            settings_saved = True
 
         security_data = {
             "last_password_change": "2023-05-10",
@@ -121,6 +123,7 @@ def user_settings():
             settings=settings_data,
             security=security_data,
             help_available=True,
+            settings_saved=settings_saved,
         )
     except Exception as exc:  # pragma: no cover - unexpected errors
         current_app.logger.error(f"Settings error: {exc}")
