@@ -1,7 +1,7 @@
 # Rules Central
 
 Rules Central is a Flask web application for managing and visualizing rule sets.
-It provides tools to upload diagrams, analyze rules and collaborate with others.
+Upload diagrams, explore rule hierarchies and collaborate with your team all in one place.
 
 ## Table of Contents
 - [Features](#features)
@@ -21,14 +21,18 @@ It provides tools to upload diagrams, analyze rules and collaborate with others.
 - **API utility** for testing rules
 - **About** page with version info and documentation links
 - **Clean typography** using custom fonts
+- **Help center** with full documentation
+- **Contact page** for sending feedback
 
 ## Requirements
 - Python 3.10+
 - Node.js for building Tailwind CSS assets
 
 ## Setup
-Install Python dependencies (or install the package in editable mode):
+Create a virtual environment and install the Python dependencies (or install the package in editable mode):
 ```bash
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 # or
 pip install -e .
@@ -45,6 +49,7 @@ The compiled stylesheet is saved to `static/css/app.css` and includes autoprefix
 ## Running Locally
 Start the development server with:
 ```bash
+export FLASK_ENV=development
 python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
@@ -53,7 +58,7 @@ Visit [/about](http://127.0.0.1:8080/about) for version info and links.
 ## Running Tests
 Run the unit tests with:
 ```bash
-pytest
+pytest -v
 ```
 The tests cover helper functions in [utils.py](utils.py) and ensure the application factory can be imported without optional dependencies.
 
@@ -81,6 +86,10 @@ This project includes a development container configuration for GitHub Codespace
 python app.py
 ```
 The site will be available at http://127.0.0.1:8080.
+
+## Documentation
+
+Full usage guides and API references are available at [http://127.0.0.1:8080/full-help](http://127.0.0.1:8080/full-help).
 
 ## License
 This project is provided as‑is without warranty.
