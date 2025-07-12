@@ -14,54 +14,7 @@
 {% endblock %}
 
 {% block content %}
-  <!-- Navigation Header -->
-  <div class="nav-header" x-data="{ sidebarOpen: false }">
-    <div class="flex items-center justify-between">
-      <h1 class="text-xl font-bold gradient-text">Rules Central</h1>
-      <button 
-        class="text-white p-2" 
-        x-on:click="sidebarOpen = !sidebarOpen" 
-        aria-label="Toggle sidebar"
-      >
-        <i class="fas fa-bars text-xl"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Sidebar -->
-  <div 
-    class="sidebar" 
-    id="sidebar" 
-    x-bind:class="{ 'open': sidebarOpen }" 
-    x-on:click.away="sidebarOpen = false"
-  >
-    <div class="p-6">
-      <h1 class="text-2xl font-bold gradient-text mb-8">Rules Central</h1>
-      <nav class="space-y-4">
-        {% set nav_items = [
-          {"icon": "fa-chart-line", "label": "Dashboard", "endpoint": "routes.index"},
-          {"icon": "fa-file-alt", "label": "Rules", "endpoint": "routes.rules", "active": true},
-          {"icon": "fa-chart-pie", "label": "Analytics", "endpoint": "routes.analytics"},
-          {"icon": "fa-users", "label": "Users", "endpoint": "routes.users"},
-          {"icon": "fa-cog", "label": "Settings", "endpoint": "user_routes.user_settings"}
-        ] %}
-        {% for item in nav_items %}
-          <a 
-            href="{{ url_for(item.endpoint) }}" 
-            class="sidebar-link" 
-            :class="{ 'active': {{ 'true' if item.active else 'false' }} }"
-            aria-current="{{ 'page' if item.active else 'false' }}"
-          >
-            <i class="fas {{ item.icon }}"></i>
-            <span>{{ item.label }}</span>
-          </a>
-        {% endfor %}
-      </nav>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content px-6 py-12">
+  <div class="px-6 py-12 space-y-12">
     <section class="mb-12">
       <!-- Search & Filters -->
       <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
