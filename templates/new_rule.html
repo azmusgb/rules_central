@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% from 'macros/components.html' import input, button %}
+{% block title %}Create Rule | Rules Central{% endblock %}
+{% block hero_title %}Create&nbsp;a&nbsp;New&nbsp;Rule{% endblock %}
+{% block hero_subtitle %}Define a new rule using the form below.{% endblock %}
+{% block content %}
+<section class="u-section py-12">
+  <div class="card--glass glassmorphism p-8 rounded-2xl">
+    <form method="post" class="space-y-6">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group">
+        <label for="name" class="block text-slate-400 mb-2">Rule Name</label>
+        {{ input('name', placeholder='Payment Validation') }}
+      </div>
+      <div class="form-group">
+        <label for="description" class="block text-slate-400 mb-2">Description</label>
+        <textarea id="description" name="description" class="input focus-ring min-h-[100px]"></textarea>
+      </div>
+      <div>
+        {{ button('Create Rule') }}
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
