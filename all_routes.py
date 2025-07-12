@@ -408,6 +408,24 @@ def catalog():
     return render_template("catalog.html", help_available=True)
 
 
+@routes_bp.route("/templates")
+def templates():
+    """List available diagram templates."""
+    return render_template("catalog.html", help_available=True)
+
+
+@routes_bp.route("/analytics")
+def analytics():
+    """Display analytics dashboard."""
+    return render_template("dashboard.html", help_available=True)
+
+
+@routes_bp.route("/admin")
+def admin():
+    """Administration interface placeholder."""
+    return render_template("dashboard.html", help_available=True)
+
+
 @routes_bp.route("/rules_extraction_utility")
 def rules_extraction_utility():
     """Rules Extraction Utility view"""
