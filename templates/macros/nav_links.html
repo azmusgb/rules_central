@@ -1,10 +1,11 @@
 {% macro render_nav_links(nav_items, is_mobile=false) %}
 {% for item in nav_items %}
-{% set current = request.endpoint %}
+{% set current = request.endpoint or '' %}
+{% set is_active = current.startswith(item.endpoint) %}
 <li>
   <a href="{{ url_for(item.endpoint) }}"
-    class="{{ 'mobile-nav-link' if is_mobile else 'nav-link flex items-center gap-1' }}{% if current == item.endpoint %} active{% endif %}"
-    {% if current==item.endpoint %} aria-current="page" {% endif %}>
+    class="{{ 'mobile-nav-link' if is_mobile else 'nav-link flex items-center gap-1' }}{% if is_active %} active{% endif %}"
+    {% if is_active %} aria-current="page" {% endif %}>
     {% if not is_mobile %}
     <i class="{{ item.icon }}"></i>
     {% endif %}
