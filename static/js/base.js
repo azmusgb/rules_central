@@ -58,46 +58,51 @@ const initTheme = () => {
   const btn = document.getElementById("theme-toggle");
   const icon = btn?.querySelector("i");
 
-  const updateIcon = (theme) => {
-    if (!icon) return;
-    icon.classList.remove("fa-moon", "fa-sun");
-    icon.classList.add(theme === "dark" ? "fa-sun" : "fa-moon");
-    if (btn) btn.setAttribute("aria-pressed", theme === "dark" ? "false" : "true");
+  const THEMES = ["light", "dark", "bear"];
+  const ICONS = {
+    light: "fa-moon",
+    dark: "fa-sun",
+    bear: "fa-paw"
+  };
+
+  const applyTheme = (theme) => {
+    html.setAttribute("data-theme", theme);
+    html.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+    if (icon) {
+      icon.className = `fas ${ICONS[theme]}`;
+    }
+    if (btn) {
+      btn.setAttribute("aria-label", `Toggle theme (current ${theme})`);
+    }
+    if (html.__x && html.__x.$data) {
+      html.__x.$data.theme = theme;
+    }
+    document.dispatchEvent(new CustomEvent("theme-change", { detail: { theme } }));
   };
 
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const storedTheme =
-    localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
+  const storedTheme = localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
 
-  html.setAttribute("data-theme", storedTheme);
-  if (storedTheme === "dark") html.classList.add("dark");
-  updateIcon(storedTheme);
+  applyTheme(storedTheme);
+  let index = THEMES.indexOf(storedTheme);
+  if (index === -1) index = 0;
 
   let themeListener;
   if (btn) {
-    btn.addEventListener("click", themeListener = () => {
-      const isDark = html.classList.toggle("dark");
-      const theme = isDark ? "dark" : "light";
-      html.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme);
-      updateIcon(theme);
-      btn.setAttribute("aria-pressed", theme === "dark" ? "false" : "true");
-      document.dispatchEvent(
-        new CustomEvent("theme-change", { detail: { theme } }),
-      );
-    });
+    btn.addEventListener(
+      "click",
+      (themeListener = () => {
+        index = (index + 1) % THEMES.length;
+        applyTheme(THEMES[index]);
+      })
+    );
   }
 
   const mqListener = (e) => {
     if (!localStorage.getItem("theme")) {
       const newTheme = e.matches ? "dark" : "light";
-      html.setAttribute("data-theme", newTheme);
-      if (newTheme === "dark") {
-        html.classList.add("dark");
-      } else {
-        html.classList.remove("dark");
-      }
-      updateIcon(newTheme);
+      applyTheme(newTheme);
     }
   };
   const mq = window.matchMedia("(prefers-color-scheme: dark)");
