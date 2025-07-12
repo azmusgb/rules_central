@@ -444,6 +444,12 @@ def search():
     return render_template("search.html", help_available=True)
 
 
+@routes_bp.route("/activity")
+def activity():
+    """Display recent activity logs."""
+    return render_template("activity.html", help_available=True)
+
+
 @routes_bp.route("/config")
 def config_page():
     """Configuration view"""
