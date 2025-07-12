@@ -1,4 +1,3 @@
-```javascript
 module.exports = {
   darkMode: 'class',
   content: ['./templates/**/*.html', './static/js/**/*.js'],
@@ -54,4 +53,3 @@ module.exports = {
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
 };
-```
