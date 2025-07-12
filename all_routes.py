@@ -17,6 +17,7 @@ from flask import (
     url_for,
     send_file,
     flash,
+    redirect,
     make_response,
 )
 from werkzeug.utils import secure_filename
@@ -377,6 +378,28 @@ def index():
     return render_template(
         "index.html", material=current_app.config.get("MATERIAL"), help_available=True
     )
+
+
+@routes_bp.route("/rules/new", methods=["GET", "POST"])
+def new_rule():
+    """Create a new business rule."""
+    if request.method == "POST":
+        rule_name = request.form.get("name", "").strip()
+        description = request.form.get("description", "").strip()
+        if not rule_name:
+            flash("Rule name is required", "error")
+            return redirect(url_for("routes.new_rule"))
+
+        log_activity(
+            action="create",
+            rule_id=secure_filename(rule_name),
+            user=get_current_user(),
+            details=f"Created new rule '{rule_name}'",
+        )
+        flash(f"Rule '{rule_name}' created!", "success")
+        return redirect(url_for("routes.catalog"))
+
+    return render_template("new_rule.html", help_available=True)
 
 
 @routes_bp.route("/catalog")
