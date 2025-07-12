@@ -1,36 +1,61 @@
-{% macro button(text, variant='primary', type='submit') -%}
-{% set classes = {
-'primary':'bg-primary-600 hover:bg-primary-500 text-white',
-'secondary':'bg-slate-700 hover:bg-slate-600 text-white',
-'danger':'bg-red-600 hover:bg-red-500 text-white'
-} %}
-<button type="{{ type }}" aria-label="{{ text }}" class="px-4 py-2 rounded {{ classes[variant] }} focus:outline-none focus:ring-2 focus:ring-primary-500">
-  {{ text }}
-</button>
-{%- endmacro %}
+{% extends 'base.html' %}
+{% from 'macros/components.html' import input, button, alert %}
 
-{% macro input(name, type='text', placeholder='') -%}
-<input id="{{ name }}" name="{{ name }}" type="{{ type }}" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}"
-  class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded focus:ring-primary-500 focus:outline-none">
-{%- endmacro %}
+{% block title %}Sign In | Rules Central{% endblock %}
 
-{% macro card(header='', body='') -%}
-<div class="bg-slate-800 rounded-lg shadow p-4">
-  {% if header %}<h3 class="text-lg font-semibold mb-2">{{ header }}</h3>{% endif %}
-  {{ body }}
-</div>
-{%- endmacro %}
+{% block hero_title %}
+  <h1 class="text-4xl md:text-5xl font-bold text-text tracking-tight text-balance">Sign In</h1>
+{% endblock %}
 
-{% macro alert(message, variant='info') -%}
-{% set colors = {
-'info':'bg-blue-600',
-'success':'bg-emerald-600',
-'warning':'bg-yellow-600',
-'error':'bg-red-600'
-} %}
-<div role="alert" class="p-3 text-white rounded {{ colors[variant] }}">{{ message }}</div>
-{%- endmacro %}
+{% block hero_subtitle %}
+  <p class="mt-4 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto text-pretty">Welcome back to Rules Central</p>
+{% endblock %}
 
-{% macro skeleton(width='w-full', height='h-4') -%}
-<div class="animate-pulse bg-slate-700 rounded {{ width }} {{ height }}"></div>
-{%- endmacro %}
+{% block content %}
+  <section class="u-section py-8">
+    <div class="max-w-sm mx-auto card card--glass p-8">
+      {# Flashed Messages #}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="space-y-4 mb-6" role="alert">
+            {% for category, msg in messages %}
+              {{ alert(msg, variant=category if category else 'info') }}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {# Sign-in Form #}
+      <form method="post" action="{{ url_for('auth.login') }}" class="space-y-6" x-data="{ showPassword: false }">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+        {{ input('email', 'email', 'Email address') }}
+
+        <div class="relative">
+          {{ input('password', 'password' if not showPassword else 'text', 'Password') }}
+          <button 
+            type="button" 
+            x-on:click="showPassword = !showPassword" 
+            class="absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary hover:text-primary-500 focus-ring rounded-r-md"
+            aria-label="Toggle password visibility"
+          >
+            <i x-show="!showPassword" class="fas fa-eye"></i>
+            <i x-show="showPassword" class="fas fa-eye-slash" x-cloak></i>
+          </button>
+        </div>
+
+        {{ button('Sign In', variant='primary', type='submit') }}
+
+        <p class="mt-6 text-center text-sm text-text-secondary">
+          No account yet?
+          <a href="{{ url_for('auth.register') }}" class="text-primary-500 hover:underline focus-ring">Create one</a>
+        </p>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{% endblock %}

@@ -1,3 +1,4 @@
+```css
 /**
  * input.css — Tailwind CSS Entrypoint
  * ----------------------------------------------------------------------------
@@ -23,8 +24,6 @@
 /* ==========================================================================
    Preflight Configuration
    ========================================================================== */
-
-/* Disable default border reset for elements like tables and images */
 @layer base {
   img,
   video {
@@ -58,7 +57,6 @@
      ======================== */
   html {
     font-family: var(--qc-font-family-sans);
-    background-color: var(--qc-bg);
     color: var(--qc-text-main);
     text-rendering: optimizelegibility;
     -webkit-tap-highlight-color: transparent;
@@ -69,23 +67,29 @@
      Core Page Structure
      ======================== */
   body {
-    --qc-body-bg-angle: 135deg;
-    --qc-body-bg-stops:
-      var(--qc-bg) 0%,
-      var(--qc-panel) 50%,
-      var(--qc-bg-dark) 100%;
-
-    min-height: 100svh; /* Prefer modern viewport unit */
+    min-height: 100svh;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    background:
-      linear-gradient(
-        var(--qc-body-bg-angle),
-        var(--qc-body-bg-stops)
-      );
-    background-attachment: fixed;
+    background: linear-gradient(135deg, var(--qc-background-darkStart), var(--qc-background-darkMid), var(--qc-background-darkEnd));
+    position: relative;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
   }
 
   /* ========================
@@ -97,7 +101,7 @@
     letter-spacing: -0.01em;
     color: var(--qc-text-main);
     line-height: var(--qc-heading-line-height, 1.2);
-    text-wrap: balance; /* Prevent awkward heading breaks */
+    text-wrap: balance;
   }
 
   /* ========================
@@ -106,7 +110,6 @@
   a {
     --qc-link-underline-offset: 0.25em;
     --qc-link-decoration-thickness: 1px;
-
     text-underline-offset: var(--qc-link-underline-offset);
     text-decoration-thickness: var(--qc-link-decoration-thickness);
     transition:
@@ -118,7 +121,6 @@
 
     &:where(:hover, :focus-visible) {
       --qc-link-decoration-thickness: 2px;
-
       text-decoration-color: currentcolor;
     }
 
@@ -169,13 +171,11 @@
    Project-Specific Base Styles
    ========================================================================== */
 @layer base {
-  /* Custom focus states for non-interactive elements */
   [tabindex]:focus-visible {
     outline: 2px solid var(--qc-focus-ring);
     outline-offset: 2px;
   }
 
-  /* Prevent layout shift when scrollbar appears */
   @media (hover: hover) {
     html {
       scrollbar-gutter: stable;
@@ -187,3 +187,4 @@
    Local Component Imports
    ========================================================================== */
 @import url("./styles/header.css") layer(components);
+```

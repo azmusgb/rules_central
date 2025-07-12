@@ -1,390 +1,321 @@
 {% extends "base.html" %}
+
+
 {% block title %}Dashboard | Rules Central{% endblock %}
+
 {% block head %}
-  <style>
-    .floating-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 15s infinite linear;
-    }
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 0.6; }
-      50% { opacity: 0.3; }
-      100% { transform: translateY(-100vh); opacity: 0.6; }
-    }
-    .skeleton {
-      background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
-{% block hero_title %}Rules Central{% endblock %}
-{% block hero_subtitle %}Transform your business logic with cutting-edge AI-powered rules engine. Monitor, analyze, and optimize decision workflows with real-time insights.{% endblock %}
+
+{% block hero_title %}
+  <h1 class="text-4xl md:text-5xl font-bold gradient-text">Rules Central</h1>
+{% endblock %}
+
+{% block hero_subtitle %}
+  <p class="mt-4 text-lg md:text-xl text-white/70 max-w-2xl mx-auto text-pretty">
+    Transform your business logic with a cutting-edge AI-powered rules engine. Monitor, analyze, and optimize decision workflows with real-time insights.
+  </p>
+{% endblock %}
+
 {% block content %}
-<!-- Enhanced Floating Particles Background -->
-<div class="floating-particles">
-  {% for i in range(15) %}
-  <div class="particle" style="left: {{ range(5, 95)|random }}%; top: {{ range(5, 95)|random }}%; animation-delay: {{ range(0, 10)|random }}s; width: {{ range(2, 8)|random }}px; height: {{ range(2, 8)|random }}px; background-color: hsl({{ range(200, 250)|random }}, 80%, 60%);"></div>
-  {% endfor %}
-</div>
+  <!-- Navigation Header -->
+  <div class="nav-header" x-data="{ sidebarOpen: false }">
+    <div class="flex items-center justify-between">
+      <h1 class="text-xl font-bold gradient-text">Rules Central</h1>
+      <button 
+        class="text-white p-2" 
+        x-on:click="sidebarOpen = !sidebarOpen" 
+        aria-label="Toggle sidebar"
+      >
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </div>
 
-<!-- Mobile Menu Toggle -->
-<button class="md:hidden fixed top-6 right-6 z-50 p-3 rounded-full bg-slate-800/80 backdrop-blur-sm shadow-lg hover:bg-slate-700 transition-all" onclick="toggleMobileMenu()" aria-label="Open menu">
-  <i class="fas fa-bars text-white text-xl"></i>
-</button>
+  <!-- Sidebar -->
+  <div 
+    class="sidebar" 
+    id="sidebar" 
+    x-bind:class="{ 'open': sidebarOpen }" 
+    x-on:click.away="sidebarOpen = false"
+  >
+    <div class="p-6">
+      <h1 class="text-2xl font-bold gradient-text mb-8">Rules Central</h1>
+      <nav class="space-y-4">
+        {% set nav_items = [
+          {"icon": "fa-chart-line", "label": "Dashboard", "endpoint": "routes.index", "active": true},
+          {"icon": "fa-file-alt", "label": "Rules", "endpoint": "routes.rules"},
+          {"icon": "fa-chart-pie", "label": "Analytics", "endpoint": "routes.analytics"},
+          {"icon": "fa-users", "label": "Users", "endpoint": "routes.users"},
+          {"icon": "fa-cog", "label": "Settings", "endpoint": "user_routes.user_settings"}
+        ] %}
+        {% for item in nav_items %}
+          <a 
+            href="{{ url_for(item.endpoint) }}" 
+            class="sidebar-link" 
+            :class="{ 'active': {{ 'true' if item.active else 'false' }} }"
+            aria-current="{{ 'page' if item.active else 'false' }}"
+          >
+            <i class="fas {{ item.icon }}"></i>
+            <span>{{ item.label }}</span>
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
 
-<!-- Main Content -->
-<div class="relative z-10">
-
-  <!-- Main Dashboard Content -->
-  <div class="u-section py-16">
-    <!-- Enhanced Stats Cards -->
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-      {% set stats = [
-        {"title": "Active Rules", "value": "1,234", "icon": "fa-file-alt", "color": "blue", "trend": "+12%", "progress": 78},
-        {"title": "Active Users", "value": "567", "icon": "fa-users", "color": "purple", "trend": "+8%", "progress": 65},
-        {"title": "Rules Executions", "value": "42.8k", "icon": "fa-bolt", "color": "emerald", "trend": "+24%", "progress": 92},
-        {"title": "System Uptime", "value": "99.9%", "icon": "fa-check-circle", "color": "green", "trend": "Operational", "progress": 100}
-      ] %}
-      
-      {% for stat in stats %}
-      <div class="card-hover glass-effect rounded-2xl p-6 group transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <p class="text-sm font-medium text-slate-400 mb-1">{{ stat.title }}</p>
-            <p class="text-3xl font-bold text-white group-hover:text-{{ stat.color }}-400 transition-colors">
-              {{ stat.value }}
-            </p>
-          </div>
-          <div class="relative">
-            <div class="absolute inset-0 bg-{{ stat.color }}-400 rounded-xl opacity-20 pulse-ring"></div>
-            <div class="relative p-3 rounded-xl bg-gradient-to-br from-{{ stat.color }}-500/20 to-{{ stat.color }}-600/20 text-{{ stat.color }}-400">
-              <i class="fas {{ stat.icon }} text-lg"></i>
+  <!-- Main Content -->
+  <div class="main-content px-6 py-12">
+    <!-- Stats Section -->
+    <section class="mb-12" role="region" aria-labelledby="stats-heading">
+      <h2 class="sr-only" id="stats-heading">Dashboard Statistics</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% set stats = [
+          {"title": "Active Rules", "value": "1,234", "icon": "fa-file-alt", "color": "blue", "trend": "+12%", "progress": 78},
+          {"title": "Active Users", "value": "567", "icon": "fa-users", "color": "purple", "trend": "+8%", "progress": 65},
+          {"title": "Rules Executions", "value": "42.8k", "icon": "fa-bolt", "color": "emerald", "trend": "+24%", "progress": 92},
+          {"title": "System Uptime", "value": "99.9%", "icon": "fa-check-circle", "color": "green", "trend": "Operational", "progress": 100}
+        ] %}
+        {% for stat in stats %}
+          <div class="card--glass glassmorphism card-hover glow-effect p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-white">{{ stat.title }}</h3>
+              <div class="w-12 h-12 bg-{{ stat.color }}-500/20 rounded-full flex items-center justify-center float-animation">
+                <i class="fas {{ stat.icon }} text-{{ stat.color }}-400 text-xl"></i>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <div class="metric-trend trend-{{ 'up' if '+' in stat.trend else 'steady' }} text-xs">
-            {% if '+' in stat.trend %}
-            <i class="fas fa-arrow-up mr-1"></i>
-            {% elif stat.trend == 'Operational' %}
-            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse inline-block mr-1"></div>
+            <div class="text-3xl font-bold text-white mb-2">{{ stat.value }}</div>
+            <div class="flex items-center gap-2 text-sm text-green-400">
+              {% if '+' in stat.trend %}
+                <i class="fas fa-arrow-up"></i>
+              {% elif stat.trend == 'Operational' %}
+                <i class="fas fa-check-circle"></i>
+              {% endif %}
+              <span>{{ stat.trend }} {% if '+' in stat.trend %}from last month{% endif %}</span>
+            </div>
+            {% if stat.progress < 100 %}
+              <div class="progress-bar mt-4" role="progressbar" aria-valuenow="{{ stat.progress }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill" style="width: {{ stat.progress }}%"></div>
+              </div>
             {% endif %}
-            {{ stat.trend }} {% if '+' in stat.trend %}from last month{% endif %}
           </div>
-          {% if stat.progress < 100 %}
-          <div class="w-20 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-            <div class="h-full bg-{{ stat.color }}-400 progress-bar" style="width: {{ stat.progress }}%"></div>
-          </div>
-          {% endif %}
-        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </section>
 
-    <!-- Activity Feed & Quick Actions -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
-      <div class="lg:col-span-2 glass-effect rounded-2xl overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-600/50 flex items-center justify-between">
-          <h2 class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fas fa-history mr-2 text-blue-400"></i>
-            <span>Recent Activity</span>
-            <span class="notification-badge ml-2">New</span>
-          </h2>
-          <button class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors flex items-center">
-            View all <i class="fas fa-chevron-right ml-1 text-xs"></i>
-          </button>
+    <!-- Quick Actions Section -->
+    <section class="mb-12" role="region" aria-labelledby="actions-heading">
+      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
+        <h2 class="text-xl font-semibold text-white mb-6" id="actions-heading">Quick Actions</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {% set quick_actions = [
+            {"icon": "fa-plus", "color": "blue", "label": "New Rule", "endpoint": "routes.new_rule"},
+            {"icon": "fa-copy", "color": "purple", "label": "Templates", "endpoint": "routes.templates"},
+            {"icon": "fa-chart-pie", "color": "emerald", "label": "Analytics", "endpoint": "routes.analytics"},
+            {"icon": "fa-cog", "color": "orange", "label": "Settings", "endpoint": "user_routes.user_settings"},
+            {"icon": "fa-user-shield", "color": "red", "label": "Admin", "endpoint": "routes.admin"},
+            {"icon": "fa-question-circle", "color": "yellow", "label": "Help", "endpoint": "routes.faq_page"}
+          ] %}
+          {% for action in quick_actions %}
+            <a href="{{ url_for(action.endpoint) }}"
+               class="{{ 'btn btn-primary' if loop.first else 'btn btn-secondary' }} flex flex-col items-center gap-2 py-4 rounded-xl"
+               aria-label="{{ action.label }}">
+              <i class="fas {{ action.icon }} text-2xl text-{{ action.color }}-400"></i>
+              <span>{{ action.label }}</span>
+            </a>
+          {% endfor %}
         </div>
-        <div class="divide-y divide-slate-600/30">
+      </div>
+    </section>
+
+    <!-- Recent Activity Section -->
+    <section class="mb-12" role="region" aria-labelledby="activity-heading">
+      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-white" id="activity-heading">Recent Activity</h2>
+          <a href="{{ url_for('routes.activity') }}" class="text-blue-400 hover:text-blue-300 transition-colors focus-ring">View all</a>
+        </div>
+        <div class="space-y-4">
           {% set activities = [
             {"icon": "fa-plus", "color": "blue", "title": "New rule \"Payment Validation\" created", "time": "2 minutes ago", "user": "Jane Cooper"},
             {"icon": "fa-check", "color": "green", "title": "Rule execution completed successfully", "time": "5 minutes ago", "user": "System"},
-            {"icon": "fa-user-plus", "color": "purple", "title": "New user \"john.doe@company.com\" joined", "time": "15 minutes ago", "user": "Admin"},
-            {"icon": "fa-edit", "color": "yellow", "title": "Rule \"Fraud Detection\" updated", "time": "1 hour ago", "user": "Alex Morgan"},
-            {"icon": "fa-chart-line", "color": "emerald", "title": "New analytics report generated", "time": "2 hours ago", "user": "System"}
+            {"icon": "fa-user-plus", "color": "purple", "title": "New user \"john.doe@company.com\" joined", "time": "15 minutes ago", "user": "Admin"}
           ] %}
-          
           {% for activity in activities %}
-          <div class="activity-item p-4 hover:bg-slate-700/30 transition-colors cursor-pointer">
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 bg-{{ activity.color }}-500/20 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-{{ activity.color }}-500/20 rounded-full flex items-center justify-center flex-shrink-0 float-animation">
                 <i class="fas {{ activity.icon }} text-{{ activity.color }}-400"></i>
               </div>
-              <div class="flex-1">
-                <p class="text-white font-medium">{{ activity.title }}</p>
-                <div class="flex items-center justify-between mt-1">
-                  <p class="text-slate-400 text-sm">{{ activity.time }}</p>
+              <div>
+                <p class="text-white text-pretty">{{ activity.title }}</p>
+                <p class="text-sm text-white/60">
+                  {{ activity.time }}
                   {% if activity.user != "System" %}
-                  <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-1 rounded-full">{{ activity.user }}</span>
+                    <span class="font-medium">by {{ activity.user }}</span>
                   {% endif %}
-                </div>
+                </p>
               </div>
             </div>
-          </div>
           {% endfor %}
         </div>
       </div>
+    </section>
 
-      <div class="glass-effect rounded-2xl overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-600/50">
-          <h2 class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fas fa-bolt text-purple-400"></i>
-            <span>Quick Actions</span>
-          </h2>
-        </div>
-        <div class="grid grid-cols-2 gap-4 p-4">
-          {% set quick_actions = [
-            {"icon": "fa-plus", "color": "blue", "label": "New Rule"},
-            {"icon": "fa-copy", "color": "purple", "label": "Templates"},
-            {"icon": "fa-chart-pie", "color": "emerald", "label": "Analytics"},
-            {"icon": "fa-cog", "color": "orange", "label": "Settings"},
-            {"icon": "fa-user-shield", "color": "red", "label": "Admin"},
-            {"icon": "fa-question-circle", "color": "yellow", "label": "Help"}
-          ] %}
-          
-          {% for action in quick_actions %}
-          <button class="quick-action group p-4 rounded-xl glass-effect hover:bg-slate-700/50 transition-all duration-300 hover:scale-105 flex flex-col items-center">
-            <div class="p-3 rounded-full bg-gradient-to-br from-{{ action.color }}-500/20 to-{{ action.color }}-600/20 text-{{ action.color }}-400 mb-3 group-hover:scale-110 transition-transform">
-              <i class="fas {{ action.icon }} text-lg"></i>
+    <!-- Rules Overview Section -->
+    <section class="mb-12" role="region" aria-labelledby="overview-heading">
+      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-white" id="overview-heading">Rules Overview</h2>
+          <div class="flex items-center gap-4">
+            <div x-data="{ activePeriod: '7 days' }" class="flex gap-2">
+              {% for period in ['7 days', '30 days', '90 days'] %}
+                <button 
+                  class="btn btn-secondary text-sm" 
+                  x-on:click="activePeriod = '{{ period }}'"
+                  :class="{ 'bg-white/20 text-blue-400': activePeriod === '{{ period }}' }"
+                  aria-label="Show data for {{ period }}"
+                >
+                  {{ period }}
+                </button>
+              {% endfor %}
             </div>
-            <span class="text-xs font-semibold text-white">{{ action.label }}</span>
-          </button>
-          {% endfor %}
+            <button type="button" class="btn btn-primary">Export</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          ```chartjs
+          {
+            "type": "line",
+            "data": {
+              "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+              "datasets": [
+                {
+                  "label": "Rule Executions",
+                  "data": [1200, 1900, 1500, 2200, 1800, 2500],
+                  "borderColor": "#667eea",
+                  "backgroundColor": "rgba(102, 126, 234, 0.3)",
+                  "fill": true,
+                  "tension": 0.4,
+                  "pointBackgroundColor": "#667eea",
+                  "pointBorderColor": "#ffffff",
+                  "pointBorderWidth": 2,
+                  "pointRadius": 6
+                },
+                {
+                  "label": "Active Rules",
+                  "data": [800, 1000, 900, 1200, 1100, 1300],
+                  "borderColor": "#22c55e",
+                  "backgroundColor": "rgba(34, 197, 94, 0.3)",
+                  "fill": true,
+                  "tension": 0.4,
+                  "pointBackgroundColor": "#22c55e",
+                  "pointBorderColor": "#ffffff",
+                  "pointBorderWidth": 2,
+                  "pointRadius": 6
+                }
+              ]
+            },
+            "options": {
+              "responsive": true,
+              "maintainAspectRatio": false,
+              "plugins": {
+                "legend": {
+                  "position": "top",
+                  "labels": { "color": "#ffffff", "font": { "size": 14 } }
+                }
+              },
+              "scales": {
+                "x": {
+                  "ticks": { "color": "#ffffff80" },
+                  "grid": { "color": "rgba(255, 255, 255, 0.1)" }
+                },
+                "y": {
+                  "ticks": { "color": "#ffffff80" },
+                  "grid": { "color": "rgba(255, 255, 255, 0.1)" }
+                }
+              }
+            }
+          }
+          ```
         </div>
       </div>
     </section>
 
-    <!-- Enhanced Rules Overview Chart -->
-    <section class="glass-effect rounded-2xl overflow-hidden mb-16">
-      <div class="px-6 py-4 border-b border-slate-600/50 flex items-center justify-between">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <i class="fas fa-chart-bar text-blue-400"></i>
-          <span>Rules Overview</span>
-        </h2>
-        <div class="flex items-center space-x-3">
-          <div class="flex bg-slate-800 rounded-lg p-1 text-sm">
-            <button class="px-3 py-1 font-medium rounded-md bg-blue-600 text-white">7 days</button>
-            <button class="px-3 py-1 font-medium rounded-md text-slate-400 hover:text-white">30 days</button>
-            <button class="px-3 py-1 font-medium rounded-md text-slate-400 hover:text-white">90 days</button>
-          </div>
-          <button class="px-3 py-1 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 text-blue-400 transition-all flex items-center">
-            <i class="fas fa-download mr-2"></i> Export
-          </button>
+    <!-- Recently Modified Rules Section -->
+    <section class="mb-12" role="region" aria-labelledby="rules-heading">
+      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-white" id="rules-heading">Recently Modified Rules</h2>
+          <a href="{{ url_for('routes.rules') }}" class="text-blue-400 hover:text-blue-300 transition-colors focus-ring">View all</a>
         </div>
-      </div>
-      <div class="p-6">
-        <div class="chart-container relative h-64">
-          <!-- Chart will be rendered here with Chart.js or similar -->
-          <canvas id="rulesChart" class="w-full h-full"></canvas>
-          
-          <!-- Loading state -->
-          <div class="absolute inset-0 flex items-center justify-center skeleton" id="chartLoading">
-            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-white/60 border-b border-white/10">
+                <th class="text-left p-4">Rule Name</th>
+                <th class="text-left p-4">Category</th>
+                <th class="text-left p-4">Last Modified</th>
+                <th class="text-left p-4">Status</th>
+                <th class="text-left p-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set rules = [
+                {"name": "Payment Validation", "category": "Finance", "modified": "2 mins ago", "status": "active", "user": "Jane Cooper", "icon": "fa-file-alt", "iconColor": "blue"},
+                {"name": "Fraud Detection", "category": "Security", "modified": "1 hour ago", "status": "active", "user": "Alex Morgan", "icon": "fa-shield-alt", "iconColor": "red"},
+                {"name": "User Authentication", "category": "Security", "modified": "3 hours ago", "status": "draft", "user": "Sam Wilson", "icon": "fa-user-lock", "iconColor": "purple"}
+              ] %}
+              {% for rule in rules %}
+                <tr class="table-row">
+                  <td class="p-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 bg-{{ rule.iconColor }}-500/20 rounded-lg flex items-center justify-center float-animation">
+                        <i class="fas {{ rule.icon }} text-{{ rule.iconColor }}-400"></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-white">{{ rule.name }}</p>
+                        <p class="text-sm text-white/60">by {{ rule.user }}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4 text-white/80">{{ rule.category }}</td>
+                  <td class="p-4 text-white/80">{{ rule.modified }}</td>
+                  <td class="p-4">
+                    <span class="status-badge status-{{ rule.status }}">{{ rule.status }}</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex gap-2">
+                      <button type="button"
+                              class="btn btn-secondary text-xs px-3 py-1"
+                              aria-label="Edit {{ rule.name }}">
+                        Edit
+                      </button>
+                      <button type="button"
+                              class="btn btn-danger text-xs px-3 py-1"
+                              aria-label="Delete {{ rule.name }}">
+                        Delete
+                      </button>
+                      <button type="button"
+                              class="btn btn-secondary text-xs px-3 py-1"
+                              aria-label="View {{ rule.name }}">
+                        View
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
-
-    <!-- Recent Rules Table -->
-    <section class="glass-effect rounded-2xl overflow-hidden mb-16">
-      <div class="px-6 py-4 border-b border-slate-600/50 flex items-center justify-between">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <i class="fas fa-list-ul text-purple-400"></i>
-          <span>Recently Modified Rules</span>
-        </h2>
-        <button class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors flex items-center">
-          View all <i class="fas fa-chevron-right ml-1 text-xs"></i>
-        </button>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-600/30">
-          <thead>
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Rule Name</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Category</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Last Modified</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Status</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-600/30">
-            {% set rules = [
-              {"name": "Payment Validation", "category": "Finance", "modified": "2 mins ago", "status": "active", "user": "Jane Cooper"},
-              {"name": "Fraud Detection", "category": "Security", "modified": "1 hour ago", "status": "active", "user": "Alex Morgan"},
-              {"name": "User Authentication", "category": "Security", "modified": "3 hours ago", "status": "draft", "user": "Sam Wilson"},
-              {"name": "Discount Calculation", "category": "Sales", "modified": "5 hours ago", "status": "active", "user": "Taylor Swift"},
-              {"name": "Inventory Check", "category": "Operations", "modified": "1 day ago", "status": "archived", "user": "Chris Evans"}
-            ] %}
-            
-            {% for rule in rules %}
-            <tr class="hover:bg-slate-700/30 transition-colors">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-700/50 flex items-center justify-center mr-3">
-                    <i class="fas fa-file-alt text-blue-400"></i>
-                  </div>
-                  <div>
-                    <div class="text-sm font-medium text-white">{{ rule.name }}</div>
-                    <div class="text-xs text-slate-400">{{ rule.user }}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs rounded-full bg-slate-700/50 text-slate-300">{{ rule.category }}</span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">{{ rule.modified }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs rounded-full 
-                  {% if rule.status == 'active' %}bg-green-500/20 text-green-400
-                  {% elif rule.status == 'draft' %}bg-yellow-500/20 text-yellow-400
-                  {% else %}bg-slate-700/50 text-slate-400{% endif %}">
-                  {{ rule.status|capitalize }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button class="text-blue-400 hover:text-blue-300 mr-3">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="text-purple-400 hover:text-purple-300 mr-3">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="text-red-400 hover:text-red-300">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </section>
   </div>
-</div>
-
-<!-- Enhanced Floating Action Button -->
-<div class="fixed bottom-8 right-8 z-50">
-  <div class="relative group">
-    <button class="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-110 flex items-center justify-center text-white text-xl" aria-label="Open quick actions">
-      <i class="fas fa-plus group-hover:rotate-90 transition-transform"></i>
-    </button>
-    
-    <!-- Floating Menu -->
-    <div class="absolute bottom-full right-0 mb-4 hidden group-hover:block">
-      <div class="bg-slate-800 rounded-xl shadow-xl overflow-hidden min-w-[200px]">
-        <div class="px-4 py-3 border-b border-slate-700 text-sm font-medium text-white">
-          Create New
-        </div>
-        <div class="divide-y divide-slate-700">
-          <a href="#" class="px-4 py-3 flex items-center hover:bg-slate-700 transition-colors">
-            <i class="fas fa-file-alt text-blue-400 mr-3"></i>
-            <span>New Rule</span>
-          </a>
-          <a href="#" class="px-4 py-3 flex items-center hover:bg-slate-700 transition-colors">
-            <i class="fas fa-folder text-purple-400 mr-3"></i>
-            <span>New Category</span>
-          </a>
-          <a href="#" class="px-4 py-3 flex items-center hover:bg-slate-700 transition-colors">
-            <i class="fas fa-users text-emerald-400 mr-3"></i>
-            <span>New Team</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Mobile Menu Overlay -->
-<div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden backdrop-blur-sm">
-  <div class="fixed left-0 top-0 bottom-0 w-64 bg-slate-900 glass-effect transform -translate-x-full transition-transform duration-300 shadow-xl">
-    <div class="p-6 h-full flex flex-col">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-xl font-bold text-white flex items-center">
-          <i class="fas fa-project-diagram text-blue-400 mr-2"></i>
-          Rules Central
-        </h2>
-        <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-white p-2" aria-label="Close menu">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <nav class="flex-1 space-y-2">
-        <a href="#" class="block px-4 py-3 text-white hover:bg-slate-700 rounded-lg transition-colors flex items-center">
-          <i class="fas fa-tachometer-alt mr-3 text-blue-400"></i>
-          Dashboard
-        </a>
-        <a href="#" class="block px-4 py-3 text-white hover:bg-slate-700 rounded-lg transition-colors flex items-center">
-          <i class="fas fa-file-alt mr-3 text-purple-400"></i>
-          Rules
-        </a>
-        <a href="#" class="block px-4 py-3 text-white hover:bg-slate-700 rounded-lg transition-colors flex items-center">
-          <i class="fas fa-chart-line mr-3 text-emerald-400"></i>
-          Analytics
-        </a>
-        <a href="#" class="block px-4 py-3 text-white hover:bg-slate-700 rounded-lg transition-colors flex items-center">
-          <i class="fas fa-users mr-3 text-yellow-400"></i>
-          Users
-        </a>
-        <a href="#" class="block px-4 py-3 text-white hover:bg-slate-700 rounded-lg transition-colors flex items-center">
-          <i class="fas fa-cog mr-3 text-orange-400"></i>
-          Settings
-        </a>
-      </nav>
-      
-      <div class="pt-4 border-t border-slate-700">
-        <div class="flex items-center px-4 py-3">
-          <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name=User+Name&background=0ea5e9&color=fff" alt="User avatar">
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-white">User Name</p>
-            <p class="text-xs text-slate-400">Admin</p>
-          </div>
-        </div>
-        <button class="w-full mt-2 px-4 py-2 text-sm rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-colors flex items-center justify-center">
-          <i class="fas fa-sign-out-alt mr-2"></i> Sign out
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Notification Toast -->
-<div id="notificationToast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-lg z-50 hidden flex items-center">
-  <i class="fas fa-bell text-yellow-400 mr-3"></i>
-  <span class="mr-4">New rule execution detected</span>
-  <button onclick="dismissNotification()" class="ml-auto text-slate-400 hover:text-white">
-    <i class="fas fa-times"></i>
-  </button>
-</div>
 {% endblock %}
 
 {% block scripts %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.min.js"
-          integrity="sha512-JmP7Osw6QGI2uT2ZSC7r3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7d3Q1s8V3K8v7"
-          crossorigin="anonymous"
-          onerror="document.write('<script src=\"{{ url_for('static', filename='js/chart.min.js') }}\"><\\/script>')"></script>
-  <script defer src="{{ url_for('static', filename='js/index-dashboard.js') }}?v=1.0.0"></script>
-  <script defer nonce="{{ g.nonce }}">
-    document.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          document.getElementById('chartLoading').style.display = 'none';
-          observer.disconnect();
-        }
-      }, { threshold: 0.1 });
-      observer.observe(document.getElementById('rulesChart'));
-    });
-  </script>
+  {{ super() }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 {% endblock %}

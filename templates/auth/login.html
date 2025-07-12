@@ -1,32 +1,63 @@
 {% extends 'base.html' %}
 {% from 'macros/components.html' import input, button, alert %}
 
-{% block title %}Sign in{% endblock %}
-{% block hero_title %}Sign In{% endblock %}
-{% block hero_subtitle %}Welcome back{% endblock %}
+{% block title %}Sign In | Rules Central{% endblock %}
+
+{% block hero_title %}
+  <h1 class="text-4xl md:text-5xl font-bold text-text tracking-tight text-balance">Sign In</h1>
+{% endblock %}
+
+{% block hero_subtitle %}
+  <p class="mt-4 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto text-pretty">Welcome back to Rules Central</p>
+{% endblock %}
 
 {% block content %}
-  <div class="max-w-sm mx-auto">
+  <section class="u-section py-8">
+    <div class="max-w-sm mx-auto card card--glass p-8">
+      {# Flashed Messages #}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="space-y-4 mb-6" role="alert">
+            {% for category, msg in messages %}
+              {{ alert(msg, variant=category if category else 'info') }}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
 
-    {# show any flashed messages #}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, msg in messages %}
-        {{ alert(category if category else 'info', msg) }}
-      {% endfor %}
-    {% endwith %}
+      {# Sign-in Form #}
+      <form method="post" action="{{ url_for('auth.login') }}" class="space-y-6" x-data="{ showPassword: false }">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-    <form method="post" action="{{ url_for('auth.login') }}" class="space-y-6">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div>
+          {{ input('email', 'email', 'Email address', classes='input focus-ring') }}
+        </div>
 
-      {{ input('email', 'email', 'Email address') }}
-      {{ input('password', 'password', 'Password') }}
+        <div class="relative">
+          {{ input('password', 'password' if not showPassword else 'text', 'Password', classes='input focus-ring pr-12') }}
+          <button 
+            type="button" 
+            x-on:click="showPassword = !showPassword" 
+            class="absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary hover:text-primary-500 focus-ring rounded-r-md"
+            aria-label="Toggle password visibility"
+          >
+            <i x-show="!showPassword" class="fas fa-eye"></i>
+            <i x-show="showPassword" class="fas fa-eye-slash" x-cloak></i>
+          </button>
+        </div>
 
-      {{ button('Sign In') }}
-    </form>
+        {{ button('Sign In', variant='primary', type='submit') }}
 
-    <p class="mt-6 text-center text-sm">
-      No account yet?
-      <a href="{{ url_for('auth.register') }}" class="link link-primary">Create one</a>
-    </p>
-  </div>
+        <p class="mt-6 text-center text-sm text-text-secondary">
+          No account yet?
+          <a href="{{ url_for('auth.register') }}" class="text-primary-500 hover:underline focus-ring">Create one</a>
+        </p>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 {% endblock %}

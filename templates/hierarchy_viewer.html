@@ -1,30 +1,171 @@
 {% extends "base.html" %}
+{% from 'macros/components.html' import input, button %}
+
 {% block title %}{{ diagram_name.replace('.json', '') }} - Hierarchy Viewer | Rules Central{% endblock %}
 {% block body_attrs %}data-root-name="{{ root_name }}" data-diagram-name="{{ diagram_name }}"{% endblock %}
+
 {% block head %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/themes/dark.css"
-/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
-{% block hero_title %}Hierarchy Viewer{% endblock %}
-{% block hero_subtitle %}Explore relationships in {{ diagram_name.replace('.json', '') }}{% endblock %}
+
+{% block hero_title %}
+  <h1 class="text-4xl md:text-5xl font-bold text-text tracking-tight text-balance">Hierarchy Viewer</h1>
+{% endblock %}
+
+{% block hero_subtitle %}
+  <p class="mt-4 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto text-pretty">
+    Explore relationships in {{ diagram_name.replace('.json', '') }}
+  </p>
+{% endblock %}
+
 {% block content %}
-<div class="u-section sm:px-6 py-6 flex-grow">
-  {% include 'partials/hierarchy_viewer_body.html' %}
-</div>
+  <section class="u-section py-8">
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Left Panel: Rule Tree -->
+      <div class="lg:w-1/3 card card--glass p-6 glassmorphism">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-text">Rule Tree</h2>
+          <span class="text-sm text-text-secondary" id="node-count">0 nodes</span>
+        </div>
+        <div class="mb-4">
+          <div class="input focus-ring">
+            {{ input('tree-search', 'text', 'Search nodes...') }}
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-sm text-text-secondary mb-4">
+          <span>0 / 0</span>
+          <div class="flex gap-2">
+            {{ button('Expand', variant='secondary', type='button', classes='text-xs px-3 py-1') }}
+            {{ button('Collapse', variant='secondary', type='button', classes='text-xs px-3 py-1') }}
+          </div>
+        </div>
+        <div id="rule-tree" class="h-96 overflow-auto" data-tree-container>
+          <!-- Tree nodes rendered by hierarchy_viewer.js -->
+          <p class="text-text-secondary text-center">Loading tree...</p>
+        </div>
+      </div>
+
+      <!-- Right Panel: Node Details -->
+      <div class="lg:w-2/3 card card--glass p-6 glassmorphism">
+        <div class="flex items-center gap-4 mb-6 border-b border-border/50">
+          {% for tab in ['Overview', 'Attributes', 'Relations', 'Raw JSON'] %}
+            <button 
+              class="pb-2 text-text-secondary hover:text-primary-500 focus-ring transition-colors
+              {% if tab == 'Overview' %}text-primary-500 border-b-2 border-primary-500{% endif %}"
+              data-tab="{{ tab|lower|replace(' ', '-') }}"
+              aria-selected="{% if tab == 'Overview' %}true{% else %}false{% endif %}"
+              role="tab"
+            >
+              {{ tab }}
+            </button>
+          {% endfor %}
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content" role="tabpanel" aria-labelledby="overview-tab">
+          <p class="text-text-secondary mb-4">Select a node to see its details.</p>
+          <div class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm text-text-secondary">Rule Name</label>
+                <p class="text-text font-medium" id="node-name">--</p>
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary">Function</label>
+                <p class="text-text font-medium" id="node-function">--</p>
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary">Depth</label>
+                <p class="text-text font-medium" id="node-depth">--</p>
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary">Children</label>
+                <p class="text-text font-medium" id="node-children">--</p>
+              </div>
+            </div>
+            <div>
+              <label class="text-sm text-text-secondary">Description</label>
+              <p class="text-text text-pretty" id="node-description">--</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attributes Tab -->
+        <div id="attributes" class="tab-content hidden" role="tabpanel" aria-labelledby="attributes-tab">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="text-text-secondary">
+                <th class="p-2">Key</th>
+                <th class="p-2">Value</th>
+              </tr>
+            </thead>
+            <tbody id="node-attributes">
+              <tr>
+                <td class="p-2 text-text-secondary" colspan="2">Select a node to view attributes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Relations Tab -->
+        <div id="relations" class="tab-content hidden" role="tabpanel" aria-labelledby="relations-tab">
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm text-text-secondary">Parent</label>
+              <p class="text-text font-medium" id="node-parent">--</p>
+            </div>
+            <div>
+              <label class="text-sm text-text-secondary">Children</label>
+              <p class="text-text font-medium" id="node-children-relations">--</p>
+            </div>
+            <div>
+              <label class="text-sm text-text-secondary">Siblings</label>
+              <p class="text-text font-medium" id="node-siblings">--</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Raw JSON Tab -->
+        <div id="raw-json" class="tab-content hidden" role="tabpanel" aria-labelledby="raw-json-tab">
+          <pre class="bg-bg-surface p-4 rounded-lg text-sm text-text-secondary overflow-auto" id="node-json">
+            ← Select a node to view JSON
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zoom Controls -->
+    <div class="fixed bottom-4 right-4 flex gap-2">
+      {{ button('Zoom In', variant='secondary', type='button', classes='text-xs px-3 py-1 animate-float') }}
+      {{ button('Zoom Out', variant='secondary', type='button', classes='text-xs px-3 py-1 animate-float') }}
+      {{ button('Reset', variant='secondary', type='button', classes='text-xs px-3 py-1 animate-float') }}
+    </div>
+  </section>
 {% endblock %}
+
 {% block scripts %}
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"
-></script>
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/shoelace.js"
-></script>
-<script
-  type="module"
-  src="{{ url_for('static', filename='js/hierarchy_viewer.js') }}"
-></script>
+  {{ super() }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="/static/js/hierarchy_viewer.js" defer></script>
+  <script>
+    // Tab switching logic (until hierarchy_viewer.js handles it)
+    document.querySelectorAll('[data-tab]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-tab]').forEach(btn => {
+          btn.classList.remove('text-primary-500', 'border-b-2', 'border-primary-500');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        button.classList.add('text-primary-500', 'border-b-2', 'border-primary-500');
+        button.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.add('hidden');
+          content.setAttribute('aria-hidden', 'true');
+        });
+        document.getElementById(button.dataset.tab).classList.remove('hidden');
+        document.getElementById(button.dataset.tab).setAttribute('aria-hidden', 'false');
+      });
+    });
+  </script>
 {% endblock %}

@@ -1,29 +1,134 @@
+```css
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
 @layer components {
+  .nav-header {
+    @apply sticky top-0 z-50 px-6 py-4 bg-bg-overlay/5 backdrop-blur-2xl border-b border-white/10 lg:hidden;
+  }
+
   .nav-link {
-    @apply relative px-4 py-2 text-text-secondary hover:text-primary-500 transition-colors;
-    
-    &::after {
-      @apply content-[''] absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary-500 transition-all duration-300 -translate-x-1/2;
-    }
-    
-    &:hover::after {
-      @apply w-full;
-    }
-    
-    &.active {
-      @apply text-primary-500;
-    }
+    @apply relative px-4 py-2 text-white/70 hover:text-primary-gradientStart transition-all duration-200 rounded-lg hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-600/50 focus:ring-offset-2 focus:ring-offset-background-darkStart;
+  }
+
+  .nav-link.active {
+    @apply text-primary-gradientStart bg-white/10;
+  }
+
+  .nav-link::after {
+    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary-gradientStart transition-all duration-300 transform -translate-x-1/2;
+    content: "";
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+
+  .dropdown-item {
+    @apply flex items-center px-4 py-3 text-white/70 hover:bg-white/10 hover:text-primary-gradientStart transition-all duration-200 focus:outline-none focus:bg-white/10;
   }
 
   .mobile-nav-link {
-    @apply block px-4 py-2 text-text-secondary hover:text-primary-500 transition-colors rounded;
-
-    &.active {
-      @apply text-primary-500;
-    }
+    @apply flex items-center space-x-3 px-4 py-3 text-white/70 hover:text-primary-gradientStart hover:bg-white/10 transition-colors rounded focus:outline-none focus:ring-2 focus:ring-primary-600/50;
   }
-  
-  .mobile-nav {
-    @apply fixed inset-0 bg-bg-overlay backdrop-blur-md z-50;
+
+  .mobile-nav-link.active {
+    @apply text-primary-gradientStart bg-white/10;
+  }
+
+  .sidebar {
+    @apply fixed left-0 top-0 h-screen w-64 bg-black/30 backdrop-blur-2xl border-r border-white/10 z-[100] transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0;
+  }
+
+  .sidebar.open {
+    @apply translate-x-0;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 hover:text-primary-gradientStart transition-colors;
+  }
+
+  .sidebar-link.active {
+    @apply bg-white/10 text-primary-gradientStart;
+  }
+
+  .main-content {
+    @apply transition-margin duration-300 lg:ml-64;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd text-white hover:transform hover:-translate-y-1 hover:shadow-glow;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:transform hover:-translate-y-1;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-danger-gradientStart to-danger-gradientEnd text-white hover:transform hover:-translate-y-1 hover:shadow-glow;
+  }
+
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .status-active {
+    @apply bg-status-active/20 text-status-active border border-status-active/30;
+  }
+
+  .status-draft {
+    @apply bg-status-draft/20 text-status-draft border border-status-draft/30;
+  }
+
+  .status-archived {
+    @apply bg-status-archived/20 text-status-archived border border-status-archived/30;
+  }
+
+  .progress-bar {
+    @apply bg-white/10 rounded-full h-1.5 overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd h-full rounded-full transition-width duration-600;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-glow;
+  }
+
+  .glow-effect::before {
+    @apply absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-r from-transparent via-white/10 to-transparent transform rotate-45 transition-all duration-500 opacity-0;
+    content: "";
+  }
+
+  .glow-effect:hover::before {
+    @apply opacity-100 translate-x-1/2 translate-y-1/2;
   }
 }
+
+@layer utilities {
+  .glassmorphism {
+    @apply bg-white/5 backdrop-blur-2xl border border-white/10 shadow-glow;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd bg-clip-text text-transparent;
+  }
+
+  .float-animation {
+    @apply animate-float;
+  }
+
+  .pulse-glow {
+    @apply animate-pulse-glow;
+  }
+
+  .chart-container {
+    @apply bg-white/3 rounded-2xl p-5 border border-white/10;
+  }
+}
+```
