@@ -21,7 +21,7 @@ Upload diagrams, explore rule hierarchies and collaborate with your team all in 
 - **API utility** for testing rules
 - **About** page with version info and documentation links
 - **Clean typography** using custom fonts
-- **Help center** with full documentation
+- **In‑app help overlay** (press `Shift+/`)
 - **Contact page** for sending feedback
 
 ## Requirements
@@ -54,6 +54,7 @@ python app.py
 ```
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 Visit [/about](http://127.0.0.1:8080/about) for version info and links.
+Press `Shift+/` at any time to open the built‑in help overlay.
 
 ## Running Tests
 Run the unit tests with:
@@ -68,6 +69,13 @@ Set the ``CONFIG_PATH`` environment variable to load an alternative
 ```bash
 export CONFIG_PATH=/path/to/config.json
 ```
+
+Additional environment variables:
+
+- `SECRET_KEY` – override the generated secret key
+- `UPLOAD_FOLDER` – directory for uploaded files
+- `DIAGRAMS_FOLDER` – directory for generated diagrams
+- `PORT` – port for `wsgi.py` when run directly
 
 ## Project structure
 - `app.py` – application factory
@@ -90,6 +98,7 @@ The site will be available at http://127.0.0.1:8080.
 ## Documentation
 
 Full usage guides and API references are available at [http://127.0.0.1:8080/full-help](http://127.0.0.1:8080/full-help).
+For quick tips while browsing the site press `Shift+/` to open the help menu.
 
 ## License
 This project is provided as‑is without warranty.

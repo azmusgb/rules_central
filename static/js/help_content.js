@@ -37,7 +37,8 @@ const HelpSystem = {
             "Drag-and-drop JSON files directly onto the upload page",
             "Bookmark frequently used diagrams for quick access",
             "Customize diagram colors in the Theme Manager",
-            "Use Ctrl+F to search within diagram viewers"
+            "Use Ctrl+F to search within diagram viewers",
+            "Press <kbd>Shift</kbd>+<kbd>/</kbd> for contextual help"
           ]
         }
       ]
@@ -57,6 +58,9 @@ const HelpSystem = {
             </p>
             <p class="text-sm text-slate-300">
               See the <a href="/faq" class="text-primary-400 hover:underline">FAQ</a> for answers to common questions.
+            </p>
+            <p class="text-sm text-slate-300">
+              Press <kbd>Shift</kbd> + <kbd>/</kbd> to open this window at any time.
             </p>
             <p class="text-sm text-slate-300">
               Need assistance? Email <a href="mailto:support@rulescentral.com" class="text-primary-400 hover:underline">support@rulescentral.com</a>.
