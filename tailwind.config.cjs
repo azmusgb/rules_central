@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#FF5E62',
+          500: '#FF5E62',
           600: '#FF5E62',
           700: '#E04E4D',
           gradientStart: '#FF5E62',
@@ -35,7 +36,15 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['\'SF Pro\'', 'Inter', 'system-ui', 'sans-serif']
+        sans: [
+          '\'SF Pro\'',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif'
+        ]
       },
       boxShadow: {
         soft: '0 2px 8px rgb(0 0 0 / 0.08)',
