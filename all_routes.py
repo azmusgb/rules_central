@@ -376,7 +376,10 @@ def serve_diagram_file(root_name, diagram_name):
 def index():
     """Main application index"""
     return render_template(
-        "index.html", material=current_app.config.get("MATERIAL"), help_available=True
+        "index.html",
+        material=current_app.config.get("MATERIAL"),
+        help_available=True,
+        charts={"rules": {}},  # prevent UndefinedError in dashboard template
     )
 
 

@@ -1,69 +1,89 @@
 {% from 'macros/nav_links.html' import render_nav_links %}
 
 <header id="site-header" 
-        class="site-header" 
+        class="site-header fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-sm z-40 transition-all duration-300"
+        :class="{ 'shadow-md': isScrolled }"
         x-data="{ mobileMenuOpen: false, userMenuOpen: false }" 
         x-cloak>
   
-  <div class="header-container">
+  <div class="header-container container mx-auto px-4 py-3 flex items-center justify-between">
     <!-- Logo -->
-    <a href="{{ url_for('main.index') }}" class="logo">
-      <img src="/static/logo.svg" alt="Rules Central Logo" class="logo-img">
-      <span class="logo-text">Rules Central</span>
+    <a href="{{ url_for('routes.index') }}" class="logo flex items-center gap-2">
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Rules Central Logo" class="logo-img h-8 w-auto">
+      <span class="logo-text text-xl font-bold text-gray-800 dark:text-white">Rules Central</span>
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="desktop-nav">
-      {{ render_nav_links(nav_items) }}
+    <nav class="desktop-nav hidden md:block">
+      {{ render_nav_links([
+        {'url': url_for('routes.index'), 'text': 'Home'},
+        {'url': url_for('routes.catalog'), 'text': 'Catalog'},
+        {'url': url_for('routes.search'), 'text': 'Search'},
+        {'url': url_for('routes.analytics'), 'text': 'Analytics'},
+        {'url': url_for('routes.about'), 'text': 'About'}
+      ])}}
     </nav>
 
     <!-- User Controls -->
-    <div class="user-controls">
+    <div class="user-controls flex items-center gap-4">
       <!-- Theme Toggle -->
-      <button class="theme-toggle" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
+      <button class="theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              @click="theme = theme === 'light' ? 'dark' : 'light'"
+              aria-label="Toggle theme">
+        <i class="fas" :class="theme === 'light' ? 'fa-moon' : 'fa-sun'"></i>
       </button>
 
       <!-- User Menu -->
-      <div class="user-menu-container">
-        <button class="user-menu-button"
+      <div class="user-menu-container relative">
+        <button class="user-menu-button flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 @click="userMenuOpen = !userMenuOpen"
                 aria-label="User menu"
                 :aria-expanded="userMenuOpen">
-          <i class="fas fa-user-circle"></i>
-          <span class="user-name">User Name</span>
+          <i class="fas fa-user-circle text-xl text-gray-600 dark:text-gray-300"></i>
+          <span class="user-name hidden md:inline text-gray-700 dark:text-gray-200">User</span>
         </button>
         
-        <div class="user-menu-dropdown" 
+        <div class="user-menu-dropdown absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-100 dark:border-gray-700"
              x-show="userMenuOpen"
-             @click.outside="userMenuOpen = false">
-          <div class="user-info">
-            <p class="user-name">User Name</p>
-            <p class="user-role">Admin</p>
+             @click.outside="userMenuOpen = false"
+             x-transition>
+          <div class="user-info px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+            <p class="user-name font-medium text-gray-800 dark:text-white">User Name</p>
+            <p class="user-role text-sm text-gray-500 dark:text-gray-400">Admin</p>
           </div>
-          <a href="{{ url_for('auth.login') }}" class="user-menu-item">
-            Sign in
+          <a href="{{ url_for('routes.profile') }}" class="user-menu-item block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+            Profile
+          </a>
+          <a href="{{ url_for('auth.logout') }}" class="user-menu-item block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+            Sign out
           </a>
         </div>
       </div>
 
       <!-- Mobile Menu Toggle -->
-      <button class="mobile-menu-toggle"
+      <button class="mobile-menu-toggle md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               @click="mobileMenuOpen = !mobileMenuOpen"
               aria-label="Toggle mobile menu"
               :aria-expanded="mobileMenuOpen">
-        <i x-show="!mobileMenuOpen" class="fas fa-bars"></i>
-        <i x-show="mobileMenuOpen" class="fas fa-times"></i>
+        <i x-show="!mobileMenuOpen" class="fas fa-bars text-xl"></i>
+        <i x-show="mobileMenuOpen" class="fas fa-times text-xl"></i>
       </button>
     </div>
   </div>
 
   <!-- Mobile Navigation -->
-  <nav class="mobile-nav" 
+  <nav class="mobile-nav md:hidden bg-white dark:bg-gray-900 shadow-lg fixed top-16 left-0 right-0 z-40 overflow-y-auto max-h-[calc(100vh-4rem)]"
        x-show="mobileMenuOpen"
-       @click.outside="mobileMenuOpen = false">
-    <div class="mobile-nav-content">
-      {{ render_nav_links(nav_items, is_mobile=true) }}
+       @click.outside="mobileMenuOpen = false"
+       x-transition>
+    <div class="mobile-nav-content container mx-auto px-4 py-3">
+      {{ render_nav_links([
+        {'url': url_for('routes.index'), 'text': 'Home'},
+        {'url': url_for('routes.catalog'), 'text': 'Catalog'},
+        {'url': url_for('routes.search'), 'text': 'Search'},
+        {'url': url_for('routes.analytics'), 'text': 'Analytics'},
+        {'url': url_for('routes.about'), 'text': 'About'}
+      ], is_mobile=true)}}
     </div>
   </nav>
 </header>

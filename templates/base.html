@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en" x-data="{theme: localStorage.theme || 'bear', showToast: false, toastMsg: ''}" 
-      :class="{dark: theme==='dark'}" 
-      data-theme="bear" 
+<html lang="en" x-data="{theme: localStorage.theme || 'light', showToast: false, toastMsg: ''}" 
+      :class="{'dark': theme==='dark'}" 
+      data-theme="light" 
       x-init="$watch('theme', t => {
         localStorage.theme = t;
         document.documentElement.setAttribute('data-theme', t);
@@ -20,15 +20,15 @@
     <meta property="og:description" content="{% block og_description %}Transform business logic with AI-powered rules{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url if request else '' }}">
-    <meta property="og:image" content="{{ url_for('static', filename='images/RulesCentralLogo.png', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
     {% endblock %}
 
     <title>{% block title %}Rules Central{% endblock %}</title>
 
     <!-- Favicons -->
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any">
-    <link rel="icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
     <!-- Preload Critical Resources -->
@@ -60,12 +60,13 @@
 
     <!-- Progress Bar -->
     <div id="scroll-progress"
-         class="progress-bar"
-         :class="{ 'opacity-0': !isScrolled }"></div>
+         class="fixed top-0 left-0 h-1 bg-primary-500 z-50 transition-opacity duration-300"
+         :class="{ 'opacity-0': !isScrolled }"
+         style="width: var(--scroll-percentage, 0%)"></div>
 
     {% include 'partials/header.html' %}
     
-    <!-- Hero Section (now only includes hero_bg.html) -->
+    <!-- Hero Section -->
     {% if self.hero_title() or self.hero_subtitle() %}
       {% include 'partials/hero_bg.html' %}
     {% endif %}
@@ -78,7 +79,7 @@
     
     <!-- Toast Notification -->
     <div x-show="showToast" x-transition.opacity 
-         class="toast-notification" 
+         class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50" 
          @click="showToast=false" 
          x-text="toastMsg" 
          x-cloak></div>

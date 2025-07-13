@@ -1,33 +1,128 @@
 {% extends 'base.html' %}
 {% from 'macros/components.html' import card %}
-{% block title %}Dashboard{% endblock %}
+
+{% block title %}Dashboard - Rules Central{% endblock %}
+
 {% block hero_title %}Dashboard{% endblock %}
-{% block hero_subtitle %}A high level overview of activity and system health.{% endblock %}
+{% block hero_subtitle %}A high level overview of activity and system health{% endblock %}
+
 {% block content %}
-<div class="u-section py-12">
-<h1 class="sr-only">Dashboard</h1>
-<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
-  {{ card('Rules', '<p class="text-2xl font-bold">' ~ (metrics.rules|default(0)) ~ '</p>') }}
-  {{ card('Users', '<p class="text-2xl font-bold">' ~ (metrics.users|default(0)) ~ '</p>') }}
-  {{ card('Uploads', '<p class="text-2xl font-bold">' ~ (metrics.uploads|default(0)) ~ '</p>') }}
-  {{ card('Errors', '<p class="text-2xl font-bold">' ~ (metrics.errors|default(0)) ~ '</p>') }}
-</div>
-<div class="grid gap-6 lg:grid-cols-2">
-  <div class="card--glass glassmorphism p-6 rounded-2xl">
-    <canvas id="chart-rules" class="w-full h-64"></canvas>
+<div class="container mx-auto px-4 py-12">
+  <h1 class="sr-only">Dashboard</h1>
+  
+  <!-- Stats Grid -->
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+    {{ card(
+      title='Rules',
+      content='<p class="text-2xl font-bold text-primary-600 dark:text-primary-400">' ~ (metrics.rules|default(0)|number_format) ~ '</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Total rules in system</p>',
+      icon='fa-diagram-project',
+      class='hover:shadow-lg transition-shadow'
+    ) }}
+    
+    {{ card(
+      title='Users',
+      content='<p class="text-2xl font-bold text-primary-600 dark:text-primary-400">' ~ (metrics.users|default(0)|number_format) ~ '</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Active users</p>',
+      icon='fa-users',
+      class='hover:shadow-lg transition-shadow'
+    ) }}
+    
+    {{ card(
+      title='Uploads',
+      content='<p class="text-2xl font-bold text-primary-600 dark:text-primary-400">' ~ (metrics.uploads|default(0)|number_format) ~ '</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">This month</p>',
+      icon='fa-cloud-arrow-up',
+      class='hover:shadow-lg transition-shadow'
+    ) }}
+    
+    {{ card(
+      title='Errors',
+      content='<p class="text-2xl font-bold text-primary-600 dark:text-primary-400">' ~ (metrics.errors|default(0)|number_format) ~ '</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Last 7 days</p>',
+      icon='fa-triangle-exclamation',
+      class='hover:shadow-lg transition-shadow'
+    ) }}
   </div>
-  <div class="card--glass glassmorphism p-6 rounded-2xl">
-    <canvas id="chart-uploads" class="w-full h-64"></canvas>
+
+  <!-- Charts Section -->
+  <div class="grid gap-6 lg:grid-cols-2 mb-8">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Rules Activity</h2>
+      <canvas id="chart-rules" class="w-full h-64"></canvas>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Uploads History</h2>
+      <canvas id="chart-uploads" class="w-full h-64"></canvas>
+    </div>
   </div>
-</div>
+
+  <!-- Recent Activity -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Recent Activity</h2>
+      <a href="{{ url_for('routes.activity') }}" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+        View all
+      </a>
+    </div>
+    <div class="space-y-4">
+      {% for activity in recent_activities %}
+      <div class="flex items-start gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+        <div class="bg-primary-100 dark:bg-primary-900/50 p-2 rounded-full">
+          <i class="fas {{ activity.icon }} text-primary-600 dark:text-primary-400"></i>
+        </div>
+        <div>
+          <p class="font-medium text-gray-800 dark:text-white">{{ activity.title }}</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ activity.time }} {% if activity.user %}• by {{ activity.user }}{% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}
+
 {% block scripts %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx1 = document.getElementById('chart-rules');
-    if(ctx1){ new Chart(ctx1,{type:'line',data:{{ charts.rules|default({})|tojson }} }); }
-    const ctx2 = document.getElementById('chart-uploads');
-    if(ctx2){ new Chart(ctx2,{type:'bar',data:{{ charts.uploads|default({})|tojson }} }); }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Rules Chart
+      const ctx1 = document.getElementById('chart-rules');
+      if(ctx1) {
+        new Chart(ctx1, {
+          type: 'line',
+          data: {{ charts.rules|default({})|tojson }},
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      // Uploads Chart
+      const ctx2 = document.getElementById('chart-uploads');
+      if(ctx2) {
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {{ charts.uploads|default({})|tojson }},
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' }
+            }
+          }
+        });
+      }
+    });
   </script>
 {% endblock %}
