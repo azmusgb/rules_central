@@ -2,6 +2,7 @@
 
 Rules Central is a Flask web application for managing and visualizing rule sets.
 Upload diagrams, explore rule hierarchies and collaborate with your team all in one place.
+The interface now defaults to a **Bear-inspired theme** for a streamlined, cohesive macOS-native experience.
 
 ## Table of Contents
 - [Features](#features)
@@ -20,7 +21,7 @@ Upload diagrams, explore rule hierarchies and collaborate with your team all in 
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
-- **Clean typography** using custom fonts
+- **Streamlined typography** using system fonts for a cohesive, native Bear-like experience
 - **In‑app help overlay** (press `Shift+/`)
 - **Contact page** for sending feedback
 
