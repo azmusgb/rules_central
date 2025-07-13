@@ -95,7 +95,7 @@
       
       // Close menu when clicking outside or on links
       const closeOnClickOutside = (e) => {
-        if (!menu.contains(e.target) {
+        if (!menu.contains(e.target)) {
           menuBtn.setAttribute('aria-expanded', 'false');
           menu.classList.add('hidden');
           document.body.style.overflow = '';

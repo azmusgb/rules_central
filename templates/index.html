@@ -1,55 +1,43 @@
 {% extends "base.html" %}
 
-
 {% block title %}Dashboard | Rules Central{% endblock %}
 
-{% block head %}
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-{% endblock %}
-
 {% block hero_title %}
-  <h1 class="text-4xl md:text-5xl font-bold text-primary-600">Rules Central</h1>
+  <h1 class="hero-title">Rules Central</h1>
 {% endblock %}
 
 {% block hero_subtitle %}
-  <p class="mt-4 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto text-pretty">
-    Inspired by the clean aesthetic of Bear Notes, manage your rules with focus and clarity.
+  <p class="hero-subtitle">
+    AI-powered rules engine for business automation
   </p>
 {% endblock %}
 
 {% block content %}
-  <div class="px-6 py-12 space-y-12">
-    <!-- Stats Section -->
-    <section class="mb-12" role="region" aria-labelledby="stats-heading">
-      <h2 class="sr-only" id="stats-heading">Dashboard Statistics</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {% set stats = [
-          {"title": "Active Rules", "value": "1,234", "icon": "fa-file-alt", "color": "blue", "trend": "+12%", "progress": 78},
-          {"title": "Active Users", "value": "567", "icon": "fa-users", "color": "purple", "trend": "+8%", "progress": 65},
-          {"title": "Rules Executions", "value": "42.8k", "icon": "fa-bolt", "color": "emerald", "trend": "+24%", "progress": 92},
-          {"title": "System Uptime", "value": "99.9%", "icon": "fa-check-circle", "color": "green", "trend": "Operational", "progress": 100}
-        ] %}
+  <div class="dashboard">
+    <!-- Stats Cards -->
+    <section class="dashboard-section">
+      <h2 class="sr-only">Dashboard Statistics</h2>
+      <div class="stats-grid">
         {% for stat in stats %}
-          <div class="card--glass glassmorphism card-hover glow-effect p-6 rounded-2xl">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-semibold text-white">{{ stat.title }}</h3>
-              <div class="w-12 h-12 bg-{{ stat.color }}-500/20 rounded-full flex items-center justify-center float-animation">
-                <i class="fas {{ stat.icon }} text-{{ stat.color }}-400 text-xl"></i>
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3 class="stat-title">{{ stat.title }}</h3>
+              <div class="stat-icon">
+                <i class="fas {{ stat.icon }}"></i>
               </div>
             </div>
-            <div class="text-3xl font-bold text-white mb-2">{{ stat.value }}</div>
-            <div class="flex items-center gap-2 text-sm text-green-400">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-trend">
               {% if '+' in stat.trend %}
-                <i class="fas fa-arrow-up"></i>
+                <i class="fas fa-arrow-up trend-up"></i>
               {% elif stat.trend == 'Operational' %}
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-check-circle trend-steady"></i>
               {% endif %}
-              <span>{{ stat.trend }} {% if '+' in stat.trend %}from last month{% endif %}</span>
+              <span>{{ stat.trend }}</span>
             </div>
             {% if stat.progress < 100 %}
-              <div class="progress-bar mt-4" role="progressbar" aria-valuenow="{{ stat.progress }}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-fill" style="width: {{ stat.progress }}%"></div>
+              <div class="stat-progress">
+                <div class="progress-bar" style="width: {{ stat.progress }}%"></div>
               </div>
             {% endif %}
           </div>
@@ -57,55 +45,44 @@
       </div>
     </section>
 
-    <!-- Quick Actions Section -->
-    <section class="mb-12" role="region" aria-labelledby="actions-heading">
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <h2 class="text-xl font-semibold text-white mb-6" id="actions-heading">Quick Actions</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {% set quick_actions = [
-            {"icon": "fa-plus", "color": "blue", "label": "New Rule", "endpoint": "routes.new_rule"},
-            {"icon": "fa-copy", "color": "purple", "label": "Templates", "endpoint": "routes.templates"},
-            {"icon": "fa-chart-pie", "color": "emerald", "label": "Analytics", "endpoint": "routes.analytics"},
-            {"icon": "fa-cog", "color": "orange", "label": "Settings", "endpoint": "user_routes.user_settings"},
-            {"icon": "fa-user-shield", "color": "red", "label": "Admin", "endpoint": "routes.admin"},
-            {"icon": "fa-question-circle", "color": "yellow", "label": "Help", "endpoint": "routes.faq_page"}
-          ] %}
+    <!-- Quick Actions -->
+    <section class="dashboard-section">
+      <div class="card">
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="actions-grid">
           {% for action in quick_actions %}
-            <a href="{{ url_for(action.endpoint) }}"
-               class="{{ 'btn btn-primary' if loop.first else 'btn btn-secondary' }} flex flex-col items-center gap-2 py-4 rounded-xl"
-               aria-label="{{ action.label }}">
-              <i class="fas {{ action.icon }} text-2xl text-{{ action.color }}-400"></i>
-              <span>{{ action.label }}</span>
+            <a href="{{ url_for(action.endpoint) }}" class="action-card">
+              <div class="action-icon">
+                <i class="fas {{ action.icon }}"></i>
+              </div>
+              <span class="action-label">{{ action.label }}</span>
             </a>
           {% endfor %}
         </div>
       </div>
     </section>
 
-    <!-- Recent Activity Section -->
-    <section class="mb-12" role="region" aria-labelledby="activity-heading">
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-white" id="activity-heading">Recent Activity</h2>
-          <a href="{{ url_for('routes.activity') }}" class="text-blue-400 hover:text-blue-300 transition-colors focus-ring">View all</a>
+    <!-- Recent Activity -->
+    <section class="dashboard-section">
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">Recent Activity</h2>
+          <a href="{{ url_for('routes.activity') }}" class="view-all">
+            View all
+          </a>
         </div>
-        <div class="space-y-4">
-          {% set activities = [
-            {"icon": "fa-plus", "color": "blue", "title": "New rule \"Payment Validation\" created", "time": "2 minutes ago", "user": "Jane Cooper"},
-            {"icon": "fa-check", "color": "green", "title": "Rule execution completed successfully", "time": "5 minutes ago", "user": "System"},
-            {"icon": "fa-user-plus", "color": "purple", "title": "New user \"john.doe@company.com\" joined", "time": "15 minutes ago", "user": "Admin"}
-          ] %}
+        <div class="activity-feed">
           {% for activity in activities %}
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-{{ activity.color }}-500/20 rounded-full flex items-center justify-center flex-shrink-0 float-animation">
-                <i class="fas {{ activity.icon }} text-{{ activity.color }}-400"></i>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas {{ activity.icon }}"></i>
               </div>
-              <div>
-                <p class="text-white text-pretty">{{ activity.title }}</p>
-                <p class="text-sm text-white/60">
+              <div class="activity-details">
+                <p class="activity-title">{{ activity.title }}</p>
+                <p class="activity-meta">
                   {{ activity.time }}
                   {% if activity.user != "System" %}
-                    <span class="font-medium">by {{ activity.user }}</span>
+                    <span>by {{ activity.user }}</span>
                   {% endif %}
                 </p>
               </div>
@@ -115,151 +92,20 @@
       </div>
     </section>
 
-    <!-- Rules Overview Section -->
-    <section class="mb-12" role="region" aria-labelledby="overview-heading">
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-white" id="overview-heading">Rules Overview</h2>
-          <div class="flex items-center gap-4">
-            <div x-data="{ activePeriod: '7 days' }" class="flex gap-2">
-              {% for period in ['7 days', '30 days', '90 days'] %}
-                <button 
-                  class="btn btn-secondary text-sm" 
-                  x-on:click="activePeriod = '{{ period }}'"
-                  :class="{ 'bg-white/20 text-blue-400': activePeriod === '{{ period }}' }"
-                  aria-label="Show data for {{ period }}"
-                >
-                  {{ period }}
-                </button>
-              {% endfor %}
-            </div>
-            <button type="button" class="btn btn-primary">Export</button>
+    <!-- Rules Overview -->
+    <section class="dashboard-section">
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">Rules Overview</h2>
+          <div class="time-filters">
+            {% for period in ['7 days', '30 days', '90 days'] %}
+              <button class="time-filter">{{ period }}</button>
+            {% endfor %}
           </div>
+          <button class="export-btn">Export</button>
         </div>
         <div class="chart-container">
-          ```chartjs
-          {
-            "type": "line",
-            "data": {
-              "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-              "datasets": [
-                {
-                  "label": "Rule Executions",
-                  "data": [1200, 1900, 1500, 2200, 1800, 2500],
-                  "borderColor": "#667eea",
-                  "backgroundColor": "rgba(102, 126, 234, 0.3)",
-                  "fill": true,
-                  "tension": 0.4,
-                  "pointBackgroundColor": "#667eea",
-                  "pointBorderColor": "#ffffff",
-                  "pointBorderWidth": 2,
-                  "pointRadius": 6
-                },
-                {
-                  "label": "Active Rules",
-                  "data": [800, 1000, 900, 1200, 1100, 1300],
-                  "borderColor": "#22c55e",
-                  "backgroundColor": "rgba(34, 197, 94, 0.3)",
-                  "fill": true,
-                  "tension": 0.4,
-                  "pointBackgroundColor": "#22c55e",
-                  "pointBorderColor": "#ffffff",
-                  "pointBorderWidth": 2,
-                  "pointRadius": 6
-                }
-              ]
-            },
-            "options": {
-              "responsive": true,
-              "maintainAspectRatio": false,
-              "plugins": {
-                "legend": {
-                  "position": "top",
-                  "labels": { "color": "#ffffff", "font": { "size": 14 } }
-                }
-              },
-              "scales": {
-                "x": {
-                  "ticks": { "color": "#ffffff80" },
-                  "grid": { "color": "rgba(255, 255, 255, 0.1)" }
-                },
-                "y": {
-                  "ticks": { "color": "#ffffff80" },
-                  "grid": { "color": "rgba(255, 255, 255, 0.1)" }
-                }
-              }
-            }
-          }
-          ```
-        </div>
-      </div>
-    </section>
-
-    <!-- Recently Modified Rules Section -->
-    <section class="mb-12" role="region" aria-labelledby="rules-heading">
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-white" id="rules-heading">Recently Modified Rules</h2>
-          <a href="{{ url_for('routes.rules') }}" class="text-blue-400 hover:text-blue-300 transition-colors focus-ring">View all</a>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead>
-              <tr class="text-white/60 border-b border-white/10">
-                <th class="text-left p-4">Rule Name</th>
-                <th class="text-left p-4">Category</th>
-                <th class="text-left p-4">Last Modified</th>
-                <th class="text-left p-4">Status</th>
-                <th class="text-left p-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set rules = [
-                {"name": "Payment Validation", "category": "Finance", "modified": "2 mins ago", "status": "active", "user": "Jane Cooper", "icon": "fa-file-alt", "iconColor": "blue"},
-                {"name": "Fraud Detection", "category": "Security", "modified": "1 hour ago", "status": "active", "user": "Alex Morgan", "icon": "fa-shield-alt", "iconColor": "red"},
-                {"name": "User Authentication", "category": "Security", "modified": "3 hours ago", "status": "draft", "user": "Sam Wilson", "icon": "fa-user-lock", "iconColor": "purple"}
-              ] %}
-              {% for rule in rules %}
-                <tr class="table-row">
-                  <td class="p-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-8 h-8 bg-{{ rule.iconColor }}-500/20 rounded-lg flex items-center justify-center float-animation">
-                        <i class="fas {{ rule.icon }} text-{{ rule.iconColor }}-400"></i>
-                      </div>
-                      <div>
-                        <p class="font-medium text-white">{{ rule.name }}</p>
-                        <p class="text-sm text-white/60">by {{ rule.user }}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="p-4 text-white/80">{{ rule.category }}</td>
-                  <td class="p-4 text-white/80">{{ rule.modified }}</td>
-                  <td class="p-4">
-                    <span class="status-badge status-{{ rule.status }}">{{ rule.status }}</span>
-                  </td>
-                  <td class="p-4">
-                    <div class="flex gap-2">
-                      <button type="button"
-                              class="btn btn-secondary text-xs px-3 py-1"
-                              aria-label="Edit {{ rule.name }}">
-                        Edit
-                      </button>
-                      <button type="button"
-                              class="btn btn-danger text-xs px-3 py-1"
-                              aria-label="Delete {{ rule.name }}">
-                        Delete
-                      </button>
-                      <button type="button"
-                              class="btn btn-secondary text-xs px-3 py-1"
-                              aria-label="View {{ rule.name }}">
-                        View
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <canvas id="rules-chart"></canvas>
         </div>
       </div>
     </section>
@@ -267,8 +113,26 @@
 {% endblock %}
 
 {% block scripts %}
-  {{ super() }}
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Initialize charts
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('rules-chart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'line',
+          data: {{ charts.rules|default({})|tojson }},
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top',
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
 {% endblock %}

@@ -1,5 +1,12 @@
 <!doctype html>
-<html lang="en" x-data="{theme: localStorage.theme || 'bear',showToast:false,toastMsg:''}" :class="{dark: theme==='dark'}" data-theme="bear" x-init="$watch('theme',t=>{localStorage.theme=t;document.documentElement.setAttribute('data-theme',t);})" class="scroll-smooth">
+<html lang="en" x-data="{theme: localStorage.theme || 'bear', showToast: false, toastMsg: ''}" 
+      :class="{dark: theme==='dark'}" 
+      data-theme="bear" 
+      x-init="$watch('theme', t => {
+        localStorage.theme = t;
+        document.documentElement.setAttribute('data-theme', t);
+      })" 
+      class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,23 +14,21 @@
     <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)">
     
-    {% block meta_description %}
-    <meta name="description" content="Rules Central: Your one-stop destination for rules and regulations.">
-    {% endblock %}
-    
-    <!-- Open Graph / Social Meta Tags -->
+    {% block meta %}
+    <meta name="description" content="Rules Central: AI-powered rules engine for business automation">
     <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Your one-stop destination for rules and regulations.{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Transform business logic with AI-powered rules{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url if request else '' }}">
     <meta property="og:image" content="{{ url_for('static', filename='images/RulesCentralLogo.png', _external=True) }}">
+    {% endblock %}
 
     <title>{% block title %}Rules Central{% endblock %}</title>
 
     <!-- Favicons -->
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any" loading="lazy">
-    <link rel="icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" type="image/png" loading="lazy">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" loading="lazy">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any">
+    <link rel="icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
     <!-- Preload Critical Resources -->
@@ -34,95 +39,52 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom-utilities.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
-          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+    {% block styles %}{% endblock %}
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
-            integrity="sha512-F2VS4G1zDb1p6n3pD2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h+JaK6iB4v8P1a2y6D2sM+3jZ3Tsh4h"
             crossorigin="anonymous"
             onerror="document.write('<script src="{{ url_for('static', filename='js/alpine.min.js') }}"><\/script>')"></script>
-
-    {% block head %}{% endblock %}
   </head>
   
-  {% with messages = get_flashed_messages(with_categories=true) %}
   <body class="bg-bg min-h-screen font-sans antialiased text-text selection:bg-primary-500/20 pt-[var(--header-height)]"
-        style="font-family: 'Inter', system-ui, -apple-system, sans-serif;"
-        {% if messages %}data-flashed-messages='{{ messages|tojson|safe }}'{% endif %}
         x-data="{ isScrolled: false }"
-        @scroll.window="isScrolled = window.scrollY > 50"
-  >
-    <!-- Skip to Content Link -->
-    <a href="#main-content" class="sr-only focus:not-sr-only fixed top-4 left-4 z-[100] bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded transition-all transform focus:scale-105">
+        @scroll.window="isScrolled = window.scrollY > 50">
+    
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-to-content">
       Skip to main content
     </a>
 
-    <!-- Progress Indicator -->
+    <!-- Progress Bar -->
     <div id="scroll-progress"
-         class="progress-bar progress-bar-thin fixed top-0 left-0 w-0 z-50 h-0.5 bg-primary-500 transition-all duration-300 ease-out"
+         class="progress-bar"
          :class="{ 'opacity-0': !isScrolled }"></div>
 
     {% include 'partials/header.html' %}
     
-    {% if self.hero_title().strip() or self.hero_subtitle().strip() %}
-    <section class="relative flex flex-col items-center justify-center text-center min-h-[40vh] py-12 px-4">
-      <div class="absolute inset-0 bg-black/30 z-0"></div>
+    <!-- Hero Section (now only includes hero_bg.html) -->
+    {% if self.hero_title() or self.hero_subtitle() %}
       {% include 'partials/hero_bg.html' %}
-      <div class="relative z-10 w-full u-section">
-        <h1 class="u-text-fluid u-text-balance font-extrabold mb-4 text-primary-500 lg:text-5xl mx-auto"
-            data-aos="fade-up">
-          {% block hero_title %}{% endblock %}
-        </h1>
-        {% if self.hero_subtitle().strip() %}
-        <p class="text-lg text-gray-400 max-w-2xl mx-auto u-text-balance"
-           data-aos="fade-up" data-aos-delay="100">
-          {% block hero_subtitle %}{% endblock %}
-        </p>
-        {% endif %}
-      </div>
-    </section>
     {% endif %}
 
-    <main id="main-content" 
-          class="u-container pt-8 px-4 md:px-8 min-h-[70vh] flex flex-col gap-10 scroll-mt-24"
-          role="main">
+    <main id="main-content" class="main-content">
       {% block content %}{% endblock %}
     </main>
 
     {% include 'partials/footer.html' %}
-    {% include 'help_system.html' %}
     
-    {% if show_back_to_top is not defined or show_back_to_top %}
-      {% include 'partials/back_to_top.html' %}
-    {% endif %}
-
     <!-- Toast Notification -->
-    <div x-show="showToast" x-transition.opacity class="fixed bottom-4 right-4 bg-dark-800 text-white px-4 py-3 rounded shadow-soft" role="status" aria-live="polite" @click="showToast=false" x-text="toastMsg" x-cloak x-init="setTimeout(() => showToast = false, 5000)"></div>
+    <div x-show="showToast" x-transition.opacity 
+         class="toast-notification" 
+         @click="showToast=false" 
+         x-text="toastMsg" 
+         x-cloak></div>
 
-    <!-- Scripts with nonce and defer -->
-    <script defer src="{{ url_for('static', filename='js/app-utils.js') }}" 
-            nonce="{{ g.nonce }}"></script>
-    <script defer src="{{ url_for('static', filename='js/app.js') }}" 
-            nonce="{{ g.nonce }}"></script>
-    <script defer src="{{ url_for('static', filename='js/help_content.js') }}" 
-            nonce="{{ g.nonce }}"></script>
-    
+    <!-- Scripts -->
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% block scripts %}{% endblock %}
-    
-    <!-- Performance Monitoring -->
-    <script defer nonce="{{ g.nonce }}">
-      window.addEventListener('load', function() {
-        if ('performance' in window) {
-          const timing = performance.timing;
-          const loadTime = timing.loadEventEnd - timing.navigationStart;
-          console.log('Page fully loaded in', loadTime + 'ms');
-        }
-      });
-    </script>
   </body>
-  {% endwith %}
 </html>
