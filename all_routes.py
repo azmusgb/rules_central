@@ -380,6 +380,13 @@ def index():
     )
 
 
+# Legacy route kept for backward compatibility. Redirects to the diagram catalog.
+@routes_bp.route("/rules")
+def rules():
+    """Legacy route kept for backward compatibility. Redirects to the diagram catalog."""
+    return redirect(url_for("routes.catalog"))
+
+
 @routes_bp.route("/rules/new", methods=["GET", "POST"])
 def new_rule():
     """Create a new business rule."""
