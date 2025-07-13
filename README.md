@@ -21,8 +21,6 @@ The interface now defaults to a **Bear-inspired theme** that mirrors the app's s
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
-- **Streamlined typography** with system fonts for a cohesive Bear-inspired look
-- **In‑app help overlay** (press `Shift+/`)
 - **Contact page** for sending feedback
 
 ## Requirements
