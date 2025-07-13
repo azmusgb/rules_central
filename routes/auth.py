@@ -43,3 +43,15 @@ def register():
     except Exception as exc:
         current_app.logger.error("Register route error: %s", exc)
         return jsonify(error="Registration failure"), 500
+
+
+@auth.route("/logout")
+def logout():
+    """Log the user out and redirect to the login page."""
+
+    try:
+        flash("Logged out successfully!", "success")
+        return redirect(url_for("auth.login"))
+    except Exception as exc:
+        current_app.logger.error("Logout route error: %s", exc)
+        return jsonify(error="Logout failure"), 500
