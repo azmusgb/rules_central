@@ -350,16 +350,5 @@
 {% endblock %}
 {% block scripts %}
   <script defer src="{{ url_for('static', filename='js/settings.min.js') }}?v=1.0.0"></script>
-  <script nonce="{{ g.nonce }}">
-    document.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fadeIn');
-          }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.card--glass').forEach(card => observer.observe(card));
-    });
-  </script>
+  <script defer src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}

@@ -81,48 +81,13 @@
       {% endfor %}
     </div>
   </div>
-</div>
-{% endblock %}
+  </div>
+  {% endblock %}
 
-{% block scripts %}
+  {% block scripts %}
+  <div id="dashboardChartsData" class="hidden"
+       data-rules='{{ charts.rules|default({})|tojson }}'
+       data-uploads='{{ charts.uploads|default({})|tojson }}'></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Rules Chart
-      const ctx1 = document.getElementById('chart-rules');
-      if(ctx1) {
-        new Chart(ctx1, {
-          type: 'line',
-          data: {{ charts.rules|default({})|tojson }},
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'top' },
-              tooltip: { mode: 'index', intersect: false }
-            },
-            scales: {
-              y: { beginAtZero: true }
-            }
-          }
-        });
-      }
-
-      // Uploads Chart
-      const ctx2 = document.getElementById('chart-uploads');
-      if(ctx2) {
-        new Chart(ctx2, {
-          type: 'bar',
-          data: {{ charts.uploads|default({})|tojson }},
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'top' }
-            }
-          }
-        });
-      }
-    });
-  </script>
-{% endblock %}
+  <script defer src="{{ url_for('static', filename='js/dashboard_charts.js') }}"></script>
+  {% endblock %}

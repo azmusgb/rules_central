@@ -11,6 +11,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultMessage = document.getElementById("result-message");
   const spinner = document.getElementById("spinner");
   const copyButton = document.getElementById("copyButton");
+  const bodyTextarea = document.getElementById("body");
+  const charCount = document.getElementById("charCount");
+
+  if (bodyTextarea && charCount) {
+    charCount.textContent = `${bodyTextarea.value.length} chars`;
+    bodyTextarea.addEventListener("input", () => {
+      charCount.textContent = `${bodyTextarea.value.length} chars`;
+    });
+  }
+
+  document.getElementById("formatJsonBtn")?.addEventListener("click", () => {
+    try {
+      const parsed = JSON.parse(bodyTextarea.value);
+      bodyTextarea.value = JSON.stringify(parsed, null, 2);
+      charCount.textContent = `${bodyTextarea.value.length} chars`;
+    } catch (e) {
+      alert("Invalid JSON: " + e.message);
+    }
+  });
+
+  document.getElementById("clearFormBtn")?.addEventListener("click", () => {
+    apiForm.reset();
+    if (bodyTextarea) bodyTextarea.value = "";
+    if (charCount) charCount.textContent = "0 chars";
+  });
+
+  document.getElementById("addHeaderBtn")?.addEventListener("click", () => {
+    const container = document.getElementById("headersContainer");
+    if (!container) return;
+    const newRow = document.createElement("div");
+    newRow.className = "grid grid-cols-12 gap-2 items-center mt-3";
+    newRow.innerHTML = `
+        <div class="col-span-5">
+          <input type="text" class="w-full bg-dark-700 border border-dark-600 rounded px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary-500/50" placeholder="Header name">
+        </div>
+        <div class="col-span-6">
+          <input type="text" class="w-full bg-dark-700 border border-dark-600 rounded px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary-500/50" placeholder="Header value">
+        </div>
+        <div class="col-span-1 flex justify-center">
+          <button class="text-slate-500 hover:text-red-400 transition-colors remove-header">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>`;
+    container.appendChild(newRow);
+    newRow.querySelector(".remove-header")?.addEventListener("click", () => {
+      container.removeChild(newRow);
+    });
+  });
 
   // Function to validate JSON
   function isValidJSON(str) {
