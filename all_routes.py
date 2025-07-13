@@ -64,6 +64,7 @@ def update_query_param(param: str, value: str | int):
     return urlencode(args, doseq=True)
 
 
+
 @routes_bp.app_template_global("remove_query_param")
 def remove_query_param(*keys: str):
     """
@@ -76,6 +77,22 @@ def remove_query_param(*keys: str):
         args.pop(key, None)
     return urlencode(args, doseq=True)
 
+
+# ------------------------------------------------------------------
+# Safe str.startswith for template use
+# ------------------------------------------------------------------
+@routes_bp.app_template_global("safe_startswith")
+def safe_startswith(value, prefix):
+    """
+    Safe wrapper around str.startswith that prevents the
+    “startswith first arg must be str” TypeError when *prefix*
+    is undefined or not a string.
+    """
+    if not isinstance(value, str):
+        return False
+    if not isinstance(prefix, str):
+        return False
+    return value.startswith(prefix)
 
 # ------------------------------------------------------------------
 # API ENDPOINTS
