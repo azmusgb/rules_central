@@ -1,47 +1,39 @@
 <!doctype html>
-<html lang="en" x-data="{theme: localStorage.theme || 'bear', showToast: false, toastMsg: ''}"
-      :class="{'dark': theme==='dark'}"
-      class="scroll-smooth">
+<html lang="en" x-data="{ theme: $persist('light').as('qc-theme') }" :class="theme">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="dark light" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#7C3AED" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#7C3AED" media="(prefers-color-scheme: light)">
 
   <!-- Preloads -->
-  <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style">
-  <link rel="preload" href="{{ url_for('static', filename='js/app.js') }}" as="script">
-  
-  
-  {% block meta %}
-  <meta name="description" content="Rules Central: AI-powered rules engine for business automation">
-  <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
-  <meta property="og:description" content="AI-powered automation platform">
-  <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png') }}">
-  {% endblock %}
+  <link rel="preload" href="/static/css/app.css" as="style">
+  <link rel="preload" href="/static/js/app.js" as="script">
 
   <title>{% block title %}Rules Central{% endblock %}</title>
+  <meta name="description" content="{% block description %}AI-powered rules engine for business automation{% endblock %}">
 
   <!-- Favicons -->
-  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
-  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+  <link rel="manifest" href="/static/site.webmanifest">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="/static/css/app.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased leading-relaxed">
+<body class="bg-bg text-text font-sans antialiased">
   <!-- Skip link -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:dark:bg-gray-800 focus:rounded-lg focus:shadow-lg">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bg-elevated focus:shadow-lg focus:rounded-md">
     Skip to content
   </a>
 
   {% include 'partials/header.html' %}
   
-  <main id="main-content" class="min-h-[calc(100vh-160px)]">
+  <main id="main-content" class="min-h-[calc(100dvh-160px)]">
     {% block content %}{% endblock %}
   </main>
 
@@ -49,7 +41,7 @@
 
   <!-- Toast -->
   <div x-show="showToast" x-transition.opacity.duration.300ms
-       class="fixed bottom-6 right-6 px-4 py-3 rounded-lg shadow-lg bg-gray-800 dark:bg-gray-700 text-white z-50 max-w-xs"
+       class="fixed bottom-6 right-6 px-4 py-3 rounded-lg shadow-lg bg-bg-elevated text-text z-50 max-w-xs"
        x-text="toastMsg"
        @click.outside="showToast = false"
        x-cloak>
@@ -57,7 +49,7 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
-  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  <script src="/static/js/app.js" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

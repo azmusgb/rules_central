@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Main CSS Bundle
+   ========================================================================== */
+
+@import "tokens.css";
+@import "base.css";
+@import "components.css";
+@import "utilities.css";
+
+/* ==========================================================================
+   Custom Styles
+   ========================================================================== */
+
+.dashboard {
+  display: grid;
+  gap: var(--qc-space-lg);
+  padding: var(--qc-space-lg);
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.dashboard-section {
+  grid-column: span 12;
+  
+  @media (min-width: 768px) {
+    &:first-child {
+      grid-column: span 8;
+    }
+    
+    &:nth-child(2) {
+      grid-column: span 4;
+    }
+  }
+}
+
+.stats-grid {
+  display: grid;
+  gap: var(--qc-space-md);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.progress-container {
+  background-color: hsl(0 0% 50% / 0.1);
+  border-radius: var(--qc-radius-full);
+  overflow: hidden;
+  height: 6px;
+}
+
+.progress-fill {
+  background-color: var(--qc-color-primary-500);
+  height: 100%;
+  transition: width 0.3s ease;
+  width: var(--progress, 0%);
+}

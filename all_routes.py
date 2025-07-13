@@ -441,6 +441,7 @@ def templates():
     return render_template("catalog.html", help_available=True)
 
 
+
 @routes_bp.route("/analytics")
 def analytics():
     """Display analytics dashboard."""

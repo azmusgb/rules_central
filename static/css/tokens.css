@@ -1,13 +1,6 @@
-/* 
- * Rules Central Design Tokens v3.0
- * ========================================================================
- * Complete design system foundation with:
- * - Enhanced semantic architecture
- * - Full theme system with extended palettes
- * - Accessibility-first approach
- * - Performance-optimized transitions
- * - Component-ready tokens
- */
+/* ==========================================================================
+   Rules Central Design Tokens v4.0
+   ========================================================================== */
 
 :root {
   /* ======================================================================
@@ -16,9 +9,14 @@
   --qc-base-unit: 1rem;
   --qc-scale-ratio: 1.2;
   --qc-border-width: 1px;
-  
+  --qc-radius-sm: 0.25rem;
+  --qc-radius-md: 0.5rem;
+  --qc-radius-lg: 0.75rem;
+  --qc-radius-xl: 1rem;
+  --qc-radius-full: 9999px;
+
   /* ======================================================================
-     Extended Color System
+     Extended Color System (Light Default)
      ====================================================================== */
   /* Primary (Purple) */
   --qc-color-primary-50: #f5f3ff;
@@ -32,18 +30,6 @@
   --qc-color-primary-800: #5b21b6;
   --qc-color-primary-900: #4c1d95;
   --qc-color-primary-950: #3b1680;
-
-  /* Secondary (Blue) */
-  --qc-color-secondary-50: #f0f9ff;
-  --qc-color-secondary-100: #e0f2fe;
-  --qc-color-secondary-200: #bae6fd;
-  --qc-color-secondary-300: #7dd3fc;
-  --qc-color-secondary-400: #38bdf8;
-  --qc-color-secondary-500: #0ea5e9;
-  --qc-color-secondary-600: #0284c7;
-  --qc-color-secondary-700: #0369a1;
-  --qc-color-secondary-800: #075985;
-  --qc-color-secondary-900: #0c4a6e;
 
   /* Neutral */
   --qc-color-neutral-0: #ffffff;
@@ -59,18 +45,18 @@
   --qc-color-neutral-900: #0f172a;
   --qc-color-neutral-950: #020617;
 
-  /* Semantic Colors (Dark Default) */
-  --qc-color-bg: var(--qc-color-neutral-900);
-  --qc-color-bg-elevated: var(--qc-color-neutral-800);
-  --qc-color-bg-surface: var(--qc-color-neutral-700);
-  --qc-color-bg-overlay: hsl(222 47% 11% / 0.95);
-  --qc-color-text: var(--qc-color-neutral-100);
-  --qc-color-text-heading: var(--qc-color-neutral-50);
-  --qc-color-text-secondary: var(--qc-color-neutral-300);
-  --qc-color-border: var(--qc-color-neutral-600);
-  --qc-color-border-light: var(--qc-color-neutral-700);
-  --qc-color-link: var(--qc-color-primary-400);
-  --qc-color-link-hover: var(--qc-color-primary-300);
+  /* Semantic Colors */
+  --qc-color-bg: var(--qc-color-neutral-50);
+  --qc-color-bg-elevated: var(--qc-color-neutral-0);
+  --qc-color-bg-surface: var(--qc-color-neutral-100);
+  --qc-color-bg-overlay: hsl(0 0% 100% / 0.95);
+  --qc-color-text: var(--qc-color-neutral-900);
+  --qc-color-text-heading: var(--qc-color-neutral-950);
+  --qc-color-text-muted: var(--qc-color-neutral-600);
+  --qc-color-border: var(--qc-color-neutral-200);
+  --qc-color-border-hover: var(--qc-color-neutral-300);
+  --qc-color-link: var(--qc-color-primary-600);
+  --qc-color-link-hover: var(--qc-color-primary-700);
   --qc-color-focus-ring: hsla(251, 91%, 76%, 0.33);
   --qc-color-selection: hsla(251, 91%, 76%, 0.2);
 
@@ -122,21 +108,40 @@
   --qc-transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Theme */
-[data-theme="light"] {
-  --qc-color-bg: var(--qc-color-neutral-50);
-  --qc-color-bg-elevated: var(--qc-color-neutral-0);
-  --qc-color-bg-surface: var(--qc-color-neutral-100);
-  --qc-color-bg-overlay: hsl(0 0% 100% / 0.95);
-  --qc-color-text: var(--qc-color-neutral-900);
-  --qc-color-text-heading: var(--qc-color-neutral-950);
-  --qc-color-text-secondary: var(--qc-color-neutral-700);
-  --qc-color-border: var(--qc-color-neutral-200);
-  --qc-color-border-light: var(--qc-color-neutral-300);
-  --qc-color-link: var(--qc-color-primary-600);
-  --qc-color-link-hover: var(--qc-color-primary-700);
-  --qc-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --qc-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+/* Dark Theme */
+.dark {
+  --qc-color-bg: var(--qc-color-neutral-900);
+  --qc-color-bg-elevated: var(--qc-color-neutral-800);
+  --qc-color-bg-surface: var(--qc-color-neutral-700);
+  --qc-color-bg-overlay: hsl(222 47% 11% / 0.95);
+  --qc-color-text: var(--qc-color-neutral-100);
+  --qc-color-text-heading: var(--qc-color-neutral-50);
+  --qc-color-text-muted: var(--qc-color-neutral-400);
+  --qc-color-border: var(--qc-color-neutral-600);
+  --qc-color-border-hover: var(--qc-color-neutral-500);
+  --qc-color-link: var(--qc-color-primary-400);
+  --qc-color-link-hover: var(--qc-color-primary-300);
+}
+
+/* Bear Theme */
+[data-theme="bear"] {
+  --qc-color-primary-400: #FF5E62;
+  --qc-color-primary-500: #FF5E62;
+  --qc-color-primary-600: #E04E4D;
+  --qc-color-primary-700: #B03737;
+  
+  --qc-color-bg: #fffdfa;
+  --qc-color-bg-elevated: #fff5ef;
+  --qc-color-bg-surface: #fffaf7;
+  --qc-color-bg-overlay: #fdefe6;
+  --qc-color-text: #40322f;
+  --qc-color-text-heading: #2a1f1d;
+  --qc-color-text-muted: #8b7d7a;
+  --qc-color-border: #ffd4c7;
+  --qc-color-border-hover: #ffb8a3;
+  --qc-color-link: #FF5E62;
+  --qc-color-link-hover: #E04E4D;
+  --qc-color-focus-ring: hsla(0, 100%, 69%, 0.33);
 }
 
 /* Accessibility */
