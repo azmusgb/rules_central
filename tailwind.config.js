@@ -19,7 +19,15 @@ module.exports = {
         'accent-r-dark': 'var(--accent-r-dark)'
       },
       fontFamily: {
-        sans: ['SF Pro','Inter','system-ui','sans-serif']
+        sans: [
+          'SF Pro',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif'
+        ]
       },
       spacing: {
         18: '4.5rem',
