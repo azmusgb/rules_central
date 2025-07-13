@@ -148,24 +148,4 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="/static/js/hierarchy_viewer.js" defer></script>
-  <script>
-    // Tab switching logic (until hierarchy_viewer.js handles it)
-    document.querySelectorAll('[data-tab]').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('[data-tab]').forEach(btn => {
-          btn.classList.remove('text-primary-500', 'border-b-2', 'border-primary-500');
-          btn.setAttribute('aria-selected', 'false');
-        });
-        button.classList.add('text-primary-500', 'border-b-2', 'border-primary-500');
-        button.setAttribute('aria-selected', 'true');
-
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.add('hidden');
-          content.setAttribute('aria-hidden', 'true');
-        });
-        document.getElementById(button.dataset.tab).classList.remove('hidden');
-        document.getElementById(button.dataset.tab).setAttribute('aria-hidden', 'false');
-      });
-    });
-  </script>
 {% endblock %}

@@ -24,9 +24,7 @@
   </picture>
   {% endfor %}
 </div>
-<script>
-function carousel(count){return{current:0,timer:null,init(){let o=new IntersectionObserver(([e])=>e.isIntersecting?this.start():this.stop(),{threshold:.5});o.observe(this.$el)},start(){if(this.prefersReduce)return;this.timer=setInterval(()=>{this.current=(this.current+1)%count},5000)},stop(){clearInterval(this.timer);this.timer=null},get prefersReduce(){return window.matchMedia('(prefers-reduced-motion: reduce)').matches}}}
-</script>
+<script defer src="{{ url_for('static', filename='js/carousel.js') }}"></script>
 {%- endmacro %}
 
 {% macro Hero(title, tagline, cta_href, images=[]) -%}

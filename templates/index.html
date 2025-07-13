@@ -115,26 +115,7 @@
 {% endblock %}
 
 {% block scripts %}
+  <div id="indexChartsData" class="hidden" data-rules='{{ charts.rules|default({})|tojson }}'></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Initialize charts
-    document.addEventListener('DOMContentLoaded', function() {
-      const ctx = document.getElementById('rules-chart');
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'line',
-          data: {{ charts.rules|default({})|tojson }},
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'top',
-              }
-            }
-          }
-        });
-      }
-    });
-  </script>
+  <script defer src="{{ url_for('static', filename='js/index_charts.js') }}"></script>
 {% endblock %}
