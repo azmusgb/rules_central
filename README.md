@@ -21,7 +21,7 @@ The interface now defaults to a **Bear-inspired theme** for a streamlined, macOS
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
-- **Streamlined typography** with system fonts for a cohesive, native Bear-like experience
+
 - **In‑app help overlay** (press `Shift+/`)
 - **Contact page** for sending feedback
 
