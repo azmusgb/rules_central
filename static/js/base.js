@@ -81,8 +81,7 @@ const initTheme = () => {
     document.dispatchEvent(new CustomEvent("theme-change", { detail: { theme } }));
   };
 
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const storedTheme = localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
+  const storedTheme = localStorage.getItem("theme") || "bear";
 
   applyTheme(storedTheme);
   let index = THEMES.indexOf(storedTheme);
