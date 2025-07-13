@@ -1,95 +1,67 @@
 <!doctype html>
-<html lang="en" x-data="{theme: localStorage.theme || 'bear', showToast: false, toastMsg: ''}"
+<html lang="en" x-data="{theme: localStorage.theme || 'light', showToast: false, toastMsg: ''}"
       :class="{'dark': theme==='dark'}"
-      data-theme="bear"
-      x-init="$watch('theme', t => {
-        localStorage.theme = t;
-        document.documentElement.setAttribute('data-theme', t);
-      })" 
       class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#FF5E62" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#FF5E62" media="(prefers-color-scheme: light)">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#7C3AED" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#7C3AED" media="(prefers-color-scheme: light)">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    {% block meta %}
-    <meta name="description" content="Rules Central: AI-powered rules engine for business automation">
-    <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Transform business logic with AI-powered rules{% endblock %}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.url if request else '' }}">
-    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
-    {% endblock %}
-
-    <title>{% block title %}Rules Central{% endblock %}</title>
-
-    <!-- Favicons -->
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.svg') }}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style">
-    <link rel="preload" href="{{ url_for('static', filename='js/app.js') }}" as="script">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {% block styles %}{% endblock %}
-
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
-            crossorigin="anonymous"
-            onerror="document.write('<script src="{{ url_for('static', filename='js/alpine.min.js') }}"><\/script>')"></script>
-  </head>
+  <!-- Preloads -->
+  <link rel="preload" href="{{ url_for('static', filename='css/app.css') }}" as="style">
+  <link rel="preload" href="{{ url_for('static', filename='js/app.js') }}" as="script">
   
-  <body class="bg-bg min-h-screen font-sans antialiased text-text selection:bg-primary-500/20 pt-[var(--header-height)]"
-        x-data="{ isScrolled: false }"
-        @scroll.window="isScrolled = window.scrollY > 50">
-    
-    <!-- Skip to Content -->
-    <a href="#main-content" class="skip-to-content">
-      Skip to main content
-    </a>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  {% block meta %}
+  <meta name="description" content="Rules Central: AI-powered rules engine for business automation">
+  <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
+  <meta property="og:description" content="AI-powered automation platform">
+  <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png') }}">
+  {% endblock %}
 
-    <!-- Progress Bar -->
-    <div id="scroll-progress"
-         class="fixed top-0 left-0 h-1 bg-primary-500 z-50 transition-opacity duration-300 progress-fill"
-         :class="{ 'opacity-0': !isScrolled }"></div>
+  <title>{% block title %}Rules Central{% endblock %}</title>
 
-    {% include 'partials/header.html' %}
-    
-    <!-- Hero Section -->
-    {% if self.hero_title() or self.hero_subtitle() %}
-      {% include 'partials/hero_bg.html' %}
-    {% endif %}
+  <!-- Favicons -->
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
-    <main id="main-content" class="main-content">
-      {% block content %}{% endblock %}
-    </main>
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+</head>
 
-    {% include 'partials/footer.html' %}
-    
-    <!-- Toast Notification -->
-    <div x-show="showToast" x-transition.opacity 
-         class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50" 
-         @click="showToast=false" 
-         x-text="toastMsg" 
-         x-cloak></div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased leading-relaxed">
+  <!-- Skip link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:dark:bg-gray-800 focus:rounded-lg focus:shadow-lg">
+    Skip to content
+  </a>
 
-    <!-- Scripts -->
-    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
-    {% block scripts %}{% endblock %}
-  </body>
+  {% include 'partials/header.html' %}
+  
+  <main id="main-content" class="min-h-[calc(100vh-160px)]">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  <!-- Toast -->
+  <div x-show="showToast" x-transition.opacity.duration.300ms
+       class="fixed bottom-6 right-6 px-4 py-3 rounded-lg shadow-lg bg-gray-800 dark:bg-gray-700 text-white z-50 max-w-xs"
+       x-text="toastMsg"
+       @click.outside="showToast = false"
+       x-cloak>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
 </html>
