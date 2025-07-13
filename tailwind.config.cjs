@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#FF5E62',
+          500: '#FF5E62',
           600: '#FF5E62',
           700: '#E04E4D',
           gradientStart: '#FF5E62',
