@@ -1,98 +1,164 @@
 {% macro Nav() -%}
-<nav class="sticky top-0 z-50 bg-surface-white dark:bg-ink-900 shadow-sm">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
-    <a href="/" class="font-semibold text-lg">Rules Central</a>
-    <ul class="hidden md:flex gap-8 text-sm">
-      <li><a href="#features" class="hover:text-accent-red">Features</a></li>
-      <li><a href="#pricing" class="hover:text-accent-red">Pricing</a></li>
-      <li><a href="#contact" class="hover:text-accent-red">Contact</a></li>
-    </ul>
-    <button id="theme-toggle" class="ml-4 p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-red" aria-label="Toggle theme" @click="toggleTheme()">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m13.07-5.07l-.71.71M6.64 17.36l-.71.71m11.07 0l-.71-.71M6.64 6.64l-.71-.71"/></svg>
+<header x-data="{dark: localStorage.theme==='dark'}" x-init="document.documentElement.classList.toggle('dark', dark)" class="sticky top-0 z-50 bg-[var(--surface-0)]/80 backdrop-blur shadow-sm">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <div class="container flex items-center justify-between py-4">
+    <a href="/" class="flex items-center gap-2 text-lg font-semibold focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
+      <svg aria-hidden="true" class="w-6 h-6 text-[var(--accent-r)]" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8c0-3.9 4.5-6 9-6s9 2.1 9 6-4.5 12-9 12S3 11.9 3 8Z"/></svg>
+      Rules Central
+    </a>
+    <button type="button" @click="dark=!dark;localStorage.theme=dark?'dark':'light';document.documentElement.classList.toggle('dark',dark)" aria-label="Toggle theme" class="p-2 rounded focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
+      <svg x-show="!dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m13.07-5.07l-.71.71M6.64 17.36l-.71.71m11.07 0l-.71-.71M6.64 6.64l-.71-.71"/></svg>
+      <svg x-show="dark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 14a6 6 0 010-12 6 6 0 000 12z"/></svg>
     </button>
   </div>
-</nav>
+</header>
 {%- endmacro %}
 
-{% macro Hero() -%}
-<section class="relative overflow-hidden bg-surface-shade dark:bg-ink-900 py-22">
-  <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4">Rule management you\u2019ll love</h1>
-    <p class="text-lg text-ink-600 dark:text-ink-400 mb-8">Organize and automate your rules with delightful simplicity.</p>
-    <a href="#pricing" class="btn-primary inline-block">Get started free</a>
+{% macro DeviceCarousel(images) -%}
+<div x-data="carousel({{ images|length }})" class="relative aspect-[3/2] overflow-hidden">
+  {% for img in images %}
+  <picture class="absolute inset-0" x-show="current === {{ loop.index0 }}" x-transition.opacity.duration.700ms>
+    <source srcset="{{ url_for('static', filename=img + '.avif') }}" type="image/avif">
+    <source srcset="{{ url_for('static', filename=img + '.webp') }}" type="image/webp">
+    <img src="{{ url_for('static', filename=img + '.png') }}" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
+  </picture>
+  {% endfor %}
+</div>
+<script>
+function carousel(count){return{current:0,timer:null,init(){let o=new IntersectionObserver(([e])=>e.isIntersecting?this.start():this.stop(),{threshold:.5});o.observe(this.$el)},start(){if(this.prefersReduce)return;this.timer=setInterval(()=>{this.current=(this.current+1)%count},5000)},stop(){clearInterval(this.timer);this.timer=null},get prefersReduce(){return window.matchMedia('(prefers-reduced-motion: reduce)').matches}}}
+</script>
+{%- endmacro %}
+
+{% macro Hero(title, tagline, cta_href, images=[]) -%}
+<section class="min-h-[80vh] flex flex-col items-center justify-center text-center gap-6 py-18">
+  <h1 class="text-5xl font-bold">{{ title }}</h1>
+  <p class="text-xl text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ tagline }}</p>
+  <a href="{{ cta_href }}" class="inline-block px-6 py-3 rounded bg-[var(--accent-r)] text-white shadow-soft transition-transform duration-200 motion-safe:hover:scale-105 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Get started</a>
+  {% if images %}
+  <div class="mt-10 w-full max-w-4xl">
+    {{ DeviceCarousel(images) }}
   </div>
-  <div class="pointer-events-none absolute inset-0 flex justify-center">
-    <img src="{{ url_for('static', filename='images/hero-macbook.webp') }}" alt="MacBook screenshot" class="hidden md:block w-1/2 max-w-lg shadow-soft absolute -top-10 left-1/2 -translate-x-1/2" loading="lazy">
-    <img src="{{ url_for('static', filename='images/hero-iphone.webp') }}" alt="iPhone screenshot" class="w-1/4 max-w-xs shadow-soft absolute top-12 left-[10%]" loading="lazy">
-    <img src="{{ url_for('static', filename='images/hero-ipad.webp') }}" alt="iPad screenshot" class="w-1/3 max-w-md shadow-soft absolute top-20 right-[10%]" loading="lazy">
+  {% endif %}
+</section>
+{%- endmacro %}
+
+{% macro FeatureRow(title, desc, img_path, reverse=False) -%}
+<section class="py-18">
+  <div class="container flex flex-col md:flex-row items-center gap-10 {% if reverse %}md:flex-row-reverse{% endif %}">
+    <div class="md:w-1/2 space-y-4">
+      <h2 class="text-3xl font-semibold">{{ title }}</h2>
+      <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ desc }}</p>
+    </div>
+    <picture class="md:w-1/2 w-full">
+      <source srcset="{{ url_for('static', filename=img_path + '.avif') }}" type="image/avif">
+      <source srcset="{{ url_for('static', filename=img_path + '.webp') }}" type="image/webp">
+      <img src="{{ url_for('static', filename=img_path + '.png') }}" alt="" class="w-full rounded shadow-soft" loading="lazy" decoding="async">
+    </picture>
   </div>
 </section>
 {%- endmacro %}
 
-{% macro FeatureRow(title, body, image, bg='surface-white', reverse=false) -%}
-<section class="py-22 bg-{{ bg }} dark:bg-ink-900">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 px-4 {% if reverse %}md:flex-row-reverse{% endif %}">
-    <div class="md:w-1/2">
-      <h2 class="text-3xl font-semibold mb-4">{{ title }}</h2>
-      <p class="text-lg text-ink-600 dark:text-ink-400 leading-relaxed">{{ body }}</p>
+{% macro FeatureGrid(features) -%}
+<section class="py-18 bg-[var(--surface-1)] dark:bg-[var(--surface-1)]">
+  <div class="container grid md:grid-cols-3 gap-10 text-center">
+    {% for f in features %}
+    <div class="space-y-4">
+      <i class="{{ f.icon }} text-3xl text-[var(--accent-r)]" aria-hidden="true"></i>
+      <h3 class="text-xl font-semibold">{{ f.title }}</h3>
+      <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ f.desc }}</p>
     </div>
-    <img src="{{ url_for('static', filename=image) }}" alt="" class="md:w-1/2 w-full shadow-soft" loading="lazy">
+    {% endfor %}
   </div>
 </section>
 {%- endmacro %}
 
-{% macro PriceCards() -%}
-<section id="pricing" class="bg-surface-white dark:bg-ink-900 py-22">
-  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 px-4">
-    <div class="border rounded-lg shadow-soft p-8 flex flex-col">
-      <h3 class="text-xl font-semibold mb-4">Free</h3>
-      <p class="text-4xl font-bold mb-6">$0</p>
-      <ul class="flex-1 space-y-2 mb-6 text-ink-600 dark:text-ink-400">
-        <li>Unlimited rules</li>
-        <li>Community support</li>
-      </ul>
-      <a href="#" class="btn-primary mt-auto text-center">Get started</a>
+{% macro FAQ(items) -%}
+<section class="py-18">
+  <div class="container divide-y">
+    {% for q,a in items %}
+    <div x-data="{open:false}" class="py-4">
+      <button type="button" @click="open=!open" @keydown.enter.prevent="open=!open" @keydown.space.prevent="open=!open" class="w-full flex justify-between items-center text-left font-medium focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
+        <span>{{ q }}</span>
+        <svg class="w-5 h-5 transform transition-transform" :class="{'rotate-180':open}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.657a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </button>
+      <div x-show="open" x-collapse class="mt-2 text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ a }}</div>
     </div>
-    <div class="border rounded-lg shadow-soft p-8 flex flex-col relative">
-      <span class="absolute -top-3 right-3 bg-accent-red text-white text-xs px-2 py-1 rounded">Pro</span>
-      <h3 class="text-xl font-semibold mb-4">Pro</h3>
-      <p class="text-4xl font-bold mb-6">$12<span class="text-base font-normal">/mo</span></p>
-      <ul class="flex-1 space-y-2 mb-6 text-ink-600 dark:text-ink-400">
-        <li>Team collaboration</li>
-        <li>Priority support</li>
-        <li>PDF / PNG export</li>
+    {% endfor %}
+  </div>
+</section>
+{%- endmacro %}
+
+{% macro PriceCards(plans, csrf_token) -%}
+<section id="pricing" class="py-22 bg-[var(--surface-0)] dark:bg-[var(--surface-0)]">
+  <div class="container grid md:grid-cols-2 gap-6">
+    {% for plan in plans %}
+    <form method="post" action="{{ plan.action }}" class="relative border rounded-lg p-6 shadow-soft flex flex-col">
+      {% if plan.badge %}<span class="absolute -top-3 right-3 bg-[var(--accent-r)] text-white text-xs px-2 py-1 rounded">{{ plan.badge }}</span>{% endif %}
+      <h3 class="text-xl font-semibold mb-2">{{ plan.name }}</h3>
+      <p class="text-4xl font-bold mb-4">{{ plan.price }}</p>
+      <ul class="flex-1 space-y-1 mb-6">
+        {% for feat in plan.features %}<li>{{ feat }}</li>{% endfor %}
       </ul>
-      <a href="#" class="btn-primary mt-auto text-center">Start trial</a>
+      <input type="hidden" name="plan_id" value="{{ plan.id }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button type="submit" class="mt-auto px-6 py-3 rounded bg-[var(--accent-r)] text-white focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Select</button>
+    </form>
+    {% endfor %}
+  </div>
+</section>
+{%- endmacro %}
+
+{% macro DownloadStrip() -%}
+<section class="py-18">
+  <div class="container flex justify-center gap-4">
+    <a href="#" class="transition hover:text-[var(--accent-r)] grayscale hover:grayscale-0 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] rounded">
+      <img src="{{ url_for('static', filename='images/app-store-badge.svg') }}" alt="Download on the App Store" class="h-12" loading="lazy" decoding="async">
+    </a>
+    <a href="#" class="transition hover:text-[var(--accent-r)] grayscale hover:grayscale-0 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] rounded">
+      <img src="{{ url_for('static', filename='images/mac-app-store-badge.svg') }}" alt="Download on the Mac App Store" class="h-12" loading="lazy" decoding="async">
+    </a>
+  </div>
+</section>
+{%- endmacro %}
+
+{% macro TestimonialCarousel(items) -%}
+<section class="py-22">
+  <div class="container" x-data="{index:0}">
+    <div x-ref="track" class="flex overflow-x-auto space-x-6 snap-x snap-mandatory">
+      {% for t in items %}
+      <div class="snap-center shrink-0 w-full md:w-1/2">
+        <blockquote class="p-6 bg-[var(--surface-1)] dark:bg-[var(--surface-1)] rounded shadow-soft">{{ t.text }}<footer class="mt-4 text-sm">{{ t.author }}</footer></blockquote>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="flex justify-center gap-2 mt-4">
+      {% for _ in items %}
+      <button @click="index={{ loop.index0 }}; $refs.track.scrollTo({left:$refs.track.children[{{ loop.index0 }}].offsetLeft,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})" class="w-3 h-3 rounded-full border border-[var(--ink-400)] focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]" :class="{ 'bg-[var(--accent-r)] border-[var(--accent-r)]': index === {{ loop.index0 }} }" aria-label="Go to testimonial {{ loop.index }}"></button>
+      {% endfor %}
     </div>
   </div>
 </section>
 {%- endmacro %}
 
 {% macro Footer() -%}
-<footer id="contact" class="bg-surface-shade dark:bg-ink-900 text-sm mt-auto py-22">
-  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 px-4">
-    <nav>
-      <ul class="space-y-2">
-        <li><a href="#features" class="hover:text-accent-red">Features</a></li>
-        <li><a href="#pricing" class="hover:text-accent-red">Pricing</a></li>
-        <li><a href="#contact" class="hover:text-accent-red">Contact</a></li>
-      </ul>
+<footer class="border-t border-[var(--surface-1)] mt-22 py-18 text-sm">
+  <div class="container grid md:grid-cols-3 gap-10">
+    <nav class="space-y-2">
+      <a href="#features" class="block hover:text-[var(--accent-r)]">Features</a>
+      <a href="#pricing" class="block hover:text-[var(--accent-r)]">Pricing</a>
+      <a href="#faq" class="block hover:text-[var(--accent-r)]">FAQ</a>
     </nav>
-    <form class="flex flex-col gap-4">
-      <label for="newsletter" class="font-semibold">Newsletter</label>
-      <input id="newsletter" type="email" required placeholder="you@example.com" class="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent-red" />
-      <button type="submit" class="btn-primary self-start">Subscribe</button>
+    <nav class="space-y-2">
+      <a href="/privacy" class="block hover:text-[var(--accent-r)]">Privacy</a>
+      <a href="/terms" class="block hover:text-[var(--accent-r)]">Terms</a>
+      <a href="/support" class="block hover:text-[var(--accent-r)]">Support</a>
+    </nav>
+    <form class="space-y-2">
+      <label for="news" class="font-medium">Newsletter</label>
+      <input id="news" type="email" required placeholder="you@example.com" class="w-full px-3 py-2 border rounded focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
+      <button type="submit" class="px-4 py-2 rounded bg-[var(--accent-r)] text-white focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Subscribe</button>
     </form>
   </div>
+  <p class="text-center mt-8">&copy; {{ now().year }} Rules Central</p>
 </footer>
-{%- endmacro %}
-
-{% macro LogoRow() -%}
-<section class="bg-surface-white dark:bg-ink-900 py-16" id="logos">
-  <div class="max-w-7xl mx-auto flex justify-center gap-12 opacity-80 px-4">
-    {% for logo in ['logo1.svg','logo2.svg','logo3.svg','logo4.svg'] %}
-      <img src="{{ url_for('static', filename='images/' + logo) }}" alt="" class="h-16 w-auto grayscale" loading="lazy">
-    {% endfor %}
-  </div>
-</section>
 {%- endmacro %}

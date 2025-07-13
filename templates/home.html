@@ -1,51 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth antialiased text-ink-900 dark:bg-ink-900 dark:text-surface" x-data="{dark: localStorage.theme === 'dark'}" x-init="$watch('dark', val => document.documentElement.classList.toggle('dark', val))">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rules Central — Bear-style Landing Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
-      @layer components {
-        .btn-primary { @apply bg-accent-red dark:bg-accent-red-dark text-white px-6 py-3 rounded-md shadow-soft transition-transform duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-red; }
-      }
-      @media (hover:hover){ .btn-primary:hover{ @apply scale-105; } }
-      @media (prefers-reduced-motion: reduce){ .btn-primary:hover{ @apply scale-100; } }
-        @layer base {
-          html.dark {@apply bg-ink-900 text-surface-white;}
-          html.dark .bg-surface-white,
-          html.dark .bg-surface-shade {@apply bg-ink-900;}
-          html.dark .text-ink-900 {@apply text-surface-white;}
-          html.dark .text-ink-600 {@apply text-ink-400;}
-        }
-    </style>
-  </head>
-  <body class="flex flex-col min-h-screen">
-    {% from "_components/macros.html" import Nav, Hero, FeatureRow, PriceCards, Footer, LogoRow %}
-    {{ Nav() }}
-    <main id="main">
-      {{ Hero() }}
-      {{ FeatureRow('Fuzzy search that never misses', 'Find the rule you need instantly with tolerant search options.', 'images/feature-search.webp', 'surface-white') }}
-      {{ FeatureRow('Visual query builder', 'Construct complex rule queries without writing code.', 'images/feature-query.webp', 'surface-shade', true) }}
-      {{ FeatureRow('One-click PDF / PNG export', 'Share your rule sets with clean exports perfect for reports.', 'images/feature-export.webp', 'surface-white') }}
-      {{ LogoRow() }}
-      {{ PriceCards() }}
-      <section class="bg-accent-red dark:bg-accent-red-dark text-white text-center py-16">
-        <h2 class="text-3xl font-semibold mb-4">Ready to get started?</h2>
-        <a href="#" class="btn-primary">Create your free account</a>
-      </section>
-    </main>
-    {{ Footer() }}
-    <script>
-      function toggleTheme(){
-        dark = !dark;
-        localStorage.theme = dark ? 'dark' : 'light';
-      }
-    </script>
-  </body>
-</html>
+{% extends "base.html" %}
+{% import '_components/macros.html' as ui %}
+
+{% block content %}
+{{ ui.Nav() }}
+{{ ui.Hero('Build powerful rules fast','Search, visualize and export your automations with ease.', url_for('auth.signup'), ['images/device-mac','images/device-ipad','images/device-iphone']) }}
+{{ ui.FeatureRow('Search across every rule','Fuzzy search uncovers matches instantly across your repository.','images/feature-search') }}
+{{ ui.FeatureRow('Visual rule builder','Construct complex logic with an intuitive drag & drop interface.','images/feature-builder', True) }}
+{{ ui.FeatureRow('One-click exports','Share PDF or PNG snapshots without compromising privacy.','images/feature-export') }}
+{{ ui.FeatureGrid([
+  {'icon':'fa-solid fa-filter','title':'Smart filtering','desc':'Combine tags and attributes for pinpoint accuracy.'},
+  {'icon':'fa-solid fa-bolt','title':'Automation ready','desc':'Trigger webhooks whenever rules change.'},
+  {'icon':'fa-solid fa-lock','title':'Secure storage','desc':'Your data stays encrypted and private.'}
+]) }}
+{{ ui.DownloadStrip() }}
+{{ ui.FAQ([
+  ('Is there a free plan?','Yes. Create unlimited rules at no cost.'),
+  ('Can I export my data?','Absolutely—download PDFs or PNGs anytime.'),
+  ('How is my information protected?','We use end‑to‑end encryption and never share your rules.')
+]) }}
+{{ ui.TestimonialCarousel([
+  {'text':'“Rules Central transformed our workflow.”','author':'Jamie, DevOps'},
+  {'text':'“The visual builder is unbelievably easy.”','author':'Avery, Product Manager'},
+  {'text':'“Search is lightning fast and always accurate.”','author':'Riley, Analyst'}
+]) }}
+{{ ui.PriceCards([
+  {'id':'free','name':'Free','price':'$0','features':['Unlimited rules','Community support'], 'badge':None, 'action':url_for('auth.signup')},
+  {'id':'pro','name':'Pro','price':'$12/mo','features':['Collaboration','Priority support','Export options'], 'badge':'Popular', 'action':url_for('auth.signup')}
+], csrf_token()) }}
+{{ ui.Footer() }}
+{% endblock %}
