@@ -6,11 +6,11 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#28C76F',
-          600: '#28C76F',
-          700: '#1fa85b',
-          gradientStart: '#667eea',
-          gradientEnd: '#764ba2'
+          DEFAULT: '#FF5E62',
+          600: '#FF5E62',
+          700: '#E04E4D',
+          gradientStart: '#FF5E62',
+          gradientEnd: '#FFC371'
         },
         danger: {
           gradientStart: '#ff6b6b',
@@ -28,7 +28,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif']
+        sans: ['\'Nunito\'', 'Inter', 'sans-serif']
       },
       boxShadow: {
         soft: '0 2px 6px rgb(0 0 0 / 0.2)',
