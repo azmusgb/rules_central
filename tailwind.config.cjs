@@ -16,6 +16,13 @@ module.exports = {
           gradientStart: '#ff6b6b',
           gradientEnd: '#ee5a24'
         },
+        'surface-white': '#FFFFFF',
+        'surface-shade': '#FAFAFA',
+        'ink-900': '#1C1C1E',
+        'ink-600': '#444448',
+        'ink-400': '#94949A',
+        'accent-red': '#FF3B30',
+        'accent-red-dark': '#FF453A',
         status: {
           active: '#22c55e',
           draft: '#fbbf24',
@@ -28,12 +35,16 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['\'Nunito\'', 'Inter', 'sans-serif']
+        sans: ['\'SF Pro\'', 'Inter', 'system-ui', 'sans-serif']
       },
       boxShadow: {
-        soft: '0 2px 6px rgb(0 0 0 / 0.2)',
+        soft: '0 2px 8px rgb(0 0 0 / 0.08)',
         glow: '0 8px 32px rgba(0, 0, 0, 0.3)',
         pulse: '0 0 20px rgba(59, 130, 246, 0.3)'
+      },
+      spacing: {
+        18: '4.5rem',
+        22: '5.5rem'
       },
       animation: {
         float: 'float 3s ease-in-out infinite',

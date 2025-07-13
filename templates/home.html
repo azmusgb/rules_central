@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased text-ink-900 dark:bg-ink-900 dark:text-surface" x-data="{dark: localStorage.theme === 'dark'}" x-init="$watch('dark', val => document.documentElement.classList.toggle('dark', val))">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rules Central — Bear-style Landing Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+      @layer components {
+        .btn-primary { @apply bg-accent-red dark:bg-accent-red-dark text-white px-6 py-3 rounded-md shadow-soft transition-transform duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-red; }
+      }
+      @media (hover:hover){ .btn-primary:hover{ @apply scale-105; } }
+      @media (prefers-reduced-motion: reduce){ .btn-primary:hover{ @apply scale-100; } }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    {% from "_components/macros.html" import Nav, Hero, FeatureRow, PriceCards, Footer, LogoRow %}
+    {{ Nav() }}
+    <main id="main">
+      {{ Hero() }}
+      {{ FeatureRow('Fuzzy search that never misses', 'Find the rule you need instantly with tolerant search options.', 'images/feature-search.webp', 'surface-white') }}
+      {{ FeatureRow('Visual query builder', 'Construct complex rule queries without writing code.', 'images/feature-query.webp', 'surface-shade', true) }}
+      {{ FeatureRow('One-click PDF / PNG export', 'Share your rule sets with clean exports perfect for reports.', 'images/feature-export.webp', 'surface-white') }}
+      {{ LogoRow() }}
+      {{ PriceCards() }}
+      <section class="bg-accent-red dark:bg-accent-red-dark text-white text-center py-16">
+        <h2 class="text-3xl font-semibold mb-4">Ready to get started?</h2>
+        <a href="#" class="btn-primary">Create your free account</a>
+      </section>
+    </main>
+    {{ Footer() }}
+    <script>
+      function toggleTheme(){
+        dark = !dark;
+        localStorage.theme = dark ? 'dark' : 'light';
+      }
+    </script>
+  </body>
+</html>
