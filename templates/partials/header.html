@@ -1,89 +1,63 @@
-{% from 'macros/nav_links.html' import render_nav_links %}
+<header class="sticky top-0 z-40 backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 transition-all duration-300"
+        x-data="{ mobileMenuOpen: false, userMenuOpen: false }"
+        :class="{ 'shadow-sm': window.scrollY > 10 }"
+        x-init="window.onscroll = () => {}">
 
-<header id="site-header" 
-        class="site-header fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-sm z-40 transition-all duration-300"
-        :class="{ 'shadow-md': isScrolled }"
-        x-data="{ mobileMenuOpen: false, userMenuOpen: false }" 
-        x-cloak>
-  
-  <div class="header-container container mx-auto px-4 py-3 flex items-center justify-between">
+  <div class="container mx-auto px-4 py-3 flex items-center justify-between max-w-7xl">
     <!-- Logo -->
-    <a href="{{ url_for('routes.index') }}" class="logo flex items-center gap-2">
-      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Rules Central Logo" class="logo-img h-8 w-auto">
-      <span class="logo-text text-xl font-bold text-gray-800 dark:text-white">Rules Central</span>
+    <a href="{{ url_for('routes.index') }}" class="flex items-center gap-2 group">
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Rules Central" class="h-8 w-auto transition-transform group-hover:scale-110">
+      <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">Rules</span>
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="desktop-nav hidden md:block">
-      {{ render_nav_links([
-        {'endpoint': 'routes.index', 'text': 'Home'},
-        {'endpoint': 'routes.catalog', 'text': 'Catalog'},
-        {'endpoint': 'routes.search', 'text': 'Search'},
-        {'endpoint': 'routes.analytics', 'text': 'Analytics'},
-        {'endpoint': 'routes.about', 'text': 'About'}
-      ])}}
+    <nav class="hidden md:flex items-center gap-1">
+      {% for item in nav_links %}
+      <a href="{{ url_for(item.endpoint) }}" 
+         class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors
+                {{ 'bg-gray-100 dark:bg-gray-800 text-primary-600 dark:text-primary-400' if request.endpoint == item.endpoint }}">
+        {{ item.text }}
+      </a>
+      {% endfor %}
     </nav>
 
     <!-- User Controls -->
-    <div class="user-controls flex items-center gap-4">
+    <div class="flex items-center gap-2">
       <!-- Theme Toggle -->
-      <button class="theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              @click="theme = theme === 'light' ? 'dark' : 'light'"
+      <button @click="theme = theme === 'light' ? 'dark' : 'light'"
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Toggle theme">
-        <i class="fas" :class="theme === 'light' ? 'fa-moon' : 'fa-sun'"></i>
+        <i class="fas fa-moon dark:hidden text-gray-600"></i>
+        <i class="fas fa-sun hidden dark:block text-gray-300"></i>
       </button>
 
       <!-- User Menu -->
-      <div class="user-menu-container relative">
-        <button class="user-menu-button flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                @click="userMenuOpen = !userMenuOpen"
-                aria-label="User menu"
-                :aria-expanded="userMenuOpen">
-          <i class="fas fa-user-circle text-xl text-gray-600 dark:text-gray-300"></i>
-          <span class="user-name hidden md:inline text-gray-700 dark:text-gray-200">User</span>
+      <div class="relative" x-data>
+        <button @click="userMenuOpen = !userMenuOpen"
+                class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="User menu">
+          <div class="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+            <i class="fas fa-user text-primary-600 dark:text-primary-400 text-sm"></i>
+          </div>
+          <span class="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-200">Account</span>
         </button>
         
-        <div class="user-menu-dropdown absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-100 dark:border-gray-700"
-             x-show="userMenuOpen"
+        <div x-show="userMenuOpen" 
              @click.outside="userMenuOpen = false"
-             x-transition>
-          <div class="user-info px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-            <p class="user-name font-medium text-gray-800 dark:text-white">User Name</p>
-            <p class="user-role text-sm text-gray-500 dark:text-gray-400">Admin</p>
+             x-transition.origin.top.right
+             class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 z-50 border border-gray-100 dark:border-gray-700 backdrop-blur-sm">
+          <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+            <p class="font-medium text-gray-800 dark:text-white">Signed in as</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 truncate">user@example.com</p>
           </div>
-          <a href="{{ url_for('routes.profile') }}" class="user-menu-item block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Profile
+          <a href="{{ url_for('routes.profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+            Your Profile
           </a>
-          <a href="{{ url_for('auth.logout') }}" class="user-menu-item block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Sign out
+          <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+            Sign Out
           </a>
         </div>
       </div>
-
-      <!-- Mobile Menu Toggle -->
-      <button class="mobile-menu-toggle md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              @click="mobileMenuOpen = !mobileMenuOpen"
-              aria-label="Toggle mobile menu"
-              :aria-expanded="mobileMenuOpen">
-        <i x-show="!mobileMenuOpen" class="fas fa-bars text-xl"></i>
-        <i x-show="mobileMenuOpen" class="fas fa-times text-xl"></i>
-      </button>
     </div>
   </div>
-
-  <!-- Mobile Navigation -->
-  <nav class="mobile-nav md:hidden bg-white dark:bg-gray-900 shadow-lg fixed top-16 left-0 right-0 z-40 overflow-y-auto max-h-[calc(100vh-4rem)]"
-       x-show="mobileMenuOpen"
-       @click.outside="mobileMenuOpen = false"
-       x-transition>
-    <div class="mobile-nav-content container mx-auto px-4 py-3">
-      {{ render_nav_links([
-        {'endpoint': 'routes.index', 'text': 'Home'},
-        {'endpoint': 'routes.catalog', 'text': 'Catalog'},
-        {'endpoint': 'routes.search', 'text': 'Search'},
-        {'endpoint': 'routes.analytics', 'text': 'Analytics'},
-        {'endpoint': 'routes.about', 'text': 'About'}
-      ], is_mobile=true)}}
-    </div>
-  </nav>
 </header>
