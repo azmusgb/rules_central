@@ -28,6 +28,9 @@ module.exports = {
       boxShadow: {
         soft: '0 2px 8px rgba(0,0,0,.04)'
       },
+      rotate: {
+        360: '360deg'
+      },
       keyframes: {
         'fade-up': {
           from: { opacity: '0', transform: 'translateY(8px)' },
