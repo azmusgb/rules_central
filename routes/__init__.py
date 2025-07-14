@@ -1,11 +1,13 @@
-from .auth import auth
-from .upload import upload
-from .api import api
-from .diagrams import diagrams
-from .main import main
-from .collab import collab
-from .analytics_routes import analytics_routes
-from .user_routes import user_routes
+from .core import (
+    api,
+    analytics_routes,
+    auth,
+    collab,
+    diagrams,
+    main,
+    upload,
+    user_routes,
+)
 from all_routes import routes_bp
 
 # Register routes_bp first to avoid shadowing of /api/* endpoints
