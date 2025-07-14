@@ -14,7 +14,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from config import Config
-from utils import ensure_directory_exists
+from utils import ensure_directory_exists, get_rule_stats, get_activity_trend
 
 main = Blueprint("main", __name__)
 
@@ -24,7 +24,9 @@ def index():
     """Render the application home page."""
 
     try:
-        return render_template("index.html", charts={})
+        stats = get_rule_stats()
+        trend = get_activity_trend(days=30)
+        return render_template("index.html", stats=stats, charts={"rules": trend})
     except Exception as exc:
         current_app.logger.error("Index page error: %s", exc)
         abort(500)
