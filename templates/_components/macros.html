@@ -18,8 +18,6 @@
 <div x-data="carousel({{ images|length }})" class="relative aspect-[3/2] overflow-hidden">
   {% for img in images %}
   <picture class="absolute inset-0 transition-opacity duration-700 motion-reduce:duration-0" :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-0'">
-    <source srcset="{{ url_for('static', filename=img + '.avif') }}" type="image/avif">
-    <source srcset="{{ url_for('static', filename=img + '.webp') }}" type="image/webp">
     <img src="{{ url_for('static', filename=img + '.png') }}" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
   </picture>
   {% endfor %}
@@ -48,8 +46,6 @@
       <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ desc }}</p>
     </div>
     <picture class="md:w-1/2 w-full">
-      <source srcset="{{ url_for('static', filename=img_path + '.avif') }}" type="image/avif">
-      <source srcset="{{ url_for('static', filename=img_path + '.webp') }}" type="image/webp">
       <img src="{{ url_for('static', filename=img_path + '.png') }}" alt="" class="w-full rounded shadow-soft" loading="lazy" decoding="async">
     </picture>
   </div>
