@@ -1,88 +1,238 @@
 {% extends 'base.html' %}
 {% from 'macros/components.html' import button, alert %}
-{% block title %}Upload Diagram{% endblock %}
+{% block title %}Upload Diagram | Rules Central{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+{% endblock %}
 
 {% block hero_title %}Upload&nbsp;a&nbsp;Diagram{% endblock %}
-{% block hero_subtitle %}Drag &amp; drop your file or browse to upload it to Rules&nbsp;Central.{% endblock %}
+{% block hero_subtitle %}Convert your diagrams into executable rules with our AI-powered system{% endblock %}
+
 {% block content %}
-<section class="u-section py-12">
+<section class="upload-section py-12 md:py-16">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+    <!-- Glass Card Container -->
+    <div class="glass-card p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl backdrop-blur-lg">
+      <!-- Upload Form -->
+      <form id="upload-form"
+            action="{{ url_for('routes.upload_file') }}"
+            method="post"
+            enctype="multipart/form-data"
+            class="space-y-8"
+            x-data="uploadForm()"
+            @submit.prevent="submitForm"
+            aria-labelledby="upload-heading">
 
-  <div class="card--glass glassmorphism p-8 rounded-2xl">
-  <!-- Upload form -->
-  <form id="upload-form"
-        action="{{ url_for('routes.upload_file') }}"
-        method="post"
-        enctype="multipart/form-data"
-        class="space-y-8"
-        x-data="uploadForm()"
-        @submit.prevent="submitForm">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <h2 id="upload-heading" class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
+          Upload Your Diagram
+        </h2>
+        <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
+          Supported formats: PNG, JPG, SVG, PDF (Max 10MB)
+        </p>
 
-    <!-- Drag & Drop Zone -->
-    <div class="transition-all duration-300 rounded-2xl border-2 border-dashed flex justify-center items-center"
-         :class="hover ? 'border-primary-500 bg-primary-500/10' : 'border-slate-600/60 bg-slate-800/20'"
-         @dragover.prevent="hover = true"
-         @dragleave.prevent="hover = false"
-         @drop.prevent="handleDrop($event)">
-      <div class="p-12 text-center">
-        <!-- Icon -->
-        <div class="mx-auto mb-4 h-14 w-14 text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                  d="M3 15a4 4 0 00.88 7.903L4 23h16a4 4 0 00.88-7.903A5 5 0 0015 9h-1a5 5 0 000-10 5 5 0 00-4.9 4H9a5 5 0 00-4.12 8.06A4 4 0 003 15zm12 2l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
+        <!-- Drag & Drop Zone -->
+        <div class="upload-zone transition-all duration-300 ease-in-out rounded-xl border-3 border-dashed flex flex-col justify-center items-center"
+             :class="{
+               'border-primary-500 bg-primary-500/10': hover,
+               'border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/30': !hover,
+               'border-green-500 bg-green-500/10': file
+             }"
+             @dragover.prevent="hover = true"
+             @dragleave.prevent="hover = false"
+             @drop.prevent="handleDrop($event)"
+             role="region"
+             aria-describedby="upload-instructions">
+          
+          <div class="p-8 md:p-12 text-center">
+            <!-- Upload Icon -->
+            <div class="mx-auto mb-6 h-16 w-16 text-gray-400 dark:text-gray-500 transition-colors"
+                 :class="{'text-primary-500': hover || file}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+
+            <!-- Instructions -->
+            <div x-show="!file" id="upload-instructions">
+              <p class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Drag & drop your file here
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                or <button type="button" 
+                      class="font-semibold text-primary-600 dark:text-primary-400 hover:underline focus:outline-none"
+                      @click="$refs.fileInput.click()">
+                  browse your files
+                </button>
+              </p>
+            </div>
+
+            <!-- Selected File Preview -->
+            <div x-show="file" class="space-y-4">
+              <div class="flex items-center justify-center gap-3">
+                <div class="file-icon bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg">
+                  <i class="fas fa-file text-primary-600 dark:text-primary-400 text-xl"></i>
+                </div>
+                <div class="text-left">
+                  <p class="font-medium text-gray-900 dark:text-white" x-text="file.name"></p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400" x-text="formatFileSize(file.size)"></p>
+                </div>
+                <button type="button" 
+                        class="ml-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                        @click="file = null"
+                        aria-label="Remove file">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hidden file input -->
+            <input type="file"
+                   name="file"
+                   x-ref="fileInput"
+                   class="sr-only"
+                   accept=".png,.jpg,.jpeg,.svg,.pdf"
+                   @change="file = $refs.fileInput.files[0]">
+          </div>
         </div>
 
-        <!-- Prompt -->
-        <p class="text-sm text-slate-400" x-show="!file">
-          <span class="font-semibold text-primary-400 cursor-pointer" @click="$refs.fileInput.click()">
-            Click&nbsp;to&nbsp;browse
-          </span>
-          or drag &amp; drop
-        </p>
+        <!-- Error Message -->
+        {% if error %}
+          {{ alert(error, 'error') }}
+        {% endif %}
 
-        <!-- Selected file -->
-        <p class="text-sm text-slate-300" x-show="file">
-          <span class="font-medium text-primary-300" x-text="file.name"></span> selected
-        </p>
+        <!-- Form Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="w-full sm:w-auto">
+            {{ button(
+              text='Upload Diagram',
+              style='primary',
+              type='submit',
+              class='w-full sm:w-auto',
+              disabled='isLoading',
+              icon='upload'
+            ) }}
+          </div>
 
-        <!-- Hidden file input -->
-        <input type="file"
-               name="file"
-               x-ref="fileInput"
-               class="sr-only"
-               @change="file = $refs.fileInput.files[0]">
+          <!-- Progress Indicator -->
+          <template x-if="isLoading">
+            <div class="flex items-center gap-3">
+              <div class="spinner"></div>
+              <span class="text-sm text-gray-600 dark:text-gray-300">
+                Uploading... <span x-text="progress + '%'" class="font-medium"></span>
+              </span>
+            </div>
+          </template>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container transition-opacity duration-300"
+             :class="isLoading ? 'opacity-100' : 'opacity-0'">
+          <div class="progress-track">
+            <div class="progress-fill" 
+                 :style="'width: ' + progress + '%'"
+                 :aria-valuenow="progress"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 role="progressbar"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Help Section -->
+    <div class="mt-12 text-center">
+      <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Need help uploading?</h3>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="{{ url_for('routes.docs', page='uploading-diagrams') }}" 
+           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+          <i class="fas fa-book mr-2"></i> Documentation
+        </a>
+        <a href="{{ url_for('routes.support') }}" 
+           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+          <i class="fas fa-question-circle mr-2"></i> Support
+        </a>
+        <a href="{{ url_for('routes.examples') }}" 
+           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+          <i class="fas fa-file-image mr-2"></i> Example Files
+        </a>
       </div>
     </div>
-
-    <!-- Error -->
-    {% if error %}
-      {{ alert(error, 'error') }}
-    {% endif %}
-
-    <!-- Actions -->
-    <div class="flex flex-col sm:flex-row items-center gap-4">
-      <div class="w-full sm:w-auto">
-        {{ button('Upload Diagram', 'primary', 'submit') }}
-      </div>
-
-      <template x-if="isLoading">
-        <span class="text-sm text-slate-400">Uploading… <span x-text="progress + '%'"></span></span>
-      </template>
-    </div>
-
-    <!-- Progress bar -->
-    <div class="progress-bar h-2 bg-slate-700/50 overflow-hidden transition-opacity duration-300"
-         :class="isLoading ? 'opacity-100' : 'opacity-0'">
-      <div class="progress-fill" :data-progress="progress"></div>
-    </div>
-  </form>
   </div>
 </section>
 {% endblock %}
 
 {% block scripts %}
-<div id="uploadData" class="hidden" data-redirect="{{ url_for('main.index') }}"></div>
-<script defer src="{{ url_for('static', filename='js/upload_form.js') }}"></script>
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Upload form Alpine.js component
+      function uploadForm() {
+        return {
+          file: null,
+          hover: false,
+          isLoading: false,
+          progress: 0,
+          error: null,
+          
+          formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+          },
+          
+          handleDrop(e) {
+            this.hover = false;
+            const files = e.dataTransfer.files;
+            if (files.length) {
+              this.file = files[0];
+            }
+          },
+          
+          async submitForm() {
+            if (!this.file) {
+              this.error = 'Please select a file to upload';
+              return;
+            }
+            
+            if (this.file.size > 10 * 1024 * 1024) { // 10MB
+              this.error = 'File size exceeds 10MB limit';
+              return;
+            }
+            
+            this.isLoading = true;
+            this.progress = 0;
+            this.error = null;
+            
+            try {
+              const formData = new FormData(document.getElementById('upload-form'));
+              
+              const response = await fetch(this.$el.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              });
+              
+              if (!response.ok) {
+                throw new Error(await response.text());
+              }
+              
+              window.location.href = document.getElementById('uploadData').dataset.redirect;
+            } catch (err) {
+              this.error = err.message || 'Upload failed. Please try again.';
+              this.isLoading = false;
+            }
+          }
+        };
+      }
+    });
+  </script>
 {% endblock %}

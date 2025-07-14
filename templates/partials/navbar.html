@@ -1,25 +1,271 @@
-<nav class="fixed top-0 w-full h-nav-h bg-white/90 dark:bg-bear-ink/90 backdrop-blur z-30">
-  <div class="wrapper flex items-center justify-between h-full">
-    <a href="{{ url_for('main.index') }}" class="flex items-center gap-2">
-      <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" class="h-6 w-auto" alt="Rules Central logo">
-      <span class="font-bold">Rules Central</span>
-    </a>
+<!-- Navigation Bar -->
+<nav class="fixed top-0 w-full h-16 bg-white/90 dark:bg-bear-ink/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 z-50 transition-all duration-300 shadow-sm hover:shadow-md">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
+    <div class="flex items-center justify-between h-full">
+      <!-- Logo/Brand -->
+      <a href="{{ url_for('main.index') }}" class="flex items-center gap-2 group" aria-label="Rules Central Home">
+        <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" 
+             class="h-6 w-auto transition-transform group-hover:scale-110" 
+             alt="Rules Central logo"
+             width="120"
+             height="24">
+        <span class="font-bold text-gray-900 dark:text-white group-hover:text-primary-500 transition-colors">Rules Central</span>
+      </a>
 
-    <ul class="hidden md:flex items-center gap-8">
-      <li><a class="nav-link" href="#features">Features</a></li>
-      <li><a class="nav-link" href="#docs">Docs</a></li>
-      <li><a class="nav-link" href="#support">Support</a></li>
-    </ul>
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-1">
+        <ul class="flex items-center gap-1">
+          <li>
+            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+               href="{{ url_for('main.catalog') }}"
+               {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
+              Catalog
+            </a>
+          </li>
+          <li>
+            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+               href="{{ url_for('diagrams.diagrams') }}"
+               {% if request.path == url_for('diagrams.diagrams') %}aria-current="page"{% endif %}>
+              Diagrams
+            </a>
+          </li>
+          <li>
+            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+               href="{{ url_for('routes_bp.activity') }}"
+               {% if request.path == url_for('routes_bp.activity') %}aria-current="page"{% endif %}>
+              Activity
+            </a>
+          </li>
+          <li>
+            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+               href="{{ url_for('main.markdown_notes') }}"
+               {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
+              Notes
+            </a>
+          </li>
+          <li class="relative group">
+            <button class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1">
+              More
+              <i class="fas fa-chevron-down text-xs mt-0.5"></i>
+            </button>
+            <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <a href="{{ url_for('routes_bp.faq') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">FAQ</a>
+              <a href="{{ url_for('routes_bp.full_help') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Help</a>
+              <a href="{{ url_for('main.about') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">About</a>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-    <div class="flex items-center gap-4">
-      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle dark mode">
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v1m6.36 1.64l-.707.707M21 12h-1m-1.64 6.36l-.707-.707M12 21v-1m-6.36-1.64l.707-.707M3 12h1m1.64-6.36l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"/>
-        </svg>
-      </button>
-      <a href="/download"
-         class="btn-primary">Download</a>
+      <!-- Right-side Actions -->
+      <div class="flex items-center gap-3">
+        {% if current_user.is_authenticated %}
+          <!-- User dropdown -->
+          <div class="relative group">
+            <button class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ current_user.username }}</span>
+              <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}" 
+                   class="h-8 w-8 rounded-full" 
+                   alt="User avatar">
+            </button>
+            <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <a href="{{ url_for('user_routes.profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+              <a href="{{ url_for('user_routes.settings') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
+              <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Sign out</a>
+            </div>
+          </div>
+        {% else %}
+          <!-- Auth links -->
+          <a href="{{ url_for('auth.login') }}" class="btn-outline px-4 py-2 rounded-lg font-medium">
+            Log In
+          </a>
+          <a href="{{ url_for('auth.register') }}" class="btn-primary px-4 py-2 rounded-lg font-medium">
+            Sign Up
+          </a>
+        {% endif %}
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" 
+                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
+                aria-label="Toggle dark mode"
+                type="button">
+          <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="sun-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M12 3v1m6.36 1.64l-.707.707M21 12h-1m-1.64 6.36l-.707-.707M12 21v-1m-6.36-1.64l.707-.707M3 12h1m1.64-6.36l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"/>
+            <path id="moon-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  class="hidden"/>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-toggle" 
+                class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                aria-label="Open menu"
+                aria-expanded="false"
+                type="button">
+          <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-white dark:bg-bear-ink shadow-lg border-t border-gray-100 dark:border-gray-800 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3">
+      <ul class="flex flex-col gap-1">
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('main.catalog') }}"
+             {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
+            Catalog
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('diagrams.diagrams') }}"
+             {% if request.path == url_for('diagrams.diagrams') %}aria-current="page"{% endif %}>
+            Diagrams
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('routes_bp.activity') }}"
+             {% if request.path == url_for('routes_bp.activity') %}aria-current="page"{% endif %}>
+            Activity
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('main.markdown_notes') }}"
+             {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
+            Notes
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('routes_bp.faq') }}"
+             {% if request.path == url_for('routes_bp.faq') %}aria-current="page"{% endif %}>
+            FAQ
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('routes_bp.full_help') }}"
+             {% if request.path == url_for('routes_bp.full_help') %}aria-current="page"{% endif %}>
+            Help
+          </a>
+        </li>
+        <li>
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+             href="{{ url_for('main.about') }}"
+             {% if request.path == url_for('main.about') %}aria-current="page"{% endif %}>
+            About
+          </a>
+        </li>
+        
+        {% if current_user.is_authenticated %}
+          <li class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300" 
+               href="{{ url_for('user_routes.profile') }}">
+              Profile
+            </a>
+          </li>
+          <li>
+            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300" 
+               href="{{ url_for('user_routes.settings') }}">
+              Settings
+            </a>
+          </li>
+          <li>
+            <a class="block px-4 py-3 rounded-lg font-medium text-red-600 dark:text-red-400" 
+               href="{{ url_for('auth.logout') }}">
+              Sign Out
+            </a>
+          </li>
+        {% else %}
+          <li class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+            <a class="btn-primary w-full text-center block px-4 py-3 rounded-lg font-medium"
+               href="{{ url_for('auth.login') }}">
+              Log In
+            </a>
+          </li>
+          <li>
+            <a class="btn-outline w-full text-center block px-4 py-3 rounded-lg font-medium"
+               href="{{ url_for('auth.register') }}">
+              Sign Up
+            </a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </nav>
+
+<style>
+  .nav-link {
+    @apply text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white hover:bg-primary-600 dark:hover:bg-primary-400;
+  }
+
+  .btn-outline {
+    @apply border border-primary-500 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20;
+  }
+
+  [aria-current="page"] {
+    @apply text-primary-500 dark:text-primary-400 font-medium bg-primary-50/50 dark:bg-primary-900/20;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+      mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+      mobileMenu.classList.toggle('hidden');
+      
+      // Toggle icon
+      const icon = mobileMenuToggle.querySelector('svg');
+      if (!isExpanded) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+      } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+      }
+    });
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      
+      // Toggle icons
+      sunIcon.classList.toggle('hidden');
+      moonIcon.classList.toggle('hidden');
+    });
+
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark' || 
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      sunIcon.classList.add('hidden');
+      moonIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.remove('dark');
+      sunIcon.classList.remove('hidden');
+      moonIcon.classList.add('hidden');
+    }
+  });
+</script>

@@ -1,27 +1,102 @@
-<section class="hero relative bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd text-white py-20 md:py-32">
-  <div class="hero-overlay absolute inset-0 bg-black/20"></div>
-  <div class="hero-content container mx-auto px-4 relative z-10 text-center">
-    {% block hero_title %}
-      <h1 class="hero-title text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
-        Rules Central
-      </h1>
-    {% endblock %}
-    
-    {% block hero_subtitle %}
-      <p class="hero-subtitle text-xl md:text-2xl max-w-2xl mx-auto mb-8 animate-fade-in delay-100">
-        AI-powered rules engine to streamline your automation
-      </p>
-    {% endblock %}
-    
-    {% block hero_actions %}
-      <div class="hero-actions flex flex-col sm:flex-row justify-center gap-4 animate-fade-in delay-200">
-        <a href="{{ url_for('routes.search') }}" class="btn btn-primary px-6 py-3 rounded-lg font-medium transition-all hover:scale-105">
-          <i class="fas fa-rocket mr-2"></i> Get Started
-        </a>
-        <a href="{{ url_for('routes.catalog') }}" class="btn btn-secondary px-6 py-3 rounded-lg font-medium transition-all hover:scale-105">
-          <i class="fas fa-play-circle mr-2"></i> View Catalog
-        </a>
-      </div>
-    {% endblock %}
+<!-- Hero Section -->
+<section class="hero relative bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16 md:py-28 lg:py-32 overflow-hidden">
+  <!-- Decorative elements -->
+  <div class="hero-pattern absolute inset-0 opacity-10" aria-hidden="true"></div>
+  <div class="hero-overlay absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+  
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="hero-content max-w-4xl mx-auto text-center">
+      {% block hero_title %}
+        <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight tracking-tight animate-fade-in-up">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-100">
+            Rules Central
+          </span>
+        </h1>
+      {% endblock %}
+      
+      {% block hero_subtitle %}
+        <p class="hero-subtitle text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-8 md:mb-10 text-primary-100 animate-fade-in-up delay-75">
+          AI-powered rules engine to streamline your automation workflows and decision-making processes
+        </p>
+      {% endblock %}
+      
+      {% block hero_actions %}
+        <div class="hero-actions flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up delay-150">
+          <a href="{{ url_for('routes.search') }}" 
+             class="btn btn-primary px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-[1.03] focus:scale-[1.03] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-700"
+             aria-label="Get started with Rules Central">
+            <i class="fas fa-rocket mr-2" aria-hidden="true"></i> Get Started
+          </a>
+          <a href="{{ url_for('routes.catalog') }}" 
+             class="btn btn-outline-white px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-[1.03] focus:scale-[1.03] active:scale-[0.98] border-2 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+             aria-label="View rules catalog">
+            <i class="fas fa-play-circle mr-2" aria-hidden="true"></i> View Catalog
+          </a>
+        </div>
+      {% endblock %}
+      
+      {% block hero_secondary %}
+        <div class="hero-secondary mt-12 animate-fade-in-up delay-300">
+          <p class="text-sm text-primary-200 mb-4">TRUSTED BY INDUSTRY LEADERS</p>
+          <div class="flex flex-wrap justify-center items-center gap-6 md:gap-10 opacity-80 hover:opacity-100 transition-opacity">
+            <img src="{{ url_for('static', filename='images/logos/company1.svg') }}" alt="Company 1" class="h-8 md:h-10 w-auto grayscale contrast-0 brightness-0 invert hover:grayscale-0 hover:contrast-100 hover:brightness-100 hover:invert-0 transition-all">
+            <img src="{{ url_for('static', filename='images/logos/company2.svg') }}" alt="Company 2" class="h-8 md:h-10 w-auto grayscale contrast-0 brightness-0 invert hover:grayscale-0 hover:contrast-100 hover:brightness-100 hover:invert-0 transition-all">
+            <img src="{{ url_for('static', filename='images/logos/company3.svg') }}" alt="Company 3" class="h-8 md:h-10 w-auto grayscale contrast-0 brightness-0 invert hover:grayscale-0 hover:contrast-100 hover:brightness-100 hover:invert-0 transition-all">
+          </div>
+        </div>
+      {% endblock %}
+    </div>
   </div>
 </section>
+
+<style>
+  /* Hero animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .delay-75 {
+    animation-delay: 75ms;
+  }
+  
+  .delay-150 {
+    animation-delay: 150ms;
+  }
+  
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  /* Hero pattern */
+  .hero-pattern {
+    background-image: radial-gradient(circle at 25% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    background-color: theme('colors.white');
+    color: theme('colors.primary.700');
+    font-weight: 600;
+  }
+  
+  .btn-outline-white {
+    border-color: theme('colors.white');
+    color: theme('colors.white');
+    background-color: transparent;
+  }
+  
+  .btn-outline-white:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+</style>

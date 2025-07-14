@@ -1,33 +1,60 @@
-{# base.html — Bear-style skeleton #}
+{# base.html — Bear-style skeleton template #}
 <!doctype html>
-<html lang="en" data-theme="bear" class="">
+<html lang="en" data-theme="bear" class="scroll-smooth">
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}Rules Central{% endblock %}</title>
+    <title>{% block title %}Rules Central{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Inter font -->
-    <link rel="preconnect" href="https://rsms.me/" crossorigin>
-    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
-
-    <!-- Tailwind build -->
+    <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://rsms.me/inter/inter.css" as="style" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='css/output.css') }}" as="style">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    
+    <!-- Web fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.processed.css') }}">
-
-    {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" media="print" onload="this.media='all'">
+    
+    <!-- Preload scripts -->
+    <link rel="modulepreload" href="{{ url_for('static', filename='js/theme.js') }}">
+    
+    {% block meta %}{% endblock meta %}
+    {% block head %}{% endblock head %}
   </head>
 
-  <body class="flex flex-col min-h-screen mt-nav">
+  <body class="flex flex-col min-h-screen bg-white dark:bg-bear-ink text-gray-800 dark:text-gray-100 antialiased">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bear-red focus:text-white focus:rounded">
+      Skip to content
+    </a>
+    
     {% include 'partials/navbar.html' %}
 
-    <main class="flex-1">
-      {% block content %}{% endblock %}
+    <main id="main-content" class="flex-1">
+      {% block content %}{% endblock content %}
     </main>
 
     {% include 'partials/footer.html' %}
 
-    <script src="{{ url_for('static', filename='js/theme.js') }}" type="module"></script>
-    {% block scripts %}{% endblock %}
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/theme.js') }}" type="module" async></script>
+    
+    {% block scripts %}{% endblock scripts %}
+    
+    <!-- Performance monitoring -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('{{ url_for("static", filename="js/sw.js") }}');
+        });
+      }
+    </script>
   </body>
 </html>

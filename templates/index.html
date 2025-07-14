@@ -2,155 +2,321 @@
 
 {% block title %}Dashboard | Rules Central{% endblock %}
 
-{% block hero_title %}
-  <h1 class="hero-title">Rules Central</h1>
-{% endblock %}
-
-{% block hero_subtitle %}
-  <p class="hero-subtitle">
-    AI-powered rules engine to streamline your automation
-  </p>
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 <!-- ===== DASHBOARD ===== -->
-<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16 md:space-y-24">
 
-  <!-- HERO -->
-  <header class="text-center space-y-6">
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-      Rules Central Dashboard
+  <!-- HERO SECTION -->
+  <header class="text-center space-y-4 md:space-y-6">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
+      <span class="bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
+        Rules Central Dashboard
+      </span>
     </h1>
-    <p class="text-lg text-slate-400 max-w-3xl mx-auto">
+    <p class="text-lg text-slate-500 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
       One glance for everything: totals, trends, and quick actions for your rule library.
     </p>
 
-    <div class="flex flex-wrap gap-4 justify-center pt-2">
+    <div class="flex flex-wrap gap-3 justify-center pt-2">
       <a href="{{ url_for('routes.config_page') }}"
-         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary-600 text-white hover:bg-primary-500 focus-ring transition">
-        <i class="fa-solid fa-plus"></i> New Rule
+         class="btn-primary"
+         aria-label="Create new rule">
+        <i class="fas fa-plus mr-2" aria-hidden="true"></i> New Rule
       </a>
       <a href="{{ url_for('main.catalog') }}"
-         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-slate-700 text-white hover:bg-slate-600 focus-ring transition">
-        <i class="fa-solid fa-table-list"></i> View All
+         class="btn-secondary"
+         aria-label="View all rules">
+        <i class="fas fa-table-list mr-2" aria-hidden="true"></i> View All
       </a>
     </div>
   </header>
 
-  <!-- METRIC CARDS -->
-  <section aria-labelledby="metrics-heading">
-    <h2 id="metrics-heading" class="sr-only">Key metrics</h2>
+  <!-- METRICS SECTION -->
+  <section aria-labelledby="metrics-heading" class="space-y-8">
+    <h2 id="metrics-heading" class="text-2xl font-bold text-slate-800 dark:text-slate-200">
+      Key Metrics
+    </h2>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <!-- total rules -->
-      <a href="{{ url_for('main.catalog') }}"
-         class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow hover:ring-2 hover:ring-primary-500 focus-ring transition">
-        <div class="p-6 space-y-2">
-          <p class="text-sm font-medium text-slate-400">Total rules</p>
-          <p class="text-4xl font-extrabold text-white">{{ stats.total_rules|default(0) }}</p>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Metric Card Component -->
+      {% macro metric_card(title, value, icon, color, link=None) %}
+        <div class="metric-card {{ 'metric-card-link' if link }} {{ color }}">
+          {% if link %}
+            <a href="{{ link }}" class="absolute inset-0" aria-label="{{ title }}"></a>
+          {% endif %}
+          <div class="metric-content">
+            <p class="metric-title">{{ title }}</p>
+            <p class="metric-value">{{ value|default(0) }}</p>
+          </div>
+          <i class="{{ icon }} metric-icon"></i>
         </div>
-        <i class="fa-solid fa-layer-group absolute bottom-4 right-4 text-4xl text-primary-500/20"></i>
-      </a>
+      {% endmacro %}
 
-      <!-- 7 days -->
-      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
-        <div class="p-6 space-y-2">
-          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;7 days</p>
-          <p class="text-4xl font-extrabold text-white">{{ stats.last_7_days|default(0) }}</p>
-        </div>
-        <i class="fa-solid fa-calendar-week absolute bottom-4 right-4 text-4xl text-emerald-400/20"></i>
-      </div>
+      {{ metric_card(
+        "Total rules",
+        stats.total_rules,
+        "fas fa-layer-group",
+        "bg-gradient-to-br from-slate-800 to-slate-900",
+        url_for('main.catalog')
+      ) }}
 
-      <!-- 30 days -->
-      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
-        <div class="p-6 space-y-2">
-          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;30 days</p>
-          <p class="text-4xl font-extrabold text-white">{{ stats.last_30_days|default(0) }}</p>
-        </div>
-        <i class="fa-solid fa-calendar-days absolute bottom-4 right-4 text-4xl text-amber-400/20"></i>
-      </div>
+      {{ metric_card(
+        "Changed · 7 days",
+        stats.last_7_days,
+        "fas fa-calendar-week",
+        "bg-gradient-to-br from-emerald-800 to-emerald-900"
+      ) }}
 
-      <!-- 90 days -->
-      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
-        <div class="p-6 space-y-2">
-          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;90 days</p>
-          <p class="text-4xl font-extrabold text-white">{{ stats.last_90_days|default(0) }}</p>
-        </div>
-        <i class="fa-solid fa-calendar-alt absolute bottom-4 right-4 text-4xl text-pink-400/20"></i>
-      </div>
+      {{ metric_card(
+        "Changed · 30 days",
+        stats.last_30_days,
+        "fas fa-calendar-days",
+        "bg-gradient-to-br from-amber-800 to-amber-900"
+      ) }}
+
+      {{ metric_card(
+        "Changed · 90 days",
+        stats.last_90_days,
+        "fas fa-calendar-alt",
+        "bg-gradient-to-br from-pink-800 to-pink-900"
+      ) }}
     </div>
   </section>
 
-  <!-- TREND CHART -->
+  <!-- TREND VISUALIZATION -->
   <section aria-labelledby="trend-heading" class="space-y-6">
-    <h2 id="trend-heading" class="text-2xl font-bold">Rule change trends</h2>
-    <canvas id="rulesTrendChart" class="w-full h-[320px]"></canvas>
+    <div class="flex justify-between items-center">
+      <h2 id="trend-heading" class="text-2xl font-bold text-slate-800 dark:text-slate-200">
+        Rule Change Trends
+      </h2>
+      <div class="flex gap-2">
+        <button id="trend-30d" class="trend-btn active">30D</button>
+        <button id="trend-90d" class="trend-btn">90D</button>
+        <button id="trend-1y" class="trend-btn">1Y</button>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="rulesTrendChart" 
+              aria-label="Rule change trends chart"
+              role="img"></canvas>
+    </div>
   </section>
 
   <!-- QUICK ACTIONS -->
-  <section aria-labelledby="actions-heading">
-    <h2 id="actions-heading" class="text-2xl font-bold mb-4">Quick actions</h2>
-    <div class="grid gap-6 md:grid-cols-3">
-      <a href="{{ url_for('upload.upload_file') }}" class="quick-action">
-        <i class="fa-solid fa-file-arrow-up"></i>
-        Import rules
-      </a>
-      <a href="{{ url_for('diagrams.diagram_converter') }}" class="quick-action">
-        <i class="fa-solid fa-diagram-project"></i>
-        Generate diagram
-      </a>
-      <a href="{{ url_for('analytics_routes.get_stats') }}" class="quick-action">
-        <i class="fa-solid fa-chart-line"></i>
-        View analytics
-      </a>
+  <section aria-labelledby="actions-heading" class="space-y-6">
+    <h2 id="actions-heading" class="text-2xl font-bold text-slate-800 dark:text-slate-200">
+      Quick Actions
+    </h2>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {% macro quick_action(icon, text, url) %}
+        <a href="{{ url }}" class="quick-action" aria-label="{{ text }}">
+          <i class="{{ icon }} quick-action-icon" aria-hidden="true"></i>
+          <span>{{ text }}</span>
+          <i class="fas fa-chevron-right ml-auto quick-action-arrow" aria-hidden="true"></i>
+        </a>
+      {% endmacro %}
+
+      {{ quick_action(
+        "fas fa-file-arrow-up",
+        "Import rules",
+        url_for('upload.upload_file')
+      ) }}
+
+      {{ quick_action(
+        "fas fa-diagram-project",
+        "Generate diagram",
+        url_for('diagrams.diagram_converter')
+      ) }}
+
+      {{ quick_action(
+        "fas fa-chart-line",
+        "View analytics",
+        url_for('analytics_routes.get_stats')
+      ) }}
+
+      {{ quick_action(
+        "fas fa-book",
+        "Documentation",
+        "#"
+      ) }}
+
+      {{ quick_action(
+        "fas fa-sliders",
+        "Settings",
+        "#"
+      ) }}
+
+      {{ quick_action(
+        "fas fa-question-circle",
+        "Help Center",
+        "#"
+      ) }}
     </div>
   </section>
 
 </section>
 {% endblock %}
 
-<style>
-  .quick-action{
-    @apply flex items-center gap-3 p-4 rounded-lg bg-slate-800 hover:bg-slate-700 focus-ring transition text-slate-100;
-  }
-</style>
+{% block styles %}
+  <style>
+    /* Metric Cards */
+    .metric-card {
+      @apply relative overflow-hidden rounded-lg shadow-md p-6 transition-all duration-200;
+      min-height: 120px;
+    }
+
+    .metric-card-link {
+      @apply hover:ring-2 hover:ring-primary-500 cursor-pointer;
+    }
+
+    .metric-content {
+      @apply space-y-2 z-10 relative;
+    }
+
+    .metric-title {
+      @apply text-sm font-medium text-slate-400;
+    }
+
+    .metric-value {
+      @apply text-3xl font-extrabold text-white;
+    }
+
+    .metric-icon {
+      @apply absolute bottom-4 right-4 text-4xl opacity-20;
+    }
+
+    /* Quick Actions */
+    .quick-action {
+      @apply flex items-center gap-4 p-5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 
+             focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 
+             border border-slate-200 dark:border-slate-700;
+    }
+
+    .quick-action-icon {
+      @apply text-primary-500 text-xl;
+    }
+
+    .quick-action-arrow {
+      @apply text-slate-400 text-sm;
+    }
+
+    /* Chart Controls */
+    .trend-btn {
+      @apply px-3 py-1 text-sm rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200;
+    }
+
+    .trend-btn.active {
+      @apply bg-primary-500 text-white;
+    }
+
+    .chart-container {
+      @apply w-full h-[320px] bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary-600 text-white hover:bg-primary-500 
+             focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors;
+    }
+
+    .btn-secondary {
+      @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 
+             dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 focus:ring-2 focus:ring-primary-500 
+             focus:ring-offset-2 transition-colors;
+    }
+  </style>
+{% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.x/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.x/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.x/dist/chartjs-plugin-datalabels.min.js"></script>
 
-  <div id="indexChartsData" class="hidden"
-       data-rules='{{ charts.rules|default([])|tojson }}'></div>
+  <script type="application/json" id="chartData">
+    {{ charts|tojson }}
+  </script>
 
-  <script defer>
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Initialize all charts
+      initTrendChart();
+      setupTrendFilters();
+    });
+
+    function initTrendChart() {
       const ctx = document.getElementById('rulesTrendChart');
       if (!ctx) return;
 
-      const payload = JSON.parse(
-        document.getElementById('indexChartsData').dataset.rules || '[]'
-      );
+      const chartData = JSON.parse(document.getElementById('chartData').textContent);
+      const trendData = chartData.rules || [];
 
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: payload.map(p => p.label),
+          labels: trendData.map(item => item.label),
           datasets: [{
-            label: 'Rule changes',
-            data: payload.map(p => p.count),
+            label: 'Rule Changes',
+            data: trendData.map(item => item.count),
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 2,
             tension: 0.4,
-            fill: true
+            fill: true,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#3b82f6',
+            pointRadius: 4,
+            pointHoverRadius: 6
           }]
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: false } },
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
+          },
           scales: {
-            x: { grid: { display: false } },
-            y: { grid: { color: '#37415122' } }
+            x: { 
+              grid: { 
+                display: false,
+                color: '#e5e7eb' 
+              },
+              ticks: {
+                color: '#6b7280'
+              }
+            },
+            y: { 
+              grid: { 
+                color: 'rgba(229, 231, 235, 0.5)' 
+              },
+              ticks: {
+                color: '#6b7280'
+              },
+              beginAtZero: true
+            }
           }
         }
       });
-    });
+    }
+
+    function setupTrendFilters() {
+      const buttons = document.querySelectorAll('.trend-btn');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          buttons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          // Here you would typically fetch new data for the selected timeframe
+        });
+      });
+    }
   </script>
 {% endblock %}
