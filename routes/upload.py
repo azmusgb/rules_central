@@ -1,6 +1,7 @@
 """Routes for file uploads and diagram generation."""
 
 import os
+import json
 from flask import (
     Blueprint,
     current_app,
@@ -83,7 +84,7 @@ def upload_file():
         generate_files(json_data, output_dir)
         processed_files.append(filename)
 
-    except Exception as e:
+    except (OSError, ValueError, json.JSONDecodeError) as e:
         errors.append(f"{file.filename}: {str(e)}")
         current_app.logger.error(f"Upload error: {file.filename} - {str(e)}")
 

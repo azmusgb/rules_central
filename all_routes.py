@@ -389,87 +389,6 @@ def serve_diagram_file(root_name, diagram_name):
 # ================
 # VIEW RENDERING
 # ================
-@routes_bp.route("/")
-def index():
-    """Main application index"""
-    return render_template(
-        "index.html",
-        material=current_app.config.get("MATERIAL"),
-        help_available=True,
-        charts={"rules": {}},  # prevent UndefinedError in dashboard template
-    )
-
-
-# Legacy route kept for backward compatibility. Redirects to the diagram catalog.
-@routes_bp.route("/rules")
-def rules():
-    """Legacy route kept for backward compatibility. Redirects to the diagram catalog."""
-    return redirect(url_for("routes.catalog"))
-
-
-@routes_bp.route("/rules/new", methods=["GET", "POST"])
-def new_rule():
-    """Create a new business rule."""
-    if request.method == "POST":
-        rule_name = request.form.get("name", "").strip()
-        description = request.form.get("description", "").strip()
-        if not rule_name:
-            flash("Rule name is required", "error")
-            return redirect(url_for("routes.new_rule"))
-
-        log_activity(
-            action="create",
-            rule_id=secure_filename(rule_name),
-            user=get_current_user(),
-            details=f"Created new rule '{rule_name}'",
-        )
-        flash(f"Rule '{rule_name}' created!", "success")
-        return redirect(url_for("routes.catalog"))
-
-    return render_template("new_rule.html", help_available=True)
-
-
-@routes_bp.route("/catalog")
-def catalog():
-    """Diagram catalog view"""
-    return render_template("catalog.html", help_available=True)
-
-
-@routes_bp.route("/templates")
-def templates():
-    """List available diagram templates."""
-    return render_template("catalog.html", help_available=True)
-
-
-
-@routes_bp.route("/analytics")
-def analytics():
-    """Display analytics dashboard."""
-    return render_template("dashboard.html", help_available=True)
-
-
-@routes_bp.route("/admin")
-def admin():
-    """Administration interface placeholder."""
-    return render_template("dashboard.html", help_available=True)
-
-
-@routes_bp.route("/rules_extraction_utility")
-def rules_extraction_utility():
-    """Rules Extraction Utility view"""
-    return render_template("rules_extraction_utility.html", help_available=True)
-
-
-@routes_bp.route("/api_test_utility")
-def api_test_utility():
-    """API Test Utility view"""
-    return render_template("api_test_utility.html", help_available=True)
-
-
-@routes_bp.route("/search")
-def search():
-    """Search view"""
-    return render_template("search.html", help_available=True)
 
 
 @routes_bp.route("/activity")
@@ -656,14 +575,3 @@ def view_diagram():
 
 
 
-# --------------------------------------------------------------------------- #
-# About page
-# --------------------------------------------------------------------------- #
-@routes_bp.route("/about", methods=["GET"])
-def about():
-    """Serve the About page with version information and useful links."""
-    return render_template(
-        "about.html",
-        version=current_app.config.get("VERSION", "dev"),
-        help_available=True,
-    )
