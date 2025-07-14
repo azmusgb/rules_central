@@ -8,11 +8,11 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#FF5E62',
-          500: '#FF5E62',
-          600: '#FF5E62',
-          700: '#E04E4D',
-          gradientStart: '#FF5E62',
+          DEFAULT: '#DD4C4F',
+          500: '#DD4C4F',
+          600: '#DD4C4F',
+          700: '#c04244',
+          gradientStart: '#DD4C4F',
           gradientEnd: '#FFC371'
         },
         danger: {
@@ -39,6 +39,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          'bearsans',
           'Inter',
           '\'SF Pro\'',
           'system-ui',
@@ -47,6 +48,11 @@ module.exports = {
           'Helvetica Neue',
           'Arial',
           'sans-serif'
+        ],
+        mono: [
+          'roboto-mono',
+          'Menlo',
+          'monospace'
         ]
       },
       maxWidth: {
