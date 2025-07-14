@@ -45,7 +45,7 @@ Build CSS assets:
 npm install
 npm run build:css
 ```
-The compiled stylesheet is saved to `static/css/app.css` and includes autoprefixing and minification. The legacy `main.css` has been removed.
+The compiled stylesheet is saved to `static/css/output.css` and includes autoprefixing and minification. The new Bear theme uses Tailwind v3 with JIT.
 
 ## Running Locally
 Start the development server with:

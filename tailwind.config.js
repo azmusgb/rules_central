@@ -1,82 +1,45 @@
-const plugin = require('tailwindcss/plugin');
-module.exports = {
-  darkMode: 'class',
-  content: ['./templates/**/*.html', './static/js/**/*.js'],
+/* tailwind.config.js — Bear theme · 2025-07-13 */
+import defaultTheme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
+
+export default {
+  darkMode: 'class',                          // toggled by static/js/theme.js
+  content: [
+    'templates/**/*.html',
+    'static/js/**/*.js',
+  ],
   theme: {
-    container: {
-      center: true,
-      padding: '1rem',
-      screens: { lg: '960px' }
-    },
     extend: {
       colors: {
-        'surface-0': 'var(--surface-0)',
-        'surface-1': 'var(--surface-1)',
-        'ink-900': 'var(--ink-900)',
-        'ink-600': 'var(--ink-600)',
-        'ink-400': 'var(--ink-400)',
-        'accent-r': 'var(--accent-r)',
-        'accent-r-dark': 'var(--accent-r-dark)'
+        bear: {
+          red:  '#DD4C4F',  // primary accent (Bear icon red)
+          grey: '#8E8E93',  // subtle text / icons
+          smoke:'#F9F9FA',  // light sections
+          ink:  '#1D1D1F',  // dark surface
+        },
       },
       fontFamily: {
-        sans: [
-          'SF Pro',
-          'system-ui',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Helvetica Neue',
-          'Arial',
-          'sans-serif'
-        ]
+        sans: ['Inter', 'SF Pro Text', ...defaultTheme.fontFamily.sans],
       },
-      spacing: {
-        18: '4.5rem',
-        22: '5.5rem'
+      maxWidth: {
+        wrapper: '72rem',   // 1152 px ≈ Bear’s content column
       },
       boxShadow: {
-        soft: '0 2px 8px rgba(0,0,0,.04)'
+        card: '0 4px 12px rgba(0,0,0,0.04)',
       },
-      rotate: {
-        360: '360deg'
-      },
-      keyframes: {
-        'fade-up': {
-          from: { opacity: '0', transform: 'translateY(8px)' },
-          to: { opacity: '1', transform: 'translateY(0)' }
-        }
-      },
-      animation: {
-        'fade-up-slow': 'fade-up 0.8s ease-out both'
-      }
-    }
+    },
   },
   plugins: [
-    plugin(function({ addBase }) {
-      addBase({
-        ':root': {
-          '--surface-0': '#FFFFFF',
-          '--surface-1': '#F7F7F7',
-          '--ink-900': '#1B1B1D',
-          '--ink-600': '#414145',
-          '--ink-400': '#8E8E94',
-          '--accent-r': '#FF2D20',
-          '--accent-r-dark': '#FF4034'
+    require('@tailwindcss/typography'),
+    plugin(({ addUtilities }) => {
+      /* squiggle underline used in “notes you’ll love” headline */
+      addUtilities({
+        '.underline-squiggle': {
+          background:
+            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"160\" height=\"6\" viewBox=\"0 0 160 6\"><path fill=\"none\" stroke=\"%23DD4C4F\" stroke-width=\"3\" d=\"M0 3 Q20 6 40 3 T80 3 T120 3 T160 3\"/></svg>') repeat-x bottom/auto 6px",
+          paddingBottom: '0.25rem',
         },
-        '.dark :root': {
-          '--surface-0': '#1B1B1D',
-          '--surface-1': '#2B2B2E',
-          '--ink-900': '#F0F0F3',
-          '--ink-600': '#CCCCD0',
-          '--ink-400': '#9A9AA0'
-        }
       });
     }),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography')
   ],
-  variants: {
-    extend: {
-      animation: ['motion-safe','motion-reduce']
-    }
-  }
 };
