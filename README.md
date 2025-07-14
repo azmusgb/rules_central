@@ -80,7 +80,7 @@ Run the unit tests with:
 ```bash
 pytest -v
 ```
-The tests cover helper functions in [utils.py](utils.py) and ensure the application factory can be imported without optional dependencies.
+The test suite exercises the application factory and a wide range of utilities in the `utils` package, including diagram generation helpers.
 
 ### Custom configuration
 Set the ``CONFIG_PATH`` environment variable to load an alternative
