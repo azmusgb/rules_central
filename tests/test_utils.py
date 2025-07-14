@@ -1,7 +1,6 @@
 import os
 import sys
 import types
-import tempfile
 import json
 
 # Ensure project root is on the path
@@ -21,7 +20,7 @@ werkzeug_utils.secure_filename = lambda filename: filename
 sys.modules.setdefault("werkzeug", types.ModuleType("werkzeug"))
 sys.modules.setdefault("werkzeug.utils", werkzeug_utils)
 
-import utils
+import utils  # noqa: E402
 
 
 def test_allowed_file():

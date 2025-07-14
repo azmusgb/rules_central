@@ -15,9 +15,6 @@ from flask import (
     abort,
     current_app,
     url_for,
-    send_file,
-    flash,
-    redirect,
     make_response,
 )
 from werkzeug.utils import secure_filename
@@ -30,12 +27,8 @@ from utils import (
     diagram_type_from_filename,
     get_snippet,
     get_current_user,
-    initialize_directories,
     get_help_topics,
 )
-from collections import defaultdict
-from datetime import datetime, timedelta
-from config import Config
 from urllib.parse import urlencode
 
 LOGGER = logging.getLogger(__name__)
