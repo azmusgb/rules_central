@@ -4,7 +4,7 @@ import os
 import json
 from collections import defaultdict
 from datetime import datetime, timedelta
-from flask import Blueprint, jsonify, current_app, request, send_file
+from flask import Blueprint, jsonify, current_app, send_file
 from config import Config
 from utils import log_activity, get_current_user
 
@@ -146,7 +146,6 @@ def get_activity_stats():
 
 def update_rule(rule_id):
     """Example rule update endpoint that logs an activity entry."""
-    data = request.get_json()
     try:
         # Update logic would go here
         log_activity(

@@ -16,10 +16,9 @@ from __future__ import annotations
 import logging
 import os
 import sys
-from importlib import import_module
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from flask import Flask
 
