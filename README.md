@@ -64,6 +64,7 @@ npm install
 npm run build:css
 ```
 The compiled stylesheet is saved to `static/css/output.css` and includes autoprefixing and minification. The new Bear theme uses Tailwind v3 with JIT.
+Note: the optional `pa11y-ci` accessibility audit has been removed from `package.json` to avoid install errors. The `audit:a11y` npm script now simply prints a placeholder message.
 
 ## Running Locally
 Start the development server with:
