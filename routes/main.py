@@ -22,7 +22,6 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def index():
     """Render the application home page."""
-
     try:
         stats = get_rule_stats()
         trend = get_activity_trend(days=30)
@@ -35,7 +34,6 @@ def index():
 @main.route("/catalog")
 def catalog():
     """Display the diagram catalog."""
-
     try:
         return render_template("catalog.html")
     except Exception as exc:
@@ -46,7 +44,6 @@ def catalog():
 @main.route("/search")
 def search():
     """Display the search page."""
-
     try:
         return render_template("search.html")
     except Exception as exc:
@@ -57,7 +54,6 @@ def search():
 @main.route("/get-started")
 def get_started():
     """Guide new users through the basic workflow."""
-
     try:
         return render_template("get_started.html")
     except Exception as exc:
@@ -68,11 +64,10 @@ def get_started():
 @main.route("/about")
 def about():
     """Display project information and version."""
-
     try:
         version = current_app.config.get("VERSION", "1.0")
         return render_template("about.html", version=version)
-    except Exception as exc:  # pragma: no cover - unexpected errors
+    except Exception as exc:  # pragma: no cover
         current_app.logger.error("About page error: %s", exc)
         abort(500)
 
@@ -80,7 +75,6 @@ def about():
 @main.route("/contact", methods=["GET", "POST"])
 def contact():
     """Display the contact page and handle feedback submissions."""
-
     try:
         if request.method == "POST":
             data = {
@@ -104,9 +98,10 @@ def contact():
             return redirect(url_for("main.contact"))
 
         return render_template("contact.html")
-    except Exception as exc:  # pragma: no cover - unexpected errors
+    except Exception as exc:  # pragma: no cover
         current_app.logger.error("Contact page error: %s", exc)
         abort(500)
+
 
 @main.route("/markdown-notes")
 def markdown_notes():
@@ -116,6 +111,7 @@ def markdown_notes():
     except Exception as exc:
         current_app.logger.error("Markdown Notes page error: %s", exc)
         abort(500)
+
 
 @main.route("/bear-clone")
 def bear_clone():
