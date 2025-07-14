@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   darkMode: 'class',
   content: ['./templates/**/*.html', './static/js/**/*.js'],
@@ -37,6 +39,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          'Inter',
           '\'SF Pro\'',
           'system-ui',
           '-apple-system',
@@ -46,10 +49,14 @@ module.exports = {
           'sans-serif'
         ]
       },
+      maxWidth: {
+        wrapper: '72rem'
+      },
       boxShadow: {
         soft: '0 2px 8px rgb(0 0 0 / 0.08)',
         glow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-        pulse: '0 0 20px rgba(59, 130, 246, 0.3)'
+        pulse: '0 0 20px rgba(59, 130, 246, 0.3)',
+        card: '0 4px 12px rgba(0,0,0,0.04)'
       },
       spacing: {
         18: '4.5rem',
@@ -71,5 +78,17 @@ module.exports = {
       }
     }
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.underline-squiggle': {
+          background:
+            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"160\" height=\"6\" viewBox=\"0 0 160 6\"><path fill=\"none\" stroke=\"%23DD4C4F\" stroke-width=\"3\" d=\"M0 3 Q20 6 40 3 T80 3 T120 3 T160 3\"/></svg>') repeat-x bottom/auto 6px",
+          paddingBottom: '0.25rem',
+        },
+      });
+    }),
+  ],
 };
