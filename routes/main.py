@@ -114,3 +114,12 @@ def markdown_notes():
     except Exception as exc:
         current_app.logger.error("Markdown Notes page error: %s", exc)
         abort(500)
+
+@main.route("/bear-clone")
+def bear_clone():
+    """Render the Bear App clone page."""
+    try:
+        return render_template("bear_app_clone.html")
+    except Exception as exc:
+        current_app.logger.error("Bear clone page error: %s", exc)
+        abort(500)
