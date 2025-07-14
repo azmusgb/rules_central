@@ -108,6 +108,8 @@ Additional environment variables:
 - `static/` – static assets
 - `config/` – default configuration files
 - `tests/` – pytest unit tests
+- `structure_summary.txt` – collapsed project overview generated with
+  `python scripts/collapse_tree.py -d 0`
 
 ## Codespaces
 
