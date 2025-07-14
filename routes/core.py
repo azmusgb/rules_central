@@ -268,6 +268,7 @@ def metrics():
         return jsonify(error="Failed to fetch metrics"), 500
 
 
+
 # ---------------------------------------------------------------------------
 # Collaboration blueprint
 # ---------------------------------------------------------------------------
@@ -291,6 +292,20 @@ def team():
     except Exception as exc:
         current_app.logger.error("Collab team route error: %s", exc)
         return jsonify(error="Collaboration service unavailable"), 500
+
+
+# ---------------------------------------------------------------------------
+# FAQ route (simple route)
+# ---------------------------------------------------------------------------
+
+@collab.route("/faq")
+def faq_page():
+    """Display the FAQ page."""
+    try:
+        return render_template("faq.html")
+    except Exception as exc:
+        current_app.logger.error("FAQ page error: %s", exc)
+        abort(500)
 
 
 # ---------------------------------------------------------------------------
