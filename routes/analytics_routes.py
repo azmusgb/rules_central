@@ -5,6 +5,7 @@ import json
 from collections import defaultdict
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, current_app, send_file
+from .api import api
 from config import Config
 from utils import log_activity, get_current_user
 
@@ -196,3 +197,19 @@ def force_log_activity():
         return jsonify({"status": "success", "message": "Test activity logged"})
     except Exception as exc:
         return jsonify({"status": "error", "message": str(exc)}), 500
+
+
+@api.route("/api/metrics")
+def metrics():
+    """Return dashboard metrics for the main page."""
+    try:
+        data = {
+            "diagramCount": 75,
+            "rulesExtractedCount": 65,
+            "rulesStatusChart": 80,
+            "recentChangesCount": 50,
+        }
+        return jsonify(data)
+    except Exception as exc:
+        current_app.logger.error("Metrics API error: %s", exc)
+        return jsonify(error="Failed to fetch metrics"), 500
