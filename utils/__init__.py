@@ -11,7 +11,12 @@ from .rule_utils import (
     validate_hierarchy_data,
     build_hierarchy,
 )
-from .logging_utils import log_activity, ActivityLogEntry
+from .logging_utils import (
+    log_activity,
+    ActivityLogEntry,
+    get_rule_stats,
+    get_activity_trend,
+)
 from .core import (
     highlight_matches,
     get_snippet,
@@ -42,4 +47,6 @@ __all__ = [
     "add_missing_guids_if_needed",
     "get_file_metadata",
     "highlight_matches",
+    "get_rule_stats",
+    "get_activity_trend",
 ]
