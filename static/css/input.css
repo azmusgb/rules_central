@@ -1,56 +1,264 @@
 /**
- * input.css — Tailwind entry
+ * input.css — Tailwind entry point
  * ----------------------------------------------------------------------------
- * Bear-inspired global tokens, dark-mode, utilities, and components.
+ * Bear-inspired design system with global tokens, dark mode, utilities, and components.
  */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ------------------------ 2-A. Design tokens ------------------------------ */
+/* ==========================================================================
+   1. Base Layer - Design Tokens and Fundamental Styles
+   ========================================================================== */
 @layer base {
   :root {
-    --accent: theme(colors.bear.red);
-    --grey:   theme(colors.bear.grey);
-    --smoke:  theme(colors.bear.smoke);
-    --ink:    theme(colors.bear.ink);
+    /* Color Tokens */
+    --color-accent: theme(colors.bear.red);
+    --color-grey: theme(colors.bear.grey);
+    --color-smoke: theme(colors.bear.smoke);
+    --color-ink: theme(colors.bear.ink);
+    
+    /* Typography */
+    --font-body: theme(fontFamily.sans);
+    --font-heading: theme(fontFamily.sans);
+    
+    /* Spacing */
+    --space-xs: theme(spacing.2);
+    --space-sm: theme(spacing.4);
+    --space-md: theme(spacing.6);
+    --space-lg: theme(spacing.8);
+    --space-xl: theme(spacing.12);
   }
 
+  /* Root HTML Styles */
   html {
     @apply bg-white text-gray-800 font-sans antialiased scroll-smooth;
+    font-size: 16px;
+    line-height: 1.5;
   }
+
+  /* Dark Mode */
   html.dark {
     @apply bg-bear-ink text-gray-100;
+    color-scheme: dark;
   }
 
-  /* links */
-  a       { @apply text-bear-red hover:underline underline-offset-2; }
-  a.dark  { @apply text-bear-red; } /* maintain accent in dark */
+  /* Selection Styles */
+  ::selection {
+    @apply bg-bear-red text-white;
+  }
 
-  /* headings */
-  h1, h2, h3, h4 { @apply font-semibold text-gray-900 dark:text-white tracking-tight; }
+  /* Focus Styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-bear-red ring-offset-2;
+  }
+
+  /* Typography */
+  body {
+    @apply font-normal text-base leading-relaxed;
+  }
+
+  /* Links */
+  a {
+    @apply text-bear-red hover:underline underline-offset-2 transition-colors;
+    &.dark {
+      @apply text-bear-red; /* Maintain accent color in dark mode */
+    }
+  }
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-gray-900 dark:text-white tracking-tight mb-4;
+  }
+
+  h1 { @apply text-4xl md:text-5xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  /* Paragraphs */
+  p {
+    @apply mb-4 last:mb-0;
+  }
+
+  /* Lists */
+  ul, ol {
+    @apply pl-5 mb-4;
+    
+    li {
+      @apply mb-2;
+    }
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
 }
 
-/* ------------------------ 2-B. Tiny utilities ----------------------------- */
+/* ==========================================================================
+   2. Utilities Layer - Reusable Utility Classes
+   ========================================================================== */
 @layer utilities {
-  .wrapper      { @apply max-w-wrapper mx-auto px-4 sm:px-6 lg:px-8; }
-  .btn          { @apply inline-flex items-center gap-2 font-medium rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bear-red; }
-  .btn-primary  { @apply btn bg-bear-red text-white px-6 py-2 shadow-card hover:shadow-lg; }
-  .btn-ghost    { @apply btn text-bear-red px-4 py-2; }
-  .nav-link     { @apply text-sm text-bear-grey hover:text-gray-900 dark:hover:text-gray-50 transition; }
-  .surface      { @apply rounded-2xl bg-white dark:bg-zinc-900 shadow-card; }
-  .surface-sm   { @apply rounded-xl bg-white dark:bg-zinc-900 shadow-card; }
+  /* Layout */
+  .wrapper {
+    @apply max-w-wrapper mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all 
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bear-red 
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-bear-red text-white px-6 py-2 shadow-card hover:shadow-lg hover:bg-bear-red/90;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-bear-red border border-bear-red/20 px-6 py-2 
+           hover:bg-bear-red/10 hover:border-bear-red/30;
+  }
+
+  .btn-ghost {
+    @apply btn text-bear-red px-4 py-2 hover:bg-bear-red/10;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply text-sm text-bear-grey hover:text-gray-900 dark:hover:text-gray-50 transition-colors;
+  }
+
+  /* Cards & Surfaces */
+  .surface {
+    @apply rounded-2xl bg-white dark:bg-zinc-900 shadow-card border border-gray-100 dark:border-zinc-800;
+  }
+
+  .surface-sm {
+    @apply rounded-xl bg-white dark:bg-zinc-900 shadow-card border border-gray-100 dark:border-zinc-800;
+  }
+
+  /* Transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Typography */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  /* Aspect Ratios */
+  .aspect-video {
+    aspect-ratio: 16/9;
+  }
+
+  .aspect-square {
+    aspect-ratio: 1/1;
+  }
 }
 
-/* ------------------------ 2-C. Components --------------------------------- */
+/* ==========================================================================
+   3. Components Layer - Custom Components
+   ========================================================================== */
 @layer components {
-  /* hero with subtle diagonal gradient (light) / radial (dark) */
+  /* Hero Section */
   .hero {
     @apply relative overflow-hidden py-28 md:py-36;
-    background: linear-gradient(140deg, #ffffff 0%, #FBFBFD 40%, var(--smoke) 100%);
+    background: linear-gradient(140deg, #ffffff 0%, #FBFBFD 40%, var(--color-smoke) 100%);
+    
+    html.dark & {
+      background: radial-gradient(circle at 50% 0%, #27272A 0%, var(--color-ink) 70%);
+    }
   }
-  html.dark .hero {
-    background: radial-gradient(circle at 50% 0%, #27272A 0%, var(--ink) 70%);
+
+  /* Feature Card */
+  .feature-card {
+    @apply surface p-6 md:p-8 transition-smooth hover:shadow-lg;
+  }
+
+  /* Testimonial */
+  .testimonial {
+    @apply surface p-6 relative;
+    
+    &::before {
+      @apply absolute top-0 left-0 w-full h-1 bg-bear-red rounded-t-2xl;
+      content: '';
+    }
+  }
+
+  /* Pricing Card */
+  .pricing-card {
+    @apply surface p-8 flex flex-col;
+    
+    &.popular {
+      @apply border-2 border-bear-red;
+      
+      &::after {
+        @apply absolute top-0 right-0 bg-bear-red text-white text-xs font-bold px-3 py-1 rounded-bl-lg;
+        content: 'Most Popular';
+      }
+    }
+  }
+
+  /* Form Elements */
+  .input {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 
+           bg-white dark:bg-zinc-900 focus:ring-2 focus:ring-bear-red focus:border-transparent;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  /* Navigation */
+  .main-nav {
+    @apply flex items-center space-x-8;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    @apply fixed inset-0 bg-white dark:bg-bear-ink z-50 pt-20 px-6;
+    
+    &-item {
+      @apply block py-3 text-xl border-b border-gray-100 dark:border-zinc-800;
+    }
+  }
+}
+
+/* ==========================================================================
+   4. Vendor Overrides and Third-party Styles
+   ========================================================================== */
+/* Add any third-party component overrides here */
+
+/* ==========================================================================
+   5. Print Styles
+   ========================================================================== */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+  
+  .no-print {
+    display: none !important;
   }
 }
