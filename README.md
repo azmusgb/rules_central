@@ -102,6 +102,8 @@ Additional environment variables:
 - `wsgi.py` – WSGI entry point for production servers
 - `service.py` – Windows service wrapper
 - `routes/` – blueprints and route handlers
+- The `diagrams` blueprint exposes `/diagrams` via the `diagrams.diagrams_index`
+  endpoint and `/diagram_converter` for the converter tool.
 - `templates/` – Jinja2 templates
 - `static/` – static assets
 - `config/` – default configuration files
