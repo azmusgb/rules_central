@@ -15,7 +15,7 @@ sys.modules.setdefault('werkzeug', werkzeug_stub)
 sys.modules.setdefault('werkzeug.utils', werkzeug_utils_stub)
 
 import utils
-from utils.diagram_utils import generate_mermaid_code
+from utils import generate_mermaid_code
 from config import Config
 
 
