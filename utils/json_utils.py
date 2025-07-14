@@ -3,8 +3,6 @@ from pathlib import Path
 from typing import Any, Dict, Iterable
 import logging
 
-from .file_utils import ensure_directory_exists
-
 LOGGER = logging.getLogger(__name__)
 
 

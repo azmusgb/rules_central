@@ -74,8 +74,10 @@ def flatten_rules(rules: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return flat_list
 
 
-def propagate_disabled_rules(rules, inherited_disabled=False):
-    """Propagate the disabled state through the rules."""
+def propagate_disabled_rules(
+    rules: Iterable[Dict[str, Any]], inherited_disabled: bool = False
+) -> None:
+    """Propagate the disabled state through the rules in-place."""
     for rule in rules:
         current_disabled = inherited_disabled or (
             rule.get("Attributes", {}).get("_Disabled") in ["1", 1, True]
