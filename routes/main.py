@@ -105,3 +105,12 @@ def contact():
     except Exception as exc:  # pragma: no cover - unexpected errors
         current_app.logger.error("Contact page error: %s", exc)
         abort(500)
+
+@main.route("/markdown-notes")
+def markdown_notes():
+    """Show the Markdown Notes marketing page."""
+    try:
+        return render_template("markdown_notes.html")
+    except Exception as exc:
+        current_app.logger.error("Markdown Notes page error: %s", exc)
+        abort(500)
