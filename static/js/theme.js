@@ -1,20 +1,26 @@
 /**
- * theme.js — accessible light/dark toggle with persistence
- * --------------------------------------------------------
- * Adds/removes `dark` class on <html>, syncs with system prefs,
- * and stores user choice in localStorage.
+ * theme.js — accessible theme toggle with persistence
+ * ----------------------------------------------
+ * Cycles between Bear, Dark and Light themes. Applies the
+ * `dark` class for dark mode and stores user choice in
+ * localStorage. Falls back to system preference when no
+ * choice is stored.
  */
 
 const STORAGE_KEY = 'theme';
-const systemDark  = window.matchMedia('(prefers-color-scheme: dark)');
+const THEMES = ['bear', 'dark', 'light'];
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 function apply(theme) {
   const html = document.documentElement;
-  theme === 'dark' ? html.classList.add('dark') : html.classList.remove('dark');
+  html.dataset.theme = theme;
+  html.classList.toggle('dark', theme === 'dark');
 }
 
 function current() {
-  return localStorage.getItem(STORAGE_KEY) || (systemDark.matches ? 'dark' : 'light');
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) return stored;
+  return systemDark.matches ? 'dark' : 'light';
 }
 
 export function initThemeToggle(btnSelector) {
@@ -23,14 +29,26 @@ export function initThemeToggle(btnSelector) {
   const btn = document.querySelector(btnSelector);
   if (!btn) return;
 
+  const updateLabel = (theme) => {
+    btn.setAttribute('aria-label', `Switch theme (current ${theme})`);
+  };
+
+  updateLabel(current());
+
   btn.addEventListener('click', () => {
-    const next = current() === 'dark' ? 'light' : 'dark';
+    const idx = THEMES.indexOf(current());
+    const next = THEMES[(idx + 1) % THEMES.length];
     localStorage.setItem(STORAGE_KEY, next);
     apply(next);
+    updateLabel(next);
   });
 
   systemDark.addEventListener('change', (e) => {
-    if (!localStorage.getItem(STORAGE_KEY)) apply(e.matches ? 'dark' : 'light');
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      const next = e.matches ? 'dark' : 'light';
+      apply(next);
+      updateLabel(next);
+    }
   });
 }
 

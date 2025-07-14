@@ -22,6 +22,7 @@ The interface now defaults to a **Bear-inspired theme** for a streamlined, cohes
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
+- **Theme toggle** cycles through Bear, Dark and Light modes
 
 - **Contact page** for sending feedback
 
