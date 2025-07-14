@@ -1,0 +1,56 @@
+/**
+ * input.css — Tailwind entry
+ * ----------------------------------------------------------------------------
+ * Bear-inspired global tokens, dark-mode, utilities, and components.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------ 2-A. Design tokens ------------------------------ */
+@layer base {
+  :root {
+    --accent: theme(colors.bear.red);
+    --grey:   theme(colors.bear.grey);
+    --smoke:  theme(colors.bear.smoke);
+    --ink:    theme(colors.bear.ink);
+  }
+
+  html {
+    @apply bg-white text-gray-800 font-sans antialiased scroll-smooth;
+  }
+  html.dark {
+    @apply bg-bear-ink text-gray-100;
+  }
+
+  /* links */
+  a       { @apply text-bear-red hover:underline underline-offset-2; }
+  a.dark  { @apply text-bear-red; } /* maintain accent in dark */
+
+  /* headings */
+  h1, h2, h3, h4 { @apply font-semibold text-gray-900 dark:text-white tracking-tight; }
+}
+
+/* ------------------------ 2-B. Tiny utilities ----------------------------- */
+@layer utilities {
+  .wrapper      { @apply max-w-wrapper mx-auto px-4 sm:px-6 lg:px-8; }
+  .btn          { @apply inline-flex items-center gap-2 font-medium rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bear-red; }
+  .btn-primary  { @apply btn bg-bear-red text-white px-6 py-2 shadow-card hover:shadow-lg; }
+  .btn-ghost    { @apply btn text-bear-red px-4 py-2; }
+  .nav-link     { @apply text-sm text-bear-grey hover:text-gray-900 dark:hover:text-gray-50 transition; }
+  .surface      { @apply rounded-2xl bg-white dark:bg-zinc-900 shadow-card; }
+  .surface-sm   { @apply rounded-xl bg-white dark:bg-zinc-900 shadow-card; }
+}
+
+/* ------------------------ 2-C. Components --------------------------------- */
+@layer components {
+  /* hero with subtle diagonal gradient (light) / radial (dark) */
+  .hero {
+    @apply relative overflow-hidden py-28 md:py-36;
+    background: linear-gradient(140deg, #ffffff 0%, #FBFBFD 40%, var(--smoke) 100%);
+  }
+  html.dark .hero {
+    background: radial-gradient(circle at 50% 0%, #27272A 0%, var(--ink) 70%);
+  }
+}
