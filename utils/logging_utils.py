@@ -1,3 +1,5 @@
+"""Structured activity logging utilities."""
+
 from dataclasses import dataclass, asdict
 import dataclasses
 import json

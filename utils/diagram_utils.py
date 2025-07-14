@@ -1,3 +1,5 @@
+"""Mermaid diagram generation helpers."""
+
 import json
 import os
 from dataclasses import dataclass
