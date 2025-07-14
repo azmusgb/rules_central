@@ -24,7 +24,7 @@ def index():
     """Render the application home page."""
 
     try:
-        return render_template("index.html")
+        return render_template("index.html", charts={})
     except Exception as exc:
         current_app.logger.error("Index page error: %s", exc)
         abort(500)

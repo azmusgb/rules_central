@@ -1,14 +1,25 @@
-{% macro button(text, variant='primary', type='submit', classes='') -%}
-  {%- set variants = {'primary':'btn btn-primary',
-                      'secondary':'btn btn-secondary',
-                      'danger':'btn btn-danger'} -%}
-  <button type="{{ type }}" aria-label="{{ text }}" class="{{ variants.get(variant, 'btn') }} {{ classes }}">
+{% macro button(text, variant='primary', type='button', classes='') -%}
+  {%- set classes_map = {
+      'primary': 'bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500',
+      'secondary': 'bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-secondary-500',
+      'danger': 'bg-danger-500 text-white hover:bg-danger-600 focus:ring-danger-500',
+      'info': 'bg-info-500 text-white hover:bg-info-600 focus:ring-info-500'
+  } -%}
+  {%- set variant_classes = classes_map.get(variant, '') -%}
+  <button type="{{ type }}" aria-label="{{ text }}" class="px-4 py-2 rounded {{ variant_classes }} {{ classes }}">
     {{ text }}
   </button>
 {%- endmacro %}
 
-{% macro input(name, type='text', placeholder='', value='', classes='input focus-ring') -%}
-  <input id="{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ value }}" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" class="{{ classes }}">
+{% macro input(name, type='text', placeholder='', value='', classes='') -%}
+  <input
+    id="{{ name }}"
+    name="{{ name }}"
+    type="{{ type }}"
+    value="{{ value }}"
+    placeholder="{{ placeholder }}"
+    aria-label="{{ placeholder }}"
+    class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded focus:ring-primary-500 {{ classes }}">
 {%- endmacro %}
 
 {% macro card(header='', body='', classes='card card--glass p-4 rounded-xl') -%}

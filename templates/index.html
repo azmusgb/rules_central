@@ -13,109 +13,144 @@
 {% endblock %}
 
 {% block content %}
-  <div class="dashboard">
-    <!-- Stats Cards -->
-    <section class="dashboard-section">
-      <h2 class="sr-only">Dashboard Statistics</h2>
-      <div class="stats-grid">
-        {% for stat in stats %}
-          <div class="stat-card" data-progress="{{ stat.progress }}">
-            <div class="stat-header">
-              <h3 class="stat-title">{{ stat.title }}</h3>
-              <div class="stat-icon">
-                <i class="fas {{ stat.icon }}"></i>
-              </div>
-            </div>
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-trend">
-              {% if '+' in stat.trend %}
-                <i class="fas fa-arrow-up trend-up"></i>
-              {% elif stat.trend == 'Operational' %}
-                <i class="fas fa-check-circle trend-steady"></i>
-              {% endif %}
-              <span>{{ stat.trend }}</span>
-            </div>
-            {% if stat.progress < 100 %}
-              <div class="stat-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" data-progress="{{ stat.progress }}"></div>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-    </section>
+<!-- ===== DASHBOARD ===== -->
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
-    <!-- Quick Actions -->
-    <section class="dashboard-section">
-      <div class="card">
-        <h2 class="section-title">Quick Actions</h2>
-        <div class="actions-grid">
-          {% for action in quick_actions %}
-            <a href="{{ url_for(action.endpoint) }}" class="action-card">
-              <div class="action-icon">
-                <i class="fas {{ action.icon }}"></i>
-              </div>
-              <span class="action-label">{{ action.label }}</span>
-            </a>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
+  <!-- HERO -->
+  <header class="text-center space-y-6">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
+      Rules Central Dashboard
+    </h1>
+    <p class="text-lg text-slate-400 max-w-3xl mx-auto">
+      One glance for everything: totals, trends, and quick actions for your rule library.
+    </p>
 
-    <!-- Recent Activity -->
-    <section class="dashboard-section">
-      <div class="card">
-        <div class="section-header">
-          <h2 class="section-title">Recent Activity</h2>
-          <a href="{{ url_for('routes.activity') }}" class="view-all">
-            View all
-          </a>
-        </div>
-        <div class="activity-feed">
-          {% for activity in activities %}
-            <div class="activity-item">
-              <div class="activity-icon">
-                <i class="fas {{ activity.icon }}"></i>
-              </div>
-              <div class="activity-details">
-                <p class="activity-title">{{ activity.title }}</p>
-                <p class="activity-meta">
-                  {{ activity.time }}
-                  {% if activity.user != "System" %}
-                    <span>by {{ activity.user }}</span>
-                  {% endif %}
-                </p>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
+    <div class="flex flex-wrap gap-4 justify-center pt-2">
+      <a href="{{ url_for('rules.new') }}"
+         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary-600 text-white hover:bg-primary-500 focus-ring transition">
+        <i class="fa-solid fa-plus"></i> New Rule
+      </a>
+      <a href="{{ url_for('rules.list') }}"
+         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-slate-700 text-white hover:bg-slate-600 focus-ring transition">
+        <i class="fa-solid fa-table-list"></i> View All
+      </a>
+    </div>
+  </header>
 
-    <!-- Rules Overview -->
-    <section class="dashboard-section">
-      <div class="card">
-        <div class="section-header">
-          <h2 class="section-title">Rules Overview</h2>
-          <div class="time-filters">
-            {% for period in ['7 days', '30 days', '90 days'] %}
-              <button class="time-filter">{{ period }}</button>
-            {% endfor %}
-          </div>
-          <button class="export-btn">Export</button>
+  <!-- METRIC CARDS -->
+  <section aria-labelledby="metrics-heading">
+    <h2 id="metrics-heading" class="sr-only">Key metrics</h2>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- total rules -->
+      <a href="{{ url_for('rules.list') }}"
+         class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow hover:ring-2 hover:ring-primary-500 focus-ring transition">
+        <div class="p-6 space-y-2">
+          <p class="text-sm font-medium text-slate-400">Total rules</p>
+          <p class="text-4xl font-extrabold text-white">{{ stats.total_rules|default(0) }}</p>
         </div>
-        <div class="chart-container">
-          <canvas id="rules-chart"></canvas>
+        <i class="fa-solid fa-layer-group absolute bottom-4 right-4 text-4xl text-primary-500/20"></i>
+      </a>
+
+      <!-- 7 days -->
+      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
+        <div class="p-6 space-y-2">
+          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;7 days</p>
+          <p class="text-4xl font-extrabold text-white">{{ stats.last_7_days|default(0) }}</p>
         </div>
+        <i class="fa-solid fa-calendar-week absolute bottom-4 right-4 text-4xl text-emerald-400/20"></i>
       </div>
-    </section>
-  </div>
+
+      <!-- 30 days -->
+      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
+        <div class="p-6 space-y-2">
+          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;30 days</p>
+          <p class="text-4xl font-extrabold text-white">{{ stats.last_30_days|default(0) }}</p>
+        </div>
+        <i class="fa-solid fa-calendar-days absolute bottom-4 right-4 text-4xl text-amber-400/20"></i>
+      </div>
+
+      <!-- 90 days -->
+      <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 shadow">
+        <div class="p-6 space-y-2">
+          <p class="text-sm font-medium text-slate-400">Changed&nbsp;·&nbsp;90 days</p>
+          <p class="text-4xl font-extrabold text-white">{{ stats.last_90_days|default(0) }}</p>
+        </div>
+        <i class="fa-solid fa-calendar-alt absolute bottom-4 right-4 text-4xl text-pink-400/20"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- TREND CHART -->
+  <section aria-labelledby="trend-heading" class="space-y-6">
+    <h2 id="trend-heading" class="text-2xl font-bold">Rule change trends</h2>
+    <canvas id="rulesTrendChart" class="w-full h-[320px]"></canvas>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section aria-labelledby="actions-heading">
+    <h2 id="actions-heading" class="text-2xl font-bold mb-4">Quick actions</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      <a href="{{ url_for('upload.upload_rules') }}" class="quick-action">
+        <i class="fa-solid fa-file-arrow-up"></i>
+        Import rules
+      </a>
+      <a href="{{ url_for('diagrams.generate') }}" class="quick-action">
+        <i class="fa-solid fa-diagram-project"></i>
+        Generate diagram
+      </a>
+      <a href="{{ url_for('analytics.overview') }}" class="quick-action">
+        <i class="fa-solid fa-chart-line"></i>
+        Advanced analytics
+      </a>
+    </div>
+  </section>
+
+</section>
 {% endblock %}
 
+<style>
+  .quick-action{
+    @apply flex items-center gap-3 p-4 rounded-lg bg-slate-800 hover:bg-slate-700 focus-ring transition text-slate-100;
+  }
+</style>
+
 {% block scripts %}
-  <div id="indexChartsData" class="hidden" data-rules='{{ charts.rules|default({})|tojson }}'></div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="{{ url_for('static', filename='js/index_charts.js') }}"></script>
+  {{ super() }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.x/dist/chart.umd.min.js" defer></script>
+
+  <div id="indexChartsData" class="hidden"
+       data-rules='{{ charts.rules|default([])|tojson }}'></div>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('rulesTrendChart');
+      if (!ctx) return;
+
+      const payload = JSON.parse(
+        document.getElementById('indexChartsData').dataset.rules || '[]'
+      );
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: payload.map(p => p.label),
+          datasets: [{
+            label: 'Rule changes',
+            data: payload.map(p => p.count),
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { grid: { color: '#37415122' } }
+          }
+        }
+      });
+    });
+  </script>
 {% endblock %}
