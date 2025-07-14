@@ -22,7 +22,7 @@ def login():
         if request.method == "POST":
             # Placeholder authentication logic
             flash("Logged in successfully!", "success")
-            return redirect(url_for("routes.index"))
+            return redirect(url_for("main.index"))
 
         return render_template("auth/login.html")
     except Exception as exc:
