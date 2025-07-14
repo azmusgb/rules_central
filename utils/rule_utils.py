@@ -1,3 +1,5 @@
+"""Utilities for working with rule hierarchies."""
+
 from __future__ import annotations
 import os
 import uuid
@@ -107,10 +109,12 @@ def build_edge_map(edges: Iterable[Dict[str, Any]]) -> Dict[str, list[str]]:
 # Dummy implementations for build_all_edges and build_nodes so generate_files can import
 
 def build_all_edges(rules):
+    """Return empty edges list placeholders for tests."""
     return [], []
 
 
 def build_nodes(*args, **kwargs):
+    """Return an empty node mapping placeholder for tests."""
     return {}
 
 def validate_hierarchy_data(data):
