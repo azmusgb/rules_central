@@ -20,7 +20,7 @@ function apply(theme) {
 function current() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) return stored;
-  return systemDark.matches ? 'dark' : 'light';
+  return 'bear';
 }
 
 export function initThemeToggle(btnSelector) {
