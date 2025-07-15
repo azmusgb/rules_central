@@ -8,7 +8,7 @@
 
 {% block content %}
 <!-- ===== DASHBOARD ===== -->
-<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16 md:space-y-24">
+<section class="wrapper py-12 md:py-16 space-y-16 md:space-y-24">
 
   <!-- HERO SECTION -->
   <header class="text-center space-y-4 md:space-y-6">
@@ -44,15 +44,15 @@
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Metric Card Component -->
       {% macro metric_card(title, value, icon, color, link=None) %}
-        <div class="metric-card {{ 'metric-card-link' if link }} {{ color }}">
+        <div class="relative overflow-hidden rounded-lg shadow-md p-6 transition-all duration-200 min-h-[120px] {{ color }} {{ 'hover:ring-2 hover:ring-primary-500 cursor-pointer' if link }}">
           {% if link %}
             <a href="{{ link }}" class="absolute inset-0" aria-label="{{ title }}"></a>
           {% endif %}
-          <div class="metric-content">
-            <p class="metric-title">{{ title }}</p>
-            <p class="metric-value">{{ value|default(0) }}</p>
+          <div class="space-y-2 z-10 relative">
+            <p class="text-sm font-medium text-slate-400">{{ title }}</p>
+            <p class="text-3xl font-extrabold text-white">{{ value|default(0) }}</p>
           </div>
-          <i class="{{ icon }} metric-icon"></i>
+          <i class="{{ icon }} absolute bottom-4 right-4 text-4xl opacity-20"></i>
         </div>
       {% endmacro %}
 
@@ -94,12 +94,12 @@
         Rule Change Trends
       </h2>
       <div class="flex gap-2">
-        <button id="trend-30d" class="trend-btn active">30D</button>
-        <button id="trend-90d" class="trend-btn">90D</button>
-        <button id="trend-1y" class="trend-btn">1Y</button>
+        <button id="trend-30d" class="px-3 py-1 text-sm rounded-md bg-primary-500 text-white">30D</button>
+        <button id="trend-90d" class="px-3 py-1 text-sm rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">90D</button>
+        <button id="trend-1y" class="px-3 py-1 text-sm rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">1Y</button>
       </div>
     </div>
-    <div class="chart-container">
+    <div class="w-full h-[320px] bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
       <canvas id="rulesTrendChart" 
               aria-label="Rule change trends chart"
               role="img"></canvas>
@@ -113,10 +113,10 @@
     </h2>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {% macro quick_action(icon, text, url) %}
-        <a href="{{ url }}" class="quick-action" aria-label="{{ text }}">
-          <i class="{{ icon }} quick-action-icon" aria-hidden="true"></i>
+        <a href="{{ url }}" class="flex items-center gap-4 p-5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700" aria-label="{{ text }}">
+          <i class="{{ icon }} text-primary-500 text-xl" aria-hidden="true"></i>
           <span>{{ text }}</span>
-          <i class="fas fa-chevron-right ml-auto quick-action-arrow" aria-hidden="true"></i>
+          <i class="fas fa-chevron-right ml-auto text-slate-400 text-sm" aria-hidden="true"></i>
         </a>
       {% endmacro %}
 
@@ -161,75 +161,7 @@
 </section>
 {% endblock %}
 
-{% block styles %}
-  <style>
-    /* Metric Cards */
-    .metric-card {
-      @apply relative overflow-hidden rounded-lg shadow-md p-6 transition-all duration-200;
-      min-height: 120px;
-    }
-
-    .metric-card-link {
-      @apply hover:ring-2 hover:ring-primary-500 cursor-pointer;
-    }
-
-    .metric-content {
-      @apply space-y-2 z-10 relative;
-    }
-
-    .metric-title {
-      @apply text-sm font-medium text-slate-400;
-    }
-
-    .metric-value {
-      @apply text-3xl font-extrabold text-white;
-    }
-
-    .metric-icon {
-      @apply absolute bottom-4 right-4 text-4xl opacity-20;
-    }
-
-    /* Quick Actions */
-    .quick-action {
-      @apply flex items-center gap-4 p-5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 
-             focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 
-             border border-slate-200 dark:border-slate-700;
-    }
-
-    .quick-action-icon {
-      @apply text-primary-500 text-xl;
-    }
-
-    .quick-action-arrow {
-      @apply text-slate-400 text-sm;
-    }
-
-    /* Chart Controls */
-    .trend-btn {
-      @apply px-3 py-1 text-sm rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200;
-    }
-
-    .trend-btn.active {
-      @apply bg-primary-500 text-white;
-    }
-
-    .chart-container {
-      @apply w-full h-[320px] bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700;
-    }
-
-    /* Buttons */
-    .btn-primary {
-      @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary-600 text-white hover:bg-primary-500 
-             focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors;
-    }
-
-    .btn-secondary {
-      @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 
-             dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 focus:ring-2 focus:ring-primary-500 
-             focus:ring-offset-2 transition-colors;
-    }
-  </style>
-{% endblock %}
+{% block styles %}{% endblock %}
 
 {% block scripts %}
   {{ super() }}
@@ -307,12 +239,12 @@
     }
 
     function setupTrendFilters() {
-      const buttons = document.querySelectorAll('.trend-btn');
-      
+      const buttons = document.querySelectorAll('#trend-30d, #trend-90d, #trend-1y');
+
       buttons.forEach(button => {
         button.addEventListener('click', () => {
-          buttons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
+          buttons.forEach(btn => btn.classList.remove('bg-primary-500', 'text-white'));
+          button.classList.add('bg-primary-500', 'text-white');
           // Here you would typically fetch new data for the selected timeframe
         });
       });
