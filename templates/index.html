@@ -9,40 +9,35 @@
 
 {% block content %}
 <!-- ===== DASHBOARD ===== -->
-<section class="wrapper py-8 md:py-12 space-y-12 md:space-y-16">
+<section class="wrapper py-12 md:py-16 space-y-14 md:space-y-20">
 
   <!-- HERO SECTION -->
-  <header class="text-center space-y-4 md:space-y-6 animate__animated animate__fadeIn">
-    <div class="inline-flex items-center gap-2 bg-primary-50 dark:bg-slate-800/60 px-4 py-2 rounded-full border border-primary-100 dark:border-slate-700 mb-2">
-      <span class="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
-      <span class="text-sm font-medium text-primary-600 dark:text-primary-400">Rules Management Dashboard</span>
+  <header class="text-center space-y-6 md:space-y-8 animate__animated animate__fadeIn">
+    <div class="inline-flex items-center gap-2 bg-primary-50 dark:bg-slate-800/60 px-5 py-2.5 rounded-full border border-primary-100 dark:border-slate-700 shadow-sm">
+      <span class="w-2 h-2 rounded-full bg-primary-500 animate-ping"></span>
+      <span class="text-sm font-semibold text-primary-600 dark:text-primary-400 tracking-wide uppercase">Rules Management Dashboard</span>
     </div>
-    
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
-      <span class="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
-        Rules Central
-      </span>
+
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 bg-clip-text text-transparent">
+      Rules Central
     </h1>
-    
-    <p class="text-lg text-slate-500 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-      Comprehensive overview of your rule library with real-time metrics, trends, and quick access to key actions.
+
+    <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+      Manage your rules effortlessly with real-time insights, metrics, and streamlined workflows.
     </p>
 
-    <div class="flex flex-wrap gap-3 justify-center pt-2">
+    <div class="flex flex-wrap gap-4 justify-center pt-4">
       <a href="{{ url_for('routes.config_page') }}"
-         class="btn-primary group"
-         aria-label="Create new rule">
-        <i class="fas fa-plus mr-2 group-hover:rotate-90 transition-transform" aria-hidden="true"></i> New Rule
+         class="btn-primary transform transition hover:scale-105">
+        ➕ New Rule
       </a>
       <a href="{{ url_for('main.catalog') }}"
-         class="btn-secondary group"
-         aria-label="View all rules">
-        <i class="fas fa-table-list mr-2 group-hover:scale-110 transition-transform" aria-hidden="true"></i> View Catalog
+         class="btn-secondary transform transition hover:scale-105">
+        📖 View Catalog
       </a>
       <a href="#"
-         class="btn-tertiary group"
-         aria-label="Learn more">
-        <i class="fas fa-play mr-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"></i> Quick Tour
+         class="btn-tertiary transform transition hover:translate-x-1">
+        🎥 Quick Tour
       </a>
     </div>
   </header>
@@ -54,15 +49,17 @@
         <i class="fas fa-chart-simple text-primary-500"></i>
         <span>Key Metrics</span>
       </h2>
-      <div class="text-sm text-slate-500 dark:text-slate-400">
+      <div class="text-xs text-slate-400 flex items-center gap-1">
+        <i class="fas fa-clock"></i>
         Last updated: <span class="font-medium">{{ now().strftime('%b %d, %Y %I:%M %p') }}</span>
+        <button class="ml-2 text-primary-500 hover:underline">↻ Refresh</button>
       </div>
     </div>
 
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Enhanced Metric Card Component -->
       {% macro metric_card(title, value, icon, color, trend=None, link=None) %}
-        <div class="relative overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-all duration-200 min-h-[120px] border border-slate-100 dark:border-slate-700 {{ 'hover:ring-2 hover:ring-primary-500 cursor-pointer' if link }} group">
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-1 min-h-[130px] border border-slate-100 dark:border-slate-700 {{ 'hover:ring-2 hover:ring-primary-500 cursor-pointer' if link }} group">
           {% if link %}
             <a href="{{ link }}" class="absolute inset-0" aria-label="{{ title }}"></a>
           {% endif %}
@@ -72,7 +69,7 @@
                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{{ title }}</p>
                 <p class="text-3xl font-bold text-slate-800 dark:text-slate-100">{{ value|default(0) }}</p>
               </div>
-              <div class="p-2 rounded-lg {{ color }}/10 text-{{ color }} group-hover:bg-{{ color }}/20 transition-colors">
+              <div class="p-2 rounded-lg bg-gradient-to-br from-{{ color }}-100/20 to-transparent text-{{ color }} group-hover:bg-{{ color }}/20 transition-colors">
                 <i class="{{ icon }} text-lg"></i>
               </div>
             </div>
@@ -134,11 +131,11 @@
           <i class="fas fa-chart-line text-primary-500"></i>
           <span>Rule Change Trends</span>
         </h2>
-        <div class="flex gap-1 p-1 bg-slate-100 dark:bg-slate-700 rounded-lg">
-          <button id="trend-7d" class="px-3 py-1 text-sm rounded-md font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-primary-600 dark:text-primary-400 bg-white dark:bg-slate-600 shadow-sm">7D</button>
-          <button id="trend-30d" class="px-3 py-1 text-sm rounded-md font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">30D</button>
-          <button id="trend-90d" class="px-3 py-1 text-sm rounded-md font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">90D</button>
-          <button id="trend-1y" class="px-3 py-1 text-sm rounded-md font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">1Y</button>
+        <div class="flex gap-2 p-2 bg-slate-100 dark:bg-slate-700 rounded-full shadow-inner">
+          <button id="trend-7d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-primary-600 dark:text-primary-400 bg-white dark:bg-slate-600 shadow-sm">7D</button>
+          <button id="trend-30d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">30D</button>
+          <button id="trend-90d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">90D</button>
+          <button id="trend-1y" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">1Y</button>
         </div>
       </div>
       
@@ -173,9 +170,9 @@
       
       <div class="space-y-4 max-h-[360px] overflow-y-auto pr-2 -mr-2">
         {% macro activity_item(icon, color, action, user, time, rule=None) %}
-          <div class="flex gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+          <div class="flex gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 hover:shadow-sm">
             <div class="flex-shrink-0 mt-1">
-              <div class="w-8 h-8 rounded-full {{ color }}/10 flex items-center justify-center text-{{ color }}">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-{{ color }}-100/20 to-transparent flex items-center justify-center text-{{ color }}">
                 <i class="{{ icon }}"></i>
               </div>
             </div>
