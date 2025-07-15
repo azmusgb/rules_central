@@ -96,6 +96,7 @@ def create_app(**custom: Any) -> Flask:
     _register_blueprints(app)
     _register_error_handlers(app)
     _init_csrf(app)
+    _init_template_helpers(app)
     _register_cli(app)
 
     # If behind a reverse proxy / load balancer in prod
@@ -190,6 +191,17 @@ def _init_csrf(app: Flask) -> None:
         @app.context_processor
         def _inject_csrf() -> dict[str, Any]:  # noqa: D401
             return {"csrf_token": generate_csrf}
+
+
+def _init_template_helpers(app: Flask) -> None:
+    """Inject utility helpers into the Jinja environment."""
+    if not hasattr(app, "context_processor"):
+        return
+    from datetime import datetime, timezone
+
+    @app.context_processor
+    def _inject_now() -> dict[str, Any]:  # noqa: D401
+        return {"now": lambda: datetime.now(timezone.utc)}
 
 
 def _register_cli(app: Flask) -> None:
