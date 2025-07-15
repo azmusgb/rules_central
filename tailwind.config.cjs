@@ -3,7 +3,13 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   darkMode: 'class',
   content: ['./templates/**/*.html', './static/js/**/*.js'],
-  safelist: ['hidden', 'block', 'border-primary-600', 'bg-primary-600', 'text-primary-600'],
+  safelist: [
+    'hidden',
+    'block',
+    'border-primary-600',
+    'bg-primary-600',
+    'text-primary-600'
+  ],
   theme: {
     extend: {
       colors: {
@@ -14,7 +20,7 @@ module.exports = {
           300: '#FF7B7B',
           400: '#E06B6B',
           500: '#D45A5A',
-          600: '#2563EB',
+          600: '#2563EB', // Main blue
           700: '#1D4ED8',
           800: '#1E40AF',
           900: '#1E3A8A',
@@ -96,20 +102,20 @@ module.exports = {
         '.underline-squiggle': {
           background:
             "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"160\" height=\"6\" viewBox=\"0 0 160 6\"><path fill=\"none\" stroke=\"%23DD4C4F\" stroke-width=\"3\" d=\"M0 3 Q20 6 40 3 T80 3 T120 3 T160 3\"/></svg>') repeat-x bottom/auto 6px",
-          paddingBottom: '0.25rem',
+          paddingBottom: '0.25rem'
         },
         '.ring-focus-ring': {
-          boxShadow: '0 0 0 2px var(--focus-ring)',
+          boxShadow: '0 0 0 2px var(--focus-ring)'
         },
         '.text-text-secondary': {
-          color: 'var(--text-secondary)',
+          color: 'var(--text-secondary)'
         },
         '.text-text': {
-          color: 'var(--text)',
+          color: 'var(--text)'
         },
         '.stroke-linecap-round': {
-          strokeLinecap: 'round',
-        },
+          strokeLinecap: 'round'
+        }
       });
       addComponents({
         '.bear-illustration-path': {
@@ -128,6 +134,6 @@ module.exports = {
           }
         }
       });
-    }),
-  ],
+    })
+  ]
 };
