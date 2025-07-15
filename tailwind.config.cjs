@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   darkMode: 'class',
   content: ['./templates/**/*.html', './static/js/**/*.js'],
-  safelist: ['hidden', 'block'],
+  safelist: ['hidden', 'block', 'border-primary-600', 'bg-primary-600', 'text-primary-600'],
   theme: {
     extend: {
       colors: {
@@ -14,8 +14,18 @@ module.exports = {
           300: '#FF7B7B',
           400: '#E06B6B',
           500: '#D45A5A',
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
           ink: '#1F1F1F',
           paper: '#F5F5F7'
+        },
+        bear: {
+          red: '#FF5E62',
+          grey: '#A7A7A7',
+          smoke: '#FBFBFD',
+          ink: '#111827'
         },
         ink: {
           DEFAULT: 'rgba(31, 31, 31, 0.9)',

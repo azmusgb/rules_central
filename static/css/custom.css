@@ -25,97 +25,35 @@ time, mark, audio, video) {
 /* ==========================================================================
    Root & Body Styles
    ========================================================================== */
+/* ==========================================================================
+   Font Faces: Modern, Fallbacks, and Performance
+   ========================================================================== */
 @font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-regular-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-regular-webfont.woff') format('woff');
-    font-weight: 400;
+    font-family: 'Inter';
+    src: url('/static/fonts/InterVariable.woff2') format('woff2'),
+         url('/static/fonts/Inter-Regular.woff2') format('woff2');
+    font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-italic-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-italic-webfont.woff') format('woff');
-    font-weight: 400;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-medium-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-medium-webfont.woff') format('woff');
-    font-weight: 500;
+    font-family: 'Inter Display';
+    src: url('/static/fonts/InterDisplay-Regular.woff2') format('woff2'),
+         url('/static/fonts/InterDisplay-Bold.woff2') format('woff2');
+    font-weight: 400 700;
     font-style: normal;
+    font-display: swap;
 }
 
-@font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-mediumitalic-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-mediumitalic-webfont.woff') format('woff');
-    font-weight: 500;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-bold-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-bold-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'bearsans';
-    src: url('/fonts/bearsansui-bolditalic-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansui-bolditalic-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: italic;
-}
-
-
-@font-face {
-    font-family: 'bearsansheadline';
-    src: url('/fonts/bearsansuiheadline-bold-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansuiheadline-bold-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'bearsansheadline';
-    src: url('/fonts/bearsansuiheadline-bolditalic-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansuiheadline-bolditalic-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: italic;
-
-}
-
-@font-face {
-    font-family: 'bearsansheadline';
-    src: url('/fonts/bearsansuiheadline-medium-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansuiheadline-medium-webfont.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'bearsansheadline';
-    src: url('/fonts/bearsansuiheadline-mediumitalic-webfont.woff2') format('woff2'),
-         url('/fonts/bearsansuiheadline-mediumitalic-webfont.woff') format('woff');
-    font-weight: 400;
-    font-style: italic;
-
-}
-
+/* roboto-mono: code font, woff2 primary, monospace fallback */
 @font-face {
     font-family: 'roboto-mono';
     src: url('/fonts/Roboto-Mono-regular.woff2') format('woff2'),
-         url('/fonts/Roboto-Mono-regular.woff') format('woff');
+         local('Roboto Mono'), local('Menlo'), local('Monaco');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 :root {
@@ -126,11 +64,10 @@ time, mark, audio, video) {
     --text-secondary-color: #888888;
     --text-tertiary-color: #d9d9d9;
     --accent-color: #DD4C4F;
-    --text-font: 'bearsans', 'Inter', sans-serif;
-    --heading-font: 'bearsansheadline', 'Inter', sans-serif;
-    --code-font: 'roboto-mono', monospace;
+    --text-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --heading-font: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --code-font: 'roboto-mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
     --stroke-color: #D9D9D9;
-    
     scroll-behavior: smooth;
 }
 
@@ -140,7 +77,7 @@ html {
 }
 
 body {
-    font-family: var(--text-font);
+    font-family: var(--text-font, system-ui, sans-serif);
     color: var(--text-color);
     line-height: 1.7;
     min-height: 100vh;
@@ -149,7 +86,7 @@ body {
 }
 
 /* ==========================================================================
-   Typography
+   Typography: Headings, Responsive, and Readability
    ========================================================================== */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font);
@@ -157,13 +94,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.3em;
 }
 
-h1 { font-size: 2.6rem; }
-h2 { font-size: 2.6rem; }
-h3 { font-size: 1.8rem; }
-
-@media (min-width: 32em) {
-    h1 { font-size: 3.2rem; }
-}
+/* Responsive scalable headings using clamp */
+h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
 
 .subtitle {
     font-size: 1.4rem;
@@ -690,3 +624,8 @@ input, select, textarea {
         }
     }
 }
+
+/* 
+ * Improved: font loading with swap, better fallback chains, responsive typography, 
+ * simplified @font-face, modern CSS clamp for scalable text sizes.
+ */
