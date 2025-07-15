@@ -99,6 +99,18 @@ module.exports = {
             "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"160\" height=\"6\" viewBox=\"0 0 160 6\"><path fill=\"none\" stroke=\"%23DD4C4F\" stroke-width=\"3\" d=\"M0 3 Q20 6 40 3 T80 3 T120 3 T160 3\"/></svg>') repeat-x bottom/auto 6px",
           paddingBottom: '0.25rem',
         },
+        '.ring-focus-ring': {
+          boxShadow: '0 0 0 2px var(--focus-ring)',
+        },
+        '.text-text-secondary': {
+          color: 'var(--text-secondary)',
+        },
+        '.text-text': {
+          color: 'var(--text)',
+        },
+        '.stroke-linecap-round': {
+          strokeLinecap: 'round',
+        },
       });
       addComponents({
         '.bear-illustration-path': {

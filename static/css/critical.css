@@ -1,4 +1,5 @@
 @layer base {
+  /* Font faces */
   @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -6,13 +7,82 @@
     src: url('/static/fonts/Inter-Regular.woff2') format('woff2');
     font-display: swap;
   }
+  
+  /* Add variable font if available */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    src: url('/static/fonts/Inter-Variable.woff2') format('woff2-variations');
+    font-display: swap;
+  }
 
+  /* Root element styles */
+  :root {
+    /* Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    
+    /* Tap highlight for mobile */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* HTML element */
   html {
     scroll-behavior: smooth;
     text-size-adjust: 100%;
+    
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    
+    /* Smooth scrolling for iOS */
+    -webkit-overflow-scrolling: touch;
   }
+
+  /* Body element */
   body {
-    @apply bg-paper text-ink antialiased;
-    text-rendering: optimizeLegibility;
+    @apply bg-paper text-ink;
+    
+    /* Prevent layout shift when scrollbar appears/disappears */
+    scrollbar-gutter: stable;
+    
+    /* Minimum page height */
+    min-height: 100vh;
+    
+    /* Better line height default */
+    line-height: 1.5;
+    
+    /* Prevent text inflation on mobile */
+    text-size-adjust: none;
+    
+    /* Remove default margin */
+    margin: 0;
+  }
+
+  /* Selection styles */
+  ::selection {
+    @apply bg-primary-500 text-white;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+
+  /* Remove default button styles */
+  button {
+    @apply appearance-none bg-transparent p-0 border-0;
+  }
+
+  /* Responsive media */
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Remove list styles */
+  ul, ol {
+    @apply list-none p-0 m-0;
   }
 }
