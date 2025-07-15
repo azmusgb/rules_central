@@ -195,13 +195,20 @@ def _init_csrf(app: Flask) -> None:
 
 def _init_template_helpers(app: Flask) -> None:
     """Inject utility helpers into the Jinja environment."""
-    if not hasattr(app, "context_processor"):
+    if not hasattr(app, "jinja_env"):
         return
     from datetime import datetime, timezone
 
-    @app.context_processor
-    def _inject_now() -> dict[str, Any]:  # noqa: D401
-        return {"now": lambda: datetime.now(timezone.utc)}
+    if hasattr(app, "context_processor"):
+        @app.context_processor
+        def _inject_now() -> dict[str, Any]:  # noqa: D401
+            return {"now": lambda: datetime.now(timezone.utc)}
+
+    # Also add the helper directly to ``jinja_env`` so it's available even
+    # when context processors are bypassed (e.g. during early template
+    # rendering or in edge cases).
+    if hasattr(app.jinja_env, "globals"):
+        app.jinja_env.globals["now"] = lambda: datetime.now(timezone.utc)
 
 
 def _register_cli(app: Flask) -> None:
