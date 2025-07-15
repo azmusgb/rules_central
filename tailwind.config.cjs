@@ -35,7 +35,6 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'bearsans',
           'Inter',
           '\'SF Pro\'',
           'system-ui',
@@ -46,7 +45,7 @@ module.exports = {
           'sans-serif'
         ],
         mono: [
-          'roboto-mono',
+          'Inter',
           'Menlo',
           'monospace'
         ]
