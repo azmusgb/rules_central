@@ -258,7 +258,7 @@
     
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {% macro quick_action(icon, color, text, description, url) %}
-        <a href="{{ url }}" class="flex flex-col gap-3 p-5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700 group">
+        <a href="{{ url }}" class="flex flex-col gap-3 p-5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700 group transform-gpu hover:-translate-y-1 hover:shadow-lg">
           <div class="flex items-center justify-between">
             <div class="w-10 h-10 rounded-lg {{ color }}/10 flex items-center justify-center text-{{ color }} group-hover:bg-{{ color }}/20 transition-colors">
               <i class="{{ icon }} text-lg"></i>
@@ -362,6 +362,7 @@
   </div>
 
 </section>
+{% include 'partials/back_to_top.html' %}
 {% endblock %}
 
 {% block styles %}
@@ -384,6 +385,17 @@
   .dark .overflow-y-auto::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.1);
   }
+
+  /* Back to top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    display: none;
+  }
+  .back-to-top.show {
+    display: flex;
+  }
 </style>
 {% endblock %}
 
@@ -402,9 +414,12 @@
       // Initialize all charts
       initTrendChart();
       setupTrendFilters();
-      
+
       // Add animation classes on scroll
       setupScrollAnimations();
+
+      // Back to top button
+      setupBackToTop();
     });
 
     function initTrendChart() {
@@ -525,9 +540,22 @@
       }, {
         threshold: 0.1
       });
-      
+
       document.querySelectorAll('.animate-on-scroll').forEach(el => {
         observer.observe(el);
+      });
+    }
+
+    function setupBackToTop() {
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+
+      window.addEventListener('scroll', () => {
+        btn.classList.toggle('show', window.scrollY > 300);
+      });
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
   </script>
