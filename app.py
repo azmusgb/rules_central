@@ -95,6 +95,7 @@ def create_app(**custom: Any) -> Flask:
     _init_extensions(app)
     _register_blueprints(app)
     _register_error_handlers(app)
+    _init_csrf(app)
     _register_cli(app)
 
     # If behind a reverse proxy / load balancer in prod
@@ -169,6 +170,26 @@ def _register_error_handlers(app: Flask) -> None:
     def server_error(e):  # type: ignore[missing-return-type-hint]
         app.logger.exception("Unhandled exception")
         return jsonify({"ok": False, "error": "Server error"}), 500
+
+
+def _init_csrf(app: Flask) -> None:
+    """Add CSRF protection if available and inject token helper."""
+    try:
+        from flask_wtf import CSRFProtect  # type: ignore
+        from flask_wtf.csrf import generate_csrf  # type: ignore
+    except Exception:  # pragma: no cover - optional dependency
+        CSRFProtect = None  # type: ignore[assignment]
+
+        def generate_csrf() -> str:  # type: ignore[misc]
+            return ""
+
+    if CSRFProtect is not None:
+        CSRFProtect().init_app(app)
+
+    if hasattr(app, "context_processor"):
+        @app.context_processor
+        def _inject_csrf() -> dict[str, Any]:  # noqa: D401
+            return {"csrf_token": generate_csrf}
 
 
 def _register_cli(app: Flask) -> None:
