@@ -8,33 +8,19 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#DD4C4F',
-          500: '#DD4C4F',
-          600: '#DD4C4F',
-          700: '#c04244',
-          gradientStart: '#DD4C4F',
-          gradientEnd: '#FFC371'
+          50: '#FFF0F0',
+          100: '#FFD6D6',
+          200: '#FFB5B5',
+          300: '#FF7B7B',
+          400: '#E06B6B',
+          500: '#D45A5A',
+          ink: '#1F1F1F',
+          paper: '#F5F5F7'
         },
-        danger: {
-          gradientStart: '#ff6b6b',
-          gradientEnd: '#ee5a24'
-        },
-        'surface-white': '#FFFFFF',
-        'surface-shade': '#FAFAFA',
-        'ink-900': '#1C1C1E',
-        'ink-600': '#444448',
-        'ink-400': '#94949A',
-        'accent-red': '#FF3B30',
-        'accent-red-dark': '#FF453A',
-        status: {
-          active: '#22c55e',
-          draft: '#fbbf24',
-          archived: '#9ca3af'
-        },
-        background: {
-          darkStart: '#0f0f23',
-          darkMid: '#1a1a3e',
-          darkEnd: '#2d1b69'
+        ink: {
+          DEFAULT: 'rgba(31, 31, 31, 0.9)',
+          secondary: 'rgba(31, 31, 31, 0.7)',
+          tertiary: 'rgba(31, 31, 31, 0.5)'
         }
       },
       fontFamily: {
@@ -62,11 +48,20 @@ module.exports = {
         soft: '0 2px 8px rgb(0 0 0 / 0.08)',
         glow: '0 8px 32px rgba(0, 0, 0, 0.3)',
         pulse: '0 0 20px rgba(59, 130, 246, 0.3)',
-        card: '0 4px 12px rgba(0,0,0,0.04)'
+        card: '0 4px 12px rgba(0,0,0,0.04)',
+        'bear-card': '0 4px 24px -6px rgba(0, 0, 0, 0.08)',
+        'bear-button': '0 2px 0 rgba(0, 0, 0, 0.05) inset'
       },
       spacing: {
+        '0.5': '0.125rem',
+        '7.5': '1.875rem',
+        '15': '3.75rem',
         18: '4.5rem',
         22: '5.5rem'
+      },
+      fontSize: {
+        '2xs': ['0.6875rem', { lineHeight: '1rem' }],
+        '3xl': ['1.75rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }]
       },
       animation: {
         float: 'float 3s ease-in-out infinite',
@@ -87,13 +82,30 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
-    plugin(({ addUtilities }) => {
+    plugin(({ addUtilities, addComponents }) => {
       addUtilities({
         '.underline-squiggle': {
           background:
             "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"160\" height=\"6\" viewBox=\"0 0 160 6\"><path fill=\"none\" stroke=\"%23DD4C4F\" stroke-width=\"3\" d=\"M0 3 Q20 6 40 3 T80 3 T120 3 T160 3\"/></svg>') repeat-x bottom/auto 6px",
           paddingBottom: '0.25rem',
         },
+      });
+      addComponents({
+        '.bear-illustration-path': {
+          strokeWidth: '1.5px',
+          strokeLinecap: 'round',
+          vectorEffect: 'non-scaling-stroke'
+        },
+        '.cta-primary': {
+          padding: '0.75rem 1.5rem',
+          borderRadius: '9999px',
+          backgroundColor: '#FF7B7B',
+          transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+          '&:hover': {
+            transform: 'translateY(-1px)',
+            boxShadow: '0 4px 12px -2px rgba(255, 123, 123, 0.4)'
+          }
+        }
       });
     }),
   ],

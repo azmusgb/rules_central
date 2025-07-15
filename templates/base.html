@@ -1,24 +1,36 @@
 {# base.html — Bear-style skeleton template #}
-<!doctype html>
-<html lang="en" data-theme="bear" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased">
   <head>
     <meta charset="utf-8">
     <title>{% block title %}Rules Central{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
     
+    <meta name="theme-color" content="#F5F5F7">
+    <meta name="color-scheme" content="light dark">
+
     <!-- Preload critical resources -->
-    <link rel="preload" href="https://rsms.me/inter/inter.css" as="style" crossorigin>
-    <link rel="preload" href="{{ url_for('static', filename='css/output.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Inter.var.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='css/critical.css') }}" as="style">
     
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    
-    <!-- Web fonts -->
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous">
+
+    <!-- Typography System -->
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url('{{ url_for('static', filename='fonts/Inter.var.woff2') }}') format('woff2');
+      }
+    </style>
     
     <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/critical.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.processed.css') }}" media="print" onload="this.media='all'">
     
@@ -29,7 +41,8 @@
     {% block head %}{% endblock head %}
   </head>
 
-  <body class="flex flex-col min-h-screen bg-white dark:bg-bear-ink text-gray-800 dark:text-gray-100 antialiased">
+  <body class="bg-paper text-ink min-h-screen flex flex-col">
+    <div class="fixed inset-0 grid grid-cols-24 gap-1 pointer-events-none" style="background: repeating-linear-gradient(0deg, transparent, transparent 7px, #FF7B7B10 8px)"></div>
     <!-- Skip to content link for accessibility -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bear-red focus:text-white focus:rounded">
       Skip to content
@@ -45,6 +58,7 @@
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/theme.js') }}" type="module" async></script>
+    <script src="{{ url_for('static', filename='js/illustrations.js') }}" type="module" async></script>
     
     {% block scripts %}{% endblock scripts %}
     
