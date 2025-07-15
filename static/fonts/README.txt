@@ -1,2 +1,2 @@
-This directory should contain Bear Sans and Roboto Mono font files.
-Place the required .woff2 and .woff files here to enable custom typography.
+Inter and Inter Display font files are stored here.
+Ensure all web pages and styles reference fonts from this directory only.
