@@ -1,97 +1,44 @@
 /* ==========================================================================
-   CSS Reset with Modern Best Practices (2024 Edition)
+   Modern CSS Reset with Logical Properties
    ========================================================================== */
-
-/* Modern Reset with :where() for zero specificity */
-:where(
-  html, body, div, span, applet, object, iframe,
-  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-  a, abbr, acronym, address, big, cite, code,
-  del, dfn, em, img, ins, kbd, q, s, samp,
-  small, strike, strong, sub, sup, tt, var,
-  b, u, i, center, dl, dt, dd, ol, ul, li,
-  fieldset, form, label, legend, table, caption,
-  tbody, tfoot, thead, tr, th, td, article,
-  aside, canvas, details, embed, figure, figcaption,
-  footer, header, hgroup, menu, nav, output, ruby,
-  section, summary, time, mark, audio, video
-) {
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
+  min-width: 0;
 }
 
-/* Remove list styles (opinionated) */
-:where(ol, ul) {
-  list-style: none;
-}
-
-/* For images to not be able to exceed their container */
-:where(img, picture, svg, video) {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Improved media defaults */
-:where(img, picture, svg, video, canvas, audio, iframe, embed, object) {
-  display: block;
-  vertical-align: middle;
-}
-
-/* Remove border on iframes */
-:where(iframe) {
-  border-style: none;
-}
-
-/* ==========================================================================
-   Core Layout & Box Model (2024 Standards)
-   ========================================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  /* Fluid typography base (16px - 18px between 320px - 1920px viewports) */
-  font-size: clamp(1rem, 0.875rem + 0.39vw, 1.125rem);
+:where(html) {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  text-size-adjust: none;
   overflow-x: hidden;
-  /* Prevent layout shift when scrollbar appears/disappears */
   scrollbar-gutter: stable;
 }
 
-body {
+:where(body) {
   min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  min-height: 100dvh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  /* Prevent unwanted horizontal scroll */
   overflow-x: hidden;
 }
 
 /* ==========================================================================
-   Modern Font Loading with Performance Considerations
+   Modern Font Loading with Performance Optimization
    ========================================================================== */
 @font-face {
   font-family: 'Inter';
   src: 
-    url('/static/fonts/InterVariable.woff2') format('woff2 supports variations'),
+    url('/static/fonts/InterVariable.woff2') format('woff2') tech('variations'),
     url('/static/fonts/InterVariable.woff2') format('woff2-variations'),
     url('/static/fonts/Inter-Regular.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap; /* Reverted to swap for better UX */
+  font-display: optional;
   font-named-instance: 'Regular';
-  ascent-override: 90%;
+  ascent-override: 92%;
   descent-override: 22%;
   line-gap-override: 0%;
 }
@@ -103,20 +50,20 @@ body {
     url('/static/fonts/InterDisplay-Bold.woff2') format('woff2');
   font-weight: 400 700;
   font-style: normal;
-  font-display: swap;
-  ascent-override: 92%;
+  font-display: optional;
+  ascent-override: 94%;
   descent-override: 24%;
   line-gap-override: 0%;
 }
 
 /* ==========================================================================
-   CSS Custom Properties (Design Tokens - 2024 Standards)
+   Enhanced Design Tokens System
    ========================================================================== */
 :root {
   /* Color System */
-  --color-primary: 221 76 79; /* DD4C4F in RGB */
+  --color-primary: 221 76 79;
   --color-primary-hover: 196 60 63;
-  --color-text: 68 68 68; /* #444444 */
+  --color-text: 68 68 68;
   --color-text-secondary: 136 136 136;
   --color-text-tertiary: 217 217 217;
   --color-background: 255 255 255;
@@ -124,15 +71,15 @@ body {
   --color-background-tertiary: 228 229 230;
   --color-stroke: 217 217 217;
   
-  /* New semantic color tokens */
+  /* Semantic Colors */
   --color-surface: var(--color-background);
   --color-surface-elevated: var(--color-background-secondary);
   --color-border: var(--color-stroke);
   
   /* Typography */
-  --font-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-heading: 'Inter Display', 'Inter', var(--font-base);
-  --font-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', Menlo, Monaco, Consolas, monospace;
+  --font-base: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter Display', var(--font-base);
+  --font-mono: ui-monospace, 'Cascadia Mono', 'Roboto Mono', monospace;
   
   /* Spacing */
   --space-unit: 1rem;
@@ -171,57 +118,46 @@ body {
 }
 
 /* ==========================================================================
-   Typography System (2024 Standards)
+   Enhanced Typography System
    ========================================================================== */
 body {
   font-family: var(--font-base);
   color: rgb(var(--color-text));
-  /* Improved text rendering */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fluid typography with clamp() and logical properties */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.1;
   margin-block-end: 0.5em;
   font-weight: 700;
-  text-wrap: balance; /* Prevent orphans in headings */
+  text-wrap: balance;
 }
 
 h1 { 
-  font-size: clamp(2rem, 4vw + 1rem, 3.2rem); 
+  font-size: clamp(2rem, 4vw + 1rem, 3.2rem);
   line-height: 1.05;
   max-inline-size: 20ch;
 }
 
 h2 { 
-  font-size: clamp(1.75rem, 3vw + 0.75rem, 2.5rem); 
+  font-size: clamp(1.75rem, 3vw + 0.75rem, 2.5rem);
   line-height: 1.1;
   max-inline-size: 28ch;
-}
-
-h3 { 
-  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2rem); 
-  line-height: 1.15;
-  max-inline-size: 35ch;
 }
 
 .subtitle {
   font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.4rem);
   color: rgb(var(--color-text-secondary));
   max-inline-size: 60ch;
-  margin-block: 1rem 0;
   text-align: center;
   line-height: 1.4;
-  text-wrap: pretty; /* Better text wrapping */
+  text-wrap: pretty;
 }
 
 /* ==========================================================================
-   Interactive Elements (2024 Standards)
+   Enhanced Interactive Elements
    ========================================================================== */
 a {
   color: rgb(var(--color-primary));
@@ -292,45 +228,16 @@ button, .button {
     --button-bg: transparent;
     --button-text: rgb(var(--color-primary));
   }
-  
-  /* Button sizes */
-  &.small {
-    padding-block: 0.5em;
-    padding-inline: 1em;
-    font-size: 0.875rem;
-  }
-  
-  &.large {
-    padding-block: 1em;
-    padding-inline: 2em;
-    font-size: 1.125rem;
-  }
-  
-  /* Disabled state */
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 }
 
 /* ==========================================================================
-   Layout Utilities (2024 Standards)
+   Enhanced Layout Components
    ========================================================================== */
 .container {
-  width: 100%;
+  width: min(100% - 2rem, var(--container-xl));
   margin-inline: auto;
-  padding-inline: var(--space-md);
-  
-  &.sm { max-width: var(--container-sm); }
-  &.md { max-width: var(--container-md); }
-  &.lg { max-width: var(--container-lg); }
-  &.xl { max-width: var(--container-xl); }
-  &.xxl { max-width: var(--container-2xl); }
 }
 
-/* ==========================================================================
-   Navigation - Modernized Implementation (2024)
-   ========================================================================== */
 .navigation {
   --nav-height: 4rem;
   position: sticky;
@@ -338,27 +245,15 @@ button, .button {
   block-size: var(--nav-height);
   background-color: rgba(var(--color-background) / 0.85);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   z-index: 1000;
   transition: box-shadow var(--transition-base);
-  
-  &.scrolled {
-    box-shadow: var(--shadow-sm);
-  }
   
   &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     block-size: 100%;
-  }
-  
-  &__logo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: 1.25rem;
-    font-weight: 600;
+    padding-inline: var(--space-md);
   }
   
   &__menu {
@@ -382,61 +277,16 @@ button, .button {
         transition: transform var(--transition-base);
       }
       
-      &:hover {
-        color: rgb(var(--color-primary));
-        text-decoration: none;
-        
-        &::after {
-          transform: scaleX(1);
-          transform-origin: left;
-        }
+      &:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
       }
-      
-      &.active {
-        color: rgb(var(--color-primary));
-        
-        &::after {
-          transform: scaleX(1);
-        }
-      }
-    }
-  }
-  
-  @media (max-width: 768px) {
-    &__menu {
-      display: none;
-    }
-    
-    &__mobile-toggle {
-      display: block;
     }
   }
 }
 
 /* ==========================================================================
-   Responsive Grid System (2024)
-   ========================================================================== */
-.grid {
-  display: grid;
-  gap: var(--space-md);
-  
-  @media (min-width: 48em) {
-    grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
-  }
-  
-  @media (min-width: 64em) {
-    grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
-  }
-  
-  /* Grid variants */
-  &.cols-1 { --grid-columns: 1; }
-  &.cols-2 { --grid-columns: 2; }
-  &.cols-3 { --grid-columns: 3; }
-  &.cols-4 { --grid-columns: 4; }
-}
-
-/* ==========================================================================
-   Utility Classes (2024)
+   Enhanced Utility Classes
    ========================================================================== */
 .sr-only {
   position: absolute;
@@ -450,78 +300,32 @@ button, .button {
   border-width: 0;
 }
 
-.text-center {
-  text-align: center;
-}
-
-/* New logical property utilities */
 .flex {
   display: flex;
   gap: var(--gap, var(--space-md));
 }
 
-.stack {
-  display: flex;
-  flex-direction: column;
+.grid {
+  display: grid;
   gap: var(--gap, var(--space-md));
-}
-
-.cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap, var(--space-md));
-}
-
-/* Aspect ratio container */
-.aspect-box {
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    display: block;
-    padding-bottom: calc(100% / (var(--aspect-ratio, 1)));
-  }
-  
-  > * {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
 
 /* ==========================================================================
-   Print Styles (2024)
+   Enhanced Print Styles
    ========================================================================== */
 @media print {
-  *,
-  *::before,
-  *::after {
+  * {
     background: transparent !important;
     color: #000 !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
 
-  a,
-  a:visited {
+  a {
     text-decoration: underline;
   }
 
-  /* Don't break images across pages */
   img {
     page-break-inside: avoid;
-  }
-
-  /* Reset typography for print */
-  h2, h3 {
-    page-break-after: avoid;
-  }
-
-  p {
-    orphans: 3;
-    widows: 3;
   }
 }

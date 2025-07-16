@@ -1,88 +1,131 @@
 @layer base {
-  /* Font faces */
+  /* Optimized font-face with modern syntax */
   @font-face {
     font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    src: url('/static/fonts/Inter-Regular.woff2') format('woff2');
-    font-display: swap;
-  }
-  
-  /* Add variable font if available */
-  @font-face {
-    font-family: 'Inter';
-    font-style: normal;
+    src: 
+      url('/static/fonts/InterVariable.woff2') format('woff2') tech('variations'),
+      url('/static/fonts/InterVariable.woff2') format('woff2-variations');
     font-weight: 100 900;
-    src: url('/static/fonts/InterVariable.woff2') format('woff2-variations');
-    font-display: swap;
+    font-display: optional;
+    font-style: normal;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
   }
 
-  /* Root element styles */
   :root {
-    /* Improve text rendering */
+    /* Enhanced text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizeSpeed;
+    font-synthesis: none;
     
-    /* Tap highlight for mobile */
+    /* Color system */
+    --color-primary: 221 76 79;
+    --color-text: 68 68 68;
+    --color-background: 255 255 255;
+    
+    /* Tap highlight */
     -webkit-tap-highlight-color: transparent;
+    
+    /* Scroll behavior */
+    scroll-behavior: smooth;
   }
 
-  /* HTML element */
   html {
-    scroll-behavior: smooth;
+    /* Layout stability */
     text-size-adjust: 100%;
-    
-    /* Prevent horizontal scrolling */
     overflow-x: hidden;
-    
-    /* Smooth scrolling for iOS */
+    scrollbar-gutter: stable;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Body element */
   body {
-    @apply bg-paper text-ink;
+    /* Base typography */
+    font-family: 'Inter', system-ui, sans-serif;
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-text));
     
-    /* Prevent layout shift when scrollbar appears/disappears */
-    scrollbar-gutter: stable;
-    
-    /* Minimum page height */
+    /* Layout */
     min-height: 100vh;
-    
-    /* Better line height default */
-    line-height: 1.5;
-    
-    /* Prevent text inflation on mobile */
-    text-size-adjust: none;
-    
-    /* Remove default margin */
+    min-height: 100dvh;
+    line-height: 1.6;
     margin: 0;
+    padding: 0;
+    
+    /* Text rendering */
+    text-size-adjust: none;
+    scrollbar-gutter: stable;
   }
 
-  /* Selection styles */
+  /* Enhanced selection styles */
   ::selection {
-    @apply bg-primary-500 text-white;
+    background-color: rgb(var(--color-primary));
+    color: white;
+    text-shadow: none;
   }
 
-  /* Focus styles for accessibility */
+  /* Improved focus styles */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary-500;
+    outline: 2px solid rgb(var(--color-primary));
+    outline-offset: 0.25rem;
+    border-radius: 0.125rem;
   }
 
-  /* Remove default button styles */
+  /* Reset buttons */
   button {
-    @apply appearance-none bg-transparent p-0 border-0;
+    appearance: none;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
   }
 
   /* Responsive media */
   img, video, canvas, svg {
     max-width: 100%;
     height: auto;
+    vertical-align: middle;
   }
 
-  /* Remove list styles */
+  /* List reset */
   ul, ol {
-    @apply list-none p-0 m-0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
+}
+
+/* Temporary styles with improved specificity */
+[data-critical-css] {
+  font-family: 'Inter', sans-serif;
+  background: white;
+  color: #444;
+  padding: 1rem;
+}
+
+[data-critical-css] .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+[data-critical-css] .btn-primary {
+  background: rgb(var(--color-primary));
+  color: white;
+}
+
+[data-critical-css] .metric-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }

@@ -1,7 +1,7 @@
 /**
- * input.css — Tailwind entry point
+ * Enhanced Tailwind Design System
  * ----------------------------------------------------------------------------
- * Bear-inspired design system with global tokens, dark mode, utilities, and components.
+ * Modern, performance-optimized design system with improved theming and utilities
  */
 
 @tailwind base;
@@ -9,11 +9,11 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   1. Base Layer - Design Tokens and Fundamental Styles
+   1. Enhanced Base Layer
    ========================================================================== */
 @layer base {
   :root {
-    /* Color Tokens */
+    /* Enhanced Color Tokens */
     --color-accent: theme('colors.bear.red');
     --color-grey: theme('colors.bear.grey');
     --color-smoke: theme('colors.bear.smoke');
@@ -54,7 +54,7 @@
     --focus-ring: #FF5E62;
   }
 
-  /* Root HTML Styles */
+  /* Enhanced Root Styles */
   html {
     background-color: var(--bg);
     color: var(--text);
@@ -63,29 +63,33 @@
     line-height: 1.5;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    text-size-adjust: none;
+    scrollbar-gutter: stable;
   }
 
-  /* Selection Styles */
+  /* Enhanced Selection Styles */
   ::selection {
-    @apply bg-primary-500 text-white;
+    background-color: theme('colors.primary.500');
+    color: white;
+    text-shadow: none;
   }
 
-  /* Focus Styles */
+  /* Enhanced Focus Styles */
   :focus-visible {
-    @apply outline-none ring-2 ring-focus-ring ring-offset-2;
+    outline: none;
+    box-shadow: 0 0 0 2px var(--focus-ring), 0 0 0 4px rgba(var(--focus-ring), 0.3);
   }
 
-  /* Typography */
+  /* Enhanced Body Styles */
   body {
     @apply min-h-screen font-normal text-base leading-relaxed;
     font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Respect reduced motion */
+  /* Enhanced Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    * {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -93,14 +97,16 @@
     }
   }
 
-  /* Links */
+  /* Enhanced Links */
   a:not(.unstyled) {
     @apply text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors;
+    text-decoration-thickness: 1px;
   }
 
-  /* Headings */
+  /* Enhanced Headings */
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold text-balance tracking-tight mb-4;
+    line-height: 1.1;
   }
 
   h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
@@ -108,12 +114,13 @@
   h3 { @apply text-2xl md:text-3xl; }
   h4 { @apply text-xl md:text-2xl; }
 
-  /* Paragraphs */
+  /* Enhanced Paragraphs */
   p {
     @apply mb-4 last:mb-0 text-pretty;
+    max-inline-size: 75ch;
   }
 
-  /* Lists */
+  /* Enhanced Lists */
   ul, ol {
     @apply pl-5 mb-4 space-y-2;
   }
@@ -126,17 +133,18 @@
     @apply list-decimal;
   }
 
-  /* Images */
+  /* Enhanced Images */
   img {
     @apply max-w-full h-auto rounded;
+    vertical-align: middle;
   }
 }
 
 /* ==========================================================================
-   2. Utilities Layer - Reusable Utility Classes
+   2. Enhanced Utilities Layer
    ========================================================================== */
 @layer utilities {
-  /* Layout */
+  /* Enhanced Layout */
   .wrapper {
     @apply w-full max-w-wrapper mx-auto px-4 sm:px-6 lg:px-8;
   }
@@ -145,81 +153,32 @@
     @apply w-screen relative left-1/2 right-1/2 -mx-[50vw];
   }
 
-  /* Buttons */
+  /* Enhanced Buttons */
   .btn {
     @apply inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
            disabled:opacity-50 disabled:pointer-events-none transform-gpu;
-  }
-  .btn:hover {
-    @apply -translate-y-px;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .btn-primary {
     @apply btn bg-gradient-to-r from-primary-600 to-primary-500 text-white px-6 py-2.5 shadow-bear-button;
-  }
-  .btn-primary:hover {
-    @apply to-primary-600 shadow-lg;
-  }
-
-  .btn-secondary {
-    @apply btn bg-white text-primary-600 border border-primary-500;
-  }
-  .btn-secondary:hover {
-    @apply bg-primary-50;
+    &:hover {
+      @apply to-primary-600 shadow-lg;
+    }
   }
 
-  .btn-ghost {
-    @apply btn;
-    color: var(--text);
-  }
-  .btn-ghost:hover {
-    background-color: var(--bg-elevated);
-  }
-
-  .btn-outline {
-    @apply btn border border-primary-500 text-primary-600 bg-transparent;
-  }
-  .btn-outline:hover {
-    @apply bg-primary-50;
-  }
-
-  .btn-tertiary {
-    @apply btn bg-primary-50 text-primary-600;
-  }
-  .btn-tertiary:hover {
-    @apply bg-primary-100;
-  }
-
-  .btn-white {
-    @apply btn bg-white text-primary-600 shadow;
-  }
-  .btn-white:hover {
-    @apply bg-gray-50 shadow-md;
-  }
-
-  .btn-transparent-white {
-    @apply btn border border-white text-white bg-white/20;
-  }
-  .btn-transparent-white:hover {
-    @apply bg-white/30;
-  }
-
-  /* Cards & Surfaces */
+  /* Enhanced Cards */
   .card {
     @apply rounded-xl shadow-card transition-all;
     background-color: var(--bg-elevated);
     border: 1px solid var(--border);
-  }
-  .card:hover {
-    @apply shadow-bear-card;
-  }
-  .card-glass {
-    @apply backdrop-blur-lg;
-    background-color: var(--bg-overlay);
+    &:hover {
+      @apply shadow-bear-card;
+    }
   }
 
-  /* Typography */
+  /* Enhanced Typography */
   .text-balance {
     text-wrap: balance;
   }
@@ -228,26 +187,13 @@
     text-wrap: pretty;
   }
 
-  /* Animations */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite alternate;
-  }
-
-  /* Scrollbar */
+  /* Enhanced Scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
     scrollbar-color: theme('colors.primary.600') var(--bg-surface);
     
     &::-webkit-scrollbar {
       @apply w-2 h-2;
-    }
-    
-    &::-webkit-scrollbar-track {
-      @apply bg-bg-surface;
     }
     
     &::-webkit-scrollbar-thumb {
@@ -257,80 +203,38 @@
 }
 
 /* ==========================================================================
-   3. Components Layer - Custom Components
+   3. Enhanced Components Layer
    ========================================================================== */
 @layer components {
-  /* Navigation */
+  /* Enhanced Navigation */
   .nav-link {
     @apply px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text relative transition-colors;
-  }
-  .nav-link::after {
-    @apply absolute inset-x-1 -bottom-1 h-0.5 bg-primary-500 scale-x-0 origin-left transition-transform;
-    content: '';
-  }
-  .nav-link:hover::after,
-  [aria-current="page"].nav-link::after {
-    @apply scale-x-100;
+    &::after {
+      @apply absolute inset-x-1 -bottom-1 h-0.5 bg-primary-500 scale-x-0 origin-left transition-transform;
+      content: '';
+    }
+    &:hover::after,
+    &[aria-current="page"]::after {
+      @apply scale-x-100;
+    }
   }
 
-  /* Hero Section */
+  /* Enhanced Hero Section */
   .hero {
     @apply relative overflow-hidden py-20 md:py-28 lg:py-32;
     background: linear-gradient(140deg, var(--bg) 0%, var(--bg-elevated) 40%, var(--color-smoke) 100%);
-    
-    &-content {
-      @apply relative z-10 max-w-3xl mx-auto text-center;
-    }
   }
 
-  /* Feature Card */
-  .feature-card {
-    @apply card p-6 md:p-8 hover:-translate-y-1;
-  }
-
-  /* Testimonial */
-  .testimonial {
-    @apply card p-6 relative;
-    
-    &::before {
-      @apply absolute top-0 left-0 w-full h-1.5 bg-primary-500 rounded-t-xl;
-      content: '';
-    }
-  }
-
-  /* Form Elements */
+  /* Enhanced Form Elements */
   .input {
     @apply w-full px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors;
     border: 1px solid var(--border);
     background-color: var(--bg-surface);
   }
-
-  .label {
-    @apply block text-sm font-medium text-text-secondary mb-2;
-  }
-
-  /* CTA Button */
-  .cta-primary {
-    @apply px-6 py-3 rounded-full bg-primary-300 text-white font-medium
-           hover:bg-primary-400 transition-all transform hover:-translate-y-0.5
-           shadow-md hover:shadow-lg;
-  }
-
-  /* Footer */
-  .footer-link {
-    @apply text-sm text-text-secondary hover:text-primary-500 flex items-center gap-2 transition-colors;
-  }
-  .footer-link i {
-    @apply transition-transform;
-  }
-  .footer-link:hover i {
-    @apply translate-x-1;
-  }
-
 }
 
 /* ==========================================================================
-   4. Print Styles
+   4. Enhanced Print Styles
    ========================================================================== */
 @media print {
   body {

@@ -1,11 +1,11 @@
 /* ==========================================================================
-   CSS Custom Properties (Design Tokens)
+   Enhanced Design Tokens System
    ========================================================================== */
 :root {
   /* Typography */
-  --text-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --text-font: "Inter", system-ui, sans-serif;
   --heading-font: "InterDisplay", var(--text-font);
-  --mono-font: "Inter", Menlo, Monaco, Consolas, monospace;
+  --mono-font: "Inter", monospace;
   
   /* Colors */
   --color-text: #1f2937;
@@ -33,7 +33,7 @@
 }
 
 /* ==========================================================================
-   Modern CSS Reset (Low Specificity)
+   Modern CSS Reset with Logical Properties
    ========================================================================== */
 :where(*, *::before, *::after) {
   box-sizing: border-box;
@@ -44,9 +44,9 @@
 
 :where(html) {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: none;
   text-size-adjust: none;
   overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 :where(body) {
@@ -57,60 +57,65 @@
   min-height: 100dvh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==========================================================================
-   Typography System
+   Enhanced Typography System
    ========================================================================== */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
   line-height: 1.1;
-  margin-bottom: var(--space-sm);
+  margin-block-end: var(--space-sm);
   font-weight: 700;
+  text-wrap: balance;
 }
 
 h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
   line-height: 1.05;
+  max-inline-size: 20ch;
 }
 
 h2 {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
+  max-inline-size: 28ch;
 }
 
 h3 {
   font-size: clamp(1.5rem, 3vw, 1.8rem);
+  max-inline-size: 35ch;
 }
 
 .subtitle {
   font-size: clamp(1.1rem, 1.5vw, 1.4rem);
   color: var(--color-text-secondary);
-  max-width: 42ch;
-  margin: var(--space-md) auto 0;
+  max-inline-size: 60ch;
+  margin-block: var(--space-md) 0;
   text-align: center;
   line-height: 1.4;
-}
-
-b, strong {
-  font-weight: 700;
+  text-wrap: pretty;
 }
 
 /* ==========================================================================
-   Interactive Elements
+   Enhanced Interactive Elements
    ========================================================================== */
 a {
   color: var(--color-accent);
   text-decoration: none;
   transition: color var(--transition-base);
+  text-underline-offset: 0.2em;
   
   &:hover {
     color: var(--color-accent-hover);
     text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
   
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
+    border-radius: 0.125rem;
   }
 }
 
@@ -123,7 +128,6 @@ a {
   padding: var(--space-sm) var(--space-lg);
   border-radius: 0.5em;
   font-weight: 500;
-  letter-spacing: 0.5px;
   transition: 
     background-color var(--transition-base),
     transform 0.1s ease;
@@ -144,18 +148,13 @@ a {
 }
 
 /* ==========================================================================
-   Layout Components
+   Enhanced Layout Components
    ========================================================================== */
 .wrapper {
-  width: 100%;
-  max-width: 70ch;
+  width: min(100% - 2rem, 70ch);
   margin-inline: auto;
-  padding-inline: clamp(var(--space-md), 4vw, var(--space-xl));
 }
 
-/* ==========================================================================
-   Navigation - Modernized
-   ========================================================================== */
 .navigation {
   --nav-height: 4rem;
   position: sticky;
@@ -166,24 +165,12 @@ a {
   z-index: 1000;
   transition: box-shadow var(--transition-base);
   
-  &.-shadow {
-    box-shadow: var(--shadow-sm);
-  }
-  
   &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
     padding-inline: var(--space-md);
-  }
-  
-  &__logo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: 1.25rem;
-    font-weight: 600;
   }
   
   &__menu {
@@ -193,37 +180,36 @@ a {
     a {
       color: var(--color-text);
       font-weight: 500;
+      position: relative;
       
-      &:hover {
-        color: var(--color-accent);
-        text-decoration: none;
+      &::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        inset-block-end: -0.25em;
+        block-size: 2px;
+        background: var(--color-accent);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform var(--transition-base);
       }
-    }
-  }
-  
-  &__mobile-toggle {
-    display: none;
-  }
-  
-  @media (max-width: 40em) {
-    &__menu {
-      display: none;
-    }
-    
-    &__mobile-toggle {
-      display: flex;
+      
+      &:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
     }
   }
 }
 
 /* ==========================================================================
-   Homepage Sections
+   Enhanced Homepage Components
    ========================================================================== */
 .homepage {
-  margin-top: 7em;
+  margin-block-start: 7em;
   
   @media (min-width: 32em) {
-    margin-top: 13em;
+    margin-block-start: 13em;
   }
   
   h1 {
@@ -238,93 +224,12 @@ a {
   justify-content: center;
   
   h1 {
-    margin-bottom: var(--space-md);
-    
-    @media (min-width: 32em) {
-      margin-bottom: var(--space-sm);
-    }
-  }
-}
-
-.apps-toggles-container {
-  display: flex;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xl);
-}
-
-.apps-toggle {
-  display: flex;
-  align-items: center;
-  padding: var(--space-sm);
-  font-size: 1.25rem;
-  color: var(--color-text);
-  opacity: 0.5;
-  position: relative;
-  transition: opacity var(--transition-base);
-  cursor: pointer;
-  
-  &:hover {
-    opacity: 0.8;
-  }
-  
-  &__icon {
-    margin-right: var(--space-xs);
-  }
-  
-  &__selection {
-    position: absolute;
-    display: none;
-    top: 0.1em;
-    right: 0.6em;
+    margin-block-end: var(--space-md);
   }
 }
 
 /* ==========================================================================
-   Footer
-   ========================================================================== */
-.footer {
-  &__links {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-xl);
-    
-    a {
-      color: var(--color-text);
-    }
-    
-    li {
-      line-height: 1.8;
-      text-align: center;
-      
-      &:first-child {
-        font-family: var(--heading-font);
-        margin-bottom: var(--space-xs);
-      }
-    }
-    
-    @media (min-width: 23em) {
-      grid-template-columns: repeat(2, 1fr);
-      
-      li {
-        text-align: left;
-      }
-    }
-    
-    @media (min-width: 37em) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
-  &__copyright {
-    color: var(--color-text-secondary);
-    text-align: center;
-    padding-bottom: var(--space-xl);
-  }
-}
-
-/* ==========================================================================
-   Utility Classes
+   Enhanced Utility Classes
    ========================================================================== */
 .pro-tag {
   display: inline-block;
@@ -334,18 +239,10 @@ a {
   padding: 0 var(--space-xs);
   border-radius: 0.3em;
   line-height: 1.4;
-  
-  &.-yellow {
-    background-color: #FCB827;
-  }
-  
-  &.-blue {
-    background-color: #44A2E5;
-  }
 }
 
 /* ==========================================================================
-   Print Styles
+   Enhanced Print Styles
    ========================================================================== */
 @media print {
   * {
@@ -357,5 +254,9 @@ a {
 
   a {
     text-decoration: underline;
+  }
+
+  img {
+    page-break-inside: avoid;
   }
 }
