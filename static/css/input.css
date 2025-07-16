@@ -283,6 +283,80 @@ a:not(.link-button):hover:after {
     animation: fade-in 0.6s ease forwards;
 }
 
+/* Navigation styles */
+.nav-link {
+    position: relative;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background-color: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.nav-link:hover::after,
+[aria-current="page"].nav-link::after {
+    transform: scaleX(1);
+}
+
+[aria-current="page"] {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Mobile menu animation */
+#mobile-menu {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+#mobile-menu:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Stats card polish */
+.stats-card {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+}
+
+.stats-icon {
+    transition: transform 0.3s ease;
+}
+
 /* Sophisticated Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {

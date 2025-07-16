@@ -1,116 +1,21 @@
-<!-- Premium Hero Section -->
-<section class="hero relative bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] text-white py-20 md:py-32 lg:py-40 overflow-hidden">
-  <!-- Decorative elements -->
-  <div class="absolute inset-0 opacity-5" aria-hidden="true" style="background-image: radial-gradient(circle at 75% 50%, rgba(255,255,255,0.15) 0%, transparent 50%);"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-0"></div>
-  
-  <div class="wrapper relative z-10">
-    <div class="hero-content max-w-4xl mx-auto text-center">
-      {% block hero_title %}
-        <h1 class="hero-title text-5xl sm:text-6xl md:text-7xl font-bold mb-6 md:mb-8 leading-tight tracking-tight animate-fade-in">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-[#f3f3f3]">
-            Rules Central
-          </span>
-        </h1>
-      {% endblock %}
-      
-      {% block hero_subtitle %}
-        <p class="hero-subtitle text-xl md:text-2xl max-w-2xl mx-auto mb-10 md:mb-12 text-[#CCCCCC] animate-fade-in delay-100 leading-relaxed">
-          AI-powered rules engine to streamline your automation workflows and decision-making processes
-        </p>
-      {% endblock %}
-      
+<!-- Polished Hero Section -->
+<section class="wrapper py-16">
+  <div class="text-center space-y-6">
+    <div class="inline-flex items-center gap-2 bg-background-secondary px-5 py-2 rounded-full border border-stroke">
+      <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+      <span class="text-sm font-semibold text-accent uppercase">Rules Management Dashboard</span>
+    </div>
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
+      {% block hero_title %}Rules Central{% endblock %}
+    </h1>
+    <p class="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+      {% block hero_subtitle %}Manage your rules effortlessly with real-time insights, metrics, and streamlined workflows.{% endblock %}
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center pt-4">
       {% block hero_actions %}
-        <div class="hero-actions flex flex-col sm:flex-row justify-center gap-4 animate-fade-in delay-200">
-          <a href="{{ url_for('routes.search') }}" 
-             class="link-button px-8 py-4 text-lg font-medium hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/20 focus:ring-offset-2 focus:ring-offset-[#2A2A2A] transition-all duration-300"
-             aria-label="Get started with Rules Central">
-            <svg aria-hidden="true" focusable="false" class="inline-block w-5 h-5 mr-2 -mt-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A1 1 0 0016 4H4a1 1 0 00-1.997.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg> Get Started
-          </a>
-          <a href="{{ url_for('routes.catalog') }}" 
-             class="px-8 py-4 text-lg font-medium rounded-full border-2 border-white/30 hover:border-white/50 bg-white/5 hover:bg-white/10 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-             aria-label="View rules catalog">
-            <i class="fas fa-play-circle mr-2" aria-hidden="true"></i> View Catalog
-          </a>
-        </div>
-      {% endblock %}
-      
-      {% block hero_secondary %}
-        <div class="hero-secondary mt-16 animate-fade-in delay-300">
-          <p class="text-sm text-[#AAAAAA] mb-6 tracking-wider">TRUSTED BY INDUSTRY LEADERS</p>
-          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-90 hover:opacity-100 transition-opacity duration-300">
-            <img src="{{ url_for('static', filename='images/logos/company1.svg') }}" alt="Company 1" class="h-8 md:h-10 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300">
-            <img src="{{ url_for('static', filename='images/logos/company2.svg') }}" alt="Company 2" class="h-8 md:h-10 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300">
-            <img src="{{ url_for('static', filename='images/logos/company3.svg') }}" alt="Company 3" class="h-8 md:h-10 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300">
-          </div>
-        </div>
+      <a href="{{ url_for('routes.config_page') }}" class="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-accent/90 transition-colors">New Rule</a>
+      <a href="{{ url_for('main.catalog') }}" class="border border-stroke px-6 py-3 rounded-lg font-medium hover:bg-background-secondary transition-colors">View Catalog</a>
       {% endblock %}
     </div>
   </div>
 </section>
-
-<style>
-  /* Hero animations */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-    opacity: 0;
-  }
-  
-  .delay-100 {
-    animation-delay: 100ms;
-  }
-  
-  .delay-200 {
-    animation-delay: 200ms;
-  }
-  
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-  
-  /* Hero title gradient */
-  .hero-title {
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-  
-  /* Hero subtitle */
-  .hero-subtitle {
-    font-weight: 400;
-    letter-spacing: -0.01em;
-  }
-  
-  /* Button enhancements */
-  .hero .link-button {
-    box-shadow: 0 4px 20px rgba(221, 76, 79, 0.3);
-  }
-  
-  .hero .link-button:hover {
-    box-shadow: 0 8px 30px rgba(221, 76, 79, 0.4);
-    transform: translateY(-2px);
-  }
-  
-  /* Dark mode adjustments */
-  @media (prefers-color-scheme: dark) {
-    .hero {
-      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
-    }
-    
-    .hero-title span {
-      background-image: linear-gradient(to right, #F3F3F3, #CCCCCC);
-    }
-    
-    .hero .link-button:hover {
-      box-shadow: 0 8px 30px rgba(255, 120, 124, 0.4);
-    }
-  }
-</style>
