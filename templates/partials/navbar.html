@@ -47,6 +47,20 @@
           Activity
         </a>
       </li>
+      <li>
+        <a href="{{ url_for('main.search') }}"
+           class="rc-nav-link {% if request.path == url_for('main.search') %}active{% endif %}"
+           {% if request.path == url_for('main.search') %}aria-current="page"{% endif %}>
+          Search
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('routes.full_help') }}"
+           class="rc-nav-link {% if request.path == url_for('routes.full_help') %}active{% endif %}"
+           {% if request.path == url_for('routes.full_help') %}aria-current="page"{% endif %}>
+          Docs
+        </a>
+      </li>
     </ul>
 
     <!-- Actions --------------------------------------------->
@@ -117,6 +131,22 @@
             Activity
           </a>
         </li>
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('main.search') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('main.search') %}active{% endif %}"
+             {% if request.path == url_for('main.search') %}aria-current="page"{% endif %}>
+            Search
+          </a>
+        </li>
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('routes.full_help') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('routes.full_help') %}active{% endif %}"
+             {% if request.path == url_for('routes.full_help') %}aria-current="page"{% endif %}>
+            Docs
+          </a>
+        </li>
 
         {% if current_user.is_authenticated %}
           <li class="rc-nav-mobile-separator" role="presentation"></li>
@@ -147,14 +177,14 @@
 <style>
   .rc-nav {
     height: clamp(3.5rem, 5vw, 4rem);
-    background: color-mix(in srgb, var(--rc-body-bg-light, #fff) 80%, transparent);
+    background: linear-gradient(90deg, rgba(255,255,255,.85), rgba(248,250,252,.85));
     border-bottom: 1px solid var(--rc-border-light, rgba(0,0,0,.08));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
   }
   html.dark .rc-nav {
-    background: color-mix(in srgb, var(--rc-body-bg-dark, #1c1c1f) 70%, transparent);
+    background: linear-gradient(90deg, rgba(30,41,59,.9), rgba(17,24,39,.9));
     border-bottom-color: var(--rc-border-dark, rgba(255,255,255,.08));
   }
   .rc-nav.rc-nav-scrolled {
@@ -225,6 +255,7 @@
   .rc-nav-link.active {
     color:var(--rc-accent,#f43f5e);
     background:color-mix(in srgb, var(--rc-accent,#f43f5e) 15%, transparent);
+    box-shadow: inset 0 -2px 0 var(--rc-accent,#f43f5e);
   }
 
   /* Auth buttons */
