@@ -15,35 +15,35 @@
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center h-full">
           <li class="h-full flex items-center">
-            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+            <a class="nav-link px-4 py-2 h-full flex items-center"
                href="{{ url_for('main.catalog') }}"
                {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
               Catalog
             </a>
           </li>
           <li class="h-full flex items-center">
-            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            <a class="nav-link px-4 py-2 h-full flex items-center"
                href="{{ url_for('diagrams.diagrams_index') }}"
                {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
               Diagrams
             </a>
           </li>
           <li class="h-full flex items-center">
-            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+            <a class="nav-link px-4 py-2 h-full flex items-center"
                href="{{ url_for('routes.activity') }}"
                {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
               Activity
             </a>
           </li>
           <li class="h-full flex items-center">
-            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+            <a class="nav-link px-4 py-2 h-full flex items-center"
                href="{{ url_for('main.markdown_notes') }}"
                {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
               Notes
             </a>
           </li>
           <li class="h-full flex items-center relative group">
-            <button class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors gap-1">
+            <button class="nav-link px-4 py-2 h-full flex items-center gap-1"
               More
               <i class="fas fa-chevron-down text-xs mt-0.5 transition-transform group-hover:rotate-180"></i>
             </button>
@@ -116,49 +116,49 @@
     <div class="container mx-auto px-4 py-3">
       <ul class="flex flex-col gap-1">
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('main.catalog') }}"
              {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
             Catalog
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('diagrams.diagrams_index') }}"
              {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
             Diagrams
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('routes.activity') }}"
              {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
             Activity
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('main.markdown_notes') }}"
              {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
             Notes
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('routes.faq_page') }}"
              {% if request.path == url_for('routes.faq_page') %}aria-current="page"{% endif %}>
             FAQ
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('routes.full_help') }}"
              {% if request.path == url_for('routes.full_help') %}aria-current="page"{% endif %}>
             Help
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
+          <a class="nav-link block px-4 py-3"
              href="{{ url_for('main.about') }}"
              {% if request.path == url_for('main.about') %}aria-current="page"{% endif %}>
             About
@@ -205,7 +205,15 @@
 
 <style>
   .nav-link {
-    @apply text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors;
+    @apply px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors relative;
+  }
+  .nav-link::after {
+    @apply absolute inset-x-1 -bottom-1 h-0.5 bg-primary-500 scale-x-0 origin-left transition-transform;
+    content: '';
+  }
+  .nav-link:hover::after,
+  [aria-current="page"].nav-link::after {
+    @apply scale-x-100;
   }
 
   .btn-primary {
