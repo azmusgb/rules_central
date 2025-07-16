@@ -1,177 +1,471 @@
-<nav class="fixed top-0 w-full h-16 bg-white/90 backdrop-blur-md border-b border-stroke-color z-50 transition-all duration-300" role="navigation" aria-label="Main navigation">
-    <div class="wrapper flex items-center justify-between h-full">
-        <!-- Logo/Brand -->
-        <a href="{{ url_for('main.index') }}" class="flex items-center gap-2 group" aria-label="Rules Central Home">
-            <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" 
-                 class="h-6 w-auto transition-transform group-hover:scale-105" 
-                 alt="Rules Central logo"
-                 width="120"
-                 height="24">
-            <span class="font-bold text-text-color group-hover:text-accent-color transition-colors duration-200">Rules Central</span>
+{# ============================================================
+   Rules Central Global Navbar
+   Responsive | Sticky | Theme-aware | Accessible
+   ============================================================ #}
+<nav id="rc-nav"
+     class="rc-nav fixed top-0 inset-x-0 z-50"
+     role="navigation"
+     aria-label="Main navigation">
+
+  <div class="rc-nav-inner rc-container">
+    <!-- Brand ------------------------------------------------>
+    <a href="{{ url_for('main.index') }}" class="rc-brand" aria-label="Rules Central Home">
+      <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
+           alt="Rules Central logo"
+           width="120" height="24"
+           class="rc-brand-logo" />
+      <span class="rc-brand-name">Rules Central</span>
+    </a>
+
+    <!-- Desktop Nav ----------------------------------------->
+    <ul class="rc-nav-links" data-rc-nav-desktop>
+      <li>
+        <a href="{{ url_for('main.index') }}"
+           class="rc-nav-link {% if request.path == url_for('main.index') %}active{% endif %}"
+           {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
+          Dashboard
         </a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.catalog') }}"
+           class="rc-nav-link {% if request.path == url_for('main.catalog') %}active{% endif %}"
+           {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
+          Catalog
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('diagrams.diagrams_index') }}"
+           class="rc-nav-link {% if request.path == url_for('diagrams.diagrams_index') %}active{% endif %}"
+           {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
+          Diagrams
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('routes.activity') }}"
+           class="rc-nav-link {% if request.path == url_for('routes.activity') %}active{% endif %}"
+           {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
+          Activity
+        </a>
+      </li>
+    </ul>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center h-full">
-            <ul class="flex items-center h-full gap-1">
-                <li class="h-full flex items-center">
-                    <a class="nav-link px-4 h-full flex items-center"
-                       href="{{ url_for('main.index') }}"
-                       {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="h-full flex items-center">
-                    <a class="nav-link px-4 h-full flex items-center"
-                       href="{{ url_for('main.catalog') }}"
-                       {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
-                        Catalog
-                    </a>
-                </li>
-                <li class="h-full flex items-center">
-                    <a class="nav-link px-4 h-full flex items-center"
-                       href="{{ url_for('diagrams.diagrams_index') }}"
-                       {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
-                        Diagrams
-                    </a>
-                </li>
-                <li class="h-full flex items-center">
-                    <a class="nav-link px-4 h-full flex items-center"
-                       href="{{ url_for('routes.activity') }}"
-                       {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
-                        Activity
-                    </a>
-                </li>
-            </ul>
+    <!-- Actions --------------------------------------------->
+    <div class="rc-nav-actions">
+      {% if current_user.is_authenticated %}
+        <div class="rc-user">
+          <button class="rc-user-btn" type="button" aria-haspopup="menu" aria-expanded="false">
+            <span class="rc-user-name">{{ current_user.username }}</span>
+            <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}"
+                 alt="User avatar"
+                 class="rc-user-avatar" width="32" height="32" />
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="rc-user-caret" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="rc-user-menu" role="menu" hidden>
+            <a role="menuitem" href="{{ url_for('user_routes.profile') }}">Profile</a>
+            <a role="menuitem" href="{{ url_for('auth.logout') }}" class="rc-user-signout">Sign Out</a>
+          </div>
         </div>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="rc-nav-auth rc-nav-auth--login">Log In</a>
+        <a href="{{ url_for('auth.register') }}" class="rc-nav-auth rc-nav-auth--signup">Sign Up</a>
+      {% endif %}
 
-        <!-- Right-side Actions -->
-        <div class="flex items-center gap-4">
-            {% if current_user.is_authenticated %}
-                <!-- User dropdown -->
-                <div class="relative group h-full flex items-center">
-                    <button class="flex items-center gap-2 p-1 rounded-full hover:bg-background-secondary-color transition-colors duration-200 h-full">
-                        <span class="text-sm font-medium text-text-color">{{ current_user.username }}</span>
-                        <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}" 
-                             class="h-8 w-8 rounded-full border border-stroke-color transition-transform group-hover:scale-105" 
-                             alt="User avatar">
-                    </button>
-                </div>
-            {% else %}
-                <!-- Auth links -->
-                <a href="{{ url_for('auth.login') }}" class="px-4 py-2 rounded-full font-medium h-10 flex items-center border border-stroke-color hover:bg-background-secondary-color transition-colors duration-200">
-                    Log In
-                </a>
-                <a href="{{ url_for('auth.register') }}" class="link-button">
-                    Sign Up
-                </a>
-            {% endif %}
-
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-toggle" 
-                    class="md:hidden p-2 rounded-full hover:bg-background-secondary-color focus:outline-none transition-colors duration-200 h-10 w-10 flex items-center justify-center"
-                    aria-label="Open menu"
-                    aria-expanded="false"
-                    type="button">
-                <svg class="w-6 h-6 text-text-color" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-        </div>
+      <!-- Mobile menu toggle -->
+      <button id="rc-nav-mobile-toggle"
+              class="rc-nav-mobile-toggle"
+              aria-label="Open menu"
+              aria-expanded="false"
+              type="button">
+        <span class="rc-nav-mobile-bars" aria-hidden="true"></span>
+      </button>
     </div>
+  </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-background-color shadow-lg border-t border-stroke-color transition-all duration-300 backdrop-blur-md">
-        <div class="wrapper py-2">
-            <ul class="flex flex-col gap-1">
-                <li>
-                    <a class="nav-link block px-4 py-3 rounded-lg"
-                       href="{{ url_for('main.index') }}"
-                       {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link block px-4 py-3 rounded-lg"
-                       href="{{ url_for('main.catalog') }}"
-                       {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
-                        Catalog
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link block px-4 py-3 rounded-lg"
-                       href="{{ url_for('diagrams.diagrams_index') }}"
-                       {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
-                        Diagrams
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link block px-4 py-3 rounded-lg"
-                       href="{{ url_for('routes.activity') }}"
-                       {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
-                        Activity
-                    </a>
-                </li>
-                
-                {% if current_user.is_authenticated %}
-                    <li class="mt-2 pt-2 border-t border-stroke-color">
-                        <a class="block px-4 py-3 rounded-lg font-medium text-text-color hover:bg-background-secondary-color transition-colors duration-200" 
-                           href="{{ url_for('user_routes.profile') }}">
-                            Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-3 rounded-lg font-medium text-accent-color hover:bg-background-secondary-color transition-colors duration-200" 
-                           href="{{ url_for('auth.logout') }}">
-                            Sign Out
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="mt-2 pt-2 border-t border-stroke-color">
-                        <a class="block px-4 py-3 rounded-lg font-medium text-text-color hover:bg-background-secondary-color transition-colors duration-200"
-                           href="{{ url_for('auth.login') }}">
-                            Log In
-                        </a>
-                    </li>
-                    <li>
-                        <a class="link-button w-full text-center block px-4 py-3 rounded-lg font-medium"
-                           href="{{ url_for('auth.register') }}">
-                            Sign Up
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+  <!-- Mobile Drawer ----------------------------------------->
+  <div id="rc-nav-mobile-drawer" class="rc-nav-mobile-drawer" hidden>
+    <div class="rc-nav-mobile-inner rc-container">
+      <ul class="rc-nav-mobile-list" role="menu">
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('main.index') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('main.index') %}active{% endif %}"
+             {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('main.catalog') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('main.catalog') %}active{% endif %}"
+             {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
+            Catalog
+          </a>
+        </li>
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('diagrams.diagrams_index') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('diagrams.diagrams_index') %}active{% endif %}"
+             {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
+            Diagrams
+          </a>
+        </li>
+        <li>
+          <a role="menuitem"
+             href="{{ url_for('routes.activity') }}"
+             class="rc-nav-mobile-link {% if request.path == url_for('routes.activity') %}active{% endif %}"
+             {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
+            Activity
+          </a>
+        </li>
+
+        {% if current_user.is_authenticated %}
+          <li class="rc-nav-mobile-separator" role="presentation"></li>
+          <li>
+            <a role="menuitem" href="{{ url_for('user_routes.profile') }}" class="rc-nav-mobile-link">Profile</a>
+          </li>
+          <li>
+            <a role="menuitem" href="{{ url_for('auth.logout') }}" class="rc-nav-mobile-link rc-nav-mobile-signout">Sign Out</a>
+          </li>
+        {% else %}
+          <li class="rc-nav-mobile-separator" role="presentation"></li>
+          <li>
+            <a role="menuitem" href="{{ url_for('auth.login') }}" class="rc-nav-mobile-link">Log In</a>
+          </li>
+          <li>
+            <a role="menuitem" href="{{ url_for('auth.register') }}" class="rc-nav-mobile-link rc-nav-mobile-signup">Sign Up</a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
+  </div>
 </nav>
 
+{# ============================================================
+   Inline styles: nav-only so it renders even if main CSS fails.
+   (Tokens cascade from :root in base.html)
+   ============================================================ #}
+<style>
+  .rc-nav {
+    height: clamp(3.5rem, 5vw, 4rem);
+    background: color-mix(in srgb, var(--rc-body-bg-light, #fff) 80%, transparent);
+    border-bottom: 1px solid var(--rc-border-light, rgba(0,0,0,.08));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+  html.dark .rc-nav {
+    background: color-mix(in srgb, var(--rc-body-bg-dark, #1c1c1f) 70%, transparent);
+    border-bottom-color: var(--rc-border-dark, rgba(255,255,255,.08));
+  }
+  .rc-nav.rc-nav-scrolled {
+    box-shadow: 0 2px 12px rgb(0 0 0 / .25);
+    transform: translateY(0);
+  }
 
+  .rc-nav-inner {
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Brand */
+  .rc-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none;
+  }
+  .rc-brand-logo {
+    height: 1.5rem;
+    width: auto;
+    transition: transform .15s ease;
+  }
+  .rc-brand:hover .rc-brand-logo {transform: scale(1.05);}
+  .rc-brand-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--rc-body-fg-light,#1a1a1a);
+    transition: color .15s ease;
+  }
+  html.dark .rc-brand-name {color: var(--rc-body-fg-dark,#f1f5f9);}
+  .rc-brand:hover .rc-brand-name {color: var(--rc-accent,#f43f5e);}
+
+  /* Desktop links */
+  .rc-nav-links {
+    display: none;
+    list-style:none;
+    margin:0;
+    padding:0;
+    justify-self:center;
+    align-items:center;
+    gap:.25rem;
+  }
+  @media (min-width:768px){
+    .rc-nav-links{display:flex;}
+  }
+  .rc-nav-link {
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.25rem .75rem;
+    border-radius:.5rem;
+    font-size:.9375rem;
+    line-height:1.25;
+    text-decoration:none;
+    font-weight:500;
+    color:var(--rc-body-fg-light,#1a1a1a);
+    transition:background .15s ease,color .15s ease;
+  }
+  html.dark .rc-nav-link{color:var(--rc-body-fg-dark,#f1f5f9);}
+  .rc-nav-link:hover{background:rgba(0,0,0,.05);}
+  html.dark .rc-nav-link:hover{background:rgba(255,255,255,.08);}
+  .rc-nav-link.active {
+    color:var(--rc-accent,#f43f5e);
+    background:color-mix(in srgb, var(--rc-accent,#f43f5e) 15%, transparent);
+  }
+
+  /* Auth buttons */
+  .rc-nav-actions {
+    display:inline-flex;
+    align-items:center;
+    gap:.75rem;
+  }
+  .rc-nav-auth {
+    font-size:.9375rem;
+    line-height:1.25;
+    font-weight:600;
+    text-decoration:none;
+    padding:.4rem 1.125rem;
+    border-radius:9999px;
+    border:1px solid currentColor;
+    transition:all .15s ease;
+  }
+  .rc-nav-auth--login {
+    color:var(--rc-accent,#f43f5e);
+    background:transparent;
+  }
+  .rc-nav-auth--login:hover {
+    background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent);
+  }
+  .rc-nav-auth--signup {
+    background:var(--rc-accent,#f43f5e);
+    border-color:var(--rc-accent,#f43f5e);
+    color:#fff;
+  }
+  .rc-nav-auth--signup:hover {
+    background:var(--rc-accent-hover,rgb(244 63 94 / .9));
+  }
+
+  /* User summary */
+  .rc-user{position:relative;display:inline-block}
+  .rc-user-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.25rem .5rem;
+    border-radius:9999px;
+    cursor:pointer;
+    background:transparent;
+    border:none;
+    color:inherit;
+    font:inherit;
+    transition:background .15s ease;
+  }
+  .rc-user-btn:hover{background:rgba(0,0,0,.05);}
+  html.dark .rc-user-btn:hover{background:rgba(255,255,255,.08);}
+  .rc-user-name{font-size:.875rem;font-weight:600;max-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rc-user-avatar{width:2rem;height:2rem;border-radius:9999px;border:1px solid var(--rc-border-light,rgba(0,0,0,.1))}
+  html.dark .rc-user-avatar{border-color:var(--rc-border-dark,rgba(255,255,255,.1))}
+  .rc-user-caret{width:1rem;height:1rem}
+
+  .rc-user-menu{
+    position:absolute;
+    top:calc(100% + .25rem);
+    right:0;
+    min-width:8rem;
+    padding:.25rem;
+    background:var(--rc-surface-1-light,#fff);
+    border:1px solid var(--rc-border-light,rgba(0,0,0,.1));
+    border-radius:.5rem;
+    box-shadow:0 4px 24px rgb(0 0 0 / .15);
+    display:grid;
+    gap:.25rem;
+  }
+  html.dark .rc-user-menu{
+    background:var(--rc-surface-1-dark,rgba(30,41,59,.9));
+    border-color:var(--rc-border-dark,rgba(255,255,255,.1));
+  }
+  .rc-user-menu a{
+    padding:.5rem .75rem;
+    border-radius:.375rem;
+    font-size:.875rem;
+    line-height:1.25;
+    text-decoration:none;
+    color:inherit;
+    transition:background .15s ease,color .15s ease;
+  }
+  .rc-user-menu a:hover{
+    background:rgba(0,0,0,.05);
+  }
+  html.dark .rc-user-menu a:hover{
+    background:rgba(255,255,255,.08);
+  }
+  .rc-user-menu .rc-user-signout{color:var(--rc-accent,#f43f5e);}
+
+  /* Mobile toggle -------------------------------------------------------- */
+  .rc-nav-mobile-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:2.25rem;
+    height:2.25rem;
+    border-radius:9999px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    position:relative;
+    transition:background .15s ease;
+  }
+  .rc-nav-mobile-toggle:hover{background:rgba(0,0,0,.05);}
+  html.dark .rc-nav-mobile-toggle:hover{background:rgba(255,255,255,.08);}
+  .rc-nav-mobile-bars,
+  .rc-nav-mobile-bars::before,
+  .rc-nav-mobile-bars::after{
+    content:"";
+    width:1.25rem;
+    height:2px;
+    background:currentColor;
+    display:block;
+    border-radius:2px;
+    transition:transform .2s ease,opacity .2s ease;
+  }
+  .rc-nav-mobile-bars::before{transform:translateY(-4px);}
+  .rc-nav-mobile-bars::after{transform:translateY(4px);}
+  .rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars{opacity:0}
+  .rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars::before{transform:rotate(45deg) translateY(0)}
+  .rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars::after{transform:rotate(-45deg) translateY(0)}
+
+  @media (min-width:768px){
+    .rc-nav-mobile-toggle{display:none;}
+  }
+
+  /* Mobile drawer -------------------------------------------------------- */
+  .rc-nav-mobile-drawer{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:var(--rc-surface-1-light,#fff);
+    border-bottom:1px solid var(--rc-border-light,rgba(0,0,0,.08));
+    border-top:1px solid var(--rc-border-light,rgba(0,0,0,.08));
+    box-shadow:0 8px 32px rgb(0 0 0 / .2);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    padding-block:.75rem;
+    transition:max-height .25s ease,opacity .15s ease;
+  }
+  html.dark .rc-nav-mobile-drawer{
+    background:var(--rc-surface-1-dark,rgba(30,41,59,.9));
+    border-color:var(--rc-border-dark,rgba(255,255,255,.08));
+  }
+  .rc-nav-mobile-drawer[hidden]{max-height:0;opacity:0;overflow:hidden;padding-block:0}
+  .rc-nav-mobile-drawer:not([hidden]){max-height:480px;opacity:1;overflow:auto}
+
+  .rc-nav-mobile-list{
+    list-style:none;margin:0;padding:0;display:grid;gap:.25rem
+  }
+  .rc-nav-mobile-link{
+    display:block;
+    padding:.75rem 1rem;
+    border-radius:.5rem;
+    text-decoration:none;
+    font-size:1rem;
+    font-weight:600;
+    color:inherit;
+    transition:background .15s ease,color .15s ease;
+  }
+  .rc-nav-mobile-link:hover{background:rgba(0,0,0,.05);}
+  html.dark .rc-nav-mobile-link:hover{background:rgba(255,255,255,.08);}
+  .rc-nav-mobile-link.active{color:var(--rc-accent,#f43f5e);}
+
+  .rc-nav-mobile-separator{
+    height:1px;
+    margin:.5rem 0;
+    background:var(--rc-border-light,rgba(0,0,0,.08));
+  }
+  html.dark .rc-nav-mobile-separator{background:var(--rc-border-dark,rgba(255,255,255,.1));}
+  .rc-nav-mobile-signout{color:var(--rc-accent,#f43f5e);}
+  .rc-nav-mobile-signup{
+    background:var(--rc-accent,#f43f5e);
+    color:#fff;
+    text-align:center;
+  }
+</style>
+
+{# ============================================================
+   Navbar behavior script
+   - Scroll shadow
+   - Mobile drawer toggle
+   - User menu toggle
+   ============================================================ #}
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
-            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.classList.toggle('hidden');
-            
-            // Toggle icon between hamburger and X
-            const icon = mobileMenuToggle.querySelector('svg');
-            if (!isExpanded) {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
-            } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
-            }
-        });
+(function(){
+  const root    = document.documentElement;
+  const nav     = document.getElementById('rc-nav');
+  const mobileT = document.getElementById('rc-nav-mobile-toggle');
+  const drawer  = document.getElementById('rc-nav-mobile-drawer');
+  const userBtn = nav.querySelector('.rc-user-btn');
+  const userMenu= nav.querySelector('.rc-user-menu');
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                mobileMenuToggle.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
-            });
-        });
+  // Scroll state (shadow only after scroll)
+  function onScroll(){
+    if (window.scrollY > 8){
+      nav.classList.add('rc-nav-scrolled');
+    } else {
+      nav.classList.remove('rc-nav-scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Mobile menu toggle
+  if (mobileT){
+    mobileT.addEventListener('click', () => {
+      const expanded = mobileT.getAttribute('aria-expanded') === 'true';
+      mobileT.setAttribute('aria-expanded', String(!expanded));
+      if (expanded){
+        drawer.hidden = true;
+      } else {
+        drawer.hidden = false;
+      }
     });
+    // Close drawer when any link inside is clicked
+    drawer.addEventListener('click', (e)=>{
+      const link = e.target.closest('a');
+      if (!link) return;
+      drawer.hidden = true;
+      mobileT.setAttribute('aria-expanded','false');
+    });
+  }
+
+  // User menu (desktop)
+  if (userBtn){
+    userBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const expanded = userBtn.getAttribute('aria-expanded') === 'true';
+      userBtn.setAttribute('aria-expanded', String(!expanded));
+      userMenu.hidden = expanded;
+    });
+    document.addEventListener('click', (e)=>{
+      if (!userMenu || userMenu.hidden) return;
+      if (!nav.contains(e.target)){
+        userMenu.hidden = true;
+        userBtn.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+})();
 </script>

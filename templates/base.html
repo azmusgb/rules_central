@@ -1,40 +1,189 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth no-js" data-theme="system">
 <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Rules Central{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
-    
-    <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1A1A1E" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-    
-    {% block meta %}{% endblock meta %}
-    {% block head %}{% endblock head %}
+  <title>{% block title %}Rules Central{% endblock title %}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
+
+  {# --- Progressive theme colors for OS chrome --- #}
+  <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1A1A1E" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+
+  {# --- Canonical / SEO hooks (override in child templates) --- #}
+  {% block seo %}
+    {# Example override:
+    <link rel="canonical" href="{{ request.url }}">
+    <meta property="og:title" content="Rules Central">
+    #}
+  {% endblock seo %}
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+  {# --- Preconnects / Fonts (edit as needed) --- #}
+  {# <link rel="preconnect" href="https://fonts.googleapis.com"> #}
+  {# <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> #}
+  {# <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"> #}
+
+  {# --- Main compiled stylesheet (Tailwind build) --- #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+
+  {# --- Page / component specific <meta> and head-level additions --- #}
+  {% block meta %}{% endblock meta %}
+  {% block head %}{% endblock head %}
+
+  {# --- Page-level style injection (used by dashboard & others) --- #}
+  {% block styles %}{% endblock styles %}
+
+  {# --- Critical inline theme script: run ASAP to prevent flash --- #}
+  <script>
+  (function() {
+    var STORAGE_KEY = 'rc-theme';
+    var d = document.documentElement;
+    d.classList.remove('no-js');
+
+    function apply(t) {
+      if (t === 'dark') {
+        d.classList.add('dark');
+        d.dataset.theme = 'dark';
+      } else {
+        d.classList.remove('dark');
+        d.dataset.theme = 'light';
+      }
+    }
+
+    var t = localStorage.getItem(STORAGE_KEY);
+    if (!t || t === 'system') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    apply(t);
+
+    // Watch system changes if user is in 'system' mode
+    if (!localStorage.getItem(STORAGE_KEY) || localStorage.getItem(STORAGE_KEY) === 'system') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        apply(e.matches ? 'dark' : 'light');
+      });
+    }
+  })();
+  </script>
+
+  {# --- Minimal fallback CSS so layout is legible if Tailwind fails --- #}
+  <style>
+    :root {
+      --rc-body-bg-light: #fafafa;
+      --rc-body-fg-light: #1a1a1a;
+      --rc-body-bg-dark: #1c1c1f;
+      --rc-body-fg-dark: #f1f5f9;
+      --rc-accent: #f43f5e;
+      --rc-max-w: 1280px;
+    }
+    html.no-js body {visibility: visible;}
+    body {
+      background: var(--rc-body-bg-light);
+      color: var(--rc-body-fg-light);
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    html.dark body {
+      background: var(--rc-body-bg-dark);
+      color: var(--rc-body-fg-dark);
+    }
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+      width: auto;
+      height: auto;
+      clip: auto;
+      padding: 0.5rem 1rem;
+      background: var(--rc-accent);
+      color: #fff;
+      border-radius: 0.5rem;
+      z-index: 999;
+    }
+    .rc-app-wrapper {
+      width: 100%;
+      max-width: var(--rc-max-w);
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+    /* basic button fallback if Tailwind fails */
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .btn-tertiary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .5rem 1.25rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all .15s ease;
+    }
+    .btn-primary {
+      background: var(--rc-accent);
+      color: #fff;
+      border-color: var(--rc-accent);
+    }
+    .btn-primary:hover {opacity: .9;}
+    .btn-secondary {
+      background: transparent;
+      color: var(--rc-accent);
+      border-color: currentColor;
+    }
+    .btn-secondary:hover {background: rgba(244,63,94,.1);}
+    .btn-tertiary {
+      background: transparent;
+      color: var(--rc-accent);
+      border: none;
+      padding-inline: .5rem;
+    }
+    .btn-tertiary:hover {text-decoration: underline;}
+  </style>
 </head>
 
+{# Allow child templates to extend/add classes to body #}
+{% block body_tag_open %}
 <body class="bg-background text-text min-h-screen flex flex-col">
-    <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg">
-        Skip to content
-    </a>
-    
-    {% include 'partials/navbar.html' %}
+{% endblock body_tag_open %}
 
-    <main id="main-content" class="flex-1">
-        {% block content %}{% endblock content %}
-    </main>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
-    {% include 'partials/footer.html' %}
-    {% include 'partials/back_to_top.html' %}
+  {% block body_start %}{% endblock body_start %}
 
-    {% block scripts %}{% endblock scripts %}
+  {% include 'partials/navbar.html' %}
+
+  <main id="main-content" class="flex-1">
+    {% block content %}{% endblock content %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+  {% include 'partials/back_to_top.html' %}
+
+  {% block body_end %}{% endblock body_end %}
+
+  {% block scripts %}{% endblock scripts %}
 </body>
 </html>

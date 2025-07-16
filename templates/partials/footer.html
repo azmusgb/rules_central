@@ -1,55 +1,192 @@
-<footer class="bg-white border-t border-stroke py-12">
-    <div class="wrapper">
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-12">
-            <!-- Brand/About -->
-            <div class="space-y-4">
-                <div class="flex items-center gap-2">
-                    <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" 
-                         class="h-6 w-auto" 
-                         alt="Rules Central logo"
-                         width="120"
-                         height="24">
-                    <span class="font-bold text-text">Rules Central</span>
-                </div>
-                <p class="text-sm text-text-secondary max-w-xs">
-                    Powerful rule hierarchy management. 
-                </p>
-            </div>
+{# ============================================================
+   Rules Central Global Footer
+   Responsive • Theme-aware • Accessible
+   ============================================================ #}
+<footer id="rc-footer" class="rc-footer" role="contentinfo">
+  <h2 class="sr-only">Site footer</h2>
 
-            <!-- Links -->
-            <div>
-                <h3 class="font-bold text-text mb-4">Product</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Features</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Pricing</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Documentation</a></li>
-                </ul>
-            </div>
+  <div class="rc-footer-top rc-container">
+    <div class="rc-footer-grid">
+      <!-- Brand / About ------------------------------------>
+      <div class="rc-footer-brand">
+        <a href="{{ url_for('main.index') }}" class="rc-footer-brand-link">
+          <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
+               alt="Rules Central logo"
+               class="rc-footer-logo"
+               width="120" height="24">
+          <span class="rc-footer-brand-name">Rules Central</span>
+        </a>
+        <p class="rc-footer-tagline">
+          Powerful rule hierarchy management.
+        </p>
+      </div>
 
-            <!-- Company -->
-            <div>
-                <h3 class="font-bold text-text mb-4">Company</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">About</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Blog</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Careers</a></li>
-                </ul>
-            </div>
+      <!-- Product ------------------------------------------->
+      <nav class="rc-footer-col" aria-labelledby="rcf-product">
+        <h3 id="rcf-product" class="rc-footer-heading">Product</h3>
+        <ul class="rc-footer-list">
+          <li><a href="#" class="rc-footer-link">Features</a></li>
+          <li><a href="#" class="rc-footer-link">Pricing</a></li>
+          <li><a href="#" class="rc-footer-link">Documentation</a></li>
+        </ul>
+      </nav>
 
-            <!-- Legal -->
-            <div>
-                <h3 class="font-bold text-text mb-4">Legal</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Privacy</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Terms</a></li>
-                    <li><a href="#" class="text-text-secondary hover:text-accent transition-colors">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
+      <!-- Company ------------------------------------------->
+      <nav class="rc-footer-col" aria-labelledby="rcf-company">
+        <h3 id="rcf-company" class="rc-footer-heading">Company</h3>
+        <ul class="rc-footer-list">
+          <li><a href="#" class="rc-footer-link">About</a></li>
+          <li><a href="#" class="rc-footer-link">Blog</a></li>
+          <li><a href="#" class="rc-footer-link">Careers</a></li>
+        </ul>
+      </nav>
 
-        <!-- Copyright -->
-        <div class="mt-12 pt-8 border-t border-stroke text-center text-text-secondary text-sm">
-            &copy; 2023 Rules Central. All rights reserved.
-        </div>
+      <!-- Legal --------------------------------------------->
+      <nav class="rc-footer-col" aria-labelledby="rcf-legal">
+        <h3 id="rcf-legal" class="rc-footer-heading">Legal</h3>
+        <ul class="rc-footer-list">
+          <li><a href="#" class="rc-footer-link">Privacy</a></li>
+          <li><a href="#" class="rc-footer-link">Terms</a></li>
+          <li><a href="#" class="rc-footer-link">Cookie Policy</a></li>
+        </ul>
+      </nav>
     </div>
+  </div>
+
+  <div class="rc-footer-bottom">
+    <div class="rc-container rc-footer-bottom-inner">
+      <p class="rc-footer-copy">
+        &copy; {{ current_year|default(2025,true) }} Rules Central. All rights reserved.
+      </p>
+      <p class="rc-footer-version" aria-label="Application version">
+        {{ app_version|default('v0.1.0',true) }}
+      </p>
+    </div>
+  </div>
 </footer>
+
+{# ============================================================
+   Inline Footer Styles (fallback; safe if main CSS missing)
+   Uses CSS vars from base.html; minimal static tokens included.
+   ============================================================ #}
+<style>
+  .rc-footer {
+    --rc-footer-bg-light: #ffffff;
+    --rc-footer-bg-dark: rgb(17 24 39 / .9); /* slate-900-ish w/ alpha */
+    --rc-footer-border-light: rgb(0 0 0 / .08);
+    --rc-footer-border-dark: rgb(255 255 255 / .08);
+    --rc-footer-fg-light: #1a1a1a;
+    --rc-footer-fg-dark: #f1f5f9;
+    --rc-footer-fg-sub-light: #475569;
+    --rc-footer-fg-sub-dark: #cbd5e1;
+    --rc-footer-accent: var(--rc-accent, rgb(244 63 94));
+    padding-top: 4rem;
+    margin-top: 6rem;
+    background: var(--rc-footer-bg-light);
+    color: var(--rc-footer-fg-light);
+    border-top: 1px solid var(--rc-footer-border-light);
+  }
+  html.dark .rc-footer {
+    background: var(--rc-footer-bg-dark);
+    color: var(--rc-footer-fg-dark);
+    border-top-color: var(--rc-footer-border-dark);
+  }
+  .rc-footer-top {
+    padding-bottom: 4rem;
+  }
+  .rc-footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 640px){
+    .rc-footer-grid {
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 2.5rem;
+    }
+  }
+  @media (min-width: 768px){
+    .rc-footer-grid {
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 3rem 4rem;
+    }
+  }
+  .rc-footer-brand-link {
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    text-decoration:none;
+  }
+  .rc-footer-logo {
+    height:1.75rem;
+    width:auto;
+  }
+  .rc-footer-brand-name {
+    font-weight:700;
+    font-size:1.125rem;
+    line-height:1.25;
+    color:inherit;
+  }
+  .rc-footer-tagline {
+    margin-top:1rem;
+    font-size:.875rem;
+    line-height:1.4;
+    max-width:20ch;
+    color:var(--rc-footer-fg-sub-light);
+  }
+  html.dark .rc-footer-tagline {color:var(--rc-footer-fg-sub-dark);}
+  .rc-footer-heading {
+    margin:0 0 1rem 0;
+    font-weight:700;
+    font-size:1rem;
+    line-height:1.25;
+  }
+  .rc-footer-list {
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:.5rem;
+  }
+  .rc-footer-link {
+    font-size:.9375rem;
+    line-height:1.25;
+    color:var(--rc-footer-fg-sub-light);
+    text-decoration:none;
+    transition:color .15s ease;
+  }
+  html.dark .rc-footer-link {color:var(--rc-footer-fg-sub-dark);}
+  .rc-footer-link:hover,
+  .rc-footer-link:focus-visible {
+    color:var(--rc-footer-accent);
+    outline:none;
+  }
+
+  .rc-footer-bottom {
+    background:color-mix(in srgb, var(--rc-footer-border-light) 4%, transparent);
+    border-top:1px solid var(--rc-footer-border-light);
+    padding-block:1.75rem;
+    font-size:.875rem;
+  }
+  html.dark .rc-footer-bottom {
+    background:color-mix(in srgb, var(--rc-footer-border-dark) 8%, transparent);
+    border-top-color:var(--rc-footer-border-dark);
+  }
+  .rc-footer-bottom-inner {
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+  }
+  @media (min-width:640px){
+    .rc-footer-bottom-inner {
+      flex-direction:row;
+      justify-content:space-between;
+      text-align:left;
+    }
+  }
+  .rc-footer-copy {margin:0;opacity:.85}
+  .rc-footer-version {margin:0;opacity:.65;font-variant-numeric:tabular-nums}
+</style>

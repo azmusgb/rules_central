@@ -1,133 +1,559 @@
 {% extends "base.html" %}
-
 {% block title %}Dashboard | Rules Central{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="wrapper py-16">
-    <div class="text-center space-y-6">
-        <div class="inline-flex items-center gap-2 bg-background-secondary px-5 py-2 rounded-full border border-stroke">
-            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            <span class="text-sm font-semibold text-accent uppercase">Rules Management Dashboard</span>
-        </div>
 
-        <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
-            Rules Central
-        </h1>
-
-        <p class="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-            Powerful rule hierarchy management made effortless with real-time insights and streamlined workflows.
-        </p>
-
-        <div class="flex flex-wrap gap-4 justify-center pt-4">
-            <a href="{{ url_for('routes.config_page') }}"
-               class="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-accent/90 transition-colors">
-                New Rule
-            </a>
-            <a href="{{ url_for('main.catalog') }}"
-               class="border border-stroke px-6 py-3 rounded-lg font-medium hover:bg-background-secondary transition-colors">
-                View Catalog
-            </a>
-        </div>
+<!-- HERO --------------------------------------------------- -->
+<section class="wrapper rc-container rc-section pt-12 md:pt-20 pb-16 md:pb-24 text-center relative overflow-hidden rc-hero">
+  <div class="absolute inset-0 rc-hero-bg pointer-events-none" aria-hidden="true"></div>
+  <div class="relative z-10 space-y-6 md:space-y-8">
+    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-primary-200/40 dark:border-primary-500/30 bg-primary-50/60 dark:bg-primary-500/10 backdrop-blur-sm shadow-sm">
+      <span class="w-2 h-2 rounded-full bg-primary-500 animate-ping"></span>
+      <span class="text-sm font-semibold tracking-wide uppercase text-primary-700 dark:text-primary-300">Rules Management Dashboard</span>
     </div>
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+      Rules Central
+    </h1>
+    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+      Manage your rules effortlessly with real-time insights, key metrics, and streamlined workflows.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 pt-2">
+      <a href="{{ url_for('routes.config_page') }}" class="btn-primary rc-cta rc-cta-primary">
+        <i class="fas fa-plus mr-2" aria-hidden="true"></i> New Rule
+      </a>
+      <a href="{{ url_for('main.catalog') }}" class="btn-secondary rc-cta">
+        <i class="fas fa-table-list mr-2" aria-hidden="true"></i> View Catalog
+      </a>
+      <a href="#quick-tour" class="btn-tertiary rc-cta">
+        <i class="fas fa-play mr-2" aria-hidden="true"></i> Quick Tour
+      </a>
+    </div>
+  </div>
 </section>
 
 
-<section class="wrapper py-8">
-   <div class="wrapper py-8">
-    <div class="card">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-text">Key Metrics</h2>
-            <div class="text-sm text-text-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Updated: Jul 16, 2025 03:47 PM
-            </div>
-        </div>
-
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <!-- Example improved metric card -->
-            <div class="metric-card">
-              <div class="metric-header flex justify-between items-start">
-                <p class="metric-label text-sm text-text-secondary">Total Rules</p>
-                <div class="metric-icon p-2 rounded-lg bg-accent/10 text-accent">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-              </div>
-              <p class="metric-value text-3xl font-bold text-text mt-2">1</p>
-              <div class="metric-trend positive flex items-center text-sm mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-                <span class="text-emerald-500 ml-1">+2.5% (7d)</span>
-              </div>
-            </div>
-
-            <!-- Active Users Card -->
-            <div class="p-5 rounded-xl bg-background-secondary hover:bg-background-tertiary transition-colors stats-card">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm text-text-secondary mb-1">Active Users</p>
-                        <p class="text-3xl font-bold text-text">5</p>
-                    </div>
-                    <div class="p-2 rounded-lg bg-accent/10 text-accent stats-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0V10m0 10l-4-4m4 4l4-4" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-3 flex items-center text-sm">
-                    <span class="text-emerald-500">+1 user today</span>
-                </div>
-            </div>
-
-            <!-- Additional metric cards would follow the same pattern -->
-            <!-- Skeleton loader example -->
-            <div class="skeleton-loader mt-4">
-              <div class="skeleton-line h-8 w-3/4"></div>
-              <div class="skeleton-line h-4 w-full mt-2"></div>
-            </div>
-        </div>
+<!-- METRICS ------------------------------------------------ -->
+<section id="metrics" class="wrapper rc-container rc-section py-10 md:py-14 space-y-6 animate__animated animate__fadeInUp">
+  <div class="flex items-center justify-between flex-wrap gap-4">
+    <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+      <i class="fas fa-chart-simple text-primary-500"></i>
+      <span>Key Metrics</span>
+    </h2>
+    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+      <i class="fas fa-clock"></i>
+      Last updated: <span class="font-medium">{{ now().strftime('%b %d, %Y %I:%M %p') }}</span>
+      <button id="metrics-refresh" class="ml-2 text-primary-600 dark:text-primary-400 hover:underline">Refresh</button>
     </div>
-</div>
+  </div>
 
-<!-- Recent Activity -->
-<section class="wrapper py-8">
-    <div class="card">
-        <h2 class="text-2xl font-bold mb-6">Recent Activity</h2>
-        
-        <div class="space-y-4">
-            <!-- Activity Item -->
-            <div class="flex gap-3 p-3 rounded-xl hover:bg-background-secondary transition-colors">
-                <div class="flex-shrink-0 mt-1">
-                    <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium">
-                        Created new rule <a href="#" class="text-accent hover:underline">"Payment Processing Rule"</a>
-                    </p>
-                    <div class="flex items-center gap-2 text-xs text-text-secondary mt-1">
-                        <span>John D.</span>
-                        <span class="w-1 h-1 rounded-full bg-stroke"></span>
-                        <span>2 minutes ago</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- More activity items would go here -->
+  {% macro metric_card(title, value, icon, accent_classes='', trend=None, link=None) %}
+    <div class="rc-card rc-metric group {{ 'hover:ring-2 hover:ring-primary-500 cursor-pointer focus-within:ring-2' if link }}">
+      {% if link %}
+        <a href="{{ link }}" class="absolute inset-0 z-10 sr-only-focusable" aria-label="{{ title }}"></a>
+      {% endif %}
+      <div class="p-5 relative z-0">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{{ title }}</p>
+            <p class="rc-metric-value text-4xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 leading-none">{{ value|default(0) }}</p>
+          </div>
+          <div class="rc-metric-icon {{ accent_classes }}">
+            <i class="{{ icon }} text-lg"></i>
+          </div>
         </div>
+        {% if trend is not none %}
+          {% if trend is mapping %}
+            {% set pct = trend.get('pct', 0) %}
+            {% set up = trend.get('is_up', pct >= 0) %}
+            <p class="mt-3 text-xs font-medium {{ 'text-emerald-600 dark:text-emerald-400' if up else 'text-rose-600 dark:text-rose-400' }}">
+              {{ pct|round(1) }}% vs previous
+            </p>
+          {% else %}
+            <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">{{ trend }}</p>
+          {% endif %}
+        {% else %}
+          <p class="mt-3 text-xs text-transparent select-none" aria-hidden="true">&nbsp;</p>
+        {% endif %}
+      </div>
     </div>
+  {% endmacro %}
+
+  <div class="grid rc-grid-auto rc-metrics-grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {{ metric_card('Total Rules',
+                   stats.total_rules if stats and 'total_rules' in stats else 0,
+                   'fas fa-layer-group','rc-accent-primary',None,
+                   url_for('main.catalog')) }}
+
+    {{ metric_card('Changed (7d)',
+                   stats.changed_7d if stats and 'changed_7d' in stats else 0,
+                   'fas fa-calendar-week','rc-accent-amber',
+                   stats.trend_7d if stats and 'trend_7d' in stats else None,
+                   url_for('main.catalog') ~ '?range=7d') }}
+
+    {{ metric_card('Changed (30d)',
+                   stats.changed_30d if stats and 'changed_30d' in stats else 0,
+                   'fas fa-calendar-days','rc-accent-rose',
+                   stats.trend_30d if stats and 'trend_30d' in stats else None,
+                   url_for('main.catalog') ~ '?range=30d') }}
+
+    {{ metric_card('Changed (90d)',
+                   stats.changed_90d if stats and 'changed_90d' in stats else 0,
+                   'fas fa-calendar','rc-accent-indigo',
+                   stats.trend_90d if stats and 'trend_90d' in stats else None,
+                   url_for('main.catalog') ~ '?range=90d') }}
+  </div>
 </section>
+
+
+<!-- TREND + ACTIVITY --------------------------------------- -->
+<section class="wrapper rc-container rc-section pb-12 md:pb-20">
+  <div class="grid rc-grid-2-1 gap-6 lg:grid-cols-3">
+    <!-- Trend -->
+    <section aria-labelledby="trend-heading" class="lg:col-span-2 space-y-4 rc-card rc-surface-1 p-5 animate__animated animate__fadeIn">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 id="trend-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+          <i class="fas fa-chart-line text-primary-500"></i>
+          <span>Rule Change Trends</span>
+        </h2>
+        <div class="flex gap-2 p-1 rc-toggle-pill">
+          <button data-range="7d"  class="rc-toggle active">7D</button>
+          <button data-range="30d" class="rc-toggle">30D</button>
+          <button data-range="90d" class="rc-toggle">90D</button>
+          <button data-range="1y"  class="rc-toggle">1Y</button>
+        </div>
+      </div>
+      <div class="w-full h-[280px]">
+        <canvas id="rulesTrendChart" aria-label="Rule change trends chart" role="img"></canvas>
+      </div>
+      <div class="flex flex-wrap gap-4 justify-between items-center pt-2 text-sm">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+          <span class="w-3 h-3 rounded-full bg-primary-500"></span>
+          <span>Rule changes</span>
+        </div>
+        <div class="flex gap-4">
+          <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
+            <i class="fas fa-download mr-1"></i> Export
+          </button>
+          <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
+            <i class="fas fa-expand mr-1"></i> Fullscreen
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section aria-labelledby="activity-heading" class="space-y-4 rc-card rc-surface-1 p-5 animate__animated animate__fadeIn">
+      <h2 id="activity-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+        <i class="fas fa-clock-rotate-left text-primary-500"></i>
+        <span>Recent Activity</span>
+      </h2>
+
+      {% macro activity_item(icon, accent_classes, action, user, time, rule=None) %}
+        <div class="flex gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-all duration-150 hover:shadow-sm">
+          <div class="flex-shrink-0 mt-1">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center rc-activity-icon {{ accent_classes }}">
+              <i class="{{ icon }}"></i>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
+              {{ action }}
+              {% if rule %}
+                <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">"{{ rule }}"</a>
+              {% endif %}
+            </p>
+            <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <span>{{ user }}</span>
+              <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+              <span>{{ time }}</span>
+            </div>
+          </div>
+        </div>
+      {% endmacro %}
+
+      <div class="space-y-3 max-h-[360px] overflow-y-auto pr-1 -mr-1 rc-scroll">
+        {{ activity_item('fas fa-plus','rc-accent-emerald','Created new rule','John D.','2 minutes ago','Payment Processing Rule') }}
+        {{ activity_item('fas fa-pen','rc-accent-amber','Updated rule','Sarah M.','15 minutes ago','Fraud Detection Rule') }}
+        {{ activity_item('fas fa-trash','rc-accent-rose','Deleted rule','Alex T.','1 hour ago','Old Compliance Rule') }}
+        {{ activity_item('fas fa-file-import','rc-accent-violet','Imported rules','System','2 hours ago') }}
+        {{ activity_item('fas fa-check','rc-accent-primary','Approved changes','Lisa K.','5 hours ago','3 rules') }}
+
+        <div class="text-center pt-2">
+          <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline inline-flex items-center">
+            View all activity
+            <i class="fas fa-chevron-right ml-1 text-xs"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<!-- QUICK ACTIONS ----------------------------------------- -->
+<section id="quick-actions" aria-labelledby="actions-heading" class="wrapper rc-container rc-section py-12 md:py-20 space-y-10 animate__animated animate__fadeIn rc-quick-actions">
+  <h2 id="actions-heading" class="text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-3">
+    <i class="fas fa-bolt text-primary-500 text-xl"></i>
+    <span>Quick Actions &amp; Tools</span>
+  </h2>
+
+  {% macro quick_action(icon, accent_classes, text, description, url) %}
+    <a href="{{ url }}"
+       class="flex flex-col gap-4 p-6 rounded-2xl rc-card rc-qa-card group hover:-translate-y-1 hover:shadow-xl transition-all duration-200">
+      <div class="flex items-center justify-between">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center rc-qa-icon {{ accent_classes }} group-hover:scale-110 transition-transform duration-200">
+          <i class="{{ icon }} text-xl"></i>
+        </div>
+        <i class="fas fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-primary-500 transition-colors"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{{ text }}</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ description }}</p>
+      </div>
+    </a>
+  {% endmacro %}
+
+  <div class="grid rc-grid-auto rc-qa-grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    {{ quick_action('fas fa-file-arrow-up','rc-accent-violet','Import Rules','Bulk import from CSV/Excel', url_for('upload.upload_file')) }}
+    {{ quick_action('fas fa-diagram-project','rc-accent-amber','Generate Diagram','Visualize rule relationships', url_for('diagrams.diagram_converter')) }}
+    {{ quick_action('fas fa-book','rc-accent-blue','Documentation','Guides &amp; API references','#') }}
+  </div>
+
+  <!-- Onboarding Callout -->
+  <div class="mt-12 relative overflow-hidden rounded-2xl rc-onboard text-white p-8 md:p-10 shadow-xl">
+    <div aria-hidden="true" class="absolute inset-0 rc-onboard-bg"></div>
+    <div class="relative z-10 space-y-3 md:space-y-4 max-w-xl">
+      <h3 class="text-2xl font-bold">Need help getting started?</h3>
+      <p class="text-base md:text-lg opacity-90">Explore our tutorials and documentation to make the most of Rules Central.</p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a href="#quick-tour" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 text-white font-medium transition-colors">
+          <i class="fas fa-play"></i> Watch Tutorial
+        </a>
+        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-colors">
+          <i class="fas fa-book"></i> Documentation
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
+
+
+{% block styles %}
+<style>
+/* HERO background uses existing theme vars if available */
+.rc-hero-bg{
+  background:
+    radial-gradient(circle at 50% -20%, var(--accent-text-color, rgba(244,63,94,.25)) 0%, transparent 70%),
+    linear-gradient(to bottom,var(--background, #fafafa) 0%,transparent 80%);
+}
+.dark .rc-hero-bg{
+  background:
+    radial-gradient(circle at 50% -20%, rgba(255,255,255,.08) 0%, transparent 70%),
+    linear-gradient(to bottom,rgba(255,255,255,.04) 0%, transparent 80%);
+}
+
+/* CTA micro-interactions */
+.rc-cta{transition:transform .15s ease,box-shadow .15s ease}
+.rc-cta:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgb(0 0 0/.15)}
+.rc-cta-primary{box-shadow:0 4px 16px rgb(244 63 94/.45)!important}
+
+/* Base card */
+.rc-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:1rem;
+  background-color:var(--background, #fff);
+  border:1px solid var(--stroke-color,rgba(0,0,0,.08));
+  box-shadow:0 1px 3px rgb(0 0 0/.06);
+  transition:all .18s ease;
+}
+.dark .rc-card{
+  background-color:rgba(30,41,59,.65);
+  border-color:rgba(255,255,255,.08);
+  box-shadow:0 1px 3px rgb(0 0 0/.4);
+}
+.rc-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgb(0 0 0/.12)}
+.dark .rc-card:hover{box-shadow:0 8px 24px rgb(0 0 0/.6)}
+
+/* Metric icon wrapper */
+.rc-metric-icon{
+  padding:.5rem;
+  border-radius:.5rem;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.125rem;
+  transition:background-color .15s ease,transform .15s ease;
+}
+.group:hover .rc-metric-icon{transform:scale(1.05)}
+
+/* Activity & QA icon base */
+.rc-activity-icon,
+.rc-qa-icon{
+  background-color:rgba(0,0,0,.04);
+}
+.dark .rc-activity-icon,
+.dark .rc-qa-icon{
+  background-color:rgba(255,255,255,.08);
+}
+
+/* Accent helpers */
+.rc-accent-primary{color:rgb(244,63,94);background-color:rgb(244 63 94/.12)}
+.rc-accent-amber{color:rgb(245,158,11);background-color:rgb(245 158 11/.15)}
+.rc-accent-rose{color:rgb(244,63,94);background-color:rgb(244 63 94/.15)}
+.rc-accent-indigo{color:rgb(99,102,241);background-color:rgb(99 102 241/.15)}
+.rc-accent-emerald{color:rgb(16,185,129);background-color:rgb(16 185 129/.15)}
+.rc-accent-violet{color:rgb(139,92,246);background-color:rgb(139 92 246/.15)}
+.rc-accent-blue{color:rgb(59,130,246);background-color:rgb(59 130 246/.15)}
+
+/* Activity scroll custom */
+.rc-scroll::-webkit-scrollbar{width:6px}
+.rc-scroll::-webkit-scrollbar-track{background:rgba(0,0,0,.05);border-radius:10px}
+.rc-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.25);border-radius:10px}
+.dark .rc-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}
+.dark .rc-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25)}
+
+/* Trend pill toggles */
+.rc-toggle-pill{background-color:rgb(241 245 249/1);border-radius:9999px;padding:.25rem}
+.dark .rc-toggle-pill{background-color:rgb(51 65 85/1)}
+.rc-toggle{padding:.25rem .75rem;font-size:.8125rem;line-height:1.25;border-radius:9999px;font-weight:600;color:rgb(71 85 105/1);transition:all .12s ease}
+.dark .rc-toggle{color:rgb(203 213 225/1)}
+.rc-toggle.active,.rc-toggle:hover{background-color:#fff;color:rgb(244 63 94/1)}
+.dark .rc-toggle.active,.dark .rc-toggle:hover{background-color:rgb(71 85 105/1);color:rgb(244 63 94/1)}
+
+/* Onboard gradient */
+.rc-onboard-bg{
+  background:linear-gradient(135deg,rgb(244 63 94/1) 0%,rgb(251 113 133/1) 60%,rgb(236 72 153/1) 100%);
+  opacity:.95;
+}
+.dark .rc-onboard-bg{opacity:.85}
+.rc-onboard{isolation:isolate}
+
+/* Accessible focus wrapper */
+.sr-only-focusable:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.sr-only-focusable:focus{position:absolute;inset:0;z-index:20;outline:none}
+
+/* =========================================================
+   RC DASHBOARD FALLBACK LAYOUT
+   These rules ensure the page renders beautifully even if
+   Tailwind utilities fail to load or are purged.
+   ========================================================= */
+
+/* Responsive container */
+.rc-container {
+  --rc-gutter-min: 1rem;
+  --rc-gutter-max: 2rem;
+  --rc-max-width: 1280px;
+  width: 100%;
+  max-width: var(--rc-max-width);
+  margin-inline: auto;
+  padding-inline: clamp(var(--rc-gutter-min), 2vw, var(--rc-gutter-max));
+  position: relative;
+}
+
+/* Vertical rhythm between sections */
+.rc-section {
+  margin-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+/* Grid fallbacks --------------------------------------- */
+.rc-grid-2-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .rc-grid-2-1 {
+    grid-template-columns: 2fr 1fr; /* trend 2x width, activity 1x */
+  }
+}
+
+.rc-grid-auto {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+/* Metric grid fallback (uses existing markup but extra safety) */
+.rc-metric .p-5 {
+  padding: 1.25rem;
+}
+.rc-metric {
+  min-height: 8.5rem;
+}
+
+/* Button fallbacks in case btn-* utilities missing */
+.btn-primary,
+.btn-secondary,
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  line-height: 1.25;
+  border-radius: 9999px;
+  padding: 0.75rem 1.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 1rem;
+}
+.btn-primary {
+  background: rgb(244 63 94);
+  color: #fff;
+  border: 1px solid rgb(244 63 94 / .8);
+}
+.btn-primary:hover {
+  background: rgb(244 63 94 / .9);
+  box-shadow: 0 4px 18px rgb(244 63 94 / .4);
+}
+.btn-secondary {
+  background: transparent;
+  color: rgb(244 63 94);
+  border: 1px solid currentColor;
+}
+.btn-secondary:hover {
+  background: rgb(244 63 94 / .1);
+}
+.btn-tertiary {
+  background: transparent;
+  color: var(--link-text-color, rgb(244 63 94));
+  border: none;
+  padding-inline: 1rem;
+  font-size: 0.9375rem;
+}
+.btn-tertiary:hover {
+  text-decoration: underline;
+}
+
+/* Card fallback if Tailwind card vars missing */
+.rc-card {
+  background-color: var(--background, #fff);
+  border: 1px solid var(--stroke-color, rgba(0,0,0,.1));
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / .08);
+}
+.dark .rc-card {
+  background-color: rgba(30,41,59,.75);
+  border-color: rgba(255,255,255,.08);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .6);
+}
+
+/* Quick Action card layout safety */
+.rc-qa-card {
+  min-height: 11rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Icon wrappers */
+.rc-qa-icon,
+.rc-metric-icon,
+.rc-activity-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure hero spacing in fallback mode */
+.rc-hero {
+  padding-top: clamp(4rem, 10vw, 8rem) !important;
+  padding-bottom: clamp(4rem, 10vw, 8rem) !important;
+}
+
+/* Typography fallbacks if Tailwind fonts absent */
+.rc-hero h1,
+.rc-hero .rc-hero-title {
+  font-size: clamp(2.75rem, 6vw, 4.25rem);
+  font-weight: 800;
+}
+.rc-hero p {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+}
+
+/* Ensure headings visible in dark mode when utilities missing */
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: #f1f5f9;
+}
+
+/* Space under hero block if next element collapses */
+.rc-hero + .rc-section {
+  margin-top: 0;
+}
+/* === RC vNEXT OVERRIDES ======================================= */
+
+/* Hero glow enhancement */
+.rc-cta-primary{position:relative;z-index:0}
+.rc-cta-primary::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  z-index:-1;
+  background:radial-gradient(circle at 50% 50%,var(--rc-accent, rgb(244 63 94)) 0%,transparent 70%);
+  filter:blur(16px);
+  opacity:.55;
+  transition:opacity .15s ease;
+  border-radius:9999px;
+}
+.rc-cta-primary:hover::after{opacity:.85}
+
+/* Dark surface tuning */
+.dark .rc-card{background-color:rgb(30 41 59 / .70);border-color:rgb(255 255 255 / .10)}
+.dark .rc-surface-1{background-color:rgb(30 41 59 / .85)}
+
+/* Metrics layout */
+.rc-metrics-grid .rc-metric .p-5{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:1.75rem;
+}
+@media (min-width:640px){
+  .rc-metrics-grid .rc-metric .p-5{
+    align-items:flex-start;
+    text-align:left;
+    padding:1.5rem;
+  }
+}
+.rc-metric-value{line-height:1;margin:.25rem 0}
+
+/* Quick Actions equal height */
+.rc-qa-grid .rc-qa-card{
+  min-height:11rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+/* Gentle card hover lift (less floaty) */
+.rc-card:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgb(0 0 0 / .18)}
+.dark .rc-card:hover{box-shadow:0 6px 20px rgb(0 0 0 / .75)}
+</style>
+{% endblock %}
+
 
 {% block scripts %}
   {{ super() }}
   <script defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggles = document.querySelectorAll('.rc-toggle-pill .rc-toggle');
+      toggles.forEach(btn => {
+        btn.addEventListener('click', () => {
+          toggles.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          // TODO: AJAX update chart range
+        });
+      });
+    });
+  </script>
 {% endblock %}
