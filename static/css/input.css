@@ -82,19 +82,25 @@ a {
 
 /* Bear-Inspired Typography & Colors */
 :root {
-    --background-color: #ffffff;
-    --background-secondary-color: #f8f9fa;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4B5563;
+    --background: #FFFFFF;
+    --background-secondary: #F9FAFB;
+    --accent: #3B82F6;
+    --accent-hover: #2563EB;
+    --background-color: var(--background);
+    --background-secondary-color: var(--background-secondary);
     --background-tertiary-color: #e9ecef;
-    --text-color: #2d3436;
-    --text-secondary-color: #636e72;
+    --text-color: var(--text-primary);
+    --text-secondary-color: var(--text-secondary);
     --text-tertiary-color: #b2bec3;
-    --accent-color: #FF787C;
-    --accent-hover-color: #FF5A5F;
+    --accent-color: var(--accent);
+    --accent-hover-color: var(--accent-hover);
     --stroke-color: #dfe6e9;
     --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
     --transition-base: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     --background-gradient: linear-gradient(135deg, #FFF6F6 0%, #F8FBFF 100%);
-    --focus-ring: rgba(255, 120, 124, 0.5);
+    --focus-ring: rgba(59, 130, 246, 0.5);
 }
 
 body {
@@ -181,7 +187,7 @@ a:not(.link-button):after {
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--accent-color);
+    background-color: var(--accent);
     transition: width var(--transition-base);
 }
 
@@ -220,7 +226,8 @@ a:not(.link-button):hover:after {
     text-align: center;
     border-radius: 100px;
     font-weight: 500;
-    transition: all var(--transition-base);
+    transition: all 0.2s ease;
+    transform: translateY(0);
     border: none;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
@@ -229,7 +236,7 @@ a:not(.link-button):hover:after {
     background: var(--accent-hover-color);
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
 }
 
 .link-button:active {
@@ -239,12 +246,12 @@ a:not(.link-button):hover:after {
 
 /* Premium Card Styling */
 .card {
-    background-color: white;
-    border-radius: 1.5em;
-    box-shadow: var(--card-shadow);
-    padding: 3em;
+    background: var(--background);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 3em;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(0,0,0,0.03);
 }
 
@@ -256,8 +263,8 @@ a:not(.link-button):hover:after {
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px -15px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
 /* Subtle Utility Classes */
@@ -288,11 +295,11 @@ a:not(.link-button):hover:after {
     position: relative;
     color: var(--text-color);
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
 .nav-link:hover {
-    color: var(--accent-color);
+    color: var(--accent);
 }
 
 .nav-link::after {
@@ -344,6 +351,22 @@ a:not(.link-button):hover:after {
     pointer-events: auto;
 }
 
+/* Skeleton loading */
+.skeleton-loader {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+    background-color: var(--background-secondary);
+    border-radius: 4px;
+}
+
+@keyframes skeleton-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
 /* Stats card polish */
 .stats-card {
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -360,18 +383,22 @@ a:not(.link-button):hover:after {
 /* Sophisticated Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
-        --background-color: #1A1A1A;
-        --background-secondary-color: #252525;
+        --text-primary: #F3F4F6;
+        --text-secondary: #9CA3AF;
+        --background: #111827;
+        --background-secondary: #1F2937;
+        --background-color: var(--background);
+        --background-secondary-color: var(--background-secondary);
         --background-tertiary-color: #333333;
-        --text-color: #F0F0F0;
-        --text-secondary-color: #AAAAAA;
+        --text-color: var(--text-primary);
+        --text-secondary-color: var(--text-secondary);
         --text-tertiary-color: #666666;
-        --accent-color: #FF787C;
-        --accent-hover-color: #FF9094;
+        --accent-color: var(--accent);
+        --accent-hover-color: var(--accent-hover);
         --stroke-color: #444444;
         --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.3);
         --background-gradient: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-        --focus-ring: rgba(255, 120, 124, 0.7);
+        --focus-ring: rgba(59, 130, 246, 0.7);
     }
     
     .card {
