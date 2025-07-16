@@ -1,4 +1,4 @@
-<nav class="fixed top-0 w-full h-16 bg-white/90 backdrop-blur-md border-b border-stroke-color z-50 transition-all duration-300">
+<nav class="fixed top-0 w-full h-16 bg-white/90 backdrop-blur-md border-b border-stroke-color z-50 transition-all duration-300" role="navigation" aria-label="Main navigation">
     <div class="wrapper flex items-center justify-between h-full">
         <!-- Logo/Brand -->
         <a href="{{ url_for('main.index') }}" class="flex items-center gap-2 group" aria-label="Rules Central Home">
@@ -13,6 +13,13 @@
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center h-full">
             <ul class="flex items-center h-full gap-1">
+                <li class="h-full flex items-center">
+                    <a class="nav-link px-4 h-full flex items-center"
+                       href="{{ url_for('main.index') }}"
+                       {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
+                        Dashboard
+                    </a>
+                </li>
                 <li class="h-full flex items-center">
                     <a class="nav-link px-4 h-full flex items-center"
                        href="{{ url_for('main.catalog') }}"
@@ -76,6 +83,13 @@
     <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-background-color shadow-lg border-t border-stroke-color transition-all duration-300 backdrop-blur-md">
         <div class="wrapper py-2">
             <ul class="flex flex-col gap-1">
+                <li>
+                    <a class="nav-link block px-4 py-3 rounded-lg"
+                       href="{{ url_for('main.index') }}"
+                       {% if request.path == url_for('main.index') %}aria-current="page"{% endif %}>
+                        Dashboard
+                    </a>
+                </li>
                 <li>
                     <a class="nav-link block px-4 py-3 rounded-lg"
                        href="{{ url_for('main.catalog') }}"
