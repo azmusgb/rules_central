@@ -147,23 +147,26 @@
 
   /* Buttons */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all 
+    @apply inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-           disabled:opacity-50 disabled:pointer-events-none;
+           disabled:opacity-50 disabled:pointer-events-none transform-gpu;
+  }
+  .btn:hover {
+    @apply -translate-y-px;
   }
 
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700 px-6 py-2.5 shadow-bear-button;
+    @apply btn bg-gradient-to-r from-primary-600 to-primary-500 text-white px-6 py-2.5 shadow-bear-button;
+  }
+  .btn-primary:hover {
+    @apply to-primary-600 shadow-lg;
   }
 
   .btn-secondary {
-    @apply btn;
-    background-color: var(--bg-surface);
-    color: var(--text);
-    border: 1px solid var(--border);
+    @apply btn bg-white text-primary-600 border border-primary-500;
   }
   .btn-secondary:hover {
-    background-color: var(--bg-elevated);
+    @apply bg-primary-50;
   }
 
   .btn-ghost {
@@ -231,7 +234,15 @@
 @layer components {
   /* Navigation */
   .nav-link {
-    @apply text-sm font-medium text-text-secondary hover:text-text transition-colors;
+    @apply px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text relative transition-colors;
+  }
+  .nav-link::after {
+    @apply absolute inset-x-1 -bottom-1 h-0.5 bg-primary-500 scale-x-0 origin-left transition-transform;
+    content: '';
+  }
+  .nav-link:hover::after,
+  [aria-current="page"].nav-link::after {
+    @apply scale-x-100;
   }
 
   /* Hero Section */
@@ -275,6 +286,17 @@
     @apply px-6 py-3 rounded-full bg-primary-300 text-white font-medium
            hover:bg-primary-400 transition-all transform hover:-translate-y-0.5
            shadow-md hover:shadow-lg;
+  }
+
+  /* Footer */
+  .footer-link {
+    @apply text-sm text-text-secondary hover:text-primary-500 flex items-center gap-2 transition-colors;
+  }
+  .footer-link i {
+    @apply transition-transform;
+  }
+  .footer-link:hover i {
+    @apply translate-x-1;
   }
 
 }
