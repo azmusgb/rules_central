@@ -1,7 +1,6 @@
-{# base.html — Enhanced Bear-style skeleton template #}
 <!DOCTYPE html>
-<html lang="en" data-theme="bear" class="scroll-smooth antialiased">
-  <head>
+<html lang="en" class="scroll-smooth">
+<head>
     <meta charset="utf-8">
     <title>{% block title %}Rules Central{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,85 +10,30 @@
     <meta name="theme-color" content="#1A1A1E" media="(prefers-color-scheme: dark)">
     <meta name="color-scheme" content="light dark">
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="{{ url_for('static', filename='fonts/InterVariable.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="anonymous">
-    
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
-
     
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    
-    <!-- Preload scripts -->
-    <link rel="modulepreload" href="{{ url_for('static', filename='js/theme.js') }}">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js@4.x/dist/chart.umd.min.js" as="script" crossorigin="anonymous">
     
     {% block meta %}{% endblock meta %}
     {% block head %}{% endblock head %}
-  </head>
+</head>
 
-  <body class="bg-paper text-ink min-h-screen flex flex-col transition-colors duration-200">
-    <!-- Grid background with reduced opacity for better readability -->
-    <div class="fixed inset-0 grid grid-cols-24 gap-1 pointer-events-none -z-10" style="background: repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(var(--color-bear-red), 0.03) 8px)"></div>
-    
+<body class="bg-background text-text min-h-screen flex flex-col">
     <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bear-red focus:text-white focus:rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-bear-red focus:ring-offset-paper transition-all">
-      Skip to content
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg">
+        Skip to content
     </a>
     
     {% include 'partials/navbar.html' %}
 
     <main id="main-content" class="flex-1">
-      {% block content %}{% endblock content %}
+        {% block content %}{% endblock content %}
     </main>
 
     {% include 'partials/footer.html' %}
 
-    <!-- Scripts -->
-    <script src="{{ url_for('static', filename='js/theme.js') }}" type="module" async></script>
-    <script src="{{ url_for('static', filename='js/illustrations.js') }}" type="module" async></script>
-    
-    <!-- Third-party scripts with fallbacks -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.x/dist/chart.umd.min.js" crossorigin="anonymous"></script>
-    <script>
-      if (typeof Chart === 'undefined') {
-        document.write('<script src="{{ url_for('static', filename='js/vendor/chart.umd.min.js') }}"><\/script>');
-      }
-    </script>
-    
     {% block scripts %}{% endblock scripts %}
-    
-    <!-- Performance monitoring and service worker -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('{{ url_for("static", filename="js/service-worker.js") }}')
-            .then(registration => {
-              console.log('ServiceWorker registration successful');
-            })
-            .catch(err => {
-              console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-      }
-      
-      // Track performance metrics
-      window.addEventListener('load', () => {
-        if ('PerformanceObserver' in window) {
-          const perfObserver = new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-              console.log('[Performance]', entry.name, entry.duration);
-            }
-          });
-          perfObserver.observe({ entryTypes: ['measure', 'paint'] });
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>

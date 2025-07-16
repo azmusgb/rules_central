@@ -1,264 +1,315 @@
-/**
- * Bear App Inspired Design System
- * -----------------------------------------------------------------------------
- * Next-level Tailwind setup bringing the warm Bear aesthetics to the project
- */
+/* Ultra-Polished Bear.app Inspired CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td, article,
+aside, canvas, details, embed, figure,
+figcaption, footer, header, hgroup, menu,
+nav, output, ruby, section, summary, time,
+mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ==========================================================================
-   1. Enhanced Base Layer
-   ========================================================================== */
-@layer base {
-  :root {
-    /* Bear Color Tokens */
-    --color-accent: theme('colors.bear.red');
-    --color-grey: theme('colors.bear.grey');
-    --color-smoke: theme('colors.bear.smoke');
-    --color-ink: theme('colors.bear.ink');
-    --color-highlight: theme('colors.primary.300');
-    
-    /* Theme-aware variables */
-    --bg: theme('colors.primary.paper');
-    --bg-elevated: white;
-    --bg-surface: theme('colors.primary.50');
-    --bg-overlay: rgba(255, 255, 255, 0.8);
-    --text: theme('colors.primary.ink');
-    --text-secondary: theme('colors.ink.secondary');
-    --text-tertiary: theme('colors.ink.tertiary');
-    --border: theme('colors.primary.200');
-    --border-highlight: var(--color-highlight);
-    --focus-ring: theme('colors.primary.600');
-  }
-
-  .dark {
-    --bg: theme('colors.primary.900');
-    --bg-elevated: theme('colors.primary.800');
-    --bg-surface: theme('colors.primary.700');
-    --bg-overlay: rgba(30, 41, 59, 0.8);
-    --text: white;
-    --text-secondary: theme('colors.primary.200');
-    --text-tertiary: theme('colors.primary.300');
-    --border: theme('colors.primary.600');
-    --border-highlight: var(--color-highlight);
-    --focus-ring: theme('colors.primary.400');
-  }
-
-  [data-theme="bear"] {
-    --bg: #fffdfa;
-    --bg-elevated: #fff5ef;
-    --bg-surface: #fffaf7;
-    --bg-overlay: #fdefe6;
-    --text: #40322f;
-    --text-secondary: #8a7b78;
-    --border: #ffd4c7;
-    --border-highlight: var(--color-highlight);
-    --focus-ring: #FF5E62;
-  }
-
-  /* Enhanced Root Styles */
-  html {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: theme('fontFamily.sans');
-    font-size: 16px;
-    line-height: 1.5;
-    scroll-behavior: smooth;
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    text-size-adjust: none;
-    scrollbar-gutter: stable;
-  }
-
-  /* Enhanced Selection Styles */
-  ::selection {
-    background-color: theme('colors.primary.500');
-    color: white;
-    text-shadow: none;
-  }
-
-  /* Enhanced Focus Styles */
-  :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--focus-ring), 0 0 0 4px rgba(var(--focus-ring), 0.3);
-  }
-
-  /* Enhanced Body Styles */
-  body {
-    @apply min-h-screen font-normal text-base leading-relaxed;
-    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-  }
-
-  /* Enhanced Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
-  /* Enhanced Links */
-  a:not(.unstyled) {
-    @apply text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors;
-    text-decoration-thickness: 1px;
-  }
-
-  /* Enhanced Headings */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-balance tracking-tight mb-4;
-    line-height: 1.1;
-  }
-
-  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
-  h2 { @apply text-3xl md:text-4xl; }
-  h3 { @apply text-2xl md:text-3xl; }
-  h4 { @apply text-xl md:text-2xl; }
-
-  /* Enhanced Paragraphs */
-  p {
-    @apply mb-4 last:mb-0 text-pretty;
-    max-inline-size: 75ch;
-  }
-
-  /* Enhanced Lists */
-  ul, ol {
-    @apply pl-5 mb-4 space-y-2;
-  }
-
-  ul {
-    @apply list-disc;
-  }
-
-  ol {
-    @apply list-decimal;
-  }
-
-  /* Enhanced Images */
-  img {
-    @apply max-w-full h-auto rounded;
-    vertical-align: middle;
-  }
 }
 
-/* ==========================================================================
-   2. Enhanced Utilities Layer
-   ========================================================================== */
-@layer utilities {
-  /* Enhanced Layout */
-  .wrapper {
-    @apply w-full max-w-wrapper mx-auto px-4 sm:px-6 lg:px-8;
-  }
+html {
+    line-height: 1;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
 
-  .full-bleed {
-    @apply w-screen relative left-1/2 right-1/2 -mx-[50vw];
-  }
-
-  /* Enhanced Buttons */
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-           disabled:opacity-50 disabled:pointer-events-none transform-gpu;
+html, body {
+    height: 100%;
+    margin: 0;
+    -webkit-text-size-adjust: none;
     -webkit-tap-highlight-color: transparent;
-  }
-
-  .btn-primary {
-    @apply btn bg-gradient-to-r from-primary-600 to-primary-500 text-white px-6 py-2.5 shadow-bear-button;
-    &:hover {
-      @apply to-primary-600 shadow-lg;
-    }
-  }
-
-  /* Enhanced Cards */
-  .card {
-    @apply rounded-xl shadow-card transition-all;
-    background-color: var(--bg-elevated);
-    border: 1px solid var(--border);
-    &:hover {
-      @apply shadow-bear-card;
-    }
-  }
-
-  /* Enhanced Typography */
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .text-pretty {
-    text-wrap: pretty;
-  }
-
-  /* Enhanced Scrollbar */
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: theme('colors.primary.600') var(--bg-surface);
-    
-    &::-webkit-scrollbar {
-      @apply w-2 h-2;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      @apply bg-primary-600 rounded-full;
-    }
-  }
 }
 
-/* ==========================================================================
-   3. Enhanced Components Layer
-   ========================================================================== */
-@layer components {
-  /* Enhanced Navigation */
-  .nav-link {
-    @apply px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text relative transition-colors;
-    &::after {
-      @apply absolute inset-x-1 -bottom-1 h-0.5 bg-primary-500 scale-x-0 origin-left transition-transform;
-      content: '';
-    }
-    &:hover::after,
-    &[aria-current="page"]::after {
-      @apply scale-x-100;
-    }
-  }
-
-  /* Enhanced Hero Section */
-  .hero {
-    @apply relative overflow-hidden py-20 md:py-28 lg:py-32;
-    background: linear-gradient(140deg, var(--bg) 0%, var(--bg-elevated) 40%, var(--color-smoke) 100%);
-  }
-
-  /* Enhanced Form Elements */
-  .input {
-    @apply w-full px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors;
-    border: 1px solid var(--border);
-    background-color: var(--bg-surface);
-  }
-
-  .bear-input {
-    @apply input shadow-bear-button placeholder:text-text-secondary;
-    border-color: var(--border-highlight);
-  }
+ol, ul {
+    list-style: none;
 }
 
-/* ==========================================================================
-   4. Enhanced Print Styles
-   ========================================================================== */
-@media print {
-  body {
-    @apply bg-white text-black text-sm;
-  }
-  
-  .no-print {
-    @apply hidden !important;
-  }
-  
-  a {
-    @apply text-current no-underline;
-  }
-  
-  .print-break-after {
-    page-break-after: always;
-  }
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+q, blockquote {
+    quotes: none;
+}
+
+q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none;
+}
+
+a img {
+    border: none;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav,
+section, summary {
+    display: block;
+}
+
+a {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Bear-Inspired Typography & Colors */
+:root {
+    --background-color: #ffffff;
+    --background-secondary-color: #f8f9fa;
+    --background-tertiary-color: #e9ecef;
+    --text-color: #2d3436;
+    --text-secondary-color: #636e72;
+    --text-tertiary-color: #b2bec3;
+    --accent-color: #FF787C;
+    --accent-hover-color: #FF5A5F;
+    --stroke-color: #dfe6e9;
+    --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+    --transition-base: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+body {
+    color: var(--text-color);
+    line-height: 1.6;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: var(--text-color);
+    letter-spacing: -0.025em;
+}
+
+h1 {
+    font-size: 2.5em;
+    font-weight: 800;
+    margin-bottom: 0.4em;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 1.25em;
+}
+
+p {
+    margin-bottom: 1.25em;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+@media only screen and (min-width: 48em) {
+    h1 {
+        font-size: 3em;
+    }
+    
+    h2 {
+        font-size: 2.25em;
+    }
+    
+    h3 {
+        font-size: 1.75em;
+    }
+    
+    body {
+        font-size: 1.05em;
+    }
+}
+
+/* Enhanced Link Styling */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    position: relative;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--accent-hover-color);
+}
+
+a:not(.link-button):after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--accent-color);
+    transition: width var(--transition-base);
+}
+
+a:not(.link-button):hover:after {
+    width: 100%;
+}
+
+/* Premium Layout Components */
+.wrapper {
+    max-width: 64em;
+    margin: 0 auto;
+    padding: 0 2.5em;
+    position: relative;
+}
+
+.subtitle {
+    font-size: 1.25em;
+    color: var(--text-secondary-color);
+    max-width: 36em;
+    margin: 0 auto 2em;
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+/* Elevated Button Styling */
+.link-button {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.75em 2em;
+    margin: 0;
+    vertical-align: top;
+    letter-spacing: 0.25px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    border-radius: 100px;
+    font-weight: 500;
+    transition: all var(--transition-base);
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.link-button:hover {
+    background: var(--accent-hover-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.link-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Premium Card Styling */
+.card {
+    background-color: white;
+    border-radius: 1.5em;
+    box-shadow: var(--card-shadow);
+    padding: 3em;
+    margin-bottom: 3em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px -15px rgba(0,0,0,0.15);
+}
+
+/* Subtle Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-secondary {
+    color: var(--text-secondary-color);
+}
+
+.mb-1 { margin-bottom: 0.5em; }
+.mb-2 { margin-bottom: 1em; }
+.mb-3 { margin-bottom: 1.5em; }
+.mb-4 { margin-bottom: 2em; }
+
+/* Sophisticated Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1A1A1A;
+        --background-secondary-color: #252525;
+        --background-tertiary-color: #333333;
+        --text-color: #F0F0F0;
+        --text-secondary-color: #AAAAAA;
+        --text-tertiary-color: #666666;
+        --accent-color: #FF787C;
+        --accent-hover-color: #FF9094;
+        --stroke-color: #444444;
+        --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.3);
+    }
+    
+    .card {
+        background-color: var(--background-secondary-color);
+        border-color: rgba(255,255,255,0.03);
+    }
+    
+    a:not(.link-button):after {
+        background-color: var(--accent-hover-color);
+    }
+}
+
+/* Micro-interactions and polish */
+input, textarea, button, select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+::selection {
+    background: rgba(255, 120, 124, 0.2);
+    color: inherit;
+}
+
+/* Responsive tweaks */
+@media (max-width: 48em) {
+    .wrapper {
+        padding: 0 1.5em;
+    }
+    
+    .card {
+        padding: 2em;
+        border-radius: 1em;
+    }
 }
