@@ -9,7 +9,7 @@
 
 {% block content %}
 <!-- ===== DASHBOARD ===== -->
-<section class="wrapper py-12 md:py-16 space-y-14 md:space-y-20">
+<section class="wrapper py-10 md:py-14 space-y-14 md:space-y-20">
 
   <!-- HERO SECTION -->
   <header class="text-center space-y-6 md:space-y-8 animate__animated animate__fadeIn">
@@ -123,217 +123,184 @@
   </section>
 
   <!-- MAIN CONTENT AREA -->
-  <div class="grid gap-6 lg:grid-cols-3">
-    <!-- TREND VISUALIZATION -->
-    <section aria-labelledby="trend-heading" class="lg:col-span-2 space-y-4 bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm animate__animated animate__fadeIn">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h2 id="trend-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-          <i class="fas fa-chart-line text-primary-500"></i>
-          <span>Rule Change Trends</span>
-        </h2>
-        <div class="flex gap-2 p-2 bg-slate-100 dark:bg-slate-700 rounded-full shadow-inner">
-          <button id="trend-7d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-primary-600 dark:text-primary-400 bg-white dark:bg-slate-600 shadow-sm">7D</button>
-          <button id="trend-30d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">30D</button>
-          <button id="trend-90d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">90D</button>
-          <button id="trend-1y" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">1Y</button>
-        </div>
-      </div>
-      
-      <div class="w-full h-[280px]">
-        <canvas id="rulesTrendChart" 
-                aria-label="Rule change trends chart"
-                role="img"></canvas>
-      </div>
-      
-      <div class="flex flex-wrap gap-4 justify-between items-center pt-2 text-sm">
-        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-          <span class="w-3 h-3 rounded-full bg-primary-500"></span>
-          <span>Rule changes</span>
-        </div>
-        <div class="flex gap-4">
-          <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
-            <i class="fas fa-download mr-1"></i> Export
-          </button>
-          <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
-            <i class="fas fa-expand mr-1"></i> Fullscreen
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- RECENT ACTIVITY -->
-    <section aria-labelledby="activity-heading" class="space-y-4 bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm animate__animated animate__fadeIn">
-      <h2 id="activity-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-        <i class="fas fa-clock-rotate-left text-primary-500"></i>
-        <span>Recent Activity</span>
-      </h2>
-      
-      <div class="space-y-4 max-h-[360px] overflow-y-auto pr-2 -mr-2">
-        {% macro activity_item(icon, color, action, user, time, rule=None) %}
-          <div class="flex gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 hover:shadow-sm">
-            <div class="flex-shrink-0 mt-1">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-{{ color }}-100/20 to-transparent flex items-center justify-center text-{{ color }}">
-                <i class="{{ icon }}"></i>
-              </div>
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
-                {{ action }}
-                {% if rule %}
-                  <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">"{{ rule }}"</a>
-                {% endif %}
-              </p>
-              <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-1">
-                <span>{{ user }}</span>
-                <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                <span>{{ time }}</span>
-              </div>
-            </div>
+  <div class="section-wrapper space-y-8">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- TREND VISUALIZATION -->
+      <section aria-labelledby="trend-heading" class="lg:col-span-2 space-y-4 bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm animate__animated animate__fadeIn">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h2 id="trend-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <i class="fas fa-chart-line text-primary-500"></i>
+            <span>Rule Change Trends</span>
+          </h2>
+          <div class="flex gap-2 p-2 bg-slate-100 dark:bg-slate-700 rounded-full shadow-inner">
+            <button id="trend-7d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-primary-600 dark:text-primary-400 bg-white dark:bg-slate-600 shadow-sm">7D</button>
+            <button id="trend-30d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">30D</button>
+            <button id="trend-90d" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">90D</button>
+            <button id="trend-1y" class="px-4 py-1.5 text-sm rounded-full font-medium hover:bg-white dark:hover:bg-slate-600 transition-colors text-slate-600 dark:text-slate-300">1Y</button>
           </div>
-        {% endmacro %}
-
-        {{ activity_item(
-          "fas fa-plus",
-          "emerald",
-          "Created new rule",
-          "John D.",
-          "2 minutes ago",
-          "Payment Processing Rule"
-        ) }}
-
-        {{ activity_item(
-          "fas fa-pen",
-          "amber",
-          "Updated rule",
-          "Sarah M.",
-          "15 minutes ago",
-          "Fraud Detection Rule"
-        ) }}
-
-        {{ activity_item(
-          "fas fa-trash",
-          "rose",
-          "Deleted rule",
-          "Alex T.",
-          "1 hour ago",
-          "Old Compliance Rule"
-        ) }}
-
-        {{ activity_item(
-          "fas fa-file-import",
-          "violet",
-          "Imported rules",
-          "System",
-          "2 hours ago"
-        ) }}
-
-        {{ activity_item(
-          "fas fa-check",
-          "primary",
-          "Approved changes",
-          "Lisa K.",
-          "5 hours ago",
-          "3 rules"
-        ) }}
-
-        <div class="text-center pt-2">
-          <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline inline-flex items-center">
-            View all activity
-            <i class="fas fa-chevron-right ml-1 text-xs"></i>
-          </a>
         </div>
-      </div>
-    </section>
+        
+        <div class="w-full h-[280px]">
+          <canvas id="rulesTrendChart" 
+                  aria-label="Rule change trends chart"
+                  role="img"></canvas>
+        </div>
+        
+        <div class="flex flex-wrap gap-4 justify-between items-center pt-2 text-sm">
+          <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+            <span class="w-3 h-3 rounded-full bg-primary-500"></span>
+            <span>Rule changes</span>
+          </div>
+          <div class="flex gap-4">
+            <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
+              <i class="fas fa-download mr-1"></i> Export
+            </button>
+            <button class="text-slate-500 dark:text-slate-400 hover:text-primary-500 transition-colors">
+              <i class="fas fa-expand mr-1"></i> Fullscreen
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECENT ACTIVITY -->
+      <section aria-labelledby="activity-heading" class="space-y-4 bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm animate__animated animate__fadeIn">
+        <h2 id="activity-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+          <i class="fas fa-clock-rotate-left text-primary-500"></i>
+          <span>Recent Activity</span>
+        </h2>
+        
+        <div class="space-y-4 max-h-[360px] overflow-y-auto pr-2 -mr-2">
+          {% macro activity_item(icon, color, action, user, time, rule=None) %}
+            <div class="flex gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 hover:shadow-sm">
+              <div class="flex-shrink-0 mt-1">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-{{ color }}-100/20 to-transparent flex items-center justify-center text-{{ color }}">
+                  <i class="{{ icon }}"></i>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
+                  {{ action }}
+                  {% if rule %}
+                    <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">"{{ rule }}"</a>
+                  {% endif %}
+                </p>
+                <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <span>{{ user }}</span>
+                  <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                  <span>{{ time }}</span>
+                </div>
+              </div>
+            </div>
+          {% endmacro %}
+
+          {{ activity_item(
+            "fas fa-plus",
+            "emerald",
+            "Created new rule",
+            "John D.",
+            "2 minutes ago",
+            "Payment Processing Rule"
+          ) }}
+
+          {{ activity_item(
+            "fas fa-pen",
+            "amber",
+            "Updated rule",
+            "Sarah M.",
+            "15 minutes ago",
+            "Fraud Detection Rule"
+          ) }}
+
+          {{ activity_item(
+            "fas fa-trash",
+            "rose",
+            "Deleted rule",
+            "Alex T.",
+            "1 hour ago",
+            "Old Compliance Rule"
+          ) }}
+
+          {{ activity_item(
+            "fas fa-file-import",
+            "violet",
+            "Imported rules",
+            "System",
+            "2 hours ago"
+          ) }}
+
+          {{ activity_item(
+            "fas fa-check",
+            "primary",
+            "Approved changes",
+            "Lisa K.",
+            "5 hours ago",
+            "3 rules"
+          ) }}
+
+          <div class="text-center pt-2">
+            <a href="#" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline inline-flex items-center">
+              View all activity
+              <i class="fas fa-chevron-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <!-- QUICK ACTIONS & TOOLS -->
-  <section aria-labelledby="actions-heading" class="space-y-6 animate__animated animate__fadeIn">
-    <h2 id="actions-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-      <i class="fas fa-bolt text-primary-500"></i>
-      <span>Quick Actions & Tools</span>
-    </h2>
-    
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {% macro quick_action(icon, color, text, description, url) %}
-        <a href="{{ url }}" class="flex flex-col gap-3 p-5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 focus:ring-2 focus:ring-primary-500 transition-all duration-200 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700 group transform-gpu hover:-translate-y-1 hover:shadow-lg">
-          <div class="flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg {{ color }}/10 flex items-center justify-center text-{{ color }} group-hover:bg-{{ color }}/20 transition-colors">
-              <i class="{{ icon }} text-lg"></i>
-            </div>
-            <i class="fas fa-chevron-right text-slate-300 dark:text-slate-600 group-hover:text-primary-500 transition-colors"></i>
-          </div>
-          <div>
-            <h3 class="font-semibold">{{ text }}</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ description }}</p>
-          </div>
-        </a>
-      {% endmacro %}
+  <div class="section-wrapper">
+    <section aria-labelledby="actions-heading" class="space-y-8 animate__animated animate__fadeIn quick-actions-section">
+      <h2 id="actions-heading" class="text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-3">
+        <i class="fas fa-bolt text-primary-500 text-xl"></i>
+        <span>Quick Actions & Tools</span>
+      </h2>
 
-      {{ quick_action(
-        "fas fa-file-arrow-up",
-        "violet",
-        "Import Rules",
-        "Bulk import from CSV/Excel",
-        url_for('upload.upload_file')
-      ) }}
-
-      {{ quick_action(
-        "fas fa-diagram-project",
-        "amber",
-        "Generate Diagram",
-        "Visualize rule relationships",
-        url_for('diagrams.diagram_converter')
-      ) }}
-
-      {{ quick_action(
-        "fas fa-chart-line",
-        "emerald",
-        "Advanced Analytics",
-        "Detailed reports & insights",
-        url_for('analytics_routes.get_stats')
-      ) }}
-
-      {{ quick_action(
-        "fas fa-robot",
-        "primary",
-        "AI Assistant",
-        "Get help with rule creation",
-        "#"
-      ) }}
-
-      {{ quick_action(
-        "fas fa-users",
-        "rose",
-        "Team Collaboration",
-        "Share rules with your team",
-        "#"
-      ) }}
-
-      {{ quick_action(
-        "fas fa-book",
-        "blue",
-        "Documentation",
-        "Guides & API references",
-        "#"
-      ) }}
-
-      {{ quick_action(
-        "fas fa-sliders",
-        "slate",
-        "Settings",
-        "Configure your workspace",
-        "#"
-      ) }}
-
-      {{ quick_action(
-        "fas fa-headset",
-        "sky",
-        "Support Center",
-        "Get help from our team",
-        "#"
-      ) }}
-    </div>
-  </section>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {% macro quick_action(icon, color, text, description, url) %}
+          <a href="{{ url }}"
+             class="flex flex-col gap-4 p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 group">
+           
+           <div class="flex items-center justify-between">
+             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-{{ color }}-100/40 to-transparent flex items-center justify-center text-{{ color }} group-hover:scale-110 transition-transform duration-300">
+               <i class="{{ icon }} text-xl"></i>
+             </div>
+             <i class="fas fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-primary-500 transition-colors"></i>
+           </div>
+           
+           <div>
+             <h3 class="text-lg font-semibold group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{{ text }}</h3>
+             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ description }}</p>
+           </div>
+          </a>
+        {% endmacro %}
+        
+        {{ quick_action(
+          "fas fa-file-arrow-up",
+          "violet",
+          "Import Rules",
+          "Bulk import from CSV/Excel",
+          url_for('upload.upload_file')
+        ) }}
+        
+        {{ quick_action(
+          "fas fa-diagram-project",
+          "amber",
+          "Generate Diagram",
+          "Visualize rule relationships",
+          url_for('diagrams.diagram_converter')
+        ) }}
+        
+        {{ quick_action(
+          "fas fa-book",
+          "blue",
+          "Documentation",
+          "Guides & API references",
+          "#"
+        ) }}
+      </div>
+    </section>
+  </div>
 
   <!-- ONBOARDING/HELP CARD -->
   <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-6 md:p-8 text-white animate__animated animate__fadeIn">
@@ -364,6 +331,81 @@
 
 {% block styles %}
 <style>
+  /* Global softer background */
+  body {
+    background: #f9fafb;
+  }
+
+  /* Unified wrapper max width */
+  .wrapper {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Section wrapper spacing */
+  .section-wrapper {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+
+  /* Hero title refinements */
+  header h1 {
+    font-size: 3.5rem;
+    line-height: 1.15;
+  }
+  header p {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Card improvements */
+  .bg-white.dark\:bg-slate-800 {
+    border-radius: 1.25rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+  }
+  .bg-white.dark\:bg-slate-800:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Metrics grid spacing */
+  .grid.gap-5 {
+    gap: 1.75rem;
+  }
+
+  /* Trend & Activity adjustments */
+  .lg\:col-span-2 {
+    min-height: 320px;
+  }
+
+  /* Quick Actions equal height cards */
+  .quick-actions-section .grid > a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Micro icon animations */
+  .quick-actions-section i,
+  section i.fas {
+    transition: transform 0.25s ease;
+  }
+  .quick-actions-section a:hover i,
+  section a:hover i.fas {
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  /* Subtle section divider accent */
+  section + section {
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+
   /* Custom scrollbar for activity feed */
   .overflow-y-auto::-webkit-scrollbar {
     width: 6px;
@@ -392,6 +434,26 @@
   }
   .back-to-top.show {
     display: flex;
+  }
+
+  /* Quick Actions Enhancements */
+  .quick-actions-section {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.02), transparent);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .quick-actions-section a {
+    transition: all 0.3s ease-in-out;
+  }
+  .quick-actions-section a:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+  .quick-actions-section .w-12 {
+    transition: transform 0.3s ease;
+  }
+  .quick-actions-section a:hover .w-12 {
+    transform: scale(1.1) rotate(3deg);
   }
 </style>
 {% endblock %}

@@ -13,42 +13,41 @@
       </a>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-1">
-        <ul class="flex items-center gap-1">
-          <li>
-            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+      <div class="hidden md:flex items-center h-full">
+          <li class="h-full flex items-center">
+            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
                href="{{ url_for('main.catalog') }}"
                {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
               Catalog
             </a>
           </li>
-          <li>
-            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <li class="h-full flex items-center">
+            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                href="{{ url_for('diagrams.diagrams_index') }}"
                {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
               Diagrams
             </a>
           </li>
-          <li>
-            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <li class="h-full flex items-center">
+            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
                href="{{ url_for('routes.activity') }}"
                {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
               Activity
             </a>
           </li>
-          <li>
-            <a class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <li class="h-full flex items-center">
+            <a class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
                href="{{ url_for('main.markdown_notes') }}"
                {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
               Notes
             </a>
           </li>
-          <li class="relative group">
-            <button class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1">
+          <li class="h-full flex items-center relative group">
+            <button class="nav-link px-4 py-2 h-full flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors gap-1">
               More
               <i class="fas fa-chevron-down text-xs mt-0.5 transition-transform group-hover:rotate-180"></i>
             </button>
-            <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+            <div class="absolute right-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black/5 dark:ring-white/10 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
               <a href="{{ url_for('routes.faq_page') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">FAQ</a>
               <a href="{{ url_for('routes.full_help') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Help</a>
               <a href="{{ url_for('main.about') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">About</a>
@@ -61,14 +60,14 @@
       <div class="flex items-center gap-3">
         {% if current_user.is_authenticated %}
           <!-- User dropdown -->
-          <div class="relative group">
-            <button class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <div class="relative group h-full flex items-center">
+            <button class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors h-full">
               <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ current_user.username }}</span>
               <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}" 
                    class="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700" 
                    alt="User avatar">
             </button>
-            <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+            <div class="absolute right-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black/5 dark:ring-white/10 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
               <a href="{{ url_for('user_routes.profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
               <a href="{{ url_for('user_routes.settings') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
               <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Sign out</a>
@@ -76,17 +75,17 @@
           </div>
         {% else %}
           <!-- Auth links -->
-          <a href="{{ url_for('auth.login') }}" class="btn-outline px-4 py-2 rounded-lg font-medium">
+          <a href="{{ url_for('auth.login') }}" class="btn-outline px-4 py-2 rounded-lg font-medium h-10 flex items-center">
             Log In
           </a>
-          <a href="{{ url_for('auth.register') }}" class="btn-primary px-4 py-2 rounded-lg font-medium">
+          <a href="{{ url_for('auth.register') }}" class="btn-primary px-4 py-2 rounded-lg font-medium h-10 flex items-center">
             Sign Up
           </a>
         {% endif %}
 
         <!-- Theme Toggle -->
         <button id="theme-toggle" 
-                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
+                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors h-10 w-10 flex items-center justify-center"
                 aria-label="Toggle dark mode"
                 type="button">
           <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +99,7 @@
 
         <!-- Mobile Menu Button -->
         <button id="mobile-menu-toggle" 
-                class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+                class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors h-10 w-10 flex items-center justify-center"
                 aria-label="Open menu"
                 aria-expanded="false"
                 type="button">

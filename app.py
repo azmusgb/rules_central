@@ -43,8 +43,8 @@ except Exception:  # pragma: no cover - stub fallback
 
 DEFAULT_CONFIG: Dict[str, Any] = {
     "ENV": "production",
-    "DEBUG": False,
-    "TESTING": False,
+    "DEBUG": True,
+    "TESTING": True,
     "SECRET_KEY": os.getenv("FLASK_SECRET_KEY", "change-me"),
     "SQLALCHEMY_DATABASE_URI": os.getenv("DATABASE_URL", "sqlite:///rules.db"),
     "SQLALCHEMY_TRACK_MODIFICATIONS": False,
@@ -250,7 +250,7 @@ def _register_cli(app: Flask) -> None:
 # --------------------------------------------------------------------------- #
 
 app = create_app()
-
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     debug = os.getenv("FLASK_ENV") == "development"
