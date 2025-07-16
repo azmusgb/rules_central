@@ -93,6 +93,8 @@ a {
     --stroke-color: #dfe6e9;
     --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
     --transition-base: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    --background-gradient: linear-gradient(135deg, #FFF6F6 0%, #F8FBFF 100%);
+    --focus-ring: rgba(255, 120, 124, 0.5);
 }
 
 body {
@@ -103,6 +105,7 @@ body {
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--background-color);
+    background-image: var(--background-gradient);
     font-weight: 400;
     letter-spacing: -0.01em;
 }
@@ -245,6 +248,13 @@ a:not(.link-button):hover:after {
     border: 1px solid rgba(0,0,0,0.03);
 }
 
+.glass-card {
+    backdrop-filter: blur(10px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.55);
+    border-radius: 1.5em;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px -15px rgba(0,0,0,0.15);
@@ -264,6 +274,15 @@ a:not(.link-button):hover:after {
 .mb-3 { margin-bottom: 1.5em; }
 .mb-4 { margin-bottom: 2em; }
 
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fade-in 0.6s ease forwards;
+}
+
 /* Sophisticated Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -277,11 +296,18 @@ a:not(.link-button):hover:after {
         --accent-hover-color: #FF9094;
         --stroke-color: #444444;
         --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.3);
+        --background-gradient: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        --focus-ring: rgba(255, 120, 124, 0.7);
     }
     
     .card {
         background-color: var(--background-secondary-color);
         border-color: rgba(255,255,255,0.03);
+    }
+
+    .glass-card {
+        background-color: rgba(37,37,37,0.55);
+        border-color: rgba(255,255,255,0.05);
     }
     
     a:not(.link-button):after {
@@ -295,6 +321,28 @@ input, textarea, button, select {
     font-size: inherit;
     line-height: inherit;
     color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover-color);
+}
+body {
+    scrollbar-color: var(--accent-color) transparent;
 }
 
 ::selection {

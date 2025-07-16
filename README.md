@@ -41,6 +41,7 @@ The dashboard UI now includes animated metrics cards and a handy back-to-top but
 - **API utility** for testing rules
 - **About** page with version info and documentation links
 - **Theme toggle** cycles through Bear, Dark and Light modes
+- **Enhanced styling** with gradients, glass cards and focus rings
 
 - **Contact page** for sending feedback
 
