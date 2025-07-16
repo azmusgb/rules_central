@@ -1,5 +1,5 @@
 <!-- Navigation Bar -->
-<nav class="fixed top-0 w-full h-16 bg-white/90 dark:bg-bear-ink/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 z-50 transition-all duration-300 shadow-sm hover:shadow-md">
+<nav class="fixed top-0 w-full h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 z-50 transition-all duration-300 shadow-sm hover:shadow-md">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
     <div class="flex items-center justify-between h-full">
       <!-- Logo/Brand -->
@@ -46,7 +46,7 @@
           <li class="relative group">
             <button class="nav-link px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1">
               More
-              <i class="fas fa-chevron-down text-xs mt-0.5"></i>
+              <i class="fas fa-chevron-down text-xs mt-0.5 transition-transform group-hover:rotate-180"></i>
             </button>
             <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
               <a href="{{ url_for('routes.faq_page') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">FAQ</a>
@@ -62,10 +62,10 @@
         {% if current_user.is_authenticated %}
           <!-- User dropdown -->
           <div class="relative group">
-            <button class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+            <button class="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
               <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ current_user.username }}</span>
               <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}" 
-                   class="h-8 w-8 rounded-full" 
+                   class="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700" 
                    alt="User avatar">
             </button>
             <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -100,7 +100,7 @@
 
         <!-- Mobile Menu Button -->
         <button id="mobile-menu-toggle" 
-                class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
                 aria-label="Open menu"
                 aria-expanded="false"
                 type="button">
@@ -113,53 +113,53 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-white dark:bg-bear-ink shadow-lg border-t border-gray-100 dark:border-gray-800 transition-all duration-300">
+  <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-white dark:bg-slate-900 shadow-lg border-t border-gray-100 dark:border-gray-800 transition-all duration-300">
     <div class="container mx-auto px-4 py-3">
       <ul class="flex flex-col gap-1">
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
              href="{{ url_for('main.catalog') }}"
              {% if request.path == url_for('main.catalog') %}aria-current="page"{% endif %}>
             Catalog
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
              href="{{ url_for('diagrams.diagrams_index') }}"
              {% if request.path == url_for('diagrams.diagrams_index') %}aria-current="page"{% endif %}>
             Diagrams
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
              href="{{ url_for('routes.activity') }}"
              {% if request.path == url_for('routes.activity') %}aria-current="page"{% endif %}>
             Activity
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
              href="{{ url_for('main.markdown_notes') }}"
              {% if request.path == url_for('main.markdown_notes') %}aria-current="page"{% endif %}>
             Notes
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
              href="{{ url_for('routes.faq_page') }}"
              {% if request.path == url_for('routes.faq_page') %}aria-current="page"{% endif %}>
             FAQ
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
              href="{{ url_for('routes.full_help') }}"
              {% if request.path == url_for('routes.full_help') %}aria-current="page"{% endif %}>
             Help
           </a>
         </li>
         <li>
-          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" 
+          <a class="nav-link block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
              href="{{ url_for('main.about') }}"
              {% if request.path == url_for('main.about') %}aria-current="page"{% endif %}>
             About
@@ -168,19 +168,19 @@
         
         {% if current_user.is_authenticated %}
           <li class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
-            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300" 
+            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
                href="{{ url_for('user_routes.profile') }}">
               Profile
             </a>
           </li>
           <li>
-            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300" 
+            <a class="block px-4 py-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" 
                href="{{ url_for('user_routes.settings') }}">
               Settings
             </a>
           </li>
           <li>
-            <a class="block px-4 py-3 rounded-lg font-medium text-red-600 dark:text-red-400" 
+            <a class="block px-4 py-3 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" 
                href="{{ url_for('auth.logout') }}">
               Sign Out
             </a>
@@ -210,11 +210,11 @@
   }
 
   .btn-primary {
-    @apply bg-primary-500 text-white hover:bg-primary-600 dark:hover:bg-primary-400;
+    @apply bg-primary-500 text-white hover:bg-primary-600 dark:hover:bg-primary-400 transition-colors;
   }
 
   .btn-outline {
-    @apply border border-primary-500 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20;
+    @apply border border-primary-500 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors;
   }
 
   [aria-current="page"] {
@@ -233,13 +233,22 @@
       mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
       mobileMenu.classList.toggle('hidden');
       
-      // Toggle icon
+      // Toggle icon between hamburger and X
       const icon = mobileMenuToggle.querySelector('svg');
       if (!isExpanded) {
         icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
       } else {
         icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
       }
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenuToggle.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+      });
     });
 
     // Theme toggle functionality
@@ -257,15 +266,23 @@
     });
 
     // Check for saved theme preference
-    if (localStorage.getItem('theme') === 'dark' || 
-        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      sunIcon.classList.add('hidden');
-      moonIcon.classList.remove('hidden');
-    } else {
-      document.documentElement.classList.remove('dark');
-      sunIcon.classList.remove('hidden');
-      moonIcon.classList.add('hidden');
-    }
+    const checkTheme = () => {
+      if (localStorage.getItem('theme') === 'dark' || 
+          (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      }
+    };
+
+    // Watch for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', checkTheme);
+    
+    // Initial theme check
+    checkTheme();
   });
 </script>

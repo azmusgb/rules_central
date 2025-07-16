@@ -48,6 +48,15 @@ upload = Blueprint("upload", __name__)
 user_routes = Blueprint("user_routes", __name__)
 
 # ---------------------------------------------------------------------------
+# Template context processor to inject `now()` globally
+# ---------------------------------------------------------------------------
+
+@main.app_context_processor
+def inject_now_function():
+    from datetime import datetime
+    return {'now': datetime.now}
+
+# ---------------------------------------------------------------------------
 # API blueprint
 # ---------------------------------------------------------------------------
 
@@ -344,7 +353,11 @@ def index():
     try:
         stats = get_rule_stats()
         trend = get_activity_trend(days=30)
-        return render_template("index.html", stats=stats, charts={"rules": trend})
+        return render_template(
+            "index.html",
+            stats=stats,
+            charts={"rules": trend},
+        )
     except Exception as exc:
         current_app.logger.error("Index page error: %s", exc)
         abort(500)
