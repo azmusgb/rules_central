@@ -131,6 +131,8 @@ The site will be available at http://127.0.0.1:8080.
 
 Full usage guides and API references are available at [http://127.0.0.1:8080/full-help](http://127.0.0.1:8080/full-help).
 For quick tips while browsing the site press `Shift+/` to open the help menu.
+You can also visit `/documentation` for a concise overview. Repository
+guidelines live in [AGENTS.md](AGENTS.md).
 
 ## License
 This project is provided as‑is without warranty.
