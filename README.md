@@ -2,8 +2,9 @@
 
 Rules Central is a Flask web application that helps you organize and visualize complex rule sets with ease.
 Upload diagrams, explore relationships and collaborate with your team in one streamlined environment.
-The interface ships with a **Bear-inspired theme** for a cohesive macOS look and feel.
-The dashboard UI now includes animated metrics cards and a handy back-to-top button for easier navigation.
+The interface ships with a **Bear‑inspired theme** for a cohesive macOS look and feel.
+The dashboard UI now includes animated metrics cards and a handy back‑to‑top button for easier navigation.
+It consolidates diagrams, rule definitions and statistics into a single dashboard.
 
 ## Quick Start
 1. Install Python requirements:
@@ -22,6 +23,8 @@ The dashboard UI now includes animated metrics cards and a handy back-to-top but
    export FLASK_ENV=development
    python app.py
    ```
+4. Open <http://127.0.0.1:8080> in your browser and start exploring.
+   Use `npm run watch:css` during development to automatically rebuild styles.
 
 ## Table of Contents
 - [Features](#features)
@@ -46,6 +49,7 @@ The dashboard UI now includes animated metrics cards and a handy back-to-top but
 - **First-time user tour** with contextual tips
 - **Breadcrumb navigation** for easier orientation
 - **Contact page** with floating feedback button for quick responses
+- **Help overlay** accessible with `Shift+/`
 
 ## Requirements
 - Python 3.10+
@@ -79,6 +83,10 @@ python app.py
 Then open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 Visit [/about](http://127.0.0.1:8080/about) for version info and links.
 Press `Shift+/` at any time to open the built‑in help overlay.
+For a production-like environment you can run the Waitress server:
+```bash
+python wsgi.py
+```
 
 ## Running Tests
 Run the unit tests with:
