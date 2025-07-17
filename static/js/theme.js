@@ -8,13 +8,14 @@
  */
 
 const STORAGE_KEY = 'theme';
-const THEMES = ['bear', 'dark', 'light'];
+const THEMES = ['bear', 'dark', 'light', 'contrast'];
 const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 function apply(theme) {
   const html = document.documentElement;
   html.dataset.theme = theme;
   html.classList.toggle('dark', theme === 'dark');
+  html.classList.toggle('contrast', theme === 'contrast');
 }
 
 function current() {

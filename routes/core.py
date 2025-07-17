@@ -367,7 +367,13 @@ def index():
 def catalog():
     """Display the diagram catalog."""
     try:
-        return render_template("catalog.html")
+        return render_template(
+            "catalog.html",
+            breadcrumbs=[
+                {"title": "Home", "url": url_for("main.index")},
+                {"title": "Catalog"},
+            ],
+        )
     except Exception as exc:
         current_app.logger.error("Catalog page error: %s", exc)
         abort(500)
