@@ -51,4 +51,6 @@ class WaitressService(win32serviceutil.ServiceFramework):
 if __name__ == "__main__":
     if os.name != "nt":  # pragma: no cover - Windows specific
         raise SystemExit("This service can only run on Windows")
+    # "install" and "start" commands can be passed to this script to register
+    # and launch the service under Windows.
     win32serviceutil.HandleCommandLine(WaitressService)
