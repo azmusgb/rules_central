@@ -1,179 +1,239 @@
 {% extends 'base.html' %}
 
-{% block title %}Upload Diagram | Rules Central{% endblock %}
+{% block title %}Upload Diagram | Rules Central{% endblock title %}
 {% block description %}Upload a diagram (PNG, JPG, SVG, PDF) and convert it into executable rules.{% endblock description %}
 
 {% block head %}
   {{ super() }}
-  {# Keep project-specific CSS if you still use it; safe to remove later #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+  {# Removed old upload.css: it conflicted and produced giant hero glyphs. Add back if needed. #}
+  {# <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}"> #}
 {% endblock head %}
 
 {% block content %}
 
 <!-- =========================================================
-     HERO
+     COMPACT HERO
 ========================================================= -->
-<section class="wrapper rc-container rc-section pt-16 md:pt-24 pb-12 md:pb-16 text-center relative overflow-hidden rc-hero">
-  <div class="absolute inset-0 rc-hero-bg pointer-events-none" aria-hidden="true"></div>
-  <div class="relative z-10 space-y-6 md:space-y-8 max-w-2xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
-      Upload&nbsp;a&nbsp;Diagram
-    </h1>
-    <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-      Convert your diagrams into executable rules with our AI-powered system.
-    </p>
-  </div>
-</section>
+<header class="wrapper rc-container pt-24 pb-8 text-center space-y-4 rc-upload-hero">
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+    Upload Diagram
+  </h1>
+  <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+    Drag &amp; drop, paste, or browse. We’ll parse the diagram and help you build rules.
+  </p>
+  <ol class="rc-upload-steps" role="list" aria-label="Upload steps">
+    <li class="current">Upload</li>
+    <li>Review</li>
+    <li>Confirm</li>
+  </ol>
+</header>
 
 
 <!-- =========================================================
      UPLOAD CARD
 ========================================================= -->
-<section class="wrapper rc-container rc-section py-12 md:py-16">
-  <div class="max-w-3xl mx-auto">
-    <div class="rc-card rc-surface-1 p-6 sm:p-8 md:p-10">
-      <form id="rc-upload-form"
-            action="{{ request.path }}"
-            method="post"
-            enctype="multipart/form-data"
-            aria-labelledby="rc-upload-heading">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        
-        <h2 id="rc-upload-heading" class="text-2xl font-bold text-center text-slate-900 dark:text-slate-100 mb-2">
-          Upload Your Diagram
-        </h2>
-        <p class="text-center text-slate-600 dark:text-slate-300 mb-8">
-          Supported formats: PNG, JPG, SVG, PDF (Max 10MB)
-        </p>
+<section class="wrapper rc-container pb-24" aria-labelledby="rc-upload-heading">
+  <div class="rc-upload-card rc-card rc-surface-1 mx-auto">
+    <form id="rc-upload-form"
+          action="{{ request.path }}"
+          method="post"
+          enctype="multipart/form-data"
+          class="rc-upload-form"
+          novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-        <!-- Drag & Drop Zone -->
-        <div id="rc-upload-zone"
-             class="rc-upload-zone transition-all duration-300 ease-in-out rounded-xl border-dashed border-2 flex flex-col justify-center items-center cursor-pointer"
-             role="region"
-             tabindex="0"
-             aria-describedby="rc-upload-instructions">
-          <div class="p-8 md:p-12 text-center">
-            <!-- Icon -->
-            <div id="rc-upload-icon" class="mx-auto mb-6 h-16 w-16 text-slate-400 dark:text-slate-500 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-              </svg>
-            </div>
+      <h2 id="rc-upload-heading" class="sr-only">Upload your diagram</h2>
 
-            <!-- Instructions (shown when no file) -->
-            <div id="rc-upload-instructions">
-              <p class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Drag &amp; drop your file here
-              </p>
-              <p class="text-sm text-slate-500 dark:text-slate-400">
-                or <button type="button"
-                           id="rc-browse-btn"
-                           class="font-semibold text-primary-600 dark:text-primary-400 hover:underline focus:outline-none">
-                  browse your files
-                </button>
-              </p>
-            </div>
-
-            <!-- Selected File Preview -->
-            <div id="rc-upload-preview" class="hidden space-y-4">
-              <div class="flex items-center justify-center gap-3">
-                <div class="rc-upload-preview-icon p-2 rounded-lg">
-                  <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16h16V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
-                  </svg>
-                </div>
-                <div class="text-left">
-                  <p id="rc-upload-filename" class="font-medium text-slate-900 dark:text-slate-100"></p>
-                  <p id="rc-upload-filesize" class="text-xs text-slate-500 dark:text-slate-400"></p>
-                </div>
-                <button type="button"
-                        id="rc-remove-file"
-                        class="ml-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                        aria-label="Remove file">
-                  ×
-                </button>
-              </div>
-            </div>
-
-            <!-- Hidden file input -->
-            <input type="file"
-                   name="file"
-                   id="rc-file-input"
-                   class="sr-only"
-                   accept=".png,.jpg,.jpeg,.svg,.pdf">
+      <!-- Drop Target -->
+      <div id="rc-drop-target"
+           class="rc-drop-target"
+           role="region"
+           tabindex="0"
+           aria-describedby="rc-drop-instructions">
+        <div class="rc-drop-target-inner">
+          <div class="rc-drop-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6h.1a5 5 0 011 9.9M15 13l-3-3-3 3m3-3v8"/>
+            </svg>
+          </div>
+          <div id="rc-drop-instructions" class="rc-drop-instructions">
+            <p class="rc-drop-head">Drag &amp; drop your file here</p>
+            <p class="rc-drop-sub">
+              or <button type="button" id="rc-browse-btn" class="rc-browse-btn">browse your files</button>
+            </p>
+            <p class="rc-drop-accept">PNG · JPG · SVG · PDF · up to 10MB</p>
+            <p class="rc-drop-paste">Tip: You can also paste an image (⌘V / Ctrl+V).</p>
           </div>
         </div>
-
-        <!-- Error Message -->
-        {% if error %}
-        <div class="mt-6 rc-upload-error" role="alert">
-          <p class="text-sm font-medium text-rose-600 dark:text-rose-400">{{ error }}</p>
-        </div>
-        {% endif %}
-
-        <!-- Form Actions -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <button type="submit" id="rc-upload-submit"
-                  class="btn-primary rc-cta rc-cta-primary w-full sm:w-auto">
-            Upload Diagram
-          </button>
-
-          <!-- Progress Indicator -->
-          <div id="rc-upload-indicator" class="hidden flex items-center gap-3">
-            <div class="rc-upload-spinner"></div>
-            <span class="text-sm text-slate-600 dark:text-slate-300">
-              Uploading...
-              <span id="rc-upload-percent" class="font-medium">0%</span>
-            </span>
-          </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div id="rc-upload-progress-wrapper"
-             class="mt-6 opacity-0 transition-opacity duration-300"
-             aria-hidden="true">
-          <div class="rc-upload-progress-track">
-            <div id="rc-upload-progress-fill"
-                 class="rc-upload-progress-fill"
-                 role="progressbar"
-                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
-                 style="width:0%"></div>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    {% if help_available %}
-    <!-- Help Section -->
-    <div class="mt-12 text-center">
-      <h3 class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-4">Need help uploading?</h3>
-      <div class="flex flex-wrap justify-center gap-4 text-sm">
-        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Documentation</a>
-        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Support</a>
-        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Example Files</a>
+        <!-- Hidden file input -->
+        <input type="file"
+               name="file"
+               id="rc-file-input"
+               accept=".png,.jpg,.jpeg,.svg,.pdf"
+               class="sr-only">
       </div>
-    </div>
-    {% endif %}
+
+      <!-- Preview (hidden until a file is chosen) -->
+      <div id="rc-preview" class="rc-preview" hidden>
+        <figure class="rc-preview-figure">
+          <img id="rc-preview-img" alt="" hidden>
+          <div id="rc-preview-icon" class="rc-preview-icon" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16h16V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+            </svg>
+          </div>
+        </figure>
+        <div class="rc-preview-meta">
+          <p id="rc-preview-name" class="rc-preview-name"></p>
+          <p id="rc-preview-size" class="rc-preview-size"></p>
+        </div>
+        <div class="rc-preview-actions">
+          <button type="button" id="rc-preview-replace" class="rc-preview-replace">Replace</button>
+          <button type="button" id="rc-preview-remove"  class="rc-preview-remove">Remove</button>
+        </div>
+      </div>
+
+      <!-- Error -->
+      {% if error %}
+      <div class="rc-upload-error" role="alert">
+        <p>{{ error }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Submit / Progress -->
+      <div class="rc-upload-submitwrap">
+        <button type="submit"
+                id="rc-upload-submit"
+                class="btn-primary rc-cta rc-cta-primary rc-upload-submit"
+                disabled>
+          Upload Diagram
+        </button>
+
+        <div id="rc-upload-progressgroup" class="rc-upload-progressgroup" hidden>
+          <div class="rc-upload-spinner" aria-hidden="true"></div>
+          <span class="rc-upload-progresslabel">
+            Uploading… <span id="rc-upload-percent">0%</span>
+          </span>
+        </div>
+      </div>
+
+      <div id="rc-upload-progressbar" class="rc-upload-progressbar" hidden>
+        <div id="rc-upload-progressfill" class="rc-upload-progressfill"
+             role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      </div>
+    </form>
   </div>
+
+  {% if help_available %}
+  <!-- Help Links -->
+  <div class="rc-upload-help text-center mt-12">
+    <h3 class="rc-upload-help-head">Need help uploading?</h3>
+    <div class="rc-upload-help-links">
+      <a href="{{ url_for('routes.full_help') }}">Documentation</a>
+      <a href="{{ url_for('main.contact') }}">Support</a>
+      <a href="{{ url_for('upload.upload_file') }}?sample=1">Download sample file</a>
+    </div>
+  </div>
+  {% endif %}
 </section>
 {% endblock content %}
 
 
+
 {% block styles %}
 <style>
-/* --- Upload page styles (fallback + theme aware) ---------------------- */
-.rc-upload-zone{border-color:var(--rc-border-light,rgba(0,0,0,.2));background:rgba(0,0,0,.02)}
-html.dark .rc-upload-zone{border-color:var(--rc-border-dark,rgba(255,255,255,.2));background:rgba(255,255,255,.04)}
-.rc-upload-zone.rc-hover{border-color:var(--rc-accent,#f43f5e);background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent)}
-.rc-upload-zone.rc-hasfile{border-color:rgb(16 185 129);background:color-mix(in srgb,rgb(16 185 129) 12%,transparent)}
+/* ------------------------------------------------------------------
+   Upload page compact hero + steps
+------------------------------------------------------------------ */
+.rc-upload-hero{position:relative}
+.rc-upload-steps{display:inline-flex;align-items:center;gap:.75rem;padding:0;margin:0;list-style:none;font-size:.75rem;font-weight:600;color:rgb(148 163 184)}
+.rc-upload-steps li{position:relative;padding-inline:.5rem}
+.rc-upload-steps li.current{color:var(--rc-accent,#f43f5e)}
+.rc-upload-steps li:not(:last-child)::after{content:"›";margin-left:.75rem;opacity:.5}
 
-.rc-upload-preview-icon{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent);color:var(--rc-accent,#f43f5e)}
-html.dark .rc-upload-preview-icon{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 25%,transparent)}
+/* ------------------------------------------------------------------
+   Upload card
+------------------------------------------------------------------ */
+.rc-upload-card{max-width:48rem;padding:2.5rem 1.5rem}
+@media (min-width:640px){.rc-upload-card{padding:3rem}}
+.rc-upload-form{display:grid;gap:2rem}
 
+/* Drop Target ---------------------------------------------------- */
+.rc-drop-target{
+  position:relative;
+  border:2px dashed var(--rc-border-light,rgba(0,0,0,.2));
+  background:rgba(0,0,0,.02);
+  border-radius:1.25rem;
+  min-height:16rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  cursor:pointer;
+  transition:border-color .15s ease, background .15s ease, transform .15s ease;
+}
+html.dark .rc-drop-target{
+  border-color:var(--rc-border-dark,rgba(255,255,255,.2));
+  background:rgba(255,255,255,.04);
+}
+.rc-drop-target:focus-visible{
+  outline:none;
+  border-color:var(--rc-accent,#f43f5e);
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 8%,transparent);
+}
+.rc-drop-target.rc-drop-hover{
+  border-color:var(--rc-accent,#f43f5e);
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 12%,transparent);
+  transform:scale(1.01);
+}
+.rc-drop-target.rc-drop-valid{
+  border-color:rgb(16 185 129);
+  background:color-mix(in srgb,rgb(16 185 129) 12%,transparent);
+}
+
+.rc-drop-target-inner{pointer-events:none}
+.rc-drop-icon{width:3rem;height:3rem;margin-inline:auto;margin-bottom:1rem;color:rgb(148 163 184)}
+html.dark .rc-drop-icon{color:rgb(203 213 225)}
+.rc-drop-head{margin:0;font-size:1.125rem;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-drop-head{color:rgb(241 245 249)}
+.rc-drop-sub{margin:.25rem 0 0;font-size:.9375rem;color:rgb(100 116 139)}
+html.dark .rc-drop-sub{color:rgb(148 163 184)}
+.rc-browse-btn{background:none;border:none;padding:0;margin:0;font:inherit;color:var(--rc-accent,#f43f5e);cursor:pointer;text-decoration:underline}
+.rc-browse-btn:hover{text-decoration:none}
+.rc-drop-accept{margin-top:.75rem;font-size:.75rem;color:rgb(148 163 184)}
+.rc-drop-paste{margin-top:.25rem;font-size:.75rem;color:rgb(148 163 184)}
+
+/* Preview -------------------------------------------------------- */
+.rc-preview{text-align:center;display:grid;gap:1.5rem;justify-items:center}
+.rc-preview[hidden]{display:none}
+.rc-preview-figure{margin:0;max-width:100%;max-height:12rem;display:flex;align-items:center;justify-content:center}
+.rc-preview-figure img{max-width:100%;max-height:12rem;display:block;border-radius:.5rem}
+.rc-preview-icon{width:3rem;height:3rem;color:var(--rc-accent,#f43f5e)}
+.rc-preview-icon[hidden]{display:none}
+.rc-preview-meta{font-size:.875rem;color:rgb(100 116 139)}
+.rc-preview-name{margin:0;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-preview-name{color:rgb(241 245 249)}
+.rc-preview-size{margin:0;margin-top:.25rem}
+.rc-preview-actions{display:flex;gap:1.25rem;font-size:.875rem}
+.rc-preview-replace,.rc-preview-remove{background:none;border:none;padding:0;margin:0;font:inherit;cursor:pointer;text-decoration:underline}
+.rc-preview-replace{color:var(--rc-accent,#f43f5e)}
+.rc-preview-remove{color:rgb(239 68 68)}
+.rc-preview-replace:hover,.rc-preview-remove:hover{text-decoration:none}
+
+/* Error ---------------------------------------------------------- */
+.rc-upload-error{margin-top:-.5rem;text-align:center}
+.rc-upload-error p{margin:0;font-size:.875rem;font-weight:600;color:rgb(239 68 68)}
+
+/* Submit --------------------------------------------------------- */
+.rc-upload-submitwrap{text-align:center;display:grid;gap:1rem;justify-items:center}
+.rc-upload-submit[disabled]{opacity:.6;cursor:not-allowed}
+.rc-upload-progressgroup{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:rgb(100 116 139)}
+.rc-upload-progressgroup[hidden]{display:none}
+
+/* Spinner */
 .rc-upload-spinner{
   width:1rem;height:1rem;
   border:2px solid color-mix(in srgb,var(--rc-accent,#f43f5e) 30%,transparent);
@@ -183,47 +243,52 @@ html.dark .rc-upload-preview-icon{background:color-mix(in srgb,var(--rc-accent,#
 }
 @keyframes rc-upload-spin{to{transform:rotate(360deg)}}
 
-.rc-upload-progress-track{
-  position:relative;
-  width:100%;
-  height:.5rem;
-  border-radius:9999px;
-  background:rgba(0,0,0,.08);
-  overflow:hidden;
-}
-html.dark .rc-upload-progress-track{background:rgba(255,255,255,.1)}
-.rc-upload-progress-fill{
-  height:100%;
+/* Progress bar */
+.rc-upload-progressbar{width:100%;max-width:24rem;margin:0 auto}
+.rc-upload-progressbar[hidden]{display:none}
+.rc-upload-progressfill{
+  height:.5rem;width:0%;
   background:var(--rc-accent,#f43f5e);
-  border-radius:inherit;
-  transition:width .15s ease;
+  border-radius:9999px;
+  transition:width .15s linear;
 }
 
-.rc-upload-error p{margin:0}
+/* Help ----------------------------------------------------------- */
+.rc-upload-help-head{margin:0 0 .75rem;font-size:1.125rem;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-upload-help-head{color:rgb(241 245 249)}
+.rc-upload-help-links{display:inline-flex;flex-wrap:wrap;gap:1.25rem;font-size:.9375rem}
+.rc-upload-help-links a{text-decoration:underline;color:var(--rc-accent,#f43f5e)}
+.rc-upload-help-links a:hover{text-decoration:none}
 </style>
 {% endblock styles %}
+
 
 
 {% block scripts %}
   {{ super() }}
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const form       = document.getElementById('rc-upload-form');
-    const zone       = document.getElementById('rc-upload-zone');
-    const fileInput  = document.getElementById('rc-file-input');
-    const browseBtn  = document.getElementById('rc-browse-btn');
-    const previewBox = document.getElementById('rc-upload-preview');
-    const fileNameEl = document.getElementById('rc-upload-filename');
-    const fileSizeEl = document.getElementById('rc-upload-filesize');
-    const removeBtn  = document.getElementById('rc-remove-file');
-    const submitBtn  = document.getElementById('rc-upload-submit');
-    const indicator  = document.getElementById('rc-upload-indicator');
-    const percentEl  = document.getElementById('rc-upload-percent');
-    const progressWrap = document.getElementById('rc-upload-progress-wrapper');
-    const progressFill = document.getElementById('rc-upload-progress-fill');
-    const MAX_SIZE   = 10 * 1024 * 1024; // 10MB
+    const dropTarget   = document.getElementById('rc-drop-target');
+    const browseBtn    = document.getElementById('rc-browse-btn');
+    const fileInput    = document.getElementById('rc-file-input');
+    const previewWrap  = document.getElementById('rc-preview');
+    const previewImg   = document.getElementById('rc-preview-img');
+    const previewIcon  = document.getElementById('rc-preview-icon');
+    const previewName  = document.getElementById('rc-preview-name');
+    const previewSize  = document.getElementById('rc-preview-size');
+    const previewReplace= document.getElementById('rc-preview-replace');
+    const previewRemove = document.getElementById('rc-preview-remove');
+    const submitBtn    = document.getElementById('rc-upload-submit');
+    const progGroup    = document.getElementById('rc-upload-progressgroup');
+    const progPercent  = document.getElementById('rc-upload-percent');
+    const progBar      = document.getElementById('rc-upload-progressbar');
+    const progFill     = document.getElementById('rc-upload-progressfill');
+    const form         = document.getElementById('rc-upload-form');
+    const MAX_SIZE     = 10 * 1024 * 1024; // 10MB
+    const redirectFallback = {{ url_for('diagrams.diagram_converter')|tojson }};
 
-    function formatSize(bytes){
+    /* ---------- Helpers ---------- */
+    function fmt(bytes){
       if (!bytes && bytes !== 0) return '';
       const k = 1024;
       const sizes = ['Bytes','KB','MB','GB'];
@@ -232,104 +297,155 @@ html.dark .rc-upload-progress-track{background:rgba(255,255,255,.1)}
     }
 
     function resetPreview(){
-      previewBox.classList.add('hidden');
-      fileNameEl.textContent = '';
-      fileSizeEl.textContent = '';
-      zone.classList.remove('rc-hasfile');
+      previewWrap.hidden = true;
+      previewImg.hidden = true;
+      previewIcon.hidden = true;
+      previewImg.removeAttribute('src');
+      previewName.textContent = '';
+      previewSize.textContent = '';
+      submitBtn.disabled = true;
+      dropTarget.classList.remove('rc-drop-valid');
     }
 
     function showPreview(file){
-      previewBox.classList.remove('hidden');
-      fileNameEl.textContent = file.name;
-      fileSizeEl.textContent = formatSize(file.size);
-      zone.classList.add('rc-hasfile');
+      previewWrap.hidden = false;
+      previewName.textContent = file.name;
+      previewSize.textContent = fmt(file.size);
+      submitBtn.disabled = false;
+      dropTarget.classList.add('rc-drop-valid');
+      if (file.type.startsWith('image/')){
+        const url = URL.createObjectURL(file);
+        previewImg.src = url;
+        previewImg.hidden = false;
+        previewIcon.hidden = true;
+      } else {
+        previewImg.hidden = true;
+        previewIcon.hidden = false;
+      }
     }
 
-    function setHover(on){
-      zone.classList.toggle('rc-hover', on);
+    function reject(msg){
+      alert(msg);
+      resetPreview();
     }
 
-    zone.addEventListener('dragover', e => { e.preventDefault(); setHover(true); });
-    zone.addEventListener('dragleave', e => { e.preventDefault(); setHover(false); });
-    zone.addEventListener('drop', e => {
-      e.preventDefault();
-      setHover(false);
-      const f = e.dataTransfer.files && e.dataTransfer.files[0];
-      if (f) { fileInput.files = e.dataTransfer.files; showPreview(f); }
+    function accept(fileList){
+      if (!fileList || !fileList.length) return;
+      const f = fileList[0];
+      if (f.size > MAX_SIZE){
+        reject('File exceeds 10MB limit.');
+        return;
+      }
+      const extOk = /\.(png|jpe?g|svg|pdf)$/i.test(f.name);
+      if (!extOk){
+        reject('Unsupported file type.');
+        return;
+      }
+      fileInput.files = fileList;
+      showPreview(f);
+    }
+
+    /* ---------- Drag & Drop ---------- */
+    ['dragenter','dragover'].forEach(evt=>{
+      dropTarget.addEventListener(evt, e=>{
+        e.preventDefault();
+        dropTarget.classList.add('rc-drop-hover');
+      });
+    });
+    ['dragleave','drop'].forEach(evt=>{
+      dropTarget.addEventListener(evt, e=>{
+        e.preventDefault();
+        dropTarget.classList.remove('rc-drop-hover');
+      });
+    });
+    dropTarget.addEventListener('drop', e=>{
+      accept(e.dataTransfer.files);
     });
 
-    zone.addEventListener('click', () => fileInput.click());
-    zone.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
+    /* Global doc paste */
+    document.addEventListener('paste', e=>{
+      const items = e.clipboardData?.files;
+      if (items && items.length){
+        accept(items);
+      }
+    });
+
+    /* Browse */
+    browseBtn?.addEventListener('click', e=>{
+      e.preventDefault();
+      fileInput.click();
+    });
+    dropTarget.addEventListener('click', ()=>fileInput.click());
+    dropTarget.addEventListener('keydown', e=>{
+      if (e.key==='Enter' || e.key===' '){
         e.preventDefault();
         fileInput.click();
       }
     });
-    browseBtn?.addEventListener('click', e => { e.preventDefault(); fileInput.click(); });
 
-    fileInput.addEventListener('change', () => {
-      const f = fileInput.files[0];
-      if (f) showPreview(f); else resetPreview();
+    fileInput.addEventListener('change', ()=>{
+      accept(fileInput.files);
     });
-    removeBtn?.addEventListener('click', e => {
+
+    previewReplace.addEventListener('click', e=>{
+      e.preventDefault();
+      fileInput.click();
+    });
+    previewRemove.addEventListener('click', e=>{
       e.preventDefault();
       fileInput.value = '';
       resetPreview();
     });
 
-    form.addEventListener('submit', async (e) => {
+    /* ---------- Submit with real progress (XHR) ---------- */
+    form.addEventListener('submit', e=>{
       e.preventDefault();
       const f = fileInput.files[0];
-      if (!f) { alert('Please select a file to upload.'); return; }
-      if (f.size > MAX_SIZE) { alert('File exceeds 10MB limit.'); return; }
+      if (!f){ reject('Please select a file.'); return; }
+      if (f.size > MAX_SIZE){ reject('File exceeds 10MB limit.'); return; }
 
       submitBtn.disabled = true;
-      indicator.classList.remove('hidden');
-      progressWrap.style.opacity = '1';
-      progressWrap.setAttribute('aria-hidden','false');
+      progGroup.hidden = false;
+      progBar.hidden = false;
+      progFill.style.width = '0%';
+      progFill.setAttribute('aria-valuenow','0');
+      progPercent.textContent = '0%';
 
-      const formData = new FormData(form);
-      // NOTE: fetch to form.action (current URL)
-      try {
-        const resp = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: {'X-Requested-With':'XMLHttpRequest'}
-        });
+      const fd = new FormData(form);
 
-        if (!resp.ok) {
-          throw new Error(await resp.text() || 'Upload failed');
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', form.action, true);
+      xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+
+      xhr.upload.onprogress = (ev)=>{
+        if (!ev.lengthComputable) return;
+        const pct = Math.round((ev.loaded/ev.total)*100);
+        progFill.style.width = pct+'%';
+        progFill.setAttribute('aria-valuenow',pct);
+        progPercent.textContent = pct+'%';
+      };
+
+      xhr.onreadystatechange = ()=>{
+        if (xhr.readyState !== 4) return;
+        if (xhr.status >= 200 && xhr.status < 300){
+          let redirect = redirectFallback;
+          try{
+            const data = JSON.parse(xhr.responseText);
+            if (data && data.redirect) redirect = data.redirect;
+          }catch(_){}
+          window.location.href = redirect;
+        } else {
+          alert('Upload failed ('+xhr.status+').');
+          submitBtn.disabled = false;
+          progGroup.hidden = true;
+          progBar.hidden = true;
         }
-
-        // Attempt to read redirect target from response JSON (if API returns one)
-        let redirectUrl = '{{ url_for("diagrams.diagram_converter") }}';
-        try {
-          const data = await resp.json();
-          if (data && data.redirect) redirectUrl = data.redirect;
-        } catch (_) {
-          // non-JSON; fall back
-        }
-        window.location.href = redirectUrl;
-      } catch (err) {
-        alert(err.message || 'Upload failed. Please try again.');
-        submitBtn.disabled = false;
-        indicator.classList.add('hidden');
-        progressWrap.style.opacity = '0';
-        progressWrap.setAttribute('aria-hidden','true');
-      }
+      };
+      xhr.send(fd);
     });
 
-    // Fake progress (since fetch won't give upload progress without XHR)
-    // Visual-only; increments until form submission completes.
-    let fake = 0;
-    const fakeTimer = setInterval(()=>{
-      if (submitBtn.disabled){
-        fake = Math.min(fake + Math.random()*10, 95);
-        progressFill.style.width = fake + '%';
-        progressFill.setAttribute('aria-valuenow', fake.toFixed(0));
-        percentEl.textContent = fake.toFixed(0)+'%';
-      }
-    }, 250);
+    // initialize
+    resetPreview();
   });
   </script>
 {% endblock scripts %}

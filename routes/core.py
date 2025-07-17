@@ -141,71 +141,6 @@ def get_advanced_stats():
         return jsonify({"error": str(exc)}), 500
 
 
-def get_activity():
-    """Return the raw activity log file."""
-    Config.ensure_data_dir()
-    try:
-        return send_file(
-            Config.ACTIVITY_LOG,
-            mimetype="application/json",
-            as_attachment=False,
-        )
-    except FileNotFoundError:
-        return jsonify({"error": "Activity log not found"}), 404
-
-
-def get_activity_stats():
-    """Return comprehensive activity statistics with accurate counting."""
-    try:
-        Config.ensure_data_dir()
-        stats = {
-            "status_counts": {"active": 0, "draft": 0, "deprecated": 0},
-            "recent_activity": {
-                "total": 0,
-                "creations": 0,
-                "updates": 0,
-                "deletions": 0,
-            },
-            "top_contributor": {"user": "None", "actions": 0},
-        }
-        try:
-            with open(Config.ACTIVITY_LOG, "r") as f:
-                data = json.load(f)
-                for rule in data.get("rules", {}).values():
-                    status = rule.get("status", "draft").lower()
-                    if status in stats["status_counts"]:
-                        stats["status_counts"][status] += 1
-                user_actions = defaultdict(int)
-                week_ago = datetime.utcnow() - timedelta(days=7)
-                for entry in data.get("activity_log", []):
-                    try:
-                        user = entry.get("user", "anonymous")
-                        user_actions[user] += 1
-                        action = entry.get("action", "").lower()
-                        if "create" in action:
-                            stats["recent_activity"]["creations"] += 1
-                        elif "delete" in action:
-                            stats["recent_activity"]["deletions"] += 1
-                        elif "update" in action:
-                            stats["recent_activity"]["updates"] += 1
-                        entry_time = datetime.fromisoformat(entry["timestamp"])
-                        if entry_time >= week_ago:
-                            stats["recent_activity"]["total"] += 1
-                    except Exception as exc:  # pragma: no cover - skip invalid entries
-                        current_app.logger.warning(f"Skipping invalid entry: {exc}")
-                        continue
-                if user_actions:
-                    top_user, top_actions = max(user_actions.items(), key=lambda x: x[1])
-                    stats["top_contributor"] = {
-                        "user": top_user,
-                        "actions": top_actions,
-                    }
-        except (FileNotFoundError, json.JSONDecodeError) as exc:
-            current_app.logger.error(f"Activity log error: {exc}")
-        return jsonify(stats)
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Stats generation failed: {exc}")
-        return jsonify({"error": str(exc)}), 500
 
 
 def update_rule(rule_id):
@@ -221,44 +156,6 @@ def update_rule(rule_id):
     except Exception as exc:  # pragma: no cover - unexpected errors
         current_app.logger.error(f"Rule update error: {exc}")
         return jsonify({"error": str(exc)}), 500
-
-
-def test_log_activity():
-    """Test endpoint to verify activity logging."""
-    try:
-        log_activity(
-            action="test",
-            rule_id="test_rule_123",
-            user="tester",
-            details="Test activity logging",
-        )
-        return jsonify({"status": "success", "message": "Activity logged"})
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        return jsonify({"status": "error", "message": str(exc)}), 500
-
-
-def test_view_activity_log():
-    """Test endpoint to view raw activity log."""
-    try:
-        Config.ensure_data_dir()
-        with open(Config.ACTIVITY_LOG, "r") as f:
-            return jsonify(json.load(f))
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        return jsonify({"error": str(exc)}), 500
-
-
-def force_log_activity():
-    """Force log a test activity."""
-    try:
-        log_activity(
-            action="test_action",
-            rule_id="test_rule_123",
-            user="test_user",
-            details="Test activity entry",
-        )
-        return jsonify({"status": "success", "message": "Test activity logged"})
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        return jsonify({"status": "error", "message": str(exc)}), 500
 
 
 @api.route("/api/metrics")

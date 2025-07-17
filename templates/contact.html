@@ -1,273 +1,345 @@
-{% extends "base.html" %} {% block title %}Contact | Rules Central{% endblock %}
-{% block hero_title %}Contact Us{% endblock %} {% block hero_subtitle %}Have a question or need a hand? Drop us a line and we'll respond within a day.{% endblock %} {% block content %}
+{% extends "base.html" %}
 
-<section
-  class="relative z-10 u-section mb-20 animate-fadeIn delay-200"
->
-  <div class="flex flex-col lg:flex-row gap-12 items-start justify-center">
-    <!-- Contact Form -->
-    <div
-      class="w-full lg:w-1/2 card--glass glassmorphism card-hover p-8 rounded-2xl"
-    >
-      <h2
-        class="text-2xl font-bold mb-6 text-primary-400 flex items-center gap-2"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-        </svg>
-        Send us a message
-      </h2>
+{% block title %}Contact | Rules Central{% endblock title %}
+{% block description %}Have a question or need a hand? Reach out — we typically respond within one business day.{% endblock description %}
 
-      <form
-        class="space-y-6 animate-fadeIn"
-        method="post"
-        aria-label="Contact form"
-      >
+{% block content %}
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<header class="wrapper rc-container pt-24 pb-8 text-center space-y-4 rc-contact-hero">
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+    Contact Us
+  </h1>
+  <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+    Have a question or need a hand? Drop us a line — we’ll respond within a day.
+  </p>
+</header>
+
+
+<!-- =========================================================
+     CONTACT LAYOUT
+========================================================= -->
+<section class="wrapper rc-container pb-32 rc-contact-grid" aria-labelledby="rc-contact-heading">
+  <h2 id="rc-contact-heading" class="sr-only">Contact form and information</h2>
+  <div class="rc-contact-grid-inner">
+    
+    {# =======================================================
+       CONTACT FORM CARD
+       ======================================================= #}
+    <div class="rc-card rc-contact-form-card rc-surface-1">
+      <h3 class="rc-contact-form-head flex items-center gap-2">
+        <span aria-hidden="true">✉️</span>
+        <span>Send us a message</span>
+      </h3>
+
+      {# convenience: capture prior form values so we can re-fill on error #}
+      {% set _name    = request.form.get('name','')    if request else '' %}
+      {% set _email   = request.form.get('email','')   if request else '' %}
+      {% set _subject = request.form.get('subject','') if request else '' %}
+      {% set _message = request.form.get('message','') if request else '' %}
+
+      {# server may supply errors as mapping: {'field':['msg',...],...} or 'error' string #}
+      {% set _errors = errors if errors is mapping else {} %}
+
+      <form id="rc-contact-form"
+            class="rc-contact-form"
+            method="post"
+            action="{{ request.path }}"
+            novalidate
+            aria-label="Contact form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <div class="form-group">
-          <label
-            class="block text-slate-400 mb-2 text-md font-medium"
-            for="name"
-            >Your Name</label
-          >
-          <input
-            class="w-full rounded-xl bg-dark-900 border border-dark-700 px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-            id="name"
-            name="name"
-            type="text"
-            required
-            autocomplete="name"
-            placeholder="John Doe"
-          />
+
+        <!-- Name -->
+        <div class="rc-form-field">
+          <label for="rc-contact-name" class="rc-form-label">Your Name<span aria-hidden="true" class="rc-form-req">*</span></label>
+          <input id="rc-contact-name"
+                 name="name"
+                 type="text"
+                 required
+                 autocomplete="name"
+                 placeholder="John Doe"
+                 value="{{ _name }}"
+                 class="rc-form-input">
+          {% if _errors.get('name') %}
+            <p class="rc-form-err" role="alert">{{ _errors.get('name')|join(', ') }}</p>
+          {% endif %}
         </div>
 
-        <div class="form-group">
-          <label
-            class="block text-slate-400 mb-2 text-md font-medium"
-            for="email"
-            >Email Address</label
-          >
-          <input
-            class="w-full rounded-xl bg-dark-900 border border-dark-700 px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-            id="email"
-            name="email"
-            type="email"
-            required
-            autocomplete="email"
-            placeholder="you@example.com"
-          />
+        <!-- Email -->
+        <div class="rc-form-field">
+          <label for="rc-contact-email" class="rc-form-label">Email Address<span aria-hidden="true" class="rc-form-req">*</span></label>
+          <input id="rc-contact-email"
+                 name="email"
+                 type="email"
+                 required
+                 autocomplete="email"
+                 placeholder="you@example.com"
+                 value="{{ _email }}"
+                 class="rc-form-input">
+          {% if _errors.get('email') %}
+            <p class="rc-form-err" role="alert">{{ _errors.get('email')|join(', ') }}</p>
+          {% endif %}
         </div>
 
-        <div class="form-group">
-          <label
-            class="block text-slate-400 mb-2 text-md font-medium"
-            for="subject"
-            >Subject</label
-          >
-          <select
-            class="w-full rounded-xl bg-dark-900 border border-dark-700 px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none transition-all"
-            id="subject"
-            name="subject"
-          >
-            <option value="" disabled selected>Select a topic</option>
-            <option value="support">Technical Support</option>
-            <option value="feedback">Product Feedback</option>
-            <option value="partnership">Partnership Inquiry</option>
-            <option value="other">Other</option>
+        <!-- Subject -->
+        <div class="rc-form-field">
+          <label for="rc-contact-subject" class="rc-form-label">Subject</label>
+          <select id="rc-contact-subject"
+                  name="subject"
+                  class="rc-form-select">
+            <option value="" disabled {% if not _subject %}selected{% endif %}>Select a topic</option>
+            <option value="support"     {% if _subject=='support' %}selected{% endif %}>Technical Support</option>
+            <option value="feedback"    {% if _subject=='feedback' %}selected{% endif %}>Product Feedback</option>
+            <option value="partnership" {% if _subject=='partnership' %}selected{% endif %}>Partnership Inquiry</option>
+            <option value="other"       {% if _subject=='other' %}selected{% endif %}>Other</option>
           </select>
+          {% if _errors.get('subject') %}
+            <p class="rc-form-err" role="alert">{{ _errors.get('subject')|join(', ') }}</p>
+          {% endif %}
         </div>
 
-        <div class="form-group">
-          <label
-            class="block text-slate-400 mb-2 text-md font-medium"
-            for="message"
-            >Your Message</label
-          >
-          <textarea
-            class="w-full rounded-xl bg-dark-900 border border-dark-700 px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all min-h-[150px]"
-            id="message"
-            name="message"
-            required
-            placeholder="How can we help you?"
-          ></textarea>
+        <!-- Message -->
+        <div class="rc-form-field">
+          <label for="rc-contact-message" class="rc-form-label">Your Message<span aria-hidden="true" class="rc-form-req">*</span></label>
+          <textarea id="rc-contact-message"
+                    name="message"
+                    required
+                    placeholder="How can we help you?"
+                    rows="6"
+                    class="rc-form-textarea"
+                    maxlength="5000"
+                    aria-describedby="rc-contact-msg-count">{{ _message }}</textarea>
+          <div class="rc-form-help">
+            <span id="rc-contact-msg-count" class="rc-form-count">0 / 5000</span>
+          </div>
+          {% if _errors.get('message') %}
+            <p class="rc-form-err" role="alert">{{ _errors.get('message')|join(', ') }}</p>
+          {% endif %}
         </div>
 
-        <button
-          type="submit"
-          class="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 text-white font-bold shadow-lg hover:scale-[1.02] hover:shadow-xl transition-all transform focus:outline-none focus:ring-4 focus:ring-primary-500/50 active:scale-95"
-        >
-          <span class="flex items-center justify-center gap-2">
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-              />
-            </svg>
-            Send Message
-          </span>
-        </button>
+        {% if error %}
+          <div class="rc-form-global-error" role="alert">{{ error }}</div>
+        {% endif %}
+
+        {% with flashes = get_flashed_messages(with_categories=true) %}
+          {% if flashes %}
+            <ul class="rc-form-flashes" role="status" aria-live="polite">
+              {% for category, msg in flashes %}
+                <li class="rc-form-flash rc-form-flash-{{ category }}">{{ msg }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <div class="rc-form-actions">
+          <button type="submit"
+                  id="rc-contact-submit"
+                  class="btn-primary rc-cta rc-cta-primary rc-contact-submit">
+            <span class="rc-contact-submit-inner">
+              <span class="rc-contact-submit-text">Send Message</span>
+              <span class="rc-contact-submit-spinner" aria-hidden="true"></span>
+            </span>
+          </button>
+        </div>
       </form>
     </div>
 
-    <!-- Contact Info -->
-    <div class="w-full lg:w-1/2 space-y-8">
-      <div class="card--glass glassmorphism p-8 md:p-10 rounded-2xl">
-        <h2
-          class="text-2xl font-bold mb-6 text-primary-400 flex items-center gap-2"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-            />
-          </svg>
-          Contact Information
-        </h2>
 
-        <div class="space-y-6">
-          <div class="flex items-start gap-4">
-            <div class="mt-1 p-2 rounded-lg bg-dark-900 text-primary-500">
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h3 class="font-semibold text-slate-300">Email</h3>
-              <a
-                href="mailto:support@rulescentral.com"
-                class="text-slate-400 hover:text-primary-400 transition-colors"
-                >support@rulescentral.com</a
-              >
-            </div>
-          </div>
+    {# =======================================================
+       CONTACT INFO / SUPPORT CARD STACK
+       ======================================================= #}
+    <div class="rc-contact-info-col space-y-8">
 
-          <div class="flex items-start gap-4">
-            <div class="mt-1 p-2 rounded-lg bg-dark-900 text-primary-500">
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h3 class="font-semibold text-slate-300">Community</h3>
-              <a
-                href="https://discord.gg/your-invite"
-                class="text-slate-400 hover:text-primary-400 transition-colors"
-                target="_blank"
-                rel="noopener"
-                >Join our Discord server</a
-              >
-            </div>
-          </div>
-
-          <div class="flex items-start gap-4">
-            <div class="mt-1 p-2 rounded-lg bg-dark-900 text-primary-500">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.417-.012 2.747 0 .267.18.577.688.48C19.138 20.2 22 16.448 22 12.021 22 6.484 17.523 2 12 2z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h3 class="font-semibold text-slate-300">GitHub</h3>
-              <a
-                href="https://github.com/your-org/rules_central"
-                class="text-slate-400 hover:text-primary-400 transition-colors"
-                target="_blank"
-                rel="noopener"
-                >github.com/your-org</a
-              >
-            </div>
-          </div>
-        </div>
+      <!-- Email -->
+      <div class="rc-card rc-contact-info-card rc-surface-1">
+        <h3 class="rc-contact-info-head flex items-center gap-2">
+          <span aria-hidden="true">📧</span>
+          <span>Email</span>
+        </h3>
+        <a href="mailto:support@rulescentral.com"
+           class="rc-contact-info-link">support@rulescentral.com</a>
       </div>
 
-      <div class="card--glass glassmorphism p-8 md:p-10 rounded-2xl">
-        <h2
-          class="text-2xl font-bold mb-6 text-primary-400 flex items-center gap-2"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          Documentation
-        </h2>
-        <p class="text-slate-400 mb-4">
-          Check out our documentation for detailed guides and API references.
-        </p>
-        <a
-          href="/docs"
-          class="inline-flex items-center px-4 py-2 rounded-lg bg-dark-700 text-primary-400 hover:bg-dark-600 transition-colors font-medium"
-        >
-          View Documentation
-          <svg
-            class="w-4 h-4 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            />
-          </svg>
-        </a>
+      <!-- Community -->
+      <div class="rc-card rc-contact-info-card rc-surface-1">
+        <h3 class="rc-contact-info-head flex items-center gap-2">
+          <span aria-hidden="true">💬</span>
+          <span>Community</span>
+        </h3>
+        <a href="https://discord.gg/your-invite"
+           target="_blank" rel="noopener"
+           class="rc-contact-info-link">Join our Discord server</a>
       </div>
+
+      <!-- GitHub -->
+      <div class="rc-card rc-contact-info-card rc-surface-1">
+        <h3 class="rc-contact-info-head flex items-center gap-2">
+          <span aria-hidden="true">🐙</span>
+          <span>GitHub</span>
+        </h3>
+        <a href="https://github.com/your-org/rules_central"
+           target="_blank" rel="noopener"
+           class="rc-contact-info-link">github.com/your-org</a>
+      </div>
+
+      <!-- Documentation -->
+      <div class="rc-card rc-contact-info-card rc-surface-1">
+        <h3 class="rc-contact-info-head flex items-center gap-2">
+          <span aria-hidden="true">📘</span>
+          <span>Documentation</span>
+        </h3>
+        <p class="rc-contact-info-copy">Guides, API references, and examples.</p>
+        <a href="{{ url_for('routes.full_help') }}"
+           class="rc-contact-info-btn rc-cta">View Documentation</a>
+      </div>
+
+      {% if version %}
+      <div class="rc-contact-version text-center text-xs text-slate-500 dark:text-slate-400">
+        Version {{ version }}
+      </div>
+      {% endif %}
     </div>
+
   </div>
 </section>
-{% endblock %}
+{% endblock content %}
+
+
+
+{% block styles %}
+<style>
+/* ============================================================
+   Contact Page Styles (fallback + theme-aware)
+   ============================================================ */
+
+/* Layout ----------------------------------------------------- */
+.rc-contact-grid-inner{
+  display:grid;
+  gap:2.5rem;
+  grid-template-columns:1fr;
+}
+@media (min-width:1024px){
+  .rc-contact-grid-inner{
+    grid-template-columns:1fr 1fr;
+    align-items:start;
+  }
+}
+
+/* Form Card -------------------------------------------------- */
+.rc-contact-form-card{padding:2.5rem}
+@media (min-width:640px){.rc-contact-form-card{padding:3rem}}
+.rc-contact-form-head{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:rgb(244 63 94)}
+html.dark .rc-contact-form-head{color:rgb(244 63 94)}
+
+.rc-contact-form{display:grid;gap:1.75rem}
+.rc-form-field{display:grid;gap:.5rem}
+.rc-form-label{font-size:.9375rem;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-form-label{color:rgb(241 245 249)}
+.rc-form-req{margin-left:.25ch;color:var(--rc-accent,#f43f5e)}
+.rc-form-input,
+.rc-form-select,
+.rc-form-textarea{
+  width:100%;
+  padding:.875rem 1rem;
+  font-size:1rem;
+  line-height:1.25;
+  border-radius:.75rem;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.15));
+  background:#fff;
+  color:#0f172a;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+html.dark .rc-form-input,
+html.dark .rc-form-select,
+html.dark .rc-form-textarea{
+  background:rgb(30 41 59/.9);
+  color:#f1f5f9;
+  border-color:var(--rc-border-dark,rgba(255,255,255,.15));
+}
+.rc-form-input:focus,
+.rc-form-select:focus,
+.rc-form-textarea:focus{
+  outline:none;
+  border-color:var(--rc-accent,#f43f5e);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--rc-accent,#f43f5e) 35%,transparent);
+}
+.rc-form-textarea{resize:vertical;min-height:8rem}
+
+.rc-form-help{margin-top:.25rem;text-align:right}
+.rc-form-count{font-size:.75rem;color:rgb(148 163 184)}
+html.dark .rc-form-count{color:rgb(148 163 184)}
+
+.rc-form-err{margin-top:.25rem;font-size:.8125rem;font-weight:600;color:rgb(239 68 68)}
+.rc-form-global-error{margin-top:1rem;font-size:.9375rem;font-weight:600;text-align:center;color:rgb(239 68 68)}
+
+.rc-form-flashes{margin-top:1.25rem;margin-bottom:0;padding:0;list-style:none;display:grid;gap:.5rem;text-align:center;font-size:.875rem}
+.rc-form-flash{padding:.5rem 1rem;border-radius:.5rem;background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent);color:var(--rc-accent,#f43f5e)}
+.rc-form-flash-success{background:rgb(16 185 129/.15);color:rgb(16 185 129)}
+.rc-form-flash-error{background:rgb(239 68 68/.15);color:rgb(239 68 68)}
+
+.rc-form-actions{text-align:center;margin-top:.5rem}
+.rc-contact-submit{min-width:12rem;padding:.875rem 2rem;font-size:1rem;font-weight:700;line-height:1.25}
+.rc-contact-submit-inner{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.5rem}
+.rc-contact-submit-spinner{
+  width:1rem;height:1rem;
+  border:2px solid color-mix(in srgb,#fff 50%,transparent);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:rc-contact-spin 1s linear infinite;
+  opacity:0;
+  transition:opacity .12s ease;
+}
+@keyframes rc-contact-spin{to{transform:rotate(360deg)}}
+.rc-contact-submit[disabled] .rc-contact-submit-spinner{opacity:1}
+.rc-contact-submit[disabled] .rc-contact-submit-text{opacity:.6}
+
+/* Info Cards ------------------------------------------------- */
+.rc-contact-info-col{}
+.rc-contact-info-card{padding:1.75rem}
+@media (min-width:640px){.rc-contact-info-card{padding:2rem}}
+.rc-contact-info-head{font-size:1.25rem;font-weight:700;margin-bottom:1rem;color:rgb(244 63 94)}
+html.dark .rc-contact-info-head{color:rgb(244 63 94)}
+.rc-contact-info-link{text-decoration:underline;color:var(--rc-accent,#f43f5e);font-weight:600}
+.rc-contact-info-link:hover{text-decoration:none}
+.rc-contact-info-copy{margin:0 0 1rem;font-size:.9375rem;color:rgb(71 85 105)}
+html.dark .rc-contact-info-copy{color:rgb(203 213 225)}
+.rc-contact-info-btn{padding:.5rem 1rem;font-size:.9375rem;border-radius:9999px;border:1px solid color-mix(in srgb,var(--rc-accent,#f43f5e) 60%,transparent);color:var(--rc-accent,#f43f5e);text-decoration:none;transition:background .12s ease}
+.rc-contact-info-btn:hover{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent)}
+
+.rc-contact-version{margin-top:1rem}
+
+/* Hero fallback spacing if global tokens fail --------------- */
+.rc-contact-hero{position:relative}
+</style>
+{% endblock styles %}
+
+
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form    = document.getElementById('rc-contact-form');
+    const submit  = document.getElementById('rc-contact-submit');
+    const msgEl   = document.getElementById('rc-contact-message');
+    const countEl = document.getElementById('rc-contact-msg-count');
+
+    /* live character count */
+    function updateCount(){
+      if (!msgEl || !countEl) return;
+      const max = msgEl.getAttribute('maxlength') || 5000;
+      const len = msgEl.value.length;
+      countEl.textContent = len + ' / ' + max;
+    }
+    msgEl?.addEventListener('input', updateCount);
+    updateCount();
+
+    /* disable on submit to prevent double posts; show spinner */
+    form?.addEventListener('submit', () => {
+      submit?.setAttribute('disabled','disabled');
+    }, {once:false});
+  });
+  </script>
+{% endblock scripts %}

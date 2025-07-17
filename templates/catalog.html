@@ -1,237 +1,463 @@
 {% extends "base.html" %}
-{% from 'macros/components.html' import input, button %}
 
-{% block title %}Catalog Viewer | Rules Central{% endblock %}
-
-{% block hero_title %}
-  <h1 class="text-4xl md:text-5xl font-bold gradient-text">Catalog Viewer</h1>
-{% endblock %}
-
-{% block hero_subtitle %}
-  <p class="mt-4 text-lg md:text-xl text-white/70 max-w-2xl mx-auto text-pretty">
-    Browse diagrams with quick search and simple filters.
-  </p>
-{% endblock %}
+{% block title %}Catalog | Rules Central{% endblock title %}
+{% block description %}Browse, search, and filter all diagrams and rule visualizations in Rules Central.{% endblock description %}
 
 {% block content %}
-  <div class="px-6 py-12 space-y-12">
-    <section class="mb-12">
-      <!-- Search & Filters -->
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-white">Diagram Search & Filters</h2>
-          <span class="text-sm text-white/60">Ctrl + K to focus search</span>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <div class="input focus-ring">
-            {{ input('search', 'text', 'Search diagrams...') }}
-          </div>
-          <div x-data="{ filterOpen: false }" class="relative">
-            {{ button('Filters', variant='secondary', type='button', classes='flex items-center gap-2') }}
-            <span class="absolute -top-2 -right-2 bg-primary-600 text-white text-xs rounded-full px-2 py-1" x-show="filterOpen">0</span>
-            <div 
-              x-show="filterOpen" 
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0 scale-95"
-              x-transition:enter-end="opacity-100 scale-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100 scale-100"
-              x-transition:leave-end="opacity-0 scale-95"
-              class="absolute z-10 mt-2 w-64 card--glass glassmorphism p-4 rounded-2xl"
-              @click.outside="filterOpen = false"
-            >
-              <div class="space-y-4">
-                <div>
-                  <h3 class="text-sm font-semibold text-white">Diagram Types</h3>
-                  <div class="mt-2 space-y-2">
-                    {% for type in ['Flowchart', 'Sequence', 'Class', 'State'] %}
-                      <label class="flex items-center gap-2 text-white/60">
-                        <input type="checkbox" class="text-primary-600 focus-ring rounded" aria-label="{{ type }} filter">
-                        <span>{{ type }}</span>
-                      </label>
-                    {% endfor %}
-                  </div>
-                </div>
-                <div>
-                  <h3 class="text-sm font-semibold text-white">Other Filters</h3>
-                  <div class="mt-2 space-y-2">
-                    {% for filter in ['Favorites Only', 'Updated Last Week'] %}
-                      <label class="flex items-center gap-2 text-white/60">
-                        <input type="checkbox" class="text-primary-600 focus-ring rounded" aria-label="{{ filter }} filter">
-                        <span>{{ filter }}</span>
-                      </label>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {{ button('Expand All', variant='secondary', type='button') }}
-        </div>
+
+{# ------------------------------------------------------------------
+   HERO
+------------------------------------------------------------------ #}
+<header class="wrapper rc-container pt-24 pb-8 text-center space-y-4 rc-catalog-hero">
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+    Catalog
+  </h1>
+  <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+    Browse diagrams with quick search, type filters, favorites, and sort options.
+  </p>
+</header>
+
+
+{# ------------------------------------------------------------------
+   SEARCH + FILTER BAR
+   Variables expected from view (all optional / safe defaulting):
+     q               -> current search string
+     selected_types  -> list[str]
+     favorites_only  -> bool
+     updated_recent  -> bool  (last 7 days)
+     type_options    -> list[str] of known diagram types
+------------------------------------------------------------------ #}
+{% set q              = request.args.get('q','') %}
+{% set selected_types = request.args.getlist('type') %}
+{% set favorites_only = request.args.get('fav') in ('1','true','True') %}
+{% set updated_recent = request.args.get('recent') in ('1','true','True') %}
+
+<section class="wrapper rc-container rc-section rc-catalog-searchwrap">
+  <form action="{{ url_for('main.catalog') }}" method="get" role="search" class="rc-catalog-search rc-card rc-surface-1">
+    <label for="rc-cat-search" class="sr-only">Search diagrams</label>
+    <input id="rc-cat-search"
+           type="search"
+           name="q"
+           value="{{ q }}"
+           placeholder="Search diagrams…"
+           autocomplete="off"
+           spellcheck="false"
+           class="rc-cat-search-input"
+           aria-label="Search diagrams">
+
+    {# Filters Drawer Trigger (mobile) #}
+    <button type="button" id="rc-cat-filter-open" class="rc-cat-filter-open sm:hidden" aria-label="Open filters">
+      Filters
+    </button>
+
+    {# Inline filters (desktop) #}
+    <fieldset class="rc-cat-filters hidden sm:flex" aria-label="Filters">
+      <legend class="sr-only">Filters</legend>
+
+      <div class="rc-cat-filtergroup">
+        <span class="rc-cat-filterlabel">Type:</span>
+        {% set type_options = type_options if type_options is defined else ['Flowchart','Sequence','Class','State'] %}
+        {% for t in type_options %}
+          <label class="rc-cat-filterchk">
+            <input type="checkbox" name="type" value="{{ t }}" {% if t in selected_types %}checked{% endif %}>
+            {{ t }}
+          </label>
+        {% endfor %}
       </div>
-    </section>
 
-    <section class="mb-12">
-      <!-- Diagram Categories -->
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <h2 class="text-xl font-semibold text-white mb-6">Diagram Categories</h2>
-        <div class="flex flex-wrap gap-2">
-          {% for category in ['All', 'Business Rules', 'Decision Trees', 'Process Flows', 'State Machines', 'Validation Rules', 'Templates', 'Archived'] %}
-            <button 
-              class="btn btn-secondary text-sm" 
-              :class="{ 'bg-white/20 text-blue-400': '{{ category }}' === 'All' }"
-              aria-label="Filter by {{ category }}"
-            >
-              {{ category }}
-              {% if category == 'Archived' %}(12){% endif %}
-            </button>
-          {% endfor %}
-        </div>
+      <div class="rc-cat-filtergroup">
+        <label class="rc-cat-filterchk">
+          <input type="checkbox" name="fav" value="1" {% if favorites_only %}checked{% endif %}>
+          Favorites only
+        </label>
+        <label class="rc-cat-filterchk">
+          <input type="checkbox" name="recent" value="1" {% if updated_recent %}checked{% endif %}>
+          Updated last 7d
+        </label>
       </div>
-    </section>
+    </fieldset>
 
-    <section>
-      <!-- All Visualizations -->
-      <div class="card--glass glassmorphism card-hover p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-white">All Visualizations <span class="text-white/60">(24 results)</span></h2>
-          <div class="flex items-center gap-4">
-            <button 
-              class="text-white/60 hover:text-blue-400 focus-ring float-animation" 
-              aria-label="Grid view"
-              x-data="{ gridView: true }" 
-              x-on:click="gridView = true"
-            >
-              <i class="fas fa-th-large text-lg"></i>
-            </button>
-            <button 
-              class="text-white/60 hover:text-blue-400 focus-ring float-animation" 
-              aria-label="List view"
-              x-on:click="gridView = false"
-            >
-              <i class="fas fa-list text-lg"></i>
-            </button>
-            <div x-data="{ sortOpen: false }" class="relative">
-              {{ button('Sort: Newest', variant='secondary', type='button', classes='flex items-center gap-2') }}
-              <div 
-                x-show="sortOpen" 
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95"
-                class="absolute z-10 mt-2 w-48 card--glass glassmorphism p-2 rounded-2xl"
-                @click.outside="sortOpen = false"
-              >
-                {% for sort in ['Newest', 'Oldest', 'A-Z', 'Z-A', 'Most Favorited', 'Most Viewed'] %}
-                  <button class="dropdown-item w-full text-left">{{ sort }}</button>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
+    <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-cat-search-submit">
+      Search
+    </button>
+  </form>
+</section>
 
-        <!-- Grid View -->
-        <div x-show="gridView" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {% for diagram in range(8) %}
-            <div class="card--glass glassmorphism card-hover p-4 rounded-2xl">
-              <div class="relative mb-4">
-                <div class="skeleton w-full h-32 rounded-lg"></div>
-                <button class="absolute top-2 right-2 text-white/60 hover:text-blue-400 focus-ring" aria-label="Favorite diagram">
-                  <i class="fas fa-heart float-animation"></i>
-                </button>
-              </div>
-              <div class="text-sm text-white/60">Flowchart</div>
-              <h3 class="text-lg font-semibold text-white">Pricing Rules v{{ loop.index + 1 }}</h3>
-              <p class="text-sm text-white/60 text-pretty">
-                Business rules for product pricing based on customer segments and inventory levels
-              </p>
-              <div class="mt-2 text-sm text-white/60">
-                {{ ['2 days', '1 week', '3 weeks', '1 month'][loop.index % 4] }} ago
-              </div>
-              <div class="mt-4">
-                {{ button('Preview', variant='primary', type='button', classes='w-full') }}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
 
-        <!-- List View -->
-        <div x-show="!gridView" class="space-y-4 mb-8">
-          {% for diagram in range(4) %}
-            <div class="card--glass glassmorphism card-hover p-4 rounded-2xl flex flex-col sm:flex-row gap-4">
-              <div class="relative w-full sm:w-48 h-32 flex-shrink-0">
-                <div class="skeleton w-full h-full rounded-lg"></div>
-                <button class="absolute top-2 right-2 text-white/60 hover:text-blue-400 focus-ring" aria-label="Favorite diagram">
-                  <i class="fas fa-heart float-animation"></i>
-                </button>
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center gap-2">
-                  <span class="text-sm text-white/60">Flowchart</span>
-                  <span class="text-sm text-white/60">
-                    {{ ['2 days', '1 week', '3 weeks', '1 month'][loop.index] }} ago
-                  </span>
-                </div>
-                <h3 class="text-lg font-semibold text-white">Pricing Rules v{{ loop.index + 1 }}</h3>
-                <p class="text-sm text-white/60 text-pretty">
-                  Business rules for product pricing based on customer segments and inventory levels. This includes seasonal pricing adjustments and volume discount calculations.
-                </p>
-                <div class="mt-2 flex flex-wrap gap-2">
-                  {% for tag in ['pricing', 'discounts', 'segmentation'] %}
-                    <span class="px-2 py-1 text-xs bg-white/10 text-white/60 rounded">{{ tag }}</span>
-                  {% endfor %}
-                  {% if loop.index == 3 %}
-                    <span class="px-2 py-1 text-xs bg-white/10 text-white/60 rounded">seasonal</span>
-                  {% endif %}
-                </div>
-                <div class="mt-2 text-sm text-white/60">
-                  by {{ ['Sarah Johnson', 'Michael Chen', 'Emma Wilson', 'David Kim'][loop.index] }}
-                </div>
-                <div class="mt-4 flex gap-2">
-                  {{ button('Preview', variant='primary', type='button') }}
-                  {{ button('Download', variant='secondary', type='button') }}
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-
-        <!-- No Results -->
-        <div class="card--glass glassmorphism p-6 rounded-2xl text-center hidden" role="alert">
-          <h3 class="text-lg font-semibold text-white">No diagrams found</h3>
-          <p class="text-sm text-white/60 mt-2 text-pretty">
-            Try adjusting your search or filter criteria to find what you're looking for.
-          </p>
-          {{ button('Reset Search & Filters', variant='primary', type='button', classes='mt-4') }}
-        </div>
-
-        <!-- Pagination -->
-        <div class="flex items-center justify-between mt-6">
-          <p class="text-sm text-white/60">Showing 1 to 8 of 24 results</p>
-          <div class="flex gap-2">
-            {{ button('Previous', variant='secondary', type='button') }}
-            {% for page in [1, 2, 3] %}
-              <button 
-                class="btn btn-primary text-sm" 
-                :class="{ 'bg-white/20': {{ page == 1 }} }" 
-                aria-label="Page {{ page }}"
-              >
-                {{ page }}
-              </button>
-            {% endfor %}
-            {{ button('Next', variant='secondary', type='button') }}
-          </div>
-        </div>
-      </div>
-    </section>
+{# ------------------------------------------------------------------
+   CATEGORY CHIPS
+   categories -> iterable of {name,count,slug?}
+------------------------------------------------------------------ #}
+{% set categories = categories if categories is defined else [
+  {'name':'All','count':0,'slug':'all'},
+  {'name':'Business Rules','count':0,'slug':'business'},
+  {'name':'Decision Trees','count':0,'slug':'decision'},
+  {'name':'Process Flows','count':0,'slug':'process'},
+  {'name':'State Machines','count':0,'slug':'state'},
+  {'name':'Validation Rules','count':0,'slug':'validation'},
+  {'name':'Templates','count':0,'slug':'templates'},
+  {'name':'Archived','count':0,'slug':'archived'}
+] %}
+<section class="wrapper rc-container rc-section rc-catalog-catwrap">
+  <h2 class="sr-only">Diagram Categories</h2>
+  <div class="rc-catalog-cats rc-card rc-surface-1">
+    <ul class="rc-catalog-catlist" role="list">
+      {% for c in categories %}
+        {% set active = request.args.get('cat','all') == c.slug %}
+        <li>
+          <a href="{{ url_for('main.catalog') }}?cat={{ c.slug }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}"
+             class="rc-catalog-cat {{ 'active' if active }}"
+             aria-current="{{ 'page' if active }}">
+            <span class="rc-catalog-cat-name">{{ c.name }}</span>
+            {% if c.count %}
+              <span class="rc-catalog-cat-count">{{ c.count }}</span>
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
-{% endblock %}
+</section>
 
+
+{# ------------------------------------------------------------------
+   RESULTS HEADER + SORT + VIEW
+   sort -> request.args.get('sort','newest')
+------------------------------------------------------------------ #}
+{% set sort = request.args.get('sort','newest') %}
+<section class="wrapper rc-container rc-section rc-catalog-resultswrap">
+  {% set total_count = total_count if total_count is defined else (diagrams|length if diagrams is defined else 0) %}
+  <div class="rc-catalog-results-head">
+    <h2 class="rc-catalog-results-title">
+      All Visualizations
+      <span class="rc-catalog-results-count">({{ total_count }} result{{ '' if total_count == 1 else 's' }})</span>
+    </h2>
+    <div class="rc-catalog-results-controls">
+      <div class="rc-catalog-sort">
+        <label for="rc-cat-sort" class="sr-only">Sort by</label>
+        <select id="rc-cat-sort" name="sort" form="rc-catalog-sortform" class="rc-catalog-sort-select">
+          <option value="newest"        {% if sort=='newest' %}selected{% endif %}>Newest</option>
+          <option value="oldest"        {% if sort=='oldest' %}selected{% endif %}>Oldest</option>
+          <option value="az"            {% if sort=='az' %}selected{% endif %}>A–Z</option>
+          <option value="za"            {% if sort=='za' %}selected{% endif %}>Z–A</option>
+          <option value="most_fav"      {% if sort=='most_fav' %}selected{% endif %}>Most Favorited</option>
+          <option value="most_viewed"   {% if sort=='most_viewed' %}selected{% endif %}>Most Viewed</option>
+        </select>
+      </div>
+      <div class="rc-catalog-viewtoggles" role="group" aria-label="View toggle">
+        <button type="button" id="rc-catalog-view-grid" class="rc-catalog-viewbtn active" aria-pressed="true" aria-label="Grid view">▦</button>
+        <button type="button" id="rc-catalog-view-list" class="rc-catalog-viewbtn" aria-pressed="false" aria-label="List view">≣</button>
+      </div>
+    </div>
+  </div>
+
+{# ------------------------------------------------------------------
+   RESULTS GRID + LIST
+   diagrams -> iterable of diagram objects/dicts
+------------------------------------------------------------------ #}
+{% set diagrams = diagrams if diagrams is defined else [] %}
+{% set page     = page|default(1) %}
+{% set pages    = pages|default(1) %}
+
+<div id="rc-catalog-grid" class="rc-catalog-grid">
+  {% if diagrams %}
+    {% for d in diagrams %}
+      {% set d_id    = d.id    if d is mapping and 'id' in d else loop.index %}
+      {% set d_name  = d.name  if d is mapping and 'name' in d else 'Diagram ' ~ loop.index %}
+      {% set d_type  = d.type  if d is mapping and 'type' in d else 'Flowchart' %}
+      {% set d_desc  = d.summary or d.description if d is mapping and ('summary' in d or 'description' in d) else '' %}
+      {% set d_upd   = d.updated_human if d is mapping and 'updated_human' in d else '—' %}
+      {% set d_tags  = d.tags if d is mapping and 'tags' in d else [] %}
+      {% set d_auth  = d.author if d is mapping and 'author' in d else '' %}
+      {% set d_url   = d.url if d is mapping and 'url' in d and d.url else (url_for('diagrams.diagrams_index') ~ '?id=' ~ d_id) %}
+      <article class="rc-card rc-catalog-card rc-catalog-card-grid">
+        <div class="rc-catalog-card-thumb">
+          <a href="{{ d_url }}" class="rc-catalog-card-thumb-link" aria-label="Open {{ d_name }}">
+            <div class="rc-catalog-card-thumb-img skeleton"></div>
+          </a>
+          <button type="button"
+                  class="rc-catalog-favbtn"
+                  data-diag-id="{{ d_id }}"
+                  aria-pressed="false"
+                  aria-label="Favorite diagram {{ d_name }}">♡</button>
+        </div>
+        <div class="rc-catalog-card-body">
+          <div class="rc-catalog-card-type">{{ d_type }}</div>
+          <h3 class="rc-catalog-card-title">
+            <a href="{{ d_url }}">{{ d_name }}</a>
+          </h3>
+          {% if d_desc %}
+            <p class="rc-catalog-card-desc">{{ d_desc }}</p>
+          {% endif %}
+          <div class="rc-catalog-card-updated">{{ d_upd }}</div>
+          <div class="rc-catalog-card-action">
+            <a href="{{ d_url }}" class="btn-primary rc-cta w-full text-center">Preview</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  {% else %}
+    <div class="rc-card rc-catalog-empty p-10 text-center" role="alert">
+      <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">No diagrams found</h3>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Try adjusting your search or filter criteria.</p>
+      <a href="{{ url_for('main.catalog') }}" class="btn-primary rc-cta mt-4 inline-block">Reset Search &amp; Filters</a>
+    </div>
+  {% endif %}
+</div>
+
+
+<div id="rc-catalog-list" class="rc-catalog-list" hidden>
+  {% if diagrams %}
+    {% for d in diagrams %}
+      {% set d_id    = d.id    if d is mapping and 'id' in d else loop.index %}
+      {% set d_name  = d.name  if d is mapping and 'name' in d else 'Diagram ' ~ loop.index %}
+      {% set d_type  = d.type  if d is mapping and 'type' in d else 'Flowchart' %}
+      {% set d_desc  = d.summary or d.description if d is mapping and ('summary' in d or 'description' in d) else '' %}
+      {% set d_upd   = d.updated_human if d is mapping and 'updated_human' in d else '—' %}
+      {% set d_tags  = d.tags if d is mapping and 'tags' in d else [] %}
+      {% set d_auth  = d.author if d is mapping and 'author' in d else '' %}
+      {% set d_url   = d.url if d is mapping and 'url' in d and d.url else (url_for('diagrams.diagrams_index') ~ '?id=' ~ d_id) %}
+      <article class="rc-card rc-catalog-card rc-catalog-card-list">
+        <div class="rc-catalog-card-listthumb">
+          <a href="{{ d_url }}" aria-label="Open {{ d_name }}">
+            <div class="rc-catalog-card-thumb-img skeleton"></div>
+          </a>
+          <button type="button"
+                  class="rc-catalog-favbtn"
+                  data-diag-id="{{ d_id }}"
+                  aria-pressed="false"
+                  aria-label="Favorite diagram {{ d_name }}">♡</button>
+        </div>
+        <div class="rc-catalog-card-listbody">
+          <div class="rc-catalog-card-listmeta">
+            <span class="rc-catalog-card-type">{{ d_type }}</span>
+            <span class="rc-catalog-card-updated">{{ d_upd }}</span>
+          </div>
+          <h3 class="rc-catalog-card-title"><a href="{{ d_url }}">{{ d_name }}</a></h3>
+          {% if d_desc %}
+            <p class="rc-catalog-card-desc">{{ d_desc }}</p>
+          {% endif %}
+          {% if d_tags %}
+            <ul class="rc-catalog-card-tags" role="list">
+              {% for tag in d_tags %}
+                <li>{{ tag }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {% if d_auth %}
+            <div class="rc-catalog-card-author">by {{ d_auth }}</div>
+          {% endif %}
+          <div class="rc-catalog-card-listactions">
+            <a href="{{ d_url }}" class="btn-primary rc-cta">Preview</a>
+            <a href="{{ d_url }}&amp;download=1" class="btn-secondary rc-cta">Download</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
+</div>
+
+
+{# ------------------------------------------------------------------
+   PAGINATION
+------------------------------------------------------------------ #}
+{% if pages > 1 %}
+  <nav class="rc-catalog-pager" role="navigation" aria-label="Pagination">
+    {% set prev_disabled = page <= 1 %}
+    {% set next_disabled = page >= pages %}
+    {% set base_qs = '&amp;'.join(request.query_string.decode().split('&amp;') if request.query_string else []) %}
+    {% macro page_link(p,label=None) %}
+      {% set label = label or p %}
+      <a href="{{ url_for('main.catalog', **request.args.to_dict(flat=False)) }}{% if p %}?page={{ p }}{% endif %}"
+         class="rc-catalog-pagebtn">{{ label }}</a>
+    {% endmacro %}
+    <div class="rc-catalog-pager-inner">
+      {% if prev_disabled %}
+        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled">Previous</span>
+      {% else %}
+        <a href="{{ url_for('main.catalog', page=page-1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">Previous</a>
+      {% endif %}
+
+      {% for p in range(1, pages+1) %}
+        {% if p == page %}
+          <span class="rc-catalog-pagebtn rc-catalog-pagebtn-active">{{ p }}</span>
+        {% else %}
+          <a href="{{ url_for('main.catalog', page=p, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">{{ p }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if next_disabled %}
+        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled">Next</span>
+      {% else %}
+        <a href="{{ url_for('main.catalog', page=page+1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">Next</a>
+      {% endif %}
+    </div>
+  </nav>
+{% endif %}
+</section>
+
+{% endblock content %}
+
+
+{# ------------------------------------------------------------------
+   STYLES
+------------------------------------------------------------------ #}
+{% block styles %}
+<style>
+/* --- Catalog Page Styles ---------------------------------------------- */
+.rc-catalog-search{margin-top:1.5rem;max-width:64rem;margin-inline:auto;padding:1.25rem;display:grid;grid-template-columns:1fr auto;grid-template-areas:"search submit" "filters filters";gap:1rem;align-items:start}
+@media (min-width:640px){.rc-catalog-search{grid-template-columns:1fr auto auto;grid-template-areas:"search filters submit";align-items:center}}
+.rc-cat-search-input{grid-area:search;width:100%;padding:.875rem 1.25rem;font-size:1rem;line-height:1.25;border-radius:9999px;border:1px solid var(--rc-border-light,rgba(0,0,0,.15));background:#fff;color:#111827;transition:border-color .15s ease,box-shadow .15s ease}
+html.dark .rc-cat-search-input{background:rgb(30 41 59/.9);color:#f1f5f9;border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-cat-search-input:focus{outline:none;border-color:var(--rc-accent,#f43f5e);box-shadow:0 0 0 3px color-mix(in srgb,var(--rc-accent,#f43f5e) 35%,transparent)}
+
+.rc-cat-filter-open{grid-area:filters;padding:.5rem 1.25rem;font-size:.9375rem;border-radius:9999px;border:1px solid color-mix(in srgb,var(--rc-accent,#f43f5e) 60%,transparent);color:var(--rc-accent,#f43f5e);background:transparent}
+.rc-cat-filters{grid-area:filters;align-items:center;gap:2rem}
+.rc-cat-filtergroup{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.rc-cat-filterlabel{font-size:.875rem;font-weight:600;color:rgb(71 85 105)}
+html.dark .rc-cat-filterlabel{color:rgb(203 213 225)}
+.rc-cat-filterchk{font-size:.875rem;display:inline-flex;align-items:center;gap:.375rem;color:rgb(71 85 105);cursor:pointer}
+.rc-cat-filterchk input{width:1rem;height:1rem}
+html.dark .rc-cat-filterchk{color:rgb(203 213 225)}
+
+.rc-cat-search-submit{grid-area:submit;padding:.875rem 1.75rem;font-size:1rem;line-height:1.25}
+
+/* Categories ----------------------------------------------------------- */
+.rc-catalog-cats{padding:1rem}
+.rc-catalog-catlist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.rc-catalog-cat{text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:9999px;font-size:.875rem;font-weight:600;color:rgb(71 85 105);border:1px solid var(--rc-border-light,rgba(0,0,0,.15));transition:background .12s ease,color .12s ease}
+html.dark .rc-catalog-cat{color:rgb(203 213 225);border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-catalog-cat:hover{text-decoration:none;background:color-mix(in srgb,var(--rc-accent,#f43f5e) 10%,transparent);color:var(--rc-accent,#f43f5e)}
+.rc-catalog-cat.active{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 20%,transparent);color:var(--rc-accent,#f43f5e);border-color:color-mix(in srgb,var(--rc-accent,#f43f5e) 60%,transparent)}
+.rc-catalog-cat-count{font-size:.75rem;opacity:.75}
+
+/* Results header ------------------------------------------------------ */
+.rc-catalog-results-head{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;margin-bottom:1.5rem}
+@media (min-width:640px){.rc-catalog-results-head{flex-direction:row;align-items:center;justify-content:space-between}}
+.rc-catalog-results-title{font-size:1.25rem;font-weight:700;color:rgb(30 41 59)}
+html.dark .rc-catalog-results-title{color:rgb(241 245 249)}
+.rc-catalog-results-count{margin-left:.5rem;font-size:.875rem;font-weight:400;color:rgb(71 85 105)}
+html.dark .rc-catalog-results-count{color:rgb(203 213 225)}
+
+.rc-catalog-results-controls{display:inline-flex;align-items:center;gap:1rem}
+.rc-catalog-sort-select{padding:.5rem 1.25rem;font-size:.875rem;border-radius:.75rem;border:1px solid var(--rc-border-light,rgba(0,0,0,.15));background:#fff;color:#0f172a}
+html.dark .rc-catalog-sort-select{background:rgb(30 41 59/.9);color:#f1f5f9;border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-catalog-viewtoggles{display:inline-flex;border-radius:.75rem;overflow:hidden;border:1px solid var(--rc-border-light,rgba(0,0,0,.15))}
+html.dark .rc-catalog-viewtoggles{border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-catalog-viewbtn{padding:.5rem .75rem;font-size:1rem;line-height:1;background:transparent;color:rgb(71 85 105);cursor:pointer;transition:background .12s ease,color .12s ease}
+html.dark .rc-catalog-viewbtn{color:rgb(203 213 225)}
+.rc-catalog-viewbtn.active,
+.rc-catalog-viewbtn:hover{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 20%,transparent);color:var(--rc-accent,#f43f5e)}
+
+/* Cards Grid ---------------------------------------------------------- */
+.rc-catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,16rem),1fr));gap:1.5rem;margin-bottom:3rem}
+.rc-catalog-card{overflow:hidden}
+.rc-catalog-card-grid{display:grid;gap:1rem;padding:1rem}
+.rc-catalog-card-thumb{position:relative;width:100%;aspect-ratio:16/9;border-radius:.75rem;overflow:hidden;background:rgba(0,0,0,.05)}
+html.dark .rc-catalog-card-thumb{background:rgba(255,255,255,.05)}
+.rc-catalog-card-thumb-img{width:100%;height:100%;border-radius:inherit;background:rgba(0,0,0,.08)}
+html.dark .rc-catalog-card-thumb-img{background:rgba(255,255,255,.08)}
+.rc-catalog-favbtn{position:absolute;top:.5rem;right:.5rem;padding:.25rem .5rem;font-size:1.25rem;line-height:1;border:none;background:transparent;color:rgb(244 63 94);cursor:pointer;opacity:.8;transition:transform .12s ease,opacity .12s ease}
+.rc-catalog-favbtn:hover{opacity:1;transform:scale(1.1)}
+
+.rc-catalog-card-body{text-align:left}
+.rc-catalog-card-type{font-size:.75rem;color:rgb(148 163 184)}
+html.dark .rc-catalog-card-type{color:rgb(148 163 184)}
+.rc-catalog-card-title{margin:.25rem 0 0;font-size:1rem;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-catalog-card-title{color:rgb(241 245 249)}
+.rc-catalog-card-title a{text-decoration:none;color:inherit}
+.rc-catalog-card-title a:hover{text-decoration:underline}
+.rc-catalog-card-desc{margin:.25rem 0 0;font-size:.875rem;color:rgb(71 85 105);line-height:1.4}
+html.dark .rc-catalog-card-desc{color:rgb(203 213 225)}
+.rc-catalog-card-updated{margin-top:.5rem;font-size:.75rem;color:rgb(148 163 184)}
+.rc-catalog-card-action{margin-top:1rem}
+
+/* Cards List ---------------------------------------------------------- */
+.rc-catalog-list{display:grid;gap:1.5rem;margin-bottom:3rem}
+.rc-catalog-card-list{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;padding:1rem;align-items:start}
+@media (max-width:640px){.rc-catalog-card-list{grid-template-columns:1fr}}
+.rc-catalog-card-listthumb{position:relative;width:12rem;max-width:100%;aspect-ratio:16/9;border-radius:.75rem;overflow:hidden;background:rgba(0,0,0,.05)}
+html.dark .rc-catalog-card-listthumb{background:rgba(255,255,255,.05)}
+.rc-catalog-card-listbody{text-align:left}
+.rc-catalog-card-listmeta{display:flex;flex-wrap:wrap;gap:.75rem;font-size:.75rem;color:rgb(148 163 184);margin-bottom:.25rem}
+.rc-catalog-card-tags{list-style:none;margin:.5rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.rc-catalog-card-tags li{font-size:.75rem;padding:.125rem .5rem;border-radius:.375rem;background:rgba(0,0,0,.08);color:rgb(71 85 105)}
+html.dark .rc-catalog-card-tags li{background:rgba(255,255,255,.1);color:rgb(203 213 225)}
+.rc-catalog-card-author{margin-top:.5rem;font-size:.75rem;color:rgb(148 163 184)}
+.rc-catalog-card-listactions{margin-top:1rem;display:inline-flex;gap:.75rem;flex-wrap:wrap}
+
+/* Empty state ------------------------------------------------------- */
+.rc-catalog-empty p{margin:0}
+
+/* Pagination -------------------------------------------------------- */
+.rc-catalog-pager{margin-top:1rem;text-align:center}
+.rc-catalog-pager-inner{display:inline-flex;align-items:center;gap:.25rem;flex-wrap:wrap}
+.rc-catalog-pagebtn{text-decoration:none;padding:.5rem 1rem;font-size:.875rem;border-radius:.75rem;border:1px solid var(--rc-border-light,rgba(0,0,0,.15));color:rgb(71 85 105);cursor:pointer;transition:background .12s ease,color .12s ease}
+html.dark .rc-catalog-pagebtn{color:rgb(203 213 225);border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-catalog-pagebtn:hover{text-decoration:none;background:color-mix(in srgb,var(--rc-accent,#f43f5e) 10%,transparent);color:var(--rc-accent,#f43f5e)}
+.rc-catalog-pagebtn-active{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 30%,transparent);color:var(--rc-accent,#f43f5e);border-color:color-mix(in srgb,var(--rc-accent,#f43f5e) 60%,transparent)}
+.rc-catalog-pagebtn-disabled{opacity:.4;cursor:not-allowed}
+
+/* Skeleton placeholder ---------------------------------------------- */
+.skeleton{position:relative;overflow:hidden}
+.skeleton::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.15) 45%,rgba(255,255,255,.25) 50%,rgba(255,255,255,.15) 55%,transparent 100%);animation:rc-skel 1.5s linear infinite}
+@keyframes rc-skel{to{transform:translateX(100%)}}
+</style>
+{% endblock styles %}
+
+
+{# ------------------------------------------------------------------
+   SCRIPTS
+------------------------------------------------------------------ #}
 {% block scripts %}
   {{ super() }}
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script defer src="{{ url_for('static', filename='js/catalog_shortcuts.js') }}"></script>
-{% endblock %}
+  <script>
+  // Catalog behavior: grid/list toggle, ctrl+k focus, sync filters, persist view in localStorage
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput   = document.getElementById('rc-cat-search');
+    const gridBtn       = document.getElementById('rc-catalog-view-grid');
+    const listBtn       = document.getElementById('rc-catalog-view-list');
+    const gridWrap      = document.getElementById('rc-catalog-grid');
+    const listWrap      = document.getElementById('rc-catalog-list');
+    const sortSelect    = document.getElementById('rc-cat-sort');
+    const filterOpenBtn = document.getElementById('rc-cat-filter-open');
+
+    // Ctrl+K focus search
+    window.addEventListener('keydown', (e)=>{
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){
+        e.preventDefault();
+        searchInput?.focus();
+      }
+    });
+
+    // Persisted view
+    const VIEW_KEY = 'rc_catalog_view';
+    function applyView(v){
+      const isGrid = v !== 'list';
+      gridWrap.hidden = !isGrid;
+      listWrap.hidden = isGrid;
+      gridBtn.classList.toggle('active', isGrid);
+      gridBtn.setAttribute('aria-pressed', isGrid);
+      listBtn.classList.toggle('active', !isGrid);
+      listBtn.setAttribute('aria-pressed', !isGrid);
+      localStorage.setItem(VIEW_KEY, isGrid ? 'grid' : 'list');
+    }
+    gridBtn?.addEventListener('click',()=>applyView('grid'));
+    listBtn?.addEventListener('click',()=>applyView('list'));
+    applyView(localStorage.getItem(VIEW_KEY) || 'grid');
+
+    // Auto-submit on sort change
+    sortSelect?.addEventListener('change', ()=>{
+      // rebuild URL w/ existing params but new sort
+      const url = new URL(window.location.href);
+      url.searchParams.set('sort', sortSelect.value);
+      window.location.href = url.toString();
+    });
+
+    // Mobile filters drawer (simple prompt fallback)
+    filterOpenBtn?.addEventListener('click', ()=>{
+      alert('Filters available on larger screens. Use desktop for full filtering.');
+    });
+  });
+  </script>
+{% endblock scripts %}

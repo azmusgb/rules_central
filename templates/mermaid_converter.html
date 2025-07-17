@@ -1,283 +1,506 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FormWorks Editor to Mermaid Diagram Converter</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
-<body>
-    <header>
-        <nav class="nav-wrapper">
-            <div class="container">
-                <a href="#" class="brand-logo">
-                    <i class="material-icons">bubble_chart</i>
-                    FormWorks Editor to Mermaid Diagram Converter
-                </a>
-            </div>
-        </nav>
-    </header>
-    <main class="container">
-        <div class="row">
-            <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s4"><a href="#diagramTab" class="active">Diagram Viewer</a></li>
-                    <li class="tab col s4"><a href="#editorTab">Mermaid Code Editor</a></li>
-                    <li class="tab col s4"><a href="#faqTab">FAQ</a></li>
-                </ul>
-            </div>
-            <div id="diagramTab" class="col s12 tab-content active">
-                <h1 class="center-align">Welcome to Mermaid Diagram Viewer</h1>
-                <p class="center-align">Create, view, and export your Mermaid diagrams effortlessly.</p>
-                <div class="diagram-controls">
-                    <button id="zoomIn" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Zoom In">ZOOM IN</button>
-                    <button id="zoomOut" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Zoom Out">ZOOM OUT</button>
-                    <button id="resetZoom" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Reset Zoom">RESET ZOOM</button>
-                    <button id="fitToScreen" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Fit to Screen">FIT TO SCREEN</button>
-                    <button id="exportSvg" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Export as SVG">EXPORT SVG</button>
-                    <button id="exportPng" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Export as PNG">EXPORT PNG</button>
-                    <button id="exportPdf" class="btn waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Export as PDF">EXPORT PDF</button>
-                </div>
-                <div class="diagram">
-                    <div id="diagramContainer"></div>
-                </div>
-                <div id="loadingSpinner" class="preloader-wrapper active">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="dark-mode-switch center-align">
-                    <label for="darkModeCheckbox">
-                        <span>Dark Mode</span>
-                        <input type="checkbox" id="darkModeCheckbox">
-                        <span class="lever"></span>
-                    </label>
-                </div>
-            </div>
-            <div id="editorTab" class="col s12 tab-content">
-                <div class="editor-container">
-                    <div class="col s12 m6 editor-section">
-                        <h5>Code</h5>
-                        <textarea id="mermaidCodeEditor" class="materialize-textarea" placeholder="Enter Mermaid code here..."></textarea>
-                        <button id="renderDiagram" class="btn waves-effect waves-light">RENDER DIAGRAM</button>
-                        <div class="file-field input-field">
-                            <div class="btn">
-                                <span>Import MMD</span>
-                                <input type="file" id="importMmd" accept=".mmd">
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 editor-section">
-                        <h5>Mermaid Configuration</h5>
-                        <textarea id="mermaidConfigEditor" class="materialize-textarea" placeholder="Enter Mermaid configuration here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div id="faqTab" class="col s12 tab-content">
-                <section class="faq-section">
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                    <div class="faq-item">
-                        <strong>What is Mermaid Diagram Viewer?</strong>
-                        <p>A tool to create, view, and export Mermaid diagrams.</p>
-                    </div>
-                    <div class="faq-item">
-                        <strong>How can I export diagrams?</strong>
-                        <p>You can export diagrams in SVG, PNG, or PDF formats.</p>
-                    </div>
-                    <div class="faq-item">
-                        <strong>Is there a dark mode available?</strong>
-                        <p>Yes, you can switch between light and dark modes.</p>
-                    </div>
-                    <div class="faq-item">
-                        <strong>Can I zoom in on diagrams?</strong>
-                        <p>Yes, you can zoom in and out for a detailed view.</p>
-                    </div>
-                    <div class="faq-item">
-                        <strong>How do I fit the diagram to my screen?</strong>
-                        <p>Use the 'Fit to Screen' button to perfectly fit the diagram to your screen size.</p>
-                    </div>
-                    <div class="faq-item">
-                        <strong>Where can I find help?</strong>
-                        <p>Click on the help button in the top-right corner for instructions.</p>
-                    </div>
-                </section>
-            </div>
+{% extends "base.html" %}
+
+{% block title %}Diagram Converter | Rules Central{% endblock title %}
+{% block description %}Convert diagrams between Mermaid, PlantUML, image, and Rules Central formats.{% endblock description %}
+
+{# ------------------------------------------------------------------
+   SAFE SERVER VARS
+   These are optional; the route can pass any/all.
+   ------------------------------------------------------------------ #}
+{% set inbound_format = inbound_format|default(request.args.get('in','auto')) %}
+{% set outbound_format = outbound_format|default(request.args.get('out','mermaid')) %}
+{% set initial_name = diagram_name|default(request.args.get('name','Untitled Conversion')) %}
+{% set initial_text = diagram_text|default('') %}
+{% set supported_in = supported_in|default(['auto','mermaid','plantuml','svg','png','rcjson']) %}
+{% set supported_out = supported_out|default(['mermaid','plantuml','svg','png','pdf','rcjson']) %}
+{% set help_url = url_for('routes.full_help') %}
+{% set contact_url = url_for('main.contact') %}
+{% set upload_url = url_for('upload.upload_file') %}
+
+{% block content %}
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<header class="wrapper rc-container pt-24 pb-8 text-center space-y-4 rc-dc-hero">
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+    Diagram Converter
+  </h1>
+  <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+    Upload or paste a diagram, choose an output format, and convert. Supports Mermaid, PlantUML, SVG, PNG, and RC JSON.
+  </p>
+</header>
+
+
+<!-- =========================================================
+     CONVERTER LAYOUT
+========================================================= -->
+<section class="wrapper rc-container pb-32 rc-dc-wrap">
+  <div class="rc-dc-layout">
+
+    <!-- INPUT ------------------------------------------------ -->
+    <div class="rc-card rc-surface-1 rc-dc-input" role="form" aria-labelledby="rc-dc-input-head">
+      <h2 id="rc-dc-input-head" class="rc-dc-input-head">Input</h2>
+
+      <form id="rc-dc-form" method="post" action="{{ request.path }}" enctype="multipart/form-data" class="rc-dc-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <!-- Name -->
+        <div class="rc-dc-field">
+          <label for="rc-dc-name" class="rc-dc-label">Name</label>
+          <input id="rc-dc-name" name="name" type="text" value="{{ initial_name }}" class="rc-dc-inputtext" placeholder="Untitled Conversion">
         </div>
-        <section class="contact-section">
-            <h2 class="section-title">Get in Touch</h2>
-            <form>
-                <div class="input-field">
-                    <input type="text" id="name" name="name" class="validate">
-                    <label for="name">Name</label>
-                </div>
-                <div class="input-field">
-                    <input type="email" id="email" name="email" class="validate">
-                    <label for="email">Email</label>
-                </div>
-                <div class="input-field">
-                    <textarea id="message" name="message" class="materialize-textarea"></textarea>
-                    <label for="message">Message</label>
-                </div>
-                <button type="submit" class="btn waves-effect waves-light">Send Message</button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <div class="container footer-text">
-            <p>Developed by the FormWorks Development Team</p>
-            <p>Special thanks to the Intake Greyhounds Agile Team</p>
+
+        <!-- Inbound format -->
+        <div class="rc-dc-field">
+          <label for="rc-dc-infmt" class="rc-dc-label">Source Format</label>
+          <select id="rc-dc-infmt" name="in" class="rc-dc-select">
+            {% for opt in supported_in %}
+              <option value="{{ opt }}" {% if inbound_format==opt %}selected{% endif %}>{{ opt|capitalize }}</option>
+            {% endfor %}
+          </select>
         </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/loader.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            mermaid.initialize({ startOnLoad: false });
 
-            function renderDiagram(code) {
-                const diagramContainer = document.getElementById('diagramContainer');
-                diagramContainer.innerHTML = `<div class="mermaid">${code}</div>`;
-                mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+        <!-- Outbound format -->
+        <div class="rc-dc-field">
+          <label for="rc-dc-outfmt" class="rc-dc-label">Target Format</label>
+          <select id="rc-dc-outfmt" name="out" class="rc-dc-select">
+            {% for opt in supported_out %}
+              <option value="{{ opt }}" {% if outbound_format==opt %}selected{% endif %}>{{ opt|capitalize }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-                const loadingSpinner = document.getElementById('loadingSpinner');
-                loadingSpinner.classList.remove('show');
+        <!-- Dropzone -->
+        <div class="rc-dc-field rc-dc-dropfield">
+          <label for="rc-dc-file" class="rc-dc-dropzone" id="rc-dc-dropzone" tabindex="0">
+            <span class="rc-dc-drop-icon">⬆</span>
+            <span class="rc-dc-drop-text">
+              Drag &amp; drop a file here, or click to browse.<br>
+              <small>.mmd, .puml, .plantuml, .svg, .png, .json</small>
+            </span>
+          </label>
+          <input id="rc-dc-file" name="file" type="file" accept=".mmd,.puml,.plantuml,.svg,.png,.json,.txt" class="sr-only">
+        </div>
 
-                diagramContainer.addEventListener('DOMSubtreeModified', () => {
-                    const svgElement = diagramContainer.querySelector('svg');
-                    if (svgElement) {
-                        const panZoomInstance = svgPanZoom(svgElement, {
-                            zoomEnabled: true,
-                            controlIconsEnabled: false,
-                            fit: true,
-                            center: true
-                        });
+        <!-- Text area -->
+        <div class="rc-dc-field">
+          <label for="rc-dc-text" class="rc-dc-label">Or Paste Source Text</label>
+          <textarea id="rc-dc-text" name="text" rows="14" class="rc-dc-textarea" spellcheck="false" placeholder="Paste Mermaid, PlantUML, or RC JSON here…">{{ initial_text }}</textarea>
+        </div>
 
-                        document.getElementById('zoomIn').addEventListener('click', () => panZoomInstance.zoomIn());
-                        document.getElementById('zoomOut').addEventListener('click', () => panZoomInstance.zoomOut());
-                        document.getElementById('resetZoom').addEventListener('click', () => panZoomInstance.resetZoom());
-                        document.getElementById('fitToScreen').addEventListener('click', () => panZoomInstance.fit());
+        <!-- Actions -->
+        <div class="rc-dc-actions">
+          <button type="submit" class="btn-primary rc-cta rc-cta-primary">Convert</button>
+          <button type="button" id="rc-dc-clear" class="rc-cta">Clear</button>
+        </div>
+      </form>
 
-                        document.getElementById('exportSvg').addEventListener('click', () => exportDiagram('svg', svgElement));
-                        document.getElementById('exportPng').addEventListener('click', () => exportDiagram('png', svgElement));
-                        document.getElementById('exportPdf').addEventListener('click', () => exportDiagram('pdf', svgElement));
-                    }
-                });
-            }
+      <div class="rc-dc-input-help text-sm text-slate-500 dark:text-slate-400">
+        Have an image screenshot? <a href="{{ upload_url }}" class="rc-dc-help-link">Upload it</a> and annotate manually.
+      </div>
+    </div>
 
-            function exportDiagram(type, svgElement) {
-                const svgData = new XMLSerializer().serializeToString(svgElement);
-                const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(svgBlob);
 
-                if (type === 'svg') {
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'diagram.svg';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                } else if (type === 'png') {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const img = new Image();
-                    img.onload = () => {
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
-                        canvas.toBlob((blob) => {
-                            const a = document.createElement('a');
-                            a.href = URL.createObjectURL(blob);
-                            a.download = 'diagram.png';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                        }, 'image/png');
-                    };
-                    img.src = url;
-                } else if (type === 'pdf') {
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF();
-                    pdf.addImage(url, 'SVG', 0, 0, 210, 297);
-                    pdf.save('diagram.pdf');
-                }
+    <!-- OUTPUT ------------------------------------------------ -->
+    <div class="rc-card rc-surface-1 rc-dc-output" role="region" aria-labelledby="rc-dc-output-head">
+      <h2 id="rc-dc-output-head" class="rc-dc-output-head">Output Preview</h2>
 
-                URL.revokeObjectURL(url);
-            }
+      <!-- Toolbar -->
+      <div class="rc-dc-output-toolbar" role="toolbar" aria-label="Output tools">
+        <button type="button" class="rc-dc-tool" data-action="copy-out" aria-label="Copy converted output">Copy</button>
+        <button type="button" class="rc-dc-tool" data-action="download-out" aria-label="Download converted output">Download</button>
+        <button type="button" class="rc-dc-tool" data-action="swap" aria-label="Swap input &amp; output">Swap</button>
+      </div>
 
-            const initialCode = `
-                graph TD
-                A[Start] --> B{Is it?}
-                B -- Yes --> C[OK]
-                B -- No --> D[Not OK]
-            `;
-            renderDiagram(initialCode);
+      <!-- Render / Text preview containers -->
+      <div id="rc-dc-output-render" class="rc-dc-output-render skeleton" data-format="">
+        <!-- Populated by JS when rendering Mermaid/SVG -->
+        <p class="rc-dc-output-placeholder text-sm">Converted diagram preview will appear here.</p>
+      </div>
+      <div class="rc-dc-output-textwrap">
+        <textarea id="rc-dc-output-text" readonly rows="12" class="rc-dc-output-textarea" aria-label="Converted output text"></textarea>
+      </div>
 
-            document.getElementById('renderDiagram').addEventListener('click', () => {
-                const mermaidCode = document.getElementById('mermaidCodeEditor').value;
-                renderDiagram(mermaidCode);
-            });
+      <!-- Error box -->
+      <div id="rc-dc-output-error" class="rc-dc-output-error hidden" role="alert">
+        <p>Conversion failed. Please review the input syntax or try another format.</p>
+      </div>
+    </div>
 
-            document.getElementById('importMmd').addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const content = e.target.result;
-                        document.getElementById('mermaidCodeEditor').value = content;
-                        renderDiagram(content);
-                    };
-                    reader.readAsText(file);
-                }
-            });
+  </div>
 
-            const darkModeCheckbox = document.getElementById('darkModeCheckbox');
-            darkModeCheckbox.addEventListener('change', () => {
-                document.body.classList.toggle('dark-mode-body', darkModeCheckbox.checked);
-            });
 
-            require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs' }});
-            require(['vs/editor/editor.main'], function () {
-                const editor = monaco.editor.create(document.getElementById('monacoEditorContainer'), {
-                    value: initialCode,
-                    language: 'plaintext',
-                    theme: 'vs-dark',
-                    automaticLayout: true
-                });
+  <!-- SHORT HELP ------------------------------------------------ -->
+  <div class="rc-card rc-surface-1 rc-dc-shorthelp mt-12">
+    <h3 class="rc-dc-shorthelp-head">Conversion Tips</h3>
+    <ul class="rc-dc-shorthelp-list" role="list">
+      <li>Use <strong>Auto</strong> source format when you're unsure — we'll try to detect by file extension &amp; content.</li>
+      <li>Not all features translate 1-to-1 between formats; review the output visually.</li>
+      <li>Vector outputs (SVG / PDF) scale best; PNG is raster.</li>
+      <li>Need full docs? See <a href="{{ help_url }}#converter" class="rc-dc-help-link">Converter docs</a> or <a href="{{ contact_url }}" class="rc-dc-help-link">contact support</a>.</li>
+    </ul>
+  </div>
+</section>
 
-                document.getElementById('renderDiagram').addEventListener('click', () => {
-                    const code = editor.getValue();
-                    document.getElementById('mermaidCodeEditor').value = code;
-                    renderDiagram(code);
-                });
-            });
-        });
+{% endblock content %}
 
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            tablinks = document.querySelectorAll('.tabs .tab a');
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+
+
+{# =========================================================
+     STYLES
+========================================================= #}
+{% block styles %}
+<style>
+/* ----------------------------------------------------------
+   Diagram Converter Page Fallback Styles
+   ---------------------------------------------------------- */
+.rc-dc-hero{position:relative}
+
+.rc-dc-wrap{max-width:96rem}
+.rc-dc-layout{
+  display:grid;
+  gap:2rem;
+  grid-template-columns:1fr;
+  align-items:start;
+}
+@media (min-width:1024px){
+  .rc-dc-layout{
+    grid-template-columns:minmax(0,1fr)minmax(0,1fr);
+  }
+}
+
+.rc-dc-input-head,
+.rc-dc-output-head{margin-top:0;margin-bottom:1rem;font-size:1.25rem;font-weight:700;color:rgb(30 41 59)}
+html.dark .rc-dc-input-head,
+html.dark .rc-dc-output-head{color:rgb(241 245 249)}
+
+.rc-dc-form{display:grid;gap:1.5rem}
+.rc-dc-field{display:grid;gap:.5rem}
+.rc-dc-label{font-size:.9375rem;font-weight:600;color:rgb(30 41 59)}
+html.dark .rc-dc-label{color:rgb(241 245 249)}
+.rc-dc-inputtext,
+.rc-dc-select,
+.rc-dc-textarea{
+  width:100%;
+  padding:.875rem 1rem;
+  font-size:.9375rem;
+  line-height:1.25;
+  border-radius:.75rem;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.15));
+  background:#fff;
+  color:#0f172a;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+html.dark .rc-dc-inputtext,
+html.dark .rc-dc-select,
+html.dark .rc-dc-textarea{
+  background:rgb(30 41 59/.9);
+  color:#f1f5f9;
+  border-color:var(--rc-border-dark,rgba(255,255,255,.15));
+}
+.rc-dc-inputtext:focus,
+.rc-dc-select:focus,
+.rc-dc-textarea:focus{
+  outline:none;
+  border-color:var(--rc-accent,#f43f5e);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--rc-accent,#f43f5e) 35%,transparent);
+}
+.rc-dc-textarea{resize:vertical;min-height:8rem}
+
+/* Dropzone ------------------------------------------------ */
+.rc-dc-dropfield{margin-top:.5rem}
+.rc-dc-dropzone{
+  display:grid;
+  place-items:center;
+  padding:2.5rem 1rem;
+  border:2px dashed var(--rc-border-light,rgba(0,0,0,.25));
+  border-radius:1rem;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+  transition:border-color .12s ease,background .12s ease;
+}
+html.dark .rc-dc-dropzone{border-color:var(--rc-border-dark,rgba(255,255,255,.25))}
+.rc-dc-dropzone:hover,
+.rc-dc-dropzone:focus-visible{
+  outline:none;
+  border-color:var(--rc-accent,#f43f5e);
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 12%,transparent);
+}
+.rc-dc-drop-icon{font-size:2rem;line-height:1}
+.rc-dc-drop-text{font-size:.875rem;color:rgb(71 85 105)}
+html.dark .rc-dc-drop-text{color:rgb(203 213 225)}
+
+/* Input actions */
+.rc-dc-actions{text-align:center;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+.rc-dc-input-help{margin-top:1rem;text-align:center}
+.rc-dc-help-link{text-decoration:underline;color:var(--rc-accent,#f43f5e)}
+.rc-dc-help-link:hover{text-decoration:none}
+
+/* OUTPUT -------------------------------------------------- */
+.rc-dc-output-toolbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.rc-dc-tool{
+  padding:.5rem .75rem;
+  font-size:.875rem;
+  line-height:1;
+  border-radius:.5rem;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.15));
+  background:var(--rc-surface-1-light,#fff);
+  color:rgb(30 41 59);
+  cursor:pointer;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+html.dark .rc-dc-tool{
+  background:rgb(30 41 59/.9);
+  color:#f1f5f9;
+  border-color:var(--rc-border-dark,rgba(255,255,255,.15));
+}
+.rc-dc-tool:hover,
+.rc-dc-tool:focus-visible{
+  outline:none;
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 20%,transparent);
+  color:var(--rc-accent,#f43f5e);
+  border-color:var(--rc-accent,#f43f5e);
+}
+
+.rc-dc-output-render{
+  position:relative;
+  width:100%;
+  min-height:24rem;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.1));
+  border-radius:1rem;
+  background:var(--rc-surface-1-light,#fff);
+  overflow:auto;
+  padding:1rem;
+  margin-bottom:1.5rem;
+}
+html.dark .rc-dc-output-render{
+  background:rgb(30 41 59/.9);
+  border-color:var(--rc-border-dark,rgba(255,255,255,.1));
+}
+.rc-dc-output-placeholder{margin:0;text-align:center;color:rgb(148 163 184)}
+html.dark .rc-dc-output-placeholder{color:rgb(148 163 184)}
+
+.rc-dc-output-textwrap{margin-bottom:1rem}
+.rc-dc-output-textarea{
+  width:100%;
+  padding:.875rem 1rem;
+  font-size:.875rem;
+  line-height:1.25;
+  border-radius:.75rem;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.15));
+  background:#fff;
+  color:#0f172a;
+  resize:vertical;
+  min-height:10rem;
+}
+html.dark .rc-dc-output-textarea{
+  background:rgb(30 41 59/.9);
+  color:#f1f5f9;
+  border-color:var(--rc-border-dark,rgba(255,255,255,.15));
+}
+
+.rc-dc-output-error{margin-top:1rem;padding:1rem;border:1px solid var(--rc-accent,#f43f5e);border-radius:.75rem;background:color-mix(in srgb,var(--rc-accent,#f43f5e) 10%,transparent);text-align:center;color:var(--rc-accent,#f43f5e)}
+.rc-dc-output-error.hidden{display:none}
+
+/* Short help --------------------------------------------- */
+.rc-dc-shorthelp{margin-top:4rem;padding:2rem;max-width:64rem;margin-inline:auto}
+.rc-dc-shorthelp-head{margin-top:0;margin-bottom:1.25rem;font-size:1.25rem;font-weight:700;color:rgb(30 41 59)}
+html.dark .rc-dc-shorthelp-head{color:rgb(241 245 249)}
+.rc-dc-shorthelp-list{margin:0;padding-left:1.25rem;display:grid;gap:.5rem;color:rgb(71 85 105)}
+html.dark .rc-dc-shorthelp-list{color:rgb(203 213 225)}
+
+/* Utilities ---------------------------------------------- */
+.hidden{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skeleton{position:relative;overflow:hidden}
+.skeleton::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.4)45%,rgba(255,255,255,.7)50%,rgba(255,255,255,.4)55%,transparent 100%);
+  animation:rc-dc-skel 1.5s linear infinite;
+}
+@keyframes rc-dc-skel{to{transform:translateX(100%)}}
+</style>
+{% endblock styles %}
+
+
+
+{# =========================================================
+     SCRIPTS
+========================================================= #}
+{% block scripts %}
+  {{ super() }}
+  <script>
+  // -------------------------------------------------------
+  // Diagram Converter Fallback JS
+  // Minimal functionality; replace / extend with real API calls.
+  // -------------------------------------------------------
+  document.addEventListener('DOMContentLoaded', () => {
+    const form         = document.getElementById('rc-dc-form');
+    const dropzone     = document.getElementById('rc-dc-dropzone');
+    const fileInput    = document.getElementById('rc-dc-file');
+    const textInput    = document.getElementById('rc-dc-text');
+    const clearBtn     = document.getElementById('rc-dc-clear');
+    const outRender    = document.getElementById('rc-dc-output-render');
+    const outText      = document.getElementById('rc-dc-output-text');
+    const outError     = document.getElementById('rc-dc-output-error');
+    const copyBtn      = document.querySelector('[data-action="copy-out"]');
+    const dlBtn        = document.querySelector('[data-action="download-out"]');
+    const swapBtn      = document.querySelector('[data-action="swap"]');
+    const inFmtSel     = document.getElementById('rc-dc-infmt');
+    const outFmtSel    = document.getElementById('rc-dc-outfmt');
+    const nameInput    = document.getElementById('rc-dc-name');
+
+    function showError(msg){
+      outError.querySelector('p').textContent = msg || 'Conversion failed.';
+      outError.classList.remove('hidden');
+    }
+    function clearError(){ outError.classList.add('hidden'); }
+
+    function setOutputText(txt){
+      outText.value = txt || '';
+    }
+    function setOutputRender(html,fmt){
+      outRender.innerHTML = html || '';
+      outRender.dataset.format = fmt || '';
+    }
+
+    // Drag & drop
+    ;['dragenter','dragover'].forEach(ev=>{
+      dropzone.addEventListener(ev,e=>{
+        e.preventDefault();e.stopPropagation();
+        dropzone.classList.add('rc-dc-dropzone-active');
+      });
+    });
+    ;['dragleave','drop'].forEach(ev=>{
+      dropzone.addEventListener(ev,e=>{
+        e.preventDefault();e.stopPropagation();
+        dropzone.classList.remove('rc-dc-dropzone-active');
+      });
+    });
+    dropzone.addEventListener('drop',e=>{
+      const f = e.dataTransfer?.files?.[0];
+      if (f){ fileInput.files = e.dataTransfer.files; handleFile(f); }
+    });
+    dropzone.addEventListener('click',()=>fileInput.click());
+    dropzone.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change',e=>{
+      const f = e.target.files?.[0]; if(f) handleFile(f);
+    });
+
+    function handleFile(f){
+      const reader = new FileReader();
+      reader.onload = ev=>{
+        const txt = ev.target.result;
+        textInput.value = txt;
+      };
+      reader.readAsText(f);
+    }
+
+    // Clear
+    clearBtn?.addEventListener('click',()=>{
+      textInput.value = '';
+      fileInput.value = '';
+      setOutputText('');
+      setOutputRender('<p class="rc-dc-output-placeholder text-sm">Cleared.</p>');
+      clearError();
+    });
+
+    // Basic client-side "convert" stub (no server call)
+    form?.addEventListener('submit',e=>{
+      // allow normal POST if you want server-side; comment out to use only client
+      // e.preventDefault();
+      // simulate conversion: copy input -> output; if target svg and input mermaid, we mark stub
+      const src = textInput.value.trim();
+      const inFmt  = inFmtSel.value;
+      const outFmt = outFmtSel.value;
+      clearError();
+
+      if (!src){
+        showError('Please upload a file or paste source text.');
+        return;
+      }
+
+      // naive stub
+      if (outFmt === 'mermaid' || outFmt === 'plantuml' || outFmt === 'rcjson'){
+        setOutputText(src);
+        setOutputRender('<p class="rc-dc-output-placeholder text-sm">Text conversion complete (stub).</p>', outFmt);
+      }else if (outFmt === 'svg'){
+        setOutputText('<!-- SVG output stub -->');
+        setOutputRender('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="100%" height="100%" rx="16" fill="pink" /><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16" font-family="sans-serif">SVG stub</text></svg>', 'svg');
+      }else if (outFmt === 'png' || outFmt === 'pdf'){
+        setOutputText('');
+        setOutputRender('<p class="rc-dc-output-placeholder text-sm">Binary download ready (stub).</p>', outFmt);
+      }
+    });
+
+    // Copy
+    copyBtn?.addEventListener('click',()=>{
+      const txt = outText.value;
+      if (!txt) return;
+      navigator.clipboard?.writeText(txt).then(()=>{
+        copyBtn.textContent='Copied!';
+        setTimeout(()=>copyBtn.textContent='Copy',1500);
+      });
+    });
+
+    // Download
+    dlBtn?.addEventListener('click',()=>{
+      const fmt = outRender.dataset.format || outFmtSel.value;
+      let blob, filenameBase = sanitizeName(nameInput.value || 'diagram');
+      if (fmt === 'svg'){
+        blob = new Blob([outRender.innerHTML],{type:'image/svg+xml'});
+        downloadBlob(blob,filenameBase+'.svg');
+      }else if (fmt === 'png'){
+        // quick canvas render of any inline svg stub
+        const svg = outRender.querySelector('svg');
+        if (svg){
+          const data = new XMLSerializer().serializeToString(svg);
+          const url = URL.createObjectURL(new Blob([data],{type:'image/svg+xml'}));
+          const img = new Image();
+          img.onload = ()=>{
+            const c=document.createElement('canvas');
+            c.width=img.width;c.height=img.height;
+            c.getContext('2d').drawImage(img,0,0);
+            c.toBlob(b=>{downloadBlob(b,filenameBase+'.png');URL.revokeObjectURL(url);});
+          };
+          img.src = url;
+        }else{
+          blob = new Blob([outText.value||''],{type:'text/plain'});
+          downloadBlob(blob,filenameBase+'.txt');
         }
-    </script>
-</body>
-</html>
+      }else if(fmt === 'pdf'){
+        blob = new Blob([outText.value||'PDF stub'],{type:'application/pdf'});
+        downloadBlob(blob,filenameBase+'.pdf');
+      }else{
+        blob = new Blob([outText.value||''],{type:'text/plain'});
+        downloadBlob(blob,filenameBase+'.'+fmt);
+      }
+    });
+
+    // Swap
+    swapBtn?.addEventListener('click',()=>{
+      const tmp = textInput.value;
+      textInput.value = outText.value;
+      outText.value = tmp;
+      const tmpFmt = inFmtSel.value;
+      inFmtSel.value = outFmtSel.value;
+      outFmtSel.value = tmpFmt;
+    });
+
+    function downloadBlob(blob,filename){
+      const url = URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download=filename;
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
+    function sanitizeName(n){return (n||'diagram').replace(/[^-_a-z0-9]+/gi,'_');}
+  });
+  </script>
+{% endblock scripts %}

@@ -1,70 +1,239 @@
-{% extends 'base.html' %}
-{% block title %}Search{% endblock %}
-{% block hero_title %}Search Rules{% endblock %}
-{% block hero_subtitle %}Find rules fast with keywords and filters.{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Search | Rules Central{% endblock title %}
+{% block description %}Search rules, diagrams, and activity in Rules Central.{% endblock description %}
+
 {% block content %}
-<section class="u-section py-12">
+<header class="wrapper rc-container pt-24 pb-8 text-center space-y-4 rc-search-hero">
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+    Search
+  </h1>
+  <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+    Find rules, diagrams, or recent activity across your workspace.
+  </p>
 
-  <!-- Search bar -->
-<form action="{{ url_for('main.search') }}" method="get" role="search" class="flex flex-col sm:flex-row gap-3">    <div class="relative flex-1">
-      <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400">
-        <!-- search icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-4.35-4.35M17.65 17.65A8 8 0 1110 2a8 8 0 017.65 15.65z"/>
-        </svg>
-      </span>
-      <input type="text"
-             name="q"
-             value="{{ request.args.get('q', '') }}"
-             placeholder="Search…"
-             class="w-full pl-10 pr-4 py-2 rounded-md border border-slate-600 bg-slate-800 text-slate-100 focus:ring-2 focus:ring-primary-500 focus:outline-none"/>
-    </div>
+  <!-- Unified search + filters form -->
+  {% set q        = request.args.get('q','') %}
+  {% set statuses = request.args.getlist('status') %}
+  <form action="{{ url_for('main.search') }}" method="get" role="search" class="rc-search-form rc-card rc-surface-1">
+    <label for="rc-search-input" class="sr-only">Search Rules Central</label>
+    <input
+      type="search"
+      id="rc-search-input"
+      name="q"
+      value="{{ q }}"
+      placeholder="Search by name, ID, keyword…"
+      class="rc-search-input"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Search Rules Central">
 
-    <button
-      class="px-5 py-2 rounded-md bg-primary-600 hover:bg-primary-500 text-white font-medium transition">
-      Search
-    </button>
+    <!-- Status filters -->
+    <fieldset class="rc-search-filters" aria-label="Status filters">
+      <legend class="sr-only">Filter by status</legend>
+      {% set _active_checked      = 'checked' if 'active'      in statuses else '' %}
+      {% set _deprecated_checked  = 'checked' if 'deprecated'  in statuses else '' %}
+      {% set _draft_checked       = 'checked' if 'draft'       in statuses else '' %}
+      <label class="rc-search-filter">
+        <input type="checkbox" name="status" value="active"     {{ _active_checked }}>Active
+      </label>
+      <label class="rc-search-filter">
+        <input type="checkbox" name="status" value="deprecated" {{ _deprecated_checked }}>Deprecated
+      </label>
+      <label class="rc-search-filter">
+        <input type="checkbox" name="status" value="draft"      {{ _draft_checked }}>Draft
+      </label>
+    </fieldset>
+
+    <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-search-submit">Search</button>
   </form>
+</header>
 
-  <!-- Mobile filter toggle -->
-  <details class="lg:hidden mt-4">
-    <summary class="cursor-pointer text-primary-400 underline">Filters</summary>
-    <ul class="mt-2 space-y-2">
-      <li><label class="flex items-center"><input type="checkbox" name="f1" class="mr-2">Active</label></li>
-      <li><label class="flex items-center"><input type="checkbox" name="f2" class="mr-2">Deprecated</label></li>
-    </ul>
-  </details>
 
-  <div class="flex mt-8 gap-8">
-    <!-- Desktop filters -->
-    <aside class="w-64 shrink-0 hidden lg:block card--glass glassmorphism p-4 rounded-2xl">
-      <h2 class="text-lg font-semibold mb-3">Filters</h2>
-      <ul class="space-y-3">
-        <li><label class="flex items-center"><input type="checkbox" name="f1" class="mr-2">Active</label></li>
-        <li><label class="flex items-center"><input type="checkbox" name="f2" class="mr-2">Deprecated</label></li>
-      </ul>
-    </aside>
-
-    <!-- Search results -->
-    <section class="flex-1">
-      {% if results %}
-        <p class="text-sm text-slate-400 mb-3">{{ results|length }} result{{ 's' if results|length != 1 }}</p>
+{# =========================================================
+   Results
+   `results` iterable expected from view. Each item can be:
+     {title, name, rule_name, url, description, snippet, type}
+   ========================================================= #}
+<section class="wrapper rc-container pb-32 rc-search-results">
+  {% if q %}
+    <header class="mb-6">
+      <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
+        Results for “{{ q }}”
+      </h2>
+      {% if results is defined %}
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          {{ results|length }} match{{ '' if results|length == 1 else 'es' }} found.
+        </p>
       {% endif %}
-      <ul class="divide-y divide-white/10 rounded-xl overflow-hidden card--glass glassmorphism">
-        {% for item in results|default([]) %}
-          <li class="py-4 px-4 hover:bg-white/5 transition group">
-            <a href="#"
-               class="text-primary-400 group-hover:text-primary-300 text-lg font-medium">{{ item.name }}</a>
-            {% if item.description %}
-              <p class="mt-1 text-slate-400 text-sm line-clamp-2">{{ item.description }}</p>
+    </header>
+  {% else %}
+    <header class="mb-6 text-slate-500 dark:text-slate-400">
+      <p class="text-sm">Enter a search term above to begin.</p>
+    </header>
+  {% endif %}
+
+  {% if q and results is defined and results %}
+    <ul class="rc-search-results-list" role="list">
+      {% for item in results %}
+        {% set _title   = item.title or item.name or item.rule_name or 'Untitled' %}
+        {% set _snippet = item.snippet or item.description or '' %}
+        {% set _url     = item.url or url_for('main.catalog') %}
+        {% set _type    = item.type or item.status or 'Result' %}
+        <li class="rc-card rc-search-result group">
+          <a href="{{ _url }}" class="rc-search-result-link">
+            <div class="rc-search-result-top">
+              <span class="rc-search-result-type">{{ _type }}</span>
+              <h3 class="rc-search-result-title">{{ _title }}</h3>
+            </div>
+            {% if _snippet %}
+              <p class="rc-search-result-snippet">{{ _snippet }}</p>
             {% endif %}
-          </li>
-        {% else %}
-          <li class="py-4 px-4 text-slate-400">No results found</li>
-        {% endfor %}
-      </ul>
-    </section>
-  </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif q %}
+    <div class="rc-card rc-search-empty p-10 text-center">
+      <p class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">No results</p>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Try another keyword, or broaden your filters.</p>
+    </div>
+  {% endif %}
 </section>
-{% endblock %}
+{% endblock content %}
+
+
+{% block styles %}
+<style>
+/* --- Search Page Styles -------------------------------------------- */
+.rc-search-form{
+  margin-top:1.5rem;
+  margin-inline:auto;
+  max-width:48rem;
+  padding:1rem;
+  display:grid;
+  grid-template-columns:1fr auto;
+  grid-template-areas:
+    "input  button"
+    "fltrs  fltrs";
+  gap:1rem;
+}
+@media (min-width:640px){
+  .rc-search-form{
+    grid-template-columns:1fr auto auto;
+    grid-template-areas:"input fltrs button";
+    align-items:center;
+  }
+}
+.rc-search-input{
+  grid-area:input;
+  width:100%;
+  padding:.875rem 1.25rem;
+  font-size:1rem;
+  line-height:1.25;
+  border-radius:9999px;
+  border:1px solid var(--rc-border-light,rgba(0,0,0,.15));
+  background:#fff;
+  color:#111827;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+html.dark .rc-search-input{
+  background:rgb(30 41 59/.9);
+  color:#f1f5f9;
+  border-color:var(--rc-border-dark,rgba(255,255,255,.15));
+}
+.rc-search-input:focus{
+  outline:none;
+  border-color:var(--rc-accent,#f43f5e);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--rc-accent,#f43f5e) 35%, transparent);
+}
+
+.rc-search-filters{
+  grid-area:fltrs;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.75rem 1.25rem;
+  justify-content:center;
+  font-size:.875rem;
+  line-height:1.25;
+}
+.rc-search-filter{display:inline-flex;align-items:center;gap:.375rem;cursor:pointer;user-select:none}
+.rc-search-filter input{width:1rem;height:1rem}
+
+.rc-search-submit{
+  grid-area:button;
+  padding:.875rem 1.75rem;
+  font-size:1rem;
+  line-height:1.25;
+}
+
+/* Results ----------------------------------------------------------- */
+.rc-search-results{margin-top:0}
+.rc-search-results-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:1rem;
+}
+.rc-search-result{padding:0}
+.rc-search-result-link{
+  display:block;
+  padding:1.25rem 1.5rem;
+  text-decoration:none;
+  color:inherit;
+}
+.rc-search-result-top{
+  display:flex;
+  align-items:baseline;
+  gap:.75rem;
+  margin-bottom:.25rem;
+  flex-wrap:wrap;
+}
+.rc-search-result-type{
+  font-size:.75rem;
+  line-height:1.25;
+  font-weight:600;
+  padding:.125rem .5rem;
+  border-radius:.375rem;
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%, transparent);
+  color:var(--rc-accent,#f43f5e);
+}
+.rc-search-result-title{
+  font-size:1rem;
+  line-height:1.25;
+  font-weight:600;
+  margin:0;
+}
+.rc-search-result-snippet{
+  margin:0;
+  margin-top:.25rem;
+  font-size:.875rem;
+  line-height:1.4;
+  color:rgb(71 85 105);
+}
+html.dark .rc-search-result-snippet{color:rgb(203 213 225)}
+
+.rc-search-result:hover .rc-search-result-link,
+.rc-search-result-link:focus-visible{
+  background:color-mix(in srgb,var(--rc-accent,#f43f5e) 8%, transparent);
+  outline:none;
+}
+.rc-search-empty p{margin:0}
+</style>
+{% endblock styles %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+  // Auto-submit when filters change (optional progressive enhancement)
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.rc-search-form');
+    if (!form) return;
+    form.querySelectorAll('.rc-search-filter input').forEach(cb=>{
+      cb.addEventListener('change', ()=>form.submit());
+    });
+  });
+  </script>
+{% endblock scripts %}
