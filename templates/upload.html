@@ -1,91 +1,100 @@
 {% extends 'base.html' %}
-{% from 'macros/components.html' import button, alert %}
+
 {% block title %}Upload Diagram | Rules Central{% endblock %}
+{% block description %}Upload a diagram (PNG, JPG, SVG, PDF) and convert it into executable rules.{% endblock description %}
 
 {% block head %}
   {{ super() }}
+  {# Keep project-specific CSS if you still use it; safe to remove later #}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
-{% endblock %}
-
-{% block hero_title %}Upload&nbsp;a&nbsp;Diagram{% endblock %}
-{% block hero_subtitle %}Convert your diagrams into executable rules with our AI-powered system{% endblock %}
+{% endblock head %}
 
 {% block content %}
-<section class="upload-section py-12 md:py-16">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-    <!-- Glass Card Container -->
-    <div class="glass-card p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl backdrop-blur-lg">
-      <!-- Upload Form -->
-      <form id="upload-form"
-            action="{{ url_for('routes.upload_file') }}"
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<section class="wrapper rc-container rc-section pt-16 md:pt-24 pb-12 md:pb-16 text-center relative overflow-hidden rc-hero">
+  <div class="absolute inset-0 rc-hero-bg pointer-events-none" aria-hidden="true"></div>
+  <div class="relative z-10 space-y-6 md:space-y-8 max-w-2xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
+      Upload&nbsp;a&nbsp;Diagram
+    </h1>
+    <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+      Convert your diagrams into executable rules with our AI-powered system.
+    </p>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     UPLOAD CARD
+========================================================= -->
+<section class="wrapper rc-container rc-section py-12 md:py-16">
+  <div class="max-w-3xl mx-auto">
+    <div class="rc-card rc-surface-1 p-6 sm:p-8 md:p-10">
+      <form id="rc-upload-form"
+            action="{{ request.path }}"
             method="post"
             enctype="multipart/form-data"
-            class="space-y-8"
-            x-data="uploadForm()"
-            @submit.prevent="submitForm"
-            aria-labelledby="upload-heading">
-
+            aria-labelledby="rc-upload-heading">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <h2 id="upload-heading" class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
+        
+        <h2 id="rc-upload-heading" class="text-2xl font-bold text-center text-slate-900 dark:text-slate-100 mb-2">
           Upload Your Diagram
         </h2>
-        <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
+        <p class="text-center text-slate-600 dark:text-slate-300 mb-8">
           Supported formats: PNG, JPG, SVG, PDF (Max 10MB)
         </p>
 
         <!-- Drag & Drop Zone -->
-        <div class="upload-zone transition-all duration-300 ease-in-out rounded-xl border-3 border-dashed flex flex-col justify-center items-center"
-             :class="{
-               'border-primary-500 bg-primary-500/10': hover,
-               'border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-800/30': !hover,
-               'border-green-500 bg-green-500/10': file
-             }"
-             @dragover.prevent="hover = true"
-             @dragleave.prevent="hover = false"
-             @drop.prevent="handleDrop($event)"
+        <div id="rc-upload-zone"
+             class="rc-upload-zone transition-all duration-300 ease-in-out rounded-xl border-dashed border-2 flex flex-col justify-center items-center cursor-pointer"
              role="region"
-             aria-describedby="upload-instructions">
-          
+             tabindex="0"
+             aria-describedby="rc-upload-instructions">
           <div class="p-8 md:p-12 text-center">
-            <!-- Upload Icon -->
-            <div class="mx-auto mb-6 h-16 w-16 text-gray-400 dark:text-gray-500 transition-colors"
-                 :class="{'text-primary-500': hover || file}">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <!-- Icon -->
+            <div id="rc-upload-icon" class="mx-auto mb-6 h-16 w-16 text-slate-400 dark:text-slate-500 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
             </div>
 
-            <!-- Instructions -->
-            <div x-show="!file" id="upload-instructions">
-              <p class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Drag & drop your file here
+            <!-- Instructions (shown when no file) -->
+            <div id="rc-upload-instructions">
+              <p class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-2">
+                Drag &amp; drop your file here
               </p>
-              <p class="text-sm text-gray-500 dark:text-gray-400">
-                or <button type="button" 
-                      class="font-semibold text-primary-600 dark:text-primary-400 hover:underline focus:outline-none"
-                      @click="$refs.fileInput.click()">
+              <p class="text-sm text-slate-500 dark:text-slate-400">
+                or <button type="button"
+                           id="rc-browse-btn"
+                           class="font-semibold text-primary-600 dark:text-primary-400 hover:underline focus:outline-none">
                   browse your files
                 </button>
               </p>
             </div>
 
             <!-- Selected File Preview -->
-            <div x-show="file" class="space-y-4">
+            <div id="rc-upload-preview" class="hidden space-y-4">
               <div class="flex items-center justify-center gap-3">
-                <div class="file-icon bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg">
-                  <i class="fas fa-file text-primary-600 dark:text-primary-400 text-xl"></i>
+                <div class="rc-upload-preview-icon p-2 rounded-lg">
+                  <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16h16V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                  </svg>
                 </div>
                 <div class="text-left">
-                  <p class="font-medium text-gray-900 dark:text-white" x-text="file.name"></p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400" x-text="formatFileSize(file.size)"></p>
+                  <p id="rc-upload-filename" class="font-medium text-slate-900 dark:text-slate-100"></p>
+                  <p id="rc-upload-filesize" class="text-xs text-slate-500 dark:text-slate-400"></p>
                 </div>
-                <button type="button" 
-                        class="ml-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                        @click="file = null"
+                <button type="button"
+                        id="rc-remove-file"
+                        class="ml-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                         aria-label="Remove file">
-                  <i class="fas fa-times"></i>
+                  ×
                 </button>
               </div>
             </div>
@@ -93,145 +102,234 @@
             <!-- Hidden file input -->
             <input type="file"
                    name="file"
-                   x-ref="fileInput"
+                   id="rc-file-input"
                    class="sr-only"
-                   accept=".png,.jpg,.jpeg,.svg,.pdf"
-                   @change="file = $refs.fileInput.files[0]">
+                   accept=".png,.jpg,.jpeg,.svg,.pdf">
           </div>
         </div>
 
         <!-- Error Message -->
         {% if error %}
-          {{ alert(error, 'error') }}
+        <div class="mt-6 rc-upload-error" role="alert">
+          <p class="text-sm font-medium text-rose-600 dark:text-rose-400">{{ error }}</p>
+        </div>
         {% endif %}
 
         <!-- Form Actions -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div class="w-full sm:w-auto">
-            {{ button(
-              text='Upload Diagram',
-              style='primary',
-              type='submit',
-              class='w-full sm:w-auto',
-              disabled='isLoading',
-              icon='upload'
-            ) }}
-          </div>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <button type="submit" id="rc-upload-submit"
+                  class="btn-primary rc-cta rc-cta-primary w-full sm:w-auto">
+            Upload Diagram
+          </button>
 
           <!-- Progress Indicator -->
-          <template x-if="isLoading">
-            <div class="flex items-center gap-3">
-              <div class="spinner"></div>
-              <span class="text-sm text-gray-600 dark:text-gray-300">
-                Uploading... <span x-text="progress + '%'" class="font-medium"></span>
-              </span>
-            </div>
-          </template>
+          <div id="rc-upload-indicator" class="hidden flex items-center gap-3">
+            <div class="rc-upload-spinner"></div>
+            <span class="text-sm text-slate-600 dark:text-slate-300">
+              Uploading...
+              <span id="rc-upload-percent" class="font-medium">0%</span>
+            </span>
+          </div>
         </div>
 
         <!-- Progress Bar -->
-        <div class="progress-container transition-opacity duration-300"
-             :class="isLoading ? 'opacity-100' : 'opacity-0'">
-          <div class="progress-track">
-            <div class="progress-fill"
-                 :aria-valuenow="progress"
-                 aria-valuemin="0"
-                 aria-valuemax="100"
-                 role="progressbar"></div>
+        <div id="rc-upload-progress-wrapper"
+             class="mt-6 opacity-0 transition-opacity duration-300"
+             aria-hidden="true">
+          <div class="rc-upload-progress-track">
+            <div id="rc-upload-progress-fill"
+                 class="rc-upload-progress-fill"
+                 role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                 style="width:0%"></div>
           </div>
         </div>
       </form>
     </div>
 
+    {% if help_available %}
     <!-- Help Section -->
     <div class="mt-12 text-center">
-      <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Need help uploading?</h3>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="{{ url_for('routes.full_help') }}#uploading"
-           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
-          <i class="fas fa-book mr-2"></i> Documentation
-        </a>
-        <a href="{{ url_for('collab.faq_page') }}"
-           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
-          <i class="fas fa-question-circle mr-2"></i> Support
-        </a>
-        <a href="{{ url_for('static', filename='js/sample_data/example.json') }}"
-           class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
-          <i class="fas fa-file-image mr-2"></i> Example Files
-        </a>
+      <h3 class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-4">Need help uploading?</h3>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Documentation</a>
+        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Support</a>
+        <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Example Files</a>
       </div>
     </div>
+    {% endif %}
   </div>
 </section>
-{% endblock %}
+{% endblock content %}
+
+
+{% block styles %}
+<style>
+/* --- Upload page styles (fallback + theme aware) ---------------------- */
+.rc-upload-zone{border-color:var(--rc-border-light,rgba(0,0,0,.2));background:rgba(0,0,0,.02)}
+html.dark .rc-upload-zone{border-color:var(--rc-border-dark,rgba(255,255,255,.2));background:rgba(255,255,255,.04)}
+.rc-upload-zone.rc-hover{border-color:var(--rc-accent,#f43f5e);background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent)}
+.rc-upload-zone.rc-hasfile{border-color:rgb(16 185 129);background:color-mix(in srgb,rgb(16 185 129) 12%,transparent)}
+
+.rc-upload-preview-icon{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 15%,transparent);color:var(--rc-accent,#f43f5e)}
+html.dark .rc-upload-preview-icon{background:color-mix(in srgb,var(--rc-accent,#f43f5e) 25%,transparent)}
+
+.rc-upload-spinner{
+  width:1rem;height:1rem;
+  border:2px solid color-mix(in srgb,var(--rc-accent,#f43f5e) 30%,transparent);
+  border-top-color:var(--rc-accent,#f43f5e);
+  border-radius:50%;
+  animation:rc-upload-spin 1s linear infinite;
+}
+@keyframes rc-upload-spin{to{transform:rotate(360deg)}}
+
+.rc-upload-progress-track{
+  position:relative;
+  width:100%;
+  height:.5rem;
+  border-radius:9999px;
+  background:rgba(0,0,0,.08);
+  overflow:hidden;
+}
+html.dark .rc-upload-progress-track{background:rgba(255,255,255,.1)}
+.rc-upload-progress-fill{
+  height:100%;
+  background:var(--rc-accent,#f43f5e);
+  border-radius:inherit;
+  transition:width .15s ease;
+}
+
+.rc-upload-error p{margin:0}
+</style>
+{% endblock styles %}
+
 
 {% block scripts %}
   {{ super() }}
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Upload form Alpine.js component
-      function uploadForm() {
-        return {
-          file: null,
-          hover: false,
-          isLoading: false,
-          progress: 0,
-          error: null,
-          
-          formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-          },
-          
-          handleDrop(e) {
-            this.hover = false;
-            const files = e.dataTransfer.files;
-            if (files.length) {
-              this.file = files[0];
-            }
-          },
-          
-          async submitForm() {
-            if (!this.file) {
-              this.error = 'Please select a file to upload';
-              return;
-            }
-            
-            if (this.file.size > 10 * 1024 * 1024) { // 10MB
-              this.error = 'File size exceeds 10MB limit';
-              return;
-            }
-            
-            this.isLoading = true;
-            this.progress = 0;
-            this.error = null;
-            
-            try {
-              const formData = new FormData(document.getElementById('upload-form'));
-              
-              const response = await fetch(this.$el.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                  'X-Requested-With': 'XMLHttpRequest'
-                }
-              });
-              
-              if (!response.ok) {
-                throw new Error(await response.text());
-              }
-              
-              window.location.href = document.getElementById('uploadData').dataset.redirect;
-            } catch (err) {
-              this.error = err.message || 'Upload failed. Please try again.';
-              this.isLoading = false;
-            }
-          }
-        };
+  document.addEventListener('DOMContentLoaded', () => {
+    const form       = document.getElementById('rc-upload-form');
+    const zone       = document.getElementById('rc-upload-zone');
+    const fileInput  = document.getElementById('rc-file-input');
+    const browseBtn  = document.getElementById('rc-browse-btn');
+    const previewBox = document.getElementById('rc-upload-preview');
+    const fileNameEl = document.getElementById('rc-upload-filename');
+    const fileSizeEl = document.getElementById('rc-upload-filesize');
+    const removeBtn  = document.getElementById('rc-remove-file');
+    const submitBtn  = document.getElementById('rc-upload-submit');
+    const indicator  = document.getElementById('rc-upload-indicator');
+    const percentEl  = document.getElementById('rc-upload-percent');
+    const progressWrap = document.getElementById('rc-upload-progress-wrapper');
+    const progressFill = document.getElementById('rc-upload-progress-fill');
+    const MAX_SIZE   = 10 * 1024 * 1024; // 10MB
+
+    function formatSize(bytes){
+      if (!bytes && bytes !== 0) return '';
+      const k = 1024;
+      const sizes = ['Bytes','KB','MB','GB'];
+      const i = Math.floor(Math.log(bytes)/Math.log(k));
+      return (bytes/Math.pow(k,i)).toFixed(1)+' '+sizes[i];
+    }
+
+    function resetPreview(){
+      previewBox.classList.add('hidden');
+      fileNameEl.textContent = '';
+      fileSizeEl.textContent = '';
+      zone.classList.remove('rc-hasfile');
+    }
+
+    function showPreview(file){
+      previewBox.classList.remove('hidden');
+      fileNameEl.textContent = file.name;
+      fileSizeEl.textContent = formatSize(file.size);
+      zone.classList.add('rc-hasfile');
+    }
+
+    function setHover(on){
+      zone.classList.toggle('rc-hover', on);
+    }
+
+    zone.addEventListener('dragover', e => { e.preventDefault(); setHover(true); });
+    zone.addEventListener('dragleave', e => { e.preventDefault(); setHover(false); });
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      setHover(false);
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) { fileInput.files = e.dataTransfer.files; showPreview(f); }
+    });
+
+    zone.addEventListener('click', () => fileInput.click());
+    zone.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
       }
     });
+    browseBtn?.addEventListener('click', e => { e.preventDefault(); fileInput.click(); });
+
+    fileInput.addEventListener('change', () => {
+      const f = fileInput.files[0];
+      if (f) showPreview(f); else resetPreview();
+    });
+    removeBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      fileInput.value = '';
+      resetPreview();
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = fileInput.files[0];
+      if (!f) { alert('Please select a file to upload.'); return; }
+      if (f.size > MAX_SIZE) { alert('File exceeds 10MB limit.'); return; }
+
+      submitBtn.disabled = true;
+      indicator.classList.remove('hidden');
+      progressWrap.style.opacity = '1';
+      progressWrap.setAttribute('aria-hidden','false');
+
+      const formData = new FormData(form);
+      // NOTE: fetch to form.action (current URL)
+      try {
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {'X-Requested-With':'XMLHttpRequest'}
+        });
+
+        if (!resp.ok) {
+          throw new Error(await resp.text() || 'Upload failed');
+        }
+
+        // Attempt to read redirect target from response JSON (if API returns one)
+        let redirectUrl = '{{ url_for("diagrams.diagram_converter") }}';
+        try {
+          const data = await resp.json();
+          if (data && data.redirect) redirectUrl = data.redirect;
+        } catch (_) {
+          // non-JSON; fall back
+        }
+        window.location.href = redirectUrl;
+      } catch (err) {
+        alert(err.message || 'Upload failed. Please try again.');
+        submitBtn.disabled = false;
+        indicator.classList.add('hidden');
+        progressWrap.style.opacity = '0';
+        progressWrap.setAttribute('aria-hidden','true');
+      }
+    });
+
+    // Fake progress (since fetch won't give upload progress without XHR)
+    // Visual-only; increments until form submission completes.
+    let fake = 0;
+    const fakeTimer = setInterval(()=>{
+      if (submitBtn.disabled){
+        fake = Math.min(fake + Math.random()*10, 95);
+        progressFill.style.width = fake + '%';
+        progressFill.setAttribute('aria-valuenow', fake.toFixed(0));
+        percentEl.textContent = fake.toFixed(0)+'%';
+      }
+    }, 250);
+  });
   </script>
-{% endblock %}
+{% endblock scripts %}
