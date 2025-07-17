@@ -364,16 +364,6 @@ def search():
         abort(500)
 
 
-@main.route("/get-started")
-def get_started():
-    """Guide new users through the basic workflow."""
-    try:
-        return render_template("get_started.html")
-    except Exception as exc:
-        current_app.logger.error("Get Started page error: %s", exc)
-        abort(500)
-
-
 @main.route("/about")
 def about():
     """Display project information and version."""
