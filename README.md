@@ -41,9 +41,11 @@ The dashboard UI now includes animated metrics cards and a handy back-to-top but
 - **API utility** for testing rules
 - **About** page with version info and documentation links
 - **Theme toggle** cycles through Bear, Dark and Light modes
+- **High contrast** option for improved accessibility
 - **Enhanced styling** with gradients, glass cards and focus rings
-
-- **Contact page** for sending feedback
+- **First-time user tour** with contextual tips
+- **Breadcrumb navigation** for easier orientation
+- **Contact page** with floating feedback button for quick responses
 
 ## Requirements
 - Python 3.10+

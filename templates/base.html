@@ -48,13 +48,9 @@
     d.classList.remove('no-js');
 
     function apply(t) {
-      if (t === 'dark') {
-        d.classList.add('dark');
-        d.dataset.theme = 'dark';
-      } else {
-        d.classList.remove('dark');
-        d.dataset.theme = 'light';
-      }
+      d.classList.toggle('dark', t === 'dark');
+      d.classList.toggle('contrast', t === 'contrast');
+      d.dataset.theme = t;
     }
 
     var t = localStorage.getItem(STORAGE_KEY);
@@ -82,20 +78,26 @@
 
   <!-- Skip to content link for accessibility -->
   <a href="#main-content" class="skip-link">Skip to content</a>
+  {% include 'partials/user_tour.html' %}
 
   {% block body_start %}{% endblock body_start %}
 
   {% include 'partials/navbar.html' %}
 
   <main id="main-content" class="flex-1">
+    {% block breadcrumbs %}{% include 'partials/breadcrumbs.html' %}{% endblock %}
     {% block content %}{% endblock content %}
   </main>
 
   {% include 'partials/footer.html' %}
   {% include 'partials/back_to_top.html' %}
+  {% include 'partials/feedback_widget.html' %}
 
   {% block body_end %}{% endblock body_end %}
 
-  {% block scripts %}{% endblock scripts %}
+  {% block scripts %}
+    <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/user_tour.js') }}"></script>
+  {% endblock scripts %}
 </body>
 </html>
