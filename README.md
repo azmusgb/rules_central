@@ -112,7 +112,6 @@ Additional environment variables:
 ## Project structure
 - `app.py` – application factory
 - `wsgi.py` – WSGI entry point for production servers
-- `service.py` – Windows service wrapper
 - `routes/` – all blueprints live in `routes/core.py` with additional routes in `all_routes.py`.
 - The diagrams viewer and converter remain under the `diagrams` blueprint in `core.py`.
 - `templates/` – Jinja2 templates
