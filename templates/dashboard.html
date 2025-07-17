@@ -1,35 +1,50 @@
 {% extends "base.html" %}
 
 {% block title %}Dashboard | Rules Central{% endblock title %}
-{% block description %}Centralized rules management system dashboard{% endblock description %}
+{% block description %}Centralized rules management system dashboard.{% endblock description %}
 
 {% block content %}
 
-<!-- HERO -->
-<section class="wrapper rc-container rc-section pt-12 md:pt-20 pb-16 md:pb-24 text-center relative overflow-hidden rc-hero">
-  <div class="absolute inset-0 rc-hero-bg pointer-events-none" aria-hidden="true"></div>
-  <div class="relative z-10 space-y-6 md:space-y-8">
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500 bg-clip-text text-transparent">
-      Rules Central Dashboard
-    </h1>
-    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-      One glance for everything: totals, trends, and quick actions for your rule library.
+{# ============================================================
+   HERO (Dashboard variant)
+   ============================================================ #}
+<section id="rc-hero" class="rc-hero rc-hero--dashboard" role="region" aria-labelledby="rc-hero-title">
+  <div class="rc-hero-bg" aria-hidden="true"></div>
+  <div class="rc-hero-glow" aria-hidden="true"></div>
+
+  <div class="rc-hero-inner">
+    <div class="rc-hero-badge-wrap">
+      <span class="rc-hero-badge">
+        <span class="rc-hero-badge-dot" aria-hidden="true"></span>
+        <span class="rc-hero-badge-text">Rules Management Dashboard</span>
+      </span>
+    </div>
+
+    <h1 id="rc-hero-title" class="rc-hero-title">Rules Central</h1>
+
+    <p class="rc-hero-subtitle">
+      Manage your rules effortlessly with real-time insights, key metrics, and streamlined workflows.
     </p>
-    <div class="flex flex-wrap gap-3 justify-center pt-2">
-      <a href="{{ url_for('routes.config_page') }}" class="btn-primary rc-cta rc-cta-primary" aria-label="Create new rule">➕&nbsp;New Rule</a>
-      <a href="{{ url_for('main.catalog') }}" class="btn-secondary rc-cta" aria-label="View all rules">📚&nbsp;View All</a>
+
+    <div class="rc-hero-actions">
+      <a href="{{ url_for('routes.config_page') }}" class="rc-btn rc-btn-primary" aria-label="Create new rule">New Rule</a>
+      <a href="{{ url_for('main.catalog') }}" class="rc-btn rc-btn-outline" aria-label="View all rules">View Catalog</a>
+      <a href="#quick-actions" class="rc-btn rc-btn-text">Quick Tour</a>
     </div>
   </div>
 </section>
 
-<!-- METRICS -->
-<section id="metrics" class="wrapper rc-container rc-section py-10 md:py-14 space-y-6 animate__animated animate__fadeInUp">
-  <div class="flex items-center justify-between flex-wrap gap-4">
-    <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-      <span aria-hidden="true">📈</span>
-      <span>Key Metrics</span>
+
+{# ============================================================
+   METRICS
+   ============================================================ #}
+<section id="metrics" class="wrapper rc-container rc-section rc-metrics">
+  <div class="rc-section-head">
+    <h2 class="rc-section-title">
+      <span aria-hidden="true" class="rc-section-ico">📈</span>
+      Key Metrics
     </h2>
-    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+    <div class="rc-section-sub">
       <span aria-hidden="true">🕒</span>
       Last updated:
       <span class="font-medium">
@@ -37,17 +52,21 @@
           {{ last_updated.strftime('%b %d, %Y %I:%M %p') }}
         {% else %}—{% endif %}
       </span>
+      <button id="rc-metrics-refresh" type="button" class="rc-mini-btn" aria-label="Refresh metrics">Refresh</button>
     </div>
   </div>
 
+  {# Metric card macro -------------------------------------- #}
   {% macro mcard(label, value, accent='', link=None, svg=None, trend=None) %}
-    <div class="rc-card rc-metric group {{ accent }} {{ 'rc-card-link' if link }}">
-      {% if link %}<a href="{{ link }}" class="absolute inset-0 z-10 sr-only-focusable" aria-label="{{ label }}"></a>{% endif %}
-      <div class="p-5 relative z-0">
-        <div class="flex justify-between items-start">
+    <div class="rc-card rc-metric {{ accent }} {% if link %}rc-card-link{% endif %}">
+      {% if link %}
+        <a href="{{ link }}" class="absolute inset-0 z-10 sr-only-focusable" aria-label="{{ label }}"></a>
+      {% endif %}
+      <div class="rc-metric-body">
+        <div class="rc-metric-top">
           <div>
-            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{{ label }}</p>
-            <p class="rc-metric-value text-4xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 leading-none">{{ value|default(0) }}</p>
+            <p class="rc-metric-label">{{ label }}</p>
+            <p class="rc-metric-value">{{ value|default(0) }}</p>
           </div>
           <div class="rc-metric-icon">
             {% if svg %}{{ svg|safe }}{% else %}<span aria-hidden="true">•</span>{% endif %}
@@ -57,38 +76,39 @@
           {% if trend is mapping %}
             {% set pct = trend.get('pct', 0) %}
             {% set up = trend.get('is_up', pct >= 0) %}
-            <p class="mt-3 text-xs font-medium {{ 'text-emerald-600 dark:text-emerald-400' if up else 'text-rose-600 dark:text-rose-400' }}">{{ pct|round(1) }}% vs previous</p>
+            <p class="rc-metric-trend {{ 'rc-metric-up' if up else 'rc-metric-down' }}">{{ pct|round(1) }}% vs previous</p>
           {% else %}
-            <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">{{ trend }}</p>
+            <p class="rc-metric-trend">{{ trend }}</p>
           {% endif %}
         {% else %}
-          <p class="mt-3 text-xs text-transparent select-none" aria-hidden="true">&nbsp;</p>
+          <p class="rc-metric-trend rc-metric-trend-empty" aria-hidden="true">&nbsp;</p>
         {% endif %}
       </div>
     </div>
   {% endmacro %}
 
+  {# Small reusable SVGs ------------------------------------ #}
   {% set svg_rules %}
-    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-      <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-      <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-      <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
     </svg>
   {% endset %}
   {% set svg_cal %}
-    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-      <line x1="16" y1="2" x2="16" y2="6"></line>
-      <line x1="8" y1="2" x2="8" y2="6"></line>
-      <line x1="3" y1="10" x2="21" y2="10"></line>
-      <path d="M8 14h2v2H8zM12 14h2v2h-2zM16 14h2v2h-2z"></path>
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8"  y1="2" x2="8"  y2="6"/>
+      <line x1="3"  y1="10" x2="21" y2="10"/>
+      <path d="M8 14h2v2H8zM12 14h2v2h-2zM16 14h2v2h-2z"/>
     </svg>
   {% endset %}
 
-  <div class="grid rc-grid-auto rc-metrics-grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="rc-metrics-grid">
     {{ mcard('Total Rules',
              stats.total_rules if stats and 'total_rules' in stats else 0,
              'rc-accent-primary',
@@ -118,50 +138,70 @@
   </div>
 </section>
 
-<!-- TREND -->
-<section aria-labelledby="trend-heading" class="wrapper rc-container rc-section space-y-6 animate__animated animate__fadeInUp">
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <h2 id="trend-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-      <span aria-hidden="true">📊</span>
+
+{# ============================================================
+   TREND
+   ============================================================ #}
+<section id="trend" aria-labelledby="trend-heading" class="wrapper rc-container rc-section rc-trend">
+  <div class="rc-section-head rc-section-head-split">
+    <h2 id="trend-heading" class="rc-section-title">
+      <span aria-hidden="true" class="rc-section-ico">📊</span>
       Rule Change Trends
     </h2>
-    <div class="flex gap-2 p-1 rc-toggle-pill">
-      <button data-range="30d" class="rc-toggle active">30D</button>
-      <button data-range="90d" class="rc-toggle">90D</button>
-      <button data-range="1y"  class="rc-toggle">1Y</button>
+    <div class="rc-toggle-pill" role="group" aria-label="Select time range for trend chart">
+      <button data-range="30d" class="rc-toggle active" type="button">30D</button>
+      <button data-range="90d" class="rc-toggle" type="button">90D</button>
+      <button data-range="1y"  class="rc-toggle" type="button">1Y</button>
     </div>
   </div>
-  <div class="chart-container rc-card rc-surface-1 p-4">
+  <div class="rc-card rc-surface-1 rc-chart-wrap">
     <canvas id="rulesTrendChart" aria-label="Rule change trends chart" role="img" height="320"></canvas>
   </div>
 </section>
 
-<!-- QUICK ACTIONS -->
-<section id="quick-actions" aria-labelledby="actions-heading" class="wrapper rc-container rc-section space-y-6 animate__animated animate__fadeInUp rc-quick-actions">
-  <h2 id="actions-heading" class="text-xl font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-    <span aria-hidden="true">⚡</span>
-    Quick Actions
-  </h2>
-  <div class="grid rc-grid-auto rc-qa-grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    <a href="{{ url_for('upload.upload_file') }}" class="rc-card rc-qa-card group hover:-translate-y-1 hover:shadow-xl transition-all duration-200" aria-label="Import rules">
-      <div class="flex items-center gap-4">
-        <span class="rc-qa-icon rc-accent-violet" aria-hidden="true">📥</span>
-        <span class="font-semibold">Import Rules</span>
-        <span class="ml-auto opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">›</span>
+
+{# ============================================================
+   QUICK ACTIONS (+ anchor for quick-tour)
+   ============================================================ #}
+<section id="quick-actions" aria-labelledby="actions-heading" class="wrapper rc-container rc-section rc-quick-actions">
+  <div class="rc-section-head">
+    <h2 id="actions-heading" class="rc-section-title">
+      <span aria-hidden="true" class="rc-section-ico">⚡</span>
+      Quick Actions &amp; Tools
+    </h2>
+    <p class="rc-section-sub">Jump right in with the most common tasks.</p>
+  </div>
+  <div class="rc-qa-grid">
+    <a href="{{ url_for('upload.upload_file') }}" class="rc-card rc-qa-card rc-qa-import" aria-label="Import rules">
+      <div class="rc-qa-card-inner">
+        <span class="rc-qa-ico" aria-hidden="true">📥</span>
+        <span class="rc-qa-textwrap">
+          <span class="rc-qa-text">Import Rules</span>
+          <span class="rc-qa-desc">CSV / Excel bulk import</span>
+        </span>
+        <span class="rc-qa-arrow" aria-hidden="true">›</span>
       </div>
     </a>
-    <a href="{{ url_for('diagrams.diagram_converter') }}" class="rc-card rc-qa-card group hover:-translate-y-1 hover:shadow-xl transition-all duration-200" aria-label="Generate diagram">
-      <div class="flex items-center gap-4">
-        <span class="rc-qa-icon rc-accent-amber" aria-hidden="true">🧩</span>
-        <span class="font-semibold">Generate Diagram</span>
-        <span class="ml-auto opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">›</span>
+
+    <a href="{{ url_for('diagrams.diagram_converter') }}" class="rc-card rc-qa-card rc-qa-diagram" aria-label="Generate diagram">
+      <div class="rc-qa-card-inner">
+        <span class="rc-qa-ico" aria-hidden="true">🧩</span>
+        <span class="rc-qa-textwrap">
+          <span class="rc-qa-text">Generate Diagram</span>
+          <span class="rc-qa-desc">Visualize rule relationships</span>
+        </span>
+        <span class="rc-qa-arrow" aria-hidden="true">›</span>
       </div>
     </a>
-    <a href="{{ url_for('routes.activity') }}" class="rc-card rc-qa-card group hover:-translate-y-1 hover:shadow-xl transition-all duration-200" aria-label="View analytics">
-      <div class="flex items-center gap-4">
-        <span class="rc-qa-icon rc-accent-blue" aria-hidden="true">📈</span>
-        <span class="font-semibold">View Analytics</span>
-        <span class="ml-auto opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">›</span>
+
+    <a href="{{ url_for('routes.full_help') }}" class="rc-card rc-qa-card rc-qa-docs" aria-label="Documentation">
+      <div class="rc-qa-card-inner">
+        <span class="rc-qa-ico" aria-hidden="true">📖</span>
+        <span class="rc-qa-textwrap">
+          <span class="rc-qa-text">Documentation</span>
+          <span class="rc-qa-desc">Guides &amp; API references</span>
+        </span>
+        <span class="rc-qa-arrow" aria-hidden="true">›</span>
       </div>
     </a>
   </div>
@@ -169,61 +209,233 @@
 
 {% endblock content %}
 
+
+{# ============================================================
+   PAGE STYLES
+   (Scoped fallback styles; lean—rely on global tokens when present)
+   ============================================================ #}
 {% block styles %}
+<style>
+/* ---------- Hero (Dashboard) ---------- */
+.rc-hero{position:relative;isolation:isolate;text-align:center;padding-top:var(--rc-hero-pad-top,6rem);padding-bottom:var(--rc-hero-pad-btm,4rem)}
+.rc-hero-bg{position:absolute;inset:0;z-index:-2;background:var(--rc-hero-bg,linear-gradient(180deg,rgba(255,255,255,0)0%,rgba(0,0,0,.35)100%))}
+html.dark .rc-hero-bg{background:linear-gradient(180deg,rgba(255,255,255,.05)0%,rgba(0,0,0,.8)100%)}
+.rc-hero-glow{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 50% 20%,rgba(244,63,94,.35),transparent 60%)}
+.rc-hero-inner{max-width:60rem;margin-inline:auto;padding-inline:clamp(1rem,3vw,2rem);display:grid;gap:1.25rem;justify-items:center}
+.rc-hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .75rem;border-radius:1rem;font-size:.75rem;font-weight:600;color:#f43f5e;background:rgba(244,63,94,.15)}
+html.dark .rc-hero-badge{color:#fff;background:rgba(244,63,94,.25)}
+.rc-hero-title{margin:0;font-size:clamp(2.75rem,5vw,4rem);font-weight:800;line-height:1.1;color:rgb(30 41 59)}
+html.dark .rc-hero-title{color:#fff}
+.rc-hero-subtitle{margin:0;font-size:1.125rem;max-width:40rem;color:rgb(100 116 139)}
+html.dark .rc-hero-subtitle{color:rgb(203 213 225)}
+.rc-hero-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:.5rem}
+
+/* Generic button + hero variants */
+.rc-btn{display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:.9375rem;line-height:1;text-decoration:none;padding:var(--pad-y,.625rem) var(--pad-x,1.25rem);border-radius:9999px;transition:background .12s ease,border-color .12s ease,transform .12s ease;cursor:pointer;border:2px solid transparent}
+.rc-btn:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.rc-btn:hover{transform:translateY(-1px)}
+.rc-btn-primary{--pad-y:.875rem;--pad-x:2rem;color:#fff;background:#f43f5e;border-color:#f43f5e;box-shadow:0 2px 8px rgba(244,63,94,.45)}
+.rc-btn-primary:hover,.rc-btn-primary:focus-visible{background:#e11d48;border-color:#e11d48;box-shadow:0 4px 16px rgba(244,63,94,.65);outline:none}
+.rc-btn-outline{--pad-y:.875rem;--pad-x:2rem;color:#f43f5e;background:transparent;border-color:#f43f5e}
+.rc-btn-outline:hover,.rc-btn-outline:focus-visible{background:rgba(244,63,94,.1);outline:none}
+html.dark .rc-btn-outline{color:#fff;border-color:#fff}
+html.dark .rc-btn-outline:hover{background:rgba(255,255,255,.1)}
+.rc-btn-text{--pad-y:.25rem;--pad-x:.5rem;color:#2563eb;background:transparent;border:none;font-weight:600;font-size:.9375rem;padding-inline:.5rem}
+.rc-btn-text:hover,.rc-btn-text:focus-visible{text-decoration:underline;transform:none;outline:none}
+html.dark .rc-btn-text{color:#93c5fd}
+
+/* ---------- Shared section head ---------- */
+.rc-section-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.rc-section-head-split{align-items:flex-start}
+.rc-section-title{margin:0;font-size:1.25rem;font-weight:700;color:rgb(30 41 59)}
+html.dark .rc-section-title{color:rgb(241 245 249)}
+.rc-section-ico{font-size:1.25em;line-height:1}
+.rc-section-sub{font-size:.8125rem;color:rgb(100 116 139);display:flex;align-items:center;gap:.25rem;flex-wrap:wrap}
+html.dark .rc-section-sub{color:rgb(148 163 184)}
+.rc-mini-btn{padding:0 .5rem;height:1.25rem;font-size:.75rem;line-height:1;border-radius:.25rem;border:1px solid var(--rc-border-light,rgba(0,0,0,.2));background:transparent;color:inherit;cursor:pointer}
+html.dark .rc-mini-btn{border-color:var(--rc-border-dark,rgba(255,255,255,.25))}
+
+/* ---------- Metrics grid ---------- */
+.rc-metrics{padding-block:2.5rem}
+.rc-metrics-grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr));align-items:stretch}
+.rc-metric-body{position:relative;padding:1.25rem;display:grid;gap:.75rem}
+.rc-metric-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.rc-metric-label{margin:0;font-size:.875rem;font-weight:600;color:rgb(100 116 139)}
+html.dark .rc-metric-label{color:rgb(148 163 184)}
+.rc-metric-value{margin:0;font-size:2.25rem;font-weight:700;line-height:1;color:rgb(30 41 59)}
+html.dark .rc-metric-value{color:rgb(241 245 249)}
+.rc-metric-trend{margin:0;font-size:.75rem;font-weight:600}
+.rc-metric-up{color:rgb(16 185 129)}
+.rc-metric-down{color:rgb(244 63 94)}
+.rc-metric-trend-empty{color:transparent;user-select:none}
+.rc-metric-icon{line-height:0}
+.rc-ico{width:1.25rem;height:1.25rem}
+.rc-card-link{position:relative}
+.rc-card-link>a:focus-visible{outline:2px solid var(--rc-accent,#f43f5e);outline-offset:2px}
+
+/* Accent swatches */
+.rc-accent-primary{--rc-card-border:color-mix(in srgb,#f43f5e 35%,transparent)}
+.rc-accent-amber{--rc-card-border:color-mix(in srgb,#fbbf24 35%,transparent)}
+.rc-accent-rose{--rc-card-border:color-mix(in srgb,#fb7185 35%,transparent)}
+.rc-accent-indigo{--rc-card-border:color-mix(in srgb,#818cf8 35%,transparent)}
+.rc-metric{border:1px solid var(--rc-card-border,rgba(0,0,0,.08));border-radius:1rem;background:var(--rc-surface-1-light,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+html.dark .rc-metric{background:rgb(30 41 59/.85);border-color:var(--rc-card-border,rgba(255,255,255,.08))}
+
+/* ---------- Trend chart ---------- */
+.rc-trend{padding-block:2.5rem}
+.rc-toggle-pill{display:inline-flex;padding:.25rem;border-radius:9999px;background:var(--rc-surface-2-light,#f1f5f9);border:1px solid var(--rc-border-light,rgba(0,0,0,.1))}
+html.dark .rc-toggle-pill{background:rgb(30 41 59/.7);border-color:var(--rc-border-dark,rgba(255,255,255,.15))}
+.rc-toggle{padding:.25rem .75rem;font-size:.8125rem;font-weight:600;border:none;background:transparent;border-radius:9999px;cursor:pointer;transition:all .12s ease;color:inherit}
+.rc-toggle.active{color:#fff;background:var(--rc-accent,#f43f5e)}
+.rc-chart-wrap{padding:1rem;border-radius:1rem}
+.rc-chart-wrap canvas{width:100%!important;height:320px!important}
+
+/* ---------- Quick Actions ---------- */
+.rc-quick-actions{padding-block:2.5rem}
+.rc-qa-grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr))}
+.rc-qa-card{position:relative;padding:1.5rem;border-radius:1rem;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease;cursor:pointer}
+.rc-qa-card:hover,.rc-qa-card:focus-visible{transform:translateY(-4px);box-shadow:0 10px 24px -8px rgba(0,0,0,.3);outline:none}
+.rc-qa-card-inner{display:flex;align-items:center;gap:1rem;font-weight:600;font-size:1.0625rem;width:100%}
+.rc-qa-ico{font-size:1.5rem;line-height:1}
+.rc-qa-textwrap{display:grid;gap:.25rem;text-align:left}
+.rc-qa-text{font-weight:700;font-size:1.0625rem;color:rgb(30 41 59)}
+html.dark .rc-qa-text{color:rgb(241 245 249)}
+.rc-qa-desc{font-size:.875rem;font-weight:400;color:rgb(100 116 139)}
+html.dark .rc-qa-desc{color:rgb(148 163 184)}
+.rc-qa-arrow{margin-left:auto;opacity:.5;transition:opacity .12s ease}
+.rc-qa-card:hover .rc-qa-arrow,.rc-qa-card:focus-visible .rc-qa-arrow{opacity:1}
+.rc-qa-import{--qa-base:#8b5cf6;background:color-mix(in srgb,var(--qa-base) 10%,#fff);border:1px solid color-mix(in srgb,var(--qa-base) 35%,transparent)}
+.rc-qa-diagram{--qa-base:#fbbf24;background:color-mix(in srgb,var(--qa-base) 10%,#fff);border:1px solid color-mix(in srgb,var(--qa-base) 35%,transparent)}
+.rc-qa-docs{--qa-base:#38bdf8;background:color-mix(in srgb,var(--qa-base) 10%,#fff);border:1px solid color-mix(in srgb,var(--qa-base) 35%,transparent)}
+html.dark .rc-qa-import{background:color-mix(in srgb,var(--qa-base) 15%,rgb(30 41 59 / .85))}
+html.dark .rc-qa-diagram{background:color-mix(in srgb,var(--qa-base) 15%,rgb(30 41 59 / .85))}
+html.dark .rc-qa-docs{background:color-mix(in srgb,var(--qa-base) 15%,rgb(30 41 59 / .85))}
+
+/* ---------- Hero overrides specific to dashboard ---------- */
+.rc-hero--dashboard{--rc-hero-pad-top:clamp(5.5rem,9vh,7.5rem);--rc-hero-pad-btm:clamp(3rem,6vh,4.5rem)}
+
+/* ---------- Layout Polish Overrides (cascade) ---------- */
+/* Consistent section rhythm */
+.rc-section{margin-block:clamp(3rem,6vh,4.5rem)}
+
+/* Tighter head spacing */
+.rc-section-head{margin-bottom:1.5rem}
+
+/* More air below hero before metrics */
+.rc-metrics{margin-top:clamp(2.5rem,5vh,4rem)}
+
+/* Metric card sizing */
+.rc-metric-body{min-block-size:8.5rem}
+@media (min-width:640px){
+  .rc-metric-body{min-block-size:7.5rem}
+}
+.rc-metric-value{font-size:clamp(1.75rem,3vw,2.25rem)}
+
+/* Larger tap targets */
+.rc-hero-actions .rc-btn{min-height:44px}
+.rc-mini-btn{min-height:24px}
+
+/* Quick Actions refinements */
+.rc-qa-card{padding-block:2rem}
+@media (min-width:640px){
+  .rc-qa-grid{grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
+}
+
+/* Section anchor offset for fixed nav */
+#metrics,#trend,#quick-actions,#rc-hero{scroll-margin-top:calc(var(--rc-nav-h,3.5rem) + 1rem)}
+</style>
 {% endblock styles %}
 
+
+{# ============================================================
+   PAGE SCRIPTS
+   ============================================================ #}
 {% block scripts %}
   {{ super() }}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const toggles = document.querySelectorAll('.rc-toggle-pill .rc-toggle');
-      let currentRange = '30d';
-      toggles.forEach(btn => {
-        btn.addEventListener('click', () => {
-          toggles.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentRange = btn.dataset.range;
-          // TODO: Fetch & update chart for currentRange
-        });
+  document.addEventListener('DOMContentLoaded', () => {
+    /* ----- Metrics Refresh ---------------------------------- */
+    const refreshBtn = document.getElementById('rc-metrics-refresh');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        // Hit dashboard endpoint w/ fetch expecting JSON {stats:{...},last_updated:...}
+        fetch('{{ url_for("main.index") }}?format=json', {headers:{'Accept':'application/json'}})
+          .then(r => r.ok ? r.json() : Promise.reject(r))
+          .then(data => {
+            if (!data.stats) return;
+            // Update metric values if elements present
+            const map = {
+              'Total Rules': data.stats.total_rules ?? 0,
+              'Changed · 7 Days': data.stats.changed_7d ?? 0,
+              'Changed · 30 Days': data.stats.changed_30d ?? 0,
+              'Changed · 90 Days': data.stats.changed_90d ?? 0
+            };
+            document.querySelectorAll('.rc-metric').forEach(card => {
+              const label = card.querySelector('.rc-metric-label')?.textContent?.trim();
+              if (label in map) {
+                const el = card.querySelector('.rc-metric-value');
+                if (el) el.textContent = map[label];
+              }
+            });
+          })
+          .catch(() => {/* fail silent */});
       });
+    }
 
-      const ctx = document.getElementById('rulesTrendChart');
-      if (!ctx) return;
+    /* ----- Trend Chart ------------------------------------- */
+    const ctx = document.getElementById('rulesTrendChart');
+    if (!ctx) return;
+    const trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};
+    const {labels,counts} = (()=>{
+      const L = [], C = [];
+      (trendData||[]).forEach(d=>{
+        L.push(d.label || d.date || '');
+        C.push(d.count ?? d.value ?? 0);
+      });
+      return {labels:L,counts:C};
+    })();
 
-      const trendData = {{ trend_data|tojson|default('[]', true) }};
-      const labels = trendData.map(d => d.label || d.date || '');
-      const counts = trendData.map(d => d.count || d.value || 0);
-
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Rule Changes',
-            data: counts,
-            borderColor: '#f43f5e',
-            backgroundColor: 'rgba(244,63,94,.15)',
-            borderWidth: 2,
-            tension: 0.3,
-            fill: true,
-            pointBackgroundColor: '#fff',
-            pointBorderColor: '#f43f5e',
-            pointBorderWidth: 2,
-            pointRadius: 3,
-            pointHoverRadius: 5
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { color: '#6b7280' } },
-            y: { grid: { color: 'rgba(229,231,235,.3)' }, ticks: { color: '#6b7280' }, beginAtZero: true }
-          }
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Rule Changes',
+          data: counts,
+          borderColor: '#f43f5e',
+          backgroundColor: 'rgba(244,63,94,.15)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#f43f5e',
+          pointBorderWidth: 2,
+          pointRadius: 3,
+          pointHoverRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#6b7280' } },
+          y: { grid: { color: 'rgba(229,231,235,.3)' }, ticks: { color: '#6b7280' }, beginAtZero: true }
         }
+      }
+    });
+
+    /* Toggle range (demo only; integrate real data server-side) */
+    document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const range=btn.dataset.range;
+        // TODO: fetch/replace dataset; for now animate highlight only
+        chart.update();
       });
     });
+  });
   </script>
 {% endblock scripts %}
