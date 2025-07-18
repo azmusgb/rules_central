@@ -1,329 +1,4 @@
 /* ==========================================================================
-   Rules Central - Modern Consolidated Stylesheet
-   ========================================================================== */
-
-/**
- * Table of Contents:
- * 1. CSS Custom Properties (Variables)
- * 2. Base Reset & Normalization
- * 3. Typography
- * 4. Layout & Structure
- * 5. Components (Buttons, Cards, etc.)
- * 6. Utility Classes
- * 7. Animations
- * 8. Dark Mode
- * 9. Responsive Overrides
- */
-
-/* ==========================================================================
-   1. CSS Custom Properties (Variables)
-   ========================================================================== */
-
-
-/* ==========================================================================
-   2. Base Reset & Normalization
-   ========================================================================== */
-
-/* Modern CSS Reset (https://github.com/andy-piccalilli/modern-css-reset) */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* Remove default margin and padding */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-/* Set core body defaults */
-body {
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  text-rendering: optimizeSpeed;
-  line-height: var(--line-height-base);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Remove list styles on ul, ol elements */
-ul, ol {
-  list-style: none;
-}
-
-/* Make images easier to work with */
-img, picture {
-  max-width: 100%;
-  display: block;
-}
-
-/* Inherit fonts for inputs and buttons */
-input, button, textarea, select {
-  font: inherit;
-}
-
-/* Remove all animations and transitions for reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ==========================================================================
-   3. Typography
-   ========================================================================== */
-
-body {
-  font-family: var(--font-base);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  background-image: var(--gradient-background);
-  font-weight: var(--font-weight-normal);
-}
-
-/* Heading styles with fluid typography */
-h1, h2, h3, h4, h5, h6 {
-  line-height: var(--line-height-heading);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-sm);
-  color: var(--color-text);
-}
-
-h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: var(--font-weight-extrabold);
-}
-
-h2 {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-}
-
-h3 {
-  font-size: clamp(1.5rem, 3vw, 1.75rem);
-  font-weight: var(--font-weight-semibold);
-}
-
-h4 {
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-}
-
-p {
-  margin-bottom: var(--space-md);
-  font-size: 1rem;
-  color: var(--color-text);
-}
-
-/* Text utilities */
-.text-secondary {
-  color: var(--color-text-secondary);
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* ==========================================================================
-   4. Layout & Structure
-   ========================================================================== */
-
-.wrapper {
-  width: 100%;
-  max-width: var(--rc-max-w, 64em);
-  margin: 0 auto;
-  padding: 0 var(--space-md);
-}
-
-/* ==========================================================================
-   5. Components
-   ========================================================================== */
-
-/* Buttons */
-.button {
-  --button-bg: var(--color-primary);
-  --button-text: white;
-  
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-sm) var(--space-md);
-  background: var(--button-bg);
-  color: var(--button-text);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
-  will-change: transform;
-}
-
-.button:hover {
-  --button-bg: var(--color-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.button:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Cards */
-.card {
-  background: var(--color-background);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: var(--space-md);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-  margin-bottom: var(--space-xl);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.glass-card {
-  backdrop-filter: blur(10px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.55);
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(255, 255, 255, 0.125);
-}
-
-/* Navigation */
-.nav-link {
-  position: relative;
-  color: var(--color-text);
-  font-weight: var(--font-weight-medium);
-  transition: color var(--transition-base);
-}
-
-.nav-link:hover {
-  color: var(--color-primary);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 8px;
-  left: 1rem;
-  right: 1rem;
-  height: 2px;
-  background-color: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-bounce);
-}
-
-.nav-link:hover::after,
-[aria-current="page"].nav-link::after {
-  transform: scaleX(1);
-}
-
-/* ==========================================================================
-   6. Utility Classes
-   ========================================================================== */
-
-/* Spacing utilities */
-.mb-1 { margin-bottom: var(--space-xs); }
-.mb-2 { margin-bottom: var(--space-sm); }
-.mb-3 { margin-bottom: var(--space-md); }
-.mb-4 { margin-bottom: var(--space-lg); }
-
-/* Visibility utilities */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ==========================================================================
-   7. Animations
-   ========================================================================== */
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fade-in 0.6s var(--transition-base) forwards;
-}
-
-@keyframes skeleton-pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-
-.skeleton-loader {
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
-}
-
-/* ==========================================================================
-   8. Dark Mode
-   ========================================================================== */
-
-/* ======================================================================
-   9. Responsive Overrides
-   ======================================================================
-*/
-
-@media (max-width: 48em) {
-  .wrapper {
-    padding: 0 var(--space-sm);
-  }
-  
-  .card {
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
-  }
-}
-
-/* ==========================================================================
-   Template Overrides
-   ========================================================================== */
-
-:root {
-  --rc-body-bg-light: #fafafa;
-  --rc-body-fg-light: #1a1a1a;
-  --rc-body-bg-dark: #1c1c1f;
-  --rc-body-fg-dark: #f1f5f9;
-  --rc-accent: #f43f5e;
-  --rc-max-w: 1280px;
-}
-
-html.no-js body {
-  visibility: visible;
-}
-
-body {
-  background: var(--rc-body-bg-light);
-  color: var(--rc-body-fg-light);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-html.dark body {
-  background: var(--rc-body-bg-dark);
-  color: var(--rc-body-fg-dark);
-}
-/* ==========================================================================
    Rules Central - Enhanced Consolidated Stylesheet
    ========================================================================== */
 
@@ -354,69 +29,42 @@ html.dark body {
   /* Color System */
   --color-primary: #f43f5e; /* RC Accent */
   --color-primary-hover: #e11d48;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #4b5563;
-  --color-text-tertiary: #9ca3af;
-  --color-background: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-tertiary: #e9ecef;
-  --color-stroke: #e5e7eb;
-  --color-focus-ring: rgba(244, 63, 94, 0.5);
-  
+
+  /* Typography & Ink */
+  --color-text: #111827;                 /* slate‑900 */
+  --color-text-secondary: #475569;       /* slate‑600 */
+  --color-text-tertiary: #64748b;        /* slate‑500 */
+
+  /* Backgrounds */
+  --color-background: #fcfcfd;
+  --color-background-secondary: #f8f9fc;
+  --color-background-tertiary: #eef2f8;
+  --color-stroke: #e2e8f0;               /* slate‑200 */
+  --color-focus-ring: rgba(244, 63, 94, 0.45);
+
+  /* --- Surfaces & Ink (light) ------------------------------ */
+  --surface-0: #ffffff;   /* pure canvas */
+  --surface-1: #f8fafc;   /* page / paper */
+  --surface-2: #f1f5f9;   /* card */
+  --surface-3: #e2e8f0;   /* raised */
+
+  --ink-900: #111827;     /* main text */
+  --ink-600: #334155;     /* secondary */
+  --ink-400: #64748b;     /* tertiary */
+
   /* Dark Mode Colors */
   --color-dark-text: #f3f4f6;
   --color-dark-text-secondary: #9ca3af;
   --color-dark-background: #111827;
   --color-dark-background-secondary: #1f2937;
   --color-dark-stroke: #374151;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --shadow-card: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
-  
-  /* Transitions */
-  --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-  
-  /* Spacing */
-  --space-unit: 1rem;
-  --space-xs: calc(0.5 * var(--space-unit));
-  --space-sm: calc(0.75 * var(--space-unit));
-  --space-md: calc(1.25 * var(--space-unit));
-  --space-lg: calc(2 * var(--space-unit));
-  --space-xl: calc(3.25 * var(--space-unit));
-  
-  /* Typography */
-  --font-base: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --line-height-base: 1.6;
-  --line-height-heading: 1.2;
-  
-  /* Borders */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-full: 9999px;
-  
-  /* Layout */
-  --max-width: 1280px;
-  --gutter: clamp(1rem, 4vw, 2rem);
-  
-  /* Gradients */
-  --gradient-background: linear-gradient(135deg, #FFF6F6 0%, #F8FBFF 100%);
-  --gradient-hero-light: linear-gradient(135deg, rgba(244,63,94,.1), rgba(59,130,246,.1));
-  --gradient-hero-dark: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  --gradient-radial-light: radial-gradient(circle at 50% 0%, rgba(244,63,94,.25), transparent 70%);
-  --gradient-radial-dark: radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 70%);
+
+  /* Gradients & Shadows */
+  --gradient-background: linear-gradient(135deg, #ffffff 0%, #f7faff 100%);
+  --gradient-hero-light: linear-gradient(135deg, rgba(244,63,94,.015), rgba(59,130,246,.015));
+  --gradient-radial-light: radial-gradient(circle at 50% 15%, rgba(244,63,94,.05), transparent 70%);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 6px 18px -8px rgba(0, 0, 0, 0.06);
 }
 
 /* ==========================================================================
@@ -553,7 +201,7 @@ p {
 /* Navigation */
 .rc-nav {
   height: clamp(3.5rem, 5vw, 4rem);
-  background: linear-gradient(90deg, rgba(255,255,255,.85), rgba(248,250,252,.85));
+  background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(252,253,255,.95));
   border-bottom: 1px solid var(--color-stroke);
   backdrop-filter: blur(16px);
   transition: all var(--transition-base);
@@ -639,7 +287,8 @@ p {
   padding-block: clamp(4rem, 10vw, 8rem);
   background:
     var(--gradient-radial-light),
-    var(--gradient-hero-light);
+    var(--gradient-hero-light),
+    var(--color-background);
 }
 
 .rc-hero-title {
@@ -2526,11 +2175,12 @@ html.dark .rc-diag-shortcuts-list kbd{
   padding-top:var(--rc-hero-pad-top,6rem);
   padding-bottom:var(--rc-hero-pad-btm,4rem);
 }
+/* Replace background for .rc-hero-bg as requested */
 .rc-hero-bg{
   position:absolute;
   inset:0;
   z-index:-2;
-  background:var(--rc-hero-bg,linear-gradient(180deg,rgba(255,255,255,.0)0%,rgba(0,0,0,.35)100%));
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.18) 100%);
 }
 html.dark .rc-hero-bg{
   background:linear-gradient(180deg,rgba(255,255,255,.05)0%,rgba(0,0,0,.8)100%);
@@ -2978,6 +2628,7 @@ html.dark .rc-hero-bg{
 }
 
 /* Glow ----------------------------------------------------------- */
+/* Lower opacity for .rc-hero-glow as requested */
 .rc-hero-glow{
   position:absolute;
   top:0;
@@ -2987,7 +2638,7 @@ html.dark .rc-hero-bg{
   height:var(--rc-hero-glow-size);
   background:radial-gradient(circle, color-mix(in srgb,var(--rc-hero-accent) 55%,transparent) 0%, transparent 70%);
   filter:blur(120px);
-  opacity:.35;
+  opacity:.20;
   pointer-events:none;
   z-index:-1;
 }
@@ -3365,3 +3016,26 @@ html.dark .rc-search-result-snippet{color:rgb(203 213 225)}
   outline:none;
 }
 .rc-search-empty p{margin:0}
+
+/* ————————————————————————————
+   Light Mode Universal Canvas
+   Added 2025‑07‑18
+——————————————————————————— */
+body,
+main,
+.rc-main,
+.rc-dashboard,
+.rc-section,
+.rc-metrics,
+.rc-trend-activity,
+.rc-quick-actions,
+.rc-quick-tools,
+.rc-footer {
+  background: var(--color-background);
+}
+
+.rc-section-title,
+.rc-section h2,
+.rc-section h3 {
+  color: var(--color-text);
+}

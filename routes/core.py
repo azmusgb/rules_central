@@ -32,9 +32,7 @@ from utils import (
     get_current_user,
     get_rule_stats,
     get_activity_trend,
-    validate_email,
-    validate_password,
-    send_email,
+    get_featured_diagrams,
     generate_csrf_token,
     verify_csrf_token,
 )

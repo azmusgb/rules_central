@@ -1,0 +1,296 @@
+/* ==========================================================================
+   Rules Central - Enhanced Consolidated Stylesheet
+   Version: 2.0 | Optimized 2025-07-19
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Core Variables & Theming
+   ========================================================================== */
+:root {
+  /* Fluid typography */
+  --fluid-min-width: 320;
+  --fluid-max-width: 1440;
+  --fluid-screen: 100vw;
+  
+  /* Brand & System Colors */
+  --color-primary: hsl(348 83% 55%);        /* RC accent #F43F5E */
+  --color-secondary: hsl(245 64% 60%);      /* Indigo 500 */
+  --color-accent: hsl(174 62% 46%);         /* Teal 500 */
+
+  /* Greyscale – WCAG AA */
+  --color-text: hsl(222 13% 15%);           /* #1F2024 */
+  --color-text-secondary: hsl(222 10% 38%); /* #4B5563 */
+  --color-text-tertiary: hsl(222 8% 60%);   /* #9CA3AF */
+
+  --color-background: hsl(0 0% 100%);       /* #FFFFFF */
+  --color-background-secondary: hsl(210 20% 97%);  /* #F7F9FC */
+  --color-background-tertiary: hsl(210 20% 94%);   /* #EEF2F7 */
+
+  --color-stroke: hsl(215 18% 86%);         /* #E5E7EB */
+  
+  /* Typography */
+  --font-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --line-height-base: 1.6;
+  --line-height-tight: 1.3;
+  
+  /* Spacing */
+  --space-unit: 1rem;
+  --space-xs: calc(0.5 * var(--space-unit));
+  --space-sm: calc(0.75 * var(--space-unit));
+  --space-md: var(--space-unit);
+  --space-lg: calc(1.5 * var(--space-unit));
+  --space-xl: calc(2 * var(--space-unit));
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+  
+  /* Transitions */
+  --transition-base: 0.2s ease;
+  --transition-motion: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Layout */
+  --max-width-wrapper: min(90rem, 100%);
+  --gutter: clamp(1rem, 3vw, 2rem);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+}
+
+/* ==========================================================================
+   2. Base & Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  
+  &:focus {
+    width: auto;
+    height: auto;
+    padding: var(--space-sm);
+    margin: 0;
+    clip: auto;
+    z-index: 999;
+  }
+}
+
+/* ==========================================================================
+   3. Typography
+   ========================================================================== */
+h1, h2, h3, h4 {
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: var(--font-weight-extrabold);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+}
+
+/* Fluid body text */
+p, li {
+  font-size: clamp(1rem, 0.95vw + 0.5rem, 1.125rem);
+}
+
+/* ==========================================================================
+   4. Utility Classes
+   ========================================================================== */
+/* Layout */
+.wrapper {
+  width: 100%;
+  max-width: var(--max-width-wrapper);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Spacing */
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
+}
+
+/* Visibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   5. Dark Mode
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: hsl(0 0% 96%);
+    --color-text-secondary: hsl(222 10% 75%);
+    --color-text-tertiary: hsl(222 10% 55%);
+
+    --color-background: hsl(222 17% 12%);
+    --color-background-secondary: hsl(222 17% 18%);
+    --color-background-tertiary: hsl(222 17% 24%);
+
+    --color-stroke: hsl(222 14% 28%);
+    --shadow-card: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Dark mode specific components */
+  .rc-nav {
+    background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(17, 24, 39, 0.9));
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .rc-card {
+    background-color: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ==========================================================================
+   6. Animations
+   ========================================================================== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fade-in 0.6s var(--transition-base) forwards;
+}
+
+/* ==========================================================================
+   7. Responsive Utilities
+   ========================================================================== */
+@media (max-width: 768px) {
+  .mobile\:stack {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   8. Component Styles
+   ========================================================================== */
+/* Navigation */
+.rc-nav {
+  backdrop-filter: blur(12px);
+  
+  &-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+/* Cards */
+.rc-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-base);
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Buttons */
+.rc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  transition: all var(--transition-base);
+  
+  &-primary {
+    background: var(--color-primary);
+    color: white;
+    
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary) 85%, black);
+      filter: brightness(0.95);
+    }
+  }
+}
+
+/* ==========================================================================
+   9. Responsive Overrides
+   ========================================================================== */
+@media (max-width: 768px) {
+  .rc-nav-inner {
+    grid-template-columns: auto auto;
+  }
+  
+  .rc-hero {
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   10. Performance Optimizations
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

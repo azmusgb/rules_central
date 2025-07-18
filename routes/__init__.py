@@ -26,7 +26,7 @@ from all_routes import routes_bp
 # Type variable for blueprints
 BlueprintT = TypeVar('BlueprintT', bound=Blueprint)
 
-__all__ = ['ALL_BLUEPRINTS']
+__all__ = ['ALL_BLUEPRINTS', 'all_blueprints']
 
 # Blueprints must be registered in order of most specific to least specific
 # to prevent route shadowing. The routes_bp contains core API endpoints that
@@ -59,3 +59,6 @@ ALL_BLUEPRINTS: List[BlueprintT] = [
     # 9. Collaboration features (least specific)
     collab,
 ]
+
+# Backwards‑compat alias expected by app.py
+all_blueprints: List[BlueprintT] = ALL_BLUEPRINTS

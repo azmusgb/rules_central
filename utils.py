@@ -24,6 +24,71 @@ LOGGER = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # JSON helpers
 # ---------------------------------------------------------------------------
+#
+# ---------------------------------------------------------------------------
+# Auth & Email helpers
+# ---------------------------------------------------------------------------
+
+_EMAIL_PATTERN = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+
+def validate_email(email: str) -> bool:
+    """Return True if *email* matches a basic pattern."""
+    if not isinstance(email, str):
+        return False
+    return bool(_EMAIL_PATTERN.fullmatch(email))
+
+def validate_password(pwd: str, min_length: int = 8) -> bool:
+    """
+    Basic password policy:
+    - at least *min_length* chars
+    - contains at least one letter and one digit
+    """
+    if not isinstance(pwd, str) or len(pwd) < min_length:
+        return False
+    return any(c.isalpha() for c in pwd) and any(c.isdigit() for c in pwd)
+
+def send_email(to: str, subject: str, body: str, html: str | None = None) -> None:
+    """Send an email via Flask‑Mail if configured; log otherwise."""
+    try:
+        from flask_mail import Message  # type: ignore
+        mail = current_app.extensions.get("mail")
+        if mail is None:
+            LOGGER.warning("Flask‑Mail not initialised; skipping email.")
+            return
+        msg = Message(subject, recipients=[to], body=body, html=html)
+        mail.send(msg)
+        LOGGER.info("Email sent to %s", to)
+    except ImportError:
+        LOGGER.error("Flask‑Mail not installed; cannot send email")
+    except Exception as exc:  # pragma: no cover
+        LOGGER.error("Failed to send email to %s: %s", to, exc)
+
+# ---------------------------------------------------------------------------
+# CSRF helpers
+# ---------------------------------------------------------------------------
+
+def generate_csrf_token() -> str:
+    """Return a CSRF token via Flask‑WTF or an empty string if unavailable."""
+    try:
+        from flask_wtf.csrf import generate_csrf  # type: ignore
+        return generate_csrf()
+    except ImportError:
+        LOGGER.error("Flask‑WTF not installed; cannot generate CSRF token")
+        return ""
+
+def verify_csrf_token(token: str) -> bool:
+    """Validate *token* using Flask‑WTF; return True if valid."""
+    try:
+        from flask_wtf.csrf import validate_csrf, CSRFError  # type: ignore
+        validate_csrf(token)
+        return True
+    except ImportError:
+        LOGGER.error("Flask‑WTF not installed; cannot verify CSRF token")
+    except CSRFError as exc:
+        LOGGER.warning("Invalid CSRF token: %s", exc.description)
+    except Exception as exc:  # pragma: no cover
+        LOGGER.error("Error validating CSRF token: %s", exc)
+    return False
 
 def remove_all_quotes(obj: Any) -> Any:
     """Recursively remove all double quotes from strings in ``obj``."""
@@ -102,6 +167,7 @@ def load_and_sanitize_json(filepath: str | Path) -> list[Dict[str, Any]] | None:
     except (json.JSONDecodeError, FileNotFoundError, ValueError) as exc:
         LOGGER.error("Error loading JSON file %s: %s", filepath, exc)
         return None
+
 
 # ---------------------------------------------------------------------------
 # File helpers
@@ -270,9 +336,25 @@ def build_hierarchy(normalized_rules, guid_map):
             roots.append(rule)
     return roots
 
+
 # ---------------------------------------------------------------------------
 # Diagram helpers
 # ---------------------------------------------------------------------------
+
+def get_featured_diagrams(limit: int = 3) -> list[str]:
+    """
+    Return up to *limit* featured diagrams (file stem) sorted by last‑modified.
+    Accepts *.mmd* and *.json* under DIAGRAMS_FOLDER.
+    """
+    diagrams_dir = Path(current_app.config.get("DIAGRAMS_FOLDER", "./diagrams"))
+    if not diagrams_dir.exists():
+        return []
+    files = sorted(
+        diagrams_dir.glob("*.[jm][ms][od]"),  # .mmd or .json
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    return [p.stem for p in files[:limit]]
 
 @dataclass
 class DiagramInfo:
@@ -537,4 +619,10 @@ __all__ = [
     "highlight_matches",
     "get_rule_stats",
     "get_activity_trend",
+    "validate_email",
+    "validate_password",
+    "send_email",
+    "generate_csrf_token",
+    "verify_csrf_token",
+    "get_featured_diagrams",
 ]

@@ -4,14 +4,15 @@
   "scripts": {
     "build:css": "tailwindcss -i static/css/input.css -o static/css/output.css --minify",
     "watch:css": "tailwindcss -i static/css/input.css -o static/css/output.css --watch",
-    "lint:css": "stylelint --fix \"src/**/*.css\"",
+    "css:dev":   "postcss static/css/input.css -o static/css/output.css --map",
+    "css:watch": "postcss static/css/input.css -o static/css/output.css --map --watch",
+    "css:prod":  "NODE_ENV=production postcss static/css/main.css -o static/css/output.css",
+    "lint:css":  "stylelint --fix \"src/**/*.css\"",
     "audit:html": "html-validate \"templates/**/*.html\"",
     "audit:a11y": "echo 'pa11y-ci removed'"
   },
   "stylelint": {
-    "extends": [
-      "stylelint-config-standard"
-    ],
+    "extends": ["stylelint-config-standard"],
     "rules": {
       "at-rule-no-unknown": [
         true,
@@ -37,9 +38,7 @@
       "no-invalid-position-at-import-rule": null,
       "no-duplicate-selectors": null
     },
-    "ignoreFiles": [
-      "src/styles/templates.css"
-    ]
+    "ignoreFiles": ["src/styles/templates.css"]
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
@@ -59,15 +58,7 @@
     "@fortawesome/fontawesome-free": "^6.7.2"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   }
 }
