@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
       color: "#f66",
       width: 2,
     },
+    deleteModalHandlers: null,
   };
 
   const elements = {
@@ -516,18 +517,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const confirmHandler = () => {
       deleteTheme(themeName);
-      elements.confirmDeleteModal.classList.add("hidden");
-      elements.confirmDelete.removeEventListener("click", confirmHandler);
+      closeDeleteModal();
     };
 
     const cancelHandler = () => {
-      elements.confirmDeleteModal.classList.add("hidden");
-      elements.confirmDelete.removeEventListener("click", confirmHandler);
-      elements.cancelDelete.removeEventListener("click", cancelHandler);
+      closeDeleteModal();
     };
 
+    config.deleteModalHandlers = { confirmHandler, cancelHandler };
     elements.confirmDelete.addEventListener("click", confirmHandler);
     elements.cancelDelete.addEventListener("click", cancelHandler);
+  }
+
+  function closeDeleteModal() {
+    elements.confirmDeleteModal.classList.add("hidden");
+    const handlers = config.deleteModalHandlers;
+    if (handlers) {
+      elements.confirmDelete.removeEventListener("click", handlers.confirmHandler);
+      elements.cancelDelete.removeEventListener("click", handlers.cancelHandler);
+      config.deleteModalHandlers = null;
+    }
   }
 
   function deleteTheme(themeName) {
@@ -611,8 +620,9 @@ document.addEventListener("DOMContentLoaded", () => {
       `[data-target="${className}"][data-action="edit-${property === "color" ? "text" : "border"}-color"]`,
     );
 
+    const placeholder = document.createElement("div");
     const pickr = Pickr.create({
-      el: document.createElement("div"),
+      el: placeholder,
       container: triggerBtn.closest(".style-control-group"),
       theme: "nano",
       default: currentColor,
@@ -639,18 +649,21 @@ document.addEventListener("DOMContentLoaded", () => {
       pickrRoot.style.left = `${rect.left + window.scrollX}px`;
     });
 
+    const cleanup = () => {
+      pickr.destroy();
+      placeholder.remove();
+    };
+
     pickr.on("save", (color) => {
       if (!color) return;
       const hexColor = color.toHEXA().toString();
       updateClassDef(config.currentTheme, className, property, hexColor);
       updateNodePreviews(theme);
       renderDiagram();
-      pickr.destroy();
+      cleanup();
     });
 
-    pickr.on("hide", () => {
-      pickr.destroy();
-    });
+    pickr.on("hide", cleanup);
 
     pickr.show();
   }
@@ -814,7 +827,7 @@ document.addEventListener("DOMContentLoaded", () => {
           elements.newThemeModal.classList.add("hidden");
         }
         if (!elements.confirmDeleteModal.classList.contains("hidden")) {
-          elements.confirmDeleteModal.classList.add("hidden");
+          closeDeleteModal();
         }
       }
     });
@@ -831,7 +844,7 @@ document.addEventListener("DOMContentLoaded", () => {
         !elements.confirmDeleteModal.classList.contains("hidden") &&
         !e.target.closest(".modal-content")
       ) {
-        elements.confirmDeleteModal.classList.add("hidden");
+        closeDeleteModal();
       }
     });
   }
