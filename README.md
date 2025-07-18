@@ -43,7 +43,7 @@ It consolidates diagrams, rule definitions and statistics into a single dashboar
 - **Search** and explore stored rules
 - **API utility** for testing rules
 - **About** page with version info and documentation links
-- **Theme toggle** cycles through Bear, Dark, Light and High Contrast modes
+- **Theme toggle** cycles through Bear, Dark, Light, High Contrast and System modes
 - **High contrast** option for improved accessibility
 - **Enhanced styling** with gradients, glass cards and focus rings
 - **First-time user tour** with contextual tips

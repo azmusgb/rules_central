@@ -1,26 +1,30 @@
 /**
  * theme.js — accessible theme toggle with persistence
  * ----------------------------------------------
- * Cycles between Bear, Dark and Light themes. Applies the
- * `dark` class for dark mode and stores user choice in
- * localStorage. Falls back to system preference when no
- * choice is stored.
+ * Cycles between Bear, Dark, Light, High Contrast and System themes.
+ * Applies the `dark` class for dark mode and stores user choice in
+ * localStorage. Defaults to Bear when no choice is stored.
  */
 
 const STORAGE_KEY = 'rc-theme';
-const THEMES = ['bear', 'dark', 'light', 'contrast'];
+const THEMES = ['bear', 'dark', 'light', 'contrast', 'system'];
 const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+function resolve(theme) {
+  return theme === 'system' ? (systemDark.matches ? 'dark' : 'light') : theme;
+}
 
 function apply(theme) {
   const html = document.documentElement;
-  html.dataset.theme = theme;
-  html.classList.toggle('dark', theme === 'dark');
-  html.classList.toggle('contrast', theme === 'contrast');
+  const active = resolve(theme);
+  html.dataset.theme = active;
+  html.classList.toggle('dark', active === 'dark');
+  html.classList.toggle('contrast', active === 'contrast');
 }
 
 function current() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) return stored;
+  if (stored && THEMES.includes(stored)) return stored;
   return 'bear';
 }
 
@@ -31,7 +35,8 @@ export function initThemeToggle(btnSelector) {
   if (!btn) return;
 
   const updateLabel = (theme) => {
-    btn.setAttribute('aria-label', `Switch theme (current ${theme})`);
+    const labelTheme = theme === 'system' ? `${resolve(theme)} system` : theme;
+    btn.setAttribute('aria-label', `Switch theme (current ${labelTheme})`);
   };
 
   updateLabel(current());
@@ -45,10 +50,10 @@ export function initThemeToggle(btnSelector) {
   });
 
   systemDark.addEventListener('change', (e) => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    if (localStorage.getItem(STORAGE_KEY) === 'system') {
       const next = e.matches ? 'dark' : 'light';
       apply(next);
-      updateLabel(next);
+      updateLabel('system');
     }
   });
 }
