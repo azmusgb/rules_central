@@ -1,5 +1,3 @@
-# Combined route definitions in one module
-
 from __future__ import annotations
 
 import os
@@ -7,6 +5,7 @@ import json
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Dict, List, Optional, Union
 
 from flask import (
     Blueprint,
@@ -21,6 +20,7 @@ from flask import (
     flash,
 )
 from werkzeug.utils import secure_filename
+from werkzeug.wrappers import Response
 
 from config import Config
 from utils import (
@@ -32,195 +32,185 @@ from utils import (
     get_current_user,
     get_rule_stats,
     get_activity_trend,
+    validate_email,
+    validate_password,
+    send_email,
+    generate_csrf_token,
+    verify_csrf_token,
 )
+
+# ---------------------------------------------------------------------------
+# Type Aliases
+# ---------------------------------------------------------------------------
+JsonResponse = Dict[str, Union[str, int, bool, List, Dict]]
+UploadResult = Dict[str, Union[bool, str, List[str]]]
 
 # ---------------------------------------------------------------------------
 # Blueprints
 # ---------------------------------------------------------------------------
 
-api = Blueprint("api", __name__)
-analytics_routes = Blueprint("analytics_routes", __name__)
-collab = Blueprint("collab", __name__)
-diagrams = Blueprint("diagrams", __name__)
+api = Blueprint("api", __name__, url_prefix="/api")
+analytics_routes = Blueprint("analytics", __name__, url_prefix="/analytics")
+collab = Blueprint("collab", __name__, url_prefix="/collab")
+diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
 main = Blueprint("main", __name__)
-auth = Blueprint("auth", __name__)
-upload = Blueprint("upload", __name__)
-user_routes = Blueprint("user_routes", __name__)
+auth = Blueprint("auth", __name__, url_prefix="/auth")
+upload = Blueprint("upload", __name__, url_prefix="/upload")
+user_routes = Blueprint("user", __name__, url_prefix="/user")
 
 # ---------------------------------------------------------------------------
-# Template context processor to inject `now()` globally
+# Template context processors
 # ---------------------------------------------------------------------------
 
 @main.app_context_processor
-def inject_now_function():
-    from datetime import datetime
-    return {'now': datetime.now}
+def inject_globals() -> Dict[str, any]:
+    """Inject global variables and functions into templates."""
+    return {
+        'now': datetime.now,
+        'app_name': current_app.config.get('APP_NAME', 'Rules Central'),
+        'version': current_app.config.get('VERSION', '1.0'),
+        'current_year': datetime.now().year
+    }
 
 # ---------------------------------------------------------------------------
-# API blueprint
+# API Routes
 # ---------------------------------------------------------------------------
 
-
-@api.route("/api/catalog_names")
-def catalog_names():
+@api.route("/catalog_names")
+def catalog_names() -> Response:
     """Return available catalog names."""
     try:
-        names = ["Catalog1", "Catalog2", "Catalog3"]
-        return jsonify(names)
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error("Catalog names error: %s", exc)
-        return jsonify(error="Failed to fetch names"), 500
+        names = ["Business Rules", "Validation Rules", "Process Flows"]
+        return jsonify({
+            "status": "success",
+            "data": names,
+            "count": len(names)
+        })
+    except Exception as exc:
+        current_app.logger.error(f"Catalog names error: {exc}", exc_info=True)
+        return jsonify({
+            "status": "error",
+            "message": "Failed to fetch catalog names"
+        }), 500
 
+@api.route("/metrics")
+def metrics() -> Response:
+    """Return dashboard metrics for the main page."""
+    try:
+        stats = get_rule_stats()
+        trend = get_activity_trend(days=30)
+        
+        return jsonify({
+            "status": "success",
+            "data": {
+                "diagramCount": stats.get("diagrams", 0),
+                "rulesExtractedCount": stats.get("rules", 0),
+                "rulesStatusChart": trend,
+                "recentChangesCount": stats.get("recent_changes", 0)
+            }
+        })
+    except Exception as exc:
+        current_app.logger.error(f"Metrics API error: {exc}", exc_info=True)
+        return jsonify({
+            "status": "error",
+            "message": "Failed to fetch metrics"
+        }), 500
 
 # ---------------------------------------------------------------------------
-# Analytics blueprint
+# Analytics Routes
 # ---------------------------------------------------------------------------
 
-
-@analytics_routes.route("/api/stats")
-def get_stats():
+@analytics_routes.route("/stats")
+def get_stats() -> Response:
     """Return accurate counts of diagrams and rules."""
     try:
-        diagrams_dir = current_app.config.get("DIAGRAMS_FOLDER", "./diagrams")
-        diagrams_count = 0
-        rules_count = 0
+        stats = get_rule_stats()
+        return jsonify({
+            "status": "success",
+            "data": stats
+        })
+    except Exception as exc:
+        current_app.logger.error(f"Stats error: {exc}", exc_info=True)
+        return jsonify({
+            "status": "error",
+            "message": "Could not calculate statistics"
+        }), 500
 
-        if os.path.exists(diagrams_dir):
-            diagrams_count = sum(
-                1
-                for _root, _dirs, files in os.walk(diagrams_dir)
-                for file in files
-                if file.endswith(".mmd")
-            )
-            for root, _dirs, files in os.walk(diagrams_dir):
-                for file in files:
-                    if file.endswith(".json"):
-                        with open(os.path.join(root, file), "r") as f:
-                            data = json.load(f)
-                            if isinstance(data, list):
-                                rules_count += len(data)
-                            elif isinstance(data, dict):
-                                rules_count += len(data.get("rules", []))
-
-        return jsonify(
-            {
-                "diagramsProcessed": diagrams_count,
-                "rulesExtracted": rules_count,
-                "status": "success",
-            }
-        )
-
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Stats error: {exc}")
-        return (
-            jsonify({"status": "error", "message": "Could not calculate statistics"}),
-            500,
-        )
-
-
-def get_advanced_stats():
+@analytics_routes.route("/advanced_stats")
+def get_advanced_stats() -> Response:
     """Return business metrics tracked in a JSON file."""
     try:
-        json_path = os.path.join(current_app.root_path, "data", "advanced_stats.json")
-        if not os.path.exists(json_path):
+        json_path = Path(current_app.root_path) / "data" / "advanced_stats.json"
+        json_path.parent.mkdir(exist_ok=True)
+        
+        if not json_path.exists():
             stats = {
                 "rules_by_status": {"active": 0, "draft": 0, "deprecated": 0},
                 "recent_changes": 0,
                 "validation_errors": 0,
                 "active_domain": "N/A",
             }
-            os.makedirs(os.path.dirname(json_path), exist_ok=True)
-            with open(json_path, "w", encoding="utf-8") as f:
-                json.dump(stats, f)
-        else:
-            with open(json_path, "r", encoding="utf-8") as f:
-                stats = json.load(f)
-        return jsonify(stats)
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Advanced stats error: {exc}")
-        return jsonify({"error": str(exc)}), 500
-
-
-
-
-def update_rule(rule_id):
-    """Example rule update endpoint that logs an activity entry."""
-    try:
-        log_activity(
-            action="update",
-            rule_id=rule_id,
-            user=get_current_user(),
-            details=f"Updated rule {rule_id}",
-        )
-        return jsonify({"success": True})
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Rule update error: {exc}")
-        return jsonify({"error": str(exc)}), 500
-
-
-@api.route("/api/metrics")
-def metrics():
-    """Return dashboard metrics for the main page."""
-    try:
-        data = {
-            "diagramCount": 75,
-            "rulesExtractedCount": 65,
-            "rulesStatusChart": 80,
-            "recentChangesCount": 50,
-        }
-        return jsonify(data)
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error("Metrics API error: %s", exc)
-        return jsonify(error="Failed to fetch metrics"), 500
-
-
+            json_path.write_text(json.dumps(stats, indent=2))
+            
+        with json_path.open("r") as f:
+            stats = json.load(f)
+            
+        return jsonify({
+            "status": "success",
+            "data": stats
+        })
+    except Exception as exc:
+        current_app.logger.error(f"Advanced stats error: {exc}", exc_info=True)
+        return jsonify({
+            "status": "error",
+            "message": str(exc)
+        }), 500
 
 # ---------------------------------------------------------------------------
-# FAQ route (simple route)
+# Collaboration Routes
 # ---------------------------------------------------------------------------
 
 @collab.route("/faq")
-def faq_page():
+def faq_page() -> str:
     """Display the FAQ page."""
     try:
-        return render_template("faq.html")
+        faq_items = [
+            ("What is Rules Central?", "A platform for managing business rules..."),
+            ("How do I upload diagrams?", "Use the upload page to...")
+        ]
+        return render_template("faq.html", faq_items=faq_items)
     except Exception as exc:
-        current_app.logger.error("FAQ page error: %s", exc)
-        abort(500)
-
+        current_app.logger.error(f"FAQ page error: {exc}", exc_info=True)
+        abort(500, description="Failed to load FAQ page")
 
 # ---------------------------------------------------------------------------
-# Diagrams blueprint
+# Diagram Routes
 # ---------------------------------------------------------------------------
 
-
-@diagrams.route("/diagrams")
-def diagrams_index():
+@diagrams.route("/")
+def diagrams_index() -> str:
     """Display the diagram viewer page."""
     try:
         return render_template("diagram_viewer.html")
     except Exception as exc:
-        current_app.logger.error("Diagrams route error: %s", exc)
-        return jsonify(error="Unable to load diagrams"), 500
+        current_app.logger.error(f"Diagrams route error: {exc}", exc_info=True)
+        abort(500, description="Failed to load diagram viewer")
 
-
-@diagrams.route("/diagram_converter")
-def diagram_converter():
+@diagrams.route("/converter")
+def diagram_converter() -> str:
     """Display the FormWorks to Mermaid converter tool."""
     try:
         return render_template("mermaid_converter.html")
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error("Converter route error: %s", exc)
-        return jsonify(error="Unable to load converter"), 500
-
+    except Exception as exc:
+        current_app.logger.error(f"Converter route error: {exc}", exc_info=True)
+        abort(500, description="Failed to load converter tool")
 
 # ---------------------------------------------------------------------------
-# Main blueprint
+# Main Application Routes
 # ---------------------------------------------------------------------------
-
 
 @main.route("/")
-def index():
+def index() -> str:
     """Render the application home page."""
     try:
         stats = get_rule_stats()
@@ -229,375 +219,323 @@ def index():
             "index.html",
             stats=stats,
             charts={"rules": trend},
+            featured_diagrams=get_featured_diagrams(limit=3)
         )
     except Exception as exc:
-        current_app.logger.error("Index page error: %s", exc)
-        abort(500)
-
+        current_app.logger.error(f"Index page error: {exc}", exc_info=True)
+        abort(500, description="Failed to load home page")
 
 @main.route("/catalog")
-def catalog():
+def catalog() -> str:
     """Display the diagram catalog."""
     try:
+        categories = get_diagram_categories()
         return render_template(
             "catalog.html",
+            categories=categories,
             breadcrumbs=[
                 {"title": "Home", "url": url_for("main.index")},
                 {"title": "Catalog"},
-            ],
+            ]
         )
     except Exception as exc:
-        current_app.logger.error("Catalog page error: %s", exc)
-        abort(500)
-
+        current_app.logger.error(f"Catalog page error: {exc}", exc_info=True)
+        abort(500, description="Failed to load catalog")
 
 @main.route("/search")
-def search():
+def search() -> str:
     """Display the search page."""
     try:
-        return render_template("search.html")
+        query = request.args.get("q", "")
+        results = perform_search(query) if query else []
+        return render_template(
+            "search.html",
+            query=query,
+            results=results,
+            result_count=len(results)
+        )
     except Exception as exc:
-        current_app.logger.error("Search page error: %s", exc)
-        abort(500)
-
+        current_app.logger.error(f"Search page error: {exc}", exc_info=True)
+        abort(500, description="Failed to perform search")
 
 @main.route("/about")
-def about():
+def about() -> str:
     """Display project information and version."""
     try:
-        version = current_app.config.get("VERSION", "1.0")
-        return render_template("about.html", version=version)
-    except Exception as exc:  # pragma: no cover
-        current_app.logger.error("About page error: %s", exc)
-        abort(500)
-
+        team_members = get_team_members()
+        return render_template(
+            "about.html",
+            team=team_members,
+            version=current_app.config.get("VERSION", "1.0")
+        )
+    except Exception as exc:
+        current_app.logger.error(f"About page error: {exc}", exc_info=True)
+        abort(500, description="Failed to load about page")
 
 @main.route("/contact", methods=["GET", "POST"])
-def contact():
-    """Display the contact page and handle feedback submissions."""
+def contact() -> Union[str, Response]:
+    """Handle contact form submissions."""
     try:
         if request.method == "POST":
-            data = {
-                "name": request.form.get("name", "Anonymous"),
-                "email": request.form.get("email", ""),
-                "subject": request.form.get("subject", ""),
-                "message": request.form.get("message", ""),
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-            feedback_path = Path(Config.FEEDBACK_FILE)
-            ensure_directory_exists(feedback_path.parent)
-            existing = []
-            if feedback_path.exists():
-                try:
-                    existing = json.loads(feedback_path.read_text())
-                except json.JSONDecodeError:
-                    existing = []
-            existing.append(data)
-            feedback_path.write_text(json.dumps(existing, indent=2))
-            flash("Thank you for your feedback!", "success")
-            return redirect(url_for("main.contact"))
-
+            if not verify_csrf_token(request.form.get("csrf_token")):
+                flash("Invalid CSRF token", "error")
+                return redirect(url_for("main.contact"))
+                
+            name = request.form.get("name", "").strip()
+            email = request.form.get("email", "").strip()
+            message = request.form.get("message", "").strip()
+            
+            if not all([name, email, message]):
+                flash("Please fill all required fields", "error")
+            elif not validate_email(email):
+                flash("Please enter a valid email address", "error")
+            else:
+                save_contact_request(name, email, message)
+                send_contact_confirmation(email)
+                flash("Thank you for your message! We'll get back to you soon.", "success")
+                return redirect(url_for("main.contact"))
+                
         return render_template("contact.html")
-    except Exception as exc:  # pragma: no cover
-        current_app.logger.error("Contact page error: %s", exc)
-        abort(500)
-
-
-@main.route("/markdown-notes")
-def markdown_notes():
-    """Show the Markdown Notes marketing page."""
-    try:
-        return render_template("markdown_notes.html")
     except Exception as exc:
-        current_app.logger.error("Markdown Notes page error: %s", exc)
-        abort(500)
-
-
-@main.route("/bear-clone")
-def bear_clone():
-    """Render the Bear App clone page."""
-    try:
-        return render_template("bear_app_clone.html")
-    except Exception as exc:
-        current_app.logger.error("Bear clone page error: %s", exc)
-        abort(500)
-
+        current_app.logger.error(f"Contact page error: {exc}", exc_info=True)
+        abort(500, description="Failed to process contact request")
 
 # ---------------------------------------------------------------------------
-# Auth blueprint
+# Authentication Routes
 # ---------------------------------------------------------------------------
-
 
 @auth.route("/login", methods=["GET", "POST"])
-def login():
-    """Render the login page and handle submissions."""
+def login() -> Union[str, Response]:
+    """Handle user login."""
     try:
         if request.method == "POST":
-            flash("Logged in successfully!", "success")
-            return redirect(url_for("main.index"))
+            email = request.form.get("email", "").strip()
+            password = request.form.get("password", "").strip()
+            
+            if not all([email, password]):
+                flash("Please fill all required fields", "error")
+            elif not validate_email(email):
+                flash("Please enter a valid email address", "error")
+            else:
+                user = authenticate_user(email, password)
+                if user:
+                    login_user(user)
+                    flash("Logged in successfully!", "success")
+                    return redirect(url_for("main.index"))
+                flash("Invalid email or password", "error")
+                
         return render_template("auth/login.html")
     except Exception as exc:
-        current_app.logger.error("Login route error: %s", exc)
-        return jsonify(error="Login failure"), 500
-
+        current_app.logger.error(f"Login error: {exc}", exc_info=True)
+        abort(500, description="Failed to process login")
 
 @auth.route("/register", methods=["GET", "POST"])
-def register():
-    """Render the registration page and handle submissions."""
+def register() -> Union[str, Response]:
+    """Handle user registration."""
     try:
         if request.method == "POST":
-            flash("Account created!", "success")
-            return redirect(url_for("auth.login"))
+            email = request.form.get("email", "").strip()
+            password = request.form.get("password", "").strip()
+            confirm_password = request.form.get("confirm_password", "").strip()
+            
+            if not all([email, password, confirm_password]):
+                flash("Please fill all required fields", "error")
+            elif not validate_email(email):
+                flash("Please enter a valid email address", "error")
+            elif password != confirm_password:
+                flash("Passwords do not match", "error")
+            elif not validate_password(password):
+                flash("Password must be at least 8 characters with numbers and symbols", "error")
+            else:
+                if create_user(email, password):
+                    flash("Account created successfully! Please log in.", "success")
+                    return redirect(url_for("auth.login"))
+                flash("An account with this email already exists", "error")
+                
         return render_template("auth/register.html")
     except Exception as exc:
-        current_app.logger.error("Register route error: %s", exc)
-        return jsonify(error="Registration failure"), 500
-
+        current_app.logger.error(f"Registration error: {exc}", exc_info=True)
+        abort(500, description="Failed to process registration")
 
 @auth.route("/logout")
-def logout():
-    """Log the user out and redirect to the login page."""
+def logout() -> Response:
+    """Handle user logout."""
     try:
+        logout_user()
         flash("Logged out successfully!", "success")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("main.index"))
     except Exception as exc:
-        current_app.logger.error("Logout route error: %s", exc)
-        return jsonify(error="Logout failure"), 500
-
+        current_app.logger.error(f"Logout error: {exc}", exc_info=True)
+        abort(500, description="Failed to process logout")
 
 # ---------------------------------------------------------------------------
-# Upload blueprint
+# Upload Routes
 # ---------------------------------------------------------------------------
 
-
-@upload.route("/upload", methods=["GET", "POST"])
-def upload_file():
-    """Handle file uploads and generate diagrams."""
-
+@upload.route("/", methods=["GET", "POST"])
+def upload_file() -> Union[str, Response, JsonResponse]:
+    """Handle file uploads and processing."""
     if request.method == "GET":
-        return render_template("upload.html", help_available=True)
-
-    is_json = (
-        request.accept_mimetypes["application/json"]
-        > request.accept_mimetypes["text/html"]
-    )
-
+        return render_template("upload.html", csrf_token=generate_csrf_token())
+    
+    is_json = request.accept_mimetypes["application/json"] > request.accept_mimetypes["text/html"]
+    
+    # Validate request
     if "file" not in request.files:
-        msg = "No file provided"
-        if is_json:
-            return jsonify(success=False, message=msg), 400
-        flash(msg, "error")
-        return redirect(request.url)
-
+        return handle_upload_error("No file provided", is_json)
+        
     file = request.files["file"]
     if file.filename == "":
-        msg = "No file selected"
-        if is_json:
-            return jsonify(success=False, message=msg), 400
-        flash(msg, "error")
-        return redirect(request.url)
-
-    uploads_dir = current_app.config.get("UPLOAD_FOLDER", "./uploads")
-    diagrams_dir = current_app.config.get("DIAGRAMS_FOLDER", "./diagrams")
-    os.makedirs(uploads_dir, exist_ok=True)
-    os.makedirs(diagrams_dir, exist_ok=True)
-
-    processed_files: list[str] = []
-    errors: list[str] = []
-
+        return handle_upload_error("No file selected", is_json)
+        
+    if not verify_csrf_token(request.form.get("csrf_token")):
+        return handle_upload_error("Invalid CSRF token", is_json, status_code=403)
+    
+    # Process upload
     try:
+        uploads_dir = Path(current_app.config.get("UPLOAD_FOLDER", "./uploads"))
+        diagrams_dir = Path(current_app.config.get("DIAGRAMS_FOLDER", "./diagrams"))
+        
+        uploads_dir.mkdir(exist_ok=True)
+        diagrams_dir.mkdir(exist_ok=True)
+        
         if not allowed_file(file.filename):
             raise ValueError("Invalid file type")
-
+            
         filename = secure_filename(file.filename)
-        file_path = os.path.join(uploads_dir, filename)
+        file_path = uploads_dir / filename
         file.save(file_path)
-
+        
         if filename.lower().endswith((".json", ".mmd")):
-            diagrams_path = os.path.join(diagrams_dir, filename)
-            os.replace(file_path, diagrams_path)
+            diagrams_path = diagrams_dir / filename
+            file_path.replace(diagrams_path)
             file_path = diagrams_path
-
+            
         json_data = load_and_sanitize_json(file_path)
         if not json_data:
-            raise ValueError("Invalid JSON content")
-
-        root_name = os.path.splitext(filename)[0]
-        output_dir = os.path.join(diagrams_dir, root_name)
-        ensure_directory_exists(output_dir)
-
+            raise ValueError("Invalid file content")
+            
+        root_name = file_path.stem
+        output_dir = diagrams_dir / root_name
+        output_dir.mkdir(exist_ok=True)
+        
         generate_files(json_data, output_dir)
-        processed_files.append(filename)
-
-    except (OSError, ValueError, json.JSONDecodeError) as e:
-        errors.append(f"{file.filename}: {str(e)}")
-        current_app.logger.error(f"Upload error: {file.filename} - {str(e)}")
-
-    if errors:
-        msg = "Some files failed to process: " + "; ".join(errors)
-        if is_json:
-            return (
-                jsonify(success=False, message=msg, processed=processed_files, errors=errors),
-                207,
-            )
-        flash(msg, "error")
-        return redirect(request.url)
-
-    msg = f"Processed {len(processed_files)} files successfully"
-    if is_json:
-        return jsonify(
-            success=True,
-            message=msg,
-            processed=processed_files,
-            redirect_url=url_for("main.catalog"),
+        
+        log_activity(
+            action="upload",
+            user=get_current_user(),
+            details=f"Uploaded {filename}"
         )
-    flash(msg, "success")
-    return redirect(url_for("main.catalog"))
+        
+        result: UploadResult = {
+            "success": True,
+            "message": f"Processed {filename} successfully",
+            "redirect_url": url_for("main.catalog")
+        }
+        
+        return jsonify(result) if is_json else redirect(url_for("main.catalog"))
+        
+    except (OSError, ValueError, json.JSONDecodeError) as e:
+        current_app.logger.error(f"Upload error: {str(e)}", exc_info=True)
+        return handle_upload_error(str(e), is_json)
+    except Exception as exc:
+        current_app.logger.error(f"Unexpected upload error: {exc}", exc_info=True)
+        return handle_upload_error("An unexpected error occurred", is_json)
 
+def handle_upload_error(message: str, is_json: bool, status_code: int = 400) -> Union[Response, JsonResponse]:
+    """Helper function to handle upload errors consistently."""
+    if is_json:
+        return jsonify({
+            "success": False,
+            "message": message
+        }), status_code
+    flash(message, "error")
+    return redirect(url_for("upload.upload_file"))
 
 # ---------------------------------------------------------------------------
-# User blueprint
+# User Profile Routes
 # ---------------------------------------------------------------------------
-
 
 @user_routes.route("/profile")
-def user_profile():
-    """User profile page with activity and statistics."""
+def user_profile() -> str:
+    """Display user profile page."""
     try:
-        user_data = {
-            "username": "johndoe",
-            "email": "john.doe@example.com",
-            "avatar": url_for("static", filename="images/default-avatar.png"),
-            "member_since": "2023-01-15",
-            "last_login": datetime.now().strftime("%Y-%m-%d %H:%M"),
-            "role": "Administrator",
-        }
-
-        activity_stats = {
-            "rules_created": 142,
-            "diagrams_uploaded": 28,
-            "api_calls": 1240,
-            "recent_activity": [
-                {
-                    "action": "Uploaded rule set",
-                    "timestamp": "2023-06-15 14:30",
-                    "details": "Fraud Detection v2.1",
-                },
-                {
-                    "action": "Extracted rules",
-                    "timestamp": "2023-06-14 09:15",
-                    "details": "From production dataset",
-                },
-                {
-                    "action": "API Test",
-                    "timestamp": "2023-06-12 16:45",
-                    "details": "/rules/validate endpoint",
-                },
-            ],
-        }
-
+        user = get_current_user()
+        if not user:
+            flash("Please log in to view your profile", "warning")
+            return redirect(url_for("auth.login"))
+            
+        stats = get_user_stats(user.id)
+        recent_activity = get_recent_activity(user.id, limit=5)
+        
         return render_template(
             "profile.html",
-            user=user_data,
-            stats=activity_stats,
-            help_available=True,
+            user=user,
+            stats=stats,
+            recent_activity=recent_activity
         )
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Profile error: {exc}")
-        abort(500, "Error loading profile page")
-
+    except Exception as exc:
+        current_app.logger.error(f"Profile error: {exc}", exc_info=True)
+        abort(500, description="Failed to load profile")
 
 @user_routes.route("/settings", methods=["GET", "POST"])
-def user_settings():
-    """User settings page with form handling."""
+def user_settings() -> Union[str, Response]:
+    """Handle user settings updates."""
     try:
-        user_data = {
-            "display_name": "John Doe",
-            "email": "john.doe@example.com",
-            "avatar_url": url_for("static", filename="images/default-avatar.png"),
-        }
-
-        settings_data = {
-            "theme": "dark",
-            "timezone": "UTC",
-            "email_notifications": True,
-            "push_notifications": False,
-            "inapp_notifications": True,
-            "language": "en",
-            "experimental_features": False,
-            "font_size": "normal",
-            "contrast": "normal",
-            "motion": "normal",
-        }
-
-        settings_saved = False
+        user = get_current_user()
+        if not user:
+            flash("Please log in to access settings", "warning")
+            return redirect(url_for("auth.login"))
+            
         if request.method == "POST":
-            settings_data.update(
-                {
-                    "theme": request.form.get("theme", "dark"),
-                    "timezone": request.form.get("timezone", "UTC"),
-                    "email_notifications": "email_notifications" in request.form,
-                    "push_notifications": "push_notifications" in request.form,
-                    "inapp_notifications": "inapp_notifications" in request.form,
-                    "language": request.form.get("language", "en"),
-                    "experimental_features": "experimental_features" in request.form,
-                    "font_size": request.form.get("font_size", "normal"),
-                    "contrast": request.form.get("contrast", "normal"),
-                    "motion": request.form.get("motion", "normal"),
-                }
-            )
+            if not verify_csrf_token(request.form.get("csrf_token")):
+                flash("Invalid CSRF token", "error")
+                return redirect(url_for("user.user_settings"))
+                
+            # Process settings updates
+            update_user_settings(user.id, request.form)
             flash("Settings updated successfully!", "success")
-            settings_saved = True
-
-        security_data = {
-            "last_password_change": "2023-05-10",
-            "two_factor_enabled": False,
-            "active_sessions": [
-                {
-                    "ip": "192.168.1.100",
-                    "browser": "Chrome",
-                    "location": "New York",
-                    "last_active": "10 minutes ago",
-                },
-            ],
-        }
-
+            return redirect(url_for("user.user_settings"))
+            
+        settings = get_user_settings(user.id)
+        security_info = get_security_info(user.id)
+        
         return render_template(
             "settings.html",
-            user=user_data,
-            settings=settings_data,
-            security=security_data,
-            help_available=True,
-            settings_saved=settings_saved,
+            user=user,
+            settings=settings,
+            security=security_info,
+            csrf_token=generate_csrf_token()
         )
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Settings error: {exc}")
-        abort(500, "Error loading settings page")
-
-
-@user_routes.route("/settings.html", methods=["GET", "POST"])
-def user_settings_html():
-    """Alias for ``/settings`` that renders the same page."""
-    return user_settings()
-
+    except Exception as exc:
+        current_app.logger.error(f"Settings error: {exc}", exc_info=True)
+        abort(500, description="Failed to process settings")
 
 @user_routes.route("/api/profile")
-def get_user_profile():
+def get_user_profile_api() -> JsonResponse:
     """API endpoint for user profile data."""
     try:
-        profile_data = {
-            "username": "johndoe",
-            "email": "john.doe@example.com",
-            "avatar_url": url_for("static", filename="images/default-avatar.png"),
-            "member_since": "2023-01-15",
-            "role": "Administrator",
-            "stats": {
-                "rules_created": 142,
-                "diagrams_uploaded": 28,
-                "api_calls": 1240,
-            },
-        }
-        return jsonify(profile_data)
-    except Exception as exc:  # pragma: no cover - unexpected errors
-        current_app.logger.error(f"Profile API error: {exc}")
-        return jsonify({"error": str(exc)}), 500
+        user = get_current_user()
+        if not user:
+            return jsonify({
+                "status": "error",
+                "message": "Authentication required"
+            }), 401
+                
+        return jsonify({
+            "status": "success",
+            "data": {
+                "username": user.username,
+                "email": user.email,
+                "avatar_url": user.avatar_url,
+                "member_since": user.created_at.isoformat(),
+                "role": user.role,
+                "stats": get_user_stats(user.id)
+            }
+        })
+    except Exception as exc:
+        current_app.logger.error(f"Profile API error: {exc}", exc_info=True)
+        return jsonify({
+            "status": "error",
+            "message": str(exc)
+        }), 500
