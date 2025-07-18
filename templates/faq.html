@@ -18,20 +18,48 @@
 
   <!-- Quick contact + Expand / Collapse controls -->
   <div class="rc-faq-hero-actions">
-    <a href="{{ url_for('main.contact') }}" class="rc-faq-contact">Contact Support</a>
-    <button type="button" id="rc-faq-expand"   class="rc-faq-expand">Expand all</button>
-    <button type="button" id="rc-faq-collapse" class="rc-faq-collapse">Collapse all</button>
+    <a href="{{ url_for('main.contact') }}" class="rc-faq-contact">
+      <svg class="rc-faq-contact-icon" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+      Contact Support
+    </a>
+    <div class="rc-faq-toggle-group">
+      <button type="button" id="rc-faq-expand" class="rc-faq-toggle">
+        <svg class="rc-faq-toggle-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M19 13H5v-2h14v2z"/>
+        </svg>
+        Expand all
+      </button>
+      <button type="button" id="rc-faq-collapse" class="rc-faq-toggle">
+        <svg class="rc-faq-toggle-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M19 13H5v-2h14v2z"/>
+        </svg>
+        Collapse all
+      </button>
+    </div>
   </div>
 
   <!-- Client-side filter -->
   <div class="rc-faq-filterwrap">
     <label for="rc-faq-filter" class="sr-only">Filter questions</label>
-    <input id="rc-faq-filter"
-           type="search"
-           placeholder="Search questions…"
-           class="rc-faq-filter-input"
-           autocomplete="off"
-           spellcheck="false">
+    <div class="rc-faq-filter-inner">
+      <svg class="rc-faq-filter-icon" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+      <input id="rc-faq-filter"
+             type="search"
+             placeholder="Search questions…"
+             class="rc-faq-filter-input"
+             autocomplete="off"
+             spellcheck="false"
+             aria-label="Search questions">
+      <button type="button" class="rc-faq-filter-clear" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -40,15 +68,25 @@
      FAQ LIST
 ========================================================= -->
 <section class="wrapper rc-container pb-32 rc-faq-listwrap" aria-label="FAQ list">
+  <div class="rc-faq-list-header">
+    <h2 class="sr-only">Questions and Answers</h2>
+    <div id="rc-faq-count" class="rc-faq-count">
+      Showing <span id="rc-faq-visible-count">12</span> of 12 questions
+    </div>
+  </div>
+
   <ul class="rc-faq-list" id="rc-faq-list" role="list">
     <!-- Q1 -->
     <li class="rc-faq-item" data-faq-text="what is rules central platform manage visualizing collaborating business rules">
       <details>
         <summary>
           <span class="rc-faq-q">What is Rules Central?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Rules Central is a platform for managing, visualizing, and collaborating on business rules across teams and systems.
+          <p>Rules Central is a platform for managing, visualizing, and collaborating on business rules across teams and systems.</p>
         </div>
       </details>
     </li>
@@ -58,9 +96,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">What file types are supported?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          You can upload <code>PNG</code>, <code>JPG</code>/<code>JPEG</code>, <code>SVG</code>, or <code>PDF</code> diagrams. JSON + Mermaid (<code>.mmd</code>) exports are also accepted where available.
+          <p>You can upload <code>PNG</code>, <code>JPG</code>/<code>JPEG</code>, <code>SVG</code>, or <code>PDF</code> diagrams. JSON + Mermaid (<code>.mmd</code>) exports are also accepted where available.</p>
         </div>
       </details>
     </li>
@@ -70,9 +111,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">How do I view the hierarchy?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Open a diagram and click the <span class="rc-faq-accent">Hierarchy</span> button to explore rule relationships visually and navigate dependencies.
+          <p>Open a diagram and click the <span class="rc-faq-accent">Hierarchy</span> button to explore rule relationships visually and navigate dependencies.</p>
         </div>
       </details>
     </li>
@@ -82,9 +126,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">Can I export diagrams?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Yes. In the diagram viewer, use <strong>Export</strong> to download an image, a vector file, or the underlying rule data (where supported).
+          <p>Yes. In the diagram viewer, use <strong>Export</strong> to download an image, a vector file, or the underlying rule data (where supported).</p>
         </div>
       </details>
     </li>
@@ -94,9 +141,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">How do I share diagrams?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Open a diagram and copy its URL or click <strong>Share</strong> to generate a shareable link for teammates (permissions apply).
+          <p>Open a diagram and copy its URL or click <strong>Share</strong> to generate a shareable link for teammates (permissions apply).</p>
         </div>
       </details>
     </li>
@@ -106,9 +156,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">Is there an API?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Yes. See the <a href="{{ url_for('routes.full_help') }}#api" class="rc-faq-link">API section</a> in the documentation for authentication and endpoint details.
+          <p>Yes. See the <a href="{{ url_for('routes.full_help') }}#api" class="rc-faq-link">API section</a> in the documentation for authentication and endpoint details.</p>
         </div>
       </details>
     </li>
@@ -118,9 +171,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">How do I get started?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Sign up, upload your first diagram, and review the dashboard metrics for quick insights. The <a href="{{ url_for('routes.full_help') }}#getting-started" class="rc-faq-link">Get Started guide</a> walks through the basics.
+          <p>Sign up, upload your first diagram, and review the dashboard metrics for quick insights. The <a href="{{ url_for('routes.full_help') }}#getting-started" class="rc-faq-link">Get Started guide</a> walks through the basics.</p>
         </div>
       </details>
     </li>
@@ -130,9 +186,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">How do I upload a diagram?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Go to the <a href="{{ url_for('upload.upload_file') }}" class="rc-faq-link">Upload</a> page and drag &amp; drop your file, paste from clipboard, or browse from your computer.
+          <p>Go to the <a href="{{ url_for('upload.upload_file') }}" class="rc-faq-link">Upload</a> page and drag &amp; drop your file, paste from clipboard, or browse from your computer.</p>
         </div>
       </details>
     </li>
@@ -142,9 +201,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">How do I reset my password?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          On the login page, click <span class="rc-faq-accent">Forgot password</span> and follow the emailed reset link.
+          <p>On the login page, click <span class="rc-faq-accent">Forgot password</span> and follow the emailed reset link.</p>
         </div>
       </details>
     </li>
@@ -154,9 +216,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">Is there a keyboard shortcut for help?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Yes. Press <kbd>Shift</kbd> + <kbd>/</kbd> anywhere in the app to open the help overlay.
+          <p>Yes. Press <kbd>Shift</kbd> + <kbd>/</kbd> anywhere in the app to open the help overlay.</p>
         </div>
       </details>
     </li>
@@ -166,9 +231,12 @@
       <details>
         <summary>
           <span class="rc-faq-q">Can I customize diagram themes?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Absolutely. Visit <a href="/settings" class="rc-faq-link">Settings</a> to create or modify themes (colors, shapes, and typography vary by plan).
+          <p>Absolutely. Visit <a href="/settings" class="rc-faq-link">Settings</a> to create or modify themes (colors, shapes, and typography vary by plan).</p>
         </div>
       </details>
     </li>
@@ -178,72 +246,24 @@
       <details>
         <summary>
           <span class="rc-faq-q">Where can I get support?</span>
+          <svg class="rc-faq-chevron" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+          </svg>
         </summary>
         <div class="rc-faq-a">
-          Start with the <a href="{{ url_for('routes.full_help') }}" class="rc-faq-link">documentation</a>. Still stuck? Email <a href="mailto:support@rulescentral.com" class="rc-faq-link">support@rulescentral.com</a> or <a href="{{ url_for('main.contact') }}" class="rc-faq-link">contact us</a>.
+          <p>Start with the <a href="{{ url_for('routes.full_help') }}" class="rc-faq-link">documentation</a>. Still stuck? Email <a href="mailto:support@rulescentral.com" class="rc-faq-link">support@rulescentral.com</a> or <a href="{{ url_for('main.contact') }}" class="rc-faq-link">contact us</a>.</p>
         </div>
       </details>
     </li>
   </ul>
+
+  <div class="rc-faq-empty" id="rc-faq-empty" hidden>
+    <svg class="rc-faq-empty-icon" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+    </svg>
+    <h3 class="rc-faq-empty-title">No matches found</h3>
+    <p class="rc-faq-empty-text">Try a different search term or <button type="button" class="rc-faq-empty-reset">reset your search</button>.</p>
+  </div>
 </section>
 
 {% endblock content %}
-
-
-
-{% block styles %}
-{% endblock styles %}
-
-
-
-{% block scripts %}
-  {{ super() }}
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const list       = document.getElementById('rc-faq-list');
-    const filter     = document.getElementById('rc-faq-filter');
-    const expandBtn  = document.getElementById('rc-faq-expand');
-    const collapseBtn= document.getElementById('rc-faq-collapse');
-
-    const items = Array.from(list.querySelectorAll('.rc-faq-item'));
-
-    /* --- Filter -------------------------------------------------- */
-    function applyFilter(){
-      const q = (filter.value || '').trim().toLowerCase();
-      let visibleCount = 0;
-      items.forEach(li=>{
-        const hay = li.dataset.faqText;
-        const show = !q || (hay && hay.toLowerCase().includes(q));
-        li.classList.toggle('rc-faq-hidden', !show);
-        if (show) visibleCount++;
-      });
-      // auto-collapse unmatched open details to save layout
-      if (q){
-        items.forEach(li=>{
-          if (li.classList.contains('rc-faq-hidden')){
-            const deets = li.querySelector('details[open]');
-            if (deets) deets.open = false;
-          }
-        });
-      }
-      return visibleCount;
-    }
-    filter?.addEventListener('input', applyFilter);
-
-    /* --- Expand / Collapse all ---------------------------------- */
-    function setAll(open){
-      items.forEach(li=>{
-        const deets = li.querySelector('details');
-        if (deets) deets.open = open;
-      });
-      expandBtn.style.display   = open ? 'none' : '';
-      collapseBtn.style.display = open ? '' : 'none';
-    }
-    expandBtn?.addEventListener('click', ()=>setAll(true));
-    collapseBtn?.addEventListener('click', ()=>setAll(false));
-
-    /* initialize */
-    applyFilter();
-  });
-  </script>
-{% endblock scripts %}
