@@ -34,52 +34,72 @@
 
 <section class="wrapper rc-container rc-section rc-catalog-searchwrap">
   <form action="{{ url_for('main.catalog') }}" method="get" role="search" class="rc-catalog-search rc-card rc-surface-1">
-    <label for="rc-cat-search" class="sr-only">Search diagrams</label>
-    <input id="rc-cat-search"
-           type="search"
-           name="q"
-           value="{{ q }}"
-           placeholder="Search diagrams…"
-           autocomplete="off"
-           spellcheck="false"
-           class="rc-cat-search-input"
-           aria-label="Search diagrams">
+    <div class="rc-catalog-search-inner">
+      <label for="rc-cat-search" class="sr-only">Search diagrams</label>
+      <div class="rc-catalog-search-input-wrap">
+        <svg class="rc-catalog-search-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input id="rc-cat-search"
+              type="search"
+              name="q"
+              value="{{ q }}"
+              placeholder="Search diagrams…"
+              autocomplete="off"
+              spellcheck="false"
+              class="rc-cat-search-input"
+              aria-label="Search diagrams">
+        {% if q %}
+          <button type="button" class="rc-catalog-search-clear" aria-label="Clear search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        {% endif %}
+      </div>
 
-    {# Filters Drawer Trigger (mobile) #}
-    <button type="button" id="rc-cat-filter-open" class="rc-cat-filter-open sm:hidden" aria-label="Open filters">
-      Filters
-    </button>
+      {# Filters Drawer Trigger (mobile) #}
+      <button type="button" id="rc-cat-filter-open" class="rc-cat-filter-open sm:hidden" aria-label="Open filters" aria-expanded="false" aria-controls="rc-cat-filters">
+        <svg class="rc-cat-filter-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+        </svg>
+        Filters
+      </button>
 
-    {# Inline filters (desktop) #}
-    <fieldset class="rc-cat-filters hidden sm:flex" aria-label="Filters">
-      <legend class="sr-only">Filters</legend>
+      {# Inline filters (desktop) #}
+      <fieldset id="rc-cat-filters" class="rc-cat-filters hidden sm:flex" aria-label="Filters">
+        <legend class="sr-only">Filters</legend>
 
-      <div class="rc-cat-filtergroup">
-        <span class="rc-cat-filterlabel">Type:</span>
-        {% set type_options = type_options if type_options is defined else ['Flowchart','Sequence','Class','State'] %}
-        {% for t in type_options %}
+        <div class="rc-cat-filtergroup">
+          <span class="rc-cat-filterlabel">Type:</span>
+          {% set type_options = type_options if type_options is defined else ['Flowchart','Sequence','Class','State'] %}
+          {% for t in type_options %}
+            <label class="rc-cat-filterchk">
+              <input type="checkbox" name="type" value="{{ t }}" {% if t in selected_types %}checked{% endif %}>
+              <span class="rc-cat-filterchk-custom"></span>
+              {{ t }}
+            </label>
+          {% endfor %}
+        </div>
+
+        <div class="rc-cat-filtergroup">
           <label class="rc-cat-filterchk">
-            <input type="checkbox" name="type" value="{{ t }}" {% if t in selected_types %}checked{% endif %}>
-            {{ t }}
+            <input type="checkbox" name="fav" value="1" {% if favorites_only %}checked{% endif %}>
+            <span class="rc-cat-filterchk-custom"></span>
+            Favorites only
           </label>
-        {% endfor %}
-      </div>
+          <label class="rc-cat-filterchk">
+            <input type="checkbox" name="recent" value="1" {% if updated_recent %}checked{% endif %}>
+            <span class="rc-cat-filterchk-custom"></span>
+            Updated last 7d
+          </label>
+        </div>
+      </fieldset>
 
-      <div class="rc-cat-filtergroup">
-        <label class="rc-cat-filterchk">
-          <input type="checkbox" name="fav" value="1" {% if favorites_only %}checked{% endif %}>
-          Favorites only
-        </label>
-        <label class="rc-cat-filterchk">
-          <input type="checkbox" name="recent" value="1" {% if updated_recent %}checked{% endif %}>
-          Updated last 7d
-        </label>
-      </div>
-    </fieldset>
-
-    <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-cat-search-submit">
-      Search
-    </button>
+      <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-cat-search-submit">
+        Search
+      </button>
+    </div>
   </form>
 </section>
 
@@ -107,10 +127,11 @@
         <li>
           <a href="{{ url_for('main.catalog') }}?cat={{ c.slug }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}"
              class="rc-catalog-cat {{ 'active' if active }}"
-             aria-current="{{ 'page' if active }}">
+             aria-current="{{ 'page' if active }}"
+             data-category="{{ c.slug }}">
             <span class="rc-catalog-cat-name">{{ c.name }}</span>
             {% if c.count %}
-              <span class="rc-catalog-cat-count">{{ c.count }}</span>
+              <span class="rc-catalog-cat-count">{{ c.count|humanize_number }}</span>
             {% endif %}
           </a>
         </li>
@@ -130,7 +151,7 @@
   <div class="rc-catalog-results-head">
     <h2 class="rc-catalog-results-title">
       All Visualizations
-      <span class="rc-catalog-results-count">({{ total_count }} result{{ '' if total_count == 1 else 's' }})</span>
+      <span class="rc-catalog-results-count">({{ total_count|humanize_number }} result{{ '' if total_count == 1 else 's' }})</span>
     </h2>
     <div class="rc-catalog-results-controls">
       <div class="rc-catalog-sort">
@@ -145,8 +166,16 @@
         </select>
       </div>
       <div class="rc-catalog-viewtoggles" role="group" aria-label="View toggle">
-        <button type="button" id="rc-catalog-view-grid" class="rc-catalog-viewbtn active" aria-pressed="true" aria-label="Grid view">▦</button>
-        <button type="button" id="rc-catalog-view-list" class="rc-catalog-viewbtn" aria-pressed="false" aria-label="List view">≣</button>
+        <button type="button" id="rc-catalog-view-grid" class="rc-catalog-viewbtn active" aria-pressed="true" aria-label="Grid view">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="rc-catalog-view-icon">
+            <path d="M4 4h7v7H4zm0 9h7v7H4zm9-9h7v7h-7zm0 9h7v7h-7z"/>
+          </svg>
+        </button>
+        <button type="button" id="rc-catalog-view-list" class="rc-catalog-viewbtn" aria-pressed="false" aria-label="List view">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="rc-catalog-view-icon">
+            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -170,16 +199,25 @@
       {% set d_tags  = d.tags if d is mapping and 'tags' in d else [] %}
       {% set d_auth  = d.author if d is mapping and 'author' in d else '' %}
       {% set d_url   = d.url if d is mapping and 'url' in d and d.url else (url_for('diagrams.diagrams_index') ~ '?id=' ~ d_id) %}
-      <article class="rc-card rc-catalog-card rc-catalog-card-grid">
+      {% set d_fav   = d.is_favorite if d is mapping and 'is_favorite' in d else False %}
+      <article class="rc-card rc-catalog-card rc-catalog-card-grid" data-diagram-id="{{ d_id }}" data-type="{{ d_type|lower }}">
         <div class="rc-catalog-card-thumb">
           <a href="{{ d_url }}" class="rc-catalog-card-thumb-link" aria-label="Open {{ d_name }}">
-            <div class="rc-catalog-card-thumb-img skeleton"></div>
+            <div class="rc-catalog-card-thumb-img skeleton">
+              {% if d.thumbnail %}
+                <img src="{{ d.thumbnail }}" alt="" loading="lazy" onload="this.parentElement.classList.remove('skeleton')">
+              {% endif %}
+            </div>
           </a>
           <button type="button"
                   class="rc-catalog-favbtn"
                   data-diag-id="{{ d_id }}"
-                  aria-pressed="false"
-                  aria-label="Favorite diagram {{ d_name }}">♡</button>
+                  aria-pressed="{{ 'true' if d_fav else 'false' }}"
+                  aria-label="{{ 'Remove from favorites' if d_fav else 'Add to favorites' }}">
+            <svg class="rc-catalog-fav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="{{ 'currentColor' if d_fav else 'none' }}" stroke="currentColor" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
         </div>
         <div class="rc-catalog-card-body">
           <div class="rc-catalog-card-type">{{ d_type }}</div>
@@ -189,7 +227,16 @@
           {% if d_desc %}
             <p class="rc-catalog-card-desc">{{ d_desc }}</p>
           {% endif %}
-          <div class="rc-catalog-card-updated">{{ d_upd }}</div>
+          <div class="rc-catalog-card-meta">
+            <span class="rc-catalog-card-updated">{{ d_upd }}</span>
+            {% if d_tags %}
+              <ul class="rc-catalog-card-tags" role="list">
+                {% for tag in d_tags %}
+                  <li>{{ tag }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
           <div class="rc-catalog-card-action">
             <a href="{{ d_url }}" class="btn-primary rc-cta w-full text-center">Preview</a>
           </div>
@@ -198,6 +245,9 @@
     {% endfor %}
   {% else %}
     <div class="rc-card rc-catalog-empty p-10 text-center" role="alert">
+      <svg class="rc-catalog-empty-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
       <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">No diagrams found</h3>
       <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Try adjusting your search or filter criteria.</p>
       <a href="{{ url_for('main.catalog') }}" class="btn-primary rc-cta mt-4 inline-block">Reset Search &amp; Filters</a>
@@ -217,16 +267,25 @@
       {% set d_tags  = d.tags if d is mapping and 'tags' in d else [] %}
       {% set d_auth  = d.author if d is mapping and 'author' in d else '' %}
       {% set d_url   = d.url if d is mapping and 'url' in d and d.url else (url_for('diagrams.diagrams_index') ~ '?id=' ~ d_id) %}
-      <article class="rc-card rc-catalog-card rc-catalog-card-list">
+      {% set d_fav   = d.is_favorite if d is mapping and 'is_favorite' in d else False %}
+      <article class="rc-card rc-catalog-card rc-catalog-card-list" data-diagram-id="{{ d_id }}" data-type="{{ d_type|lower }}">
         <div class="rc-catalog-card-listthumb">
           <a href="{{ d_url }}" aria-label="Open {{ d_name }}">
-            <div class="rc-catalog-card-thumb-img skeleton"></div>
+            <div class="rc-catalog-card-thumb-img skeleton">
+              {% if d.thumbnail %}
+                <img src="{{ d.thumbnail }}" alt="" loading="lazy" onload="this.parentElement.classList.remove('skeleton')">
+              {% endif %}
+            </div>
           </a>
           <button type="button"
                   class="rc-catalog-favbtn"
                   data-diag-id="{{ d_id }}"
-                  aria-pressed="false"
-                  aria-label="Favorite diagram {{ d_name }}">♡</button>
+                  aria-pressed="{{ 'true' if d_fav else 'false' }}"
+                  aria-label="{{ 'Remove from favorites' if d_fav else 'Add to favorites' }}">
+            <svg class="rc-catalog-fav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="{{ 'currentColor' if d_fav else 'none' }}" stroke="currentColor" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
         </div>
         <div class="rc-catalog-card-listbody">
           <div class="rc-catalog-card-listmeta">
@@ -265,7 +324,7 @@
   <nav class="rc-catalog-pager" role="navigation" aria-label="Pagination">
     {% set prev_disabled = page <= 1 %}
     {% set next_disabled = page >= pages %}
-    {% set base_qs = '&amp;'.join(request.query_string.decode().split('&amp;') if request.query_string else []) %}
+    {% set base_qs = '&amp;'.join(request.query_string.decode().split('&amp;') if request.query_string else '' %}
     {% macro page_link(p,label=None) %}
       {% set label = label or p %}
       <a href="{{ url_for('main.catalog', **request.args.to_dict(flat=False)) }}{% if p %}?page={{ p }}{% endif %}"
@@ -273,23 +332,23 @@
     {% endmacro %}
     <div class="rc-catalog-pager-inner">
       {% if prev_disabled %}
-        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled">Previous</span>
+        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled" aria-disabled="true">Previous</span>
       {% else %}
-        <a href="{{ url_for('main.catalog', page=page-1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">Previous</a>
+        <a href="{{ url_for('main.catalog', page=page-1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn" rel="prev">Previous</a>
       {% endif %}
 
       {% for p in range(1, pages+1) %}
         {% if p == page %}
-          <span class="rc-catalog-pagebtn rc-catalog-pagebtn-active">{{ p }}</span>
+          <span class="rc-catalog-pagebtn rc-catalog-pagebtn-active" aria-current="page">{{ p }}</span>
         {% else %}
           <a href="{{ url_for('main.catalog', page=p, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">{{ p }}</a>
         {% endif %}
       {% endfor %}
 
       {% if next_disabled %}
-        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled">Next</span>
+        <span class="rc-catalog-pagebtn rc-catalog-pagebtn-disabled" aria-disabled="true">Next</span>
       {% else %}
-        <a href="{{ url_for('main.catalog', page=page+1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn">Next</a>
+        <a href="{{ url_for('main.catalog', page=page+1, **request.args.to_dict(flat=False)) }}" class="rc-catalog-pagebtn" rel="next">Next</a>
       {% endif %}
     </div>
   </nav>
@@ -303,6 +362,66 @@
    STYLES
 ------------------------------------------------------------------ #}
 {% block styles %}
+  {{ super() }}
+  <style>
+  .rc-catalog-search-input-wrap {
+    position: relative;
+    flex: 1;
+  }
+  .rc-catalog-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+    opacity: 0.5;
+  }
+  .rc-catalog-search-clear {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+  .rc-catalog-search-clear:hover {
+    opacity: 1;
+  }
+  .rc-catalog-search-clear svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+  .rc-catalog-empty-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    fill: currentColor;
+    opacity: 0.5;
+  }
+  .rc-catalog-fav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: all 0.2s;
+  }
+  .rc-catalog-view-icon {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+  .rc-cat-filter-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    fill: currentColor;
+  }
+  </style>
 {% endblock styles %}
 
 
@@ -315,16 +434,40 @@
   // Catalog behavior: grid/list toggle, ctrl+k focus, sync filters, persist view in localStorage
   document.addEventListener('DOMContentLoaded', () => {
     const searchInput   = document.getElementById('rc-cat-search');
+    const searchClear   = document.querySelector('.rc-catalog-search-clear');
     const gridBtn       = document.getElementById('rc-catalog-view-grid');
     const listBtn       = document.getElementById('rc-catalog-view-list');
     const gridWrap      = document.getElementById('rc-catalog-grid');
     const listWrap      = document.getElementById('rc-catalog-list');
     const sortSelect    = document.getElementById('rc-cat-sort');
     const filterOpenBtn = document.getElementById('rc-cat-filter-open');
+    const filterDrawer  = document.getElementById('rc-cat-filters');
+
+    // Clear search input
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchInput.focus();
+        searchClear.style.display = 'none';
+      });
+    }
+
+    // Show/hide clear button based on input
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        if (searchClear) {
+          searchClear.style.display = searchInput.value ? 'block' : 'none';
+        }
+      });
+      // Initialize clear button state
+      if (searchClear) {
+        searchClear.style.display = searchInput.value ? 'block' : 'none';
+      }
+    }
 
     // Ctrl+K focus search
-    window.addEventListener('keydown', (e)=>{
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         searchInput?.focus();
       }
@@ -332,7 +475,7 @@
 
     // Persisted view
     const VIEW_KEY = 'rc_catalog_view';
-    function applyView(v){
+    function applyView(v) {
       const isGrid = v !== 'list';
       gridWrap.hidden = !isGrid;
       listWrap.hidden = isGrid;
@@ -342,21 +485,61 @@
       listBtn.setAttribute('aria-pressed', !isGrid);
       localStorage.setItem(VIEW_KEY, isGrid ? 'grid' : 'list');
     }
-    gridBtn?.addEventListener('click',()=>applyView('grid'));
-    listBtn?.addEventListener('click',()=>applyView('list'));
+    gridBtn?.addEventListener('click', () => applyView('grid'));
+    listBtn?.addEventListener('click', () => applyView('list'));
     applyView(localStorage.getItem(VIEW_KEY) || 'grid');
 
     // Auto-submit on sort change
-    sortSelect?.addEventListener('change', ()=>{
+    sortSelect?.addEventListener('change', () => {
       // rebuild URL w/ existing params but new sort
       const url = new URL(window.location.href);
       url.searchParams.set('sort', sortSelect.value);
       window.location.href = url.toString();
     });
 
-    // Mobile filters drawer (simple prompt fallback)
-    filterOpenBtn?.addEventListener('click', ()=>{
-      alert('Filters available on larger screens. Use desktop for full filtering.');
+    // Mobile filters drawer
+    if (filterOpenBtn && filterDrawer) {
+      filterOpenBtn.addEventListener('click', () => {
+        const isExpanded = filterOpenBtn.getAttribute('aria-expanded') === 'true';
+        filterOpenBtn.setAttribute('aria-expanded', !isExpanded);
+        filterDrawer.classList.toggle('hidden', isExpanded);
+        filterDrawer.classList.toggle('flex', !isExpanded);
+      });
+    }
+
+    // Favorite button handling
+    document.querySelectorAll('.rc-catalog-favbtn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const diagramId = btn.getAttribute('data-diag-id');
+        const isFavorited = btn.getAttribute('aria-pressed') === 'true';
+        
+        try {
+          // Toggle UI state immediately for better responsiveness
+          btn.setAttribute('aria-pressed', !isFavorited);
+          btn.setAttribute('aria-label', isFavorited ? 'Add to favorites' : 'Remove from favorites');
+          
+          // Send request to server
+          const response = await fetch(`/api/diagrams/${diagramId}/favorite`, {
+            method: isFavorited ? 'DELETE' : 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+          });
+          
+          if (!response.ok) {
+            // Revert UI if request fails
+            btn.setAttribute('aria-pressed', isFavorited);
+            btn.setAttribute('aria-label', isFavorited ? 'Remove from favorites' : 'Add to favorites');
+            throw new Error('Failed to update favorite status');
+          }
+        } catch (error) {
+          console.error('Error updating favorite:', error);
+          // Optionally show error message to user
+        }
+      });
     });
   });
   </script>
