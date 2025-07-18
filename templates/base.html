@@ -53,14 +53,14 @@
       d.dataset.theme = t;
     }
 
-    var t = localStorage.getItem(STORAGE_KEY);
-    if (!t || t === 'system') {
+    var t = localStorage.getItem(STORAGE_KEY) || 'bear';
+    if (t === 'system') {
       t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     apply(t);
 
-    // Watch system changes if user is in 'system' mode
-    if (!localStorage.getItem(STORAGE_KEY) || localStorage.getItem(STORAGE_KEY) === 'system') {
+    // Watch system changes if user selected 'system'
+    if (localStorage.getItem(STORAGE_KEY) === 'system') {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
         apply(e.matches ? 'dark' : 'light');
       });
