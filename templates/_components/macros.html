@@ -1,158 +1,470 @@
 {% macro Nav() -%}
-<header x-data="{dark: localStorage.theme==='dark'}" x-init="document.documentElement.classList.toggle('dark', dark)" class="sticky top-0 z-50 bg-[var(--surface-0)]/80 backdrop-blur shadow-sm">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <div class="container flex items-center justify-between py-4">
-    <a href="/" class="flex items-center gap-2 text-lg font-semibold focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
-      <svg aria-hidden="true" class="w-6 h-6 text-[var(--accent-r)]" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8c0-3.9 4.5-6 9-6s9 2.1 9 6-4.5 12-9 12S3 11.9 3 8Z"/></svg>
-      Rules Central
+<header 
+  x-data="{dark: localStorage.theme==='dark', mobileMenuOpen: false}" 
+  x-init="document.documentElement.classList.toggle('dark', dark)" 
+  class="sticky top-0 z-50 bg-[var(--surface-0)]/90 backdrop-blur-md shadow-sm"
+>
+  <div class="container flex items-center justify-between py-4 px-4 sm:px-6">
+    <a href="/" class="flex items-center gap-2 text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2">
+      <svg aria-hidden="true" class="w-6 h-6 text-[var(--accent-r)]" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 8c0-3.9 4.5-6 9-6s9 2.1 9 6-4.5 12-9 12S3 11.9 3 8Z"/>
+      </svg>
+      <span>Rules Central</span>
     </a>
-    <button type="button" @click="dark=!dark;localStorage.theme=dark?'dark':'light';document.documentElement.classList.toggle('dark',dark)" aria-label="Toggle theme" class="p-2 rounded focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
-      <svg x-show="!dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m13.07-5.07l-.71.71M6.64 17.36l-.71.71m11.07 0l-.71-.71M6.64 6.64l-.71-.71"/></svg>
-      <svg x-show="dark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 14a6 6 0 010-12 6 6 0 000 12z"/></svg>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded">Features</a>
+      <a href="#pricing" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded">Pricing</a>
+      <a href="#faq" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded">FAQ</a>
+      <a href="/login" class="px-4 py-2 rounded text-[var(--ink-600)] hover:bg-[var(--surface-1)] dark:text-[var(--ink-400)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2">Log in</a>
+      <a href="/signup" class="px-4 py-2 rounded bg-[var(--accent-r)] text-white hover:bg-[var(--accent-r-dark)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2">Sign up</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center gap-4 md:hidden">
+      <button 
+        type="button" 
+        @click="mobileMenuOpen = !mobileMenuOpen"
+        aria-label="Toggle menu"
+        class="p-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+      >
+        <svg x-show="!mobileMenuOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg x-show="mobileMenuOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button 
+      type="button" 
+      @click="dark=!dark;localStorage.theme=dark?'dark':'light';document.documentElement.classList.toggle('dark',dark)" 
+      aria-label="Toggle theme" 
+      class="p-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+    >
+      <svg x-show="!dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m13.07-5.07l-.71.71M6.64 17.36l-.71.71m11.07 0l-.71-.71M6.64 6.64l-.71-.71"/>
+      </svg>
+      <svg x-show="dark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 14a6 6 0 010-12 6 6 0 000 12z"/>
+      </svg>
     </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div 
+    x-show="mobileMenuOpen" 
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    class="md:hidden absolute inset-x-0 top-full bg-[var(--surface-0)] shadow-lg py-4 px-6"
+  >
+    <nav class="flex flex-col gap-4">
+      <a href="#features" class="text-lg py-2 border-b border-[var(--surface-1)]">Features</a>
+      <a href="#pricing" class="text-lg py-2 border-b border-[var(--surface-1)]">Pricing</a>
+      <a href="#faq" class="text-lg py-2 border-b border-[var(--surface-1)]">FAQ</a>
+      <div class="flex flex-col gap-3 mt-4">
+        <a href="/login" class="w-full text-center py-2 rounded text-[var(--ink-600)] hover:bg-[var(--surface-1)] dark:text-[var(--ink-400)]">Log in</a>
+        <a href="/signup" class="w-full text-center py-2 rounded bg-[var(--accent-r)] text-white hover:bg-[var(--accent-r-dark)]">Sign up</a>
+      </div>
+    </nav>
   </div>
 </header>
 {%- endmacro %}
 
 {% macro DeviceCarousel(images) -%}
-<div x-data="carousel({{ images|length }})" class="relative aspect-[3/2] overflow-hidden">
+<div 
+  x-data="carousel({{ images|length }})" 
+  class="relative aspect-[3/2] overflow-hidden rounded-xl shadow-lg"
+>
   {% for img in images %}
-  <picture class="absolute inset-0 transition-opacity duration-700 motion-reduce:duration-0" :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-0'">
-    <img src="{{ url_for('static', filename=img + '.png') }}" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
+  <picture 
+    class="absolute inset-0 transition-opacity duration-700 motion-reduce:duration-0" 
+    :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-0 pointer-events-none'"
+    aria-hidden="{{ 'false' if loop.first else 'true' }}"
+  >
+    <source srcset="{{ url_for('static', filename=img + '.webp') }}" type="image/webp">
+    <source srcset="{{ url_for('static', filename=img + '.png') }}" type="image/png">
+    <img 
+      src="{{ url_for('static', filename=img + '.png') }}" 
+      alt="Screenshot of Rules Central interface {{ loop.index }}" 
+      class="w-full h-full object-contain" 
+      loading="lazy" 
+      decoding="async"
+    >
   </picture>
   {% endfor %}
+  
+  <!-- Navigation Dots -->
+  <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+    {% for _ in images %}
+    <button
+      @click="goTo({{ loop.index0 }})"
+      class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      :class="{ 'bg-white': current === {{ loop.index0 }} }"
+      aria-label="Go to slide {{ loop.index }}"
+    ></button>
+    {% endfor %}
+  </div>
 </div>
-<script defer src="{{ url_for('static', filename='js/carousel.js') }}"></script>
 {%- endmacro %}
 
-{% macro Hero(title, tagline, cta_href, images=[]) -%}
-<section class="min-h-[80vh] flex flex-col items-center justify-center text-center gap-6 py-18">
-  <h1 class="text-5xl font-bold">{{ title }}</h1>
-  <p class="text-xl text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ tagline }}</p>
-  <a href="{{ cta_href }}" class="inline-block px-6 py-3 rounded bg-[var(--accent-r)] text-white shadow-soft transition-transform duration-200 motion-safe:hover:scale-105 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Get started</a>
+{% macro Hero(title, tagline, cta_href, images=[], secondary_cta_href=None) -%}
+<section class="min-h-[80vh] flex flex-col items-center justify-center text-center gap-8 py-18 px-4">
+  <div class="max-w-3xl space-y-6">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">{{ title }}</h1>
+    <p class="text-xl md:text-2xl text-[var(--ink-600)] dark:text-[var(--ink-400)] leading-relaxed">{{ tagline }}</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a 
+        href="{{ cta_href }}" 
+        class="inline-block px-8 py-3 rounded-lg bg-[var(--accent-r)] text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 motion-safe:hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+      >
+        Get started
+      </a>
+      {% if secondary_cta_href %}
+      <a 
+        href="{{ secondary_cta_href }}" 
+        class="inline-block px-8 py-3 rounded-lg bg-transparent border border-[var(--ink-400)] text-[var(--ink-600)] dark:text-[var(--ink-400)] font-medium hover:bg-[var(--surface-1)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+      >
+        Learn more
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  
   {% if images %}
-  <div class="mt-10 w-full max-w-4xl">
+  <div class="mt-12 w-full max-w-6xl px-4">
     {{ DeviceCarousel(images) }}
   </div>
   {% endif %}
 </section>
 {%- endmacro %}
 
-{% macro FeatureRow(title, desc, img_path, reverse=False) -%}
-<section class="py-18">
+{% macro FeatureRow(title, desc, img_path, reverse=False, cta_href=None) -%}
+<section class="py-18 px-4">
   <div class="container flex flex-col md:flex-row items-center gap-10 {% if reverse %}md:flex-row-reverse{% endif %}">
-    <div class="md:w-1/2 space-y-4">
-      <h2 class="text-3xl font-semibold">{{ title }}</h2>
-      <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ desc }}</p>
+    <div class="md:w-1/2 space-y-6">
+      <h2 class="text-3xl md:text-4xl font-bold">{{ title }}</h2>
+      <p class="text-lg text-[var(--ink-600)] dark:text-[var(--ink-400)] leading-relaxed">{{ desc }}</p>
+      {% if cta_href %}
+      <a 
+        href="{{ cta_href }}" 
+        class="inline-block px-6 py-2 rounded-lg bg-transparent border border-[var(--accent-r)] text-[var(--accent-r)] hover:bg-[var(--accent-r)] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+      >
+        Learn more
+      </a>
+      {% endif %}
     </div>
-    <picture class="md:w-1/2 w-full">
-      <img src="{{ url_for('static', filename=img_path + '.png') }}" alt="" class="w-full rounded shadow-soft" loading="lazy" decoding="async">
-    </picture>
+    <div class="md:w-1/2 w-full">
+      <picture>
+        <source srcset="{{ url_for('static', filename=img_path + '.webp') }}" type="image/webp">
+        <source srcset="{{ url_for('static', filename=img_path + '.png') }}" type="image/png">
+        <img 
+          src="{{ url_for('static', filename=img_path + '.png') }}" 
+          alt="Visual representation of {{ title }}" 
+          class="w-full rounded-xl shadow-lg" 
+          loading="lazy" 
+          decoding="async"
+        >
+      </picture>
+    </div>
   </div>
 </section>
 {%- endmacro %}
 
 {% macro FeatureGrid(features) -%}
-<section class="py-18 bg-[var(--surface-1)] dark:bg-[var(--surface-1)]">
-  <div class="container grid md:grid-cols-3 gap-10 text-center">
-    {% for f in features %}
-    <div class="space-y-4">
-      <i class="{{ f.icon }} text-3xl text-[var(--accent-r)]" aria-hidden="true"></i>
-      <h3 class="text-xl font-semibold">{{ f.title }}</h3>
-      <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ f.desc }}</p>
+<section class="py-18 bg-[var(--surface-1)] dark:bg-[var(--surface-1)] px-4">
+  <div class="container">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Key Features</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for f in features %}
+      <div class="bg-[var(--surface-0)] dark:bg-[var(--surface-0)] p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 rounded-full bg-[var(--accent-r)]/10 flex items-center justify-center mb-4">
+          <i class="{{ f.icon }} text-2xl text-[var(--accent-r)]" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">{{ f.title }}</h3>
+        <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ f.desc }}</p>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 </section>
 {%- endmacro %}
 
 {% macro FAQ(items) -%}
-<section class="py-18">
-  <div class="container divide-y">
-    {% for q,a in items %}
-    <div x-data="{open:false}" class="py-4">
-      <button type="button" @click="open=!open" @keydown.enter.prevent="open=!open" @keydown.space.prevent="open=!open" class="w-full flex justify-between items-center text-left font-medium focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
-        <span>{{ q }}</span>
-        <svg class="w-5 h-5 transform transition-transform" :class="{'rotate-360':open}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.657a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
-      </button>
-      <div x-show="open" x-collapse class="mt-2 text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ a }}</div>
+<section id="faq" class="py-18 px-4">
+  <div class="container max-w-3xl">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+    <div class="divide-y divide-[var(--surface-1)]">
+      {% for q,a in items %}
+      <div 
+        x-data="{open: false}" 
+        class="py-6 first:pt-0 last:pb-0"
+      >
+        <button 
+          type="button" 
+          @click="open = !open"
+          @keydown.enter.prevent="open = !open"
+          @keydown.space.prevent="open = !open"
+          class="w-full flex justify-between items-center text-left gap-4 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded"
+          :aria-expanded="open"
+        >
+          <span class="text-lg">{{ q }}</span>
+          <svg 
+            class="w-5 h-5 flex-shrink-0 transform transition-transform duration-200" 
+            :class="{'rotate-180': open}" 
+            viewBox="0 0 20 20" 
+            fill="currentColor" 
+            aria-hidden="true"
+          >
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.657a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <div 
+          x-show="open" 
+          x-collapse 
+          class="mt-4 text-[var(--ink-600)] dark:text-[var(--ink-400)] prose dark:prose-invert"
+        >
+          {{ a }}
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 </section>
 {%- endmacro %}
 
 {% macro PriceCards(plans, csrf_token) -%}
-<section id="pricing" class="py-22 bg-[var(--surface-0)] dark:bg-[var(--surface-0)]">
-  <div class="container grid md:grid-cols-2 gap-6">
-    {% for plan in plans %}
-    <form method="post" action="{{ plan.action }}" class="relative border rounded-lg p-6 shadow-soft flex flex-col">
-      {% if plan.badge %}<span class="absolute -top-3 right-3 bg-[var(--accent-r)] text-white text-xs px-2 py-1 rounded">{{ plan.badge }}</span>{% endif %}
-      <h3 class="text-xl font-semibold mb-2">{{ plan.name }}</h3>
-      <p class="text-4xl font-bold mb-4">{{ plan.price }}</p>
-      <ul class="flex-1 space-y-1 mb-6">
-        {% for feat in plan.features %}<li>{{ feat }}</li>{% endfor %}
-      </ul>
-      <input type="hidden" name="plan_id" value="{{ plan.id }}">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-      <button type="submit" class="mt-auto px-6 py-3 rounded bg-[var(--accent-r)] text-white focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Select</button>
-    </form>
-    {% endfor %}
+<section id="pricing" class="py-22 bg-[var(--surface-0)] dark:bg-[var(--surface-0)] px-4">
+  <div class="container">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Simple, transparent pricing</h2>
+    <p class="text-center text-[var(--ink-600)] dark:text-[var(--ink-400)] max-w-2xl mx-auto mb-12">Choose the plan that fits your needs. No hidden fees, cancel anytime.</p>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {% for plan in plans %}
+      <form 
+        method="post" 
+        action="{{ plan.action }}" 
+        class="relative border border-[var(--surface-1)] rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+        :class="{ 'ring-2 ring-[var(--accent-r)]': {{ 'true' if plan.badge else 'false' }} }"
+      >
+        {% if plan.badge %}
+        <span class="absolute -top-3 right-4 bg-[var(--accent-r)] text-white text-sm px-3 py-1 rounded-full font-medium">
+          {{ plan.badge }}
+        </span>
+        {% endif %}
+        
+        <h3 class="text-xl font-semibold mb-2">{{ plan.name }}</h3>
+        <p class="text-4xl font-bold mb-4">
+          {{ plan.price }}
+          {% if plan.price != 'Free' %}<span class="text-lg font-normal text-[var(--ink-600)] dark:text-[var(--ink-400)]">/month</span>{% endif %}
+        </p>
+        
+        <ul class="flex-1 space-y-3 mb-8">
+          {% for feat in plan.features %}
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-[var(--accent-r)] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>{{ feat }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        
+        <input type="hidden" name="plan_id" value="{{ plan.id }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
+        <button 
+          type="submit" 
+          class="mt-auto px-6 py-3 rounded-lg bg-[var(--accent-r)] text-white font-medium hover:bg-[var(--accent-r-dark)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2"
+        >
+          Get started
+        </button>
+      </form>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {%- endmacro %}
 
 {% macro DownloadStrip() -%}
-<section class="py-18">
-  <div class="container flex justify-center gap-4">
-    <a href="#" class="transition hover:text-[var(--accent-r)] grayscale hover:grayscale-0 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] rounded">
-      <img src="{{ url_for('static', filename='images/app-store-badge.svg') }}" alt="Download on the App Store" class="h-12" loading="lazy" decoding="async">
-    </a>
-    <a href="#" class="transition hover:text-[var(--accent-r)] grayscale hover:grayscale-0 focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] rounded">
-      <img src="{{ url_for('static', filename='images/mac-app-store-badge.svg') }}" alt="Download on the Mac App Store" class="h-12" loading="lazy" decoding="async">
-    </a>
+<section class="py-18 px-4">
+  <div class="container">
+    <h2 class="sr-only">Download our app</h2>
+    <div class="flex flex-wrap justify-center gap-6">
+      <a 
+        href="#" 
+        class="transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded-lg"
+        aria-label="Download on the App Store"
+      >
+        <img 
+          src="{{ url_for('static', filename='images/app-store-badge.svg') }}" 
+          alt="Download on the App Store" 
+          class="h-12 md:h-14" 
+          loading="lazy" 
+          decoding="async"
+        >
+      </a>
+      <a 
+        href="#" 
+        class="transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)] focus-visible:ring-offset-2 rounded-lg"
+        aria-label="Download on the Mac App Store"
+      >
+        <img 
+          src="{{ url_for('static', filename='images/mac-app-store-badge.svg') }}" 
+          alt="Download on the Mac App Store" 
+          class="h-12 md:h-14" 
+          loading="lazy" 
+          decoding="async"
+        >
+      </a>
+    </div>
   </div>
 </section>
 {%- endmacro %}
 
 {% macro TestimonialCarousel(items) -%}
-<section class="py-22">
-  <div class="container" x-data="{index:0}">
-    <div x-ref="track" class="flex overflow-x-auto space-x-6 snap-x snap-mandatory">
-      {% for t in items %}
-      <div class="snap-center shrink-0 w-full md:w-1/2">
-        <blockquote class="p-6 bg-[var(--surface-1)] dark:bg-[var(--surface-1)] rounded shadow-soft">{{ t.text }}<footer class="mt-4 text-sm">{{ t.author }}</footer></blockquote>
+<section class="py-22 px-4 bg-[var(--surface-1)] dark:bg-[var(--surface-1)]">
+  <div class="container">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">What our users say</h2>
+    
+    <div 
+      x-data="{index: 0}" 
+      class="relative"
+    >
+      <div 
+        x-ref="track" 
+        class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+        @scroll.debounce="index = Math.round($event.target.scrollLeft / $event.target.clientWidth)"
+      >
+        {% for t in items %}
+        <div class="snap-center shrink-0 w-full md:w-2/3 lg:w-1/2 px-4">
+          <blockquote class="p-8 bg-[var(--surface-0)] dark:bg-[var(--surface-0)] rounded-xl shadow-sm">
+            <div class="flex items-center gap-4 mb-4">
+              <img 
+                src="{{ url_for('static', filename=t.avatar) }}" 
+                alt="{{ t.author }}" 
+                class="w-12 h-12 rounded-full object-cover" 
+                loading="lazy" 
+                decoding="async"
+              >
+              <div>
+                <p class="font-semibold">{{ t.author }}</p>
+                <p class="text-sm text-[var(--ink-600)] dark:text-[var(--ink-400)]">{{ t.role }}</p>
+              </div>
+            </div>
+            <p class="text-lg italic">"{{ t.text }}"</p>
+            <div class="flex gap-1 mt-4 text-[var(--accent-r)]">
+              {% for _ in range(t.rating) %}
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              {% endfor %}
+            </div>
+          </blockquote>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-    <div class="flex justify-center gap-2 mt-4">
-      {% for _ in items %}
-      <button @click="index={{ loop.index0 }}; $refs.track.scrollTo({left:$refs.track.children[{{ loop.index0 }}].offsetLeft,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})" class="w-3 h-3 rounded-full border border-[var(--ink-400)] focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]" :class="{ 'bg-[var(--accent-r)] border-[var(--accent-r)]': index === {{ loop.index0 }} }" aria-label="Go to testimonial {{ loop.index }}"></button>
-      {% endfor %}
+      
+      <div class="flex justify-center gap-2 mt-8">
+        {% for _ in items %}
+        <button 
+          @click="index={{ loop.index0 }}; $refs.track.scrollTo({left: $refs.track.children[{{ loop.index0 }}].offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'})" 
+          class="w-3 h-3 rounded-full bg-[var(--ink-400)]/30 hover:bg-[var(--ink-400)]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]"
+          :class="{ 'bg-[var(--accent-r)]': index === {{ loop.index0 }} }" 
+          aria-label="Go to testimonial {{ loop.index }}"
+        ></button>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>
 {%- endmacro %}
 
 {% macro Footer() -%}
-<footer class="border-t border-[var(--surface-1)] mt-22 py-18 text-sm">
-  <div class="container grid md:grid-cols-3 gap-10">
-    <nav class="space-y-2">
-      <a href="#features" class="block hover:text-[var(--accent-r)]">Features</a>
-      <a href="#pricing" class="block hover:text-[var(--accent-r)]">Pricing</a>
-      <a href="#faq" class="block hover:text-[var(--accent-r)]">FAQ</a>
-    </nav>
-    <nav class="space-y-2">
-      <a href="/privacy" class="block hover:text-[var(--accent-r)]">Privacy</a>
-      <a href="/terms" class="block hover:text-[var(--accent-r)]">Terms</a>
-      <a href="/support" class="block hover:text-[var(--accent-r)]">Support</a>
-    </nav>
-    <form class="space-y-2">
-      <label for="news" class="font-medium">Newsletter</label>
-      <input id="news" type="email" required placeholder="you@example.com" class="w-full px-3 py-2 border rounded focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">
-      <button type="submit" class="px-4 py-2 rounded bg-[var(--accent-r)] text-white focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]">Subscribe</button>
-    </form>
+<footer class="border-t border-[var(--surface-1)] mt-22 py-18 px-4 text-sm bg-[var(--surface-0)] dark:bg-[var(--surface-0)]">
+  <div class="container">
+    <div class="grid md:grid-cols-4 gap-10">
+      <div class="space-y-4">
+        <a href="/" class="flex items-center gap-2 text-lg font-semibold">
+          <svg aria-hidden="true" class="w-6 h-6 text-[var(--accent-r)]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 8c0-3.9 4.5-6 9-6s9 2.1 9 6-4.5 12-9 12S3 11.9 3 8Z"/>
+          </svg>
+          <span>Rules Central</span>
+        </a>
+        <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)]">Simplify your rule management with our intuitive platform.</p>
+      </div>
+      
+      <nav class="space-y-2">
+        <h3 class="font-semibold text-lg mb-2">Product</h3>
+        <a href="#features" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Features</a>
+        <a href="#pricing" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Pricing</a>
+        <a href="#faq" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">FAQ</a>
+      </nav>
+      
+      <nav class="space-y-2">
+        <h3 class="font-semibold text-lg mb-2">Company</h3>
+        <a href="/about" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">About</a>
+        <a href="/blog" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Blog</a>
+        <a href="/careers" class="block text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Careers</a>
+      </nav>
+      
+      <div class="space-y-4">
+        <h3 class="font-semibold text-lg mb-2">Stay updated</h3>
+        <form class="space-y-2">
+          <label for="news" class="sr-only">Email newsletter</label>
+          <div class="flex gap-2">
+            <input 
+              id="news" 
+              type="email" 
+              required 
+              placeholder="Your email" 
+              class="flex-1 px-4 py-2 border border-[var(--surface-1)] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]"
+            >
+            <button 
+              type="submit" 
+              class="px-4 py-2 rounded-lg bg-[var(--accent-r)] text-white hover:bg-[var(--accent-r-dark)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-r)]"
+            >
+              Subscribe
+            </button>
+          </div>
+          <p class="text-xs text-[var(--ink-600)] dark:text-[var(--ink-400)]">We'll never share your email.</p>
+        </form>
+        
+        <div class="flex gap-4">
+          <a href="#" aria-label="Twitter" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="GitHub" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="border-t border-[var(--surface-1)] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <nav class="flex flex-wrap justify-center gap-4">
+        <a href="/privacy" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Privacy</a>
+        <a href="/terms" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Terms</a>
+        <a href="/cookies" class="text-[var(--ink-600)] hover:text-[var(--accent-r)] dark:text-[var(--ink-400)] transition-colors">Cookies</a>
+      </nav>
+      <p class="text-[var(--ink-600)] dark:text-[var(--ink-400)] text-center">&copy; {{ now().year }} Rules Central. All rights reserved.</p>
+    </div>
   </div>
-  <p class="text-center mt-8">&copy; {{ now().year }} Rules Central</p>
 </footer>
 {%- endmacro %}
