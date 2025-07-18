@@ -7,7 +7,7 @@
  * choice is stored.
  */
 
-const STORAGE_KEY = 'theme';
+const STORAGE_KEY = 'rc-theme';
 const THEMES = ['bear', 'dark', 'light', 'contrast'];
 const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
