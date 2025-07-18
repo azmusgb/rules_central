@@ -2,9 +2,10 @@
  * theme.js — accessible theme toggle with persistence
  * ----------------------------------------------
  * Cycles between Bear, Dark, Light, High Contrast and System themes.
+ * The Bear option uses refreshed light colors.
  * Applies the `dark` class for dark mode and stores user choice in
  * localStorage. Defaults to Bear when no choice is stored.
- */
+*/
 
 const STORAGE_KEY = 'rc-theme';
 const THEMES = ['bear', 'dark', 'light', 'contrast', 'system'];
