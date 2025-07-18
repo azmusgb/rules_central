@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function handleLoadMore() {
+  async function handleLoadMore() {
     const loadMoreBtn = this;
     const contentDiv = document.getElementById("dynamicContent");
 
@@ -135,38 +135,39 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    const originalHtml = loadMoreBtn.innerHTML;
     loadMoreBtn.disabled = true;
     loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
 
-    fetch("/api/more-content")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && data.length) {
-          data.forEach((item) => {
-            const newItem = document.createElement("div");
-            newItem.className = "item";
-            newItem.innerHTML = `<h4>${item.title}</h4><p>${item.description}</p>`;
-            contentDiv.appendChild(newItem);
-          });
-        } else {
-          loadMoreBtn.textContent = "No more content";
-          loadMoreBtn.style.opacity = "0.5";
-          loadMoreBtn.removeEventListener("click", handleLoadMore);
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading more content:", error);
-        window.app.showToast("Failed to load more content", "error");
-      })
-      .finally(() => {
-        loadMoreBtn.disabled = false;
-        loadMoreBtn.textContent = "Load More";
-      });
+    try {
+      const response = await fetch("/api/more-content");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+
+      if (data && data.length) {
+        data.forEach((item) => {
+          const newItem = document.createElement("div");
+          newItem.className = "item";
+          newItem.innerHTML = `<h4>${item.title}</h4><p>${item.description}</p>`;
+          contentDiv.appendChild(newItem);
+        });
+      } else {
+        loadMoreBtn.textContent = "No more content";
+        loadMoreBtn.style.opacity = "0.5";
+        loadMoreBtn.removeEventListener("click", handleLoadMore);
+        return; // Don't restore original HTML
+      }
+    } catch (error) {
+      console.error("Error loading more content:", error);
+      window.app.showToast("Failed to load more content", "error");
+    } finally {
+      if (loadMoreBtn.textContent !== "No more content") {
+        loadMoreBtn.innerHTML = originalHtml;
+      }
+      loadMoreBtn.disabled = false;
+    }
   }
 
   // ======================
