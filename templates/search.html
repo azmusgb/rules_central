@@ -16,17 +16,29 @@
   {% set q        = request.args.get('q','') %}
   {% set statuses = request.args.getlist('status') %}
   <form action="{{ url_for('main.search') }}" method="get" role="search" class="rc-search-form rc-card rc-surface-1">
-    <label for="rc-search-input" class="sr-only">Search Rules Central</label>
-    <input
-      type="search"
-      id="rc-search-input"
-      name="q"
-      value="{{ q }}"
-      placeholder="Search by name, ID, keyword…"
-      class="rc-search-input"
-      autocomplete="off"
-      spellcheck="false"
-      aria-label="Search Rules Central">
+    <div class="rc-search-input-wrap">
+      <label for="rc-search-input" class="sr-only">Search Rules Central</label>
+      <svg class="rc-search-icon" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+      <input
+        type="search"
+        id="rc-search-input"
+        name="q"
+        value="{{ q }}"
+        placeholder="Search by name, ID, keyword…"
+        class="rc-search-input"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search Rules Central">
+      {% if q %}
+        <button type="button" class="rc-search-clear" aria-label="Clear search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      {% endif %}
+    </div>
 
     <!-- Status filters -->
     <fieldset class="rc-search-filters" aria-label="Status filters">
@@ -35,17 +47,28 @@
       {% set _deprecated_checked  = 'checked' if 'deprecated'  in statuses else '' %}
       {% set _draft_checked       = 'checked' if 'draft'       in statuses else '' %}
       <label class="rc-search-filter">
-        <input type="checkbox" name="status" value="active"     {{ _active_checked }}>Active
+        <input type="checkbox" name="status" value="active" {{ _active_checked }}>
+        <span class="rc-search-filter-custom"></span>
+        Active
       </label>
       <label class="rc-search-filter">
-        <input type="checkbox" name="status" value="deprecated" {{ _deprecated_checked }}>Deprecated
+        <input type="checkbox" name="status" value="deprecated" {{ _deprecated_checked }}>
+        <span class="rc-search-filter-custom"></span>
+        Deprecated
       </label>
       <label class="rc-search-filter">
-        <input type="checkbox" name="status" value="draft"      {{ _draft_checked }}>Draft
+        <input type="checkbox" name="status" value="draft" {{ _draft_checked }}>
+        <span class="rc-search-filter-custom"></span>
+        Draft
       </label>
     </fieldset>
 
-    <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-search-submit">Search</button>
+    <button type="submit" class="btn-primary rc-cta rc-cta-primary rc-search-submit">
+      <span class="rc-search-submit-text">Search</span>
+      <svg class="rc-search-submit-icon" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+    </button>
   </form>
 </header>
 
@@ -53,18 +76,28 @@
 {# =========================================================
    Results
    `results` iterable expected from view. Each item can be:
-     {title, name, rule_name, url, description, snippet, type}
+     {title, name, rule_name, url, description, snippet, type, status, last_updated}
    ========================================================= #}
 <section class="wrapper rc-container pb-32 rc-search-results">
   {% if q %}
-    <header class="mb-6">
-      <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
-        Results for “{{ q }}”
-      </h2>
-      {% if results is defined %}
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          {{ results|length }} match{{ '' if results|length == 1 else 'es' }} found.
-        </p>
+    <header class="mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
+          Results for <span class="font-bold">"{{ q }}"</span>
+        </h2>
+        {% if results is defined %}
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            {{ results|length }} match{{ '' if results|length == 1 else 'es' }} found
+          </p>
+        {% endif %}
+      </div>
+      {% if results is defined and results %}
+        <button type="button" class="rc-search-export btn-secondary rc-cta">
+          <svg class="rc-search-export-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+          Export Results
+        </button>
       {% endif %}
     </header>
   {% else %}
@@ -79,15 +112,31 @@
         {% set _title   = item.title or item.name or item.rule_name or 'Untitled' %}
         {% set _snippet = item.snippet or item.description or '' %}
         {% set _url     = item.url or url_for('main.catalog') %}
-        {% set _type    = item.type or item.status or 'Result' %}
+        {% set _type    = item.type or 'Result' %}
+        {% set _status  = item.status or '' %}
+        {% set _updated = item.last_updated or '' %}
         <li class="rc-card rc-search-result group">
           <a href="{{ _url }}" class="rc-search-result-link">
             <div class="rc-search-result-top">
-              <span class="rc-search-result-type">{{ _type }}</span>
+              <div class="rc-search-result-meta">
+                <span class="rc-search-result-type">{{ _type }}</span>
+                {% if _status %}
+                  <span class="rc-search-result-status rc-status-{{ _status|lower }}">
+                    {{ _status }}
+                  </span>
+                {% endif %}
+              </div>
               <h3 class="rc-search-result-title">{{ _title }}</h3>
             </div>
             {% if _snippet %}
               <p class="rc-search-result-snippet">{{ _snippet }}</p>
+            {% endif %}
+            {% if _updated %}
+              <div class="rc-search-result-footer">
+                <time datetime="{{ _updated }}" class="rc-search-result-updated">
+                  Updated {{ _updated }}
+                </time>
+              </div>
             {% endif %}
           </a>
         </li>
@@ -95,8 +144,12 @@
     </ul>
   {% elif q %}
     <div class="rc-card rc-search-empty p-10 text-center">
-      <p class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">No results</p>
+      <svg class="rc-search-empty-icon" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <p class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">No results found</p>
       <p class="text-sm text-slate-500 dark:text-slate-400">Try another keyword, or broaden your filters.</p>
+      <a href="{{ url_for('main.search') }}" class="btn-primary rc-cta mt-4 inline-block">Clear Search</a>
     </div>
   {% endif %}
 </section>
@@ -104,18 +157,188 @@
 
 
 {% block styles %}
+  {{ super() }}
+  <style>
+  .rc-search-input-wrap {
+    position: relative;
+    flex: 1;
+  }
+  .rc-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+    opacity: 0.5;
+  }
+  .rc-search-clear {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+  .rc-search-clear:hover {
+    opacity: 1;
+  }
+  .rc-search-clear svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+  .rc-search-submit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rc-search-submit-icon {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+  .rc-search-empty-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    fill: currentColor;
+    opacity: 0.5;
+  }
+  .rc-search-export {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rc-search-export-icon {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+  .rc-search-result-status {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .rc-status-active {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: rgb(16, 185, 129);
+  }
+  .rc-status-deprecated {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: rgb(245, 158, 11);
+  }
+  .rc-status-draft {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: rgb(59, 130, 246);
+  }
+  </style>
 {% endblock styles %}
 
 
 {% block scripts %}
   {{ super() }}
   <script>
-  // Auto-submit when filters change (optional progressive enhancement)
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.rc-search-form');
-    if (!form) return;
-    form.querySelectorAll('.rc-search-filter input').forEach(cb=>{
-      cb.addEventListener('change', ()=>form.submit());
+    const searchInput = document.getElementById('rc-search-input');
+    const searchClear = document.querySelector('.rc-search-clear');
+    const searchForm = document.querySelector('.rc-search-form');
+    const exportBtn = document.querySelector('.rc-search-export');
+
+    // Clear search input
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchInput.focus();
+        searchClear.style.display = 'none';
+        searchForm.submit();
+      });
+    }
+
+    // Show/hide clear button based on input
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        if (searchClear) {
+          searchClear.style.display = searchInput.value ? 'block' : 'none';
+        }
+      });
+      // Initialize clear button state
+      if (searchClear) {
+        searchClear.style.display = searchInput.value ? 'block' : 'none';
+      }
+    }
+
+    // Auto-submit when filters change
+    if (searchForm) {
+      searchForm.querySelectorAll('.rc-search-filter input').forEach(cb => {
+        cb.addEventListener('change', () => searchForm.submit());
+      });
+    }
+
+    // Export results functionality
+    if (exportBtn) {
+      exportBtn.addEventListener('click', async () => {
+        exportBtn.disabled = true;
+        exportBtn.innerHTML = `
+          <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Exporting...
+        `;
+        
+        try {
+          // Get current search params
+          const params = new URLSearchParams(window.location.search);
+          
+          // Call export API endpoint
+          const response = await fetch(`{{ url_for('api.export_search') }}?${params.toString()}`, {
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (!response.ok) throw new Error('Export failed');
+          
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `rules-central-search-${new Date().toISOString().split('T')[0]}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          
+        } catch (error) {
+          console.error('Export error:', error);
+          alert('Failed to export results. Please try again.');
+        } finally {
+          exportBtn.disabled = false;
+          exportBtn.innerHTML = `
+            <svg class="rc-search-export-icon" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Export Results
+          `;
+        }
+      });
+    }
+
+    // Ctrl+K focus search
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchInput?.focus();
+      }
     });
   });
   </script>
