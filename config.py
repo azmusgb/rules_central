@@ -4,7 +4,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Allow overriding the configuration file path via the ``CONFIG_PATH``
 # environment variable for flexible deployments.
@@ -45,7 +45,7 @@ class Config:
                 "rules": {},
                 "activity_log": [
                     {
-                        "timestamp": datetime.utcnow().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "action": "system",
                         "user": "init",
                         "details": "Activity log initialized",

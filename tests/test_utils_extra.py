@@ -2,7 +2,7 @@ import os
 import sys
 import types
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # Ensure project root is on the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -14,9 +14,9 @@ werkzeug_utils_stub.secure_filename = lambda name: name
 sys.modules.setdefault('werkzeug', werkzeug_stub)
 sys.modules.setdefault('werkzeug.utils', werkzeug_utils_stub)
 
-import utils
-from utils import generate_mermaid_code
-from config import Config
+import utils  # noqa: E402
+from utils import generate_mermaid_code  # noqa: E402
+from config import Config  # noqa: E402
 
 
 def test_remove_all_quotes():
@@ -66,10 +66,10 @@ def test_rule_stats_and_trend(tmp_path, monkeypatch):
             'r2': {},
         },
         'activity_log': [
-            {'timestamp': (datetime.utcnow() - timedelta(days=1)).isoformat()},
-            {'timestamp': (datetime.utcnow() - timedelta(days=10)).isoformat()},
-            {'timestamp': (datetime.utcnow() - timedelta(days=40)).isoformat()},
-            {'timestamp': (datetime.utcnow() - timedelta(days=80)).isoformat()},
+            {'timestamp': (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()},
+            {'timestamp': (datetime.now(timezone.utc) - timedelta(days=10)).isoformat()},
+            {'timestamp': (datetime.now(timezone.utc) - timedelta(days=40)).isoformat()},
+            {'timestamp': (datetime.now(timezone.utc) - timedelta(days=80)).isoformat()},
         ],
     }
     (Config.ACTIVITY_LOG).write_text(json.dumps(data))
