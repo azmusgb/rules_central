@@ -27,7 +27,7 @@
     Diagram Converter
   </h1>
   <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-    Upload or paste a diagram, choose an output format, and convert. Supports Mermaid, PlantUML, SVG, PNG, and RC JSON.
+    Convert diagrams between Mermaid, PlantUML, SVG, PNG, PDF, and RC JSON formats with ease.
   </p>
 </header>
 
@@ -40,59 +40,110 @@
 
     <!-- INPUT ------------------------------------------------ -->
     <div class="rc-card rc-surface-1 rc-dc-input" role="form" aria-labelledby="rc-dc-input-head">
-      <h2 id="rc-dc-input-head" class="rc-dc-input-head">Input</h2>
+      <div class="rc-dc-input-header">
+        <h2 id="rc-dc-input-head" class="rc-dc-input-head">Input</h2>
+        <div class="rc-dc-input-format">
+          <span class="rc-dc-format-label">Source format:</span>
+          <span id="rc-dc-detected-format" class="rc-dc-format-value">Not detected</span>
+        </div>
+      </div>
 
       <form id="rc-dc-form" method="post" action="{{ request.path }}" enctype="multipart/form-data" class="rc-dc-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <!-- Name -->
         <div class="rc-dc-field">
-          <label for="rc-dc-name" class="rc-dc-label">Name</label>
-          <input id="rc-dc-name" name="name" type="text" value="{{ initial_name }}" class="rc-dc-inputtext" placeholder="Untitled Conversion">
+          <label for="rc-dc-name" class="rc-dc-label">Diagram Name</label>
+          <input id="rc-dc-name" name="name" type="text" value="{{ initial_name }}" 
+                 class="rc-dc-inputtext" placeholder="Untitled Conversion" aria-describedby="rc-dc-name-help">
+          <p id="rc-dc-name-help" class="rc-dc-field-help">Used for downloaded files</p>
         </div>
 
-        <!-- Inbound format -->
-        <div class="rc-dc-field">
-          <label for="rc-dc-infmt" class="rc-dc-label">Source Format</label>
-          <select id="rc-dc-infmt" name="in" class="rc-dc-select">
-            {% for opt in supported_in %}
-              <option value="{{ opt }}" {% if inbound_format==opt %}selected{% endif %}>{{ opt|capitalize }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        <!-- Format selection row -->
+        <div class="rc-dc-format-row">
+          <!-- Inbound format -->
+          <div class="rc-dc-field rc-dc-field-inline">
+            <label for="rc-dc-infmt" class="rc-dc-label">Source Format</label>
+            <select id="rc-dc-infmt" name="in" class="rc-dc-select" aria-describedby="rc-dc-infmt-help">
+              {% for opt in supported_in %}
+                <option value="{{ opt }}" {% if inbound_format==opt %}selected{% endif %}>{{ opt|upper }}</option>
+              {% endfor %}
+            </select>
+            <p id="rc-dc-infmt-help" class="rc-dc-field-help">Auto-detects when possible</p>
+          </div>
 
-        <!-- Outbound format -->
-        <div class="rc-dc-field">
-          <label for="rc-dc-outfmt" class="rc-dc-label">Target Format</label>
-          <select id="rc-dc-outfmt" name="out" class="rc-dc-select">
-            {% for opt in supported_out %}
-              <option value="{{ opt }}" {% if outbound_format==opt %}selected{% endif %}>{{ opt|capitalize }}</option>
-            {% endfor %}
-          </select>
+          <!-- Outbound format -->
+          <div class="rc-dc-field rc-dc-field-inline">
+            <label for="rc-dc-outfmt" class="rc-dc-label">Target Format</label>
+            <select id="rc-dc-outfmt" name="out" class="rc-dc-select" aria-describedby="rc-dc-outfmt-help">
+              {% for opt in supported_out %}
+                <option value="{{ opt }}" {% if outbound_format==opt %}selected{% endif %}>{{ opt|upper }}</option>
+              {% endfor %}
+            </select>
+            <p id="rc-dc-outfmt-help" class="rc-dc-field-help">Choose output type</p>
+          </div>
         </div>
 
         <!-- Dropzone -->
         <div class="rc-dc-field rc-dc-dropfield">
-          <label for="rc-dc-file" class="rc-dc-dropzone" id="rc-dc-dropzone" tabindex="0">
-            <span class="rc-dc-drop-icon">⬆</span>
+          <label for="rc-dc-file" class="rc-dc-dropzone" id="rc-dc-dropzone" tabindex="0" aria-describedby="rc-dc-dropzone-help">
+            <span class="rc-dc-drop-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </span>
             <span class="rc-dc-drop-text">
-              Drag &amp; drop a file here, or click to browse.<br>
-              <small>.mmd, .puml, .plantuml, .svg, .png, .json</small>
+              <span class="rc-dc-drop-main">Drag &amp; drop a file here</span>
+              <span class="rc-dc-drop-sub">or click to browse</span>
+              <span class="rc-dc-drop-types">.mmd, .puml, .plantuml, .svg, .png, .json</span>
             </span>
           </label>
           <input id="rc-dc-file" name="file" type="file" accept=".mmd,.puml,.plantuml,.svg,.png,.json,.txt" class="sr-only">
+          <p id="rc-dc-dropzone-help" class="rc-dc-field-help">Max file size: 5MB</p>
         </div>
 
         <!-- Text area -->
         <div class="rc-dc-field">
-          <label for="rc-dc-text" class="rc-dc-label">Or Paste Source Text</label>
-          <textarea id="rc-dc-text" name="text" rows="14" class="rc-dc-textarea" spellcheck="false" placeholder="Paste Mermaid, PlantUML, or RC JSON here…">{{ initial_text }}</textarea>
+          <div class="rc-dc-textarea-header">
+            <label for="rc-dc-text" class="rc-dc-label">Or Paste Source Text</label>
+            <div class="rc-dc-textarea-actions">
+              <button type="button" class="rc-dc-textaction" id="rc-dc-format-btn" title="Format code">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 3 21 3 21 8"></polyline>
+                  <line x1="4" y1="20" x2="21" y2="3"></line>
+                  <polyline points="21 16 21 21 16 21"></polyline>
+                  <line x1="15" y1="15" x2="21" y2="21"></line>
+                  <line x1="4" y1="4" x2="9" y2="9"></line>
+                </svg>
+              </button>
+              <button type="button" class="rc-dc-textaction" id="rc-dc-clear-btn" title="Clear input">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <textarea id="rc-dc-text" name="text" rows="14" class="rc-dc-textarea" spellcheck="false" 
+                    placeholder="Paste Mermaid, PlantUML, or RC JSON here…" aria-describedby="rc-dc-text-help">{{ initial_text }}</textarea>
+          <p id="rc-dc-text-help" class="rc-dc-field-help">Supports syntax highlighting</p>
         </div>
 
         <!-- Actions -->
         <div class="rc-dc-actions">
-          <button type="submit" class="btn-primary rc-cta rc-cta-primary">Convert</button>
-          <button type="button" id="rc-dc-clear" class="rc-cta">Clear</button>
+          <button type="submit" class="btn-primary rc-cta rc-cta-primary" id="rc-dc-submit">
+            <span class="rc-dc-cta-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </span>
+            <span class="rc-dc-cta-text">Convert</span>
+          </button>
+          <button type="button" id="rc-dc-clear" class="rc-cta rc-cta-secondary">Clear All</button>
         </div>
       </form>
 
@@ -104,27 +155,79 @@
 
     <!-- OUTPUT ------------------------------------------------ -->
     <div class="rc-card rc-surface-1 rc-dc-output" role="region" aria-labelledby="rc-dc-output-head">
-      <h2 id="rc-dc-output-head" class="rc-dc-output-head">Output Preview</h2>
+      <div class="rc-dc-output-header">
+        <h2 id="rc-dc-output-head" class="rc-dc-output-head">Output Preview</h2>
+        <div class="rc-dc-output-format">
+          <span class="rc-dc-format-label">Output format:</span>
+          <span id="rc-dc-output-format-value" class="rc-dc-format-value">{{ outbound_format|upper }}</span>
+        </div>
+      </div>
 
       <!-- Toolbar -->
       <div class="rc-dc-output-toolbar" role="toolbar" aria-label="Output tools">
-        <button type="button" class="rc-dc-tool" data-action="copy-out" aria-label="Copy converted output">Copy</button>
-        <button type="button" class="rc-dc-tool" data-action="download-out" aria-label="Download converted output">Download</button>
-        <button type="button" class="rc-dc-tool" data-action="swap" aria-label="Swap input &amp; output">Swap</button>
+        <div class="rc-dc-tool-group" aria-label="Output actions">
+          <button type="button" class="rc-dc-tool" data-action="copy-out" aria-label="Copy converted output">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          </button>
+          <button type="button" class="rc-dc-tool" data-action="download-out" aria-label="Download converted output">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download</span>
+          </button>
+        </div>
+        <button type="button" class="rc-dc-tool rc-dc-tool-swap" data-action="swap" aria-label="Swap input and output">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          <span>Swap</span>
+        </button>
       </div>
 
       <!-- Render / Text preview containers -->
-      <div id="rc-dc-output-render" class="rc-dc-output-render skeleton" data-format="">
+      <div id="rc-dc-output-render" class="rc-dc-output-render skeleton" data-format="{{ outbound_format }}">
         <!-- Populated by JS when rendering Mermaid/SVG -->
-        <p class="rc-dc-output-placeholder text-sm">Converted diagram preview will appear here.</p>
+        <div class="rc-dc-output-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p>Converted diagram preview will appear here</p>
+        </div>
       </div>
       <div class="rc-dc-output-textwrap">
         <textarea id="rc-dc-output-text" readonly rows="12" class="rc-dc-output-textarea" aria-label="Converted output text"></textarea>
       </div>
 
+      <!-- Status bar -->
+      <div class="rc-dc-statusbar">
+        <div id="rc-dc-status" class="rc-dc-status" aria-live="polite"></div>
+        <div id="rc-dc-charcount" class="rc-dc-charcount">0 chars</div>
+      </div>
+
       <!-- Error box -->
       <div id="rc-dc-output-error" class="rc-dc-output-error hidden" role="alert">
-        <p>Conversion failed. Please review the input syntax or try another format.</p>
+        <div class="rc-dc-error-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="rc-dc-error-content">
+          <h3 class="rc-dc-error-title">Conversion Error</h3>
+          <p id="rc-dc-error-message">Please review the input syntax or try another format.</p>
+        </div>
       </div>
     </div>
 
@@ -135,199 +238,12 @@
   <div class="rc-card rc-surface-1 rc-dc-shorthelp mt-12">
     <h3 class="rc-dc-shorthelp-head">Conversion Tips</h3>
     <ul class="rc-dc-shorthelp-list" role="list">
-      <li>Use <strong>Auto</strong> source format when you're unsure — we'll try to detect by file extension &amp; content.</li>
-      <li>Not all features translate 1-to-1 between formats; review the output visually.</li>
-      <li>Vector outputs (SVG / PDF) scale best; PNG is raster.</li>
-      <li>Need full docs? See <a href="{{ help_url }}#converter" class="rc-dc-help-link">Converter docs</a> or <a href="{{ contact_url }}" class="rc-dc-help-link">contact support</a>.</li>
+      <li><strong>Auto-detection</strong> works best when you include format-specific markers like <code>```mermaid</code> or <code>@startuml</code></li>
+      <li>For <strong>image conversions</strong>, SVG provides the best quality and editability</li>
+      <li>Complex diagrams may need adjustments when converting between formats</li>
+      <li>Need help? Check the <a href="{{ help_url }}#converter" class="rc-dc-help-link">full documentation</a> or <a href="{{ contact_url }}" class="rc-dc-help-link">contact support</a></li>
     </ul>
   </div>
 </section>
 
 {% endblock content %}
-
-
-
-{# =========================================================
-     STYLES
-========================================================= #}
-{% block styles %}
-{% endblock styles %}
-
-
-
-{# =========================================================
-     SCRIPTS
-========================================================= #}
-{% block scripts %}
-  {{ super() }}
-  <script>
-  // -------------------------------------------------------
-  // Diagram Converter Fallback JS
-  // Minimal functionality; replace / extend with real API calls.
-  // -------------------------------------------------------
-  document.addEventListener('DOMContentLoaded', () => {
-    const form         = document.getElementById('rc-dc-form');
-    const dropzone     = document.getElementById('rc-dc-dropzone');
-    const fileInput    = document.getElementById('rc-dc-file');
-    const textInput    = document.getElementById('rc-dc-text');
-    const clearBtn     = document.getElementById('rc-dc-clear');
-    const outRender    = document.getElementById('rc-dc-output-render');
-    const outText      = document.getElementById('rc-dc-output-text');
-    const outError     = document.getElementById('rc-dc-output-error');
-    const copyBtn      = document.querySelector('[data-action="copy-out"]');
-    const dlBtn        = document.querySelector('[data-action="download-out"]');
-    const swapBtn      = document.querySelector('[data-action="swap"]');
-    const inFmtSel     = document.getElementById('rc-dc-infmt');
-    const outFmtSel    = document.getElementById('rc-dc-outfmt');
-    const nameInput    = document.getElementById('rc-dc-name');
-
-    function showError(msg){
-      outError.querySelector('p').textContent = msg || 'Conversion failed.';
-      outError.classList.remove('hidden');
-    }
-    function clearError(){ outError.classList.add('hidden'); }
-
-    function setOutputText(txt){
-      outText.value = txt || '';
-    }
-    function setOutputRender(html,fmt){
-      outRender.innerHTML = html || '';
-      outRender.dataset.format = fmt || '';
-    }
-
-    // Drag & drop
-    ;['dragenter','dragover'].forEach(ev=>{
-      dropzone.addEventListener(ev,e=>{
-        e.preventDefault();e.stopPropagation();
-        dropzone.classList.add('rc-dc-dropzone-active');
-      });
-    });
-    ;['dragleave','drop'].forEach(ev=>{
-      dropzone.addEventListener(ev,e=>{
-        e.preventDefault();e.stopPropagation();
-        dropzone.classList.remove('rc-dc-dropzone-active');
-      });
-    });
-    dropzone.addEventListener('drop',e=>{
-      const f = e.dataTransfer?.files?.[0];
-      if (f){ fileInput.files = e.dataTransfer.files; handleFile(f); }
-    });
-    dropzone.addEventListener('click',()=>fileInput.click());
-    dropzone.addEventListener('keydown',e=>{
-      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); fileInput.click(); }
-    });
-    fileInput.addEventListener('change',e=>{
-      const f = e.target.files?.[0]; if(f) handleFile(f);
-    });
-
-    function handleFile(f){
-      const reader = new FileReader();
-      reader.onload = ev=>{
-        const txt = ev.target.result;
-        textInput.value = txt;
-      };
-      reader.readAsText(f);
-    }
-
-    // Clear
-    clearBtn?.addEventListener('click',()=>{
-      textInput.value = '';
-      fileInput.value = '';
-      setOutputText('');
-      setOutputRender('<p class="rc-dc-output-placeholder text-sm">Cleared.</p>');
-      clearError();
-    });
-
-    // Basic client-side "convert" stub (no server call)
-    form?.addEventListener('submit',e=>{
-      // allow normal POST if you want server-side; comment out to use only client
-      // e.preventDefault();
-      // simulate conversion: copy input -> output; if target svg and input mermaid, we mark stub
-      const src = textInput.value.trim();
-      const inFmt  = inFmtSel.value;
-      const outFmt = outFmtSel.value;
-      clearError();
-
-      if (!src){
-        showError('Please upload a file or paste source text.');
-        return;
-      }
-
-      // naive stub
-      if (outFmt === 'mermaid' || outFmt === 'plantuml' || outFmt === 'rcjson'){
-        setOutputText(src);
-        setOutputRender('<p class="rc-dc-output-placeholder text-sm">Text conversion complete (stub).</p>', outFmt);
-      }else if (outFmt === 'svg'){
-        setOutputText('<!-- SVG output stub -->');
-        setOutputRender('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="100%" height="100%" rx="16" fill="pink" /><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16" font-family="sans-serif">SVG stub</text></svg>', 'svg');
-      }else if (outFmt === 'png' || outFmt === 'pdf'){
-        setOutputText('');
-        setOutputRender('<p class="rc-dc-output-placeholder text-sm">Binary download ready (stub).</p>', outFmt);
-      }
-    });
-
-    // Copy
-    copyBtn?.addEventListener('click',()=>{
-      const txt = outText.value;
-      if (!txt) return;
-      navigator.clipboard?.writeText(txt).then(()=>{
-        copyBtn.textContent='Copied!';
-        setTimeout(()=>copyBtn.textContent='Copy',1500);
-      });
-    });
-
-    // Download
-    dlBtn?.addEventListener('click',()=>{
-      const fmt = outRender.dataset.format || outFmtSel.value;
-      let blob, filenameBase = sanitizeName(nameInput.value || 'diagram');
-      if (fmt === 'svg'){
-        blob = new Blob([outRender.innerHTML],{type:'image/svg+xml'});
-        downloadBlob(blob,filenameBase+'.svg');
-      }else if (fmt === 'png'){
-        // quick canvas render of any inline svg stub
-        const svg = outRender.querySelector('svg');
-        if (svg){
-          const data = new XMLSerializer().serializeToString(svg);
-          const url = URL.createObjectURL(new Blob([data],{type:'image/svg+xml'}));
-          const img = new Image();
-          img.onload = ()=>{
-            const c=document.createElement('canvas');
-            c.width=img.width;c.height=img.height;
-            c.getContext('2d').drawImage(img,0,0);
-            c.toBlob(b=>{downloadBlob(b,filenameBase+'.png');URL.revokeObjectURL(url);});
-          };
-          img.src = url;
-        }else{
-          blob = new Blob([outText.value||''],{type:'text/plain'});
-          downloadBlob(blob,filenameBase+'.txt');
-        }
-      }else if(fmt === 'pdf'){
-        blob = new Blob([outText.value||'PDF stub'],{type:'application/pdf'});
-        downloadBlob(blob,filenameBase+'.pdf');
-      }else{
-        blob = new Blob([outText.value||''],{type:'text/plain'});
-        downloadBlob(blob,filenameBase+'.'+fmt);
-      }
-    });
-
-    // Swap
-    swapBtn?.addEventListener('click',()=>{
-      const tmp = textInput.value;
-      textInput.value = outText.value;
-      outText.value = tmp;
-      const tmpFmt = inFmtSel.value;
-      inFmtSel.value = outFmtSel.value;
-      outFmtSel.value = tmpFmt;
-    });
-
-    function downloadBlob(blob,filename){
-      const url = URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url;a.download=filename;
-      document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),1000);
-    }
-    function sanitizeName(n){return (n||'diagram').replace(/[^-_a-z0-9]+/gi,'_');}
-  });
-  </script>
-{% endblock scripts %}
