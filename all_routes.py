@@ -566,5 +566,74 @@ def view_diagram():
         abort(500, "Error loading diagram viewer")
 
 
+# ------------------------------------------------------------
+# Additional page routes
+# ------------------------------------------------------------
+
+
+@routes_bp.route("/catalog")
+def catalog():
+    """Browse available diagrams."""
+    return render_template("catalog.html", help_available=True)
+
+
+@routes_bp.route("/api-test")
+def api_test_page():
+    """Interactive API test utility."""
+    return render_template("api_test_utility.html", help_available=True)
+
+
+@routes_bp.route("/rules-extraction")
+def rules_extraction_page():
+    """FormWorks rules extraction tool."""
+    return render_template("rules_extraction_utility.html", help_available=True)
+
+
+@routes_bp.route("/markdown-notes")
+def markdown_notes_page():
+    """Demo page for Markdown notes."""
+    return render_template("markdown_notes.html")
+
+
+@routes_bp.route("/get-started")
+def get_started_page():
+    """Quick start guide."""
+    return render_template("get_started.html")
+
+
+@routes_bp.route("/hierarchy_viewer/<root_name>/<diagram_name>")
+def hierarchy_viewer_page(root_name, diagram_name):
+    """Display the hierarchy viewer for a diagram."""
+    return render_template(
+        "hierarchy_viewer.html",
+        root_name=secure_filename(root_name),
+        diagram_name=secure_filename(diagram_name),
+    )
+
+
+@routes_bp.route("/dashboard")
+def dashboard_page():
+    """Alias route for the dashboard."""
+    return render_template("dashboard.html")
+
+
+@routes_bp.route("/home")
+def home_page():
+    """Marketing home page."""
+    return render_template("home.html")
+
+
+@routes_bp.route("/rule/<int:rule_id>")
+def rule_detail(rule_id: int):
+    """Show details for a specific rule."""
+    return render_template("rule_detail.html", rule={"id": rule_id}, tree_view="")
+
+
+@routes_bp.route("/rule/<int:rule_id>/tab/<tab>")
+def rule_tab(rule_id: int, tab: str):
+    """Return placeholder tab content for rule detail view."""
+    return f"<p>{tab} tab for rule {rule_id}</p>"
+
+
 
 

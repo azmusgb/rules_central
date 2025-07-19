@@ -134,6 +134,20 @@ Recommended production stack:
 └── tests/                # Test suite
 ```
 
+## Routes
+
+Key page endpoints:
+
+- `/catalog` – browse the diagram catalog
+- `/api-test` – API test utility
+- `/rules-extraction` – FormWorks extraction tool
+- `/markdown-notes` – markdown notes demo
+- `/get-started` – quick start guide
+- `/hierarchy_viewer/<root>/<file>` – hierarchy viewer
+- `/dashboard` – dashboard alias
+- `/home` – marketing homepage
+- `/rule/<id>` – rule details
+
 ## Documentation
 
 - Interactive help: Press `Shift+/` in-app
