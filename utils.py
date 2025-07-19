@@ -12,6 +12,7 @@ from dataclasses import dataclass, asdict
 import dataclasses
 from datetime import datetime, timezone, timedelta
 from typing import Any, Dict, Iterable, List
+from collections import defaultdict
 
 from werkzeug.utils import secure_filename
 from flask import current_app
@@ -374,6 +375,31 @@ def diagram_type_from_filename(filename: str) -> str | None:
     return None
 
 
+def get_diagram_categories() -> list[dict[str, Any]]:
+    """Return diagram categories derived from ``DIAGRAMS_FOLDER``."""
+    diagrams_dir = Path(current_app.config.get("DIAGRAMS_FOLDER", "./diagrams"))
+    if not diagrams_dir.exists():
+        return []
+
+    counts: Dict[str, int] = defaultdict(int)
+    for item in diagrams_dir.iterdir():
+        if item.is_dir():
+            category = item.name.split("_")[0]
+            counts[category] += 1
+        elif item.suffix.lower() in {".mmd", ".json"}:
+            category = item.stem.split("_")[0]
+            counts[category] += 1
+
+    total = sum(counts.values())
+    categories = [
+        {"name": "All", "count": total, "slug": "all"}
+    ]
+    for name in sorted(counts):
+        slug = name.lower().replace(" ", "-").replace("_", "-")
+        categories.append({"name": name, "count": counts[name], "slug": slug})
+    return categories
+
+
 def generate_files(json_data: list, output_dir: str) -> list[DiagramInfo]:
     """Process ``json_data`` and generate diagram and JSON files."""
     LOGGER.info("Processing %d rules...", len(json_data))
@@ -625,4 +651,5 @@ __all__ = [
     "generate_csrf_token",
     "verify_csrf_token",
     "get_featured_diagrams",
+    "get_diagram_categories",
 ]
