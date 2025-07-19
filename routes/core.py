@@ -35,6 +35,7 @@ from utils import (
     get_rule_stats,
     get_activity_trend,
     get_featured_diagrams,
+    get_diagram_categories,
     generate_csrf_token,
     verify_csrf_token,
 )
