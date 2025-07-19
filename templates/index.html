@@ -118,7 +118,7 @@
     </svg>
   {% endset %}
 
-  <div class="rc-metrics-grid">
+  <div class="rc-metrics-grid" aria-live="polite" aria-atomic="true">
     {{ mcard('Total Rules',
              stats.total_rules if stats and 'total_rules' in stats else 0,
              'rc-accent-primary',
@@ -162,9 +162,9 @@
           Rule Change Trends
         </h2>
         <div class="rc-toggle-pill" role="group" aria-label="Select time range for trend chart">
-          <button data-range="30d" class="rc-toggle active" type="button">30D</button>
-          <button data-range="90d" class="rc-toggle" type="button">90D</button>
-          <button data-range="1y"  class="rc-toggle" type="button">1Y</button>
+          <button data-range="30d" class="rc-toggle active" type="button" aria-pressed="true">30D</button>
+          <button data-range="90d" class="rc-toggle" type="button" aria-pressed="false">90D</button>
+          <button data-range="1y"  class="rc-toggle" type="button" aria-pressed="false">1Y</button>
         </div>
       </div>
       <div class="rc-chart-wrap">
@@ -350,8 +350,12 @@
 
       document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(btn=>{
         btn.addEventListener('click',()=>{
-          document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b=>b.classList.remove('active'));
+          document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b=>{
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed','false');
+          });
           btn.classList.add('active');
+          btn.setAttribute('aria-pressed','true');
           const range=btn.dataset.range;
           // TODO: fetch new dataset for selected range; update chart.data then chart.update()
           chart.update();
