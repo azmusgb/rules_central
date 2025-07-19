@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>{% block title %}Rules Central{% endblock title %}</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>{% block title %}Rules Central{% endblock title %}</title>
   <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
 
   {# --- Progressive theme colors for OS chrome --- #}
@@ -14,35 +13,34 @@
   <meta name="theme-color" content="#1A1A1E" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
 
-  {# --- Canonical / SEO hooks (override in child templates) --- #}
+  {# --- SEO hooks --- #}
   {% block seo %}
-    {# Example override:
     <link rel="canonical" href="{{ request.url }}">
     <meta property="og:title" content="Rules Central">
-    #}
+    <meta property="og:description" content="Centralized rules management system">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
   {% endblock seo %}
 
-  <!-- Favicon -->
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  {# --- Favicon (modern approach) --- #}
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
-  {# --- Preconnects / Fonts (edit as needed) --- #}
-  {# <link rel="preconnect" href="https://fonts.googleapis.com"> #}
-  {# <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> #}
-  {# <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"> #}
+  {# --- Preload critical resources --- #}
+  <link rel="preload" href="{{ url_for('static', filename='css/output.css') }}" as="style">
+  <link rel="preload" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" as="image" type="image/png">
 
-  {# --- Main compiled stylesheet (Tailwind build) --- #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+  {# --- Main CSS --- #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}" media="print" onload="this.media='all'">
 
-  {# --- Page / component specific <meta> and head-level additions --- #}
+  {# --- Page-specific additions --- #}
   {% block meta %}{% endblock meta %}
   {% block head %}{% endblock head %}
-
-  {# --- Page-level style injection (used by dashboard & others) --- #}
   {% block styles %}{% endblock styles %}
 
-  {# --- Critical inline theme script: run ASAP to prevent flash --- #}
+  {# --- Critical inline theme script --- #}
   <script>
   (function() {
     var STORAGE_KEY = 'rc-theme';
@@ -55,7 +53,7 @@
       d.dataset.theme = t;
     }
 
-    var t = localStorage.getItem(STORAGE_KEY) || 'bear';
+    var t = localStorage.getItem(STORAGE_KEY) || 'system';
     if (t === 'system') {
       t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
@@ -72,7 +70,7 @@
 
   {# --- Critical CSS fallback --- #}
   <style>
-    /* Basic layout fallback if CSS fails to load */
+    /* Layout fallback */
     body {
       display: flex;
       flex-direction: column;
@@ -83,7 +81,6 @@
     }
     main {
       flex: 1;
-      padding-top: 4rem;
     }
     .skip-link {
       position: absolute;
@@ -97,775 +94,260 @@
     .skip-link:focus {
       top: 0;
     }
+    /* Temporary nav positioning */
+    .rc-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+    }
+    main {
+      padding-top: 4rem;
+    }
   </style>
 </head>
 
-{# Allow child templates to extend/add classes to body #}
-{% block body_tag_open %}
 <body class="bg-background text-text min-h-screen flex flex-col">
-{% endblock body_tag_open %}
-
-  <!-- Skip to content link for accessibility -->
+  <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
   {% block body_start %}{% endblock body_start %}
 
-{# ============================================================
-   Rules Central • Global Navbar
-   Enhanced • Accessible • Performance Optimized
-   ------------------------------------------------------------
-   Improvements:
-   - Better accessibility with focus management
-   - Enhanced keyboard navigation
-   - Improved performance with debounced scroll
-   - Better error handling and fallbacks
-   - More semantic HTML structure
-   - Enhanced mobile UX with backdrop
-   ------------------------------------------------------------ #}
-<nav id="rc-nav"
-     class="rc-nav fixed top-0 inset-x-0 z-50"
-     role="navigation"
-     aria-label="Main navigation">
+  {# ================= NAVIGATION ================= #}
+  <nav id="rc-nav" class="rc-nav" role="navigation" aria-label="Main navigation">
+    <div class="rc-nav-inner rc-container">
+      {# Brand #}
+      <a href="{{ url_for('main.index') }}" class="rc-brand" aria-label="Rules Central Home">
+        <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
+             alt=""
+             width="120"
+             height="24"
+             class="rc-brand-logo"
+             loading="eager"
+             decoding="async">
+        <span class="rc-brand-name">Rules Central</span>
+      </a>
 
-  <div class="rc-nav-inner rc-container">
-    {# Brand ------------------------------------------------- #}
-    <a href="{{ url_for('main.index') }}" 
-       class="rc-brand" 
-       aria-label="Rules Central Home"
-       tabindex="0">
-      <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
-           alt="Rules Central"
-           width="120" 
-           height="24"
-           class="rc-brand-logo"
-           loading="eager" />
-      <span class="rc-brand-name">Rules Central</span>
-    </a>
-
-    {# Desktop Nav ------------------------------------------ #}
-    <ul class="rc-nav-links" 
-        data-rc-nav-desktop
-        role="menubar"
-        aria-label="Main menu">
-      {% set nav_items = [
-        ('main.index', 'Dashboard', 'dashboard'),
-        ('main.catalog', 'Catalog', 'catalog'),
-        ('main.search', 'Search', 'search'),
-        ('routes.full_help', 'Docs', 'documentation'),
-        ('upload.upload_file', 'Upload', 'upload'),
-        ('diagrams.diagram_converter', 'Converter', 'converter')
-      ] %}
-      
-      {% for route, label, aria_desc in nav_items %}
-        <li role="none">
-          <a href="{{ url_for(route) }}"
-             class="rc-nav-link {% if request.path == url_for(route) %}active{% endif %}"
-             {% if request.path == url_for(route) %}aria-current="page"{% endif %}
-             role="menuitem"
-             tabindex="0"
-             aria-describedby="{{ aria_desc }}-desc">
-            {{ label }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    {# Actions ---------------------------------------------- #}
-    <div class="rc-nav-actions">
-      {% if current_user.is_authenticated %}
-        <div class="rc-user" data-user-menu>
-          <button class="rc-user-btn" 
-                  type="button" 
-                  aria-haspopup="menu" 
-                  aria-expanded="false"
-                  aria-label="User menu for {{ current_user.username }}"
-                  id="user-menu-button">
-            <span class="rc-user-name" aria-hidden="true">{{ current_user.username }}</span>
-            <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}"
-                 alt=""
-                 class="rc-user-avatar" 
-                 width="32" 
-                 height="32"
-                 loading="lazy" />
-            <svg viewBox="0 0 24 24" 
-                 aria-hidden="true" 
-                 class="rc-user-caret" 
-                 fill="none" 
-                 stroke="currentColor" 
-                 stroke-width="2" 
-                 stroke-linecap="round" 
-                 stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </button>
-          <div class="rc-user-menu" 
-               role="menu" 
-               aria-labelledby="user-menu-button"
-               hidden>
-            <a role="menuitem" 
-               href="{{ url_for('user_routes.profile') }}"
-               class="rc-user-menu-item">
-              Profile
-            </a>
-            <a role="menuitem" 
-               href="{{ url_for('auth.logout') }}" 
-               class="rc-user-menu-item rc-user-signout">
-              Sign Out
-            </a>
-          </div>
-        </div>
-      {% else %}
-        <div class="rc-auth-buttons">
-          <a href="{{ url_for('auth.login') }}" 
-             class="rc-nav-auth rc-nav-auth--login"
-             tabindex="0">
-            Log In
-          </a>
-          <a href="{{ url_for('auth.register') }}" 
-             class="rc-nav-auth rc-nav-auth--signup"
-             tabindex="0">
-            Sign Up
-          </a>
-        </div>
-      {% endif %}
-
-      {# Theme toggle with better accessibility #}
-      <button id="theme-toggle"
-              class="rc-theme-toggle"
-              aria-label="Toggle between light and dark theme"
-              aria-pressed="false"
-              type="button"
-              title="Switch theme">
-        <svg class="rc-theme-ico" 
-             viewBox="0 0 24 24" 
-             aria-hidden="true"
-             role="img">
-          <defs>
-            <mask id="rc-theme-mask">
-              <rect x="0" y="0" width="24" height="24" fill="#fff"/>
-              <circle cx="24" cy="0" r="8" fill="#000"/>
-            </mask>
-          </defs>
-          <circle cx="12" cy="12" r="8" class="rc-theme-sun" />
-          <g class="rc-theme-rays" stroke-linecap="round">
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </g>
-          <circle cx="12" cy="12" r="8" class="rc-theme-moon" mask="url(#rc-theme-mask)"/>
-        </svg>
-        <span class="sr-only" id="theme-status">Current theme: light</span>
-      </button>
-
-      {# Mobile menu toggle with better states #}
-      <button id="rc-nav-mobile-toggle"
-              class="rc-nav-mobile-toggle"
-              aria-label="Toggle navigation menu"
-              aria-expanded="false"
-              aria-controls="rc-nav-mobile-drawer"
-              type="button">
-        <span class="rc-nav-mobile-bars" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <span class="sr-only">Menu</span>
-      </button>
-    </div>
-  </div>
-
-  {# Mobile Drawer with backdrop ---------------------------- #}
-  <div id="rc-nav-mobile-backdrop" 
-       class="rc-nav-mobile-backdrop" 
-       hidden
-       aria-hidden="true"></div>
-  
-  <div id="rc-nav-mobile-drawer" 
-       class="rc-nav-mobile-drawer" 
-       role="dialog"
-       aria-modal="true"
-       aria-labelledby="mobile-menu-title"
-       hidden>
-    <div class="rc-nav-mobile-inner rc-container">
-      <h2 id="mobile-menu-title" class="sr-only">Navigation Menu</h2>
-      
-      <ul class="rc-nav-mobile-list" role="menu">
+      {# Desktop Navigation #}
+      <ul class="rc-nav-links" role="menubar">
+        {% set nav_items = [
+          ('main.index', 'Dashboard', 'dashboard'),
+          ('main.catalog', 'Catalog', 'catalog'),
+          ('main.search', 'Search', 'search'),
+          ('routes.full_help', 'Docs', 'documentation'),
+          ('upload.upload_file', 'Upload', 'upload'),
+          ('diagrams.diagram_converter', 'Converter', 'converter')
+        ] %}
+        
         {% for route, label, aria_desc in nav_items %}
           <li role="none">
-            <a role="menuitem"
-               href="{{ url_for(route) }}"
-               class="rc-nav-mobile-link {% if request.path == url_for(route) %}active{% endif %}"
+            <a href="{{ url_for(route) }}"
+               class="rc-nav-link {% if request.path == url_for(route) %}active{% endif %}"
                {% if request.path == url_for(route) %}aria-current="page"{% endif %}
-               tabindex="0">
+               role="menuitem"
+               aria-describedby="{{ aria_desc }}-desc">
               {{ label }}
             </a>
           </li>
         {% endfor %}
-        
-        {% if current_user.is_authenticated %}
-          <li class="rc-nav-mobile-separator" role="presentation" aria-hidden="true"></li>
-          <li role="none">
-            <a role="menuitem" 
-               href="{{ url_for('user_routes.profile') }}" 
-               class="rc-nav-mobile-link"
-               tabindex="0">
-              Profile
-            </a>
-          </li>
-          <li role="none">
-            <a role="menuitem" 
-               href="{{ url_for('auth.logout') }}" 
-               class="rc-nav-mobile-link rc-nav-mobile-signout"
-               tabindex="0">
-              Sign Out
-            </a>
-          </li>
-        {% else %}
-          <li class="rc-nav-mobile-separator" role="presentation" aria-hidden="true"></li>
-          <li role="none">
-            <a role="menuitem" 
-               href="{{ url_for('auth.login') }}" 
-               class="rc-nav-mobile-link"
-               tabindex="0">
-              Log In
-            </a>
-          </li>
-          <li role="none">
-            <a role="menuitem" 
-               href="{{ url_for('auth.register') }}" 
-               class="rc-nav-mobile-link rc-nav-mobile-signup"
-               tabindex="0">
-              Sign Up
-            </a>
-          </li>
-        {% endif %}
       </ul>
+
+      {# Actions #}
+      <div class="rc-nav-actions">
+        {% if current_user.is_authenticated %}
+          <div class="rc-user" data-user-menu>
+            <button class="rc-user-btn" 
+                    type="button" 
+                    aria-haspopup="true" 
+                    aria-expanded="false"
+                    aria-label="User menu">
+              <span class="rc-user-name">{{ current_user.username }}</span>
+              <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}"
+                   alt=""
+                   class="rc-user-avatar"
+                   width="32"
+                   height="32"
+                   loading="lazy"
+                   decoding="async">
+            </button>
+            <div class="rc-user-menu" role="menu" hidden>
+              <a href="{{ url_for('user_routes.profile') }}" role="menuitem">Profile</a>
+              <a href="{{ url_for('auth.logout') }}" role="menuitem" class="rc-user-signout">Sign Out</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="rc-auth-buttons">
+            <a href="{{ url_for('auth.login') }}" class="rc-nav-auth rc-nav-auth--login">Log In</a>
+            <a href="{{ url_for('auth.register') }}" class="rc-nav-auth rc-nav-auth--signup">Sign Up</a>
+          </div>
+        {% endif %}
+
+        {# Theme Toggle #}
+        <button id="theme-toggle" class="rc-theme-toggle" aria-label="Toggle theme">
+          <svg class="rc-theme-ico" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="6" class="rc-theme-sun" />
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" class="rc-theme-rays" />
+          </svg>
+        </button>
+
+        {# Mobile Toggle #}
+        <button id="rc-nav-mobile-toggle" class="rc-nav-mobile-toggle" aria-label="Menu" aria-expanded="false">
+          <span class="rc-nav-mobile-bars"></span>
+        </button>
+      </div>
     </div>
-  </div>
-</nav>
 
-{# ============================================================
-   Enhanced navbar behavior script with better performance
-   and accessibility
-   ------------------------------------------------------------ #}
-<script>
-(function() {
-  'use strict';
-  
-  // Cache DOM elements
-  const elements = {
-    nav: document.getElementById('rc-nav'),
-    mobileToggle: document.getElementById('rc-nav-mobile-toggle'),
-    drawer: document.getElementById('rc-nav-mobile-drawer'),
-    backdrop: document.getElementById('rc-nav-mobile-backdrop'),
-    userBtn: document.querySelector('.rc-user-btn'),
-    userMenu: document.querySelector('.rc-user-menu'),
-    themeToggle: document.getElementById('theme-toggle'),
-    themeStatus: document.getElementById('theme-status')
-  };
+    {# Mobile Menu #}
+    <div id="rc-nav-mobile-drawer" class="rc-nav-mobile-drawer" hidden>
+      <div class="rc-nav-mobile-inner rc-container">
+        <ul class="rc-nav-mobile-list" role="menu">
+          {% for route, label, aria_desc in nav_items %}
+            <li role="none">
+              <a href="{{ url_for(route) }}"
+                 class="rc-nav-mobile-link {% if request.path == url_for(route) %}active{% endif %}"
+                 role="menuitem">
+                {{ label }}
+              </a>
+            </li>
+          {% endfor %}
+          
+          {% if current_user.is_authenticated %}
+            <li role="separator"></li>
+            <li role="none"><a href="{{ url_for('user_routes.profile') }}" role="menuitem">Profile</a></li>
+            <li role="none"><a href="{{ url_for('auth.logout') }}" role="menuitem" class="rc-nav-mobile-signout">Sign Out</a></li>
+          {% else %}
+            <li role="separator"></li>
+            <li role="none"><a href="{{ url_for('auth.login') }}" role="menuitem">Log In</a></li>
+            <li role="none"><a href="{{ url_for('auth.register') }}" role="menuitem" class="rc-nav-mobile-signup">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  // Utility functions
-  const debounce = (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  };
-
-  const trapFocus = (element) => {
-    const focusableElements = element.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-    const firstFocusableElement = focusableElements[0];
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
-
-    element.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          if (document.activeElement === firstFocusableElement) {
-            lastFocusableElement.focus();
-            e.preventDefault();
-          }
-        } else {
-          if (document.activeElement === lastFocusableElement) {
-            firstFocusableElement.focus();
-            e.preventDefault();
-          }
-        }
-      }
-    });
-  };
-
-  // Scroll shadow with debounced performance
-  const handleScroll = debounce(() => {
-    if (!elements.nav) return;
-    elements.nav.classList.toggle('rc-nav-scrolled', window.scrollY > 8);
-  }, 10);
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll(); // Initial call
-
-  // Enhanced mobile drawer functionality
-  if (elements.mobileToggle && elements.drawer) {
-    const openMobileMenu = () => {
-      elements.mobileToggle.setAttribute('aria-expanded', 'true');
-      elements.drawer.hidden = false;
-      elements.backdrop.hidden = false;
-      elements.drawer.setAttribute('aria-hidden', 'false');
-      elements.backdrop.setAttribute('aria-hidden', 'false');
-      
-      // Focus first menu item
-      const firstMenuItem = elements.drawer.querySelector('a[role="menuitem"]');
-      if (firstMenuItem) {
-        setTimeout(() => firstMenuItem.focus(), 100);
-      }
-      
-      // Prevent body scroll
-      document.body.style.overflow = 'hidden';
-      
-      // Trap focus
-      trapFocus(elements.drawer);
-    };
-
-    const closeMobileMenu = () => {
-      elements.mobileToggle.setAttribute('aria-expanded', 'false');
-      elements.drawer.hidden = true;
-      elements.backdrop.hidden = true;
-      elements.drawer.setAttribute('aria-hidden', 'true');
-      elements.backdrop.setAttribute('aria-hidden', 'true');
-      
-      // Restore body scroll
-      document.body.style.overflow = '';
-      
-      // Return focus to toggle button
-      elements.mobileToggle.focus();
-    };
-
-    // Toggle button click
-    elements.mobileToggle.addEventListener('click', () => {
-      const isExpanded = elements.mobileToggle.getAttribute('aria-expanded') === 'true';
-      isExpanded ? closeMobileMenu() : openMobileMenu();
-    });
-
-    // Close on backdrop click
-    elements.backdrop.addEventListener('click', closeMobileMenu);
-
-    // Close on menu link click
-    elements.drawer.addEventListener('click', (e) => {
-      if (e.target.matches('a[role="menuitem"]')) {
-        closeMobileMenu();
-      }
-    });
-
-    // Enhanced keyboard navigation
-    elements.drawer.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeMobileMenu();
-      }
-    });
-  }
-
-  // Enhanced user menu functionality
-  if (elements.userBtn && elements.userMenu) {
-    const openUserMenu = () => {
-      elements.userBtn.setAttribute('aria-expanded', 'true');
-      elements.userMenu.hidden = false;
-      
-      // Focus first menu item
-      const firstMenuItem = elements.userMenu.querySelector('a[role="menuitem"]');
-      if (firstMenuItem) {
-        setTimeout(() => firstMenuItem.focus(), 50);
-      }
-    };
-
-    const closeUserMenu = () => {
-      elements.userBtn.setAttribute('aria-expanded', 'false');
-      elements.userMenu.hidden = true;
-    };
-
-    elements.userBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isExpanded = elements.userBtn.getAttribute('aria-expanded') === 'true';
-      isExpanded ? closeUserMenu() : openUserMenu();
-    });
-
-    // Enhanced keyboard navigation
-    elements.userBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const isExpanded = elements.userBtn.getAttribute('aria-expanded') === 'true';
-        isExpanded ? closeUserMenu() : openUserMenu();
-      }
-    });
-
-    elements.userMenu.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeUserMenu();
-        elements.userBtn.focus();
-      }
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!elements.userMenu.hidden && !elements.nav.contains(e.target)) {
-        closeUserMenu();
-      }
-    });
-  }
-
-  // Enhanced theme toggle with better UX
-  if (elements.themeToggle) {
-    const updateThemeStatus = (isDark) => {
-      elements.themeToggle.setAttribute('aria-pressed', String(isDark));
-      elements.themeToggle.setAttribute('aria-label', 
-        `Switch to ${isDark ? 'light' : 'dark'} theme`);
-      
-      if (elements.themeStatus) {
-        elements.themeStatus.textContent = `Current theme: ${isDark ? 'dark' : 'light'}`;
-      }
-    };
-
-    const toggleTheme = () => {
-      try {
-        const root = document.documentElement;
-        const isDark = root.classList.toggle('dark');
-        
-        updateThemeStatus(isDark);
-        
-        // Sync with global theme manager if available
-        if (window.RCTheme?.toggle) {
-          window.RCTheme.toggle();
-        }
-        
-        // Persist preference
-        localStorage.setItem('rc-theme', isDark ? 'dark' : 'light');
-        
-        // Add transition class for smooth theme change
-        root.classList.add('theme-transitioning');
-        setTimeout(() => root.classList.remove('theme-transitioning'), 300);
-        
-      } catch (error) {
-        console.warn('Theme toggle failed:', error);
-      }
-    };
-
-    elements.themeToggle.addEventListener('click', toggleTheme);
-
-    // Enhanced keyboard support
-    elements.themeToggle.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleTheme();
-      }
-    });
-
-    // Initialize theme state
-    try {
-      const savedTheme = localStorage.getItem('rc-theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const shouldBeDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-      
-      if (shouldBeDark) {
-        document.documentElement.classList.add('dark');
-      }
-      updateThemeStatus(shouldBeDark);
-      
-    } catch (error) {
-      console.warn('Theme initialization failed:', error);
-    }
-  }
-
-  // Listen for system theme changes
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      try {
-        if (!localStorage.getItem('rc-theme')) {
-          const root = document.documentElement;
-          root.classList.toggle('dark', e.matches);
-          if (elements.themeToggle) {
-            updateThemeStatus(e.matches);
-          }
-        }
-      } catch (error) {
-        console.warn('System theme change handling failed:', error);
-      }
-    });
-  }
-
-  // Announce navigation changes for screen readers
-  const announceNavigation = debounce(() => {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.setAttribute('aria-atomic', 'true');
-    announcement.className = 'sr-only';
-    announcement.textContent = 'Navigation menu updated';
-    document.body.appendChild(announcement);
-    
-    setTimeout(() => {
-      document.body.removeChild(announcement);
-    }, 1000);
-  }, 500);
-
-  // Enhanced error handling
-  window.addEventListener('error', (e) => {
-    if (e.target && e.target.classList && e.target.classList.contains('rc-nav')) {
-      console.warn('Navigation component error:', e.error);
-      // Provide graceful fallback
-    }
-  });
-
-})();
-</script>
-
-{# Screen reader only styles - add to your CSS #}
-<style>
-.sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-.theme-transitioning * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
-}
-
-.rc-nav-mobile-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 49;
-  backdrop-filter: blur(2px);
-}
-
-.rc-nav-mobile-bars span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: currentColor;
-  margin: 3px 0;
-  transition: 0.3s;
-}
-
-.rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars span:nth-child(1) {
-  transform: rotate(-45deg) translate(-4px, 4px);
-}
-
-.rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars span:nth-child(2) {
-  opacity: 0;
-}
-
-.rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars span:nth-child(3) {
-  transform: rotate(45deg) translate(-4px, -4px);
-}
-</style>
-
-  <main id="main-content" class="flex-1">
+  {# ================= MAIN CONTENT ================= #}
+  <main id="main-content">
     {% block breadcrumbs %}{% include 'partials/breadcrumbs.html' %}{% endblock %}
     {% block content %}{% endblock content %}
   </main>
 
-{# ============================================================
-   Rules Central Hero (Refined)
-   Responsive • Theme-aware • Accessible
-   IMPORTANT: Uses only *existing* safe endpoints to avoid BuildErrors.
-   Quick Tour anchors to #quick-tour (local hash) by default.
-   ============================================================ #}
-{% block hero %}
-<section id="rc-hero" class="rc-hero" role="region" aria-labelledby="rc-hero-title">
-  <!-- Decorative background -->
-  <div class="rc-hero-bg" aria-hidden="true"></div>
-  <div class="rc-hero-glow" aria-hidden="true"></div>
+  {# ================= HERO SECTION ================= #}
+  {% block hero %}
+  <section class="rc-hero" aria-labelledby="rc-hero-title">
+    <div class="rc-hero-inner rc-container">
+      <div class="rc-hero-content">
+        <span class="rc-hero-badge">Rules Management Dashboard</span>
+        <h1 id="rc-hero-title" class="rc-hero-title">{% block hero_title %}Rules Central{% endblock %}</h1>
+        <p class="rc-hero-subtitle">
+          {% block hero_subtitle %}
+          Manage your rules effortlessly with real-time insights, metrics, and streamlined workflows.
+          {% endblock %}
+        </p>
+        <div class="rc-hero-actions">
+          <a href="{{ url_for('routes.config_page') }}" class="rc-btn rc-btn-primary">New Rule</a>
+          <a href="{{ url_for('main.catalog') }}" class="rc-btn rc-btn-outline">View Catalog</a>
+          <a href="#quick-tour" class="rc-btn rc-btn-text">Quick Tour</a>
+        </div>
+      </div>
+      <div class="rc-hero-image">
+        <img src="{{ url_for('static', filename='img/hero-illustration.svg') }}" 
+             alt=""
+             loading="lazy"
+             decoding="async">
+      </div>
+    </div>
+  </section>
+  {% endblock hero %}
 
-  <div class="rc-hero-inner container flex flex-col lg:flex-row items-center gap-8">
-    <!-- Badge ---------------------------------------------------->
-    <div class="rc-hero-badge-wrap">
-      <span class="rc-hero-badge">
-        <span class="rc-hero-badge-dot" aria-hidden="true"></span>
-        <span class="rc-hero-badge-text">Rules Management Dashboard</span>
-      </span>
+  {# ================= FOOTER ================= #}
+  <footer class="rc-footer">
+    <div class="rc-footer-inner rc-container">
+      <div class="rc-footer-brand">
+        <a href="{{ url_for('main.index') }}" class="rc-footer-brand-link">
+          <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" 
+               alt="Rules Central"
+               width="160"
+               height="48"
+               loading="lazy"
+               decoding="async">
+        </a>
+        <p class="rc-footer-tagline">Powerful rule hierarchy management.</p>
+      </div>
+
+      <div class="rc-footer-columns">
+        <nav aria-labelledby="footer-product">
+          <h3 id="footer-product">Product</h3>
+          <ul>
+            <li><a href="{{ url_for('main.catalog') }}">Catalog</a></li>
+            <li><a href="{{ url_for('main.search') }}">Search</a></li>
+            <li><a href="{{ url_for('upload.upload_file') }}">Upload</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-labelledby="footer-resources">
+          <h3 id="footer-resources">Resources</h3>
+          <ul>
+            <li><a href="{{ url_for('routes.full_help') }}">Documentation</a></li>
+            <li><a href="{{ url_for('main.contact') }}">Support</a></li>
+            <li><a href="{{ url_for('upload.upload_file') }}">Get Started</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-labelledby="footer-legal">
+          <h3 id="footer-legal">Legal</h3>
+          <ul>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
 
-    <!-- Title -->
-    <h1 id="rc-hero-title" class="rc-hero-title">
-      {% block hero_title %}Rules Central{% endblock %}
-    </h1>
-
-    <!-- Subtitle -->
-    <p class="rc-hero-subtitle">
-      {% block hero_subtitle %}
-      Manage your rules effortlessly with real-time insights, metrics, and streamlined workflows.
-      {% endblock %}
-    </p>
-
-    <!-- Actions -->
-    <div class="rc-hero-actions flex flex-wrap justify-center lg:justify-start gap-4">
-      <a href="{{ url_for('routes.config_page') }}"
-         class="rc-btn rc-btn-primary rc-btn-lg"
-         aria-label="Create new rule">
-         New&nbsp;Rule
-      </a>
-      <a href="{{ url_for('main.catalog') }}"
-         class="rc-btn rc-btn-outline rc-btn-lg"
-         aria-label="Browse diagram catalog">
-         View&nbsp;Catalog
-      </a>
-      <a href="#quick-tour"
-         class="rc-btn rc-btn-text rc-btn-lg"
-         aria-label="Start quick tour">
-         Quick&nbsp;Tour
-      </a>
+    <div class="rc-footer-bottom rc-container">
+      <p>&copy; <span id="current-year">{{ current_year|default('2023') }}</span> Rules Central. All rights reserved.</p>
+      <div class="rc-footer-social">
+        <a href="https://github.com" aria-label="GitHub">
+          <svg aria-hidden="true" focusable="false"><use href="#icon-github"></use></svg>
+        </a>
+        <a href="https://twitter.com" aria-label="Twitter">
+          <svg aria-hidden="true" focusable="false"><use href="#icon-twitter"></use></svg>
+        </a>
+      </div>
     </div>
+  </footer>
 
-    <!-- Illustration — hidden on small screens -->
-    <div class="rc-hero-illustration hidden lg:block flex-1">
-      <img src="{{ url_for('static', filename='img/hero-illustration.svg') }}"
-           alt=""
-           loading="lazy"
-           class="max-w-full h-auto drop-shadow-md">
-    </div>
-  </div>
-</section>
-{% endblock hero %}
-
-{# ============================================================
-   Rules Central Global Footer (Refined v2)
-   • Fixed container width (prevents full‑bleed giant logo)
-   • Explicit logo sizing (clamp height so it never explodes)
-   • Balanced grid (brand column width-capped; columns align)
-   • Full‑width bottom bar (no floating mini box)
-   • Better vertical rhythm + responsive behavior
-   • Accessible nav sections; dynamic year fallback
-   ============================================================ #}
-{% set _year = current_year|default('', true) %}
-{% set _ver  = app_version|default('', true) %}
-
-<footer id="rc-footer" class="rc-footer rc-surface-1" role="contentinfo">
-  <h2 class="sr-only">Site footer</h2>
-
-  <!-- ================== TOP AREA ================== -->
-  <div class="rc-footer-inner">
-    <!-- Brand / About ------------------------------------>
-    <div class="rc-footer-brand">
-      <a href="{{ url_for('main.index') }}" class="rc-footer-brand-link">
-        <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
-             alt="Rules Central logo"
-             class="rc-footer-logo"
-             width="160"
-             height="48">
-        <span class="rc-footer-brand-name">Rules Central</span>
-      </a>
-      <p class="rc-footer-tagline">Powerful rule hierarchy management.</p>
-    </div>
-
-    <!-- Columns wrapper -->
-    <div class="rc-footer-cols">
-      <!-- Product ------------------------------------------->
-      <nav class="rc-footer-col" aria-labelledby="rcf-product">
-        <h3 id="rcf-product" class="rc-footer-heading">Product</h3>
-        <ul class="rc-footer-list" role="list">
-          <li><a href="{{ url_for('main.catalog') }}" class="rc-footer-link">Catalog</a></li>
-          <li><a href="{{ url_for('main.search') }}" class="rc-footer-link">Search</a></li>
-          <li><a href="{{ url_for('upload.upload_file') }}" class="rc-footer-link">Upload</a></li>
-        </ul>
-      </nav>
-
-      <!-- Resources ----------------------------------------->
-      <nav class="rc-footer-col" aria-labelledby="rcf-resources">
-        <h3 id="rcf-resources" class="rc-footer-heading">Resources</h3>
-        <ul class="rc-footer-list" role="list">
-          <li><a href="{{ url_for('routes.full_help') }}" class="rc-footer-link">Documentation</a></li>
-          <li><a href="{{ url_for('main.contact') }}" class="rc-footer-link">Support</a></li>
-          <li><a href="{{ url_for('upload.upload_file') }}" class="rc-footer-link">Get Started</a></li>
-        </ul>
-      </nav>
-
-      <!-- Legal --------------------------------------------->
-      <nav class="rc-footer-col" aria-labelledby="rcf-legal">
-        <h3 id="rcf-legal" class="rc-footer-heading">Legal</h3>
-        <ul class="rc-footer-list" role="list">
-          <li><a href="#" class="rc-footer-link">Privacy</a></li>
-          <li><a href="#" class="rc-footer-link">Terms</a></li>
-          <li><a href="#" class="rc-footer-link">Cookie Policy</a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-
-  <hr class="rc-footer-divider" aria-hidden="true">
-
-  <!-- ================== BOTTOM BAR ================== -->
-  <div class="rc-footer-bottom">
-    <p class="rc-footer-copy">
-      &copy; <span id="rc-footer-year">{{ _year }}</span> Rules Central. All rights reserved.
-    </p>
-
-    <div class="rc-footer-social" role="navigation" aria-label="Social links">
-      <a href="https://github.com" class="rc-social-link" target="_blank" rel="noopener" aria-label="GitHub">
-        <span aria-hidden="true" class="rc-social-ico rc-social-ico-gh">
-          <!-- GitHub mark -->
-          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">
-            <path d="M8 0C3.58 0 0 3.73 0 8.33c0 3.68 2.29 6.8 5.47 7.9.4.08.55-.18.55-.39 0-.19-.01-.82-.01-1.49-2 .38-2.53-.5-2.69-.96-.09-.23-.48-.96-.82-1.15-.28-.15-.68-.52-.01-.53.63-.01 1.08.6 1.23.85.72 1.25 1.87.9 2.33.69.07-.54.28-.9.5-1.11-1.78-.21-3.64-.92-3.64-4.07 0-.9.31-1.64.82-2.22-.08-.21-.36-1.06.08-2.2 0 0 .67-.22 2.2.85a7.38 7.38 0 0 1 2-.28c.68 0 1.36.09 2 .28 1.53-1.07 2.2-.85 2.2-.85.44 1.14.16 1.99.08 2.2.51.58.82 1.32.82 2.22 0 3.16-1.87 3.86-3.66 4.06.29.26.54.77.54 1.56 0 1.12-.01 2.02-.01 2.29 0 .21.15.47.55.39A8.34 8.34 0 0 0 16 8.33C16 3.73 12.42 0 8 0Z"/>
-          </svg>
-        </span>
-      </a>
-      <a href="https://twitter.com" class="rc-social-link" target="_blank" rel="noopener" aria-label="Twitter / X">
-        <span aria-hidden="true" class="rc-social-ico rc-social-ico-x">
-          <!-- X/Twitter -->
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">
-            <path d="M18.244 2H21l-6.5 7.43L21.818 22H15.96l-4.59-6.6L5.87 22H3.11l7-7.99L2.5 2h5.04l4.14 5.96L18.244 2Z"/>
-          </svg>
-        </span>
-      </a>
-    </div>
-
-    <p class="rc-footer-version" aria-label="Application version">{{ _ver or '' }}</p>
-  </div>
-
-<script>
-/* Footer dynamic year fallback: if template var empty, inject JS current year */
-document.addEventListener('DOMContentLoaded',()=>{
-  const yEl=document.getElementById('rc-footer-year');
-  if(yEl && (!yEl.textContent.trim() || yEl.textContent.trim()==='0')){
-    yEl.textContent=(new Date()).getFullYear();
-  }
-});
-</script>
-
-{# ============================================================
-   Script hook (optional; no-op placeholder)
-   ============================================================ #}
-<script>
-/* Example hook: scroll to quick-tour section if hash present */
-document.addEventListener('DOMContentLoaded',()=>{
-  if(location.hash==='#quick-tour'){
-    const el=document.getElementById('quick-tour');
-    if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
-  }
-});
-</script>
-</footer>
-
+  {# ================= SCRIPTS ================= #}
   {% include 'partials/feedback_widget.html' %}
-
   {% block body_end %}{% endblock body_end %}
+
+  {# SVG Sprite for icons #}
+  <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="icon-github" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.936 4.936 0 0 0 4.604 3.417 9.867 9.867 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0 0 24 4.59z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  {# JavaScript #}
+  <script>
+    // Dynamic year update
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Load CSS asynchronously fallback
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('css-loaded') === null) {
+      document.querySelector('link[rel="stylesheet"]').onload = function() {
+        localStorage.setItem('css-loaded', 'true');
+      };
+    }
+  </script>
 
   {% block scripts %}
     <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/navigation.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/user_tour.js') }}"></script>
   {% endblock scripts %}
 </body>
