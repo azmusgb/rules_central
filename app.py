@@ -9,6 +9,8 @@ Opinionated but lightweight Flask application factory with:
 * Structured JSON error responses
 * Production-grade logging to file + console
 * Click commands for shell context & DB bootstrap
+
+For developer workflow and contribution rules, see `AGENTS.md`.
 """
 
 from __future__ import annotations
