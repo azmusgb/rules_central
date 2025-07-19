@@ -4,16 +4,14 @@ import os
 import json
 import csv
 from io import StringIO
-from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
 from flask import (
     Blueprint,
     jsonify,
     current_app,
-    send_file,
     render_template,
     abort,
     request,
@@ -24,12 +22,9 @@ from flask import (
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response
 
-from config import Config
-
 from utils import (
     allowed_file,
     load_and_sanitize_json,
-    ensure_directory_exists,
     generate_files,
     log_activity,
     get_current_user,
@@ -86,7 +81,7 @@ user_routes = Blueprint("user", __name__, url_prefix="/user")
 # ---------------------------------------------------------------------------
 
 @main.app_context_processor
-def inject_globals() -> Dict[str, any]:
+def inject_globals() -> Dict[str, Any]:
     """Inject global variables and functions into templates."""
     return {
         'now': datetime.now,
@@ -293,8 +288,6 @@ def index() -> str:
     except Exception as exc:
         current_app.logger.error(f"Index page error: {exc}", exc_info=True)
         abort(500, description="Failed to load home page")
-categories_func = globals().get("get_diagram_categories")
-categories = categories_func() if callable(categories_func) else []
 @main.route("/search")
 def search() -> str:
     """Display the search page."""
