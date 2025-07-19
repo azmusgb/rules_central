@@ -26,18 +26,18 @@
           <h2 class="text-xl font-semibold text-text">Rule Tree</h2>
           <span class="text-sm text-text-secondary" id="node-count">0 nodes</span>
         </div>
-        <div class="mb-4">
-          <div class="input focus-ring">
-            {{ input('tree-search', 'text', 'Search nodes...') }}
-          </div>
-        </div>
-        <div class="flex items-center justify-between text-sm text-text-secondary mb-4">
-          <span>0 / 0</span>
-          <div class="flex gap-2">
-            {{ button('Expand', variant='secondary', type='button', classes='text-xs px-3 py-1') }}
-            {{ button('Collapse', variant='secondary', type='button', classes='text-xs px-3 py-1') }}
-          </div>
-        </div>
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <input id="search-input" type="search" placeholder="Search rules…" class="input input-sm w-full sm:max-w-xs" autocomplete="off">
+          <span id="search-results-count" class="text-xs text-text-tertiary">0 results</span>
+          <div class="ml-auto flex gap-2">
+            <button id="expandAllBtn" class="btn btn-xs btn-secondary" type="button">Expand&nbsp;All</button>
+            <button id="collapseAllBtn" class="btn btn-xs btn-secondary" type="button">Collapse&nbsp;All</button>
+            <div class="relative">
+              <button id="exportMenuBtn" type="button" class="btn btn-xs btn-secondary" aria-haspopup="true" aria-controls="export-menu" aria-expanded="false">⋯<span class="sr-only">More actions</span></button>
+              <ul id="export-menu" class="hidden absolute right-0 mt-1 w-32 rounded border border-surface-3 bg-surface-1 shadow-lg text-sm">
+                <li><button type="button" class="w-full px-3 py-2 text-left hover:bg-surface-2" data-open-export-modal>Export…</button></li>
+              </ul>
+            </div>
         <div id="rule-tree" class="h-96 overflow-auto" data-tree-container>
           <!-- Tree nodes rendered by hierarchy_viewer.js -->
           <p class="text-text-secondary text-center">Loading tree...</p>
@@ -46,9 +46,38 @@
 
       <!-- Right Panel: Node Details -->
       <div class="lg:w-2/3 card card--glass p-6 glassmorphism">
+      <section class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-6 mb-6">
+        <div id="diagram-preview" class="border border-surface-3 rounded shadow-inner overflow-auto min-h-[300px] flex items-center justify-center">
+          <span class="text-text-tertiary text-sm">Select a rule to load its diagram…</span>
+        </div>
+        <aside id="diagram-minimap" class="hidden lg:block border border-surface-3 rounded p-2 bg-surface-1">
+          <span class="text-text-tertiary text-xs">Minimap generating…</span>
+        </aside>
+      </section>
         <div class="flex items-center gap-4 mb-6 border-b border-border/50">
           {% for tab in ['Overview', 'Attributes', 'Relations', 'Raw JSON'] %}
             <button 
+      <aside id="nodeDetails" class="hidden lg:block w-full max-w-sm lg:sticky lg:top-20 self-start">
+  <div class="border border-surface-3 rounded bg-surface-1 shadow-sm">
+    <header class="px-4 py-3 border-b border-surface-3">
+      <h2 id="nodeName" class="text-base font-semibold truncate">Select a node…</h2>
+    </header>
+    <nav class="flex border-b border-surface-3" role="tablist">
+      <button id="tabAttributesBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="attributes" role="tab" aria-selected="true">Attributes</button>
+      <button id="tabActionsBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="actions" role="tab" aria-selected="false">Actions</button>
+      <button id="tabRelationsBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="relations" role="tab" aria-selected="false">Relations</button>
+    </nav>
+    <section id="attributesList" class="p-4 text-sm leading-relaxed" role="tabpanel">
+      <p class="text-text-tertiary italic">No attributes.</p>
+    </section>
+    <section id="actionsList" class="p-4 text-sm leading-relaxed hidden" role="tabpanel">
+      <p class="text-text-tertiary italic">No actions.</p>
+    </section>
+    <section id="relationsList" class="p-4 text-sm leading-relaxed hidden" role="tabpanel">
+      <p class="text-text-tertiary italic">No relations.</p>
+    </section>
+  </div>
+</aside>
               class="pb-2 text-text-secondary hover:text-primary-500 focus-ring transition-colors
               {% if tab == 'Overview' %}text-primary-500 border-b-2 border-primary-500{% endif %}"
               data-tab="{{ tab|lower|replace(' ', '-') }}"
@@ -142,7 +171,42 @@
   </section>
 {% endblock %}
 
+<aside id="searchHistoryPanel" class="fixed bottom-4 left-4 z-40 hidden max-w-xs w-72 rounded-lg border border-surface-3 bg-surface-1 shadow-lg">
+  <header class="flex items-center justify-between px-4 py-2 border-b border-surface-3">
+    <h3 class="text-sm font-semibold">Recent Searches</h3>
+    <button id="clearHistoryBtn" type="button" class="btn btn-ghost text-xs px-2 py-1" aria-label="Clear history">Clear</button>
+  </header>
+  <ul id="historyList" class="max-h-52 overflow-y-auto text-sm divide-y divide-surface-3"></ul>
+</aside>
+<div id="rawJsonModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+  <div class="bg-surface-1 w-full max-w-lg mx-4 rounded-lg shadow-lg overflow-hidden">
+    <header class="flex items-center justify-between px-4 py-3 border-b border-surface-3">
+      <h2 class="text-base font-semibold">Node RAW JSON</h2>
+      <div class="flex gap-2">
+        <button id="copyJsonBtn" class="btn btn-secondary btn-xs" type="button" aria-label="Copy JSON">Copy</button>
+        <button id="closeRawJsonModal" class="btn btn-ghost p-1" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
+        </button>
+      </div>
+    </header>
+    <pre id="rawJsonContent" class="p-4 text-xs leading-relaxed whitespace-pre-wrap overflow-auto bg-surface-0"></pre>
+  </div>
+</div>
 {% block scripts %}
+<div id="export-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+  <div class="bg-surface-1 w-full max-w-sm mx-4 rounded-lg shadow-lg">
+    <header class="flex items-center justify-between px-4 py-3 border-b border-surface-3">
+      <h2 class="text-base font-semibold">Export Diagram</h2>
+      <button type="button" class="btn btn-ghost p-1" data-close-export-modal aria-label="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
+      </button>
+    </header>
+    <div class="p-4 space-y-3">
+      <button id="exportImageBtn" class="btn btn-primary w-full" type="button">Save as PNG</button>
+      <button id="exportPdfBtn" class="btn btn-secondary w-full" type="button">Save as PDF</button>
+    </div>
+  </div>
+</div>
   {{ super() }}
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
