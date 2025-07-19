@@ -82,6 +82,16 @@ npm run watch:css
 
 Development server runs at http://127.0.0.1:8080
 
+## Styling
+
+The interface uses Tailwind CSS with the DaisyUI plugin. After
+modifying `tailwind.config.cjs` or any files in `src/css/`, rebuild the
+stylesheet:
+
+```bash
+npm run build:css
+```
+
 ## Testing
 
 Run the test suite with:

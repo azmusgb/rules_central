@@ -94,9 +94,13 @@ module.exports = {
       }
     }
   },
+  daisyui: {
+    themes: ['light', 'dark']
+  },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
+    require('daisyui'),
     plugin(({ addUtilities, addComponents }) => {
       addUtilities({
         '.underline-squiggle': {
