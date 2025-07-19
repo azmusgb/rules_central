@@ -1,18 +1,32 @@
 {
   "name": "temp-tailwind",
   "version": "1.0.0",
+  "description": "Tailwind CSS project with PostCSS and stylelint",
+  "private": true,
   "scripts": {
-    "build:css": "tailwindcss -i static/css/input.css -o static/css/output.css --minify",
-    "watch:css": "tailwindcss -i static/css/input.css -o static/css/output.css --watch",
-    "css:dev":   "postcss static/css/input.css -o static/css/output.css --map",
-    "css:watch": "postcss static/css/input.css -o static/css/output.css --map --watch",
-    "css:prod":  "NODE_ENV=production postcss static/css/main.css -o static/css/output.css",
-    "lint:css":  "stylelint --fix \"src/**/*.css\"",
+    "dev": "npm run watch:css",
+    "build": "npm run build:css && npm run audit",
+    "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
+    "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "css:dev": "postcss ./static/css/input.css -o ./static/css/output.css --map",
+    "css:watch": "postcss ./static/css/input.css -o ./static/css/output.css --map --watch",
+    "css:prod": "NODE_ENV=production postcss ./static/css/input.css -o ./static/css/output.css --env production",
+    "lint:css": "stylelint --fix \"static/**/*.css\"",
+    "lint": "npm run lint:css",
     "audit:html": "html-validate \"templates/**/*.html\"",
-    "audit:a11y": "echo 'pa11y-ci removed'"
+    "audit:a11y": "echo 'pa11y-ci removed'",
+    "audit": "npm run audit:html && npm run audit:a11y",
+    "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm"
   },
   "stylelint": {
-    "extends": ["stylelint-config-standard"],
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-recommended"
+    ],
+    "plugins": [
+      "stylelint-order"
+    ],
     "rules": {
       "at-rule-no-unknown": [
         true,
@@ -30,6 +44,7 @@
           ]
         }
       ],
+      "order/properties-alphabetical-order": true,
       "keyframes-name-pattern": null,
       "selector-class-pattern": null,
       "declaration-block-single-line-max-declarations": null,
@@ -38,7 +53,13 @@
       "no-invalid-position-at-import-rule": null,
       "no-duplicate-selectors": null
     },
-    "ignoreFiles": ["src/styles/templates.css"]
+    "ignoreFiles": [
+      "static/css/output.css",
+      "**/templates.css"
+    ]
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
@@ -46,19 +67,31 @@
     "autoprefixer": "^10.4.21",
     "daisyui": "^5.0.43",
     "html-validate": "^8.0.0",
+    "husky": "^8.0.3",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
+    "postcss-import": "^15.1.0",
     "postcss-nesting": "^13.0.2",
     "postcss-preset-env": "^10.2.4",
-    "stylelint": "^14.0.0",
-    "stylelint-config-standard": "^29.0.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.3",
     "tailwindcss": "^3.3.3"
   },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.7.2"
-  },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
