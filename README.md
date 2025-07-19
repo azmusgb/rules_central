@@ -168,6 +168,16 @@ Key page endpoints:
 - API reference: `/api-docs`
 - Contributor guide: [AGENTS.md](AGENTS.md)
 
+## Contributing
+
+Follow these basics when contributing:
+
+- Use descriptive commit titles under 50 characters
+- Create topic branches instead of pushing to `main`
+- Run `pytest -v` and `npm run build:css` before opening a PR
+- Keep docs updated across README and the site
+- See [AGENTS.md](AGENTS.md) for the full checklist
+
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.

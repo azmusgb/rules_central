@@ -2,20 +2,29 @@
 **Commit Messages**
 - Keep under 50 chars for title
 - Use present tense ("Add feature" not "Added feature")
-- Include brief details in body when needed
+- Begin with a short area prefix (`docs:`, `feat:`, `fix:`)
+- Include brief details in body when helpful
+
+**Branch Names**
+- Use `topic/short-description` format
+- Avoid working directly on `main`
 
 **Pull Requests**
 - Title: Summarize change
 - Description:
   - List key changes
   - Include test results (`pytest -v` output)
+  - Include screenshot for UI updates
   - Note any migrations needed
   - Mention docs/README updates
+  - Link relevant issues
 
 **Testing**
 - Run `pytest -v` on Python changes
 - Verify full functionality after changes
 - Check cross-browser compatibility for frontend
+- Run `npm test` if JavaScript tests are present
+- Ensure linting passes
 
 **Frontend Builds**
 - Run `npm run build:css` when:
@@ -30,6 +39,7 @@
   3. Relevant docstrings
 - Keep language clear and concise
 - Include examples for complex features
+- Document new features the same day they're merged
 
 **Workflow**
 1. Make changes
