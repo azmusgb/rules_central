@@ -92,6 +92,9 @@ stylesheet:
 npm run build:css
 ```
 
+Page level styles now live in two files:
+`src/css/pages_common.css` and `src/css/pages_catalog.css`.
+
 ## Testing
 
 Run the test suite with:
