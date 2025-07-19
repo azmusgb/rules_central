@@ -176,6 +176,7 @@ Follow these basics when contributing:
 - Create topic branches instead of pushing to `main`
 - Run `pytest -v` and `npm run build:css` before opening a PR
 - Keep docs updated across README and the site
+- Link `tools/pre-commit` into `.git/hooks` to catch missing element IDs
 - See [AGENTS.md](AGENTS.md) for the full checklist
 
 ## License
