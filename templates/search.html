@@ -78,7 +78,7 @@
    `results` iterable expected from view. Each item can be:
      {title, name, rule_name, url, description, snippet, type, status, last_updated}
    ========================================================= #}
-<section class="wrapper rc-container pb-32 rc-search-results">
+<section id="search-results" class="wrapper rc-container pb-32 rc-search-results" role="region" aria-live="polite" aria-busy="false">
   {% if q %}
     <header class="mb-6 flex items-center justify-between">
       <div>
@@ -92,7 +92,7 @@
         {% endif %}
       </div>
       {% if results is defined and results %}
-        <button type="button" class="rc-search-export btn-secondary rc-cta">
+        <button type="button" class="rc-search-export btn-secondary rc-cta" aria-busy="false">
           <svg class="rc-search-export-icon" aria-hidden="true" viewBox="0 0 24 24">
             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
           </svg>
@@ -258,7 +258,7 @@
       searchClear.addEventListener('click', () => {
         searchInput.value = '';
         searchInput.focus();
-        searchClear.style.display = 'none';
+        searchClear.hidden = true;
         searchForm.submit();
       });
     }
@@ -267,12 +267,12 @@
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         if (searchClear) {
-          searchClear.style.display = searchInput.value ? 'block' : 'none';
+          searchClear.hidden = !searchInput.value;
         }
       });
       // Initialize clear button state
       if (searchClear) {
-        searchClear.style.display = searchInput.value ? 'block' : 'none';
+        searchClear.hidden = !searchInput.value;
       }
     }
 
@@ -287,6 +287,7 @@
     if (exportBtn) {
       exportBtn.addEventListener('click', async () => {
         exportBtn.disabled = true;
+        exportBtn.setAttribute('aria-busy', 'true');
         exportBtn.innerHTML = `
           <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -323,6 +324,7 @@
           alert('Failed to export results. Please try again.');
         } finally {
           exportBtn.disabled = false;
+          exportBtn.setAttribute('aria-busy', 'false');
           exportBtn.innerHTML = `
             <svg class="rc-search-export-icon" aria-hidden="true" viewBox="0 0 24 24">
               <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
