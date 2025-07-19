@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import os
 import json
+import csv
+from io import StringIO
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -113,6 +115,52 @@ def metrics() -> Response:
             "status": "error",
             "message": "Failed to fetch metrics"
         }), 500
+
+
+# ---------------------------------------------------------------------------
+# Export Search as CSV Route
+# ---------------------------------------------------------------------------
+
+@api.route("/search/export")
+def export_search() -> Response:
+    """
+    Export search results as a CSV file.
+
+    Expected query-string parameters mirror those used by the /search page
+    (e.g., ?q=<search term>&status=active&status=draft).
+    """
+    try:
+        # Query params
+        query = request.args.get("q", "")
+        # Re‑use existing perform_search helper so export matches UI
+        results = perform_search(query) if query else []
+
+        # Build CSV dynamically
+        output = StringIO()
+        writer = csv.writer(output)
+        writer.writerow(["id", "title", "status", "description"])
+        for r in results:
+            writer.writerow([
+                getattr(r, "id", ""),
+                getattr(r, "title", "") or getattr(r, "name", ""),
+                getattr(r, "status", ""),
+                getattr(r, "description", "").replace("\n", " ")
+            ])
+
+        csv_data = output.getvalue().encode()
+
+        return Response(
+            csv_data,
+            mimetype="text/csv",
+            headers={
+                "Content-Disposition":
+                    f'attachment; filename="search_export_{datetime.now().strftime("%Y%m%d%H%M%S")}.csv"'
+            }
+        )
+    except Exception as exc:
+        current_app.logger.error(f"Export search error: {exc}", exc_info=True)
+        return jsonify({"status": "error",
+                        "message": "Failed to export search"}), 500
 
 # ---------------------------------------------------------------------------
 # Analytics Routes
