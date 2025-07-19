@@ -294,11 +294,18 @@ def search() -> str:
     try:
         query = request.args.get("q", "")
         results = perform_search(query) if query else []
+
+        try:
+            export_url = url_for("api.export_search")
+        except Exception:  # pragma: no cover - endpoint may not exist
+            export_url = "/api/search/export"
+
         return render_template(
             "search.html",
             query=query,
             results=results,
-            result_count=len(results)
+            result_count=len(results),
+            export_url=export_url,
         )
     except Exception as exc:
         current_app.logger.error(f"Search page error: {exc}", exc_info=True)
