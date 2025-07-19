@@ -82,6 +82,18 @@ npm run watch:css
 
 Development server runs at http://127.0.0.1:8080
 
+## Styling
+
+The interface uses Tailwind CSS with the DaisyUI plugin. All custom
+styles live in `src/css/main.css`, which imports tokens and component
+modules. After modifying `tailwind.config.cjs` or any file under
+`src/css/`, rebuild the stylesheet to regenerate
+`static/css/output.css`:
+
+```bash
+npm run build:css
+```
+
 ## Testing
 
 Run the test suite with:

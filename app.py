@@ -9,6 +9,7 @@ Opinionated but lightweight Flask application factory with:
 * Structured JSON error responses
 * Production-grade logging to file + console
 * Click commands for shell context & DB bootstrap
+* Tailwind CSS build from `src/css/main.css`
 """
 
 from __future__ import annotations
