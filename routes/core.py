@@ -276,7 +276,13 @@ def index() -> str:
 def catalog() -> str:
     """Display the diagram catalog."""
     try:
-        categories = get_diagram_categories()
+        try:
+            categories = get_diagram_categories()
+        except NameError:
+            current_app.logger.warning(
+                "get_diagram_categories not available; showing empty catalog"
+            )
+            categories = []
         return render_template(
             "catalog.html",
             categories=categories,
