@@ -110,12 +110,16 @@
 <body class="bg-background text-text min-h-screen flex flex-col">
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
+  <div id="scroll-progress" class="h-1 bg-primary/50 fixed top-0 left-0 w-0 z-50"></div>
   {% block body_start %}{% endblock body_start %}
 
   {# ================= NAVIGATION ================= #}
   <nav id="rc-nav" class="rc-nav" role="navigation" aria-label="Main navigation">
     <div class="rc-nav-inner rc-container">
       {# Brand #}
+      <button id="mobile-menu-btn" type="button" class="btn btn-ghost p-2 md:hidden" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-bars-3"/></svg>
+      </button>
       <a href="{{ url_for('main.index') }}" class="rc-brand" aria-label="Rules Central Home">
         <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
              alt=""
@@ -182,6 +186,10 @@
         {% endif %}
 
         {# Theme Toggle #}
+        <button id="helpButton" class="btn btn-ghost flex items-center gap-1" type="button" aria-haspopup="dialog" aria-controls="quickHelpModal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-question-mark-circle"/></svg>
+          <span class="sr-only">Quick Help</span>
+        </button>
         <button id="theme-toggle" class="rc-theme-toggle" aria-label="Toggle theme">
           <svg class="rc-theme-ico" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="6" class="rc-theme-sun" />
@@ -223,6 +231,12 @@
       </div>
     </div>
   </nav>
+<nav id="mobile-menu" class="md:hidden hidden flex flex-col gap-1 bg-surface-1 border-t border-surface-3 px-4 py-3">
+  <a href="{{ url_for(main.index) }}" class="link py-1">Dashboard</a>
+  <a href="{{ url_for(main.catalog) }}" class="link py-1">Catalog</a>
+  <a href="{{ url_for(hierarchy.index) }}" class="link py-1">Hierarchy</a>
+  <a href="{{ url_for(main.docs) }}" class="link py-1">Docs</a>
+</nav>
 
   {# ================= MAIN CONTENT ================= #}
   <main id="main-content">
@@ -319,6 +333,25 @@
   {# ================= SCRIPTS ================= #}
   {% include 'partials/feedback_widget.html' %}
   {% block body_end %}{% endblock body_end %}
+<div id="quickHelpModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+  <div class="bg-surface-1 w-full max-w-md mx-4 rounded-lg shadow-lg">
+    <header class="flex items-center justify-between px-4 py-3 border-b border-surface-3">
+      <h2 class="text-base font-semibold">Quick Help</h2>
+      <button id="closeHelpModal" class="btn btn-ghost p-1" aria-label="Close help dialog">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
+      </button>
+    </header>
+    <div class="p-4 space-y-3 text-sm leading-relaxed">
+      <p>Welcome to Rules Central! Here are a few common shortcuts:</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li><kbd class="kbd">/</kbd> to focus the global search</li>
+        <li><kbd class="kbd">?</kbd> anywhere to reopen this help</li>
+        <li><kbd class="kbd">⌘</kbd><kbd>←/→</kbd> to collapse / expand all nodes</li>
+      </ul>
+      <p class="pt-2 text-text-tertiary">Need deeper docs? Visit <a href="{{ url_for(main.docs) }}" class="link">Documentation</a>.</p>
+    </div>
+  </div>
+</div>
 
   {# SVG Sprite for icons #}
   <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -349,6 +382,15 @@
     <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/navigation.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/user_tour.js') }}"></script>
+<div id="notificationToast" class="fixed bottom-4 left-1/2 -translate-x-1/2 max-w-xs w-full pointer-events-none z-50 hidden">
+  <div class="flex items-start gap-2 rounded border border-surface-3 bg-surface-1 px-4 py-3 shadow-lg">
+    <svg class="w-5 h-5 shrink-0 text-primary" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-bell"/></svg>
+    <p data-toast-msg class="text-sm leading-snug flex-1"></p>
+    <button type="button" class="btn btn-ghost p-1 -m-1" aria-label="Dismiss toast">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
+    </button>
+  </div>
+</div>
   {% endblock scripts %}
 </body>
 </html>
