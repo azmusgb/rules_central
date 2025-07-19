@@ -1,49 +1,128 @@
 /* ==========================================================================
-   Hero Section Variables
+   Hero Section Design System
    ========================================================================== */
 
 :root {
-  /* Spacing */
-  --hero-padding-block-start: clamp(3.5rem, 6vh, 5.5rem); /* accounts for fixed nav */
-  --hero-padding-block-end: clamp(1.75rem, 5vh, 3.5rem);
+  /* ================
+     Spacing System
+     ================ */
+  --hero-padding-block: 
+    clamp(3.5rem, 6vh, 5.5rem) /* top */
+    clamp(1.75rem, 5vh, 3.5rem); /* bottom */
   --hero-padding-inline: var(--gutter, clamp(1rem, 3vw, 2rem));
+  --hero-content-gap: clamp(1.5rem, 3vw, 2.5rem);
   
-  /* Sizing */
-  --hero-max-width: 72rem;
-  --hero-content-width: min(100%, 52rem);
+  /* ================
+     Sizing Controls
+     ================ */
+  --hero-max-width: min(72rem, 95vw);
+  --hero-content-width: min(100%, 52rem, calc(100vw - 2 * var(--hero-padding-inline)));
   --hero-glow-size: min(900px, 100vw);
+  --hero-image-max-height: min(560px, 65vh);
   
-  /* Colors - Light Mode */
-  --hero-accent: #f43f5e;
-  --hero-text: var(--color-text);
-  --hero-bg: var(--color-background);
+  /* ================
+     Color System
+     ================ */
+  /* Light Mode Defaults */
+  --hero-accent-50: #fff1f2;
+  --hero-accent-100: #ffe4e6;
+  --hero-accent-200: #fecdd3;
+  --hero-accent-300: #fda4af;
+  --hero-accent-400: #fb7185;
+  --hero-accent-500: #f43f5e; /* Base accent */
+  --hero-accent-600: #e11d48;
+  --hero-accent-700: #be123c;
+  --hero-accent-800: #9f1239;
+  --hero-accent-900: #881337;
   
-  /* Colors - Dark Mode */
-  --hero-accent-dark: #f87171;
-  --hero-text-dark: rgb(241 245 249);
-  --hero-bg-dark: rgb(30 41 59);
+  --hero-text: var(--color-text, hsl(240 10% 15%));
+  --hero-text-muted: color-mix(in srgb, var(--hero-text) 70%, transparent);
+  --hero-bg: var(--color-background, hsl(0 0% 100%));
+  --hero-overlay: color-mix(in srgb, var(--hero-bg) 10%, transparent);
   
-  /* Effects */
+  /* Gradient Options */
+  --hero-gradient-angle: 135deg;
+  --hero-gradient: linear-gradient(
+    var(--hero-gradient-angle),
+    var(--hero-accent-300),
+    var(--hero-accent-500),
+    var(--hero-accent-700)
+  );
+  
+  /* ================
+     Visual Effects
+     ================ */
   --hero-glow-opacity: 0.25;
-  --hero-glow-blur: 160px;
+  --hero-glow-blur: clamp(120px, 20vw, 160px);
+  --hero-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --hero-border-radius: clamp(1rem, 3vw, 1.5rem);
   
-  /* Animation */
-  --hero-animation-duration: 0.6s;
-  --hero-animation-easing: var(--transition-motion);
+  /* ================
+     Animation System
+     ================ */
+  --hero-animation-duration: 600ms;
+  --hero-animation-easing: var(--transition-motion, cubic-bezier(0.22, 1, 0.36, 1));
+  --hero-stagger-delay: 100ms;
+  
+  /* ================
+     Typography
+     ================ */
+  --hero-heading-size: clamp(2.5rem, 6vw, 4rem);
+  --hero-subhead-size: clamp(1.25rem, 3vw, 1.75rem);
+  --hero-text-size: clamp(1rem, 2vw, 1.125rem);
+  --hero-line-height: 1.2;
+  --hero-line-height-loose: 1.6;
 }
 
-/* Dark Mode Overrides */
+/* ================
+   Dark Mode Theme
+   ================ */
 @media (prefers-color-scheme: dark) {
   :root {
-    --hero-accent: var(--hero-accent-dark);
-    --hero-text: var(--hero-text-dark);
-    --hero-bg: var(--hero-bg-dark);
+    --hero-text: var(--hero-text-dark, hsl(240 10% 95%));
+    --hero-text-muted: color-mix(in srgb, var(--hero-text) 70%, transparent);
+    --hero-bg: var(--hero-bg-dark, hsl(240 10% 5%));
+    --hero-overlay: color-mix(in srgb, var(--hero-bg) 15%, transparent);
+    --hero-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    
+    /* Adjusted accent colors for better dark mode visibility */
+    --hero-accent-300: #fca5a5;
+    --hero-accent-500: #f87171; /* Base accent */
+    --hero-accent-700: #ef4444;
   }
 }
 
-/* Reduced Motion */
+/* ================
+   Motion Preferences
+   ================ */
 @media (prefers-reduced-motion) {
   :root {
     --hero-animation-duration: 0.01ms;
+    --hero-stagger-delay: 0ms;
+  }
+}
+
+/* ================
+   Container Queries
+   ================ */
+@container hero (width < 768px) {
+  :root {
+    --hero-padding-block: 
+      clamp(2.5rem, 5vh, 4rem)
+      clamp(1.25rem, 4vh, 2.5rem);
+    --hero-heading-size: clamp(2rem, 5vw, 3rem);
+    --hero-gradient-angle: 90deg;
+  }
+}
+
+/* ================
+   Print Adjustments
+   ================ */
+@media print {
+  :root {
+    --hero-text: black;
+    --hero-bg: white;
+    --hero-shadow: none;
+    --hero-glow-opacity: 0;
   }
 }
