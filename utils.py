@@ -501,7 +501,7 @@ def get_rule_stats() -> dict:
     try:
         with open(Config.ACTIVITY_LOG, "r", encoding="utf-8") as f:
             data = json.load(f)
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         totals = {
             "total_rules": len(data.get("rules", {})),
             "last_7_days": 0,
@@ -531,7 +531,7 @@ def get_activity_trend(days: int = 30) -> list[dict]:
     try:
         with open(Config.ACTIVITY_LOG, "r", encoding="utf-8") as f:
             data = json.load(f)
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         start_date = now.date() - timedelta(days=days - 1)
         counts = { (start_date + timedelta(days=i)).isoformat(): 0 for i in range(days) }
         for entry in data.get("activity_log", []):
