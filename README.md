@@ -182,7 +182,6 @@ Follow these basics when contributing:
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-```
 
 Key improvements:
 
