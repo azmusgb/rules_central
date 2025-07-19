@@ -1,0 +1,196 @@
+/* stylelint-disable no-descending-specificity */
+/* ======================
+   Section & Layout Styles
+   ====================== */
+.rc-section {
+  margin-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.rc-grid-2-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.rc-grid-auto {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+/* ======================
+   Navigation Styles
+   ====================== */
+.rc-nav-scrolled {
+  box-shadow: var(--shadow-md);
+}
+
+.rc-nav-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation Auth Buttons */
+.rc-nav-auth {
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  padding: 0.4rem 1.125rem;
+  border-radius: var(--radius-full);
+  border: 1px solid currentColor;
+  transition: all var(--transition-base);
+}
+
+.rc-nav-auth--login:hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.rc-nav-auth--signup:hover {
+  background: var(--color-primary-hover);
+}
+
+/* Mobile Navigation */
+.rc-nav-mobile-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-base);
+}
+
+.rc-nav-mobile-bars,
+.rc-nav-mobile-bars::before,
+.rc-nav-mobile-bars::after {
+  content: "";
+  width: 1.25rem;
+  height: 2px;
+  background: currentColor;
+  display: block;
+  border-radius: 2px;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.rc-nav-mobile-bars::after {
+  transform: translateY(4px);
+}
+
+.rc-nav-mobile-toggle[aria-expanded="true"] .rc-nav-mobile-bars::before {
+  transform: rotate(45deg) translateY(0);
+}
+
+.rc-nav-mobile-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-stroke);
+  border-top: 1px solid var(--color-stroke);
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(16px);
+  padding-block: var(--space-sm);
+  transition: max-height var(--transition-base), opacity var(--transition-base);
+}
+
+.rc-nav-mobile-drawer:not([hidden]) {
+  max-height: 480px;
+  opacity: 1;
+  overflow: auto;
+}
+
+.rc-nav-mobile-link {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: inherit;
+  transition: background var(--transition-base);
+}
+
+.rc-nav-mobile-link.active {
+  color: var(--color-primary);
+}
+
+.rc-nav-mobile-signout {
+  color: var(--color-primary);
+}
+
+/* ======================
+   User Menu Styles
+   ====================== */
+.rc-user {
+  position: relative;
+  display: inline-block;
+}
+
+.rc-user-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.rc-user-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-stroke);
+}
+
+.rc-user-menu a {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--transition-base);
+}
+
+.rc-user-menu .rc-user-signout {
+  color: var(--color-primary);
+}
+
+/* ======================
+   Card & Component Styles
+   ====================== */
+.rc-card:hover,
+.rc-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.rc-hero {
+  padding-block: clamp(4rem, 10vw, 8rem);
+  background:
+    var(--gradient-radial-light),
+    var(--gradient-hero-light),
+    var(--color-background);
+}
+
+.rc-cta-primary::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, var(--color-primary) 0%, transparent 70%);
+  filter: blur(16px);
+  opacity: 0.55;
+  transition: opacity var(--transition-base);
+  border-radius: var(--radius-full);
+}
+
+.rc-metric {
+  min-height: 8.5rem;
+}
+
+.rc-accent-primary {
+  color: var(--color-primary);
+  background-color: rgba(244, 63, 94, 0.12);
+}
+
