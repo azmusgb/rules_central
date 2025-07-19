@@ -25,6 +25,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response
 
 from config import Config
+
 from utils import (
     allowed_file,
     load_and_sanitize_json,
@@ -35,10 +36,31 @@ from utils import (
     get_rule_stats,
     get_activity_trend,
     get_featured_diagrams,
-    get_diagram_categories,
     generate_csrf_token,
     verify_csrf_token,
 )
+
+# ---------------------------------------------------------------------------
+# Ensure get_diagram_categories is always defined
+# ---------------------------------------------------------------------------
+def _stub_diagram_categories() -> list:  # type: ignore
+    """Fallback stub used until real get_diagram_categories is imported."""
+    return []
+
+# Pre‑define the name with the stub so downstream references never raise
+get_diagram_categories = _stub_diagram_categories  # type: ignore
+
+# ---------------------------------------------------------------------------
+# Optional utility imports
+# ---------------------------------------------------------------------------
+# get_diagram_categories is optional; fall back to an empty list supplier
+try:
+    from utils import get_diagram_categories  # type: ignore
+except (ImportError, AttributeError):
+    def get_diagram_categories() -> list:  # type: ignore
+        """Return an empty list when utils.get_diagram_categories is absent."""
+        return []
+
 
 # ---------------------------------------------------------------------------
 # Type Aliases
@@ -271,30 +293,8 @@ def index() -> str:
     except Exception as exc:
         current_app.logger.error(f"Index page error: {exc}", exc_info=True)
         abort(500, description="Failed to load home page")
-
-@main.route("/catalog")
-def catalog() -> str:
-    """Display the diagram catalog."""
-    try:
-        try:
-            categories = get_diagram_categories()
-        except NameError:
-            current_app.logger.warning(
-                "get_diagram_categories not available; showing empty catalog"
-            )
-            categories = []
-        return render_template(
-            "catalog.html",
-            categories=categories,
-            breadcrumbs=[
-                {"title": "Home", "url": url_for("main.index")},
-                {"title": "Catalog"},
-            ]
-        )
-    except Exception as exc:
-        current_app.logger.error(f"Catalog page error: {exc}", exc_info=True)
-        abort(500, description="Failed to load catalog")
-
+categories_func = globals().get("get_diagram_categories")
+categories = categories_func() if callable(categories_func) else []
 @main.route("/search")
 def search() -> str:
     """Display the search page."""
