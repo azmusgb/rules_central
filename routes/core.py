@@ -84,6 +84,24 @@ def save_uploaded_file(file, upload_dir: Path) -> Path:
     return file_path
 
 # ---------------------------------------------------------------------------
+# Metrics Fallback Helpers
+# ---------------------------------------------------------------------------
+
+def get_rule_stats() -> Dict[str, int]:
+    """Return empty rule statistics as a placeholder."""
+    return {}
+
+
+def get_activity_trend(days: int = 30) -> List[Dict[str, int]]:
+    """Return empty activity trend data as a placeholder."""
+    return []
+
+
+def get_featured_diagrams(limit: int = 3) -> List[Dict[str, Any]]:
+    """Return an empty list of featured diagrams as a placeholder."""
+    return []
+
+# ---------------------------------------------------------------------------
 # API Routes
 # ---------------------------------------------------------------------------
 
