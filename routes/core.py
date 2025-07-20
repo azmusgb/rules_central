@@ -8,6 +8,8 @@ This module organizes all application routes into logical blueprints with:
 - Secure file uploads
 - CSRF protection
 - Structured API responses
+All route handlers document inputs and outputs per the style guide in
+``AGENTS.md``.
 """
 
 from __future__ import annotations

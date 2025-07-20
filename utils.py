@@ -1,4 +1,8 @@
-"""Unified utility module for Rules Central."""
+"""Unified utility module for Rules Central.
+
+All helpers should include clear docstrings following the conventions
+outlined in ``AGENTS.md`` to keep the codebase consistent.
+"""
 
 from __future__ import annotations
 
