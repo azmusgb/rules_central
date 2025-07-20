@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run watch:css",
-    "build": "npm run build:css && npm run audit",
+    "build": "npm run build:css && npm run build:js && npm run audit",
     "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
     "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
     "css:dev": "postcss ./static/css/input.css -o ./static/css/output.css --map",
@@ -17,7 +17,8 @@
     "audit:a11y": "echo 'pa11y-ci removed'",
     "audit": "npm run audit:html && npm run audit:a11y",
     "prepare": "husky install",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "build:js": "node scripts/minify-js.mjs"
   },
   "stylelint": {
     "extends": [
@@ -76,7 +77,8 @@
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-order": "^6.0.3",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "terser": "^5.28.0"
   },
   "browserslist": {
     "production": [
