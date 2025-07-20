@@ -1,189 +1,178 @@
 "use strict";
 /**
- * Core application initialization and theme management
- * Features:
- * - Accessible theme switching with localStorage persistence
- * - Mobile menu handling with ARIA attributes
- * - Component initialization system
- * - Scroll progress tracking
- * - Memory-safe event listeners
+ * core.js — Core application initialization
+ * ----------------------------------------
+ * ✅ Accessible theme switching w/ persistence
+ * ✅ Mobile menu toggle w/ ARIA + scroll lock
+ * ✅ Scroll progress tracking
+ * ✅ Memory-safe listener cleanup
+ * ✅ Component auto-initializer for optional UI features
  */
 
 (function () {
-  // --- Constants ---
-  const THEME_KEY = 'theme';
-  const DARK_THEME = 'dark';
-  const LIGHT_THEME = 'light';
-  
-  // --- Theme Management ---
+  // ================================
+  // 1. THEME MANAGEMENT
+  // ================================
+  const THEME_KEY = "theme";
+  const THEMES = ["light", "dark"];
+  const DARK = "dark";
+  const LIGHT = "light";
+
   const ThemeManager = {
-    /**
-     * Initialize theme based on user preference or system setting
-     */
-    init: function() {
-      const savedTheme = localStorage.getItem(THEME_KEY);
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initialTheme = savedTheme || (systemDark ? DARK_THEME : LIGHT_THEME);
-      
-      this.applyTheme(initialTheme);
-      this.setupThemeListeners();
+    init() {
+      const saved = localStorage.getItem(THEME_KEY);
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const initialTheme = saved || (prefersDark ? DARK : LIGHT);
+      this.apply(initialTheme);
+      this._bindSystemThemeListener();
     },
-    
-    /**
-     * Apply theme to document
-     * @param {string} theme - Theme to apply (dark/light)
-     */
-    applyTheme: function(theme) {
-      document.documentElement.classList.toggle(DARK_THEME, theme === DARK_THEME);
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.setAttribute('aria-theme', theme);
+
+    apply(theme) {
+      const html = document.documentElement;
+      html.setAttribute("data-theme", theme);
+      html.setAttribute("aria-theme", theme);
+
+      html.classList.toggle(DARK, theme === DARK);
       localStorage.setItem(THEME_KEY, theme);
+
+      // Dispatch a custom event so other components can react
+      document.dispatchEvent(new CustomEvent("theme-change", { detail: { theme } }));
     },
-    
-    /**
-     * Toggle between dark/light themes
-     */
-    toggle: function() {
-      const currentTheme = document.documentElement.classList.contains(DARK_THEME) 
-        ? DARK_THEME 
-        : LIGHT_THEME;
-      const newTheme = currentTheme === DARK_THEME ? LIGHT_THEME : DARK_THEME;
-      this.applyTheme(newTheme);
+
+    toggle() {
+      const current = document.documentElement.classList.contains(DARK) ? DARK : LIGHT;
+      const next = current === DARK ? LIGHT : DARK;
+      this.apply(next);
     },
-    
-    /**
-     * Set up theme-related event listeners
-     */
-    setupThemeListeners: function() {
-      // System theme change listener
-      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const systemThemeHandler = (e) => {
+
+    _bindSystemThemeListener() {
+      const mq = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleSystemChange = (e) => {
+        // Only update if the user hasn't explicitly set a theme
         if (!localStorage.getItem(THEME_KEY)) {
-          this.applyTheme(e.matches ? DARK_THEME : LIGHT_THEME);
+          this.apply(e.matches ? DARK : LIGHT);
         }
       };
-      colorSchemeQuery.addEventListener('change', systemThemeHandler);
-      
-      // Cleanup reference
-      window._themeCleanup = () => {
-        colorSchemeQuery.removeEventListener('change', systemThemeHandler);
-      };
+      mq.addEventListener("change", handleSystemChange);
+
+      // Store cleanup handler
+      window._themeCleanup = () => mq.removeEventListener("change", handleSystemChange);
     }
   };
 
-  // --- Mobile Menu ---
+  // ================================
+  // 2. MOBILE MENU HANDLER
+  // ================================
   const MobileMenu = {
-    /**
-     * Initialize mobile menu functionality
-     */
-    init: function() {
-      const menuBtn = document.getElementById('mobile-menu-btn');
-      const menu = document.getElementById('mobile-menu');
-      
-      if (!menuBtn || !menu) return;
-      
+    init() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const menu = document.getElementById("mobile-menu");
+      if (!btn || !menu) return;
+
       const toggleMenu = () => {
-        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-        menuBtn.setAttribute('aria-expanded', !expanded);
-        menu.classList.toggle('hidden');
-        
-        // Lock body scroll when menu is open
-        document.body.style.overflow = expanded ? '' : 'hidden';
+        const isOpen = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", !isOpen);
+        menu.classList.toggle("hidden", isOpen);
+
+        // Lock/unlock body scroll
+        document.body.style.overflow = isOpen ? "" : "hidden";
       };
-      
-      menuBtn.addEventListener('click', toggleMenu);
-      
-      // Close menu when clicking outside or on links
-      const closeOnClickOutside = (e) => {
-        if (!menu.contains(e.target)) {
-          menuBtn.setAttribute('aria-expanded', 'false');
-          menu.classList.add('hidden');
-          document.body.style.overflow = '';
+
+      const clickOutsideHandler = (e) => {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          btn.setAttribute("aria-expanded", "false");
+          menu.classList.add("hidden");
+          document.body.style.overflow = "";
         }
       };
-      
-      document.addEventListener('click', closeOnClickOutside);
-      
-      // Cleanup reference
+
+      btn.addEventListener("click", toggleMenu);
+      document.addEventListener("click", clickOutsideHandler);
+
+      // Cleanup references
       window._menuCleanup = () => {
-        menuBtn.removeEventListener('click', toggleMenu);
-        document.removeEventListener('click', closeOnClickOutside);
+        btn.removeEventListener("click", toggleMenu);
+        document.removeEventListener("click", clickOutsideHandler);
       };
     }
   };
 
-  // --- Scroll Progress ---
+  // ================================
+  // 3. SCROLL PROGRESS BAR
+  // ================================
   const ScrollProgress = {
-    /**
-     * Initialize scroll progress tracking
-     */
-    init: function() {
-      const progress = document.getElementById('scroll-progress');
-      if (!progress) return;
-      
+    init() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+
       const updateProgress = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - 
-                         document.documentElement.clientHeight;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progress.style.width = `${percent}%`;
+        bar.style.width = `${percent}%`;
       };
-      
+
+      // Initialize immediately
       updateProgress();
-      window.addEventListener('scroll', updateProgress);
-      
-      // Cleanup reference
-      window._scrollCleanup = () => {
-        window.removeEventListener('scroll', updateProgress);
-      };
+      window.addEventListener("scroll", updateProgress, { passive: true });
+
+      window._scrollCleanup = () => window.removeEventListener("scroll", updateProgress);
     }
   };
 
-  // --- Component Initializer ---
+  // ================================
+  // 4. COMPONENT AUTO-INITIALIZER
+  // ================================
   const ComponentManager = {
-    /**
-     * Initialize all registered components
-     */
-    init: function() {
-      // Check and initialize components if they exist
+    init() {
       const components = [
-        'initAnimations',
-        'setupBackToTop',
-        'setupSearchInputs',
-        'setupCopyButtons',
-        'setupHotkeys',
-        'setupPageTransitions'
+        "initAnimations",
+        "setupBackToTop",
+        "setupSearchInputs",
+        "setupCopyButtons",
+        "setupHotkeys",
+        "setupPageTransitions"
       ];
-      
-      components.forEach(component => {
-        if (window.AppUtils && typeof window.AppUtils[component] === 'function') {
-          window.AppUtils[component]();
+
+      components.forEach((fnName) => {
+        if (window.AppUtils && typeof window.AppUtils[fnName] === "function") {
+          try {
+            window.AppUtils[fnName]();
+          } catch (err) {
+            console.warn(`Component ${fnName} failed:`, err);
+          }
         }
       });
     }
   };
 
-  // --- Main Initialization ---
-  document.addEventListener('DOMContentLoaded', () => {
+  // ================================
+  // 5. MAIN INITIALIZATION
+  // ================================
+  document.addEventListener("DOMContentLoaded", () => {
     ThemeManager.init();
     MobileMenu.init();
     ScrollProgress.init();
     ComponentManager.init();
   });
 
-  // --- Cleanup ---
-  window.addEventListener('beforeunload', () => {
-    // Cleanup all event listeners
-    if (typeof window._themeCleanup === 'function') window._themeCleanup();
-    if (typeof window._menuCleanup === 'function') window._menuCleanup();
-    if (typeof window._scrollCleanup === 'function') window._scrollCleanup();
+  // ================================
+  // 6. CLEANUP ON NAVIGATION
+  // ================================
+  window.addEventListener("beforeunload", () => {
+    window._themeCleanup?.();
+    window._menuCleanup?.();
+    window._scrollCleanup?.();
   });
 
-  // --- Public API ---
+  // ================================
+  // 7. GLOBAL API EXPORT
+  // ================================
   window.AppUtils = window.AppUtils || {};
   window.AppUtils.ThemeManager = ThemeManager;
   window.AppUtils.MobileMenu = MobileMenu;
-  
-  // Legacy support
+  window.AppUtils.ScrollProgress = ScrollProgress;
+
+  // Legacy alias for backwards compatibility
   window.app = window.AppUtils;
 })();
