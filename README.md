@@ -30,6 +30,7 @@ pip install -r requirements.txt
 # Build assets
 npm install
 npm run build:css
+npm run build:js
 
 # Launch development server
 export FLASK_ENV=development
@@ -69,6 +70,7 @@ Open http://127.0.0.1:8080 in your browser.
    ```bash
    npm install
    npm run build:css
+   npm run build:js
    ```
 
 ## Development
@@ -92,6 +94,7 @@ stylesheet:
 
 ```bash
 npm run build:css
+npm run build:js
 ```
 
 Page level styles now live in two files:
@@ -176,7 +179,7 @@ Follow these basics when contributing:
 
 - Use descriptive commit titles under 50 characters
 - Create topic branches instead of pushing to `main`
-- Run `pytest -v` and `npm run build:css` before opening a PR
+- Run `pytest -v`, `npm run build:css`, and `npm run build:js` before opening a PR
 - Keep docs updated across README and the site
 - Link `tools/pre-commit` into `.git/hooks` to catch missing element IDs
 - See [AGENTS.md](AGENTS.md) for the full checklist
