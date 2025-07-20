@@ -1,7 +1,7 @@
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  darkMode: 'class',
+  darkMode: ['class', '[data-theme="dark"]'],
   content: ['./templates/**/*.html', './static/js/**/*.js'],
   safelist: [
     'hidden',
@@ -13,7 +13,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
+        primary: 'var(--color-primary)',
+        'primary-hover': 'var(--color-primary-hover)',
+        accent: 'var(--color-accent)',
+        success: 'var(--color-success)',
+        warning: 'var(--color-warning)',
+        error: 'var(--color-error)',
+        link: 'var(--color-link)',
+        gray: {
+          50: 'var(--gray-50)',
+          100: 'var(--gray-100)',
+          200: 'var(--gray-200)',
+          300: 'var(--gray-300)',
+          400: 'var(--gray-400)',
+          500: 'var(--gray-500)',
+          600: 'var(--gray-600)',
+          700: 'var(--gray-700)',
+          800: 'var(--gray-800)',
+          900: 'var(--gray-900)'
+        },
+        brand: {
           50: '#FFF0F0',
           100: '#FFD6D6',
           200: '#FFB5B5',
@@ -38,6 +57,9 @@ module.exports = {
           secondary: 'rgba(31, 31, 31, 0.7)',
           tertiary: 'rgba(31, 31, 31, 0.5)'
         }
+      },
+      ringColor: {
+        DEFAULT: 'var(--focus-ring)'
       },
       fontFamily: {
         sans: [
