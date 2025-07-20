@@ -89,7 +89,7 @@ Development server runs at http://127.0.0.1:8080
 ## Styling
 
 The interface uses Tailwind CSS with the DaisyUI plugin. Global design tokens
-are defined in `static/css/style.css` and referenced in `tailwind.config.cjs`.
+live in `src/css/tokens.css` and are referenced in `tailwind.config.cjs`.
 After modifying these or any files in `src/css/`, rebuild the
 stylesheet:
 
