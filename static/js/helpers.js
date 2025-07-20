@@ -1,4 +1,5 @@
 "use strict";
+// Small utility helpers shared across pages
 (function (global) {
   const Helpers = {};
 
@@ -15,6 +16,20 @@
     if (loadingSpinner) {
       loadingSpinner.classList.remove("show");
       loadingSpinner.removeAttribute("aria-busy");
+    }
+  };
+
+  /**
+   * Display a toast notification if the global app util is available
+   * Falls back to alert() when not present
+   * @param {string} message - Message to display
+   * @param {string} [type="info"] - success|error|info
+   */
+  Helpers.showToast = (message, type = "info") => {
+    if (global.app && typeof global.app.showToast === "function") {
+      global.app.showToast(message, type);
+    } else {
+      alert(`${type.toUpperCase()}: ${message}`);
     }
   };
 
@@ -36,5 +51,6 @@
       setTimeout(() => reject(new Error("SVG load timeout")), 5000);
     });
 
+  // Export helpers globally
   global.Helpers = Helpers;
 })(window);

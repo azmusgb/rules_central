@@ -1,4 +1,5 @@
 "use strict";
+// Advanced search page interactions with accessible toast notifications
 document.addEventListener("DOMContentLoaded", () => {
   console.log("search.js loaded");
 
@@ -18,6 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     pagination: document.getElementById("pagination"),
     spinner: document.getElementById("spinner"),
     toast: document.getElementById("toast"),
+    toastTitle: document.getElementById("toastTitle"),
+    toastMessage:
+      document.getElementById("toastMessage") ||
+      document.getElementById("toast-message"),
   };
 
   // Check if all elements are found
@@ -504,6 +509,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showToast(message, type = "info", title = "") {
+    if (window.Helpers && typeof window.Helpers.showToast === "function") {
+      window.Helpers.showToast(message, type);
+      return;
+    }
     if (!elements.toast) return;
     elements.toast.classList.remove("hidden");
     elements.toast.setAttribute("role", "status");
@@ -515,7 +524,9 @@ document.addEventListener("DOMContentLoaded", () => {
       elements.toast.classList.add("bg-red-700");
       elements.toast.classList.remove("bg-emerald-700");
     }
-    if (elements.toastTitle) elements.toastTitle.textContent = title || (type === "success" ? "Success" : type === "error" ? "Error" : "Info");
+    if (elements.toastTitle)
+      elements.toastTitle.textContent =
+        title || (type === "success" ? "Success" : type === "error" ? "Error" : "Info");
     if (elements.toastMessage) elements.toastMessage.textContent = message;
     elements.toast.focus();
     setTimeout(() => {
