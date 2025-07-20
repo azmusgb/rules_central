@@ -168,10 +168,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   // 4. GLOBAL EXPORTS
   // ======================
-  window.app = {
+  window.AppUtils = window.AppUtils || {};
+  Object.assign(window.AppUtils, {
     initAnimations,
     setupBackToTop,
     setupSearchInputs,
     handleLoadMore,
-  };
+  });
+  window.app = window.AppUtils;
 });
