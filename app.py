@@ -280,9 +280,10 @@ def _register_cli(app: Flask) -> None:
 # 3. Legacy support — keep Gunicorn & Flask CLI happy
 # --------------------------------------------------------------------------- #
 
-app = create_app()
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    debug = os.getenv("FLASK_ENV") == "development"
-    app.run(host="0.0.0.0", port=port, debug=debug)
+if not os.environ.get("RC_SKIP_CREATE_APP"):
+    app = create_app()
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 8080))
+        debug = os.getenv("FLASK_ENV") == "development"
+        app.run(host="0.0.0.0", port=port, debug=debug)

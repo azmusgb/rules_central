@@ -50,7 +50,7 @@ diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 upload = Blueprint("upload", __name__, url_prefix="/upload")
-user = Blueprint("user", __name__, url_prefix="/user")
+user_routes = Blueprint("user", __name__, url_prefix="/user")
 
 # ---------------------------------------------------------------------------
 # Helper Functions
