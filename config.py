@@ -4,6 +4,9 @@ This module provides:
 - Configuration file loading from JSON
 - Application constants and paths
 - Data directory initialization
+
+The configuration file path defaults to ``config/config.json`` but can
+be overridden with the ``CONFIG_PATH`` environment variable.
 """
 
 import json

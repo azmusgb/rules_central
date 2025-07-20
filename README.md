@@ -120,11 +120,14 @@ Environment variables:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `CONFIG_PATH` | Path to config file | `config/default.json` |
+| `CONFIG_PATH` | Path to config file | `config/config.json` |
 | `SECRET_KEY` | Application secret key | Randomly generated |
 | `UPLOAD_FOLDER` | File upload directory | `./uploads` |
 | `DIAGRAMS_FOLDER` | Diagram storage | `./diagrams` |
 | `PORT` | Server port | `8080` |
+
+Customize the configuration location by setting the
+`CONFIG_PATH` environment variable to an alternate JSON file.
 
 ## Deployment
 
