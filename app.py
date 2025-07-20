@@ -147,6 +147,48 @@ def _init_extensions(app: Flask) -> None:
     logger.debug("Extensions initialised: SQLAlchemy, Migrate, LoginManager")
 
 
+# --------------------------------------------------------------------------- #
+# Blueprint discovery helper
+# --------------------------------------------------------------------------- #
+def _register_blueprints(app: Flask) -> None:
+    """
+    Discover and register every Flask Blueprint inside the ``routes`` package.
+
+    Any module under ``routes/`` that exposes a top‑level variable which is an
+    instance of :class:`flask.Blueprint` will be imported and mounted.  Duplicate
+    names are ignored so the function can be called idempotently.
+    """
+    import importlib
+    import pkgutil
+    from flask import Blueprint
+
+    logger = getattr(app, "logger", logging.getLogger(__name__))
+
+    # Dynamically import the parent routes package
+    try:
+        routes_pkg = importlib.import_module("routes")
+    except ModuleNotFoundError:
+        logger.warning("No 'routes' package found — skipping blueprint discovery")
+        return
+
+    # Iterate through all immediate sub‑modules of routes/
+    for _, module_name, _ in pkgutil.iter_modules(routes_pkg.__path__):
+        try:
+            module = importlib.import_module(f"routes.{module_name}")
+        except Exception:  # pragma: no cover
+            logger.exception("Failed importing routes.%s", module_name)
+            continue
+
+        # Register every Blueprint object exposed by the module
+        for obj in vars(module).values():
+            if isinstance(obj, Blueprint):
+                if obj.name in app.blueprints:
+                    # Already mounted—avoid double registration
+                    continue
+                app.register_blueprint(obj)
+                logger.debug("Blueprint registered: %s", obj.name)
+
+
 
 
 def _register_error_handlers(app: Flask) -> None:

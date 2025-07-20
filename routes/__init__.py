@@ -13,7 +13,6 @@ from flask import Blueprint
 # Import all blueprint modules
 from .core import (
     api,
-    analytics_routes,
     auth,
     collab,
     diagrams,
@@ -34,9 +33,6 @@ __all__ = ['ALL_BLUEPRINTS', 'all_blueprints']
 ALL_BLUEPRINTS: List[BlueprintT] = [
     # 1. Core API routes (most specific)
     routes_bp,
-    
-    # 2. Analytics endpoints
-    analytics_routes,
     
     # 3. User management routes
     user_routes,

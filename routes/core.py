@@ -45,7 +45,6 @@ RouteReturn = Union[str, WerkzeugResponse, JsonResponse]
 # ---------------------------------------------------------------------------
 
 api = Blueprint("api", __name__, url_prefix="/api")
-analytics = Blueprint("analytics", __name__, url_prefix="/analytics")
 collab = Blueprint("collab", __name__, url_prefix="/collab")
 diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
 main = Blueprint("main", __name__)
