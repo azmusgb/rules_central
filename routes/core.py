@@ -327,6 +327,16 @@ def catalog() -> str:
     except Exception as e:
         current_app.logger.error(f"Catalog page error: {e}", exc_info=True)
         abort(500, description="Failed to load catalog")
+@main.route("/search")
+def search() -> str:
+    """Display the search page."""
+    try:
+        return render_template("search.html")
+    except Exception as e:
+        current_app.logger.error(f"Search page error: {e}", exc_info=True)
+        abort(500, description="Failed to load search page")
+
+
 
 # ---------------------------------------------------------------------------
 # Context Processors
