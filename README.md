@@ -165,6 +165,22 @@ Key page endpoints:
 - `/home` – marketing homepage
 - `/rule/<id>` – rule details
 
+## Dashboard Template
+
+`base.html` provides the shared layout while `dashboard.html` contains the page
+sections for metrics, charts and quick actions. JavaScript is split into small
+modules:
+
+- `theme.js` – theme switching logic
+- `navigation.js` – mobile menu and user dropdowns
+- `dashboard.js` – realtime clock, metrics refresh and charts
+
+### Testing Checklist
+
+1. `pytest -v`
+2. `npm run build:css` when CSS changes
+3. `npm run build:js` when JS changes
+
 ## Documentation
 
 - Interactive help: Press `Shift+/` in-app
