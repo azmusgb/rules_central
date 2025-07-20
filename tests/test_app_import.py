@@ -4,10 +4,6 @@ import sys
 import types
 
 
-# Ensure project root is on the import path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
 def test_create_app_without_dotenv(monkeypatch):
     """``create_app`` should still work when ``python-dotenv`` is absent."""
     monkeypatch.setitem(sys.modules, "dotenv", None)

@@ -1,24 +1,4 @@
-import os
-import sys
-import types
 import json
-
-# Ensure project root is on the path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-# Stub modules to satisfy imports in utils
-flask_stub = types.ModuleType("flask")
-flask_stub.current_app = types.SimpleNamespace()
-sys.modules.setdefault("flask", flask_stub)
-flask_login_stub = types.ModuleType("flask_login")
-flask_login_stub.current_user = types.SimpleNamespace(
-    is_authenticated=False, username="user"
-)
-sys.modules.setdefault("flask_login", flask_login_stub)
-werkzeug_utils = types.ModuleType("werkzeug.utils")
-werkzeug_utils.secure_filename = lambda filename: filename
-sys.modules.setdefault("werkzeug", types.ModuleType("werkzeug"))
-sys.modules.setdefault("werkzeug.utils", werkzeug_utils)
 
 import utils  # noqa: E402
 

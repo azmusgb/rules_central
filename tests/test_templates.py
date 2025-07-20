@@ -3,9 +3,6 @@ import os
 import sys
 import types
 
-# Ensure project root is on the import path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 flask_stub = types.ModuleType("flask")
 flask_stub.current_app = types.SimpleNamespace()
 flask_stub.render_template = lambda *a, **k: ""

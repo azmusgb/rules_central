@@ -1,21 +1,4 @@
-import os
-import sys
 import types
-
-# Ensure project root is on the import path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-# Stub modules required by utils
-flask_stub = types.ModuleType("flask")
-flask_stub.current_app = types.SimpleNamespace()
-sys.modules.setdefault("flask", flask_stub)
-flask_login_stub = types.ModuleType("flask_login")
-flask_login_stub.current_user = types.SimpleNamespace(is_authenticated=False, username="user")
-sys.modules.setdefault("flask_login", flask_login_stub)
-werkzeug_utils = types.ModuleType("werkzeug.utils")
-werkzeug_utils.secure_filename = lambda name: name
-sys.modules.setdefault("werkzeug", types.ModuleType("werkzeug"))
-sys.modules.setdefault("werkzeug.utils", werkzeug_utils)
 
 import utils
 
