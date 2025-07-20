@@ -29,6 +29,13 @@ export function initNavigation() {
       // Prevent background scroll when open
       body.classList.toggle('overflow-hidden', !isOpen);
     });
+
+    // Close drawer with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navDrawer.hasAttribute('data-open')) {
+        navToggle.click();
+      }
+    });
   }
 
   /* --------------------------

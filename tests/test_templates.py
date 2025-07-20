@@ -9,17 +9,26 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 flask_stub = types.ModuleType("flask")
 flask_stub.current_app = types.SimpleNamespace()
 flask_stub.render_template = lambda *a, **k: ""
+flask_stub.jsonify = lambda **k: k
 render_template = flask_stub.render_template
 
 class FlaskStub:
-    def __init__(self, name, static_folder=None, static_url_path=None):
+    def __init__(self, name, static_folder=None, static_url_path=None, **_):
         self.static_folder = static_folder
         self.static_url_path = static_url_path
-        self.config = {}
+        class ConfigDict(dict):
+            def from_mapping(self, m):
+                self.update(m)
+            def from_pyfile(self, f):
+                self.update({})
+        self.config = ConfigDict()
         self.secret_key = None
-        self.logger = types.SimpleNamespace(info=lambda *a, **k: None)
+        self.logger = types.SimpleNamespace(info=lambda *a, **k: None, warning=lambda *a, **k: None)
         self.root_path = os.getcwd()
+        self.instance_path = os.getcwd()
         self.jinja_env = types.SimpleNamespace(globals={})
+        self.env = "development"
+        self.debug = False
 
     def template_filter(self, _name):
         def decorator(fn):
@@ -60,10 +69,13 @@ sys.modules["flask_wtf.csrf"] = flask_wtf_csrf_stub
 markdown_stub = types.ModuleType("markdown")
 markdown_stub.markdown = lambda text: text
 sys.modules["markdown"] = markdown_stub
+os.environ["RC_SKIP_CREATE_APP"] = "1"
 
 
 def create_app():
     module = importlib.import_module('app')
+    for fn in ["_register_blueprints", "_configure_logging", "_init_extensions", "_ensure_directories", "_register_error_handlers", "_init_security", "_init_template_helpers", "_register_cli"]:
+        setattr(module, fn, lambda app=None: None)
     return module.create_app()
 
 def test_templates_render():
