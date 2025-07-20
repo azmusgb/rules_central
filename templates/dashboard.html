@@ -34,13 +34,18 @@
   </div>
 </section>
 
+<header class="flex items-center justify-between mb-6 rc-container">
+  <h2 class="sr-only">Dashboard overview</h2>
+  <time id="current-time" class="text-sm text-text-tertiary tracking-wider" datetime="">--:--</time>
+</header>
+
 
 {# ============================================================
    METRICS
    ============================================================ #}
-<section id="metrics" class="wrapper rc-container rc-section rc-metrics">
+<section id="metrics" class="wrapper rc-container rc-section rc-metrics" aria-labelledby="metrics-heading">
   <div class="rc-section-head">
-    <h2 class="rc-section-title">
+    <h2 id="metrics-heading" class="rc-section-title">
       <span aria-hidden="true" class="rc-section-ico">📈</span>
       Key Metrics
     </h2>
@@ -52,7 +57,7 @@
           {{ last_updated.strftime('%b %d, %Y %I:%M %p') }}
         {% else %}—{% endif %}
       </span>
-      <button id="rc-metrics-refresh" type="button" class="rc-mini-btn" aria-label="Refresh metrics">Refresh</button>
+      <button id="rc-metrics-refresh" type="button" class="rc-mini-btn" aria-label="Refresh metrics" data-url="{{ url_for('main.index') }}?format=json">Refresh</button>
     </div>
   </div>
 
@@ -108,33 +113,44 @@
     </svg>
   {% endset %}
 
+  {% set metrics_list = [
+    {
+      'label': 'Total Rules',
+      'value': stats.total_rules if stats and 'total_rules' in stats else 0,
+      'accent': 'rc-accent-primary',
+      'link': url_for('main.catalog'),
+      'svg': svg_rules
+    },
+    {
+      'label': 'Changed · 7 Days',
+      'value': stats.changed_7d if stats and 'changed_7d' in stats else 0,
+      'accent': 'rc-accent-amber',
+      'link': url_for('main.catalog') ~ '?range=7d',
+      'svg': svg_cal,
+      'trend': stats.trend_7d if stats and 'trend_7d' in stats else None
+    },
+    {
+      'label': 'Changed · 30 Days',
+      'value': stats.changed_30d if stats and 'changed_30d' in stats else 0,
+      'accent': 'rc-accent-rose',
+      'link': url_for('main.catalog') ~ '?range=30d',
+      'svg': svg_cal,
+      'trend': stats.trend_30d if stats and 'trend_30d' in stats else None
+    },
+    {
+      'label': 'Changed · 90 Days',
+      'value': stats.changed_90d if stats and 'changed_90d' in stats else 0,
+      'accent': 'rc-accent-indigo',
+      'link': url_for('main.catalog') ~ '?range=90d',
+      'svg': svg_cal,
+      'trend': stats.trend_90d if stats and 'trend_90d' in stats else None
+    }
+  ] %}
+
   <div class="rc-metrics-grid">
-    {{ mcard('Total Rules',
-             stats.total_rules if stats and 'total_rules' in stats else 0,
-             'rc-accent-primary',
-             url_for('main.catalog'),
-             svg_rules) }}
-
-    {{ mcard('Changed · 7 Days',
-             stats.changed_7d  if stats and 'changed_7d'  in stats else 0,
-             'rc-accent-amber',
-             url_for('main.catalog') ~ '?range=7d',
-             svg_cal,
-             stats.trend_7d  if stats and 'trend_7d'  in stats else None) }}
-
-    {{ mcard('Changed · 30 Days',
-             stats.changed_30d if stats and 'changed_30d' in stats else 0,
-             'rc-accent-rose',
-             url_for('main.catalog') ~ '?range=30d',
-             svg_cal,
-             stats.trend_30d if stats and 'trend_30d' in stats else None) }}
-
-    {{ mcard('Changed · 90 Days',
-             stats.changed_90d if stats and 'changed_90d' in stats else 0,
-             'rc-accent-indigo',
-             url_for('main.catalog') ~ '?range=90d',
-             svg_cal,
-             stats.trend_90d if stats and 'trend_90d' in stats else None) }}
+    {% for m in metrics_list %}
+      {{ mcard(m.label, m.value, m.accent, m.link, m.svg, m.trend) }}
+    {% endfor %}
   </div>
 </section>
 
@@ -223,90 +239,7 @@
    ============================================================ #}
 {% block scripts %}
   {{ super() }}
+  <script>window.trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};</script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* ----- Metrics Refresh ---------------------------------- */
-    const refreshBtn = document.getElementById('rc-metrics-refresh');
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => {
-        // Hit dashboard endpoint w/ fetch expecting JSON {stats:{...},last_updated:...}
-        fetch('{{ url_for("main.index") }}?format=json', {headers:{'Accept':'application/json'}})
-          .then(r => r.ok ? r.json() : Promise.reject(r))
-          .then(data => {
-            if (!data.stats) return;
-            // Update metric values if elements present
-            const map = {
-              'Total Rules': data.stats.total_rules ?? 0,
-              'Changed · 7 Days': data.stats.changed_7d ?? 0,
-              'Changed · 30 Days': data.stats.changed_30d ?? 0,
-              'Changed · 90 Days': data.stats.changed_90d ?? 0
-            };
-            document.querySelectorAll('.rc-metric').forEach(card => {
-              const label = card.querySelector('.rc-metric-label')?.textContent?.trim();
-              if (label in map) {
-                const el = card.querySelector('.rc-metric-value');
-                if (el) el.textContent = map[label];
-              }
-            });
-          })
-          .catch(() => {/* fail silent */});
-      });
-    }
-
-    /* ----- Trend Chart ------------------------------------- */
-    const ctx = document.getElementById('rulesTrendChart');
-    if (!ctx) return;
-    const trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};
-    const {labels,counts} = (()=>{
-      const L = [], C = [];
-      (trendData||[]).forEach(d=>{
-        L.push(d.label || d.date || '');
-        C.push(d.count ?? d.value ?? 0);
-      });
-      return {labels:L,counts:C};
-    })();
-
-    const chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Rule Changes',
-          data: counts,
-          borderColor: '#f43f5e',
-          backgroundColor: 'rgba(244,63,94,.15)',
-          borderWidth: 2,
-          tension: 0.3,
-          fill: true,
-          pointBackgroundColor: '#fff',
-          pointBorderColor: '#f43f5e',
-          pointBorderWidth: 2,
-          pointRadius: 3,
-          pointHoverRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: '#6b7280' } },
-          y: { grid: { color: 'rgba(229,231,235,.3)' }, ticks: { color: '#6b7280' }, beginAtZero: true }
-        }
-      }
-    });
-
-    /* Toggle range (demo only; integrate real data server-side) */
-    document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const range=btn.dataset.range;
-        // TODO: fetch/replace dataset; for now animate highlight only
-        chart.update();
-      });
-    });
-  });
-  </script>
+  <script defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock scripts %}

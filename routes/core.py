@@ -475,7 +475,7 @@ def index() -> str:
         stats = get_rule_stats()
         trend = get_activity_trend(days=30)
         return render_template(
-            "index.html",
+            "dashboard.html",
             stats=stats,
             charts={"rules": trend},
             featured_diagrams=get_featured_diagrams(limit=3)

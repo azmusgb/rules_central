@@ -1,179 +1,88 @@
-"use strict";
-/**
- * index.js — Optimized Core Initialization for Rules Central Dashboard
- * -------------------------------------------------------------------
- * - Initializes UI components only when needed
- * - Adds smooth scroll & animation triggers
- * - Handles dynamic content loading gracefully
- */
-
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("%c✔ Rules Central Dashboard initialized", "color:#22c55e;font-weight:bold;");
-
-  // ======================
-  // 1. CORE INITIALIZATION
-  // ======================
-  initAnimations();
-  setupBackToTop();
-  setupStatsHoverEffects();
-  setupSearchInputs();
-
-  // Initialize only if relevant elements exist
-  if (document.getElementById("uploadForm")) {
-    initFileUpload?.();
+export function initDashboard() {
+  const timeEl = document.getElementById('current-time');
+  function updateTime() {
+    const now = new Date();
+    timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  if (timeEl) {
+    updateTime();
+    setInterval(updateTime, 1000);
   }
 
-  if (document.getElementById("catalogContainer")) {
-    window.catalogViewer = new CatalogViewer();
+  const refreshBtn = document.getElementById('rc-metrics-refresh');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+      fetch(refreshBtn.dataset.url, { headers: { Accept: 'application/json' } })
+        .then(r => r.ok ? r.json() : Promise.reject(r))
+        .then(data => {
+          if (!data.stats) return;
+          const map = {
+            'Total Rules': data.stats.total_rules ?? 0,
+            'Changed · 7 Days': data.stats.changed_7d ?? 0,
+            'Changed · 30 Days': data.stats.changed_30d ?? 0,
+            'Changed · 90 Days': data.stats.changed_90d ?? 0,
+          };
+          document.querySelectorAll('.rc-metric').forEach(card => {
+            const label = card.querySelector('.rc-metric-label')?.textContent.trim();
+            if (label in map) {
+              const el = card.querySelector('.rc-metric-value');
+              if (el) el.textContent = map[label];
+            }
+          });
+        })
+        .catch(() => {});
+    });
   }
 
-  const loadMoreBtn = document.getElementById("loadMore");
-  if (loadMoreBtn) loadMoreBtn.addEventListener("click", handleLoadMore);
+  const ctx = document.getElementById('rulesTrendChart');
+  if (ctx && window.Chart && window.trendData) {
+    const { labels, counts } = (() => {
+      const L = [], C = [];
+      (window.trendData || []).forEach(d => {
+        L.push(d.label || d.date || '');
+        C.push(d.count ?? d.value ?? 0);
+      });
+      return { labels: L, counts: C };
+    })();
 
-  // ======================
-  // 2. UI ENHANCEMENTS
-  // ======================
-
-  /**
-   * Animates elements when they come into view
-   */
-  function initAnimations() {
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("animate-in");
-          obs.unobserve(entry.target);
-        });
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Rule Changes',
+          data: counts,
+          borderColor: '#f43f5e',
+          backgroundColor: 'rgba(244,63,94,.15)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#f43f5e',
+          pointBorderWidth: 2,
+          pointRadius: 3,
+          pointHoverRadius: 5
+        }]
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    document.querySelectorAll(".animate-on-scroll").forEach((el) => {
-      const delay = parseInt(el.dataset.delay, 10) || 0;
-      el.style.setProperty("--animation-delay", `${delay}ms`);
-      observer.observe(el);
-    });
-  }
-
-  /**
-   * Back-to-top button visibility + smooth scroll
-   */
-  function setupBackToTop() {
-    const btn = document.getElementById("backToTop");
-    if (!btn) return;
-
-    let scrollTimeout;
-    window.addEventListener("scroll", () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        btn.classList.toggle("show", window.scrollY > 300);
-      }, 60); // slightly throttled for performance
-    });
-
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      btn.blur();
-    });
-  }
-
-  /**
-   * Adds subtle hover/touch effects for stats cards
-   */
-  function setupStatsHoverEffects() {
-    document.querySelectorAll(".stats-card").forEach((card) => {
-      const icon = card.querySelector(".stats-icon");
-      if (!icon) return;
-
-      const activate = () => (icon.style.transform = "rotate(10deg) scale(1.1)");
-      const reset = () => (icon.style.transform = "");
-
-      card.addEventListener("mouseenter", activate);
-      card.addEventListener("mouseleave", reset);
-      card.addEventListener("touchstart", activate, { passive: true });
-      card.addEventListener("touchend", reset, { passive: true });
-    });
-  }
-
-  /**
-   * Search input with clear button support
-   */
-  function setupSearchInputs() {
-    document.querySelectorAll(".search-container").forEach((container) => {
-      const input = container.querySelector('input[type="search"]');
-      const clearBtn = container.querySelector(".clear-search");
-      if (!input || !clearBtn) return;
-
-      const toggleClear = () => clearBtn.classList.toggle("hidden", !input.value);
-      toggleClear();
-
-      input.addEventListener("input", toggleClear);
-
-      clearBtn.addEventListener("click", () => {
-        input.value = "";
-        toggleClear();
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-        input.focus();
-      });
-    });
-  }
-
-  // ======================
-  // 3. DYNAMIC CONTENT LOADING
-  // ======================
-
-  async function handleLoadMore() {
-    const btn = this;
-    const contentContainer = document.getElementById("dynamicContent");
-    if (!contentContainer) {
-      console.warn("⚠️ No dynamic content container found");
-      return;
-    }
-
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Loading...`;
-
-    try {
-      const res = await fetch("/api/more-content");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const data = await res.json();
-      if (!data?.length) {
-        btn.textContent = "No more content";
-        btn.style.opacity = "0.6";
-        btn.removeEventListener("click", handleLoadMore);
-        return; // Stop here, don’t revert button
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: 'rgba(229,231,235,.3)' }, beginAtZero: true }
+        }
       }
+    });
 
-      data.forEach(({ title, description }) => {
-        const item = document.createElement("div");
-        item.className = "item animate-on-scroll";
-        item.innerHTML = `<h4>${title}</h4><p>${description}</p>`;
-        contentContainer.appendChild(item);
+    document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        chart.update();
       });
-
-      // Re-initialize animations for new elements
-      initAnimations();
-    } catch (err) {
-      console.error("❌ Error loading more content:", err);
-      window.app.showToast?.("Failed to load more content", "error");
-    } finally {
-      if (btn.textContent !== "No more content") btn.innerHTML = originalHTML;
-      btn.disabled = false;
-    }
+    });
   }
+}
 
-  // ======================
-  // 4. GLOBAL EXPORTS
-  // ======================
-  window.AppUtils = window.AppUtils || {};
-  Object.assign(window.AppUtils, {
-    initAnimations,
-    setupBackToTop,
-    setupSearchInputs,
-    handleLoadMore,
-  });
-  window.app = window.AppUtils;
-});
+document.addEventListener('DOMContentLoaded', initDashboard);
