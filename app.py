@@ -193,7 +193,10 @@ def _init_extensions(app: F) -> None:
 # Runtime Application
 # --------------------------------------------------------------------------- #
 
-app = create_app()
+if os.getenv("RC_SKIP_CREATE_APP"):
+    app = Flask(__name__)
+else:
+    app = create_app()
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8080"))

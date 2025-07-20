@@ -7,12 +7,21 @@ from datetime import datetime, timedelta, timezone
 # Ensure project root is on the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Stub werkzeug secure_filename so diagram_utils can be imported without the real package
+# Stub minimal Flask and Werkzeug modules so utils can import without deps
+flask_stub = types.ModuleType('flask')
+flask_stub.current_app = types.SimpleNamespace()
+sys.modules.setdefault('flask', flask_stub)
+
 werkzeug_stub = types.ModuleType('werkzeug')
 werkzeug_utils_stub = types.ModuleType('werkzeug.utils')
 werkzeug_utils_stub.secure_filename = lambda name: name
 sys.modules.setdefault('werkzeug', werkzeug_stub)
 sys.modules.setdefault('werkzeug.utils', werkzeug_utils_stub)
+
+# Stub flask_login current_user
+flask_login_stub = types.ModuleType('flask_login')
+flask_login_stub.current_user = types.SimpleNamespace(is_authenticated=False)
+sys.modules.setdefault('flask_login', flask_login_stub)
 
 import utils  # noqa: E402
 from utils import generate_mermaid_code  # noqa: E402

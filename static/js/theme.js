@@ -102,6 +102,13 @@ export function initThemeToggle(btnSelector = '#theme-toggle') {
     updateAriaLabel(btn, nextTheme);
   });
 
+  // Keyboard shortcut: press "t" to toggle theme
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.metaKey) {
+      btn.click();
+    }
+  });
+
   // Auto-respond to system theme changes if on "system"
   mediaQueryDark.addEventListener('change', (e) => {
     const storedTheme = getStoredTheme();
