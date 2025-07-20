@@ -1,182 +1,177 @@
 "use strict";
-// index.js - Optimized Core Initialization
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("Rules Central Dashboard initialized");
+/**
+ * index.js — Optimized Core Initialization for Rules Central Dashboard
+ * -------------------------------------------------------------------
+ * - Initializes UI components only when needed
+ * - Adds smooth scroll & animation triggers
+ * - Handles dynamic content loading gracefully
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("%c✔ Rules Central Dashboard initialized", "color:#22c55e;font-weight:bold;");
 
   // ======================
-  // 1. CORE FUNCTIONALITY
+  // 1. CORE INITIALIZATION
   // ======================
-
-  // Initialize UI components
   initAnimations();
   setupBackToTop();
   setupStatsHoverEffects();
   setupSearchInputs();
 
-  // Initialize page-specific components
+  // Initialize only if relevant elements exist
   if (document.getElementById("uploadForm")) {
-    initFileUpload();
+    initFileUpload?.();
   }
 
   if (document.getElementById("catalogContainer")) {
     window.catalogViewer = new CatalogViewer();
   }
 
-  // Initialize dynamic content loading if the element exists
   const loadMoreBtn = document.getElementById("loadMore");
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener("click", handleLoadMore);
-  }
+  if (loadMoreBtn) loadMoreBtn.addEventListener("click", handleLoadMore);
 
   // ======================
-  // 2. UI COMPONENTS
+  // 2. UI ENHANCEMENTS
   // ======================
 
+  /**
+   * Animates elements when they come into view
+   */
   function initAnimations() {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries, obs) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-            observer.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("animate-in");
+          obs.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
 
     document.querySelectorAll(".animate-on-scroll").forEach((el) => {
-      const delay = el.dataset.delay || 0;
+      const delay = parseInt(el.dataset.delay, 10) || 0;
       el.style.setProperty("--animation-delay", `${delay}ms`);
       observer.observe(el);
     });
   }
 
+  /**
+   * Back-to-top button visibility + smooth scroll
+   */
   function setupBackToTop() {
-    const backToTopBtn = document.getElementById("backToTop");
-    if (!backToTopBtn) return;
+    const btn = document.getElementById("backToTop");
+    if (!btn) return;
 
-    let isScrolling;
+    let scrollTimeout;
     window.addEventListener("scroll", () => {
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(() => {
-        backToTopBtn.classList.toggle("show", window.scrollY > 300);
-      }, 50);
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        btn.classList.toggle("show", window.scrollY > 300);
+      }, 60); // slightly throttled for performance
     });
 
-    backToTopBtn.addEventListener("click", (e) => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-      backToTopBtn.blur();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      btn.blur();
     });
   }
 
+  /**
+   * Adds subtle hover/touch effects for stats cards
+   */
   function setupStatsHoverEffects() {
     document.querySelectorAll(".stats-card").forEach((card) => {
       const icon = card.querySelector(".stats-icon");
       if (!icon) return;
 
-      card.addEventListener("mouseenter", handleHover);
-      card.addEventListener("touchstart", handleHover, {
-        passive: true,
-      });
-      card.addEventListener("mouseleave", handleHoverEnd);
-      card.addEventListener("touchend", handleHoverEnd, {
-        passive: true,
-      });
+      const activate = () => (icon.style.transform = "rotate(10deg) scale(1.1)");
+      const reset = () => (icon.style.transform = "");
 
-      function handleHover() {
-        icon.style.transform = "rotate(10deg) scale(1.1)";
-      }
-
-      function handleHoverEnd() {
-        icon.style.transform = "";
-      }
+      card.addEventListener("mouseenter", activate);
+      card.addEventListener("mouseleave", reset);
+      card.addEventListener("touchstart", activate, { passive: true });
+      card.addEventListener("touchend", reset, { passive: true });
     });
   }
 
+  /**
+   * Search input with clear button support
+   */
   function setupSearchInputs() {
     document.querySelectorAll(".search-container").forEach((container) => {
       const input = container.querySelector('input[type="search"]');
       const clearBtn = container.querySelector(".clear-search");
+      if (!input || !clearBtn) return;
 
-      if (input && clearBtn) {
-        clearBtn.classList.toggle("hidden", !input.value);
-        input.addEventListener("input", () => {
-          clearBtn.classList.toggle("hidden", !input.value);
-        });
+      const toggleClear = () => clearBtn.classList.toggle("hidden", !input.value);
+      toggleClear();
 
-        clearBtn.addEventListener("click", () => {
-          input.value = "";
-          clearBtn.classList.add("hidden");
-          input.dispatchEvent(
-            new Event("input", {
-              bubbles: true,
-            }),
-          );
-          input.focus();
-        });
-      }
+      input.addEventListener("input", toggleClear);
+
+      clearBtn.addEventListener("click", () => {
+        input.value = "";
+        toggleClear();
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.focus();
+      });
     });
   }
 
-  async function handleLoadMore() {
-    const loadMoreBtn = this;
-    const contentDiv = document.getElementById("dynamicContent");
+  // ======================
+  // 3. DYNAMIC CONTENT LOADING
+  // ======================
 
-    if (!contentDiv) {
-      console.error("Target container for dynamic content not found");
+  async function handleLoadMore() {
+    const btn = this;
+    const contentContainer = document.getElementById("dynamicContent");
+    if (!contentContainer) {
+      console.warn("⚠️ No dynamic content container found");
       return;
     }
 
-    const originalHtml = loadMoreBtn.innerHTML;
-    loadMoreBtn.disabled = true;
-    loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Loading...`;
 
     try {
-      const response = await fetch("/api/more-content");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
+      const res = await fetch("/api/more-content");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      if (data && data.length) {
-        data.forEach((item) => {
-          const newItem = document.createElement("div");
-          newItem.className = "item";
-          newItem.innerHTML = `<h4>${item.title}</h4><p>${item.description}</p>`;
-          contentDiv.appendChild(newItem);
-        });
-      } else {
-        loadMoreBtn.textContent = "No more content";
-        loadMoreBtn.style.opacity = "0.5";
-        loadMoreBtn.removeEventListener("click", handleLoadMore);
-        return; // Don't restore original HTML
+      const data = await res.json();
+      if (!data?.length) {
+        btn.textContent = "No more content";
+        btn.style.opacity = "0.6";
+        btn.removeEventListener("click", handleLoadMore);
+        return; // Stop here, don’t revert button
       }
-    } catch (error) {
-      console.error("Error loading more content:", error);
-      window.app.showToast("Failed to load more content", "error");
+
+      data.forEach(({ title, description }) => {
+        const item = document.createElement("div");
+        item.className = "item animate-on-scroll";
+        item.innerHTML = `<h4>${title}</h4><p>${description}</p>`;
+        contentContainer.appendChild(item);
+      });
+
+      // Re-initialize animations for new elements
+      initAnimations();
+    } catch (err) {
+      console.error("❌ Error loading more content:", err);
+      window.app.showToast?.("Failed to load more content", "error");
     } finally {
-      if (loadMoreBtn.textContent !== "No more content") {
-        loadMoreBtn.innerHTML = originalHtml;
-      }
-      loadMoreBtn.disabled = false;
+      if (btn.textContent !== "No more content") btn.innerHTML = originalHTML;
+      btn.disabled = false;
     }
   }
 
   // ======================
   // 4. GLOBAL EXPORTS
   // ======================
-
   window.app = {
     initAnimations,
     setupBackToTop,
     setupSearchInputs,
+    handleLoadMore,
   };
 });
