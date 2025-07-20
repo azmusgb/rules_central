@@ -25,17 +25,22 @@ from flask import Flask
 try:  # allow tests to stub a minimal 'flask' module
     from flask import jsonify
 except Exception:  # pragma: no cover - stub fallback
+
     def jsonify(data):  # type: ignore[return-type]
         return data
+
+
 try:
     from werkzeug.middleware.proxy_fix import ProxyFix
 except Exception:  # pragma: no cover - stub fallback
+
     class ProxyFix:  # type: ignore[too-many-instance-attributes]
         def __init__(self, app, x_for=1, x_proto=1):
             self.app = app
 
         def __call__(self, environ, start_response):
             return self.app(environ, start_response)
+
 
 # --------------------------------------------------------------------------- #
 # 1. Configuration loader
@@ -83,11 +88,15 @@ def create_app(**custom: Any) -> Flask:
     # Additional path configs used by the project
     app.config.setdefault(
         "UPLOAD_FOLDER",
-        os.path.abspath(os.getenv("UPLOAD_FOLDER", os.path.join(app.root_path, "uploads"))),
+        os.path.abspath(
+            os.getenv("UPLOAD_FOLDER", os.path.join(app.root_path, "uploads"))
+        ),
     )
     app.config.setdefault(
         "DIAGRAMS_FOLDER",
-        os.path.abspath(os.getenv("DIAGRAMS_FOLDER", os.path.join(app.root_path, "diagrams"))),
+        os.path.abspath(
+            os.getenv("DIAGRAMS_FOLDER", os.path.join(app.root_path, "diagrams"))
+        ),
     )
 
     _ensure_directories(app)
@@ -160,6 +169,7 @@ def _register_blueprints(app: Flask) -> None:
     """
     import importlib
     import pkgutil
+
     from flask import Blueprint
 
     logger = getattr(app, "logger", logging.getLogger(__name__))
@@ -189,11 +199,10 @@ def _register_blueprints(app: Flask) -> None:
                 logger.debug("Blueprint registered: %s", obj.name)
 
 
-
-
 def _register_error_handlers(app: Flask) -> None:
     if not hasattr(app, "errorhandler"):
         return
+
     @app.errorhandler(404)
     def not_found(e):  # type: ignore[missing-return-type-hint]
         return jsonify({"ok": False, "error": "Not found"}), 404
@@ -219,6 +228,7 @@ def _init_csrf(app: Flask) -> None:
         CSRFProtect().init_app(app)
 
     if hasattr(app, "context_processor"):
+
         @app.context_processor
         def _inject_csrf() -> dict[str, Any]:  # noqa: D401
             return {"csrf_token": generate_csrf}
@@ -234,6 +244,7 @@ def _init_template_helpers(app: Flask) -> None:
         return datetime.now(timezone.utc)
 
     if hasattr(app, "context_processor"):
+
         @app.context_processor
         def _inject_now() -> dict[str, Any]:  # noqa: D401
             return {"now": _now}
@@ -282,7 +293,7 @@ def _register_cli(app: Flask) -> None:
 
 if not os.environ.get("RC_SKIP_CREATE_APP"):
     app = create_app()
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
     if __name__ == "__main__":
         port = int(os.environ.get("PORT", 8080))
         debug = os.getenv("FLASK_ENV") == "development"

@@ -6,7 +6,8 @@ from the project files.
 """
 
 from pathlib import Path
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 # Constants
 PACKAGE_NAME = "rules_central"
@@ -15,24 +16,24 @@ BASE_DIR = Path(__file__).parent
 
 def parse_requirements(path: Path) -> list[str]:
     """Return a clean list of requirements from the given file.
-    
+
     Args:
         path: Path to the requirements file.
-        
+
     Returns:
         List of requirement strings with comments and empty lines removed.
     """
     with path.open(encoding="utf-8") as req:
         return [
-            line.strip() 
-            for line in req 
+            line.strip()
+            for line in req
             if line.strip() and not line.startswith(("#", "-"))
         ]
 
 
 def get_long_description() -> str:
     """Read the long description from the README file.
-    
+
     Returns:
         Content of README.md as a string.
     """
