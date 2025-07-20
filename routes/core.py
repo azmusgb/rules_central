@@ -68,6 +68,7 @@ diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 upload = Blueprint("upload", __name__, url_prefix="/upload")
+
 user_routes = Blueprint("user", __name__, url_prefix="/user")
 
 logger = logging.getLogger(__name__)
@@ -102,6 +103,26 @@ def remove_query_param(*keys: str) -> str:
 def safe_startswith(value: str, prefix: str) -> bool:
     """Template helper to check ``value`` starts with ``prefix`` safely."""
     return isinstance(value, str) and isinstance(prefix, str) and value.startswith(prefix)
+
+# ---------------------------------------------------------------------------
+# UI‑only pages (placeholders) — satisfy url_for("routes.*") references
+# ---------------------------------------------------------------------------
+ui_routes = Blueprint("routes", __name__)  # internal name must be "routes"
+
+@ui_routes.route("/config")
+def config_page() -> str:
+    """Placeholder for the new‑rule wizard."""
+    return "Config page (coming soon)"
+
+@ui_routes.route("/activity")
+def activity_page() -> str:
+    """Placeholder activity log page."""
+    return "Activity page (coming soon)"
+
+@ui_routes.route("/help")
+def full_help() -> str:
+    """Placeholder docs hub used by the nav bar."""
+    return "Documentation hub (coming soon)"
 
 # ---------------------------------------------------------------------------
 # Helper Functions
