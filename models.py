@@ -6,9 +6,11 @@ This module defines the core SQLAlchemy models for the application:
 """
 
 from datetime import datetime
-from typing import Optional, List
-from extensions import db
+from typing import List, Optional
+
 from flask_login import UserMixin
+
+from extensions import db
 
 __all__ = ["User", "Diagram"]
 
@@ -35,7 +37,7 @@ class User(db.Model, UserMixin):
 
     def get_id(self) -> str:
         """Return the user's ID as a string for Flask-Login compatibility.
-        
+
         Returns:
             String representation of the user's primary key.
         """
@@ -67,15 +69,13 @@ class Diagram(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(
-        db.DateTime,
-        default=db.func.current_timestamp(),
-        nullable=False
+        db.DateTime, default=db.func.current_timestamp(), nullable=False
     )
     updated_at = db.Column(
         db.DateTime,
         default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp(),
-        nullable=False
+        nullable=False,
     )
 
     # Relationship configuration
