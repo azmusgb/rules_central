@@ -147,17 +147,6 @@ def _init_extensions(app: Flask) -> None:
     logger.debug("Extensions initialised: SQLAlchemy, Migrate, LoginManager")
 
 
-def _register_blueprints(app: Flask) -> None:
-    """Register project blueprints automatically."""
-    try:
-        from routes import all_blueprints
-    except Exception as exc:
-        app.logger.error("Failed to import blueprints: %s", exc)
-        all_blueprints = []
-
-    for bp in all_blueprints:
-        app.register_blueprint(bp)
-        app.logger.info("Blueprint registered: %s", bp.name)
 
 
 def _register_error_handlers(app: Flask) -> None:
