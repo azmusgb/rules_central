@@ -318,6 +318,16 @@ def index() -> str:
         current_app.logger.error(f"Index page error: {e}", exc_info=True)
         abort(500, description="Failed to load home page")
 
+
+@main.route("/catalog")
+def catalog() -> str:
+    """Display the diagram catalog page."""
+    try:
+        return render_template("catalog.html")
+    except Exception as e:
+        current_app.logger.error(f"Catalog page error: {e}", exc_info=True)
+        abort(500, description="Failed to load catalog")
+
 # ---------------------------------------------------------------------------
 # Context Processors
 # ---------------------------------------------------------------------------
