@@ -22,7 +22,7 @@ A Flask web application for organizing and visualizing complex rule sets with co
 ## Quick Start
 
 ```bash
-# Set up environment
+# Set up environment (Python 3.10+, Node.js 16+ recommended)
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -181,6 +181,7 @@ Follow these basics when contributing:
 - Create topic branches instead of pushing to `main`
 - Run `pytest -v`, `npm run build:css`, and `npm run build:js` before opening a PR
 - Keep docs updated across README and the site
+- Ensure `flake8` passes for linting
 - Link `tools/pre-commit` into `.git/hooks` to catch missing element IDs
 - See [AGENTS.md](AGENTS.md) for the full checklist
 
