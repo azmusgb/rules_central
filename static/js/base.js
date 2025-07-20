@@ -1,58 +1,77 @@
-// Global script for layout and theme management
-// Improved: ARIA, event cleanup, maintainability
+"use strict";
 
-const loadScript = (src, attrs = {}) => {
-  return new Promise((resolve, reject) => {
+/**
+ * base.js — Global layout & theme management
+ * ------------------------------------------
+ * ✅ Lazy-loads heavy scripts
+ * ✅ Manages theme with ARIA + custom event dispatch
+ * ✅ Page transitions with loader
+ * ✅ Scroll progress bar & reduced-motion support
+ * ✅ Registers Service Worker safely
+ */
+
+// ================================
+// Utility: Script Loader
+// ================================
+const loadScript = (src, attrs = {}) =>
+  new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = src;
     script.defer = true;
-    Object.entries(attrs).forEach(([key, value]) => {
-      script.setAttribute(key, value);
-    });
+
+    for (const [k, v] of Object.entries(attrs)) {
+      script.setAttribute(k, v);
+    }
+
     script.onload = resolve;
     script.onerror = reject;
     document.body.appendChild(script);
   });
-};
 
+// ================================
+// Lazy Loading for Optional Scripts
+// ================================
 const lazyLoadScripts = () => {
-  const body = document.body;
-  const scripts = [
+  const { dataset } = document.body;
+
+  const scriptQueue = [
     { src: "https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" },
     { src: "https://cdn.jsdelivr.net/npm/fuse.js@6.6.2" },
-    { src: body.dataset.appUtilsUrl },
-    { src: body.dataset.appUrl },
-  ];
+    dataset.appUtilsUrl ? { src: dataset.appUtilsUrl } : null,
+    dataset.appUrl ? { src: dataset.appUrl } : null
+  ].filter(Boolean);
 
+  // IntersectionObserver-based lazy load
   if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const { src, ...attrs } = entry.target.dataset;
-            loadScript(src, attrs);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "200px" },
-    );
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(({ isIntersecting, target }) => {
+        if (!isIntersecting) return;
 
-    scripts.forEach((script) => {
+        const { src, ...attrs } = target.dataset;
+        loadScript(src, attrs).catch(console.error);
+        obs.unobserve(target);
+      });
+    }, { rootMargin: "200px" });
+
+    scriptQueue.forEach((script) => {
       const placeholder = document.createElement("div");
       placeholder.dataset.src = script.src;
-      Object.entries(script).forEach(([key, value]) => {
-        if (key !== "src") placeholder.dataset[key] = value;
-      });
+      for (const [k, v] of Object.entries(script)) {
+        if (k !== "src") placeholder.dataset[k] = v;
+      }
       placeholder.style.display = "none";
       document.body.appendChild(placeholder);
       observer.observe(placeholder);
     });
   } else {
-    scripts.forEach((script) => loadScript(script.src, script));
+    // Fallback: load immediately
+    scriptQueue.forEach(({ src, ...attrs }) => loadScript(src, attrs));
   }
 };
 
+// ================================
+// Theme Management
+// ================================
 const initTheme = () => {
   const html = document.documentElement;
   const btn = document.getElementById("theme-toggle");
@@ -69,127 +88,130 @@ const initTheme = () => {
     html.setAttribute("data-theme", theme);
     html.classList.toggle("dark", theme === "dark");
     localStorage.setItem("theme", theme);
-    if (icon) {
-      icon.className = `fas ${ICONS[theme]}`;
-    }
-    if (btn) {
-      btn.setAttribute("aria-label", `Toggle theme (current ${theme})`);
-    }
-    if (html.__x && html.__x.$data) {
-      html.__x.$data.theme = theme;
-    }
+
+    if (icon) icon.className = `fas ${ICONS[theme]}`;
+    if (btn) btn.setAttribute("aria-label", `Toggle theme (current: ${theme})`);
+
+    // Alpine.js / Livewire compatibility
+    if (html.__x?.$data) html.__x.$data.theme = theme;
+
     document.dispatchEvent(new CustomEvent("theme-change", { detail: { theme } }));
   };
 
-  const storedTheme = localStorage.getItem("theme") || "bear";
-
+  // Initial theme detection
+  let storedTheme = localStorage.getItem("theme");
+  if (!storedTheme) storedTheme = "bear";
   applyTheme(storedTheme);
-  let index = THEMES.indexOf(storedTheme);
-  if (index === -1) index = 0;
 
-  let themeListener;
-  if (btn) {
-    btn.addEventListener(
-      "click",
-      (themeListener = () => {
-        index = (index + 1) % THEMES.length;
-        applyTheme(THEMES[index]);
-      })
-    );
-  }
+  let themeIndex = THEMES.indexOf(storedTheme);
+  if (themeIndex === -1) themeIndex = 0;
 
-  const mqListener = (e) => {
+  // Toggle theme cycle on button click
+  const themeClickHandler = () => {
+    themeIndex = (themeIndex + 1) % THEMES.length;
+    applyTheme(THEMES[themeIndex]);
+  };
+
+  btn?.addEventListener("click", themeClickHandler);
+
+  // Sync with system changes only if no explicit user theme
+  const systemMedia = window.matchMedia("(prefers-color-scheme: dark)");
+  const systemChangeHandler = (e) => {
     if (!localStorage.getItem("theme")) {
-      const newTheme = e.matches ? "dark" : "light";
-      applyTheme(newTheme);
+      applyTheme(e.matches ? "dark" : "light");
     }
   };
-  const mq = window.matchMedia("(prefers-color-scheme: dark)");
-  mq.addEventListener("change", mqListener);
+  systemMedia.addEventListener("change", systemChangeHandler);
 
-  // Clean up listeners on unload
+  // Cleanup listeners on unload
   window.addEventListener("unload", () => {
-    if (btn && themeListener) btn.removeEventListener("click", themeListener);
-    mq.removeEventListener("change", mqListener);
+    btn?.removeEventListener("click", themeClickHandler);
+    systemMedia.removeEventListener("change", systemChangeHandler);
   });
 };
 
-let pageLoader;
+// ================================
+// Page Loader (Smooth transitions)
+// ================================
+let pageLoader = null;
+
 const hideLoader = () => {
-  pageLoader = document.getElementById("app-loader");
-  if (pageLoader) {
-    pageLoader.style.opacity = "0";
-    setTimeout(() => (pageLoader.style.display = "none"), 300);
-  }
+  pageLoader = pageLoader || document.getElementById("app-loader");
+  if (!pageLoader) return;
+  pageLoader.style.opacity = "0";
+  setTimeout(() => (pageLoader.style.display = "none"), 300);
 };
 
 const showLoader = () => {
-  if (pageLoader) {
-    pageLoader.style.display = "flex";
-    requestAnimationFrame(() => {
-      pageLoader.style.opacity = "1";
-    });
-  }
+  pageLoader = pageLoader || document.getElementById("app-loader");
+  if (!pageLoader) return;
+  pageLoader.style.display = "flex";
+  requestAnimationFrame(() => (pageLoader.style.opacity = "1"));
 };
 
+// ================================
+// Smooth Page Transitions
+// ================================
 const setupPageTransitions = () => {
   document.querySelectorAll("a[href]").forEach((link) => {
     const url = new URL(link.href, window.location.origin);
-    if (
-      link.target ||
-      url.origin !== window.location.origin ||
-      url.hash
-    ) {
-      return;
-    }
+
+    // Skip external links, hash jumps, and new tab links
+    if (link.target || url.origin !== window.location.origin || url.hash) return;
+
     link.addEventListener("click", (e) => {
+      // Skip modifier key clicks (open in new tab)
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       showLoader();
-      setTimeout(() => {
-        window.location.href = link.href;
-      }, 200);
+      setTimeout(() => (window.location.href = link.href), 200);
     });
   });
 };
 
+// ================================
+// Service Worker Registration
+// ================================
 const registerServiceWorker = () => {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register(document.body.dataset.serviceWorkerUrl)
-        .then((registration) => {
-          console.log(
-            "ServiceWorker registration successful with scope: ",
-            registration.scope,
-          );
-        })
-        .catch((err) => {
-          console.log("ServiceWorker registration failed: ", err);
-        });
-    });
-  }
+  if (!("serviceWorker" in navigator)) return;
+
+  const swUrl = document.body.dataset.serviceWorkerUrl;
+  if (!swUrl) return;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register(swUrl)
+      .then((reg) => console.log("✅ ServiceWorker registered:", reg.scope))
+      .catch((err) => console.warn("❌ ServiceWorker failed:", err));
+  });
 };
 
+// ================================
+// Scroll Progress Bar
+// ================================
 const updateScrollProgress = () => {
-  const progress = document.getElementById("scroll-progress");
-  if (!progress) return;
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  const docHeight =
-    document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  progress.style.width = `${percent}%`;
+  const bar = document.getElementById("scroll-progress");
+  if (!bar) return;
+
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  bar.style.width = `${percent}%`;
 };
 
+// ================================
+// Reduced Motion Support
+// ================================
 const disableAnimationsForReducedMotion = () => {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    document.querySelectorAll(".particle").forEach((el) => {
-      el.style.animation = "none";
-    });
-  }
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(".particle, .animated").forEach((el) => {
+    el.style.animation = "none";
+    el.style.transition = "none";
+  });
 };
 
-// Main initializer for base layout and theme
+// ================================
+// Main Initializer
+// ================================
 const initBase = () => {
   hideLoader();
   initTheme();
@@ -197,10 +219,11 @@ const initBase = () => {
   lazyLoadScripts();
   registerServiceWorker();
   updateScrollProgress();
-  window.addEventListener("scroll", updateScrollProgress);
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
   disableAnimationsForReducedMotion();
 };
 
+// Init when DOM is ready
 document.addEventListener("DOMContentLoaded", initBase);
 
 // End of base.js
