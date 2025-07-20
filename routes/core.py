@@ -17,6 +17,7 @@ from __future__ import annotations
 import os
 import json
 import csv
+import logging
 from io import StringIO
 from datetime import datetime
 from pathlib import Path
@@ -34,8 +35,23 @@ from flask import (
     flash,
     Response,
 )
+from werkzeug.exceptions import HTTPException
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response as WerkzeugResponse
+
+from utils import (
+    allowed_file,
+    diagram_type_from_filename,
+    ensure_directory_exists,
+    generate_files,
+    get_current_user,
+    get_help_topics,
+    get_snippet,
+    load_and_sanitize_json,
+    log_activity,
+    generate_csrf_token,
+    verify_csrf_token,
+)
 
 # Type aliases
 JsonResponse = Dict[str, Union[str, int, bool, List, Dict]]
@@ -53,6 +69,39 @@ main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 upload = Blueprint("upload", __name__, url_prefix="/upload")
 user_routes = Blueprint("user", __name__, url_prefix="/user")
+
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# Template Helpers
+# ---------------------------------------------------------------------------
+
+
+@main.app_template_global("update_query_param")
+def update_query_param(param: str, value: str | int) -> str:
+    """Return query string with ``param`` updated to ``value``."""
+    args = request.args.to_dict(flat=True)
+    args[param] = str(value)
+    from urllib.parse import urlencode
+
+    return urlencode(args, doseq=True)
+
+
+@main.app_template_global("remove_query_param")
+def remove_query_param(*keys: str) -> str:
+    """Return query string with ``keys`` removed."""
+    args = request.args.to_dict(flat=True)
+    for key in keys:
+        args.pop(key, None)
+    from urllib.parse import urlencode
+
+    return urlencode(args, doseq=True)
+
+
+@main.app_template_global("safe_startswith")
+def safe_startswith(value: str, prefix: str) -> bool:
+    """Template helper to check ``value`` starts with ``prefix`` safely."""
+    return isinstance(value, str) and isinstance(prefix, str) and value.startswith(prefix)
 
 # ---------------------------------------------------------------------------
 # Helper Functions
@@ -109,23 +158,20 @@ def get_featured_diagrams(limit: int = 3) -> List[Dict[str, Any]]:
 
 @api.route("/catalog_names")
 def catalog_names() -> Tuple[JsonResponse, int]:
-    """Get available catalog names.
-    
-    Returns:
-        JSON response with catalog names or error message
-    """
+    """Return catalog names discovered under ``DIAGRAMS_FOLDER``."""
     try:
-        names = ["Business Rules", "Validation Rules", "Process Flows"]
-        return (
-            jsonify({
-                "status": "success",
-                "data": names,
-                "count": len(names)
-            }),
-            200
-        )
+        diagrams_dir = Path(current_app.config["DIAGRAMS_FOLDER"])
+        if not diagrams_dir.exists():
+            return jsonify({"error": "Diagrams directory not found"}), 404
+
+        names = {
+            root.name.split("_")[0] for root in diagrams_dir.iterdir() if root.is_dir()
+        }
+        sorted_names = sorted(names)
+        return jsonify(sorted_names), 200
     except Exception as e:
-        return handle_api_error(e, "Failed to fetch catalog names")
+        logger.exception("Error getting catalog names")
+        return jsonify({"error": "Server error generating catalog names"}), 500
 
 @api.route("/metrics")
 def metrics() -> Tuple[JsonResponse, int]:
@@ -152,6 +198,124 @@ def metrics() -> Tuple[JsonResponse, int]:
         )
     except Exception as e:
         return handle_api_error(e, "Failed to fetch metrics")
+
+
+@api.route("/diagram_catalogs")
+def diagram_catalogs() -> Tuple[Response, int]:
+    """Return structured catalog of available diagrams."""
+    try:
+        diagrams_dir = Path(current_app.config["DIAGRAMS_FOLDER"])
+        if not diagrams_dir.exists():
+            logger.error("Diagrams directory not found: %s", diagrams_dir)
+            return jsonify({"error": "Diagrams directory not found"}), 404
+
+        catalogs = []
+        for root_dir in diagrams_dir.iterdir():
+            if not root_dir.is_dir():
+                continue
+
+            entries = []
+            for file in root_dir.glob("*.mmd"):
+                json_file = file.with_suffix(".json")
+                if json_file.exists():
+                    entries.append(
+                        {
+                            "root": root_dir.name,
+                            "diagram": file.name,
+                            "hierarchy": json_file.name,
+                            "type": diagram_type_from_filename(file.name),
+                        }
+                    )
+
+            if entries:
+                category_parts = root_dir.name.split("_", 1)
+                category = category_parts[0] if len(category_parts) > 0 else "General"
+                subgroup = category_parts[1] if len(category_parts) > 1 else "General"
+                catalogs.append({"category": f"{category}_{subgroup}", "entries": entries})
+
+        response = jsonify(catalogs)
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+        return response, 200
+    except Exception as e:
+        logger.exception("Error generating diagram catalog")
+        return jsonify({"error": "Server error generating catalog"}), 500
+
+
+@api.route("/search_diagrams")
+def search_diagrams() -> Tuple[Response, int]:
+    """Search diagrams with filtering and pagination."""
+    try:
+        query = request.args.get("q", "").lower().strip()
+        catalog_filter = request.args.get("catalog", "").strip()
+        diagram_type_filter = request.args.get("type", "").strip()
+        page = max(1, int(request.args.get("page", 1)))
+        per_page = min(50, max(1, int(request.args.get("per_page", 9))))
+
+        diagrams_dir = Path(current_app.config["DIAGRAMS_FOLDER"])
+        if not diagrams_dir.exists():
+            return jsonify({"error": "Diagrams directory not found"}), 404
+
+        results = []
+        for root_dir in diagrams_dir.iterdir():
+            if not root_dir.is_dir():
+                continue
+
+            base_catalog = root_dir.name.split("_")[0]
+            if catalog_filter and base_catalog.lower() != catalog_filter.lower():
+                continue
+
+            for mmd_file in root_dir.glob("*.mmd"):
+                file_type = diagram_type_from_filename(mmd_file.name)
+                if (
+                    diagram_type_filter
+                    and file_type
+                    and file_type.lower() != diagram_type_filter.lower()
+                ):
+                    continue
+
+                try:
+                    content = mmd_file.read_text(encoding="utf-8").lower()
+                except Exception as e:
+                    logger.warning("Error reading %s: %s", mmd_file, e)
+                    continue
+
+                if not query or query in mmd_file.name.lower() or query in content:
+                    results.append(
+                        {
+                            "filename": mmd_file.name,
+                            "catalog": root_dir.name,
+                            "type": file_type,
+                            "size": mmd_file.stat().st_size,
+                            "last_modified": mmd_file.stat().st_mtime,
+                            "match_snippet": get_snippet(content, query) if query else "",
+                        }
+                    )
+
+        total = len(results)
+        start = (page - 1) * per_page
+        paginated = results[start : start + per_page]
+
+        return jsonify({"total": total, "page": page, "per_page": per_page, "results": paginated}), 200
+    except ValueError:
+        return jsonify({"error": "Invalid search parameter"}), 400
+    except Exception as e:
+        logger.exception("Error during search")
+        return jsonify({"error": "Server error during search"}), 500
+
+
+@api.route("/help/<page>")
+def get_help_content(page: str) -> Tuple[Response, int]:
+    """Return help file content for ``page``."""
+    try:
+        safe_page = secure_filename(page)
+        help_file = Path(current_app.root_path) / "static" / "help" / f"{safe_page}.md"
+        if not help_file.exists():
+            return jsonify({"error": "Help topic not found"}), 404
+        content = help_file.read_text(encoding="utf-8")
+        return jsonify({"content": content}), 200
+    except Exception:
+        logger.exception("Error retrieving help content")
+        return jsonify({"error": "Server error"}), 500
 
 # ---------------------------------------------------------------------------
 # File Upload Routes
@@ -329,6 +493,43 @@ def catalog() -> str:
     except Exception as e:
         current_app.logger.error(f"Catalog page error: {e}", exc_info=True)
         abort(500, description="Failed to load catalog")
+
+
+@main.route("/view_diagram")
+def view_diagram() -> str:
+    """Render an individual diagram viewer."""
+    root_name = request.args.get("root_name")
+    diagram_name = request.args.get("diagram_name") or request.args.get("diagramName")
+
+    if not root_name or not diagram_name:
+        abort(400, "Missing required parameters")
+
+    try:
+        safe_root = secure_filename(root_name)
+        safe_file = secure_filename(diagram_name)
+        diagram_path = Path(current_app.config["DIAGRAMS_FOLDER"]) / safe_root / safe_file
+
+        if not diagram_path.exists():
+            available = []
+            dir_path = diagram_path.parent
+            if dir_path.exists():
+                available = [f.name for f in dir_path.iterdir()]
+            logger.error("Diagram not found. Requested: %s, Available: %s", safe_file, available)
+            abort(404, "Diagram file not found")
+
+        mermaid_code = diagram_path.read_text(encoding="utf-8")
+        return render_template(
+            "diagram_viewer.html",
+            root_name=safe_root,
+            diagram_name=safe_file,
+            mermaid_code=mermaid_code,
+            help_available=True,
+        )
+    except HTTPException:
+        raise
+    except Exception:
+        logger.exception("Error loading diagram viewer")
+        abort(500, "Error loading diagram viewer")
 @main.route("/search")
 def search() -> str:
     """Display the search page."""

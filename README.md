@@ -144,8 +144,7 @@ Recommended production stack:
 ├── app.py                # Application factory
 ├── wsgi.py               # Production entry point
 ├── routes/               # All application routes
-│   ├── core.py           # Main blueprints
-│   └── all_routes.py     # Additional routes
+│   └── core.py           # All routes (auto-discovered)
 ├── static/               # Static assets
 ├── templates/            # Jinja2 templates
 ├── config/               # Configuration files
