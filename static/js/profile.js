@@ -302,3 +302,23 @@ systemThemeMediaQuery.addEventListener("change", () => {
 
 // Dispatch initial profile load event
 dispatchProfileUpdate(loadProfile());
+
+/**
+ * Expose profile API globally for non-module scripts
+ * @type {Object}
+ */
+export const ProfileAPI = {
+  loadProfile,
+  saveProfile,
+  updateProfile,
+  resetProfile,
+  getEffectiveTheme,
+  toggleTheme,
+  addSearchQuery,
+  addFavourite,
+  removeFavourite,
+};
+
+// Attach to window so legacy scripts can access the API
+// Allows non-module scripts to call profile functions
+window.Profile = ProfileAPI;
