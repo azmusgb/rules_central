@@ -1,63 +1,118 @@
 /**
- * theme.js — accessible theme toggle with persistence
- * ----------------------------------------------
- * Cycles between Bear, Dark, Light, High Contrast and System themes.
- * The Bear option uses refreshed light colors.
- * Applies the `dark` class for dark mode and stores user choice in
- * localStorage. Defaults to Bear when no choice is stored.
-*/
+ * theme.js — Accessible Theme Toggle with Persistence
+ * ---------------------------------------------------
+ * Cycles between: Bear, Dark, Light, High Contrast, and System themes.
+ * - Bear = refreshed light palette
+ * - Dark = standard dark mode
+ * - Light = classic light mode
+ * - Contrast = high-contrast mode
+ * - System = auto-detect based on OS setting
+ *
+ * Persists user choice in localStorage (`rc-theme`).
+ * Defaults to "bear" when no choice is stored.
+ *
+ * Features:
+ * ✅ Accessible aria-label updates
+ * ✅ Automatic system theme reaction when set to "system"
+ * ✅ Minimal flash of incorrect theme by applying ASAP
+ */
 
 const STORAGE_KEY = 'rc-theme';
 const THEMES = ['bear', 'dark', 'light', 'contrast', 'system'];
-const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-function resolve(theme) {
-  return theme === 'system' ? (systemDark.matches ? 'dark' : 'light') : theme;
+/**
+ * Resolves a theme into its *actual* applied theme
+ * @param {string} theme - One of THEMES
+ * @returns {string} - 'bear', 'dark', 'light', or 'contrast'
+ */
+function resolveTheme(theme) {
+  return theme === 'system'
+    ? (mediaQueryDark.matches ? 'dark' : 'light')
+    : theme;
 }
 
-function apply(theme) {
+/**
+ * Applies the theme by updating <html> attributes & classes
+ * @param {string} theme - One of THEMES
+ */
+function applyTheme(theme) {
   const html = document.documentElement;
-  const active = resolve(theme);
-  html.dataset.theme = active;
-  html.classList.toggle('dark', active === 'dark');
-  html.classList.toggle('contrast', active === 'contrast');
+  const applied = resolveTheme(theme);
+
+  // Set theme attribute for CSS selectors
+  html.dataset.theme = applied;
+
+  // Toggle known classes for backwards-compatible CSS
+  html.classList.toggle('dark', applied === 'dark');
+  html.classList.toggle('contrast', applied === 'contrast');
+  html.classList.toggle('bear', applied === 'bear');
 }
 
-function current() {
+/**
+ * Returns the currently stored theme or defaults to 'bear'
+ */
+function getStoredTheme() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored && THEMES.includes(stored)) return stored;
-  return 'bear';
+  return THEMES.includes(stored) ? stored : 'bear';
 }
 
-export function initThemeToggle(btnSelector) {
-  apply(current());
+/**
+ * Stores the theme in localStorage
+ */
+function saveTheme(theme) {
+  localStorage.setItem(STORAGE_KEY, theme);
+}
 
+/**
+ * Updates the aria-label for accessibility
+ */
+function updateAriaLabel(button, theme) {
+  const appliedTheme = theme === 'system' ? `${resolveTheme(theme)} (system)` : theme;
+  button.setAttribute('aria-label', `Switch theme (current: ${appliedTheme})`);
+}
+
+/**
+ * Cycles to the next theme in the THEMES array
+ */
+function getNextTheme(currentTheme) {
+  const idx = THEMES.indexOf(currentTheme);
+  return THEMES[(idx + 1) % THEMES.length];
+}
+
+/**
+ * Initializes the theme toggle button
+ * @param {string} btnSelector - CSS selector for the toggle button
+ */
+export function initThemeToggle(btnSelector = '#theme-toggle') {
   const btn = document.querySelector(btnSelector);
   if (!btn) return;
 
-  const updateLabel = (theme) => {
-    const labelTheme = theme === 'system' ? `${resolve(theme)} system` : theme;
-    btn.setAttribute('aria-label', `Switch theme (current ${labelTheme})`);
-  };
+  // Apply initial theme
+  const initialTheme = getStoredTheme();
+  applyTheme(initialTheme);
+  updateAriaLabel(btn, initialTheme);
 
-  updateLabel(current());
-
+  // Click -> cycle themes
   btn.addEventListener('click', () => {
-    const idx = THEMES.indexOf(current());
-    const next = THEMES[(idx + 1) % THEMES.length];
-    localStorage.setItem(STORAGE_KEY, next);
-    apply(next);
-    updateLabel(next);
+    const currentTheme = getStoredTheme();
+    const nextTheme = getNextTheme(currentTheme);
+    saveTheme(nextTheme);
+    applyTheme(nextTheme);
+    updateAriaLabel(btn, nextTheme);
   });
 
-  systemDark.addEventListener('change', (e) => {
-    if (localStorage.getItem(STORAGE_KEY) === 'system') {
-      const next = e.matches ? 'dark' : 'light';
-      apply(next);
-      updateLabel('system');
+  // Auto-respond to system theme changes if on "system"
+  mediaQueryDark.addEventListener('change', (e) => {
+    const storedTheme = getStoredTheme();
+    if (storedTheme === 'system') {
+      applyTheme('system');
+      updateAriaLabel(btn, 'system');
     }
   });
 }
 
-/* Auto-init on DOM ready */
-document.addEventListener('DOMContentLoaded', () => initThemeToggle('#theme-toggle'));
+// Auto-init when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle('#theme-toggle');
+});
