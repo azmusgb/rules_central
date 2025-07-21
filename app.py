@@ -161,42 +161,22 @@ def _init_extensions(app: Flask) -> None:
 # --------------------------------------------------------------------------- #
 def _register_blueprints(app: Flask) -> None:
     """
-    Discover and register every Flask Blueprint inside the ``routes`` package.
-
-    Any module under ``routes/`` that exposes a top‑level variable which is an
-    instance of :class:`flask.Blueprint` will be imported and mounted.  Duplicate
-    names are ignored so the function can be called idempotently.
+    Register all blueprints from the ALL_BLUEPRINTS list in routes.__init__.
     """
-    import importlib
-    import pkgutil
-
-    from flask import Blueprint
+    import logging
+    try:
+        from routes import ALL_BLUEPRINTS
+    except ImportError:
+        app.logger.warning("Could not import ALL_BLUEPRINTS from routes")
+        return
 
     logger = getattr(app, "logger", logging.getLogger(__name__))
 
-    # Dynamically import the parent routes package
-    try:
-        routes_pkg = importlib.import_module("routes")
-    except ModuleNotFoundError:
-        logger.warning("No 'routes' package found — skipping blueprint discovery")
-        return
-
-    # Iterate through all immediate sub‑modules of routes/
-    for _, module_name, _ in pkgutil.iter_modules(routes_pkg.__path__):
-        try:
-            module = importlib.import_module(f"routes.{module_name}")
-        except Exception:  # pragma: no cover
-            logger.exception("Failed importing routes.%s", module_name)
+    for bp in ALL_BLUEPRINTS:
+        if bp.name in app.blueprints:
             continue
-
-        # Register every Blueprint object exposed by the module
-        for obj in vars(module).values():
-            if isinstance(obj, Blueprint):
-                if obj.name in app.blueprints:
-                    # Already mounted—avoid double registration
-                    continue
-                app.register_blueprint(obj)
-                logger.debug("Blueprint registered: %s", obj.name)
+        app.register_blueprint(bp)
+        logger.debug("Blueprint registered: %s", bp.name)
 
 
 def _register_error_handlers(app: Flask) -> None:
@@ -248,6 +228,12 @@ def _init_template_helpers(app: Flask) -> None:
         @app.context_processor
         def _inject_now() -> dict[str, Any]:  # noqa: D401
             return {"now": _now}
+
+        from flask_login import current_user
+
+        @app.context_processor
+        def _inject_user() -> dict[str, Any]:
+            return {"current_user": current_user}
 
     if hasattr(app, "template_global"):
         app.template_global("now")(_now)

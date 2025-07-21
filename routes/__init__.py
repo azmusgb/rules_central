@@ -10,6 +10,12 @@ The main export is `ALL_BLUEPRINTS` which should be used by the application fact
 from typing import List, TypeVar
 from flask import Blueprint
 
+from typing import List, TypeVar
+from flask import Blueprint
+
+# Type variable for blueprints
+BlueprintT = TypeVar('BlueprintT', bound=Blueprint)
+
 # Import all blueprint modules
 from .core import (
     api,
@@ -19,7 +25,36 @@ from .core import (
     main,
     upload,
     user_routes,
+    ui_routes,
 )
+
+# Blueprints must be registered in order of most specific to least specific
+# to prevent route shadowing. Core routes should come first.
+ALL_BLUEPRINTS: List[BlueprintT] = [
+    # 1. User management routes
+    user_routes,
+
+    # 2. Authentication routes
+    auth,
+
+    # 3. File upload handling
+    upload,
+
+    # 4. General API endpoints
+    api,
+
+    # 5. Diagram-specific routes
+    diagrams,
+
+    # 6. Main application routes
+    main,
+
+    # 7. Collaboration features (least specific)
+    collab,
+
+    # 8. UI-only routes
+    ui_routes,
+]
 
 # Type variable for blueprints
 BlueprintT = TypeVar('BlueprintT', bound=Blueprint)

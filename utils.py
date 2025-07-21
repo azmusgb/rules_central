@@ -24,85 +24,29 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 
+from flask_wtf.csrf import generate_csrf, validate_csrf
+from flask_wtf.csrf import CSRFError
+
 # Initialize logger
 LOGGER = logging.getLogger(__name__)
 
-# Constants
-EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+def verify_csrf_token(token: str) -> bool:
+    """Verify the provided CSRF token.
+
+    Args:
+        token: CSRF token string to verify
+
+    Returns:
+        bool: True if token is valid, False otherwise
+    """
+    try:
+        validate_csrf(token)
+        return True
+    except (CSRFError, Exception) as e:
+        LOGGER.warning(f"CSRF token verification failed: {e}")
+        return False
+
 ALLOWED_FILE_EXTS = {"json", "mmd"}
-DEFAULT_SNIPPET_LENGTH = 100
-
-# Type aliases
-JsonType = Union[Dict[str, Any], List[Any], str, int, float, bool, None]
-RuleType = Dict[str, Any]
-RuleListType = List[RuleType]
-
-# ---------------------------------------------------------------------------
-# Core Utility Classes
-# ---------------------------------------------------------------------------
-
-
-@dataclass
-class ActivityLogEntry:
-    """Represents an activity log entry."""
-
-    action: str
-    user: str
-    details: str
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
-
-
-@dataclass
-class DiagramInfo:
-    """Represents diagram metadata."""
-
-    filename: str
-    created: str
-    size: int = 0
-    file_type: str = "mmd"
-
-
-# ---------------------------------------------------------------------------
-# Validation Utilities
-# ---------------------------------------------------------------------------
-
-
-def validate_email(email: str) -> bool:
-    """Validate email format using regex pattern.
-
-    Args:
-        email: Email address to validate
-
-    Returns:
-        bool: True if email is valid
-    """
-    return isinstance(email, str) and bool(EMAIL_PATTERN.fullmatch(email))
-
-
-def validate_password(password: str, min_length: int = 8) -> bool:
-    """Validate password meets basic complexity requirements.
-
-    Args:
-        password: Password to validate
-        min_length: Minimum required length
-
-    Returns:
-        bool: True if password meets requirements
-    """
-    return (
-        isinstance(password, str)
-        and len(password) >= min_length
-        and any(c.isalpha() for c in password)
-        and any(c.isdigit() for c in password)
-    )
-
-
-# ---------------------------------------------------------------------------
-# File System Utilities
-# ---------------------------------------------------------------------------
-
 
 def allowed_file(filename: str) -> bool:
     """Check if filename has an allowed extension.
@@ -118,7 +62,6 @@ def allowed_file(filename: str) -> bool:
         and "." in filename
         and filename.rsplit(".", 1)[1].lower() in ALLOWED_FILE_EXTS
     )
-
 
 def ensure_directory_exists(directory: Union[str, Path]) -> None:
     """Ensure directory exists, creating if necessary.
@@ -137,25 +80,9 @@ def ensure_directory_exists(directory: Union[str, Path]) -> None:
         LOGGER.error("Failed to create directory %s: %s", path, exc)
         raise
 
-
-@lru_cache(maxsize=128)
-def get_file_metadata(filepath: Union[str, Path]) -> Dict[str, float]:
-    """Get basic file metadata with caching.
-
-    Args:
-        filepath: Path to file
-
-    Returns:
-        Dict with size and last_modified timestamps
-    """
-    stat = Path(filepath).stat()
-    return {"size": stat.st_size, "last_modified": stat.st_mtime}
-
-
-# ---------------------------------------------------------------------------
-# Misc Utilities
-# ---------------------------------------------------------------------------
-
+def generate_csrf_token() -> str:
+    """Return a CSRF token for use in routes and templates."""
+    return generate_csrf()
 
 def diagram_type_from_filename(name: str) -> str:
     """Infer diagram type from a filename."""
@@ -166,43 +93,11 @@ def diagram_type_from_filename(name: str) -> str:
         return "flowchart"
     return "unknown"
 
-
-def highlight_matches(text: str, term: str) -> str:
-    """Highlight case-insensitive term matches within text."""
-    if not term:
-        return text
-    pattern = re.compile(re.escape(term), re.IGNORECASE)
-    return pattern.sub(lambda m: f"<strong>{m.group(0)}</strong>", text)
-
-
-def get_snippet(
-    text: str, term: str, snippet_length: int = DEFAULT_SNIPPET_LENGTH
-) -> str:
-    """Return a substring around the first occurrence of term."""
-    if not term:
-        return text[:snippet_length]
-    idx = text.lower().find(term.lower())
-    if idx == -1:
-        return text[:snippet_length]
-    start = max(0, idx - snippet_length // 2)
-    end = start + snippet_length
-    return text[start:end]
-
-
 def get_current_user() -> str:
     """Return the username if logged in else 'anonymous'."""
     if getattr(current_user, "is_authenticated", False):
         return getattr(current_user, "username", "anonymous")
     return "anonymous"
-
-
-def initialize_directories(app: Any) -> None:
-    """Create required application directories."""
-    ensure_directory_exists(app.config.get("UPLOAD_FOLDER"))
-    ensure_directory_exists(app.config.get("DIAGRAMS_FOLDER"))
-    if app.static_folder:
-        ensure_directory_exists(Path(app.static_folder) / "help")
-
 
 def get_help_topics() -> List[str]:
     """Return sorted help topic slugs from static/help."""
@@ -210,7 +105,6 @@ def get_help_topics() -> List[str]:
     if not help_dir.exists():
         return []
     return sorted(p.stem for p in help_dir.glob("*.md"))
-
 
 def generate_files(rules: RuleListType, out_dir: str) -> List[DiagramInfo]:
     """Write simple diagram and JSON files for rules."""
@@ -231,6 +125,7 @@ def generate_files(rules: RuleListType, out_dir: str) -> List[DiagramInfo]:
             )
         )
     return infos
+
 
 
 # ---------------------------------------------------------------------------
@@ -564,6 +459,37 @@ def build_hierarchy(
 # ---------------------------------------------------------------------------
 # Module Exports
 # ---------------------------------------------------------------------------
+
+def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
+    """Return a snippet of content around the first occurrence of query.
+
+    Args:
+        content: The full text content to search within.
+        query: The search term to find in the content.
+        snippet_length: The maximum length of the snippet to return.
+
+    Returns:
+        A snippet string containing the query with some surrounding context.
+    """
+    if not content or not query:
+        return ""
+
+    query_lower = query.lower()
+    content_lower = content.lower()
+    index = content_lower.find(query_lower)
+    if index == -1:
+        return ""
+
+    start = max(0, index - snippet_length // 2)
+    end = min(len(content), index + len(query) + snippet_length // 2)
+
+    snippet = content[start:end].strip()
+    if start > 0:
+        snippet = "..." + snippet
+    if end < len(content):
+        snippet = snippet + "..."
+
+    return snippet
 
 __all__ = [
     # File utilities

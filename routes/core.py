@@ -38,6 +38,8 @@ from flask import (
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response as WerkzeugResponse
+from flask_wtf.csrf import generate_csrf
+
 
 from utils import (
     allowed_file,
@@ -65,8 +67,34 @@ RouteReturn = Union[str, WerkzeugResponse, JsonResponse]
 api = Blueprint("api", __name__, url_prefix="/api")
 collab = Blueprint("collab", __name__, url_prefix="/collab")
 diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
+
+@diagrams.route("/diagram_converter")
+def diagram_converter() -> str:
+    """Render the diagram converter page."""
+    try:
+        return render_template("diagram_converter.html")
+    except Exception as e:
+        current_app.logger.error(f"Diagram converter page error: {e}", exc_info=True)
+        abort(500, description="Failed to load diagram converter page")
 main = Blueprint("main", __name__)
+
+@main.route("/contact")
+def contact() -> str:
+    """Contact/support page placeholder."""
+    try:
+        return render_template("contact.html")
+    except Exception as e:
+        current_app.logger.error(f"Contact page error: {e}", exc_info=True)
+        abort(500, description="Failed to load contact page")
 auth = Blueprint("auth", __name__, url_prefix="/auth")
+
+@auth.route("/register", methods=["GET", "POST"])
+def register() -> str:
+    """User registration page placeholder."""
+    if request.method == "GET":
+        return render_template("auth/register.html")
+    # For POST, you can add registration logic here later
+    return render_template("auth/register.html")
 upload = Blueprint("upload", __name__, url_prefix="/upload")
 
 user_routes = Blueprint("user", __name__, url_prefix="/user")
@@ -109,6 +137,15 @@ def safe_startswith(value: str, prefix: str) -> bool:
 # ---------------------------------------------------------------------------
 ui_routes = Blueprint("routes", __name__)  # internal name must be "routes"
 
+@ui_routes.route("/full_help")
+def full_help() -> str:
+    """Placeholder full help page."""
+    try:
+        return render_template("full_help.html")
+    except Exception as e:
+        current_app.logger.error(f"Full help page error: {e}", exc_info=True)
+        abort(500, description="Failed to load full help page")
+
 @ui_routes.route("/config")
 def config_page() -> str:
     """Placeholder for the new‑rule wizard."""
@@ -120,7 +157,7 @@ def activity_page() -> str:
     return "Activity page (coming soon)"
 
 @ui_routes.route("/help")
-def full_help() -> str:
+def help_page() -> str:
     """Placeholder docs hub used by the nav bar."""
     return "Documentation hub (coming soon)"
 
@@ -575,3 +612,7 @@ def inject_globals() -> Dict[str, Any]:
         'version': current_app.config.get('VERSION', '1.0'),
         'current_year': datetime.now().year
     }
+
+def generate_csrf_token() -> str:
+    """Return a CSRF token for use in routes and templates."""
+    return generate_csrf()
