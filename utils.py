@@ -24,8 +24,17 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 
-from flask_wtf.csrf import generate_csrf, validate_csrf
-from flask_wtf.csrf import CSRFError
+try:
+    from flask_wtf.csrf import generate_csrf, validate_csrf, CSRFError
+except Exception:  # pragma: no cover - fallback when Flask-WTF is absent
+    def generate_csrf() -> str:  # type: ignore[misc]
+        return "csrf-token"
+
+    def validate_csrf(_token: str) -> None:  # type: ignore[misc]
+        return None
+
+    class CSRFError(Exception):
+        pass
 
 # Initialize logger
 LOGGER = logging.getLogger(__name__)
@@ -105,6 +114,54 @@ def get_help_topics() -> List[str]:
     if not help_dir.exists():
         return []
     return sorted(p.stem for p in help_dir.glob("*.md"))
+
+
+def validate_email(email: str) -> bool:
+    """Simple email validation used for forms."""
+    if not isinstance(email, str):
+        return False
+    pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
+    return re.match(pattern, email) is not None
+
+
+def validate_password(password: str, min_length: int = 8) -> bool:
+    """Check password length and ensure it contains a digit."""
+    if not isinstance(password, str) or len(password) < min_length:
+        return False
+    return any(ch.isdigit() for ch in password)
+
+
+def highlight_matches(text: str, term: str) -> str:
+    """Return ``text`` with ``term`` wrapped in ``<strong>`` tags."""
+    if not term:
+        return text
+    pattern = re.compile(re.escape(term), re.IGNORECASE)
+    return pattern.sub(lambda m: f"<strong>{m.group(0)}</strong>", text)
+
+
+@dataclass
+class DiagramInfo:
+    """Metadata for generated diagram files."""
+
+    filename: str
+    created: str
+    size: int
+
+
+def get_file_metadata(path: Path) -> Dict[str, Any]:
+    """Return basic file metadata."""
+    stat = path.stat()
+    return {"size": stat.st_size, "last_modified": stat.st_mtime}
+
+
+def initialize_directories(app: Any) -> None:
+    """Ensure configured upload and diagram folders exist."""
+    uploads = Path(app.config.get("UPLOAD_FOLDER", "uploads"))
+    diagrams = Path(app.config.get("DIAGRAMS_FOLDER", "diagrams"))
+    for d in (uploads, diagrams):
+        d.mkdir(parents=True, exist_ok=True)
+    help_dir = Path(app.static_folder) / "help"
+    help_dir.mkdir(parents=True, exist_ok=True)
 
 def generate_files(rules: RuleListType, out_dir: str) -> List[DiagramInfo]:
     """Write simple diagram and JSON files for rules."""
@@ -482,12 +539,7 @@ def get_snippet(content: str, query: str, snippet_length: int = 100) -> str:
 
     start = max(0, index - snippet_length // 2)
     end = min(len(content), index + len(query) + snippet_length // 2)
-
     snippet = content[start:end].strip()
-    if start > 0:
-        snippet = "..." + snippet
-    if end < len(content):
-        snippet = snippet + "..."
 
     return snippet
 

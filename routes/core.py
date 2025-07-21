@@ -40,6 +40,12 @@ from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response as WerkzeugResponse
 from flask_wtf.csrf import generate_csrf
 
+from flask_login import (
+    login_required,
+    login_user,
+    logout_user,
+    current_user,
+)
 
 from utils import (
     allowed_file,
@@ -51,8 +57,8 @@ from utils import (
     get_snippet,
     load_and_sanitize_json,
     log_activity,
-    generate_csrf_token,
     verify_csrf_token,
+    validate_email,
 )
 
 # Type aliases
@@ -100,6 +106,13 @@ upload = Blueprint("upload", __name__, url_prefix="/upload")
 user_routes = Blueprint("user", __name__, url_prefix="/user")
 
 logger = logging.getLogger(__name__)
+
+
+@user_routes.route("/profile")
+@login_required
+def profile() -> str:
+    """Display the current user's profile page."""
+    return render_template("profile.html", user=current_user)
 
 # ---------------------------------------------------------------------------
 # Template Helpers
@@ -515,6 +528,15 @@ def login() -> RouteReturn:
     except Exception as e:
         current_app.logger.error(f"Login error: {e}", exc_info=True)
         abort(500, description="Failed to process login")
+
+
+@auth.route("/logout")
+@login_required
+def logout() -> RouteReturn:
+    """Log out the current user."""
+    logout_user()
+    flash("You are logged out.", "success")
+    return redirect(url_for("main.index"))
 
 # [Additional routes with similar improvements...]
 
