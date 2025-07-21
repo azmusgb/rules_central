@@ -11,6 +11,7 @@
 <section id="rc-hero" class="rc-hero rc-hero--dashboard" role="region" aria-labelledby="rc-hero-title">
   <div class="rc-hero-bg" aria-hidden="true"></div>
   <div class="rc-hero-glow" aria-hidden="true"></div>
+  <div class="rc-hero-pattern" aria-hidden="true"></div>
 
   <div class="rc-hero-inner">
     <div class="rc-hero-badge-wrap">
@@ -27,37 +28,84 @@
     </p>
 
     <div class="rc-hero-actions">
-      <a href="{{ url_for('routes.config_page') }}" class="rc-btn rc-btn-primary" aria-label="Create new rule">New Rule</a>
-      <a href="{{ url_for('main.catalog') }}" class="rc-btn rc-btn-outline" aria-label="View all rules">View Catalog</a>
-      <a href="#quick-actions" class="rc-btn rc-btn-text">Quick Tour</a>
+      <a href="{{ url_for('routes.config_page') }}" class="rc-btn rc-btn-primary rc-btn-lg rc-btn-icon" aria-label="Create new rule">
+        <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+        </svg>
+        New Rule
+      </a>
+      <a href="{{ url_for('main.catalog') }}" class="rc-btn rc-btn-outline rc-btn-lg" aria-label="View all rules">
+        View Catalog
+      </a>
+      <a href="#quick-actions" class="rc-btn rc-btn-text rc-btn-lg rc-btn-tour">
+        <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        Quick Tour
+      </a>
     </div>
   </div>
 </section>
 
-<header class="flex items-center justify-between mb-6 rc-container">
-  <h2 class="sr-only">Dashboard overview</h2>
-  <time id="current-time" class="text-sm text-text-tertiary tracking-wider" datetime="">--:--</time>
+{# ============================================================
+   DASHBOARD HEADER
+   ============================================================ #}
+<header class="rc-dashboard-header rc-container">
+  <div class="rc-dashboard-header-inner">
+    <div class="rc-dashboard-greeting">
+      <h2 class="rc-dashboard-title">Overview Dashboard</h2>
+      <p class="rc-dashboard-subtitle">Welcome back! Here's what's happening with your rules.</p>
+    </div>
+    
+    <div class="rc-dashboard-meta">
+      <div class="rc-dashboard-time">
+        <svg class="rc-dashboard-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <time id="current-time" class="rc-dashboard-time-text" datetime="">--:-- --</time>
+      </div>
+      
+      <button id="rc-global-refresh" type="button" class="rc-btn rc-btn-icon rc-btn-sm rc-btn-ghost" aria-label="Refresh dashboard">
+        <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Refresh
+      </button>
+    </div>
+  </div>
 </header>
-
 
 {# ============================================================
    METRICS
    ============================================================ #}
-<section id="metrics" class="wrapper rc-container rc-section rc-metrics" aria-labelledby="metrics-heading">
+<section id="metrics" class="rc-container rc-section rc-metrics" aria-labelledby="metrics-heading">
   <div class="rc-section-head">
-    <h2 id="metrics-heading" class="rc-section-title">
-      <span aria-hidden="true" class="rc-section-ico">📈</span>
-      Key Metrics
-    </h2>
-    <div class="rc-section-sub">
-      <span aria-hidden="true">🕒</span>
-      Last updated:
-      <span class="font-medium">
-        {% if last_updated is defined and last_updated %}
-          {{ last_updated.strftime('%b %d, %Y %I:%M %p') }}
-        {% else %}—{% endif %}
-      </span>
-      <button id="rc-metrics-refresh" type="button" class="rc-mini-btn" aria-label="Refresh metrics" data-url="{{ url_for('main.index') }}?format=json">Refresh</button>
+    <div class="rc-section-head-main">
+      <h2 id="metrics-heading" class="rc-section-title">
+        <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+        Key Metrics
+      </h2>
+      <div class="rc-section-sub">
+        <svg class="rc-section-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Last updated:
+        <span class="rc-section-sub-highlight">
+          {% if last_updated is defined and last_updated %}
+            {{ last_updated.strftime('%b %d, %Y %I:%M %p') }}
+          {% else %}—{% endif %}
+        </span>
+      </div>
+    </div>
+    <div class="rc-section-actions">
+      <button id="rc-metrics-refresh" type="button" class="rc-btn rc-btn-icon rc-btn-sm rc-btn-ghost" aria-label="Refresh metrics" data-url="{{ url_for('main.index') }}?format=json">
+        <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Refresh
+      </button>
     </div>
   </div>
 
@@ -69,24 +117,35 @@
       {% endif %}
       <div class="rc-metric-body">
         <div class="rc-metric-top">
-          <div>
+          <div class="rc-metric-icon">
+            {% if svg %}{{ svg|safe }}{% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            {% endif %}
+          </div>
+          <div class="rc-metric-content">
             <p class="rc-metric-label">{{ label }}</p>
             <p class="rc-metric-value">{{ value|default(0) }}</p>
-          </div>
-          <div class="rc-metric-icon">
-            {% if svg %}{{ svg|safe }}{% else %}<span aria-hidden="true">•</span>{% endif %}
           </div>
         </div>
         {% if trend is not none %}
           {% if trend is mapping %}
             {% set pct = trend.get('pct', 0) %}
             {% set up = trend.get('is_up', pct >= 0) %}
-            <p class="rc-metric-trend {{ 'rc-metric-up' if up else 'rc-metric-down' }}">{{ pct|round(1) }}% vs previous</p>
+            <div class="rc-metric-trend {{ 'rc-metric-up' if up else 'rc-metric-down' }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M{{ '7 11l5-5m0 0l5 5m-5-5v12' if up else '7 13l5 5m0 0l5-5m-5 5V6' }}"/>
+              </svg>
+              <span>{{ pct|round(1) }}% vs previous</span>
+            </div>
           {% else %}
-            <p class="rc-metric-trend">{{ trend }}</p>
+            <div class="rc-metric-trend">
+              <span>{{ trend }}</span>
+            </div>
           {% endif %}
         {% else %}
-          <p class="rc-metric-trend rc-metric-trend-empty" aria-hidden="true">&nbsp;</p>
+          <div class="rc-metric-trend rc-metric-trend-empty" aria-hidden="true">&nbsp;</div>
         {% endif %}
       </div>
     </div>
@@ -94,22 +153,13 @@
 
   {# Small reusable SVGs ------------------------------------ #}
   {% set svg_rules %}
-    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" rx="1"/>
-      <rect x="14" y="3" width="7" height="7" rx="1"/>
-      <rect x="14" y="14" width="7" height="7" rx="1"/>
-      <rect x="3" y="14" width="7" height="7" rx="1"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
     </svg>
   {% endset %}
   {% set svg_cal %}
-    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <line x1="16" y1="2" x2="16" y2="6"/>
-      <line x1="8"  y1="2" x2="8"  y2="6"/>
-      <line x1="3"  y1="10" x2="21" y2="10"/>
-      <path d="M8 14h2v2H8zM12 14h2v2h-2zM16 14h2v2h-2z"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
     </svg>
   {% endset %}
 
@@ -154,85 +204,212 @@
   </div>
 </section>
 
-
 {# ============================================================
-   TREND
+   TREND CHART
    ============================================================ #}
-<section id="trend" aria-labelledby="trend-heading" class="wrapper rc-container rc-section rc-trend">
+<section id="trend" aria-labelledby="trend-heading" class="rc-container rc-section rc-trend">
   <div class="rc-section-head rc-section-head-split">
-    <h2 id="trend-heading" class="rc-section-title">
-      <span aria-hidden="true" class="rc-section-ico">📊</span>
-      Rule Change Trends
-    </h2>
+    <div class="rc-section-head-main">
+      <h2 id="trend-heading" class="rc-section-title">
+        <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+        Rule Change Trends
+      </h2>
+      <p class="rc-section-sub">Visualization of rule changes over time</p>
+    </div>
+    
     <div class="rc-toggle-pill" role="group" aria-label="Select time range for trend chart">
+      <button data-range="7d" class="rc-toggle" type="button">7D</button>
       <button data-range="30d" class="rc-toggle active" type="button">30D</button>
       <button data-range="90d" class="rc-toggle" type="button">90D</button>
-      <button data-range="1y"  class="rc-toggle" type="button">1Y</button>
+      <button data-range="1y" class="rc-toggle" type="button">1Y</button>
     </div>
   </div>
-  <div class="rc-card rc-surface-1 rc-chart-wrap">
-    <canvas id="rulesTrendChart" aria-label="Rule change trends chart" role="img" height="320"></canvas>
+  
+  <div class="rc-card rc-chart-container">
+    <div class="rc-chart-header">
+      <div class="rc-chart-legend">
+        <div class="rc-chart-legend-item">
+          <span class="rc-chart-legend-color rc-chart-legend-created"></span>
+          <span class="rc-chart-legend-label">Created</span>
+        </div>
+        <div class="rc-chart-legend-item">
+          <span class="rc-chart-legend-color rc-chart-legend-updated"></span>
+          <span class="rc-chart-legend-label">Updated</span>
+        </div>
+      </div>
+      <div class="rc-chart-actions">
+        <button class="rc-btn rc-btn-icon rc-btn-sm rc-btn-ghost" type="button" aria-label="Download chart">
+          <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="rc-chart-wrap">
+      <canvas id="rulesTrendChart" aria-label="Rule change trends chart" role="img" height="320"></canvas>
+    </div>
   </div>
 </section>
 
-
 {# ============================================================
-   QUICK ACTIONS (+ anchor for quick-tour)
+   QUICK ACTIONS
    ============================================================ #}
-<section id="quick-actions" aria-labelledby="actions-heading" class="wrapper rc-container rc-section rc-quick-actions">
+<section id="quick-actions" aria-labelledby="actions-heading" class="rc-container rc-section rc-quick-actions">
   <div class="rc-section-head">
     <h2 id="actions-heading" class="rc-section-title">
-      <span aria-hidden="true" class="rc-section-ico">⚡</span>
+      <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
       Quick Actions &amp; Tools
     </h2>
     <p class="rc-section-sub">Jump right in with the most common tasks.</p>
   </div>
+  
   <div class="rc-qa-grid">
     <a href="{{ url_for('upload.upload_file') }}" class="rc-card rc-qa-card rc-qa-import" aria-label="Import rules">
       <div class="rc-qa-card-inner">
-        <span class="rc-qa-ico" aria-hidden="true">📥</span>
-        <span class="rc-qa-textwrap">
-          <span class="rc-qa-text">Import Rules</span>
-          <span class="rc-qa-desc">CSV / Excel bulk import</span>
-        </span>
-        <span class="rc-qa-arrow" aria-hidden="true">›</span>
+        <div class="rc-qa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+        </div>
+        <div class="rc-qa-content">
+          <h3 class="rc-qa-title">Import Rules</h3>
+          <p class="rc-qa-desc">CSV / Excel bulk import</p>
+        </div>
+        <div class="rc-qa-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
       </div>
     </a>
 
     <a href="{{ url_for('diagrams.diagram_converter') }}" class="rc-card rc-qa-card rc-qa-diagram" aria-label="Generate diagram">
       <div class="rc-qa-card-inner">
-        <span class="rc-qa-ico" aria-hidden="true">🧩</span>
-        <span class="rc-qa-textwrap">
-          <span class="rc-qa-text">Generate Diagram</span>
-          <span class="rc-qa-desc">Visualize rule relationships</span>
-        </span>
-        <span class="rc-qa-arrow" aria-hidden="true">›</span>
+        <div class="rc-qa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 10V6a3 3 0 0112 0v4M7 10H4a1 1 0 00-1 1v9a1 1 0 001 1h16a1 1 0 001-1v-9a1 1 0 00-1-1h-3M9 10h6M9 14h6m-6 4h6"/>
+          </svg>
+        </div>
+        <div class="rc-qa-content">
+          <h3 class="rc-qa-title">Generate Diagram</h3>
+          <p class="rc-qa-desc">Visualize rule relationships</p>
+        </div>
+        <div class="rc-qa-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
       </div>
     </a>
 
     <a href="{{ url_for('routes.full_help') }}" class="rc-card rc-qa-card rc-qa-docs" aria-label="Documentation">
       <div class="rc-qa-card-inner">
-        <span class="rc-qa-ico" aria-hidden="true">📖</span>
-        <span class="rc-qa-textwrap">
-          <span class="rc-qa-text">Documentation</span>
-          <span class="rc-qa-desc">Guides &amp; API references</span>
-        </span>
-        <span class="rc-qa-arrow" aria-hidden="true">›</span>
+        <div class="rc-qa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <div class="rc-qa-content">
+          <h3 class="rc-qa-title">Documentation</h3>
+          <p class="rc-qa-desc">Guides &amp; API references</p>
+        </div>
+        <div class="rc-qa-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.export') }}" class="rc-card rc-qa-card rc-qa-export" aria-label="Export rules">
+      <div class="rc-qa-card-inner">
+        <div class="rc-qa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+        </div>
+        <div class="rc-qa-content">
+          <h3 class="rc-qa-title">Export Rules</h3>
+          <p class="rc-qa-desc">Download rules in multiple formats</p>
+        </div>
+        <div class="rc-qa-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
       </div>
     </a>
   </div>
 </section>
 
-{% endblock content %}
-
-
 {# ============================================================
-   PAGE STYLES
-   (Scoped fallback styles; lean—rely on global tokens when present)
+   RECENT ACTIVITY
    ============================================================ #}
-{% block styles %}
-{% endblock styles %}
+<section id="recent-activity" aria-labelledby="activity-heading" class="rc-container rc-section rc-activity">
+  <div class="rc-section-head">
+    <h2 id="activity-heading" class="rc-section-title">
+      <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 8h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+      </svg>
+      Recent Activity
+    </h2>
+    <a href="{{ url_for('main.activity_log') }}" class="rc-btn rc-btn-sm rc-btn-link">
+      View all activity
+      <svg class="rc-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+  
+  <div class="rc-card rc-activity-list">
+    {% if recent_activity and recent_activity|length > 0 %}
+      <ul class="rc-activity-items">
+        {% for activity in recent_activity[:5] %}
+          <li class="rc-activity-item">
+            <div class="rc-activity-icon">
+              {% if activity.action == 'create' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+              {% elif activity.action == 'update' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              {% endif %}
+            </div>
+            <div class="rc-activity-content">
+              <p class="rc-activity-text">
+                <span class="rc-activity-user">{{ activity.user }}</span>
+                <span class="rc-activity-action">{{ activity.action|title }}d</span>
+                <a href="{{ url_for('main.rule_detail', rule_id=activity.rule_id) }}" class="rc-activity-rule">{{ activity.rule_name }}</a>
+              </p>
+              <time class="rc-activity-time" datetime="{{ activity.timestamp.isoformat() }}">
+                {{ activity.timestamp|humanize }}
+              </time>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="rc-empty-state">
+        <svg class="rc-empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p class="rc-empty-state-text">No recent activity found</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
 
+{% endblock content %}
 
 {# ============================================================
    PAGE SCRIPTS
@@ -241,5 +418,7 @@
   {{ super() }}
   <script>window.trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};</script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1" defer></script>
   <script type="module" defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock scripts %}
