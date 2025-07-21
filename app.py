@@ -164,10 +164,16 @@ def _register_blueprints(app: Flask) -> None:
     Register all blueprints from the ALL_BLUEPRINTS list in routes.__init__.
     """
     import logging
+    import sys
+    import os
+
+    # Add current working directory to sys.path to ensure imports work
+    sys.path.insert(0, os.getcwd())
+
     try:
         from routes import ALL_BLUEPRINTS
-    except ImportError:
-        app.logger.warning("Could not import ALL_BLUEPRINTS from routes")
+    except ImportError as e:
+        app.logger.warning(f"Could not import ALL_BLUEPRINTS from routes: {e}")
         return
 
     logger = getattr(app, "logger", logging.getLogger(__name__))

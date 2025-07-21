@@ -635,6 +635,11 @@ def inject_globals() -> Dict[str, Any]:
         'current_year': datetime.now().year
     }
 
+@main.app_context_processor
+def inject_main_blueprint() -> dict:
+    """Inject the 'main' blueprint into templates."""
+    return {"main": main}
+
 def generate_csrf_token() -> str:
     """Return a CSRF token for use in routes and templates."""
     return generate_csrf()
