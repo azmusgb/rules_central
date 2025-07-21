@@ -1,313 +1,356 @@
 /* ==========================================================================
-   Rules Central - Advanced Design System
-   Version: 3.0 | 2025-07-20
+   Base Styles System - Version 4.0
+   Features:
+   - Modern CSS reset with sensible defaults
+   - Fluid typography system
+   - Enhanced accessibility
+   - Theming support
+   - Performance optimizations
+   - Responsive foundations
    ========================================================================== */
 
 /* ==========================================================================
-   1. Core Design Tokens
+   1. Modern Reset
    ========================================================================== */
-:root {
-  /* ================
-     Color System
-     ================ */
-  /* Primary Colors */
-  --color-primary-50: #fff1f2;
-  --color-primary-100: #ffe4e6;
-  --color-primary-200: #fecdd3;
-  --color-primary-300: #fda4af;
-  --color-primary-400: #fb7185;
-  --color-primary-500: #f43f5e; /* Base */
-  --color-primary-600: #e11d48;
-  --color-primary-700: #be123c;
-  --color-primary-800: #9f1239;
-  --color-primary-900: #881337;
-  
-  /* Semantic Colors */
-  --color-text: oklch(16.93% 0.007 264.76);
-  --color-text-secondary: oklch(40% 0.03 264);
-  --color-text-tertiary: oklch(60% 0.03 264);
-  --color-background: oklch(100% 0 0);
-  --color-background-secondary: oklch(98% 0.005 264);
-  --color-background-tertiary: oklch(96% 0.008 264);
-  --color-border: oklch(90% 0.01 264);
-  
-  /* Functional Colors */
-  --color-success: oklch(70% 0.2 146);
-  --color-warning: oklch(75% 0.2 80);
-  --color-error: oklch(70% 0.2 25);
-  --color-info: oklch(75% 0.15 250);
-  
-  /* ================
-     Typography
-     ================ */
-  --font-base: 'Inter Variable', system-ui, sans-serif;
-  --font-mono: 'Roboto Mono Variable', monospace;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --line-height-base: 1.6;
-  --line-height-tight: 1.25;
-  --letter-spacing-wide: 0.025em;
-  
-  /* ================
-     Spacing System
-     ================ */
-  --space-3xs: 0.125rem;
-  --space-2xs: 0.25rem;
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  
-  /* ================
-     Shadows & Depth
-     ================ */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
-  
-  /* ================
-     Motion & Timing
-     ================ */
-  --transition-fast: 100ms ease;
-  --transition-base: 200ms ease;
-  --transition-slow: 300ms ease;
-  --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  
-  /* ================
-     Layout System
-     ================ */
-  --max-width-wrapper: min(90rem, 100% - 2 * var(--gutter));
-  --gutter: clamp(1rem, 4vw, 2rem);
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-full: 9999px;
-  
-  /* ================
-     Navigation
-     ================ */
-  --nav-height: 4rem;
-  --nav-background: rgba(255, 255, 255, 0.85);
-  --nav-backdrop: blur(16px);
-  --nav-border: rgba(0, 0, 0, 0.08);
-  
-  /* ================
-     Z-Index System
-     ================ */
-  --z-below: -1;
-  --z-base: 1;
-  --z-nav: 50;
-  --z-dropdown: 100;
-  --z-modal: 200;
-  --z-toast: 300;
-}
 
-/* ==========================================================================
-   2. Theme Variations
-   ========================================================================== */
-[data-theme='bear'] {
-  --color-primary-500: #ff5e62;
-  --color-primary-600: #e04b4f;
-  --nav-accent: #ff5e62;
-  --color-background: #fbfbfd;
-}
-
-[data-theme='midnight'] {
-  --color-primary-500: #8b5cf6;
-  --color-primary-600: #7c3aed;
-  --color-background: #0f172a;
-  --color-text: #e2e8f0;
-}
-
-/* ==========================================================================
-   3. Base & Reset
-   ========================================================================== */
+/* Box sizing reset with inheritance */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   min-width: 0;
   min-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-height) + 1rem);
-  color-scheme: light dark;
+/* Remove default margin and padding */
+body, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, dl, dd,
+ol, ul, figure, hr, fieldset, legend {
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  min-height: 100dvh;
-  font-family: var(--font-base);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  line-height: var(--line-height-base);
-  text-rendering: optimizeLegibility;
-  font-synthesis: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Remove list styles on ul, ol elements */
+ul, ol {
+  list-style: none;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 0.25rem;
+/* Reset form elements */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* ==========================================================================
-   4. Typography System
-   ========================================================================== */
-h1, .text-3xl {
-  font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-extrabold);
-  letter-spacing: var(--letter-spacing-wide);
+/* Remove default button styles */
+button {
+  appearance: none;
+  background: none;
+  cursor: pointer;
 }
 
-h2, .text-2xl {
-  font-size: clamp(2rem, 4vw + 0.5rem, 2.5rem);
+/* Make images easier to work with */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.text-lg {
-  font-size: clamp(1.125rem, 0.5vw + 1rem, 1.25rem);
+/* Remove built-in form typography styles */
+input, button, textarea, select {
+  font: inherit;
 }
 
-/* Fluid body text */
-p, li, .text-base {
-  font-size: clamp(1rem, 0.25vw + 0.9375rem, 1.125rem);
+/* Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
 }
 
-/* ==========================================================================
-   5. Utility Classes
-   ========================================================================== */
-/* Layout Utilities */
-.container {
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  max-width: var(--max-width-wrapper);
-}
-
-.flow > * + * {
-  margin-top: var(--flow-space, var(--space-md));
-}
-
-/* Interactive States */
-.hover\:scale-105:hover {
-  transform: scale(1.05);
-}
-
-.focus\:ring:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--color-primary-300);
-}
-
-/* ==========================================================================
-   6. Dark Mode
-   ========================================================================== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-text: oklch(95% 0.005 264);
-    --color-text-secondary: oklch(80% 0.01 264);
-    --color-text-tertiary: oklch(65% 0.01 264);
-    --color-background: oklch(15% 0.01 264);
-    --color-background-secondary: oklch(20% 0.01 264);
-    --color-border: oklch(25% 0.01 264);
-    --nav-background: rgba(15, 23, 42, 0.9);
-    --nav-border: rgba(255, 255, 255, 0.08);
-  }
-}
-
-/* ==========================================================================
-   7. Component Library
-   ========================================================================== */
-/* Navigation */
-.navbar {
-  height: var(--nav-height);
-  backdrop-filter: var(--nav-backdrop);
-  background: var(--nav-background);
-  border-bottom: 1px solid var(--nav-border);
-  
-  &__inner {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: var(--space-md);
-  }
-}
-
-/* Cards */
-.card {
-  background: var(--color-background-secondary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-  overflow: hidden;
-  
-  &:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: var(--shadow-lg);
-  }
-}
-
-/* Buttons */
-.btn {
-  --btn-bg: var(--color-primary-500);
-  --btn-text: white;
-  --btn-hover: var(--color-primary-600);
-  
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  font-weight: var(--font-weight-bold);
-  transition: all var(--transition-base);
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  
-  &:hover {
-    background: var(--btn-hover);
-    transform: translateY(-1px);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-/* ==========================================================================
-   8. Responsive Utilities
-   ========================================================================== */
-@media (max-width: 768px) {
-  .navbar__inner {
-    grid-template-columns: auto auto;
-  }
-  
-  .mobile\:column {
-    flex-direction: column;
-  }
-}
-
-/* ==========================================================================
-   9. Performance Optimizations
-   ========================================================================== */
+/* Remove animations and transitions for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   2. Root & Document Styles
+   ========================================================================== */
+
+:root {
+  /* Ensure the page fills at least the viewport height */
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+html {
+  /* Smooth scrolling for supported browsers */
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--space-md));
   
-  html {
-    scroll-behavior: auto;
+  /* Proper text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Color scheme support */
+  color-scheme: light dark;
+}
+
+body {
+  /* Base typography */
+  font-family: var(--font-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  
+  /* Layout defaults */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  
+  /* Performance optimizations */
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   3. Typography System
+   ========================================================================== */
+
+/* Fluid typography scale using clamp() */
+.text-xs {
+  font-size: clamp(0.75rem, 0.75rem + 0.25vw, 0.875rem);
+  line-height: var(--line-height-tight);
+}
+
+.text-sm {
+  font-size: clamp(0.875rem, 0.875rem + 0.25vw, 1rem);
+  line-height: var(--line-height-tight);
+}
+
+.text-base {
+  font-size: clamp(1rem, 1rem + 0.25vw, 1.125rem);
+  line-height: var(--line-height-normal);
+}
+
+.text-lg {
+  font-size: clamp(1.125rem, 1.125rem + 0.25vw, 1.25rem);
+  line-height: var(--line-height-normal);
+}
+
+.text-xl {
+  font-size: clamp(1.25rem, 1.25rem + 0.5vw, 1.5rem);
+  line-height: var(--line-height-tight);
+}
+
+.text-2xl {
+  font-size: clamp(1.5rem, 1.5rem + 1vw, 2rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.text-3xl {
+  font-size: clamp(1.875rem, 1.875rem + 1.5vw, 2.5rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.text-4xl {
+  font-size: clamp(2.25rem, 2.25rem + 2vw, 3rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.text-5xl {
+  font-size: clamp(3rem, 3rem + 2.5vw, 4rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Heading styles */
+h1, .h1 {
+  @extend .text-5xl;
+  font-weight: var(--font-weight-extrabold);
+}
+
+h2, .h2 {
+  @extend .text-4xl;
+  font-weight: var(--font-weight-bold);
+}
+
+h3, .h3 {
+  @extend .text-3xl;
+  font-weight: var(--font-weight-bold);
+}
+
+h4, .h4 {
+  @extend .text-2xl;
+  font-weight: var(--font-weight-semibold);
+}
+
+h5, .h5 {
+  @extend .text-xl;
+  font-weight: var(--font-weight-semibold);
+}
+
+h6, .h6 {
+  @extend .text-lg;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Paragraph styles */
+p {
+  margin-bottom: var(--space-md);
+  max-width: 65ch;
+}
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* ==========================================================================
+   4. Interactive Elements
+   ========================================================================== */
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 0.25rem;
+}
+
+/* Links */
+a {
+  color: var(--color-primary-500);
+  text-decoration: none;
+  transition: color var(--transition-duration-fast) var(--transition-timing-ease);
+  
+  &:hover {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  
+  &:focus-visible {
+    outline-color: var(--color-primary-500);
+  }
+}
+
+/* Buttons */
+button {
+  &:focus-visible {
+    outline-color: var(--color-primary-500);
+  }
+}
+
+/* ==========================================================================
+   5. Layout Utilities
+   ========================================================================== */
+
+/* Container system */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container-narrow {
+  max-width: var(--max-width-md);
+}
+
+.container-wide {
+  max-width: var(--max-width-5xl);
+}
+
+/* Spacing flow utility */
+.flow > * + * {
+  margin-top: var(--flow-space, var(--space-md));
+}
+
+/* ==========================================================================
+   6. Accessibility Utilities
+   ========================================================================== */
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary-500);
+  color: white;
+  z-index: var(--z-index-super);
+  transform: translateY(-100%);
+  transition: transform var(--transition-duration-fast) var(--transition-timing-ease);
+  
+  &:focus {
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   7. Dark Mode Adjustments
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: brightness(0.9) contrast(1.1);
+  }
+}
+
+/* ==========================================================================
+   8. Print Styles
+   ========================================================================== */
+
+@media print {
+  body {
+    background: none;
+    font-size: 12pt;
+    line-height: 1.3;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+  
+  img {
+    break-inside: avoid;
+  }
+  
+  .no-print {
+    display: none !important;
   }
 }

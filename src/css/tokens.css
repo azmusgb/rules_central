@@ -1,169 +1,254 @@
 /* ==========================================================================
-   Core Design Tokens
+   Design Tokens System - Version 4.0
+   Features:
+   - Comprehensive design token architecture
+   - Semantic naming system
+   - Theme-aware variables
+   - Responsive token adjustments
+   - Motion preference awareness
+   - Print optimization
    ========================================================================== */
-
-:root {
-  /* Primary Brand */
-  --color-primary:       #F43F5E;
-  --color-primary-hover: #E11D48;
-
-  /* Neutrals */
-  --gray-50:   #F9FAFB;
-  --gray-100:  #F3F4F6;
-  --gray-200:  #E5E7EB;
-  --gray-300:  #D1D5DB;
-  --gray-400:  #9CA3AF;
-  --gray-500:  #6B7280;
-  --gray-600:  #4B5563;
-  --gray-700:  #374151;
-  --gray-800:  #1F2937;
-  --gray-900:  #111827;
-
-  /* Status */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error:   #EF4444;
-
-  /* Accent */
-  --color-accent: #3B82F6;
-
-  /* Link & Focus */
-  --color-link: var(--color-accent);
-  --focus-ring: rgba(244,63,94,0.5);
-}
-
-[data-theme='dark'] {
-  --bg-default:   var(--gray-900);
-  --bg-surface:   var(--gray-800);
-  --text-default: #F9FAFB;
-  --text-secondary: var(--gray-300);
-}
 
 /* ==========================================================================
-   Hero Section Design System
+   1. Core Tokens
    ========================================================================== */
 
 :root {
-  /* ================
-     Spacing System
-     ================ */
-  --hero-padding-block: 
-    clamp(3.5rem, 6vh, 5.5rem) /* top */
-    clamp(1.75rem, 5vh, 3.5rem); /* bottom */
-  --hero-padding-inline: var(--gutter, clamp(1rem, 3vw, 2rem));
-  --hero-content-gap: clamp(1.5rem, 3vw, 2.5rem);
-  
-  /* ================
-     Sizing Controls
-     ================ */
-  --hero-max-width: min(72rem, 95vw);
-  --hero-content-width: min(100%, 52rem, calc(100vw - 2 * var(--hero-padding-inline)));
-  --hero-glow-size: min(900px, 100vw);
-  --hero-image-max-height: min(560px, 65vh);
-  
   /* ================
      Color System
      ================ */
-  /* Light Mode Defaults */
-  --hero-accent-50: #fff1f2;
-  --hero-accent-100: #ffe4e6;
-  --hero-accent-200: #fecdd3;
-  --hero-accent-300: #fda4af;
-  --hero-accent-400: #fb7185;
-  --hero-accent-500: #f43f5e; /* Base accent */
-  --hero-accent-600: #e11d48;
-  --hero-accent-700: #be123c;
-  --hero-accent-800: #9f1239;
-  --hero-accent-900: #881337;
   
-  --hero-text: var(--color-text, hsl(240 10% 15%));
-  --hero-text-muted: color-mix(in srgb, var(--hero-text) 70%, transparent);
-  --hero-bg: var(--color-background, hsl(0 0% 100%));
-  --hero-overlay: color-mix(in srgb, var(--hero-bg) 10%, transparent);
-  
-  /* Gradient Options */
-  --hero-gradient-angle: 135deg;
-  --hero-gradient: linear-gradient(
-    var(--hero-gradient-angle),
-    var(--hero-accent-300),
-    var(--hero-accent-500),
-    var(--hero-accent-700)
-  );
-  
-  /* ================
-     Visual Effects
-     ================ */
-  --hero-glow-opacity: 0.25;
-  --hero-glow-blur: clamp(120px, 20vw, 160px);
-  --hero-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-  --hero-border-radius: clamp(1rem, 3vw, 1.5rem);
-  
-  /* ================
-     Animation System
-     ================ */
-  --hero-animation-duration: 600ms;
-  --hero-animation-easing: var(--transition-motion, cubic-bezier(0.22, 1, 0.36, 1));
-  --hero-stagger-delay: 100ms;
-  
+  /* Primary Colors - Semantic Scale */
+  --color-primary-50: oklch(98% 0.03 5);
+  --color-primary-100: oklch(95% 0.06 5);
+  --color-primary-200: oklch(90% 0.09 5);
+  --color-primary-300: oklch(85% 0.12 5);
+  --color-primary-400: oklch(75% 0.15 5);
+  --color-primary-500: oklch(65% 0.18 5); /* Base */
+  --color-primary-600: oklch(55% 0.18 5);
+  --color-primary-700: oklch(45% 0.15 5);
+  --color-primary-800: oklch(35% 0.12 5);
+  --color-primary-900: oklch(25% 0.09 5);
+
+  /* Accent Colors */
+  --color-accent-50: oklch(98% 0.03 250);
+  --color-accent-100: oklch(95% 0.06 250);
+  --color-accent-500: oklch(65% 0.18 250); /* Base */
+  --color-accent-900: oklch(25% 0.09 250);
+
+  /* Neutral Colors - Oklch for perceptual uniformity */
+  --color-neutral-50: oklch(98% 0.002 260);
+  --color-neutral-100: oklch(95% 0.004 260);
+  --color-neutral-200: oklch(90% 0.006 260);
+  --color-neutral-300: oklch(85% 0.008 260);
+  --color-neutral-400: oklch(75% 0.01 260);
+  --color-neutral-500: oklch(65% 0.012 260); /* Base */
+  --color-neutral-600: oklch(55% 0.012 260);
+  --color-neutral-700: oklch(45% 0.01 260);
+  --color-neutral-800: oklch(35% 0.008 260);
+  --color-neutral-900: oklch(25% 0.006 260);
+
+  /* Semantic Colors */
+  --color-success: oklch(70% 0.2 146);
+  --color-warning: oklch(75% 0.2 80);
+  --color-error: oklch(70% 0.2 25);
+  --color-info: oklch(75% 0.15 250);
+
+  /* Contextual Aliases */
+  --color-text: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-400);
+  --color-background: var(--color-neutral-50);
+  --color-border: var(--color-neutral-200);
+  --color-stroke: var(--color-neutral-200);
+  --color-focus-ring: color-mix(in oklch, var(--color-primary-500) 30%, transparent);
+
   /* ================
      Typography
      ================ */
-  --hero-heading-size: clamp(2.5rem, 6vw, 4rem);
-  --hero-subhead-size: clamp(1.25rem, 3vw, 1.75rem);
-  --hero-text-size: clamp(1rem, 2vw, 1.125rem);
-  --hero-line-height: 1.2;
-  --hero-line-height-loose: 1.6;
+  --font-base: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono Variable', monospace;
+  --font-serif: 'Source Serif Variable', serif;
+  
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* ================
+     Spacing System
+     ================ */
+  --space-3xs: clamp(0.125rem, 0.125rem + 0.25vw, 0.25rem);
+  --space-2xs: clamp(0.25rem, 0.25rem + 0.25vw, 0.375rem);
+  --space-xs: clamp(0.5rem, 0.5rem + 0.25vw, 0.625rem);
+  --space-sm: clamp(0.75rem, 0.75rem + 0.25vw, 0.875rem);
+  --space-md: clamp(1rem, 1rem + 0.25vw, 1.25rem);
+  --space-lg: clamp(1.5rem, 1.5rem + 0.5vw, 2rem);
+  --space-xl: clamp(2rem, 2rem + 0.5vw, 2.5rem);
+  --space-2xl: clamp(3rem, 3rem + 0.5vw, 4rem);
+  --space-3xl: clamp(4rem, 4rem + 1vw, 6rem);
+  
+  /* ================
+     Border Radius
+     ================ */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ================
+     Shadows & Depth
+     ================ */
+  --shadow-sm: 
+    0 1px 2px 0 color-mix(in oklch, var(--color-neutral-900) 5%, transparent);
+  --shadow-md: 
+    0 4px 6px -1px color-mix(in oklch, var(--color-neutral-900) 8%, transparent),
+    0 2px 4px -2px color-mix(in oklch, var(--color-neutral-900) 10%, transparent);
+  --shadow-lg: 
+    0 10px 15px -3px color-mix(in oklch, var(--color-neutral-900) 10%, transparent),
+    0 4px 6px -4px color-mix(in oklch, var(--color-neutral-900) 12%, transparent);
+  --shadow-xl: 
+    0 20px 25px -5px color-mix(in oklch, var(--color-neutral-900) 12%, transparent),
+    0 8px 10px -6px color-mix(in oklch, var(--color-neutral-900) 15%, transparent);
+  --shadow-inner: 
+    inset 0 2px 4px 0 color-mix(in oklch, var(--color-neutral-900) 5%, transparent);
+  --shadow-focus: 
+    0 0 0 3px var(--color-focus-ring);
+
+  /* ================
+     Motion & Timing
+     ================ */
+  --transition-duration-ultrafast: 50ms;
+  --transition-duration-fast: 100ms;
+  --transition-duration-normal: 200ms;
+  --transition-duration-slow: 300ms;
+  --transition-duration-ultraslow: 500ms;
+  
+  --transition-timing-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-timing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --transition-timing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --transition-timing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-timing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ================
+     Layout System
+     ================ */
+  --max-width-xs: 20rem;
+  --max-width-sm: 24rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-4xl: 56rem;
+  --max-width-5xl: 64rem;
+  --max-width-6xl: 72rem;
+  --max-width-7xl: 80rem;
+  --max-width-full: 100%;
+  
+  --gutter-mobile: var(--space-md);
+  --gutter-desktop: var(--space-lg);
+  --gutter: clamp(var(--gutter-mobile), 5vw, var(--gutter-desktop));
+
+  /* ================
+     Z-Index System
+     ================ */
+  --z-index-below: -1;
+  --z-index-base: 0;
+  --z-index-elevated: 10;
+  --z-index-sticky: 20;
+  --z-index-dropdown: 30;
+  --z-index-modal: 40;
+  --z-index-overlay: 50;
+  --z-index-toast: 60;
+  --z-index-super: 100;
 }
 
-/* ================
-   Dark Mode Theme
-   ================ */
-@media (prefers-color-scheme: dark) {
+/* ==========================================================================
+   2. Theme Variations
+   ========================================================================== */
+
+[data-theme='light'] {
+  color-scheme: light;
+  
+  --color-text: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-400);
+  --color-background: var(--color-neutral-50);
+  --color-background-secondary: var(--color-neutral-100);
+  --color-background-tertiary: var(--color-neutral-200);
+  --color-border: var(--color-neutral-200);
+  --color-stroke: var(--color-neutral-200);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  
+  --color-text: var(--color-neutral-50);
+  --color-text-secondary: var(--color-neutral-200);
+  --color-text-tertiary: var(--color-neutral-400);
+  --color-background: var(--color-neutral-900);
+  --color-background-secondary: var(--color-neutral-800);
+  --color-background-tertiary: var(--color-neutral-700);
+  --color-border: var(--color-neutral-700);
+  --color-stroke: var(--color-neutral-700);
+}
+
+[data-theme='midnight'] {
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-background: #0f172a;
+  --color-text: #e2e8f0;
+}
+
+/* ==========================================================================
+   3. Responsive Adjustments
+   ========================================================================== */
+
+@container (width < 768px) {
   :root {
-    --hero-text: var(--hero-text-dark, hsl(240 10% 95%));
-    --hero-text-muted: color-mix(in srgb, var(--hero-text) 70%, transparent);
-    --hero-bg: var(--hero-bg-dark, hsl(240 10% 5%));
-    --hero-overlay: color-mix(in srgb, var(--hero-bg) 15%, transparent);
-    --hero-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    
-    /* Adjusted accent colors for better dark mode visibility */
-    --hero-accent-300: #fca5a5;
-    --hero-accent-500: #f87171; /* Base accent */
-    --hero-accent-700: #ef4444;
+    --gutter: var(--gutter-mobile);
   }
 }
 
-/* ================
-   Motion Preferences
-   ================ */
-@media (prefers-reduced-motion) {
+/* ==========================================================================
+   4. Motion Preferences
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
   :root {
-    --hero-animation-duration: 0.01ms;
-    --hero-stagger-delay: 0ms;
+    --transition-duration-ultrafast: 0.01ms;
+    --transition-duration-fast: 0.01ms;
+    --transition-duration-normal: 0.01ms;
+    --transition-duration-slow: 0.01ms;
+    --transition-duration-ultraslow: 0.01ms;
   }
 }
 
-/* ================
-   Container Queries
-   ================ */
-@container hero (width < 768px) {
-  :root {
-    --hero-padding-block: 
-      clamp(2.5rem, 5vh, 4rem)
-      clamp(1.25rem, 4vh, 2.5rem);
-    --hero-heading-size: clamp(2rem, 5vw, 3rem);
-    --hero-gradient-angle: 90deg;
-  }
-}
+/* ==========================================================================
+   5. Print Adjustments
+   ========================================================================== */
 
-/* ================
-   Print Adjustments
-   ================ */
 @media print {
   :root {
-    --hero-text: black;
-    --hero-bg: white;
-    --hero-shadow: none;
-    --hero-glow-opacity: 0;
+    --color-text: black;
+    --color-background: white;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
   }
 }

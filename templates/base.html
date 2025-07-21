@@ -1,363 +1,657 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth no-js" data-theme="system">
+<html lang="en" class="scroll-smooth" data-theme="system">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   
   <title>{% block title %}Rules Central{% endblock title %}</title>
   <meta name="description" content="{% block description %}Centralized rules management system{% endblock description %}">
 
-  {# --- Progressive theme colors for OS chrome --- #}
-  <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1A1A1E" media="(prefers-color-scheme: dark)">
+  <!-- Theme colors for browser chrome -->
+  <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#60a5fa" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
 
-  {# --- SEO hooks --- #}
+  <!-- SEO and Open Graph -->
   {% block seo %}
     <link rel="canonical" href="{{ request.url }}">
-    <meta property="og:title" content="Rules Central">
-    <meta property="og:description" content="Centralized rules management system">
+    <meta property="og:title" content="{% block og_title %}Rules Central{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Centralized rules management system{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png') }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Rules Central{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Centralized rules management system{% endblock %}">
   {% endblock seo %}
 
-  {# --- Favicon (modern approach) --- #}
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  <!-- Modern favicon approach -->
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
   <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
-  {# --- Preload critical resources --- #}
-  <link rel="preload" href="{{ url_for('static', filename='css/output.css') }}" as="style">
-  <link rel="preload" href="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" as="image" type="image/png">
+  <!-- Critical resource preloads -->
+  <link rel="preload" href="{{ url_for('static', filename='fonts/inter.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='css/critical.css') }}" as="style">
+  <link rel="preload" href="{{ url_for('static', filename='images/RulesCentralLogo.svg') }}" as="image" type="image/svg+xml">
 
-  {# --- Main CSS --- #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}" media="print" onload="this.media='all'">
+  <!-- Critical CSS (inlined for performance) -->
+  <style>
+    /* CSS Custom Properties */
+    :root {
+      --color-primary: #3b82f6;
+      --color-primary-hover: #2563eb;
+      --color-text: #1f2937;
+      --color-text-secondary: #6b7280;
+      --color-bg: #ffffff;
+      --color-surface: #f9fafb;
+      --color-border: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --radius: 0.5rem;
+      --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --nav-height: 4rem;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-  {# --- Page-specific additions --- #}
+    [data-theme="dark"] {
+      --color-primary: #60a5fa;
+      --color-primary-hover: #3b82f6;
+      --color-text: #f9fafb;
+      --color-text-secondary: #d1d5db;
+      --color-bg: #111827;
+      --color-surface: #1f2937;
+      --color-border: #374151;
+    }
+
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: var(--transition);
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -3rem;
+      left: 1rem;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    [data-theme="dark"] .nav {
+      background-color: rgba(17, 24, 39, 0.8);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .nav-brand-logo {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
+
+    /* Utility classes */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-bg);
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--color-surface);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+  </style>
+
+  <!-- Non-critical CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></noscript>
+
   {% block meta %}{% endblock meta %}
   {% block head %}{% endblock head %}
   {% block styles %}{% endblock styles %}
 
-  {# --- Critical inline theme script --- #}
+  <!-- Critical theme script -->
   <script>
-  (function() {
-    var STORAGE_KEY = 'rc-theme';
-    var d = document.documentElement;
-    d.classList.remove('no-js');
+    (function() {
+      const STORAGE_KEY = 'rc-theme';
+      const html = document.documentElement;
+      
+      // Remove no-js class if present
+      html.classList.remove('no-js');
 
-    function apply(t) {
-      d.classList.toggle('dark', t === 'dark');
-      d.classList.toggle('contrast', t === 'contrast');
-      d.dataset.theme = t;
-    }
+      function applyTheme(theme) {
+        html.dataset.theme = theme;
+        html.classList.toggle('dark', theme === 'dark');
+      }
 
-    var t = localStorage.getItem(STORAGE_KEY) || 'system';
-    if (t === 'system') {
-      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    apply(t);
+      try {
+        let theme = localStorage.getItem(STORAGE_KEY) || 'system';
+        
+        if (theme === 'system') {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        
+        applyTheme(theme);
 
-    // Watch system changes if user selected 'system'
-    if (localStorage.getItem(STORAGE_KEY) === 'system') {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        apply(e.matches ? 'dark' : 'light');
-      });
-    }
-  })();
+        // Listen for system theme changes
+        if (localStorage.getItem(STORAGE_KEY) === 'system') {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            applyTheme(e.matches ? 'dark' : 'light');
+          });
+        }
+      } catch (e) {
+        // Fallback to light theme if localStorage is unavailable
+        applyTheme('light');
+      }
+    })();
   </script>
-
-  {# --- Critical CSS fallback --- #}
-  <style>
-    /* Layout fallback */
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
-    }
-    main {
-      flex: 1;
-    }
-    .skip-link {
-      position: absolute;
-      top: -3rem;
-      left: 0;
-      background: #000;
-      color: white;
-      padding: 0.5rem 1rem;
-      z-index: 1000;
-    }
-    .skip-link:focus {
-      top: 0;
-    }
-    /* Temporary nav positioning */
-    .rc-nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 50;
-    }
-    main {
-      padding-top: 4rem;
-    }
-  </style>
 </head>
 
-<body class="bg-background text-text min-h-screen flex flex-col">
+<body>
   <!-- Skip to content -->
-  <a href="#main-content" class="skip-link">Skip to content</a>
-  <div id="scroll-progress" class="h-1 bg-primary/50 fixed top-0 left-0 w-0 z-50"></div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Progress bar -->
+  <div id="scroll-progress" style="position: fixed; top: 0; left: 0; width: 0; height: 2px; background: var(--color-primary); z-index: 100; transition: width 0.1s ease;"></div>
+
   {% block body_start %}{% endblock body_start %}
 
-  {# ================= NAVIGATION ================= #}
-  <nav id="rc-nav" class="rc-nav" role="navigation" aria-label="Main navigation">
-    <div class="rc-nav-inner rc-container">
-      {# Brand #}
-      <button id="mobile-menu-btn" type="button" class="btn btn-ghost p-2 md:hidden" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-bars-3"/></svg>
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-btn" 
+              type="button" 
+              class="btn md:hidden" 
+              aria-label="Toggle navigation menu" 
+              aria-controls="mobile-menu" 
+              aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
       </button>
-      <a href="{{ url_for('main.index') }}" class="rc-brand" aria-label="Rules Central Home">
-        <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}"
-             alt=""
-             width="120"
-             height="24"
-             class="rc-brand-logo"
-             loading="eager"
-             decoding="async">
-        <span class="rc-brand-name">Rules Central</span>
+
+      <!-- Brand -->
+      <a href="{{ url_for('main.index') }}" class="nav-brand">
+        <svg class="nav-brand-logo" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+          <circle cx="16" cy="16" r="12" fill="var(--color-primary)"/>
+          <path d="M12 16l4 4 8-8" stroke="white" stroke-width="2" fill="none"/>
+        </svg>
+        <span>Rules Central</span>
       </a>
 
-      {# Desktop Navigation #}
-      <ul class="rc-nav-links" role="menubar">
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-1" role="menubar">
         {% set nav_items = [
-          ('main.index', 'Dashboard', 'dashboard'),
-          ('main.catalog', 'Catalog', 'catalog'),
-          ('main.search', 'Search', 'search'),
-          ('routes.full_help', 'Docs', 'documentation'),
-          ('upload.upload_file', 'Upload', 'upload'),
-          ('diagrams.diagram_converter', 'Converter', 'converter')
+          ('main.index', 'Dashboard'),
+          ('main.catalog', 'Catalog'),
+          ('main.search', 'Search'),
+          ('routes.full_help', 'Docs'),
+          ('upload.upload_file', 'Upload')
         ] %}
         
-        {% for route, label, aria_desc in nav_items %}
+        {% for route, label in nav_items %}
           <li role="none">
             <a href="{{ url_for(route) }}"
-               class="rc-nav-link {% if request.path == url_for(route) %}active{% endif %}"
+               class="btn {% if request.path == url_for(route) %}btn-primary{% endif %}"
                {% if request.path == url_for(route) %}aria-current="page"{% endif %}
-               role="menuitem"
-               aria-describedby="{{ aria_desc }}-desc">
+               role="menuitem">
               {{ label }}
             </a>
           </li>
         {% endfor %}
       </ul>
 
-      {# Actions #}
-      <div class="rc-nav-actions">
+      <!-- Actions -->
+      <div class="flex items-center gap-2">
+        <!-- User menu or auth buttons -->
         {% if current_user.is_authenticated %}
-          <div class="rc-user" data-user-menu>
-            <button class="rc-user-btn" 
+          <div class="relative" data-user-menu>
+            <button class="btn flex items-center gap-2" 
                     type="button" 
                     aria-haspopup="true" 
                     aria-expanded="false"
-                    aria-label="User menu">
-              <span class="rc-user-name">{{ current_user.username }}</span>
+                    aria-label="User menu for {{ current_user.username }}">
               <img src="{{ current_user.avatar_url or url_for('static', filename='images/default-avatar.png') }}"
                    alt=""
-                   class="rc-user-avatar"
-                   width="32"
-                   height="32"
-                   loading="lazy"
-                   decoding="async">
+                   class="w-6 h-6 rounded-full"
+                   width="24"
+                   height="24"
+                   loading="lazy">
+              <span class="hidden sm:inline">{{ current_user.username }}</span>
             </button>
-            <div class="rc-user-menu" role="menu" hidden>
-              <a href="{{ url_for('user_routes.profile') }}" role="menuitem">Profile</a>
-              <a href="{{ url_for('auth.logout') }}" role="menuitem" class="rc-user-signout">Sign Out</a>
-            </div>
+            <!-- User dropdown would be here -->
           </div>
         {% else %}
-          <div class="rc-auth-buttons">
-            <a href="{{ url_for('auth.login') }}" class="rc-nav-auth rc-nav-auth--login">Log In</a>
-            <a href="{{ url_for('auth.register') }}" class="rc-nav-auth rc-nav-auth--signup">Sign Up</a>
+          <div class="flex items-center gap-2">
+            <a href="{{ url_for('auth.login') }}" class="btn">Log In</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign Up</a>
           </div>
         {% endif %}
 
-        {# Theme Toggle #}
-        <button id="helpButton" class="btn btn-ghost flex items-center gap-1" type="button" aria-haspopup="dialog" aria-controls="quickHelpModal">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-question-mark-circle"/></svg>
-          <span class="sr-only">Quick Help</span>
-        </button>
-        <button id="theme-toggle" class="rc-theme-toggle" aria-label="Toggle theme">
-          <svg class="rc-theme-ico" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="6" class="rc-theme-sun" />
-            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" class="rc-theme-rays" />
+        <!-- Theme toggle -->
+        <button id="theme-toggle" 
+                class="btn" 
+                type="button"
+                aria-label="Toggle dark mode"
+                title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
         </button>
 
-        {# Mobile Toggle #}
-        <button id="rc-nav-mobile-toggle" class="rc-nav-mobile-toggle" aria-label="Menu" aria-expanded="false">
-          <span class="rc-nav-mobile-bars"></span>
+        <!-- Help button -->
+        <button id="help-btn" 
+                class="btn" 
+                type="button"
+                aria-label="Open help"
+                title="Help (?)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <point cx="12" cy="17"/>
+          </svg>
         </button>
       </div>
     </div>
 
-    {# Mobile Menu #}
-    <div id="rc-nav-mobile-drawer" class="rc-nav-mobile-drawer" hidden>
-      <div class="rc-nav-mobile-inner rc-container">
-        <ul class="rc-nav-mobile-list" role="menu">
-          {% for route, label, aria_desc in nav_items %}
-            <li role="none">
-              <a href="{{ url_for(route) }}"
-                 class="rc-nav-mobile-link {% if request.path == url_for(route) %}active{% endif %}"
-                 role="menuitem">
-                {{ label }}
-              </a>
-            </li>
-          {% endfor %}
-          
-          {% if current_user.is_authenticated %}
-            <li role="separator"></li>
-            <li role="none"><a href="{{ url_for('user_routes.profile') }}" role="menuitem">Profile</a></li>
-            <li role="none"><a href="{{ url_for('auth.logout') }}" role="menuitem" class="rc-nav-mobile-signout">Sign Out</a></li>
-          {% else %}
-            <li role="separator"></li>
-            <li role="none"><a href="{{ url_for('auth.login') }}" role="menuitem">Log In</a></li>
-            <li role="none"><a href="{{ url_for('auth.register') }}" role="menuitem" class="rc-nav-mobile-signup">Sign Up</a></li>
-          {% endif %}
-        </ul>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" 
+         class="md:hidden bg-white border-t border-gray-200 hidden"
+         role="menu"
+         aria-orientation="vertical">
+      <div class="px-4 py-2 space-y-1">
+        {% for route, label in nav_items %}
+          <a href="{{ url_for(route) }}"
+             class="block px-3 py-2 rounded-md text-base font-medium {% if request.path == url_for(route) %}bg-blue-50 text-blue-700{% else %}text-gray-700 hover:bg-gray-50{% endif %}"
+             role="menuitem">
+            {{ label }}
+          </a>
+        {% endfor %}
       </div>
     </div>
   </nav>
 
-  {# ================= MAIN CONTENT ================= #}
-  <main id="main-content">
-    {% block breadcrumbs %}{% include 'partials/breadcrumbs.html' %}{% endblock %}
-    {% block content %}{% endblock content %}
+  <!-- Main content -->
+  <main id="main-content" tabindex="-1">
+    {% block breadcrumbs %}{% endblock %}
+    {% block content %}
+      <div style="padding: 2rem; text-align: center;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">Welcome to Rules Central</h1>
+        <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Your centralized rules management system</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="{{ url_for('main.catalog') }}" class="btn btn-primary">Browse Catalog</a>
+          <a href="{{ url_for('upload.upload_file') }}" class="btn">Upload Rules</a>
+        </div>
+      </div>
+    {% endblock content %}
   </main>
 
+  <!-- Footer -->
+  <footer style="background: var(--color-surface); border-top: 1px solid var(--color-border); padding: 2rem 1rem 1rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <div class="nav-brand" style="margin-bottom: 1rem;">
+            <svg class="nav-brand-logo" viewBox="0 0 32 32" fill="currentColor">
+              <circle cx="16" cy="16" r="12" fill="var(--color-primary)"/>
+              <path d="M12 16l4 4 8-8" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+            <span>Rules Central</span>
+          </div>
+          <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Powerful rule hierarchy management for modern teams.</p>
+        </div>
 
-  {# ================= FOOTER ================= #}
-  <footer class="rc-footer">
-    <div class="rc-footer-inner rc-container">
-      <div class="rc-footer-brand">
-        <a href="{{ url_for('main.index') }}" class="rc-footer-brand-link">
-          <img src="{{ url_for('static', filename='images/RulesCentralLogo.png') }}" 
-               alt="Rules Central"
-               width="160"
-               height="48"
-               loading="lazy"
-               decoding="async">
-        </a>
-        <p class="rc-footer-tagline">Powerful rule hierarchy management.</p>
-      </div>
-
-      <div class="rc-footer-columns">
         <nav aria-labelledby="footer-product">
-          <h3 id="footer-product">Product</h3>
-          <ul>
-            <li><a href="{{ url_for('main.catalog') }}">Catalog</a></li>
-            <li><a href="{{ url_for('main.search') }}">Search</a></li>
-            <li><a href="{{ url_for('upload.upload_file') }}">Upload</a></li>
+          <h3 id="footer-product" style="font-weight: 600; margin-bottom: 1rem;">Product</h3>
+          <ul style="list-style: none; padding: 0; margin: 0; space-y: 0.5rem;">
+            <li><a href="{{ url_for('main.catalog') }}" style="color: var(--color-text-secondary); text-decoration: none;">Catalog</a></li>
+            <li><a href="{{ url_for('main.search') }}" style="color: var(--color-text-secondary); text-decoration: none;">Search</a></li>
+            <li><a href="{{ url_for('upload.upload_file') }}" style="color: var(--color-text-secondary); text-decoration: none;">Upload</a></li>
           </ul>
         </nav>
 
-        <nav aria-labelledby="footer-resources">
-          <h3 id="footer-resources">Resources</h3>
-          <ul>
-            <li><a href="{{ url_for('routes.full_help') }}">Documentation</a></li>
-            <li><a href="{{ url_for('main.contact') }}">Support</a></li>
-            <li><a href="{{ url_for('upload.upload_file') }}">Get Started</a></li>
-          </ul>
-        </nav>
-
-        <nav aria-labelledby="footer-legal">
-          <h3 id="footer-legal">Legal</h3>
-          <ul>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Cookie Policy</a></li>
+        <nav aria-labelledby="footer-support">
+          <h3 id="footer-support" style="font-weight: 600; margin-bottom: 1rem;">Support</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li><a href="{{ url_for('routes.full_help') }}" style="color: var(--color-text-secondary); text-decoration: none;">Documentation</a></li>
+            <li><a href="{{ url_for('main.contact') }}" style="color: var(--color-text-secondary); text-decoration: none;">Contact</a></li>
+            <li><a href="{{ url_for('main.catalog') }}" style="color: var(--color-text-secondary); text-decoration: none;">Tutorials</a></li>
           </ul>
         </nav>
       </div>
-    </div>
 
-    <div class="rc-footer-bottom rc-container">
-      <p>&copy; <span id="current-year">{{ current_year|default('2023') }}</span> Rules Central. All rights reserved.</p>
-      <div class="rc-footer-social">
-        <a href="https://github.com" aria-label="GitHub">
-          <svg aria-hidden="true" focusable="false"><use href="#icon-github"></use></svg>
-        </a>
-        <a href="https://twitter.com" aria-label="Twitter">
-          <svg aria-hidden="true" focusable="false"><use href="#icon-twitter"></use></svg>
-        </a>
+      <div style="padding-top: 1rem; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <p style="color: var(--color-text-secondary); font-size: 0.875rem; margin: 0;">
+          &copy; <span id="current-year">{{ current_year|default('2025') }}</span> Rules Central. All rights reserved.
+        </p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="{{ url_for('main.search') }}" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.875rem;">Privacy</a>
+          <a href="{{ url_for('main.index') }}" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.875rem;">Terms</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  {# ================= SCRIPTS ================= #}
-  {% include 'partials/feedback_widget.html' %}
-  {% block body_end %}{% endblock body_end %}
-<div id="quickHelpModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
-  <div class="bg-surface-1 w-full max-w-md mx-4 rounded-lg shadow-lg">
-    <header class="flex items-center justify-between px-4 py-3 border-b border-surface-3">
-      <h2 class="text-base font-semibold">Quick Help</h2>
-      <button id="closeHelpModal" class="btn btn-ghost p-1" aria-label="Close help dialog">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
-      </button>
-    </header>
-    <div class="p-4 space-y-3 text-sm leading-relaxed">
-      <p>Welcome to Rules Central! Here are a few common shortcuts:</p>
-      <ul class="list-disc list-inside space-y-1">
-        <li><kbd class="kbd">/</kbd> to focus the global search</li>
-        <li><kbd class="kbd">?</kbd> anywhere to reopen this help</li>
-        <li><kbd class="kbd">⌘</kbd><kbd>←/→</kbd> to collapse / expand all nodes</li>
-      </ul>
-      <p class="pt-2 text-text-tertiary">Need deeper docs? Visit <a href="{{ url_for('routes.full_help') }}" class="link">Documentation</a>.</p>
+  <!-- Toast notifications -->
+  <div id="toast-container" 
+       style="position: fixed; bottom: 1rem; right: 1rem; z-index: 100; display: flex; flex-direction: column; gap: 0.5rem;"
+       aria-live="polite" 
+       aria-label="Notifications"></div>
+
+  <!-- Help modal -->
+  <div id="help-modal" 
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+       role="dialog" 
+       aria-labelledby="help-title" 
+       aria-modal="true">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4" style="background: var(--color-bg);">
+      <header class="flex items-center justify-between p-4 border-b" style="border-color: var(--color-border);">
+        <h2 id="help-title" style="font-weight: 600; margin: 0;">Quick Help</h2>
+        <button id="close-help" class="btn" aria-label="Close help dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+      <div class="p-4">
+        <p style="margin-bottom: 1rem;">Welcome to Rules Central! Here are some helpful shortcuts:</p>
+        <ul style="list-style: none; padding: 0; margin: 0; space-y: 0.5rem;">
+          <li style="display: flex; align-items: center; gap: 0.5rem;">
+            <kbd style="background: var(--color-surface); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.75rem;">/</kbd>
+            <span style="font-size: 0.875rem;">Focus search</span>
+          </li>
+          <li style="display: flex; align-items: center; gap: 0.5rem;">
+            <kbd style="background: var(--color-surface); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.75rem;">?</kbd>
+            <span style="font-size: 0.875rem;">Toggle this help</span>
+          </li>
+          <li style="display: flex; align-items: center; gap: 0.5rem;">
+            <kbd style="background: var(--color-surface); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.75rem;">Esc</kbd>
+            <span style="font-size: 0.875rem;">Close dialogs</span>
+          </li>
+        </ul>
+        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-secondary);">
+          For comprehensive documentation, visit <a href="{{ url_for('routes.full_help') }}" style="color: var(--color-primary); text-decoration: none;">our docs</a>.
+        </p>
+      </div>
     </div>
   </div>
-</div>
 
-  {# SVG Sprite for icons #}
-  <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <symbol id="icon-github" viewBox="0 0 16 16">
-        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-      </symbol>
-      <symbol id="icon-twitter" viewBox="0 0 24 24">
-        <path d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.936 4.936 0 0 0 4.604 3.417 9.867 9.867 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0 0 24 4.59z"/>
-      </symbol>
-    </defs>
-  </svg>
-
-  {# JavaScript #}
+  <!-- JavaScript -->
   <script>
-    // Dynamic year update
+    // Update current year
     document.getElementById('current-year').textContent = new Date().getFullYear();
-    
-    // Load CSS asynchronously fallback
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('css-loaded') === null) {
-      document.querySelector('link[rel="stylesheet"]').onload = function() {
-        localStorage.setItem('css-loaded', 'true');
-      };
+
+    // Scroll progress
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min((scrollTop / docHeight) * 100, 100);
+      document.getElementById('scroll-progress').style.width = `${progress}%`;
     }
+    
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.dataset.theme;
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.dataset.theme = newTheme;
+        document.documentElement.classList.toggle('dark', newTheme === 'dark');
+        
+        try {
+          localStorage.setItem('rc-theme', newTheme);
+        } catch (e) {
+          // Handle localStorage errors gracefully
+        }
+      });
+    }
+
+    // Help modal
+    const helpBtn = document.getElementById('help-btn');
+    const helpModal = document.getElementById('help-modal');
+    const closeHelp = document.getElementById('close-help');
+
+    function openHelp() {
+      helpModal.classList.remove('hidden');
+      helpModal.setAttribute('aria-hidden', 'false');
+      closeHelp.focus();
+    }
+
+    function closeHelpModal() {
+      helpModal.classList.add('hidden');
+      helpModal.setAttribute('aria-hidden', 'true');
+      helpBtn.focus();
+    }
+
+    if (helpBtn) {
+      helpBtn.addEventListener('click', openHelp);
+    }
+
+    if (closeHelp) {
+      closeHelp.addEventListener('click', closeHelpModal);
+    }
+
+    // Click outside to close modal
+    helpModal?.addEventListener('click', (e) => {
+      if (e.target === helpModal) {
+        closeHelpModal();
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Help shortcut (?)
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        if (helpModal.classList.contains('hidden')) {
+          openHelp();
+        } else {
+          closeHelpModal();
+        }
+      }
+      
+      // Close modal on Escape
+      if (e.key === 'Escape') {
+        if (!helpModal.classList.contains('hidden')) {
+          closeHelpModal();
+        }
+      }
+
+      // Focus search on '/'
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const searchInput = document.querySelector('input[type="search"], input[name="search"]');
+        if (searchInput && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      }
+    });
+
+    // Toast notification system
+    function showToast(message, type = 'info', duration = 5000) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm';
+      toast.style.cssText = `
+        background: var(--color-bg);
+        border-color: var(--color-border);
+        animation: slideInRight 0.3s ease;
+      `;
+      
+      const colors = {
+        success: 'var(--color-primary)',
+        error: '#ef4444',
+        warning: '#f59e0b',
+        info: 'var(--color-primary)'
+      };
+
+      toast.innerHTML = `
+        <div style="display: flex; align-items: start; gap: 0.75rem;">
+          <div style="width: 4px; height: 20px; background: ${colors[type]}; border-radius: 2px;"></div>
+          <div style="flex: 1;">
+            <p style="margin: 0; font-size: 0.875rem; line-height: 1.4;">${message}</p>
+          </div>
+          <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; cursor: pointer; padding: 0; color: var(--color-text-secondary);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      // Auto remove after duration
+      if (duration > 0) {
+        setTimeout(() => {
+          toast.style.animation = 'slideOutRight 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      }
+    }
+
+    // Expose toast function globally
+    window.showToast = showToast;
+
+    // Add slide animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 
-    {% block scripts %}
-      <script type="module" defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
-      <script type="module" defer src="{{ url_for('static', filename='js/navigation.js') }}"></script>
-      <script defer src="{{ url_for('static', filename='js/user_tour.js') }}"></script>
-<div id="notificationToast" class="fixed bottom-4 left-1/2 -translate-x-1/2 max-w-xs w-full pointer-events-none z-50 hidden">
-  <div class="flex items-start gap-2 rounded border border-surface-3 bg-surface-1 px-4 py-3 shadow-lg">
-    <svg class="w-5 h-5 shrink-0 text-primary" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-bell"/></svg>
-    <p data-toast-msg class="text-sm leading-snug flex-1"></p>
-    <button type="button" class="btn btn-ghost p-1 -m-1" aria-label="Dismiss toast">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5"><use href="#icon-x-mark"/></svg>
-    </button>
-  </div>
-</div>
-  {% endblock scripts %}
+  {% block scripts %}{% endblock scripts %}
 </body>
 </html>

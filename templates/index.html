@@ -1,386 +1,451 @@
-{% extends "base.html" %}
-
-{% block title %}Dashboard | Rules Central{% endblock title %}
-{% block description %}Centralized rules management system dashboard.{% endblock description %}
-
-{% set _updated = (
-    last_updated
-    if (last_updated is defined and last_updated)
-    else (
-        stats.generated_at
-        if (stats is defined and stats and 'generated_at' in stats)
-        else None
-    )
-) %}
-
-{% block content %}
-
-{# ============================================================
-   HERO (Index / Dashboard landing)
-   ============================================================ #}
-<section id="rc-hero" class="rc-hero rc-hero--dashboard" role="region" aria-labelledby="rc-hero-title">
-  <div class="rc-hero-bg" aria-hidden="true"></div>
-  <div class="rc-hero-glow" aria-hidden="true"></div>
-
-  <div class="rc-hero-inner">
-    <div class="rc-hero-badge-wrap">
-      <span class="rc-hero-badge">
-        <span class="rc-hero-badge-dot" aria-hidden="true"></span>
-        <span class="rc-hero-badge-text">Rules Management Dashboard</span>
-      </span>
-    </div>
-
-    <h1 id="rc-hero-title" class="rc-hero-title">Rules Central</h1>
-
-    <p class="rc-hero-subtitle">
-      Manage your rules effortlessly with real-time insights, key metrics, and streamlined workflows.
-    </p>
-
-    <div class="rc-hero-actions">
-      <a href="{{ url_for('routes.config_page') }}" class="rc-btn rc-btn-primary" aria-label="Create new rule">New Rule</a>
-      <a href="{{ url_for('main.catalog') }}" class="rc-btn rc-btn-outline" aria-label="View rule catalog">View Catalog</a>
-      <a href="#quick-actions" class="rc-btn rc-btn-text">Quick Tour</a>
-    </div>
-<header class="flex items-center justify-between mb-6">
-  <h1 class="text-2xl font-bold">Dashboard</h1>
-  <time id="current-time" class="text-sm text-text-tertiary tracking-wider" datetime="">--:--</time>
-</header>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-  <div class="card bg-surface-2 p-4 rounded shadow">
-    <h3 class="text-sm font-medium text-text-secondary">Total Rules</h3>
-    <p id="totalRules" class="text-2xl font-semibold">0</p>
-  </div>
-  <div class="card bg-surface-2 p-4 rounded shadow">
-    <h3 class="text-sm font-medium text-text-secondary">Diagrams</h3>
-    <p id="diagramsProcessed" class="text-2xl font-semibold">0</p>
-  </div>
-  <div class="card bg-surface-2 p-4 rounded shadow">
-    <h3 class="text-sm font-medium text-text-secondary">Active Rules</h3>
-    <p id="activeRulesCount" class="text-2xl font-semibold">0</p>
-  </div>
-  <div id="recentActivity" class="col-span-2 md:col-span-3 space-y-2"></div>
-</div>
-
-
-
-{# ============================================================
-   METRICS
-   ============================================================ #}
-<section id="metrics" class="wrapper rc-container rc-section rc-metrics">
-  <div class="rc-section-head">
-    <h2 class="rc-section-title">
-      <span aria-hidden="true" class="rc-section-ico">📈</span>
-      Key Metrics
-    </h2>
-    <div class="rc-section-sub">
-      <span aria-hidden="true">🕒</span>
-      Last updated:
-      <span class="font-medium">
-        {% if _updated %}
-          {{ _updated.strftime('%b %d, %Y %I:%M %p') if _updated.__class__.__name__ in ['datetime','date'] else _updated }}
-        {% else %}—{% endif %}
-      </span>
-      <button id="rc-metrics-refresh" type="button" class="rc-mini-btn" aria-label="Refresh metrics">Refresh</button>
-    </div>
-  </div>
-
-  {# Metric card macro -------------------------------------- #}
-  {% macro mcard(label, value, accent='', link=None, svg=None, trend=None) %}
-    <div class="rc-card rc-metric {{ accent }} {% if link %}rc-card-link{% endif %}">
-      {% if link %}
-        <a href="{{ link }}" class="absolute inset-0 z-10 sr-only-focusable" aria-label="{{ label }}"></a>
-      {% endif %}
-      <div class="rc-metric-body">
-        <div class="rc-metric-top">
-          <div>
-            <p class="rc-metric-label">{{ label }}</p>
-            <p class="rc-metric-value">{{ value|default(0) }}</p>
-          </div>
-          <div class="rc-metric-icon">
-            {% if svg %}{{ svg|safe }}{% else %}<span aria-hidden="true">•</span>{% endif %}
-          </div>
-        </div>
-        {% if trend is not none %}
-          {% if trend is mapping %}
-            {% set pct = trend.get('pct', 0) %}
-            {% set up = trend.get('is_up', pct >= 0) %}
-            <p class="rc-metric-trend {{ 'rc-metric-up' if up else 'rc-metric-down' }}">{{ pct|round(1) }}% vs previous</p>
-          {% else %}
-            <p class="rc-metric-trend">{{ trend }}</p>
-          {% endif %}
-        {% else %}
-          <p class="rc-metric-trend rc-metric-trend-empty" aria-hidden="true">&nbsp;</p>
-        {% endif %}
-      </div>
-    </div>
-  {% endmacro %}
-
-  {# Small SVG icon snippets -------------------------------- #}
-  {% set svg_rules %}
-    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" rx="1"/>
-      <rect x="14" y="3" width="7" height="7" rx="1"/>
-      <rect x="14" y="14" width="7" height="7" rx="1"/>
-      <rect x="3" y="14" width="7" height="7" rx="1"/>
-    </svg>
-  {% endset %}
-  {% set svg_cal %}
-    <svg viewBox="0 0 24 24" class="rc-ico" fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <line x1="16" y1="2" x2="16" y2="6"/>
-      <line x1="8"  y1="2" x2="8"  y2="6"/>
-      <line x1="3"  y1="10" x2="21" y2="10"/>
-      <path d="M8 14h2v2H8zM12 14h2v2h-2zM16 14h2v2h-2z"/>
-    </svg>
-  {% endset %}
-
-  <div class="rc-metrics-grid" aria-live="polite" aria-atomic="true">
-    {{ mcard('Total Rules',
-             stats.total_rules if stats and 'total_rules' in stats else 0,
-             'rc-accent-primary',
-             url_for('main.catalog'),
-             svg_rules) }}
-
-    {{ mcard('Changed · 7 Days',
-             stats.changed_7d if stats and 'changed_7d' in stats else 0,
-             'rc-accent-amber',
-             url_for('main.catalog') ~ '?range=7d',
-             svg_cal,
-             stats.trend_7d if stats and 'trend_7d' in stats else None) }}
-
-    {{ mcard('Changed · 30 Days',
-             stats.changed_30d if stats and 'changed_30d' in stats else 0,
-             'rc-accent-rose',
-             url_for('main.catalog') ~ '?range=30d',
-             svg_cal,
-             stats.trend_30d if stats and 'trend_30d' in stats else None) }}
-
-    {{ mcard('Changed · 90 Days',
-             stats.changed_90d if stats and 'changed_90d' in stats else 0,
-             'rc-accent-indigo',
-             url_for('main.catalog') ~ '?range=90d',
-             svg_cal,
-             stats.trend_90d if stats and 'trend_90d' in stats else None) }}
-  </div>
-</section>
-
-
-{# ============================================================
-   TREND + RECENT ACTIVITY
-   ============================================================ #}
-<section class="wrapper rc-container rc-section rc-trend-activity">
-  <div class="rc-trend-activity-grid">
-    <!-- Trend -->
-    <section aria-labelledby="trend-heading" class="rc-trend-col rc-card rc-surface-1">
-      <div class="rc-section-head rc-section-head-split">
-        <h2 id="trend-heading" class="rc-section-title">
-          <span aria-hidden="true" class="rc-section-ico">📊</span>
-          Rule Change Trends
-        </h2>
-        <div class="rc-toggle-pill" role="group" aria-label="Select time range for trend chart">
-          <button data-range="30d" class="rc-toggle active" type="button" aria-pressed="true">30D</button>
-          <button data-range="90d" class="rc-toggle" type="button" aria-pressed="false">90D</button>
-          <button data-range="1y"  class="rc-toggle" type="button" aria-pressed="false">1Y</button>
-        </div>
-      </div>
-      <div class="rc-chart-wrap">
-        <canvas id="rulesTrendChart" aria-label="Rule change trends chart" role="img" height="280"></canvas>
-      </div>
-      <div class="rc-chart-foot">
-        <button class="rc-chart-foot-btn" data-action="export">Export</button>
-        <button class="rc-chart-foot-btn" data-action="fullscreen">Fullscreen</button>
-      </div>
-    </section>
-
-    <!-- Recent Activity -->
-    <section aria-labelledby="activity-heading" class="rc-activity-col rc-card rc-surface-1">
-      <h2 id="activity-heading" class="rc-section-title rc-section-title-sub">
-        <span aria-hidden="true" class="rc-section-ico">🕑</span>
-        Recent Activity
-      </h2>
-
-      {% macro activity_item(act) %}
-        {# act: {'action':str,'user':str,'time':str,'rule':str?, 'type':str?} #}
-        {% set icon = '🔧' %}
-        {% if act.type == 'create' %}{% set icon = '➕' %}
-        {% elif act.type == 'update' %}{% set icon = '✏️' %}
-        {% elif act.type == 'delete' %}{% set icon = '🗑' %}
-        {% elif act.type == 'import' %}{% set icon = '📥' %}
-        {% elif act.type == 'approve' %}{% set icon = '✅' %}
-        {% endif %}
-        <div class="rc-activity-item">
-          <span class="rc-activity-ico" aria-hidden="true">{{ icon }}</span>
-          <div class="rc-activity-body">
-            <p class="rc-activity-text">
-              {{ act.action }}
-              {% if act.rule %}
-                <a href="{{ url_for('main.catalog') }}" class="rc-activity-link">"{{ act.rule }}"</a>
-              {% endif %}
-            </p>
-            <p class="rc-activity-meta">
-              <span>{{ act.user }}</span>
-              <span class="rc-activity-dot" aria-hidden="true">•</span>
-              <span>{{ act.time }}</span>
-            </p>
-          </div>
-        </div>
-      {% endmacro %}
-
-      <div class="rc-activity-list rc-scroll">
-        {% if activity and activity|length %}
-          {% for a in activity %}
-            {{ activity_item(a) }}
-          {% endfor %}
-        {% else %}
-          <p class="rc-activity-empty">No recent activity.</p>
-        {% endif %}
-      </div>
-
-      <div class="rc-activity-more">
-        <a href="{{ url_for('routes.activity') }}" class="rc-activity-more-link">View all activity ›</a>
-      </div>
-    </section>
-  </div>
-</section>
-
-
-{# ============================================================
-   QUICK ACTIONS
-   ============================================================ #}
-<section id="quick-actions" aria-labelledby="actions-heading" class="wrapper rc-container rc-section rc-quick-actions">
-  <h2 id="actions-heading" class="rc-section-title">
-    <span aria-hidden="true" class="rc-section-ico">⚡</span>
-    Quick Actions & Tools
-  </h2>
-
-  {% macro qa(label, desc, url, icon='›', accent='') %}
-    <a href="{{ url }}"
-       class="rc-card rc-qa-card {{ accent }}"
-       aria-label="{{ label }}">
-      <div class="rc-qa-card-inner">
-        <span class="rc-qa-ico" aria-hidden="true">{{ icon }}</span>
-        <span class="rc-qa-textwrap">
-          <span class="rc-qa-text">{{ label }}</span>
-          <span class="rc-qa-desc">{{ desc }}</span>
-        </span>
-        <span class="rc-qa-arrow" aria-hidden="true">›</span>
-      </div>
-    </a>
-  {% endmacro %}
-
-  <div class="rc-qa-grid">
-    {{ qa('Import Rules','Bulk import from CSV or Excel', url_for('upload.upload_file'),'📥','rc-qa-import') }}
-    {{ qa('Generate Diagram','Visualize rule relationships', url_for('diagrams.diagram_converter'),'🧩','rc-qa-diagram') }}
-    {{ qa('Documentation','Guides & API references', url_for('routes.full_help'),'📖','rc-qa-docs') }}
-  </div>
-</section>
-
-{% endblock content %}
-
-
-
-{# ============================================================
-   PAGE STYLES (Fallback / Scoped)
-   ============================================================ #}
-{% block styles %}
-{% endblock styles %}
-
-
-
-{# ============================================================
-   PAGE SCRIPTS
-   ============================================================ #}
-{% block scripts %}
-  {{ super() }}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* ----- Metrics Refresh ---------------------------------- */
-    const refreshBtn = document.getElementById('rc-metrics-refresh');
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => {
-        fetch('{{ url_for("main.index") }}?format=json', {headers:{'Accept':'application/json'}})
-          .then(r => r.ok ? r.json() : Promise.reject(r))
-          .then(data => {
-            if (!data.stats) return;
-            const map = {
-              'Total Rules': data.stats.total_rules ?? 0,
-              'Changed · 7 Days': data.stats.changed_7d ?? 0,
-              'Changed · 30 Days': data.stats.changed_30d ?? 0,
-              'Changed · 90 Days': data.stats.changed_90d ?? 0
-            };
-            document.querySelectorAll('.rc-metric').forEach(card => {
-              const label = card.querySelector('.rc-metric-label')?.textContent?.trim();
-              if (label in map) {
-                const el = card.querySelector('.rc-metric-value');
-                if (el) el.textContent = map[label];
-              }
-            });
-          })
-          .catch(() => {/* ignore */});
-      });
-    }
-
-    /* ----- Trend Chart ------------------------------------- */
-    const ctx = document.getElementById('rulesTrendChart');
-    if (ctx && window.Chart) {
-      const trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};
-      const {labels,counts} = (()=>{
-        const L = [], C = [];
-        (trendData||[]).forEach(d=>{
-          L.push(d.label || d.date || '');
-          C.push(d.count ?? d.value ?? 0);
-        });
-        return {labels:L,counts:C};
-      })();
-
-      const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Rule Changes',
-            data: counts,
-            borderColor: '#f43f5e',
-            backgroundColor: 'rgba(244,63,94,.15)',
-            borderWidth: 2,
-            tension: 0.3,
-            fill: true,
-            pointBackgroundColor: '#fff',
-            pointBorderColor: '#f43f5e',
-            pointBorderWidth: 2,
-            pointRadius: 3,
-            pointHoverRadius: 5
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { color: '#6b7280' } },
-            y: { grid: { color: 'rgba(229,231,235,.3)' }, ticks: { color: '#6b7280' }, beginAtZero: true }
-          }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Rules Central</title>
+    <meta name="description" content="Centralized rules management system dashboard with real-time insights and streamlined workflows.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <style>
+        /* Custom styles for enhanced visual appeal */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-      });
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .hero-glow {
+            background: radial-gradient(circle at center, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+        }
+        
+        .metric-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            box-shadow: 5px 5px 15px #d1d5db, -5px -5px 15px #ffffff;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 20px #d1d5db, -8px -8px 20px #ffffff;
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .activity-item {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .activity-item:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+            border-left-color: #667eea;
+        }
+        
+        .quick-action-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quick-action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .quick-action-card:hover::before {
+            left: 100%;
+        }
+        
+        .quick-action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Hero Section -->
+    <section class="relative gradient-bg text-white py-16 px-4 overflow-hidden">
+        <div class="hero-glow absolute inset-0"></div>
+        <div class="relative z-10 max-w-6xl mx-auto text-center">
+            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                <div class="w-2 h-2 bg-green-400 rounded-full pulse-dot mr-2"></div>
+                <span class="text-sm font-medium">Rules Management Dashboard</span>
+            </div>
+            
+            <h1 class="text-5xl font-bold mb-4 slide-in">Rules Central</h1>
+            <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto slide-in">
+                Manage your rules effortlessly with real-time insights, key metrics, and streamlined workflows.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 slide-in">
+                <button class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    New Rule
+                </button>
+                <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                    View Catalog
+                </button>
+                <button class="text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
+                    Quick Tour
+                </button>
+            </div>
+        </div>
+    </section>
 
-      document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          document.querySelectorAll('.rc-toggle-pill .rc-toggle').forEach(b=>{
-            b.classList.remove('active');
-            b.setAttribute('aria-pressed','false');
-          });
-          btn.classList.add('active');
-          btn.setAttribute('aria-pressed','true');
-          const range=btn.dataset.range;
-          // TODO: fetch new dataset for selected range; update chart.data then chart.update()
-          chart.update();
+    <!-- Time Display -->
+    <div class="max-w-6xl mx-auto px-4 pt-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+            <div id="current-time" class="text-sm text-gray-500 tracking-wider font-mono bg-white px-3 py-1 rounded-full shadow-sm">
+                --:--
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <section class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                <span class="text-2xl mr-2">📈</span>
+                Key Metrics
+            </h3>
+            <div class="flex items-center text-sm text-gray-500">
+                <span class="mr-2">🕒</span>
+                <span>Last updated: <span class="font-medium">Jan 21, 2025 2:30 PM</span></span>
+                <button id="refresh-btn" class="ml-3 px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs hover:bg-blue-200 transition-colors">
+                    Refresh
+                </button>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="metric-card rounded-xl p-6 cursor-pointer">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Total Rules</p>
+                        <p id="totalRules" class="text-3xl font-bold text-gray-800">247</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-green-600 font-medium">↗ 12% vs previous</p>
+            </div>
+            
+            <div class="metric-card rounded-xl p-6 cursor-pointer">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Changed (7 Days)</p>
+                        <p id="changed7d" class="text-3xl font-bold text-gray-800">23</p>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-red-600 font-medium">↘ 5% vs previous</p>
+            </div>
+            
+            <div class="metric-card rounded-xl p-6 cursor-pointer">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Changed (30 Days)</p>
+                        <p id="changed30d" class="text-3xl font-bold text-gray-800">89</p>
+                    </div>
+                    <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-green-600 font-medium">↗ 8% vs previous</p>
+            </div>
+            
+            <div class="metric-card rounded-xl p-6 cursor-pointer">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Active Rules</p>
+                        <p id="activeRules" class="text-3xl font-bold text-gray-800">201</p>
+                    </div>
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-green-600 font-medium">↗ 3% vs previous</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trend Chart and Recent Activity -->
+    <section class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Trend Chart -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                        <span class="text-2xl mr-2">📊</span>
+                        Rule Change Trends
+                    </h3>
+                    <div class="flex bg-gray-100 rounded-lg p-1">
+                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md bg-white text-gray-700 shadow-sm" data-range="30d">30D</button>
+                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700" data-range="90d">90D</button>
+                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700" data-range="1y">1Y</button>
+                    </div>
+                </div>
+                <div class="h-64">
+                    <canvas id="trendChart"></canvas>
+                </div>
+                <div class="flex justify-end mt-4 space-x-2">
+                    <button class="text-sm text-gray-500 hover:text-gray-700">Export</button>
+                    <button class="text-sm text-gray-500 hover:text-gray-700">Fullscreen</button>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">🕑</span>
+                    Recent Activity
+                </h3>
+                <div class="space-y-4 max-h-64 overflow-y-auto">
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-sm">➕</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-800">Created new rule "Payment Processing"</p>
+                                <p class="text-xs text-gray-500 mt-1">John Doe • 2 mins ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-sm">✏️</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-800">Updated rule "User Authentication"</p>
+                                <p class="text-xs text-gray-500 mt-1">Jane Smith • 15 mins ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-sm">📥</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-800">Imported 12 rules from CSV</p>
+                                <p class="text-xs text-gray-500 mt-1">Mike Johnson • 1 hour ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View all activity →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="max-w-6xl mx-auto px-4 mb-8">
+        <h3 class="text-lg font-semibold text-gray-700 mb-6 flex items-center">
+            <span class="text-2xl mr-2">⚡</span>
+            Quick Actions & Tools
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="quick-action-card bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 cursor-pointer border border-blue-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+                            <span class="text-2xl">📥</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Import Rules</h4>
+                        <p class="text-sm text-gray-600">Bulk import from CSV or Excel</p>
+                    </div>
+                    <span class="text-2xl text-blue-500">›</span>
+                </div>
+            </div>
+            
+            <div class="quick-action-card bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 cursor-pointer border border-purple-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+                            <span class="text-2xl">🧩</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Generate Diagram</h4>
+                        <p class="text-sm text-gray-600">Visualize rule relationships</p>
+                    </div>
+                    <span class="text-2xl text-purple-500">›</span>
+                </div>
+            </div>
+            
+            <div class="quick-action-card bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 cursor-pointer border border-green-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+                            <span class="text-2xl">📖</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Documentation</h4>
+                        <p class="text-sm text-gray-600">Guides & API references</p>
+                    </div>
+                    <span class="text-2xl text-green-500">›</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('current-time').textContent = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Initialize trend chart
+        const ctx = document.getElementById('trendChart');
+        if (ctx) {
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan 15', 'Jan 16', 'Jan 17', 'Jan 18', 'Jan 19', 'Jan 20', 'Jan 21'],
+                    datasets: [{
+                        label: 'Rule Changes',
+                        data: [12, 19, 8, 15, 25, 18, 23],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#667eea',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            border: { display: false }
+                        },
+                        y: {
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            border: { display: false },
+                            beginAtZero: true
+                        }
+                    },
+                    elements: {
+                        point: {
+                            hoverRadius: 8
+                        }
+                    }
+                }
+            });
+
+            // Trend toggle functionality
+            document.querySelectorAll('.trend-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.trend-toggle').forEach(b => {
+                        b.classList.remove('bg-white', 'text-gray-700', 'shadow-sm');
+                        b.classList.add('text-gray-500');
+                    });
+                    btn.classList.remove('text-gray-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'shadow-sm');
+                });
+            });
+        }
+
+        // Refresh button functionality
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            // Simulate data refresh with loading state
+            const btn = document.getElementById('refresh-btn');
+            btn.textContent = 'Loading...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = 'Refresh';
+                btn.disabled = false;
+                
+                // Simulate updated metrics
+                document.getElementById('totalRules').textContent = Math.floor(Math.random() * 50) + 200;
+                document.getElementById('changed7d').textContent = Math.floor(Math.random() * 20) + 10;
+                document.getElementById('changed30d').textContent = Math.floor(Math.random() * 50) + 50;
+                document.getElementById('activeRules').textContent = Math.floor(Math.random() * 40) + 180;
+            }, 1000);
         });
-      });
-    }
 
-  });
-  </script>
-{% endblock scripts %}
+        // Add hover effects to metric cards
+        document.querySelectorAll('.metric-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add click handlers to quick action cards
+        document.querySelectorAll('.quick-action-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('h4').textContent;
+                console.log(`Clicked: ${title}`);
+                // Add actual navigation logic here
+            });
+        });
+    </script>
+</body>
+</html>

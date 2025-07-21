@@ -1,0 +1,292 @@
+/* Component-specific Styles */
+
+/* User Menu */
+.rc-user {
+  position: relative;
+  display: inline-block;
+
+  &-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    border-radius: var(--radius-full);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 
+      background-color var(--transition-base),
+      transform var(--transition-base);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-stroke);
+    object-fit: cover;
+    transition: 
+      border-color var(--transition-base),
+      transform var(--transition-base);
+
+    .rc-user-btn:hover & {
+      border-color: var(--color-primary);
+    }
+  }
+
+  &-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--space-xs));
+    min-width: 12rem;
+    background-color: var(--color-background);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    padding: var(--space-xs);
+    z-index: var(--z-index-dropdown);
+    transform-origin: top right;
+    transform: scale(0.95);
+    opacity: 0;
+    visibility: hidden;
+    transition: 
+      transform var(--transition-base),
+      opacity var(--transition-base),
+      visibility var(--transition-base);
+
+    &[data-visible="true"] {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    a, button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      width: 100%;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      line-height: 1.25;
+      text-decoration: none;
+      color: var(--color-text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: 
+        background-color var(--transition-base),
+        color var(--transition-base);
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+        color: var(--color-primary);
+      }
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    &-divider {
+      height: 1px;
+      background-color: var(--color-stroke);
+      margin: var(--space-xs) 0;
+    }
+  }
+}
+
+/* Card Components */
+.rc-card {
+  position: relative;
+  background-color: var(--color-background);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-stroke);
+  overflow: hidden;
+  transition: 
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary-light);
+  }
+
+  &-header {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-stroke);
+  }
+
+  &-body {
+    padding: var(--space-md);
+  }
+
+  &-footer {
+    padding: var(--space-md);
+    border-top: 1px solid var(--color-stroke);
+    background-color: var(--color-bg-tertiary);
+  }
+
+  &-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-xs);
+    color: var(--color-text);
+  }
+
+  &-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}
+
+/* CTA Components */
+.rc-cta {
+  position: relative;
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-stroke);
+  overflow: hidden;
+  transition: 
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+    }
+  }
+
+  &-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: white;
+    border: none;
+  }
+
+  &-glow {
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      z-index: -1;
+      background: radial-gradient(
+        circle at 50% 50%, 
+        var(--color-primary) 0%, 
+        transparent 70%
+      );
+      filter: blur(16px);
+      opacity: 0.4;
+      transition: opacity var(--transition-slow);
+      border-radius: inherit;
+    }
+
+    &:hover::after {
+      opacity: 0.6;
+    }
+  }
+
+  &-content {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Metric Cards */
+.rc-metric {
+  min-height: 8.5rem;
+  position: relative;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-stroke);
+  overflow: hidden;
+
+  &-value {
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    margin: 0 0 var(--space-xs);
+    color: var(--color-text);
+  }
+
+  &-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    margin-top: var(--space-sm);
+
+    &--up {
+      color: var(--color-success);
+    }
+
+    &--down {
+      color: var(--color-error);
+    }
+  }
+}
+
+/* Accent Styles */
+.rc-accent {
+  display: inline-block;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &-primary {
+    color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  &-success {
+    color: var(--color-success);
+    background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
+  }
+
+  &-warning {
+    color: var(--color-warning);
+    background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  }
+
+  &-error {
+    color: var(--color-error);
+    background-color: color-mix(in srgb, var(--color-error) 12%, transparent);
+  }
+}

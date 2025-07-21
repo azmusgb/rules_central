@@ -74,6 +74,17 @@ api = Blueprint("api", __name__, url_prefix="/api")
 collab = Blueprint("collab", __name__, url_prefix="/collab")
 diagrams = Blueprint("diagrams", __name__, url_prefix="/diagrams")
 
+@diagrams.route("/")
+def diagrams_index() -> str:
+    """Redirect or render a page for /diagrams/ route."""
+    try:
+        # Redirect to /diagrams/diagram_converter
+        from flask import redirect, url_for
+        return redirect(url_for("diagrams.diagram_converter"))
+    except Exception as e:
+        current_app.logger.error(f"Diagrams index page error: {e}", exc_info=True)
+        abort(500, description="Failed to load diagrams index page")
+
 @diagrams.route("/diagram_converter")
 def diagram_converter() -> str:
     """Render the diagram converter page."""

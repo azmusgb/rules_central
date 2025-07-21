@@ -27,10 +27,10 @@ module.exports = (ctx) => {
       'postcss-nesting': {},
       
       // Tailwind CSS - should come before autoprefixer
-      tailwindcss: {},
+      // tailwindcss: {},
       
       // DaisyUI (if using components)
-      ...(isProduction ? { cssnano: { preset: 'default' } } : {}),
+      // ...(isProduction ? { cssnano: { preset: 'default' } } : {}),
       
       // Autoprefixer - should come after Tailwind
       autoprefixer: {
