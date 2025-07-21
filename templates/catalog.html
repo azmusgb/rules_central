@@ -324,7 +324,7 @@
   <nav class="rc-catalog-pager" role="navigation" aria-label="Pagination">
     {% set prev_disabled = page <= 1 %}
     {% set next_disabled = page >= pages %}
-    {% set base_qs = '&amp;'.join(request.query_string.decode().split('&amp;') if request.query_string else '' %}
+    {% set base_qs = '&amp;'.join(request.query_string.decode().split('&amp;') if request.query_string else []) %}
     {% macro page_link(p,label=None) %}
       {% set label = label or p %}
       <a href="{{ url_for('main.catalog', **request.args.to_dict(flat=False)) }}{% if p %}?page={{ p }}{% endif %}"

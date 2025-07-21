@@ -229,11 +229,15 @@ def _init_template_helpers(app: Flask) -> None:
     def _now() -> datetime:  # pragma: no cover - simple helper
         return datetime.now(timezone.utc)
 
+    def humanize_number(value: int) -> str:
+        """Format a number with commas as thousands separators."""
+        return f"{value:,}"
+
     if hasattr(app, "context_processor"):
 
         @app.context_processor
         def _inject_now() -> dict[str, Any]:  # noqa: D401
-            return {"now": _now}
+            return {"now": _now, "humanize_number": humanize_number}
 
         from flask_login import current_user
 
@@ -243,12 +247,14 @@ def _init_template_helpers(app: Flask) -> None:
 
     if hasattr(app, "template_global"):
         app.template_global("now")(_now)
+        app.template_filter("humanize_number")(humanize_number)
 
     # Also add the helper directly to ``jinja_env`` so it's available even
     # when context processors are bypassed (e.g. during early template
     # rendering or in edge cases).
     if hasattr(app.jinja_env, "globals"):
         app.jinja_env.globals["now"] = _now
+        app.jinja_env.filters["humanize_number"] = humanize_number
 
 
 def _register_cli(app: Flask) -> None:
