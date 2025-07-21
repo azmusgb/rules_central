@@ -3,156 +3,479 @@
 {% block title %}Dashboard | Rules Central{% endblock title %}
 {% block description %}Centralized rules management dashboard with real-time insights, modern UI, and analytics.{% endblock description %}
 
-{% block styles %}{% endblock styles %}
+{% block styles %}
+<style>
+  /* Modern color scheme */
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #f43f5e;
+    --accent: #10b981;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+  }
+</style>
+{% endblock styles %}
 
 {% block content %}
 
-  <!-- Stunning Navigation -->
-  <nav class="nav glass-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-container">
-      <a href="{{ url_for('main.index') }}" class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 32 32" fill="currentColor">
-            <circle cx="16" cy="16" r="12"/>
-            <path d="M12 16l4 4 8-8" stroke="white" stroke-width="2" fill="none"/>
+<!-- Glass Navigation Bar -->
+<nav class="glass-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="{{ url_for('main.index') }}" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+        </svg>
+      </div>
+      <span class="logo-text">Rules<span class="text-primary">Central</span></span>
+    </a>
+
+    <div class="nav-links">
+      {% set nav_items = [
+        ('main.index', 'Dashboard', 'grid'),
+        ('main.catalog', 'Catalog', 'list'),
+        ('main.search', 'Search', 'search'),
+        ('routes.full_help', 'Docs', 'book'),
+        ('upload.upload_file', 'Upload', 'upload')
+      ] %}
+      {% for route, label, icon in nav_items %}
+      <a href="{{ url_for(route) }}" 
+         class="nav-link {% if request.path == url_for(route) %}active{% endif %}"
+         {% if request.path == url_for(route) %}aria-current="page"{% endif %}>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          {% if icon == 'grid' %}
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          {% elif icon == 'list' %}
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          {% elif icon == 'search' %}
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          {% elif icon == 'book' %}
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          {% elif icon == 'upload' %}
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          {% endif %}
+        </svg>
+        <span class="nav-link-text">{{ label }}</span>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="nav-actions">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      </button>
+      
+      {% if current_user.is_authenticated %}
+      <div class="user-dropdown">
+        <button class="user-avatar" aria-label="User menu">
+          <img src="{{ url_for('static', filename='images/avatar-default.svg') }}" alt="User avatar">
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">Profile</a>
+          <a href="#" class="dropdown-item">Settings</a>
+          <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
+        </div>
+      </div>
+      {% else %}
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Sign In</a>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="dashboard-container">
+  <!-- Hero Section -->
+  <section class="dashboard-hero">
+    <div class="hero-content">
+      <span class="hero-badge">
+        <span class="badge-dot animate-pulse"></span>
+        Version 2.0 Released
+      </span>
+      <h1 class="hero-title">Rules Management <span class="text-gradient">Simplified</span></h1>
+      <p class="hero-text">
+        Real-time insights, key metrics, and streamlined workflows—all in one modern dashboard.
+      </p>
+      <div class="hero-actions">
+        <a href="{{ url_for('routes.config_page') }}" class="btn btn-primary btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          Create Rule
+        </a>
+        <a href="{{ url_for('main.catalog') }}" class="btn btn-outline">
+          Explore Catalog
+        </a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-label">Total Rules</span>
+            <span class="stat-value">{{ stats.total_rules if stats else 0 }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-label">Active Rules</span>
+            <span class="stat-value">{{ stats.active_rules if stats else 0 }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image-container">
+        <img src="{{ url_for('static', filename='images/dashboard-preview.webp') }}" 
+             alt="Dashboard preview" 
+             class="hero-image"
+             loading="lazy">
+        <div class="hero-image-overlay"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Section -->
+  <section class="dashboard-section" aria-labelledby="metrics-heading">
+    <div class="section-header">
+      <h2 id="metrics-heading" class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+        Key Metrics
+      </h2>
+      <div class="section-actions">
+        <div class="time-filter">
+          <button class="time-filter-btn active">Today</button>
+          <button class="time-filter-btn">Week</button>
+          <button class="time-filter-btn">Month</button>
+        </div>
+        <button class="btn-icon" aria-label="Refresh metrics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="metrics-grid">
+      {% for metric in [
+        {'label': 'Rules Created', 'value': stats.created_today if stats else 0, 'change': '+12%', 'trend': 'up', 'icon': 'plus'},
+        {'label': 'Rules Updated', 'value': stats.updated_today if stats else 0, 'change': '+5%', 'trend': 'up', 'icon': 'refresh'},
+        {'label': 'Rules Archived', 'value': stats.archived_today if stats else 0, 'change': '-2%', 'trend': 'down', 'icon': 'archive'},
+        {'label': 'Active Users', 'value': stats.active_users if stats else 0, 'change': '+8%', 'trend': 'up', 'icon': 'users'}
+      ] %}
+      <div class="metric-card">
+        <div class="metric-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            {% if metric.icon == 'plus' %}
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            {% elif metric.icon == 'refresh' %}
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            {% elif metric.icon == 'archive' %}
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            {% elif metric.icon == 'users' %}
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            {% endif %}
           </svg>
         </div>
-        <span>Rules Central</span>
-      </a>
-
-      <ul class="nav-links hidden md:flex items-center gap-4" role="menubar">
-        {% set nav_items = [
-          ('main.index', 'Home'),
-          ('main.catalog', 'Catalog'),
-          ('main.search', 'Search'),
-          ('routes.full_help', 'Docs'),
-          ('upload.upload_file', 'Upload')
-        ] %}
-        {% for route, label in nav_items %}
-        <li>
-          <a href="{{ url_for(route) }}"
-             class="nav-link {% if request.path == url_for(route) %}active{% endif %}"
-             {% if request.path == url_for(route) %}aria-current="page"{% endif %}>
-            {{ label }}
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-
-      <div class="nav-actions">
-        {% if current_user.is_authenticated %}
-          <button class="btn btn-secondary">Profile</button>
-          <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
-        {% else %}
-          <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Sign In</a>
-          <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-pulse">Get Started</a>
-        {% endif %}
-        <button id="theme-toggle" class="btn btn-secondary" aria-label="Toggle theme">🌓</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <span class="hero-badge">
-          <span class="badge-icon">🚀</span>
-          Version 2.0 Released
-        </span>
-        <h1 class="hero-title">Manage Your Rules Effortlessly</h1>
-        <p class="hero-text">
-          Real-time insights, key metrics, and streamlined workflows—all in one modern dashboard.
-        </p>
-        <div class="hero-actions">
-          <a href="{{ url_for('main.catalog') }}" class="btn btn-primary btn-pulse">
-            Explore Catalog
-          </a>
-          <a href="{{ url_for('upload.upload_file') }}" class="btn btn-secondary">
-            Upload Rules
-          </a>
-        </div>
-      </div>
-      <div class="hero-media">
-        <img src="{{ url_for('static', filename='images/dashboard-preview.png') }}"
-             alt="Dashboard preview"
-             class="hero-image">
-        <div class="media-decoration decoration-1"></div>
-        <div class="media-decoration decoration-2"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Key Metrics Section -->
-  <section class="features">
-    <div class="features-container">
-      <div class="section-header">
-        <h2 class="section-title">Key Metrics</h2>
-        <p class="section-subtitle">Overview of your rules management system</p>
-      </div>
-      <div class="features-grid">
-        {% for title, value, icon in [
-            ('Total Rules', stats.total_rules if stats else 0, '📜'),
-            ('Active Rules', stats.active_rules if stats else 0, '✅'),
-            ('Diagrams Processed', stats.diagrams_processed if stats else 0, '📊'),
-            ('Active Users', stats.active_users if stats else 0, '👥')
-          ] %}
-        <div class="feature-card">
-          <div class="feature-icon">{{ icon }}</div>
-          <h3 class="feature-title">{{ title }}</h3>
-          <p class="feature-text">{{ value }}</p>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonial Section -->
-  <section class="testimonials">
-    <div class="testimonial-card">
-      <p class="testimonial-text">
-        "Rules Central transformed our workflow—intuitive UI, real-time data, and unmatched performance."
-      </p>
-      <div class="testimonial-author">
-        <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="User avatar" class="author-avatar">
-        <div class="author-info">
-          <span class="author-name">Alex Martinez</span>
-          <span class="author-role">CTO, InnovateX</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-col">
-        <div class="footer-logo">
-          <svg viewBox="0 0 32 32" fill="currentColor"><circle cx="16" cy="16" r="12"/></svg>
-          <span>Rules Central</span>
-        </div>
-        <p class="footer-text">Building beautiful, functional dashboards for modern teams.</p>
-        <div class="social-links">
-          <a href="#" class="social-link">🐦</a>
-          <a href="#" class="social-link">🔗</a>
-          <a href="#" class="social-link">💼</a>
-        </div>
-      </div>
-      {% for section, links in {
-        'Product': ['Features','Pricing','Documentation','API'],
-        'Company': ['About','Careers','Blog','Press'],
-        'Support': ['Help Center','Tutorials','Status','Contact']
-      }.items() %}
-      <div class="footer-col">
-        <h3 class="footer-title">{{ section }}</h3>
-        <div class="footer-list">
-          {% for link in links %}
-          <a href="#">{{ link }}</a>
-          {% endfor %}
+        <div class="metric-content">
+          <span class="metric-label">{{ metric.label }}</span>
+          <span class="metric-value">{{ metric.value }}</span>
+          <span class="metric-change {% if metric.trend == 'up' %}text-success{% else %}text-danger{% endif %}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M{{ '7 11l5-5m0 0l5 5m-5-5v12' if metric.trend == 'up' else '7 13l5 5m0 0l5-5m-5 5V6' }}"/>
+            </svg>
+            {{ metric.change }}
+          </span>
         </div>
       </div>
       {% endfor %}
     </div>
-    <div class="footer-bottom">&copy; {{ current_year or 2025 }} Rules Central. All rights reserved.</div>
-  </footer>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="dashboard-section" aria-labelledby="charts-heading">
+    <div class="section-header">
+      <h2 id="charts-heading" class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+        Activity Trends
+      </h2>
+      <div class="section-actions">
+        <select class="select-input" aria-label="Select chart type">
+          <option>Last 7 Days</option>
+          <option>Last 30 Days</option>
+          <option selected>Last 90 Days</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Rules Activity</h3>
+          <div class="chart-legend">
+            <span class="legend-item">
+              <span class="legend-color bg-primary"></span>
+              Created
+            </span>
+            <span class="legend-item">
+              <span class="legend-color bg-secondary"></span>
+              Updated
+            </span>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="activityChart" height="300"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Rules by Status</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="statusChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Activity Section -->
+  <section class="dashboard-section" aria-labelledby="activity-heading">
+    <div class="section-header">
+      <h2 id="activity-heading" class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 8h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+        </svg>
+        Recent Activity
+      </h2>
+      <a href="{{ url_for('main.activity_log') }}" class="btn-link">
+        View All
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="activity-list">
+      {% for activity in recent_activity[:5] %}
+      <div class="activity-item">
+        <div class="activity-avatar">
+          <img src="{{ url_for('static', filename='images/avatar-default.svg') }}" alt="User avatar">
+        </div>
+        <div class="activity-content">
+          <div class="activity-header">
+            <span class="activity-user">{{ activity.user }}</span>
+            <span class="activity-time">{{ activity.timestamp|humanize }}</span>
+          </div>
+          <p class="activity-text">
+            {{ activity.action|title }}d rule 
+            <a href="{{ url_for('main.rule_detail', rule_id=activity.rule_id) }}" class="activity-link">
+              {{ activity.rule_name }}
+            </a>
+          </p>
+        </div>
+        <div class="activity-icon">
+          {% if activity.action == 'create' %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          {% elif activity.action == 'update' %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          {% else %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          {% endif %}
+        </div>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p>No recent activity found</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="dashboard-footer">
+  <div class="footer-container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="{{ url_for('main.index') }}" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+            </svg>
+          </div>
+          <span class="logo-text">Rules<span class="text-primary">Central</span></span>
+        </a>
+        <p class="footer-text">Building beautiful, functional dashboards for modern teams.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-column">
+          <h3 class="footer-title">Product</h3>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="{{ url_for('routes.full_help') }}">Documentation</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3 class="footer-title">Company</h3>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3 class="footer-title">Support</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Status</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        &copy; {{ current_year or 2025 }} Rules Central. All rights reserved.
+      </div>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 {% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Initialize charts
+  document.addEventListener('DOMContentLoaded', function() {
+    // Activity Chart
+    const activityCtx = document.getElementById('activityChart').getContext('2d');
+    const activityChart = new Chart(activityCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [
+          {
+            label: 'Created',
+            data: [12, 19, 3, 5, 2, 3, 15],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            tension: 0.3,
+            fill: true
+          },
+          {
+            label: 'Updated',
+            data: [8, 15, 10, 12, 6, 8, 10],
+            borderColor: '#f43f5e',
+            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+            tension: 0.3,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Status Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const statusChart = new Chart(statusCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Active', 'Draft', 'Archived', 'Pending'],
+        datasets: [{
+          data: [45, 15, 20, 10],
+          backgroundColor: [
+            '#10b981',
+            '#3b82f6',
+            '#64748b',
+            '#f59e0b'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        },
+        cutout: '70%'
+      }
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', function() {
+      document.documentElement.classList.toggle('dark');
+    });
+  });
+</script>
+{% endblock scripts %}
