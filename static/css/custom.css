@@ -244,6 +244,24 @@ button {
   padding: var(--space-3xl) 0; /* More vertical padding for sections */
 }
 
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
 /* =============================================
    Navigation
    ============================================= */
@@ -260,6 +278,15 @@ button {
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(8px); /* Subtle blur effect */
   background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+}
+
+.glass-nav {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] .glass-nav {
+  background-color: rgba(15, 23, 42, 0.75);
 }
 
 [data-theme="dark"] .nav {
@@ -450,6 +477,16 @@ button {
   font-size: 0.875rem; /* Slightly larger font for mini */
   border-radius: var(--radius-sm);
   font-weight: 500;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+  70% { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.btn-pulse {
+  animation: pulseGlow 2s infinite;
 }
 
 /* =============================================
@@ -705,6 +742,54 @@ button {
 .metric-trend-down { color: var(--color-error); }
 .metric-trend-neutral { color: var(--color-text-tertiary); }
 .metric-trend-empty { visibility: hidden; }
+
+/* =============================================
+   Features Grid
+   ============================================= */
+.features-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.feature-card {
+  text-align: center;
+  padding: var(--space-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: var(--transition-normal);
+  box-shadow: var(--shadow-xs);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.feature-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.feature-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
 
 /* =============================================
    Trend Section
