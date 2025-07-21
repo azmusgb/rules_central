@@ -561,13 +561,10 @@ __all__ = [
     # Diagram utilities
     "generate_files",
     "diagram_type_from_filename",
-    "get_featured_diagrams",
-    "get_diagram_categories",
     "get_dynamic_groups",
     "generate_mermaid_code",
     # Logging
     "log_activity",
-    "ActivityLogEntry",
     "get_rule_stats",
     "get_activity_trend",
     # Auth & validation
@@ -575,7 +572,6 @@ __all__ = [
     "validate_password",
     "generate_csrf_token",
     "verify_csrf_token",
-    "send_email",
     # UI helpers
     "highlight_matches",
     "get_snippet",
