@@ -1,451 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Rules Central</title>
-    <meta name="description" content="Centralized rules management system dashboard with real-time insights and streamlined workflows.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-    <style>
-        /* Custom styles for enhanced visual appeal */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .hero-glow {
-            background: radial-gradient(circle at center, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
-        }
-        
-        .metric-card {
-            transition: all 0.3s ease;
-            background: linear-gradient(145deg, #ffffff, #f8fafc);
-            box-shadow: 5px 5px 15px #d1d5db, -5px -5px 15px #ffffff;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 8px 8px 20px #d1d5db, -8px -8px 20px #ffffff;
-        }
-        
-        .pulse-dot {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .slide-in {
-            animation: slideIn 0.6s ease-out forwards;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .activity-item {
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .activity-item:hover {
-            background-color: rgba(102, 126, 234, 0.05);
-            border-left-color: #667eea;
-        }
-        
-        .quick-action-card {
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quick-action-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .quick-action-card:hover::before {
-            left: 100%;
-        }
-        
-        .quick-action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-    </style>
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Hero Section -->
-    <section class="relative gradient-bg text-white py-16 px-4 overflow-hidden">
-        <div class="hero-glow absolute inset-0"></div>
-        <div class="relative z-10 max-w-6xl mx-auto text-center">
-            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                <div class="w-2 h-2 bg-green-400 rounded-full pulse-dot mr-2"></div>
-                <span class="text-sm font-medium">Rules Management Dashboard</span>
-            </div>
-            
-            <h1 class="text-5xl font-bold mb-4 slide-in">Rules Central</h1>
-            <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto slide-in">
-                Manage your rules effortlessly with real-time insights, key metrics, and streamlined workflows.
-            </p>
-            
-            <div class="flex flex-wrap justify-center gap-4 slide-in">
-                <button class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                    New Rule
-                </button>
-                <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors">
-                    View Catalog
-                </button>
-                <button class="text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
-                    Quick Tour
-                </button>
-            </div>
-        </div>
-    </section>
+{% extends "base.html" %}
 
-    <!-- Time Display -->
-    <div class="max-w-6xl mx-auto px-4 pt-6">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
-            <div id="current-time" class="text-sm text-gray-500 tracking-wider font-mono bg-white px-3 py-1 rounded-full shadow-sm">
-                --:--
-            </div>
+{% block title %}Dashboard | Rules Central{% endblock title %}
+{% block description %}Centralized rules management dashboard with real-time insights, modern UI, and analytics.{% endblock description %}
+
+{% block styles %}{% endblock styles %}
+
+{% block content %}
+<body class="overflow-x-hidden">
+
+  <!-- Stunning Navigation -->
+  <nav class="nav glass-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="{{ url_for('main.index') }}" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="currentColor">
+            <circle cx="16" cy="16" r="12"/>
+            <path d="M12 16l4 4 8-8" stroke="white" stroke-width="2" fill="none"/>
+          </svg>
         </div>
+        <span>Rules Central</span>
+      </a>
+
+      <ul class="nav-links hidden md:flex items-center gap-4" role="menubar">
+        {% set nav_items = [
+          ('main.index', 'Home'),
+          ('main.catalog', 'Catalog'),
+          ('main.search', 'Search'),
+          ('routes.full_help', 'Docs'),
+          ('upload.upload_file', 'Upload')
+        ] %}
+        {% for route, label in nav_items %}
+        <li>
+          <a href="{{ url_for(route) }}"
+             class="nav-link {% if request.path == url_for(route) %}active{% endif %}"
+             {% if request.path == url_for(route) %}aria-current="page"{% endif %}>
+            {{ label }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="nav-actions">
+        {% if current_user.is_authenticated %}
+          <button class="btn btn-secondary">Profile</button>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Sign In</a>
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-pulse">Get Started</a>
+        {% endif %}
+        <button id="theme-toggle" class="btn btn-secondary" aria-label="Toggle theme">🌓</button>
+      </div>
     </div>
+  </nav>
 
-    <!-- Key Metrics -->
-    <section class="max-w-6xl mx-auto px-4 mb-8">
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-semibold text-gray-700 flex items-center">
-                <span class="text-2xl mr-2">📈</span>
-                Key Metrics
-            </h3>
-            <div class="flex items-center text-sm text-gray-500">
-                <span class="mr-2">🕒</span>
-                <span>Last updated: <span class="font-medium">Jan 21, 2025 2:30 PM</span></span>
-                <button id="refresh-btn" class="ml-3 px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs hover:bg-blue-200 transition-colors">
-                    Refresh
-                </button>
-            </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <span class="hero-badge">
+          <span class="badge-icon">🚀</span>
+          Version 2.0 Released
+        </span>
+        <h1 class="hero-title">Manage Your Rules Effortlessly</h1>
+        <p class="hero-text">
+          Real-time insights, key metrics, and streamlined workflows—all in one modern dashboard.
+        </p>
+        <div class="hero-actions">
+          <a href="{{ url_for('main.catalog') }}" class="btn btn-primary btn-pulse">
+            Explore Catalog
+          </a>
+          <a href="{{ url_for('upload.upload_file') }}" class="btn btn-secondary">
+            Upload Rules
+          </a>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="metric-card rounded-xl p-6 cursor-pointer">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-sm text-gray-600 font-medium">Total Rules</p>
-                        <p id="totalRules" class="text-3xl font-bold text-gray-800">247</p>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="7" height="7" rx="1"/>
-                            <rect x="14" y="3" width="7" height="7" rx="1"/>
-                            <rect x="14" y="14" width="7" height="7" rx="1"/>
-                            <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-sm text-green-600 font-medium">↗ 12% vs previous</p>
-            </div>
-            
-            <div class="metric-card rounded-xl p-6 cursor-pointer">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-sm text-gray-600 font-medium">Changed (7 Days)</p>
-                        <p id="changed7d" class="text-3xl font-bold text-gray-800">23</p>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8" y1="2" x2="8" y2="6"/>
-                            <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-sm text-red-600 font-medium">↘ 5% vs previous</p>
-            </div>
-            
-            <div class="metric-card rounded-xl p-6 cursor-pointer">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-sm text-gray-600 font-medium">Changed (30 Days)</p>
-                        <p id="changed30d" class="text-3xl font-bold text-gray-800">89</p>
-                    </div>
-                    <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8" y1="2" x2="8" y2="6"/>
-                            <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-sm text-green-600 font-medium">↗ 8% vs previous</p>
-            </div>
-            
-            <div class="metric-card rounded-xl p-6 cursor-pointer">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-sm text-gray-600 font-medium">Active Rules</p>
-                        <p id="activeRules" class="text-3xl font-bold text-gray-800">201</p>
-                    </div>
-                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
-                        </svg>
-                    </div>
-                </div>
-                <p class="text-sm text-green-600 font-medium">↗ 3% vs previous</p>
-            </div>
+      </div>
+      <div class="hero-media">
+        <img src="{{ url_for('static', filename='images/dashboard-preview.png') }}"
+             alt="Dashboard preview"
+             class="hero-image">
+        <div class="media-decoration decoration-1"></div>
+        <div class="media-decoration decoration-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Metrics Section -->
+  <section class="features">
+    <div class="features-container">
+      <div class="section-header">
+        <h2 class="section-title">Key Metrics</h2>
+        <p class="section-subtitle">Overview of your rules management system</p>
+      </div>
+      <div class="features-grid">
+        {% for title, value, icon in [
+            ('Total Rules', stats.total_rules if stats else 0, '📜'),
+            ('Active Rules', stats.active_rules if stats else 0, '✅'),
+            ('Diagrams Processed', stats.diagrams_processed if stats else 0, '📊'),
+            ('Active Users', stats.active_users if stats else 0, '👥')
+          ] %}
+        <div class="feature-card">
+          <div class="feature-icon">{{ icon }}</div>
+          <h3 class="feature-title">{{ title }}</h3>
+          <p class="feature-text">{{ value }}</p>
         </div>
-    </section>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-    <!-- Trend Chart and Recent Activity -->
-    <section class="max-w-6xl mx-auto px-4 mb-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Trend Chart -->
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-700 flex items-center">
-                        <span class="text-2xl mr-2">📊</span>
-                        Rule Change Trends
-                    </h3>
-                    <div class="flex bg-gray-100 rounded-lg p-1">
-                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md bg-white text-gray-700 shadow-sm" data-range="30d">30D</button>
-                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700" data-range="90d">90D</button>
-                        <button class="trend-toggle px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700" data-range="1y">1Y</button>
-                    </div>
-                </div>
-                <div class="h-64">
-                    <canvas id="trendChart"></canvas>
-                </div>
-                <div class="flex justify-end mt-4 space-x-2">
-                    <button class="text-sm text-gray-500 hover:text-gray-700">Export</button>
-                    <button class="text-sm text-gray-500 hover:text-gray-700">Fullscreen</button>
-                </div>
-            </div>
-            
-            <!-- Recent Activity -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-6 flex items-center">
-                    <span class="text-2xl mr-2">🕑</span>
-                    Recent Activity
-                </h3>
-                <div class="space-y-4 max-h-64 overflow-y-auto">
-                    <div class="activity-item p-3 rounded-lg">
-                        <div class="flex items-start">
-                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                <span class="text-sm">➕</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm text-gray-800">Created new rule "Payment Processing"</p>
-                                <p class="text-xs text-gray-500 mt-1">John Doe • 2 mins ago</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="activity-item p-3 rounded-lg">
-                        <div class="flex items-start">
-                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                <span class="text-sm">✏️</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm text-gray-800">Updated rule "User Authentication"</p>
-                                <p class="text-xs text-gray-500 mt-1">Jane Smith • 15 mins ago</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="activity-item p-3 rounded-lg">
-                        <div class="flex items-start">
-                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                <span class="text-sm">📥</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm text-gray-800">Imported 12 rules from CSV</p>
-                                <p class="text-xs text-gray-500 mt-1">Mike Johnson • 1 hour ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View all activity →</a>
-                </div>
-            </div>
+  <!-- Testimonial Section -->
+  <section class="testimonials">
+    <div class="testimonial-card">
+      <p class="testimonial-text">
+        "Rules Central transformed our workflow—intuitive UI, real-time data, and unmatched performance."
+      </p>
+      <div class="testimonial-author">
+        <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="User avatar" class="author-avatar">
+        <div class="author-info">
+          <span class="author-name">Alex Martinez</span>
+          <span class="author-role">CTO, InnovateX</span>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Quick Actions -->
-    <section class="max-w-6xl mx-auto px-4 mb-8">
-        <h3 class="text-lg font-semibold text-gray-700 mb-6 flex items-center">
-            <span class="text-2xl mr-2">⚡</span>
-            Quick Actions & Tools
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="quick-action-card bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 cursor-pointer border border-blue-200">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-2xl">📥</span>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">Import Rules</h4>
-                        <p class="text-sm text-gray-600">Bulk import from CSV or Excel</p>
-                    </div>
-                    <span class="text-2xl text-blue-500">›</span>
-                </div>
-            </div>
-            
-            <div class="quick-action-card bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 cursor-pointer border border-purple-200">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-2xl">🧩</span>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">Generate Diagram</h4>
-                        <p class="text-sm text-gray-600">Visualize rule relationships</p>
-                    </div>
-                    <span class="text-2xl text-purple-500">›</span>
-                </div>
-            </div>
-            
-            <div class="quick-action-card bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 cursor-pointer border border-green-200">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-2xl">📖</span>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">Documentation</h4>
-                        <p class="text-sm text-gray-600">Guides & API references</p>
-                    </div>
-                    <span class="text-2xl text-green-500">›</span>
-                </div>
-            </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <svg viewBox="0 0 32 32" fill="currentColor"><circle cx="16" cy="16" r="12"/></svg>
+          <span>Rules Central</span>
         </div>
-    </section>
+        <p class="footer-text">Building beautiful, functional dashboards for modern teams.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">🔗</a>
+          <a href="#" class="social-link">💼</a>
+        </div>
+      </div>
+      {% for section, links in {
+        'Product': ['Features','Pricing','Documentation','API'],
+        'Company': ['About','Careers','Blog','Press'],
+        'Support': ['Help Center','Tutorials','Status','Contact']
+      }.items() %}
+      <div class="footer-col">
+        <h3 class="footer-title">{{ section }}</h3>
+        <div class="footer-list">
+          {% for link in links %}
+          <a href="#">{{ link }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="footer-bottom">&copy; {{ current_year or 2025 }} Rules Central. All rights reserved.</div>
+  </footer>
 
-    <script>
-        // Update current time
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('current-time').textContent = timeStr;
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-
-        // Initialize trend chart
-        const ctx = document.getElementById('trendChart');
-        if (ctx) {
-            const chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan 15', 'Jan 16', 'Jan 17', 'Jan 18', 'Jan 19', 'Jan 20', 'Jan 21'],
-                    datasets: [{
-                        label: 'Rule Changes',
-                        data: [12, 19, 8, 15, 25, 18, 23],
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#667eea',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            grid: { display: false },
-                            border: { display: false }
-                        },
-                        y: {
-                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
-                            border: { display: false },
-                            beginAtZero: true
-                        }
-                    },
-                    elements: {
-                        point: {
-                            hoverRadius: 8
-                        }
-                    }
-                }
-            });
-
-            // Trend toggle functionality
-            document.querySelectorAll('.trend-toggle').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.trend-toggle').forEach(b => {
-                        b.classList.remove('bg-white', 'text-gray-700', 'shadow-sm');
-                        b.classList.add('text-gray-500');
-                    });
-                    btn.classList.remove('text-gray-500');
-                    btn.classList.add('bg-white', 'text-gray-700', 'shadow-sm');
-                });
-            });
-        }
-
-        // Refresh button functionality
-        document.getElementById('refresh-btn').addEventListener('click', () => {
-            // Simulate data refresh with loading state
-            const btn = document.getElementById('refresh-btn');
-            btn.textContent = 'Loading...';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                btn.textContent = 'Refresh';
-                btn.disabled = false;
-                
-                // Simulate updated metrics
-                document.getElementById('totalRules').textContent = Math.floor(Math.random() * 50) + 200;
-                document.getElementById('changed7d').textContent = Math.floor(Math.random() * 20) + 10;
-                document.getElementById('changed30d').textContent = Math.floor(Math.random() * 50) + 50;
-                document.getElementById('activeRules').textContent = Math.floor(Math.random() * 40) + 180;
-            }, 1000);
-        });
-
-        // Add hover effects to metric cards
-        document.querySelectorAll('.metric-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
-        });
-
-        // Add click handlers to quick action cards
-        document.querySelectorAll('.quick-action-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const title = card.querySelector('h4').textContent;
-                console.log(`Clicked: ${title}`);
-                // Add actual navigation logic here
-            });
-        });
-    </script>
 </body>
-</html>
+{% endblock content %}
