@@ -416,7 +416,9 @@
    ============================================================ #}
 {% block scripts %}
   {{ super() }}
-  <script>window.trendData = {{ (trend_data if (trend_data is defined and trend_data is not none) else [])|tojson }};</script>
+  <script>
+    // window.trendData = ({{ trend_data|default([])|tojson|safe }});
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1" defer></script>
