@@ -18,6 +18,7 @@ A Flask web application for organizing and visualizing complex rule sets with co
 - **Help System** (`Shift+/` shortcut)
 - **Documentation Reading Progress** for orientation
 - **Unified Toast Notifications** across tools
+- **Floating feedback widget and back-to-top button**
 
 ## Quick Start
 
