@@ -113,7 +113,7 @@
   {% macro mcard(label, value, accent='', link=None, svg=None, trend=None) %}
     <div class="rc-card rc-metric {{ accent }} {% if link %}rc-card-link{% endif %}">
       {% if link %}
-        <a href="{{ link }}" class="absolute inset-0 z-10 sr-only-focusable" aria-label="{{ label }}"></a>
+        <a href="{{ link }}" class="rc-metric-link" aria-label="{{ label }}"></a>
       {% endif %}
       <div class="rc-metric-body">
         <div class="rc-metric-top">
@@ -422,8 +422,5 @@
   <script>
     // window.trendData = ({{ trend_data|default([])|tojson|safe }});
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1" defer></script>
   <script type="module" defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock scripts %}
