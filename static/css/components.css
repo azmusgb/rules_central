@@ -1,0 +1,491 @@
+/* ============ Base Interactive Elements ============ */
+button, 
+input, 
+optgroup, 
+select, 
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============ Enhanced Form Controls ============ */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  transition: var(--transition-default);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--color-border-hover);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-alpha-100);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 1em;
+}
+
+/* ============ Card System Improvements ============ */
+.rc-card {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-default);
+  position: relative;
+  overflow: hidden;
+}
+
+.rc-card-hover:hover,
+.rc-card-hover:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent-light);
+}
+
+.rc-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+.rc-card-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Card Accent Variants with better contrast */
+.rc-card-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  z-index: 2;
+}
+
+.rc-card-accent-primary::before { background-color: var(--color-primary-600); }
+.rc-card-accent-success::before { background-color: var(--color-success-600); }
+.rc-card-accent-warning::before { background-color: var(--color-warning-600); }
+.rc-card-accent-danger::before { background-color: var(--color-danger-600); }
+.rc-card-accent-info::before { background-color: var(--color-info-600); }
+
+/* ============ Metrics System Improvements ============ */
+.rc-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-6);
+}
+
+.rc-metric {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.rc-metric-value {
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  line-height: 1.2;
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+  margin: var(--space-2) 0;
+  color: var(--color-text-primary);
+}
+
+.rc-metric-title {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.rc-metric-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+  margin-bottom: var(--space-3);
+}
+
+/* Trend Indicators with animation */
+.rc-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.rc-trend-up {
+  color: var(--color-success-600);
+}
+
+.rc-trend-down {
+  color: var(--color-danger-600);
+}
+
+/* ============ Quick Actions Improvements ============ */
+.rc-qa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-5);
+}
+
+.rc-qa-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  transition: var(--transition-default);
+  cursor: pointer;
+}
+
+.rc-qa-card:hover,
+.rc-qa-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background-color: var(--color-bg-secondary);
+}
+
+.rc-qa-icon {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+  font-size: 1.25rem;
+}
+
+/* ============ Enhanced Animations ============ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade { animation-name: fadeIn; }
+.animate-slide-up { animation-name: slideUp; }
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* ============ Utility Widget Improvements ============ */
+.rc-back-to-top {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 50;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.rc-back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.rc-back-to-top:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ============ Accessibility Improvements ============ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  transform: translateY(-150%);
+  transition: transform 0.2s ease;
+  z-index: 1000;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* === Hero Section Improvements === */
+.rc-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-800));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+  min-height: clamp(320px, 50vh, 640px);
+  border-bottom-left-radius: var(--radius-3xl);
+  border-bottom-right-radius: var(--radius-3xl);
+  color: var(--color-text-on-accent);
+  overflow: hidden;
+  max-width: 100vw;
+  margin-bottom: var(--space-10);
+  isolation: isolate;
+}
+
+.rc-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.rc-hero-content {
+  max-width: 72ch;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.rc-hero h1 {
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+
+.rc-hero p {
+  font-size: clamp(var(--text-lg), 2vw, var(--text-xl));
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+  opacity: 0.9;
+}
+
+.rc-hero .rc-btn {
+  margin-top: var(--space-4);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+  .rc-hero {
+    padding: var(--space-12) var(--space-4);
+    min-height: 300px;
+  }
+  
+  .rc-hero h1 {
+    margin-bottom: var(--space-3);
+  }
+  
+  .rc-hero p {
+    margin-bottom: var(--space-5);
+  }
+}
+
+/* === Footer Improvements === */
+footer {
+  margin-top: auto;
+  background: var(--color-bg-tertiary);
+  padding: var(--space-10) var(--space-4);
+  text-align: center;
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border-primary);
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-8);
+  text-align: left;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+footer a {
+  color: var(--color-accent);
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+footer a:hover,
+footer a:focus {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-copyright {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-primary);
+  grid-column: 1 / -1;
+  font-size: var(--text-sm);
+}
+
+/* === Layout Improvements === */
+main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.section {
+  padding: var(--space-10) 0;
+}
+
+.section-header {
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.section-description {
+  max-width: 60ch;
+  margin: 0 auto;
+  color: var(--color-text-secondary);
+}
+
+/* Empty state styling */
+body > main:empty::before {
+  content: "Coming soon…";
+  display: block;
+  text-align: center;
+  padding: var(--space-16);
+  font-size: var(--text-2xl);
+  color: var(--color-text-tertiary);
+  animation: fadeIn 0.5s ease;
+}

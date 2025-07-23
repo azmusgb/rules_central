@@ -19,7 +19,7 @@ import json
 import csv
 import logging
 from io import StringIO
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Union, Optional, Tuple
 
@@ -117,7 +117,9 @@ upload = Blueprint("upload", __name__, url_prefix="/upload")
 user_routes = Blueprint("user", __name__, url_prefix="/user")
 
 logger = logging.getLogger(__name__)
-
+def get_current_datetime() -> datetime:
+    """Get current datetime with timezone awareness."""
+    return datetime.now(timezone.utc)
 
 @user_routes.route("/profile")
 @login_required
@@ -557,21 +559,30 @@ def logout() -> RouteReturn:
 
 @main.route("/")
 def index() -> str:
-    """Render the application home page with the polished dashboard.
-
-    Includes floating navigation widgets for improved usability.
-
-    Returns:
-        Rendered template
-    """
+    """Render the application home page with the polished dashboard."""
     try:
         stats = get_rule_stats()
         trend = get_activity_trend(days=30)
+
+        # ✅ Always evaluate the datetime
+        current_dt = get_current_datetime()
+        if callable(current_dt):  # Safety net to avoid passing a function
+            current_dt = get_current_datetime()
+
+        # Provide default values for last_updated and recent_activity to avoid template errors
+        last_updated = None
+        recent_activity = []
+
+        logger.debug(f"index() now={current_dt} type={type(current_dt)}")
+
         return render_template(
             "dashboard.html",
             stats=stats,
             charts={"rules": trend},
-            featured_diagrams=get_featured_diagrams(limit=3)
+            featured_diagrams=get_featured_diagrams(limit=3),
+            now=current_dt,  # ✅ Guaranteed datetime object
+            last_updated=last_updated,
+            recent_activity=recent_activity,
         )
     except Exception as e:
         current_app.logger.error(f"Index page error: {e}", exc_info=True)
@@ -637,22 +648,66 @@ def search() -> str:
 # ---------------------------------------------------------------------------
 # Context Processors
 # ---------------------------------------------------------------------------
-
 @main.app_context_processor
 def inject_globals() -> Dict[str, Any]:
-    """Inject global variables into templates."""
+    """Inject global variables into templates with timezone-aware current datetime."""
+    # Always CALL get_current_datetime so we never pass the function itself
+    current_dt: datetime = get_current_datetime()
+
+    # Explicit sanity check
+    if not isinstance(current_dt, datetime):
+        # Force conversion if somehow the function was passed accidentally
+        current_dt = get_current_datetime()
+
     return {
-        'now': datetime.now,
-        'app_name': current_app.config.get('APP_NAME', 'Rules Central'),
-        'version': current_app.config.get('VERSION', '1.0'),
-        'current_year': datetime.now().year
+        "now": current_dt,             # safe datetime object
+        "current_time": current_dt,    # alias for templates
+        "app_name": current_app.config.get("APP_NAME", "Rules Central"),
+        "version": current_app.config.get("VERSION", "1.0"),
+        "current_year": current_dt.year,
+        "main": main,
     }
 
-@main.app_context_processor
-def inject_main_blueprint() -> dict:
-    """Inject the 'main' blueprint into templates."""
-    return {"main": main}
+# ---------------------------------------------------------------------------
+# Custom Jinja Filters
+# ---------------------------------------------------------------------------
+
+@main.app_template_filter('humanize')
+def humanize_filter(value):
+    """
+    Simple fallback for humanizing timestamps.
+    Shows 'X minutes ago', 'X hours ago', 'X days ago'.
+    """
+    if not value:
+        return ""
+    # Support datetime objects or timestamps
+    if isinstance(value, (int, float)):
+        dt_value = datetime.fromtimestamp(value, tz=timezone.utc)
+    elif isinstance(value, datetime):
+        dt_value = value
+    else:
+        # Try to parse string
+        try:
+            dt_value = datetime.fromisoformat(str(value))
+        except Exception:
+            return str(value)
+
+    now = datetime.now(timezone.utc)
+    diff = now - dt_value
+    seconds = diff.total_seconds()
+
+    if seconds < 60:
+        return "just now"
+    elif seconds < 3600:
+        minutes = int(seconds // 60)
+        return f"{minutes} minute{'s' if minutes != 1 else ''} ago"
+    elif seconds < 86400:
+        hours = int(seconds // 3600)
+        return f"{hours} hour{'s' if hours != 1 else ''} ago"
+    else:
+        days = int(seconds // 86400)
+        return f"{days} day{'s' if days != 1 else ''} ago"
 
 def generate_csrf_token() -> str:
-    """Return a CSRF token for use in routes and templates."""
+    """Generate CSRF token for forms and templates."""
     return generate_csrf()
