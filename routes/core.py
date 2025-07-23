@@ -557,8 +557,10 @@ def logout() -> RouteReturn:
 
 @main.route("/")
 def index() -> str:
-    """Render the application home page.
-    
+    """Render the application home page with the polished dashboard.
+
+    Includes floating navigation widgets for improved usability.
+
     Returns:
         Rendered template
     """
