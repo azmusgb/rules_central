@@ -27,7 +27,8 @@
           <span class="text-sm text-text-secondary" id="node-count">0 nodes</span>
         </div>
         <div class="flex flex-wrap items-center gap-3 mb-4">
-          <input id="search-input" type="search" placeholder="Search rules…" class="input input-sm w-full sm:max-w-xs" autocomplete="off">
+          <input id="hierarchy-search" type="search" placeholder="Search rules…" class="input input-sm w-full sm:max-w-xs" autocomplete="off">
+          <ul id="search-suggestions" class="hidden absolute z-10 mt-1 w-full bg-surface-1 border border-surface-3 rounded shadow"></ul>
           <span id="search-results-count" class="text-xs text-text-tertiary">0 results</span>
           <div class="ml-auto flex gap-2">
             <button id="expandAllBtn" class="btn btn-xs btn-secondary" type="button">Expand&nbsp;All</button>
@@ -38,7 +39,7 @@
                 <li><button type="button" class="w-full px-3 py-2 text-left hover:bg-surface-2" data-open-export-modal>Export…</button></li>
               </ul>
             </div>
-        <div id="rule-tree" class="h-96 overflow-auto" data-tree-container>
+        <div id="diagram-outline" class="h-96 overflow-auto" data-tree-container>
           <!-- Tree nodes rendered by hierarchy_viewer.js -->
           <p class="text-text-secondary text-center">Loading tree...</p>
         </div>
@@ -210,5 +211,5 @@
   {{ super() }}
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script defer src="{{ url_for('static', filename='js/hierarchy_viewer.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='js/hierarchy_viewer.js') }}"></script>
 {% endblock %}
