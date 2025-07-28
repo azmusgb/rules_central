@@ -5,6 +5,20 @@
 {% block body_attrs %}data-root-name="{{ root_name }}" data-diagram-name="{{ diagram_name }}"{% endblock %}
 
 {% block head %}
+  <style>
+    body.dense {
+      --space-0-5: 0.1rem;
+      --space-1: 0.2rem;
+      --space-1-5: 0.3rem;
+      --space-2: 0.4rem;
+      --space-2-5: 0.5rem;
+      --space-3: 0.6rem;
+      --space-3-5: 0.7rem;
+      --space-4: 0.8rem;
+      --space-5: 1rem;
+      --space-6: 1.2rem;
+    }
+  </style>
 {% endblock %}
 
 {% block hero_title %}
@@ -33,6 +47,7 @@
           <div class="ml-auto flex gap-2">
             <button id="expandAllBtn" class="btn btn-xs btn-secondary" type="button">Expand&nbsp;All</button>
             <button id="collapseAllBtn" class="btn btn-xs btn-secondary" type="button">Collapse&nbsp;All</button>
+            <button id="densityToggle" class="btn btn-xs btn-secondary" type="button" title="Toggle density" aria-label="Toggle density"><i class="fas fa-compress-arrows-alt"></i></button>
             <div class="relative">
               <button id="exportMenuBtn" type="button" class="btn btn-xs btn-secondary" aria-haspopup="true" aria-controls="export-menu" aria-expanded="false">⋯<span class="sr-only">More actions</span></button>
               <ul id="export-menu" class="hidden absolute right-0 mt-1 w-32 rounded border border-surface-3 bg-surface-1 shadow-lg text-sm">
@@ -211,5 +226,24 @@
   {{ super() }}
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script>
+    (function(){
+      const btn = document.getElementById('densityToggle');
+      const key = 'rc-density';
+      try {
+        if(localStorage.getItem(key) === 'dense') {
+          document.body.classList.add('dense');
+        }
+      } catch(e) {}
+      if(btn){
+        btn.addEventListener('click', () => {
+          document.body.classList.toggle('dense');
+          try {
+            localStorage.setItem(key, document.body.classList.contains('dense') ? 'dense' : 'normal');
+          } catch(e) {}
+        });
+      }
+    })();
+  </script>
   <script type="module" src="{{ url_for('static', filename='js/hierarchy_viewer.js') }}"></script>
 {% endblock %}

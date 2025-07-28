@@ -14,6 +14,7 @@ A Flask web application for organizing and visualizing complex rule sets with co
 - **Developer API** for rule testing
 - **Multi-theme Support** (Bear, Dark, Light, High Contrast)
 - **Bear Light** theme refreshed for a brighter look
+- **Density Toggle** to quickly switch to a compact layout
 - **Accessibility** focused design
 - **Help System** (`Shift+/` shortcut)
 - **Documentation Reading Progress** for orientation
