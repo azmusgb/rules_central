@@ -172,9 +172,6 @@ export class HierarchyViewer {
     this.rawData = this.buildHierarchyGraph(rules);
     this.buildFuseIndex();
     this.renderTree();
-
-    const cnt = $$("#node-count");
-    if (cnt) cnt.textContent = `${rules.length} nodes`;
   }
 
   /* Convert flat rule array (with ParentGUID & Actions) to nested tree */
@@ -273,15 +270,17 @@ export class HierarchyViewer {
     const ulRoot = create("ul", "list-none space-y-1");
     this.outline.appendChild(ulRoot);
     dataset.forEach((n) => ulRoot.appendChild(this.renderNode(n, 0)));
-
     const cnt = $$("#node-count");
-    if (cnt)
-      cnt.textContent = `${dataset.length} root node${dataset.length === 1 ? "" : "s"}`;
+    if (cnt) {
+      const total = this.countNodes(dataset);
+      cnt.textContent = `${total} node${total === 1 ? "" : "s"}`;
+    }
   }
 
   renderNode(node, depth) {
     const li = create("li");
-    const wrap = create("div", `tree-node pl-${depth * 4}`);
+    const wrap = create("div", "tree-node");
+    wrap.style.setProperty("--tree-level", depth);
     wrap.dataset.nodeId = node.RuleGUID ?? node.id ?? crypto.randomUUID();
 
     wrap.innerHTML = `
@@ -293,14 +292,20 @@ export class HierarchyViewer {
     li.appendChild(wrap);
 
     if (node.children?.length) {
-      const ul = create("ul", "ml-4 space-y-1");
-      // ul.hidden = true;   // show children by default
+      const ul = create("ul", "space-y-1");
       node.children.forEach((c) =>
         ul.appendChild(this.renderNode(c, depth + 1)),
       );
       li.appendChild(ul);
     }
     return li;
+  }
+
+  countNodes(nodes) {
+    return nodes.reduce(
+      (sum, n) => sum + 1 + (n.children ? this.countNodes(n.children) : 0),
+      0,
+    );
   }
 
   onNodeClick(e, node, li) {
