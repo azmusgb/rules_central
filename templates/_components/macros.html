@@ -79,23 +79,23 @@
 {%- endmacro %}
 
 {% macro DeviceCarousel(images) -%}
-<div 
-  x-data="carousel({{ images|length }})" 
+<div
+  x-data="carousel({{ images|length }})"
   class="relative aspect-[3/2] overflow-hidden rounded-xl shadow-lg"
 >
   {% for img in images %}
-  <picture 
-    class="absolute inset-0 transition-opacity duration-700 motion-reduce:duration-0" 
+  <picture
+    class="absolute inset-0 transition-opacity duration-700 motion-reduce:duration-0"
     :class="current === {{ loop.index0 }} ? 'opacity-100' : 'opacity-0 pointer-events-none'"
     aria-hidden="{{ 'false' if loop.first else 'true' }}"
   >
-    <source srcset="{{ url_for('static', filename=img + '.webp') }}" type="image/webp">
-    <source srcset="{{ url_for('static', filename=img + '.png') }}" type="image/png">
-    <img 
-      src="{{ url_for('static', filename=img + '.png') }}" 
-      alt="Screenshot of Rules Central interface {{ loop.index }}" 
-      class="w-full h-full object-contain" 
-      loading="lazy" 
+    <source srcset="{{ url_for('static', filename=img.path + '.webp') }}" type="image/webp">
+    <source srcset="{{ url_for('static', filename=img.path + '.png') }}" type="image/png">
+    <img
+      src="{{ url_for('static', filename=img.path + '.png') }}"
+      alt="{{ img.alt }}"
+      class="w-full h-full object-contain"
+      loading="lazy"
       decoding="async"
     >
   </picture>
@@ -146,7 +146,7 @@
 </section>
 {%- endmacro %}
 
-{% macro FeatureRow(title, desc, img_path, reverse=False, cta_href=None) -%}
+{% macro FeatureRow(title, desc, img_path, reverse=False, cta_href=None, img_alt=None) -%}
 <section class="py-18 px-4">
   <div class="container flex flex-col md:flex-row items-center gap-10 {% if reverse %}md:flex-row-reverse{% endif %}">
     <div class="md:w-1/2 space-y-6">
@@ -165,11 +165,11 @@
       <picture>
         <source srcset="{{ url_for('static', filename=img_path + '.webp') }}" type="image/webp">
         <source srcset="{{ url_for('static', filename=img_path + '.png') }}" type="image/png">
-        <img 
-          src="{{ url_for('static', filename=img_path + '.png') }}" 
-          alt="Visual representation of {{ title }}" 
-          class="w-full rounded-xl shadow-lg" 
-          loading="lazy" 
+        <img
+          src="{{ url_for('static', filename=img_path + '.png') }}"
+          alt="{{ img_alt or ('Illustration of ' ~ title) }}"
+          class="w-full rounded-xl shadow-lg"
+          loading="lazy"
           decoding="async"
         >
       </picture>
