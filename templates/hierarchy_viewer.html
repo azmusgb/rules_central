@@ -54,6 +54,8 @@
                 <li><button type="button" class="w-full px-3 py-2 text-left hover:bg-surface-2" data-open-export-modal>Export…</button></li>
               </ul>
             </div>
+          </div>
+        </div>
         <div id="diagram-outline" class="h-96 overflow-auto" data-tree-container>
           <!-- Tree nodes rendered by hierarchy_viewer.js -->
           <p class="text-text-secondary text-center">Loading tree...</p>
@@ -72,34 +74,12 @@
       </section>
         <div class="flex items-center gap-4 mb-6 border-b border-border/50">
           {% for tab in ['Overview', 'Attributes', 'Relations', 'Raw JSON'] %}
-            <button 
-      <aside id="nodeDetails" class="hidden lg:block w-full max-w-sm lg:sticky lg:top-20 self-start">
-  <div class="border border-surface-3 rounded bg-surface-1 shadow-sm">
-    <header class="px-4 py-3 border-b border-surface-3">
-      <h2 id="nodeName" class="text-base font-semibold truncate">Select a node…</h2>
-    </header>
-    <nav class="flex border-b border-surface-3" role="tablist">
-      <button id="tabAttributesBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="attributes" role="tab" aria-selected="true">Attributes</button>
-      <button id="tabActionsBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="actions" role="tab" aria-selected="false">Actions</button>
-      <button id="tabRelationsBtn" class="flex-1 px-3 py-2 text-xs font-medium uppercase tracking-wide hover:bg-surface-2 focus:outline-none" data-tab="relations" role="tab" aria-selected="false">Relations</button>
-    </nav>
-    <section id="attributesList" class="p-4 text-sm leading-relaxed" role="tabpanel">
-      <p class="text-text-tertiary italic">No attributes.</p>
-    </section>
-    <section id="actionsList" class="p-4 text-sm leading-relaxed hidden" role="tabpanel">
-      <p class="text-text-tertiary italic">No actions.</p>
-    </section>
-    <section id="relationsList" class="p-4 text-sm leading-relaxed hidden" role="tabpanel">
-      <p class="text-text-tertiary italic">No relations.</p>
-    </section>
-  </div>
-</aside>
-              class="pb-2 text-text-secondary hover:text-primary-500 focus-ring transition-colors
-              {% if tab == 'Overview' %}text-primary-500 border-b-2 border-primary-500{% endif %}"
+            <button
+              type="button"
+              class="pb-2 text-text-secondary hover:text-primary-500 focus-ring transition-colors {% if tab == 'Overview' %}text-primary-500 border-b-2 border-primary-500{% endif %}"
               data-tab="{{ tab|lower|replace(' ', '-') }}"
               aria-selected="{% if tab == 'Overview' %}true{% else %}false{% endif %}"
-              role="tab"
-            >
+              role="tab">
               {{ tab }}
             </button>
           {% endfor %}
