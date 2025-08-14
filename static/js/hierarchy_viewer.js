@@ -44,13 +44,13 @@ const debounce = (fn, d = 250) => {
 };
 
 /* lightweight, collision-free toast using a fresh <sl-alert> each time */
-const toast = (msg, variant = "primary") => {
+const toast = (msg, type = "info") => {
   const { toastDuration = 3000 } = loadProfile?.() || {};
 
-  // Prefer Shoelace if it’s loaded; otherwise fall back to a plain div.
+  // Prefer Shoelace if it’s loaded; otherwise fall back to a custom div.
   if (window.customElements?.get("sl-alert")) {
     const alert = Object.assign(document.createElement("sl-alert"), {
-      variant,
+      variant: type,
       duration: toastDuration,
       closable: true,
       innerHTML: `<sl-icon slot="icon" name="info-circle"></sl-icon>${msg}`,
@@ -58,13 +58,41 @@ const toast = (msg, variant = "primary") => {
     document.body.append(alert);
     alert.toast();
   } else {
-    const div = create(
-      "div",
-      "fixed bottom-6 right-6 z-50 bg-gray-900/90 text-white rounded px-4 py-2 shadow-lg",
-    );
-    div.textContent = msg;
-    document.body.append(div);
-    setTimeout(() => div.remove(), toastDuration);
+    const cls = type === "danger" ? "error" : type;
+    const toast = create("div", `toast ${cls}`);
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+
+    const icon = create("span", "toast-icon");
+    icon.innerHTML =
+      cls === "success"
+        ? '<i class="fas fa-check-circle"></i>'
+        : cls === "error"
+        ? '<i class="fas fa-exclamation-circle"></i>'
+        : '<i class="fas fa-info-circle"></i>';
+
+    const content = create("div", "toast-content");
+    const title = create("div", "toast-title");
+    title.textContent =
+      cls === "success" ? "Success" : cls === "error" ? "Error" : "Notice";
+    const message = create("div", "toast-message");
+    message.textContent = msg;
+    content.append(title, message);
+
+    const close = create("button", "toast-close");
+    close.setAttribute("aria-label", "Dismiss");
+    close.innerHTML = '<i class="fas fa-times"></i>';
+    close.addEventListener("click", () => toast.remove());
+
+    toast.append(icon, content, close);
+    document.body.append(toast);
+
+    requestAnimationFrame(() => toast.classList.add("show"));
+    setTimeout(() => {
+      toast.classList.remove("show");
+      toast.classList.add("opacity-0");
+    }, toastDuration + 200);
+    setTimeout(() => toast.remove(), toastDuration + 600);
   }
 };
 
@@ -76,6 +104,35 @@ const spinner = {
     $$("#spinner")?.classList.add("hidden");
   },
 };
+
+function ensureQuantumStyles() {
+  if (document.getElementById("hierarchy-viewer-styles")) return;
+  const style = document.createElement("style");
+  style.id = "hierarchy-viewer-styles";
+  style.textContent = `
+/* --- UI polish additions --- */
+.tree-node{transition:background .15s ease,box-shadow .15s ease;border-radius:.5rem;}
+.tree-node:hover{background:rgba(255,255,255,.06);box-shadow:0 1px 0 rgba(255,255,255,.06) inset;}
+.tree-node:focus{outline:none;box-shadow:0 0 0 2px rgba(99,102,241,.45);}
+.tree-node.selected{background:rgba(99,102,241,.18);box-shadow:0 0 0 1px rgba(99,102,241,.35) inset;}
+.tree-toggle{transition:transform .18s ease;opacity:.85;display:inline-block;}
+.tree-toggle.rotated{transform:rotate(90deg);}
+.node-subtitle{font-size:.75rem;opacity:.7;}
+.badge{display:inline-flex;gap:.35rem;align-items:center;padding:.15rem .5rem;border-radius:999px;border:1px solid var(--q-border);background:rgba(255,255,255,.04);font-size:.7rem;}
+.table-striped tbody tr:nth-child(even){background:rgba(255,255,255,.03);}
+.table-striped tbody tr:hover{background:rgba(255,255,255,.06);}
+.toast.info{border-left:3px solid #3b82f6;}
+.toast.success{border-left:3px solid #10b981;}
+.toast.error{border-left:3px solid #ef4444;}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:50;background:#1f2937;color:#fff;padding:.5rem .75rem;border-radius:.375rem;box-shadow:0 2px 6px rgba(0,0,0,.2);display:flex;align-items:center;gap:.5rem;opacity:1;transition:opacity .3s,transform .3s;}
+.toast.show{transform:translateY(0);}
+.toast-icon i{opacity:.85;}
+.toast-close{background:none;border:0;color:inherit;cursor:pointer;}
+`;
+  document.head.appendChild(style);
+}
+
+ensureQuantumStyles();
 
 /* --------------------------------------------------------------------- *
  * HierarchyViewer  –  main class
@@ -280,22 +337,36 @@ export class HierarchyViewer {
   renderNode(node, depth) {
     const li = create("li");
     const wrap = create("div", "tree-node");
+    wrap.setAttribute("tabindex", "0");
+    wrap.setAttribute("role", "treeitem");
     wrap.style.setProperty("--tree-level", depth);
     wrap.dataset.nodeId = node.RuleGUID ?? node.id ?? crypto.randomUUID();
 
+    const title = node.label ?? node.RuleName ?? node.name ?? "<em>Unnamed</em>";
+    const subtitle = node.RuleGUID
+      ? `<div class="node-subtitle">${node.RuleGUID}</div>`
+      : "";
     wrap.innerHTML = `
-      <i class="fas fa-${node.Actions ? "bolt" : node.children?.length ? "folder" : "file-alt"} text-slate-400 w-4"></i>
-      <span class="flex-1">${node.label ?? node.RuleName ?? node.name ?? "<em>Unnamed</em>"}</span>
-      ${node.children?.length ? '<i class="fas fa-chevron-down text-xs"></i>' : ""}
+      <i class="fas fa-${
+        node.Actions ? "bolt" : node.children?.length ? "folder" : "file-alt"
+      } text-slate-400 w-4"></i>
+      <div class="flex-1 min-w-0">
+        <span class="block truncate">${title}</span>
+        ${subtitle}
+      </div>
+      ${
+        node.children?.length
+          ? '<i class="tree-toggle fas fa-chevron-right text-xs rotated"></i>'
+          : ""
+      }
     `;
     wrap.addEventListener("click", (e) => this.onNodeClick(e, node, li));
+    wrap.addEventListener("keydown", (e) => this.onNodeKeydown(e, node, li));
     li.appendChild(wrap);
 
     if (node.children?.length) {
       const ul = create("ul", "space-y-1");
-      node.children.forEach((c) =>
-        ul.appendChild(this.renderNode(c, depth + 1)),
-      );
+      node.children.forEach((c) => ul.appendChild(this.renderNode(c, depth + 1)));
       li.appendChild(ul);
     }
     return li;
@@ -313,12 +384,34 @@ export class HierarchyViewer {
     const ul = li.querySelector(":scope > ul");
     if (ul) {
       ul.hidden = !ul.hidden;
-      const ic = li.querySelector("i.fa-chevron-down, i.fa-chevron-right");
-      ic?.classList.toggle("fa-chevron-down", !ul.hidden);
-      ic?.classList.toggle("fa-chevron-right", ul.hidden);
+      const ic = li.querySelector(":scope > .tree-node > .tree-toggle");
+      ic?.classList.toggle("rotated", !ul.hidden);
     }
+    this.selectNode(li);
     toast(this.getNodePath(li).join(" → "));
     updateProfile({ lastVisitedNodeId: node.RuleGUID ?? node.id });
+  }
+
+  onNodeKeydown(e, node, li) {
+    const ul = li.querySelector(":scope > ul");
+    if (e.key === "Enter") {
+      this.onNodeClick(e, node, li);
+    } else if (e.key === "ArrowRight" && ul && ul.hidden) {
+      ul.hidden = false;
+      const ic = li.querySelector(":scope > .tree-node > .tree-toggle");
+      ic?.classList.add("rotated");
+    } else if (e.key === "ArrowLeft" && ul && !ul.hidden) {
+      ul.hidden = true;
+      const ic = li.querySelector(":scope > .tree-node > .tree-toggle");
+      ic?.classList.remove("rotated");
+    }
+  }
+
+  selectNode(li) {
+    this.outline
+      .querySelectorAll(".tree-node.selected")
+      .forEach((el) => el.classList.remove("selected"));
+    li.querySelector(":scope > .tree-node")?.classList.add("selected");
   }
 
   getNodePath(li) {
@@ -338,6 +431,7 @@ export class HierarchyViewer {
     if (!node) return;
 
     /* helpers */
+    $$("#attributes table")?.classList.add("table-striped");
     const escape = (s) =>
       String(s ?? "").replace(
         /[&<>'"]/g,
