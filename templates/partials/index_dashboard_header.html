@@ -1,0 +1,22 @@
+<header class="rc-dashboard-header rc-container" aria-labelledby="dashboard-title">
+  <div class="rc-dashboard-header-inner">
+    <div class="rc-dashboard-greeting">
+      <h2 id="dashboard-title" class="rc-dashboard-title">Overview Dashboard</h2>
+      <p class="rc-dashboard-subtitle">
+        Welcome back, {{ current_user.username if current_user.is_authenticated else 'Guest' }}!
+      </p>
+    </div>
+
+    <div class="rc-dashboard-meta">
+      <div class="rc-dashboard-time">
+        <svg class="rc-dashboard-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <time id="current-time" class="rc-dashboard-time-text"
+              datetime="{{ now.isoformat() if now else '' }}">
+          {{ now.strftime('%I:%M %p') if now else '' }}
+        </time>
+      </div>
+    </div>
+  </div>
+</header>

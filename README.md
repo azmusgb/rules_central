@@ -152,7 +152,7 @@ Recommended production stack:
 ├── routes/               # All application routes
 │   └── core.py           # All routes (auto-discovered)
 ├── static/               # Static assets
-├── templates/            # Jinja2 templates
+├── templates/            # Jinja2 templates (index uses partials)
 ├── config/               # Configuration files
 └── tests/                # Test suite
 ```
@@ -174,8 +174,11 @@ Key page endpoints:
 ## Dashboard Template
 
 `base.html` provides the shared layout while `dashboard.html` contains the page
-sections for metrics, charts and quick actions. JavaScript is split into small
-modules:
+sections for metrics, charts and quick actions. The home dashboard at
+`index.html` composes its hero, header, metrics, and recent activity sections
+from partials stored in `templates/partials/` (for example,
+`index_hero.html` and `index_recent_activity.html`). JavaScript is split into
+small modules:
 
 - `theme.js` – theme switching logic
 - `navigation.js` – mobile menu and user dropdowns
@@ -236,4 +239,3 @@ Key improvements:
    - Improved TOC
    - Consistent headers
    - Better section links
-
