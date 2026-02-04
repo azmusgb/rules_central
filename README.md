@@ -152,7 +152,7 @@ Recommended production stack:
 ├── routes/               # All application routes
 │   └── core.py           # All routes (auto-discovered)
 ├── static/               # Static assets
-├── templates/            # Jinja2 templates
+├── templates/            # Jinja2 templates (index uses partials)
 ├── config/               # Configuration files
 └── tests/                # Test suite
 ```
@@ -236,4 +236,3 @@ Key improvements:
    - Improved TOC
    - Consistent headers
    - Better section links
-
