@@ -8,6 +8,7 @@ This module organizes all application routes into logical blueprints with:
 - Secure file uploads
 - CSRF protection
 - Structured API responses
+- Home dashboard template composition via partials.
 All route handlers document inputs and outputs per the style guide in
 ``AGENTS.md``.
 """

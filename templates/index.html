@@ -5,82 +5,10 @@
 
 {% block content %}
 
-<section id="rc-hero" class="rc-hero rc-hero--dashboard" role="region" aria-labelledby="rc-hero-title">
-  <div class="rc-hero-inner">
-    <h1 id="rc-hero-title" class="rc-hero-title">Rules Central</h1>
-    <p class="rc-hero-subtitle">
-      Real-time insights and streamlined workflows
-    </p>
-  </div>
-</section>
-
-<header class="rc-dashboard-header rc-container" aria-labelledby="dashboard-title">
-  <div class="rc-dashboard-header-inner">
-    <div class="rc-dashboard-greeting">
-      <h2 id="dashboard-title" class="rc-dashboard-title">Overview Dashboard</h2>
-      <p class="rc-dashboard-subtitle">
-        Welcome back, {{ current_user.username if current_user.is_authenticated else 'Guest' }}!
-      </p>
-    </div>
-    
-    <div class="rc-dashboard-meta">
-      <div class="rc-dashboard-time">
-        <svg class="rc-dashboard-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <time id="current-time" class="rc-dashboard-time-text"
-              datetime="{{ now.isoformat() if now else '' }}">
-          {{ now.strftime('%I:%M %p') if now else '' }}
-        </time>
-      </div>
-    </div>
-  </div>
-</header>
-
-<section id="metrics" class="rc-container rc-section rc-metrics" aria-labelledby="metrics-heading">
-  <div class="rc-section-head">
-    <h2 id="metrics-heading" class="rc-section-title">
-      <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-      </svg>
-      Key Metrics
-    </h2>
-    <div class="rc-section-sub">
-      Last updated: {{ last_updated.strftime('%b %d, %Y %I:%M %p') if last_updated else "—" }}
-    </div>
-  </div>
-</section>
-
-<section id="recent-activity" class="rc-container rc-section rc-activity">
-  <div class="rc-section-head">
-    <h2 class="rc-section-title">
-      <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 8h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
-      </svg>
-      Recent Activity
-    </h2>
-  </div>
-  
-  <div class="rc-card rc-activity-list">
-    {% if recent_activity %}
-      <ul class="rc-activity-items">
-        {% for activity in recent_activity %}
-          <li class="rc-activity-item">
-            <div class="rc-activity-content">
-              <time class="rc-activity-time" datetime="{{ activity.timestamp.isoformat() if activity.timestamp else '' }}">
-                {{ activity.timestamp|humanize if activity.timestamp else '' }}
-              </time>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <div class="rc-empty-state">
-        No recent activity
-      </div>
-    {% endif %}
-  </div>
-</section>
+{% include "partials/index_hero.html" %}
+{% include "partials/index_dashboard_header.html" %}
+{% include "partials/index_metrics.html" %}
+{% include "partials/index_recent_activity.html" %}
 
 {% endblock content %}
 

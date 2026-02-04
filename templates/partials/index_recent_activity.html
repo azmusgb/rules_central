@@ -1,0 +1,30 @@
+<section id="recent-activity" class="rc-container rc-section rc-activity">
+  <div class="rc-section-head">
+    <h2 class="rc-section-title">
+      <svg class="rc-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 8h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+      </svg>
+      Recent Activity
+    </h2>
+  </div>
+
+  <div class="rc-card rc-activity-list">
+    {% if recent_activity %}
+      <ul class="rc-activity-items">
+        {% for activity in recent_activity %}
+          <li class="rc-activity-item">
+            <div class="rc-activity-content">
+              <time class="rc-activity-time" datetime="{{ activity.timestamp.isoformat() if activity.timestamp else '' }}">
+                {{ activity.timestamp|humanize if activity.timestamp else '' }}
+              </time>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="rc-empty-state">
+        No recent activity
+      </div>
+    {% endif %}
+  </div>
+</section>
