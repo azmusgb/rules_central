@@ -9,6 +9,7 @@ This module organizes all application routes into logical blueprints with:
 - CSRF protection
 - Structured API responses
 - Home dashboard template composition via partials.
+- Documentation references for standalone UI prototypes (e.g., rooms/itinerary).
 All route handlers document inputs and outputs per the style guide in
 ``AGENTS.md``.
 """
