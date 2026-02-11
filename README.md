@@ -181,6 +181,21 @@ modules:
 - `navigation.js` – mobile menu and user dropdowns
 - `dashboard.js` – realtime clock, metrics refresh and charts
 
+## UI Prototype: Rooms Experience
+
+This repository now includes a standalone UI prototype in `rooms.html` with a
+companion `itinerary.html` page. The rooms prototype demonstrates:
+
+- More prominent navigation with icons and a compact dropdown menu
+- Search and filter controls grouped together for a clearer flow
+- A simplified statistics section with focused cards and a chart placeholder
+- Larger room cards with feature badges (e.g., Balcony vs Interior)
+- Grouped quick actions with larger touch targets and tooltips
+- A compact modal layout with clearer calls-to-action
+
+Open `rooms.html` directly in your browser to review the interaction and layout
+changes.
+
 ### Testing Checklist
 
 1. `pytest -v`
